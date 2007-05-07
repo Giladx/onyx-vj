@@ -1,0 +1,76 @@
+<settings>
+
+	<!-- CORE SETTINGS -->
+	<core>
+
+		<render>
+			<!-- the width / height of bitmaps -->
+			<bitmapData>
+				<width>320</width>
+				<height>240</height>
+			</bitmapData>
+			
+			<!-- quality of flash -->
+			<quality>low</quality>
+		</render>
+		
+		<!-- midi settings -->
+		<midi>
+			<enabled>false</enabled>
+		</midi>
+		
+		<!-- custom ordering of blendmodes for blendmode controls -->
+		<blendModes>
+			<normal/>
+			<lighten/>
+			<darken/>
+			<overlay/>
+			<hardlight/>
+			<multiply/>
+			<screen/>
+			<add/>
+			<subtract/>
+			<difference/>
+			<invert/>
+		</blendModes>
+	</core>
+
+	<!-- FILTER ORDERING -->
+	<filters>
+		<order>
+			<filter name="BLUR FILTER" index="0" />
+		</order>
+	</filters>
+	
+	<!-- DEFAULT WINDOW LOCATIONS -->
+	<windows>
+		<window name="FILE BROWSER" enabled="true" x="6" y="318"/>
+		<window name="CONSOLE" enabled="true" x="6" y="582"/>
+		<window name="FILTERS" enabled="true" x="412" y="318"/>
+		<window name="TEMPO" enabled="true" x="200" y="544"/>
+		<window name="LAYERS" enabled="true" x="0" y="0"/>
+		<window name="MEMORY" enabled="false" x="614" y="318"/>
+		<window name="DISPLAY" enabled="true" x="508" y="602"/>
+		<window name="KEY MAPPING" enabled="false" x="6" y="544"/>
+	</windows>
+	
+	<!-- KEY MAPPING -->
+	<keys>
+		<SELECT_PAGE_0>81</SELECT_PAGE_0>
+		<SELECT_PAGE_1>87</SELECT_PAGE_1>
+		<SELECT_PAGE_2>69</SELECT_PAGE_2>
+		<SELECT_FILTER_UP>38</SELECT_FILTER_UP>
+		<SELECT_FILTER_DOWN>40</SELECT_FILTER_DOWN>
+		<SELECT_LAYER_PREV>37</SELECT_LAYER_PREV>
+		<SELECT_LAYER_NEXT>39</SELECT_LAYER_NEXT>
+		<SELECT_PAGE_0>81</SELECT_PAGE_0>
+		<SELECT_PAGE_1>87</SELECT_PAGE_1>
+		<SELECT_PAGE_2>69</SELECT_PAGE_2>
+		<SELECT_LAYER_0>49</SELECT_LAYER_0>
+		<SELECT_LAYER_1>50</SELECT_LAYER_1>
+		<SELECT_LAYER_2>51</SELECT_LAYER_2>
+		<SELECT_LAYER_3>52</SELECT_LAYER_3>
+		<SELECT_LAYER_4>53</SELECT_LAYER_4>
+	</keys>
+
+</settings>

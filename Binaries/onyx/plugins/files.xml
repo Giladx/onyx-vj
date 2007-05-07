@@ -1,0 +1,5 @@
+<response>
+	<query path="plugins/">
+		<file name="BasePlugins.swf" />
+	</query>
+</response>

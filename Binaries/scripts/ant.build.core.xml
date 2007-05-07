@@ -1,0 +1,65 @@
+<project name="OnyxCore" default="buildCore">
+	
+	<buildnumber file="build.number" />
+
+	<property name="revision.number" value="${build.number}" />
+
+	<property name="compiler.root" location="." />
+	<property name="compiler.compc" value="compc" />
+	
+	<property name="build.destination" location="../swc" />
+	
+	<property name="source.OnyxCore" value="../../OnyxCore/onyx/" />
+	
+	<property name="tempdir.root" location="temp" />
+	<property name="tempdir.core" location="${tempdir.root}\onyx" />
+	
+	<!-- CREATE THE DIRECTORIES -->
+	<target name="init">
+		<mkdir dir="${tempdir.core}" />
+		<mkdir dir="${build.destination}" />
+	</target>
+	
+	<!-- COPY THE SWC PATH -->
+	<target name="copyCorePath" depends="init">
+		
+		<!-- COPY THE FILES -->
+		<mkdir dir="${tempdir.core}" />
+		<copy todir="${tempdir.core}">
+			<fileset dir="${source.OnyxCore}" />
+		</copy>
+	
+		<!-- CHANGE THE REVISION NUMBER -->
+		<attrib file="${tempdir.core}/constants/VERSION.as" readonly="false" />
+		<replaceregexp file="${tempdir.core}/constants/VERSION.as" match=" r0" replace=" r${revision.number}"/>
+
+		<!-- REMOVE DEBUG METADATA
+		<replaceregexp match="[DEBUG_START].*?[DEBUG_END]" replace="" flags="gs">
+		    <fileset dir="${temp.dir}/onyx" includes="**/*.as"/>
+		</replaceregexp>
+		 -->
+		
+		<!-- CHANGE ,\n to comma (for performance reasons) -->
+		<replaceregexp match=",\r\n" replace="," flags="gm">
+		    <fileset dir="${tempdir.core}" includes="**/*.as"/>
+		</replaceregexp>
+		
+	</target>
+	
+	<!-- BUILD THE CORE SWC -->
+	<target name="buildCore" depends="copyCorePath">
+		<exec executable="${compiler.compc}" failonerror="true">
+			<arg line="-output ${build.destination}\OnyxCore-optimized.swc"/>
+			<arg line="-source-path ${tempdir.root}" />
+			<arg line="-load-config onyxcore_config.xml" />
+		</exec>
+				
+		<antcall target="cleanTemp" />
+	</target>
+	
+	<!-- CLEAN UP -->
+	<target name="cleanTemp">
+		<delete dir="${tempdir.root}" />
+	</target>
+
+</project>

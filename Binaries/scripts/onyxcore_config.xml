@@ -1,0 +1,383 @@
+<flex-config>
+
+   <compiler>
+      <accessible>false</accessible>
+      <allow-source-path-overlap>false</allow-source-path-overlap>
+      <as3>true</as3>
+      <context-root>context-path</context-root>
+      <debug>false</debug>
+      <es>false</es>
+      <external-library-path>
+         <path-element>${flexlib}\libs\playerglobal.swc</path-element>
+      </external-library-path>
+      <fonts>
+         <flash-type>false</flash-type>
+         <local-fonts-snapshot>${flexlib}/winFonts.ser</local-fonts-snapshot>
+         <managers>
+            <manager-class>flash.fonts.JREFontManager</manager-class>
+            <manager-class>flash.fonts.BatikFontManager</manager-class>
+         </managers>
+      </fonts>
+      <keep-generated-actionscript>false</keep-generated-actionscript>
+      <!-- compiler.library-path: list of SWC files or directories that contain SWC files-->
+      <library-path>
+         <path-element>${flexlib}</path-element>
+         <path-element>${flexlib}/locale/{locale}</path-element>
+      </library-path>
+      <!-- compiler.locale: specifies the locale for internationalization-->
+      <!-- compiler.locale usage:
+      <locale>string</locale>
+      -->
+      <namespaces>
+         <!-- compiler.namespaces.namespace: Specify a URI to associate with a manifest of components for use as MXML elements-->
+         <namespace>
+            <uri>http://www.adobe.com/2006/mxml</uri>
+            <manifest>${flexlib}\mxml-manifest.xml</manifest>
+         </namespace>
+      </namespaces>
+      <!-- compiler.optimize: Enable post-link SWF optimization-->
+      <optimize>true</optimize>
+      <!-- compiler.services: path to Flex Data Services configuration file-->
+      <!-- compiler.services usage:
+      <services>filename</services>
+      -->
+      <!-- compiler.show-actionscript-warnings: runs the AS3 compiler in a mode that detects legal but potentially incorrect code-->
+      <show-actionscript-warnings>true</show-actionscript-warnings>
+      <!-- compiler.show-binding-warnings: toggle whether warnings generated from data binding code are displayed-->
+      <show-binding-warnings>true</show-binding-warnings>
+      <!-- compiler.show-deprecation-warnings: toggle whether the use of deprecated APIs generates a warning-->
+      <show-deprecation-warnings>true</show-deprecation-warnings>
+      <!-- compiler.show-unused-type-selector-warnings: toggle whether warnings generated from unused type selectors are displayed-->
+      <!-- compiler.show-unused-type-selector-warnings usage:
+      <show-unused-type-selector-warnings>boolean</show-unused-type-selector-warnings>
+      -->
+      <!-- compiler.strict: runs the AS3 compiler in strict error checking mode.-->
+      <strict>true</strict>
+      <!-- compiler.theme: list of CSS or SWC files to apply as a theme-->
+      <!-- compiler.theme usage:
+      <theme>
+         <filename>string</filename>
+         <filename>string</filename>
+      </theme>
+      -->
+      <!-- compiler.use-resource-bundle-metadata: determines whether resources bundles are included in the application.-->
+      <use-resource-bundle-metadata>false</use-resource-bundle-metadata>
+      <!-- compiler.verbose-stacktraces: save callstack information to the SWF for debugging-->
+      <verbose-stacktraces>false</verbose-stacktraces>
+      <!-- compiler.warn-array-tostring-changes: Array.toString() format has changed.-->
+      <warn-array-tostring-changes>false</warn-array-tostring-changes>
+      <!-- compiler.warn-assignment-within-conditional: Assignment within conditional.-->
+      <warn-assignment-within-conditional>true</warn-assignment-within-conditional>
+      <!-- compiler.warn-bad-array-cast: Possibly invalid Array cast operation.-->
+      <warn-bad-array-cast>true</warn-bad-array-cast>
+      <!-- compiler.warn-bad-bool-assignment: Non-Boolean value used where a Boolean value was expected.-->
+      <warn-bad-bool-assignment>true</warn-bad-bool-assignment>
+      <!-- compiler.warn-bad-date-cast: Invalid Date cast operation.-->
+      <warn-bad-date-cast>true</warn-bad-date-cast>
+      <!-- compiler.warn-bad-es3-type-method: Unknown method.-->
+      <warn-bad-es3-type-method>true</warn-bad-es3-type-method>
+      <!-- compiler.warn-bad-es3-type-prop: Unknown property.-->
+      <warn-bad-es3-type-prop>true</warn-bad-es3-type-prop>
+      <!-- compiler.warn-bad-nan-comparison: Illogical comparison with NaN. Any comparison operation involving NaN will evaluate to false because NaN != NaN.-->
+      <warn-bad-nan-comparison>true</warn-bad-nan-comparison>
+      <!-- compiler.warn-bad-null-assignment: Impossible assignment to null.-->
+      <warn-bad-null-assignment>true</warn-bad-null-assignment>
+      <!-- compiler.warn-bad-null-comparison: Illogical comparison with null.-->
+      <warn-bad-null-comparison>true</warn-bad-null-comparison>
+      <!-- compiler.warn-bad-undefined-comparison: Illogical comparison with undefined.  Only untyped variables (or variables of type *) can be undefined.-->
+      <warn-bad-undefined-comparison>true</warn-bad-undefined-comparison>
+      <!-- compiler.warn-boolean-constructor-with-no-args: Boolean() with no arguments returns false in ActionScript 3.0.  Boolean() returned undefined in ActionScript 2.0.-->
+      <warn-boolean-constructor-with-no-args>false</warn-boolean-constructor-with-no-args>
+      <!-- compiler.warn-changes-in-resolve: __resolve is no longer supported.-->
+      <warn-changes-in-resolve>false</warn-changes-in-resolve>
+      <!-- compiler.warn-class-is-sealed: Class is sealed.  It cannot have members added to it dynamically.-->
+      <warn-class-is-sealed>false</warn-class-is-sealed>
+      <!-- compiler.warn-const-not-initialized: Constant not initialized.-->
+      <warn-const-not-initialized>true</warn-const-not-initialized>
+      <!-- compiler.warn-constructor-returns-value: Function used in new expression returns a value.  Result will be what the function returns, rather than a new instance of that function.-->
+      <warn-constructor-returns-value>false</warn-constructor-returns-value>
+      <!-- compiler.warn-deprecated-event-handler-error: EventHandler was not added as a listener.-->
+      <warn-deprecated-event-handler-error>false</warn-deprecated-event-handler-error>
+      <!-- compiler.warn-deprecated-function-error: Unsupported ActionScript 2.0 function.-->
+      <warn-deprecated-function-error>false</warn-deprecated-function-error>
+      <!-- compiler.warn-deprecated-property-error: Unsupported ActionScript 2.0 property.-->
+      <warn-deprecated-property-error>false</warn-deprecated-property-error>
+      <!-- compiler.warn-duplicate-argument-names: More than one argument by the same name.-->
+      <warn-duplicate-argument-names>true</warn-duplicate-argument-names>
+      <!-- compiler.warn-duplicate-variable-def: Duplicate variable definition -->
+      <warn-duplicate-variable-def>true</warn-duplicate-variable-def>
+      <!-- compiler.warn-for-var-in-changes: ActionScript 3.0 iterates over an object's properties within a "for x in target" statement in random order.-->
+      <warn-for-var-in-changes>false</warn-for-var-in-changes>
+      <!-- compiler.warn-import-hides-class: Importing a package by the same name as the current class will hide that class identifier in this scope.-->
+      <warn-import-hides-class>true</warn-import-hides-class>
+      <!-- compiler.warn-instance-of-changes: Use of the instanceof operator.-->
+      <warn-instance-of-changes>true</warn-instance-of-changes>
+      <!-- compiler.warn-internal-error: Internal error in compiler.-->
+      <warn-internal-error>true</warn-internal-error>
+      <!-- compiler.warn-level-not-supported: _level is no longer supported. For more information, see the flash.display package.-->
+      <warn-level-not-supported>false</warn-level-not-supported>
+      <!-- compiler.warn-missing-namespace-decl: Missing namespace declaration (e.g. variable is not defined to be public, private, etc.).-->
+      <warn-missing-namespace-decl>true</warn-missing-namespace-decl>
+      <!-- compiler.warn-negative-uint-literal: Negative value will become a large positive value when assigned to a uint data type.-->
+      <warn-negative-uint-literal>true</warn-negative-uint-literal>
+      <!-- compiler.warn-no-constructor: Missing constructor.-->
+      <warn-no-constructor>false</warn-no-constructor>
+      <!-- compiler.warn-no-explicit-super-call-in-constructor: The super() statement was not called within the constructor.-->
+      <warn-no-explicit-super-call-in-constructor>false</warn-no-explicit-super-call-in-constructor>
+      <!-- compiler.warn-no-type-decl: Missing type declaration.-->
+      <warn-no-type-decl>true</warn-no-type-decl>
+      <!-- compiler.warn-number-from-string-changes: In ActionScript 3.0, white space is ignored and '' returns 0. Number() returns NaN in ActionScript 2.0 when the parameter is '' or contains white space.-->
+      <warn-number-from-string-changes>false</warn-number-from-string-changes>
+      <!-- compiler.warn-scoping-change-in-this: Change in scoping for the this keyword.  Class methods extracted from an instance of a class will always resolve this back to that instance.  In ActionScript 2.0 this is looked up dynamically based on where the method is invoked from.-->
+      <warn-scoping-change-in-this>false</warn-scoping-change-in-this>
+      <!-- compiler.warn-slow-text-field-addition: Inefficient use of += on a TextField.-->
+      <warn-slow-text-field-addition>true</warn-slow-text-field-addition>
+      <!-- compiler.warn-unlikely-function-value: Possible missing parentheses.-->
+      <warn-unlikely-function-value>true</warn-unlikely-function-value>
+      <!-- compiler.warn-xml-class-has-changed: Possible usage of the ActionScript 2.0 XML class.-->
+      <warn-xml-class-has-changed>false</warn-xml-class-has-changed>
+   </compiler>
+   <!-- debug-password: the password to include in debuggable SWFs-->
+   <debug-password></debug-password>
+   <!-- default-background-color: default background color (may be overridden by the application code)-->
+   <default-background-color>0x869CA7</default-background-color>
+   <!-- default-frame-rate: default frame rate to be used in the SWF.-->
+   <default-frame-rate>24</default-frame-rate>
+   <!-- default-script-limits: default script execution limits (may be overridden by root attributes)-->
+   <default-script-limits>
+      <max-recursion-depth>1000</max-recursion-depth>
+      <max-execution-time>60</max-execution-time>
+   </default-script-limits>
+   <!-- default-size: default application size (may be overridden by root attributes in the application)-->
+   <default-size>
+      <width>1024</width>
+      <height>768</height>
+   </default-size>
+   <directory>false</directory>
+   <include-classes>
+			<class>onyx.net.LocalHost</class>
+			<class>onyx.utils.string.parseBoolean</class>
+			<class>onyx.utils.bitmap.PNGEncoder</class>
+			<class>onyx.tween.easing.Linear</class>
+			<class>onyx.events.DisplayEvent</class>
+			<class>onyx.utils.GCTester</class>
+			<class>onyx.utils.HLS</class>
+			<class>onyx.events.JobEvent</class>
+			<class>onyx.controls.IControlObject</class>
+			<class>onyx.layer.LayerSettings</class>
+			<class>onyx.controls.ControlProxy</class>
+			<class>onyx.file.nth.NthQuery</class>
+			<class>onyx.constants.ROOT</class>
+			<class>onyx.core.TempoBeat</class>
+			<class>onyx.midi.Midi</class>
+			<class>onyx.constants.BITMAP_RECT</class>
+			<class>onyx.jobs.TimerJob</class>
+			<class>onyx.render.RenderTransform</class>
+			<class>onyx.controls.ControlPlugin</class>
+			<class>onyx.content.ContentCamera</class>
+			<class>onyx.constants.BOOLEAN</class>
+			<class>onyx.core.Onyx</class>
+			<class>onyx.jobs.StatJob</class>
+			<class>onyx.transition.Transition</class>
+			<class>onyx.file.Folder</class>
+			<class>onyx.core.Command</class>
+			<class>onyx.midi.MidiMapNoteOn</class>
+			<class>onyx.content.ColorFilter</class>
+			<class>onyx.settings.LAYER_AUTO_CENTER</class>
+			<class>onyx.midi.MidiNoteOff</class>
+			<class>onyx.states.ApplicationState</class>
+			<class>onyx.constants.XML_FORMAT_VERSION</class>
+			<class>onyx.midi.MidiNoteOn</class>
+			<class>onyx.events.FilterEvent</class>
+			<class>onyx.net.Stream</class>
+			<class>onyx.core.onyx_ns</class>
+			<class>onyx.events.RenderEvent</class>
+			<class>onyx.jobs.Job</class>
+			<class>onyx.constants.BASE_BITMAP</class>
+			<class>onyx.controls.ControlLayer</class>
+			<class>onyx.tween.easing.Elastic</class>
+			<class>onyx.constants.VERSION</class>
+			<class>onyx.filter.FilterArray</class>
+			<class>onyx.constants.TEMPO</class>
+			<class>onyx.midi.MidiMap</class>
+			<class>onyx.content.IContent</class>
+			<class>onyx.events.NthFileEvent</class>
+			<class>onyx.sound.SpectrumAnalyzer</class>
+			<class>onyx.constants.STAGE</class>
+			<class>onyx.settings.PLUGINS_DIRECTORY</class>
+			<class>onyx.file.File</class>
+			<class>onyx.filter.IFilterObject</class>
+			<class>onyx.tween.easing.Quadratic</class>
+			<class>onyx.states.InitializationState</class>
+			<class>onyx.events.MidiEvent</class>
+			<class>onyx.controls.ControlFrameRate</class>
+			<class>onyx.transition.IBitmapTransition</class>
+			<class>onyx.constants.DISPLAY_SIZES</class>
+			<class>onyx.events.LayerContentEvent</class>
+			<class>onyx.file.FileFilter</class>
+			<class>onyx.core.Tempo</class>
+			<class>onyx.events.ApplicationEvent</class>
+			<class>onyx.filter.IBitmapFilter</class>
+			<class>onyx.midi.MidiMapNoteOff</class>
+			<class>onyx.controls.ControlExecute</class>
+			<class>onyx.tween.easing.Exponential</class>
+			<class>onyx.tween.Tween</class>
+			<class>onyx.file.db.DBFileLoc</class>
+			<class>onyx.events.TempoEvent</class>
+			<class>onyx.states.BroadcastState</class>
+			<class>onyx.filter.Filter</class>
+			<class>onyx.sound.Visualizer</class>
+			<class>onyx.content.ContentFLV</class>
+			<class>onyx.events.NthCmdEvent</class>
+			<class>onyx.sound.ISpectrum</class>
+			<class>onyx.utils.string.removeExtension</class>
+			<class>onyx.file.FileAdapter</class>
+			<class>onyx.tween.TweenProperty</class>
+			<class>onyx.core.IColorObject</class>
+			<class>onyx.display.DisplaySize</class>
+			<class>onyx.net.NthPersistentClient</class>
+			<class>onyx.events.ControlEvent</class>
+			<class>onyx.file.http.HTTPRequest</class>
+			<class>onyx.tween.easing.Back</class>
+			<class>onyx.constants.RADIANS</class>
+			<class>onyx.jobs.SaveJob</class>
+			<class>onyx.midi.MidiProgram</class>
+			<class>onyx.controls.ControlOverride</class>
+			<class>onyx.layer.Layer</class>
+			<class>onyx.content.ContentLoader</class>
+			<class>onyx.controls.ControlColor</class>
+			<class>onyx.midi.MidiChanMsg</class>
+			<class>onyx.display.IDisplay</class>
+			<class>onyx.controls.ControlNumber</class>
+			<class>onyx.file.PluginFilter</class>
+			<class>onyx.render.renderContent</class>
+			<class>onyx.events.FingerState</class>
+			<class>onyx.constants.BITMAP_WIDTH</class>
+			<class>onyx.file.db.DBFormat</class>
+			<class>onyx.render._renderDict</class>
+			<class>onyx.states.ListenState</class>
+			<class>onyx.core.IDisposable</class>
+			<class>onyx.file.FileFormat</class>
+			<class>onyx.net.Client</class>
+			<class>onyx.constants.EASING</class>
+			<class>onyx.plugin.IPluginLoader</class>
+			<class>onyx.content.Content</class>
+			<class>onyx.tween.easing.Quartic</class>
+			<class>onyx.controls.ControlDirectory</class>
+			<class>onyx.core.Console</class>
+			<class>onyx.errors.INVALID_CLASS_CREATION</class>
+			<class>onyx.events.NthEvent</class>
+			<class>onyx.utils.string.repeatString</class>
+			<class>onyx.utils.array.swap</class>
+			<class>onyx.tween.easing.Cubic</class>
+			<class>onyx.content.ContentTransition</class>
+			<class>onyx.file.FileQuery</class>
+			<class>onyx.states.StateManager</class>
+			<class>onyx.utils.string.axe</class>
+			<class>onyx.tween.easing.Sine</class>
+			<class>onyx.utils.string.getExtension</class>
+			<class>onyx.file.http.HTTPQuery</class>
+			<class>onyx.midi.MidiMaster</class>
+			<class>onyx.controls.ControlString</class>
+			<class>onyx.content.ContentNull</class>
+			<class>onyx.display.Display</class>
+			<class>onyx.controls.Controls</class>
+			<class>onyx.constants.BLEND_MODES</class>
+			<class>onyx.utils.math.RADIANS_TO_DEGREES</class>
+			<class>onyx.utils.math.random</class>
+			<class>onyx.file.FileRequest</class>
+			<class>onyx.constants.MIDI</class>
+			<class>onyx.jobs.StaggerONXJob</class>
+			<class>onyx.layer.LayerProperties</class>
+			<class>onyx.macro.MacroManager</class>
+			<class>onyx.net.Connection</class>
+			<class>onyx.utils.GraphPlotter</class>
+			<class>onyx.file.FileBrowser</class>
+			<class>onyx.content.ContentSprite</class>
+			<class>onyx.controls.ControlInt</class>
+			<class>onyx.constants.BITMAP_HEIGHT</class>
+			<class>onyx.layer.ILayer</class>
+			<class>onyx.net.NthEventClient</class>
+			<class>onyx.tween.easing.Bounce</class>
+			<class>onyx.tween.easing.Quintic</class>
+			<class>onyx.events.LayerEvent</class>
+			<class>onyx.display.RemoteDisplay</class>
+			<class>onyx.settings.INITIAL_APP_DIRECTORY</class>
+			<class>onyx.controls.ControlValue</class>
+			<class>onyx.render.renderFilters</class>
+			<class>onyx.content.ContentCustom</class>
+			<class>onyx.file.nth.NthRequest</class>
+			<class>onyx.net.NthCmdClient</class>
+			<class>onyx.jobs.FileJob</class>
+			<class>onyx.midi.MidiMsg</class>
+			<class>onyx.utils.math.DEGREES_TO_RADIANS</class>
+			<class>onyx.jobs.JobManager</class>
+			<class>onyx.file.SWFFilter</class>
+			<class>onyx.states.DisplayRenderState</class>
+			<class>onyx.content.ContentMP3</class>
+			<class>onyx.utils.string.pad</class>
+			<class>onyx.constants.POINT</class>
+			<class>onyx.settings.LAYER_AUTO_SIZE</class>
+			<class>onyx.net.LocalClient</class>
+			<class>onyx.controls.ControlRange</class>
+			<class>onyx.events.TransitionEvent</class>
+			<class>onyx.midi.MidiController</class>
+			<class>onyx.controls.ControlDisplay</class>
+			<class>onyx.controls.ControlUInt</class>
+			<class>onyx.render.IRenderObject</class>
+			<class>onyx.jobs.onx.LayerLoadSettings</class>
+			<class>onyx.utils.bitmap.JPGEncoder</class>
+			<class>onyx.file.FolderList</class>
+			<class>onyx.midi.MidiMapController</class>
+			<class>onyx.sound.SpectrumAnalysis</class>
+			<class>onyx.render.getLastRender</class>
+			<class>onyx.controls.ControlBoolean</class>
+			<class>onyx.core.PluginBase</class>
+			<class>onyx.midi.IMidiDispatcher</class>
+			<class>onyx.jobs.LoadONXJob</class>
+			<class>onyx.core.ITimeObject</class>
+			<class>onyx.events.FingerEvent</class>
+			<class>onyx.errors.INVALID_FILTER_OVERRIDE</class>
+			<class>onyx.macro.Macro</class>
+			<class>onyx.tween.easing.Circular</class>
+			<class>onyx.controls.Control</class>
+			<class>onyx.file.http.HTTPAdapter</class>
+			<class>onyx.events.ConsoleEvent</class>
+			<class>onyx.plugin.Plugin</class>
+			<class>onyx.net.NthClient</class>
+			<class>onyx.content.ContentMC</class>
+			<class>onyx.file.nth.NthAdapter</class>
+			<class>onyx.macro.MuteLayerMacro</class>
+			<class>onyx.filter.TempoFilter</class>
+   </include-classes>
+
+   <!-- load-config: load a file containing configuration options-->
+   <load-config>${flexlib}/flex-config.xml</load-config>
+   <!-- load-externs: an XML file containing <def>, <pre>, and <ext> symbols to omit from linking when building a SWF-->
+   <!-- load-externs usage:
+   <load-externs>filename</load-externs>
+   -->
+   <metadata>
+      <!-- metadata.contributor: A contributor's name to store in the SWF metadata-->
+      <!-- metadata.contributor usage: -->
+      <contributor>Daniel Hai</contributor>
+      <!-- metadata.creator: A creator's name to store in the SWF metadata-->
+      <creator>www.onyx-vj.com</creator>
+      <!-- metadata.description: The default description to store in the SWF metadata-->
+      <description>http://www.onyx-vj.com/</description>
+      <!-- metadata.language: The language to store in the SWF metadata (i.e. EN, FR)-->
+      <language>EN</language>
+      <!-- metadata.localized-title: A localized RDF/XMP title to store in the SWF metadata-->
+      <!-- metadata.localized-title usage:
+      <localized-title>
+         <title>string</title>
+         <lang>string</lang>
+         <lang>string</lang>
+      </localized-title>
+      -->
+      <!-- metadata.publisher: A publisher's name to store in the SWF metadata-->
+      <publisher>http://www.onyx-vj.com</publisher>
+      <!-- metadata.title: The default title to store in the SWF metadata-->
+      <title>Onyx</title>
+   </metadata>
+</flex-config>

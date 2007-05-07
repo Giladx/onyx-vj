@@ -1,0 +1,48 @@
+<project name="OnyxUI" default="buildUI">
+	
+	<property name="compiler.root" location="." />
+	<property name="compiler.mxmlc" value="mxmlc" />
+	
+	<property name="build.destination" location="../onyx/Onyx.swf" />
+	<property name="swc.path"	location="../swc/OnyxCore-optimized.swc" />
+	
+	<property name="source.ui" value="../../OnyxUI/" />
+	
+	<property name="tempdir.root" location="temp" />
+	<property name="tempdir.ui" location="${tempdir.root}\ui" />
+	
+
+	<!-- CREATE THE DIRECTORIES -->
+	<target name="init">
+		<mkdir dir="${tempdir.ui}" />
+		<mkdir dir="${build.destination}" />
+	</target>
+
+	<target name="buildUI">
+
+		<!-- COPY THE FILES -->
+		<mkdir dir="${tempdir.ui}" />
+		<copy todir="${tempdir.ui}">
+			<fileset dir="${source.ui}" />
+		</copy>
+	
+		<!-- CHANGE ,\n to comma (for performance reasons) -->
+		<replaceregexp match=",\r\n" replace="," flags="gm">
+		    <fileset dir="${tempdir.ui}" includes="**/*.as"/>
+		</replaceregexp>
+
+		<exec executable="${compiler.mxmlc}" failonerror="true">
+			<arg line="-output ${build.destination}"/>
+			<arg line="-compiler.library-path+=${swc.path}"/>
+			<arg line="${tempdir.ui}/OnyxUI.as" />
+		</exec>
+					
+		<antcall target="cleanTemp" />
+		
+	</target>
+
+	<!-- CLEAN UP -->
+	<target name="cleanTemp">
+		<delete dir="${tempdir.root}" />
+	</target>
+</project>

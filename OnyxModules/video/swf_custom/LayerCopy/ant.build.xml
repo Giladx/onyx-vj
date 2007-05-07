@@ -1,0 +1,29 @@
+<project name="build.module" default="build">
+
+	<property file="../../../properties.ini" />
+
+	<path id="currentDirectory">
+		<fileset dir=".">
+			<include name="*.as"/>
+		</fileset>
+	</path>
+
+	<property name="plugin.main"			refid="currentDirectory" />
+
+	<dirname	property="plugin.target"	file="${plugin.main}" />
+	<basename	property="plugin.name"		file="${plugin.main}" suffix=".as" />
+
+	<property name="output.path"	location="../../../../${module.rootpath}\video\swf_custom\${plugin.name}.swf" />
+	<property name="onyx.corepath"	location="../../../../${module.swcpath}" />
+	
+	<target name="build">
+		
+		<!-- compile -->
+		<exec executable="mxmlc" failonerror="true">
+			<arg line="-output ${output.path}"/>
+			<arg line="-compiler.library-path+=${onyx.corepath}"/>
+			<arg line="${plugin.main}"/>
+		</exec>
+	</target>
+	
+</project>

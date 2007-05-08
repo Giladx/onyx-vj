@@ -81,11 +81,11 @@ package ui.controls.page {
 			
 			// remove alls controls
 			for each (var uicontrol:UIControl in _controls) {
-				removeChild(uicontrol);		// for scrolling to work
-				reset();					// for scrolling to work
+				removeChild(uicontrol);
 				uicontrol.dispose();
 			}
 			
+			// set new array
 			_controls = [];
 			
 			// if it's a control array, remove listeners
@@ -108,12 +108,15 @@ package ui.controls.page {
 		 */
 		public function addControls(controls:Array):void {
 			
-			var uicontrol:UIControl, x:int = 0, y:int = 8;
-				
-			var options:UIOptions	= DEFAULT;
-			var width:int			= 65;
-			var ref:Controls		= controls as Controls;
+			var uicontrol:UIControl, x:int, y:int, width:int, ref:Controls, height:int;
+
+			x						= 0,
+			y						= 8,
+			width					= DEFAULT.width + 3,
+			height					= DEFAULT.height,
+			ref						= controls as Controls;
 			
+			// remove existing controls
 			removeControls();
 			
 			// if it's a Controls array, listen for changes
@@ -129,21 +132,21 @@ package ui.controls.page {
 				
 				if (uiClass) {
 
-					uicontrol	= new uiClass(options, control);
+					uicontrol	= new uiClass(DEFAULT, control);
 					
 					// position the control
-					uicontrol.x = x;
+					uicontrol.x = x,
 					uicontrol.y = y;
 					
 					// save the control
 					_controls.push(uicontrol);
 					
-					x += options.width + 3;
+					x += width;
 					
 					// check width, respotion based on it
 					if (x > width) {
 						x = 0;
-						y += options.height + 10;
+						y += height + 10;
 					}
 					
 					// add it

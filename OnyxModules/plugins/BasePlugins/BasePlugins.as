@@ -81,7 +81,7 @@ package {
 				new Plugin('Invert',				InvertFilter,	'Invert'),
 //				new Plugin('Loop Scroll',			LoopScroll,		'Loop Scroll Filter'),
 //				new Plugin('Displace',				DisplaceFilter,	'Displace Filter')
-				new Plugin('Convolve Filter', 		ConvolveFilter,	'Convolve')
+//				new Plugin('Convolve Filter', 		ConvolveFilter,	'Convolve')
 			];
 		}
 	}

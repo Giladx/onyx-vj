@@ -35,9 +35,7 @@ package onyx.render {
 	
 	import onyx.constants.*;
 	import onyx.content.ColorFilter;
-	import onyx.sound.SpectrumAnalysis;
 	import onyx.utils.math.*;
-
 	
 	public final class RenderTransform {
 

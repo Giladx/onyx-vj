@@ -63,14 +63,14 @@ package onyx.sound {
 		private static const BASE_ANALYSIS:Array	= new Array(127);
 		
 		/**
-		 * 
-		 */
-		public static var useFFT:Boolean			= false;
-		
-		/**
 		 * 	@private
 		 */
-		private static var _spectrum:SpectrumAnalysis;
+		private static var _spectrumNormal:Array;
+		
+		/**
+		 * 
+		 */
+		private static var _spectrumFFT:Array;
 		
 		/**
 		 * 	@private
@@ -78,20 +78,59 @@ package onyx.sound {
 		private static var bytes:ByteArray				= new ByteArray();
 		
 		/**
+		 * 
+		 */
+		private static const MAX_PRIORITY:int			= int.MAX_VALUE;
+		
+		/**
 		 * 	Gets the spectrum analysis
 		 */
-		public static function get spectrum():SpectrumAnalysis {
+		public static function getSpectrum(useFFT:Boolean = false):Array {
 			
-			if (!_spectrum) {
+			var i:Number, array:Array;
+			
+			// clear next frame
+			STAGE.addEventListener(Event.ENTER_FRAME, _clearSpectrum, false, MAX_PRIORITY);
+			
+			// use fft?
+			if (useFFT) {
 				
-				var analysis:SpectrumAnalysis	= new SpectrumAnalysis();
-				analysis.fft = useFFT;
+				// check for already computed spectrum for this frame
+				if (!_spectrumFFT) {
+					
+					i		= 128,
+					array	= BASE_ANALYSIS.concat();
+					
+					// compute
+					SoundMixer.computeSpectrum(bytes, true);
+					
+					// check
+					while ( --i > -1 ) {
+						
+						// move the pointer
+						bytes.position = i * 8;
+						
+						// get amplitude value
+						array[i % 127] += (bytes.readFloat() / 2);
+						
+					}
+					
+					_spectrumFFT = array;
+				}
 				
-				SoundMixer.computeSpectrum(bytes, useFFT);
+				return _spectrumFFT;
+			}
+
+			// check for already computed spectrum for this frame
+			if (!_spectrumNormal) {
 				
-				var i:Number	= 128;
-				var array:Array = BASE_ANALYSIS.concat();
+				i		= 128,
+				array	= BASE_ANALYSIS.concat();
 				
+				// compute
+				SoundMixer.computeSpectrum(bytes, false);
+				
+				// check
 				while ( --i > -1 ) {
 					
 					// move the pointer
@@ -102,15 +141,10 @@ package onyx.sound {
 					
 				}
 				
-				analysis.analysis = array;
-				_spectrum = analysis;
-	
+				_spectrumNormal = array;
 			}
 			
-			// clear next frame
-			ROOT.addEventListener(Event.ENTER_FRAME, _clearSpectrum, false, 10000);
-			
-			return _spectrum;
+			return _spectrumNormal;
 		}
 		
 		/**
@@ -119,9 +153,12 @@ package onyx.sound {
 		 */
 		private static function _clearSpectrum(event:Event):void {
 
-			ROOT.removeEventListener(Event.ENTER_FRAME, _clearSpectrum);
-			_spectrum = null;
+			// clear the listener
+			STAGE.removeEventListener(Event.ENTER_FRAME, _clearSpectrum, false);
 			
+			// clear the spectrum
+			_spectrumFFT	= null;
+			_spectrumNormal	= null;
 		}
 	}
 }

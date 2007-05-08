@@ -112,18 +112,25 @@ package onyx.content {
 		 * 	Sets the visualizer
 		 */
 		public function set visualizer(obj:Visualizer):void {
-			_visualizer = obj;
 			
+			// remove extra controls
+			if (_visualizer && _controls.length > 1) {
+				
+				_controls.splice(1, _controls.length - 1);
+				_controls.dispatchEvent(new Event(Event.CHANGE));
+				
+			}
+			
+			// we get passed in a visualizer			
 			if (obj) {
+
+				// if it has controls, add them to our controls (dispatches a change)
 				if (obj.controls) {
 					_controls.concat.apply(_controls, obj.controls);
 				}
-			} else {
-				if (_controls.length > 1) {
-					_controls.splice(1, _controls.length - 1);
-					_controls.dispatchEvent(new Event(Event.CHANGE));
-				}
 			}
+
+			_visualizer = obj;
 		}
 		
 		/**

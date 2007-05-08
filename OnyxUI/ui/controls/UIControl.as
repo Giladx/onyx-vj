@@ -44,7 +44,7 @@ package ui.controls {
 	/**
 	 * 	Base UIControl class: This class is an UIObject that contains a parameterized control.
 	 * 
-	 * 	See onyx.controls.Control
+	 * 	@see onyx.controls.Control
 	 */
 	public class UIControl extends UIObject implements IDisposable {
 

@@ -153,10 +153,7 @@ package ui.layer {
 		private var _btnDelete:ButtonClear					= new ButtonClear(10, 10);
 		
 		/** @private **/
-		private var _btnMute:ButtonClear					= new ButtonClear(10, 10);
-		
-		/** @private **/
-		private var _eyeIcon:Bitmap							= new AssetEyeIcon();
+		private var _btnVisible:LayerVisible;
 		
 		/** @private **/
 		private var _loopStart:LoopStart;
@@ -251,7 +248,7 @@ package ui.layer {
 		 * 	Overrides the layer colortransform
 		 */
 		override public function get transform():Transform {
-			var mtransform:MultiTransform = new MultiTransform(this, _assetLayer, controlTabs, _eyeIcon);
+			var mtransform:MultiTransform = new MultiTransform(this, _assetLayer, controlTabs);
 			return mtransform;
 		}
 		
@@ -366,6 +363,7 @@ package ui.layer {
 			_loopStart		= new LoopStart(props.getControl('loopStart')),
 			_loopEnd		= new LoopEnd(props.getControl('loopEnd')),
 			_regPoint		= new LayerRegPoint(props.getControl('anchor') as ControlProxy, _mask);
+			_btnVisible		= new LayerVisible(props.getControl('visible'));
 			
 			var options:UIOptions		= new UIOptions();
 			var dropOptions:UIOptions	= new UIOptions(false, false, null, 140, 11);
@@ -381,8 +379,7 @@ package ui.layer {
 				new DropDown(dropOptions, props.blendMode),							4,			153,
 				filterPane,															111,		186,
 
-				_eyeIcon,															158,		156,
-				_btnMute,															157,		154,
+				_btnVisible,														157,		154,
 				_btnCopy,															169,		154,
 				_btnDelete,															181,		154,
 				

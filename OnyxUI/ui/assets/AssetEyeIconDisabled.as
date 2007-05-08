@@ -28,45 +28,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package {
-	
-	import flash.display.*;
-	import flash.events.Event;
-	import flash.system.Security;
-	import flash.ui.*;
-	
-	import onyx.constants.*;
-	import onyx.controls.*;
-	import onyx.file.http.HTTPAdapter;
-	import onyx.states.BroadcastState;
-	import onyx.utils.array.*;
-	
-	import ui.assets.AssetLayerTab;
-	import ui.core.UIManager;
-	import ui.core.UIObject;
-	import ui.states.*;
-	
-	[SWF(width="1024", height="768", backgroundColor="#141515", frameRate='30')]
-	public class OnyxUI extends UIObject {
-		
-		/**
-		 * 	@constructor
-		 */
-		public function OnyxUI():void {
-			
-			var stage:Stage = this.stage;
-			
-			// no scale please thanks
-			stage.align		= StageAlign.TOP_LEFT;
-			stage.scaleMode = StageScaleMode.NO_SCALE;
-			stage.quality	= StageQuality.LOW;
-			
-			// init
-			UIManager.initialize(
-				stage, 
-				new HTTPAdapter(),
-				new KeyListenerState()
-			);
-		}
+package ui.assets
+{
+	import flash.display.Bitmap;
+
+	[Embed(source="/ui/assets/img/eye_icon_disabled.png")]
+	public final class AssetEyeIconDisabled extends Bitmap {
 	}
 }

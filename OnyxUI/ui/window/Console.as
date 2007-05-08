@@ -71,12 +71,24 @@ package ui.window {
 			
 			_draw();
 			
-			_input.addEventListener(KeyboardEvent.KEY_DOWN, _onKeyDown);
+			_input.addEventListener(FocusEvent.FOCUS_IN, _focusHandler);
+			_input.addEventListener(FocusEvent.FOCUS_OUT, _focusHandler);
 			_input.addEventListener(MouseEvent.CLICK, _onClick);
 			
 			// dispatch the start-up motd
 			Command.help();
 			Command.help('plugins');
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function _focusHandler(event:FocusEvent):void {
+			if (event.type === FocusEvent.FOCUS_IN) {
+				_input.addEventListener(KeyboardEvent.KEY_DOWN, _onKeyDown);
+			} else {
+				_input.removeEventListener(KeyboardEvent.KEY_DOWN, _onKeyDown);
+			}
 		}
 		
 		/**

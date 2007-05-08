@@ -6,7 +6,6 @@ package visualizer {
 	import onyx.constants.*;
 	import onyx.core.*;
 	import onyx.render.RenderTransform;
-	import onyx.sound.SpectrumAnalysis;
 	import onyx.sound.SpectrumAnalyzer;
 	import onyx.sound.Visualizer;
 	import onyx.controls.ControlInt;
@@ -32,10 +31,12 @@ package visualizer {
 			graphics.clear();
 			graphics.lineStyle(0, 0xFFFFFF);
 			
-			var analysis:Array = SpectrumAnalyzer.spectrum.analysis;
+			var analysis:Array = SpectrumAnalyzer.getSpectrum(false);
 			graphics.moveTo(0,100 + (analysis[0] * height));
 
-			for (var count:int = 1; count < analysis.length; count++) {
+			var len:int = analysis.length;
+
+			for (var count:int = 1; count < len; count++) {
 				graphics.lineTo(count * step, 100 + (analysis[count] * height));
 			}
 			

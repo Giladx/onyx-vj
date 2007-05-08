@@ -77,11 +77,12 @@ package {
 				new Plugin('Blur Transition',		BlurTransition, 'Blurs the loaded layer'),
 				new Plugin('Dissolve Transition',	DissolveTransition, 'Dissolves the loaded layer'),
 				new Plugin('Basic',					BasicVisualizer, 'Visualizer'),
+				new Plugin('Circles',				CircleVisualizer, 'CircleVisualizer'),
 //				new Plugin('Burst Echo',			BurstEcho,		'Burst Echo'),
 				new Plugin('Invert',				InvertFilter,	'Invert'),
 //				new Plugin('Loop Scroll',			LoopScroll,		'Loop Scroll Filter'),
 //				new Plugin('Displace',				DisplaceFilter,	'Displace Filter')
-//				new Plugin('Convolve Filter', 		ConvolveFilter,	'Convolve')
+				new Plugin('Convolve Filter', 		ConvolveFilter,	'Convolve')
 			];
 		}
 	}

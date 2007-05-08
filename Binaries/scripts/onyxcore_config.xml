@@ -329,7 +329,6 @@
 			<class>onyx.utils.bitmap.JPGEncoder</class>
 			<class>onyx.file.FolderList</class>
 			<class>onyx.midi.MidiMapController</class>
-			<class>onyx.sound.SpectrumAnalysis</class>
 			<class>onyx.render.getLastRender</class>
 			<class>onyx.controls.ControlBoolean</class>
 			<class>onyx.core.PluginBase</class>

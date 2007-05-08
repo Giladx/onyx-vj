@@ -75,13 +75,11 @@ package onyx.content {
 		 */
 		public function ContentCamera(layer:Layer, path:String, camera:Camera):void {
 			
-			_controls = new Controls(this,
-				new ControlInt('qualityRate', 'framerate', 1, 30, 24)
-			);
+			_controls = new Controls(this);
 			
 			_camera	= camera;
 			_camera.setMotionLevel(0,0);
-			_camera.setMode(BITMAP_WIDTH,BITMAP_HEIGHT, 24);
+			_camera.setMode(BITMAP_WIDTH,BITMAP_HEIGHT, 30);
 
 			_video	= new Video(BITMAP_WIDTH, BITMAP_HEIGHT);
 			_video.attachCamera(camera);
@@ -114,6 +112,7 @@ package onyx.content {
 				super.render();
 				
 			} else {
+				
 				// render a bitmap
 				var bmp:BitmapData = BASE_BITMAP();
 				bmp.draw(_video);

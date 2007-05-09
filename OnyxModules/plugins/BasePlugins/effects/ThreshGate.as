@@ -36,8 +36,7 @@ package effects {
 	import onyx.constants.*;
 	import onyx.content.Content;
 	import onyx.controls.*;
-	import onyx.filter.Filter;
-	import onyx.filter.TempoFilter;
+	import onyx.plugin.*;
 	import onyx.tween.Tween;
 	import onyx.tween.TweenProperty;
 	import onyx.tween.easing.*;

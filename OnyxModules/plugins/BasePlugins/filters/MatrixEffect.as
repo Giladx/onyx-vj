@@ -3,7 +3,7 @@ package filters
 	import flash.geom.Matrix;
 	
 	import onyx.controls.ControlNumber;
-	import onyx.filter.Filter;
+	import onyx.plugin.*;
 
 	public final class MatrixEffect extends Filter {
 		

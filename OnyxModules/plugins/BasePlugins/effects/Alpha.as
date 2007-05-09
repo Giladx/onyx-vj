@@ -37,8 +37,7 @@ package effects {
 	import onyx.content.Content;
 	import onyx.controls.*;
 	import onyx.core.Tempo;
-	import onyx.filter.Filter;
-	import onyx.filter.TempoFilter;
+	import onyx.plugin.TempoFilter;
 	import onyx.utils.math.*;
 
 	public final class Alpha extends TempoFilter {

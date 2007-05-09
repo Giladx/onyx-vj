@@ -44,7 +44,7 @@ package {
 	import onyx.content.IContent;
 	import onyx.controls.*;
 	import onyx.core.*;
-	import onyx.render.*;
+	import onyx.display.*;
 
 	/**
 	 * 

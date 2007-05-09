@@ -1,15 +1,12 @@
 package visualizer {
 	
-	import flash.display.BitmapData;
-	import flash.display.Shape;
+	import flash.display.*;
 	
 	import onyx.constants.*;
-	import onyx.core.*;
-	import onyx.render.RenderTransform;
-	import onyx.sound.SpectrumAnalyzer;
-	import onyx.sound.Visualizer;
 	import onyx.controls.ControlInt;
-	import flash.display.Graphics;
+	import onyx.core.*;
+	import onyx.display.*;
+	import onyx.plugin.*;
 
 	public final class BasicVisualizer extends Visualizer {
 		

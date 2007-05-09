@@ -9,8 +9,8 @@ package filters {
 	import onyx.controls.Control;
 	import onyx.controls.ControlInt;
 	import onyx.controls.IControlObject;
-	import onyx.filter.Filter;
-	import onyx.filter.IBitmapFilter;
+	import onyx.plugin.*;
+	import onyx.plugin.IBitmapFilter;
 	import onyx.layer.LayerProperties;
 	import onyx.controls.ControlOverride;
 

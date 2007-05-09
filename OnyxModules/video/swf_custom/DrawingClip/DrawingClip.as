@@ -40,7 +40,7 @@ package {
 	import onyx.controls.*;
 	import onyx.core.*;
 	import onyx.plugin.*;
-	import onyx.render.*;
+	import onyx.display.*;
 
 	/**
 	 * 	Drawing clip

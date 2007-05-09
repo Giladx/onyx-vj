@@ -5,8 +5,8 @@ package filters
 	
 	import onyx.constants.*;
 	import onyx.controls.ControlLayer;
-	import onyx.filter.Filter;
-	import onyx.filter.IBitmapFilter;
+	import onyx.plugin.*;
+	import onyx.plugin.IBitmapFilter;
 	import onyx.layer.ILayer;
 
 	public final class DisplaceFilter extends Filter implements IBitmapFilter {

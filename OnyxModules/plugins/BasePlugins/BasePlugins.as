@@ -37,7 +37,7 @@ package {
 	import flash.display.Sprite;
 	import flash.system.Security;
 	
-	import onyx.filter.Filter;
+	import onyx.core.*;
 	import onyx.plugin.*;
 	
 	import transitions.*;

@@ -34,7 +34,7 @@ package transitions {
 	import flash.geom.ColorTransform;
 	import flash.geom.Transform;
 	
-	import onyx.transition.Transition;
+	import onyx.plugin.Transition;
 
 	public final class DissolveTransition extends Transition {
 		

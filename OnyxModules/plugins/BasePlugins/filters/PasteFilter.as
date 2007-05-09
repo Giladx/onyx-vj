@@ -10,7 +10,7 @@ package filters {
 	
 	import onyx.constants.*;
 	import onyx.core.*;
-	import onyx.filter.*;
+	import onyx.plugin.*;
 
 	public final class PasteFilter extends Filter implements IBitmapFilter {
 		

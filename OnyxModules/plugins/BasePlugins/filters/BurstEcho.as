@@ -37,9 +37,9 @@ package filters {
 	import onyx.constants.*;
 	import onyx.controls.*;
 	import onyx.core.Tempo;
-	import onyx.filter.Filter;
-	import onyx.filter.IBitmapFilter;
-	import onyx.filter.TempoFilter;
+	import onyx.plugin.*;
+	import onyx.plugin.IBitmapFilter;
+	import onyx.plugin.TempoFilter;
 	import onyx.tween.*;
 
 	public final class BurstEcho extends TempoFilter implements IBitmapFilter {

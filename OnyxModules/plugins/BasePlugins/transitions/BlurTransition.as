@@ -30,16 +30,13 @@
  */
 package transitions {
 	
-	import flash.display.BitmapData;
-	import flash.display.IBitmapDrawable;
+	import flash.display.*;
 	import flash.filters.BlurFilter;
-	import flash.geom.ColorTransform;
-	import flash.geom.Point;
-	import flash.geom.Transform;
+	import flash.geom.*;
 	
 	import onyx.constants.POINT;
-	import onyx.render.RenderTransform;
-	import onyx.transition.*;
+	import onyx.core.RenderTransform;
+	import onyx.plugin.*;
 	
 	public final class BlurTransition extends Transition implements IBitmapTransition {
 		

@@ -11,8 +11,8 @@ package {
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.events.ControlEvent;
-	import onyx.layer.ILayer;
-	import onyx.render.*;
+	import onyx.display.ILayer;
+	import onyx.display.*;
 
 	[SWF(width='320', height='240', frameRate='24')]
 	public class LoopMachine extends MovieClip implements IControlObject {

@@ -39,7 +39,7 @@ package filters {
 	import onyx.constants.*;
 	import onyx.controls.*;
 	import onyx.core.*;
-	import onyx.filter.*;
+	import onyx.plugin.*;
 
 	public final class EchoFilter extends Filter implements IBitmapFilter {
 		

@@ -43,7 +43,7 @@
 	import onyx.events.*;
 	import onyx.net.*;
 	import onyx.plugin.*;
-	import onyx.render.*;
+	import onyx.display.*;
 
 	/**
 	 * 	Drawing clip

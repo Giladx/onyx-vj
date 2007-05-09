@@ -1,15 +1,11 @@
 package visualizer {
 	
-	import flash.display.BitmapData;
-	import flash.display.Graphics;
-	import flash.display.Shape;
+	import flash.display.*;
 	
 	import onyx.constants.*;
 	import onyx.controls.ControlInt;
 	import onyx.core.*;
-	import onyx.render.RenderTransform;
-	import onyx.sound.SpectrumAnalyzer;
-	import onyx.sound.Visualizer;
+	import onyx.plugin.*;
 
 	public final class CircleVisualizer extends Visualizer {
 		
@@ -22,6 +18,9 @@ package visualizer {
 			)
 		}
 		
+		/**
+		 * 	Render
+		 */
 		override public function render():RenderTransform {
 			
 			var transform:RenderTransform	= RenderTransform.getTransform(_shape);

@@ -4,8 +4,8 @@ package filters {
 	import flash.geom.Rectangle;
 	
 	import onyx.controls.*;
-	import onyx.filter.Filter;
-	import onyx.filter.IBitmapFilter;
+	import onyx.plugin.*;
+	import onyx.plugin.IBitmapFilter;
 	import onyx.tween.Tween;
 	import onyx.tween.easing.*;
 	import onyx.tween.TweenProperty;

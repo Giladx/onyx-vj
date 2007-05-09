@@ -8,7 +8,7 @@ package effects {
 	import onyx.controls.*;
 	import onyx.core.Tempo;
 	import onyx.events.TempoEvent;
-	import onyx.filter.TempoFilter;
+	import onyx.plugin.TempoFilter;
 	import onyx.tween.*;
 	import onyx.tween.easing.*;
 	import onyx.utils.math.*;

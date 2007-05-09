@@ -33,8 +33,8 @@ package {
 	import flash.display.Sprite;
 	
 	import onyx.controls.*;
-	import onyx.layer.ILayer;
-	import onyx.render.*;
+	import onyx.display.ILayer;
+	import onyx.display.*;
 	import onyx.content.IContent;
 
 	public class LayerCopy extends Sprite implements IRenderObject, IControlObject {

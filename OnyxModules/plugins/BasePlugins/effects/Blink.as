@@ -36,8 +36,7 @@ package effects {
 	import onyx.constants.*;
 	import onyx.content.Content;
 	import onyx.controls.*;
-	import onyx.filter.Filter;
-	import onyx.filter.TempoFilter;
+	import onyx.plugin.*;
 	import onyx.utils.math.*;
 
 	public final class Blink extends TempoFilter {

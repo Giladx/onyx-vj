@@ -35,17 +35,19 @@ package onyx.plugin {
 	import flash.net.FileFilter;
 	import flash.utils.*;
 	
+	import onyx.constants.*;
 	import onyx.content.IContent;
 	import onyx.controls.*;
 	import onyx.core.*;
 	import onyx.events.FilterEvent;
+	import onyx.utils.GCTester;
 	
 	use namespace onyx_ns;
 	
 	/**
 	 * 	The base Filter class
 	 */
-	public class Filter extends PluginBase implements IControlObject {
+	public class Filter extends PluginBase {
 		
 		/**
 		 * 	@private
@@ -84,7 +86,8 @@ package onyx.plugin {
 		}
 		
 		/**
-		 * 	Gets content's filters of a certain type
+		 * 	Returns a content's filters that match a type
+		 * 	(i.e) passing in type of BlurFilter will return all blurfilters in another layer
 		 */
 		public static function getFilters(content:IContent, plugin:Plugin):Array {
 			var filters:Array = content.filters;
@@ -205,11 +208,13 @@ package onyx.plugin {
 		/**
 		 * 	@private
 		 */
-		onyx_ns override final function clean():void {
+		onyx_ns override function clean():void {
 
+			// test to make sure everything garbage collects
+			var tester:GCTester = new GCTester(this);
+			
 			content	= null;
 			super.clean();
-
 		}
 		
 		/**
@@ -219,6 +224,13 @@ package onyx.plugin {
 			var xml:XML = <filter id={_name} />;
 			xml.appendChild(controls.toXML());
 			return xml;
+		}
+		
+		/**
+		 * 
+		 */
+		override public function toString():String {
+			return ONYX_QUERYSTRING + 'filter://' + (_plugin ? _plugin.name : '');
 		}
 	}
 }

@@ -32,6 +32,7 @@ package onyx.plugin {
 	
 	import flash.display.BitmapData;
 	
+	import onyx.constants.*;
 	import onyx.controls.Controls;
 	import onyx.controls.IControlObject;
 	import onyx.core.*;
@@ -97,5 +98,11 @@ package onyx.plugin {
 		override public function dispose():void {
 		}
 		
+		/**
+		 * 
+		 */
+		override public function toString():String {
+			return ONYX_QUERYSTRING + 'visualizer://' + _plugin.name;
+		}
 	}
 }

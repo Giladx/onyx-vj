@@ -38,6 +38,7 @@ package onyx.file.http {
 	
 	import onyx.core.Console;
 	import onyx.file.*;
+	import onyx.utils.string.pathUpOneLevel;
 
 	public final class HTTPQuery extends FileQuery {
 		
@@ -92,8 +93,8 @@ package onyx.file.http {
 				var xml:XML = new XML(loader.data);
 				
 				// create the Folder
-				var rootpath:String = xml.query.@path.toString();
-				var list:FolderList = new FolderList(rootpath);
+				var rootpath:String = pathUpOneLevel(xml.query.@path.toString());
+				var list:FolderList = new FolderList(pathUpOneLevel(rootpath));
 	
 				// get the children
 				var files:XMLList = xml.query.file;
@@ -106,8 +107,9 @@ package onyx.file.http {
 					if (name === '..') {
 						name = rootpath.substr(0, rootpath.lastIndexOf('/', rootpath.length - 2)) + '/';
 					} else {
-						name = rootpath + name;
+						name = pathUpOneLevel(rootpath + name);
 					}
+					
 					list.folders.push(new Folder(name));
 				}
 				
@@ -115,11 +117,11 @@ package onyx.file.http {
 				for each (node in files) {
 					
 					// get name of the node
-					var name:String = String(node.name()).toLowerCase();
+					var name:String = String(node.name());
 					
 					var thumb:String = node.@thumb;
 					list.files.push(
-						new File(rootpath + node.@name, (thumb) ? rootpath + thumb : '')
+						new File(pathUpOneLevel(rootpath + node.@name), (thumb) ? rootpath + thumb : '')
 					);
 					
 				}

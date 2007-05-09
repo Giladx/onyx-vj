@@ -42,7 +42,6 @@ package onyx.content {
 	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.plugin.*;
-	import onyx.sound.*;
 	import onyx.utils.math.*;
 
 	use namespace onyx_ns;
@@ -107,6 +106,7 @@ package onyx.content {
 		 */
 		override public function dispose():void {
 
+			_render.dispose();
 			_render = null;
 			
 			super.dispose();

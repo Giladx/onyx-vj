@@ -160,6 +160,7 @@ package onyx.controls {
 			var xml:XML = <{name}/>;
 			var value:Object = _target[name];
 			xml.appendChild((value) ? value.toString() : value);
+			
 			return xml;
 		}
 	}

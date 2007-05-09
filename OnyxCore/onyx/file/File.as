@@ -45,16 +45,17 @@ package onyx.file {
 		
 		/**
 		 * 	Saves thumbnail
+		 * 	This can either be a string or a bitmap (updated from it)
 		 */
-		public var thumbnail:Object;
+		public var thumbnail:String;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function File(path:String, thumbnail:Object):void {
+		public function File(path:String, thumbnail:String):void {
 			
-			this.path = path;
-			this.thumbnail = thumbnail;
+			this.path		= path,
+			this.thumbnail	= thumbnail;
 
 		}
 		

@@ -42,6 +42,12 @@ package onyx.controls {
 	public final class ControlPlugin extends ControlRange {
 		
 		/**
+		 * 	@private
+		 * 	This is used for serialization of the plugin
+		 */
+		private static const LOOKUP:Array	= ['filter', 'macro', 'transition', 'visualizer'];
+		
+		/**
 		 * 	Use Filters
 		 */
 		public static const FILTERS:int		= 0;
@@ -62,9 +68,17 @@ package onyx.controls {
 		public static const VISUALIZERS:int	= 3;
 		
 		/**
+		 * 	@private
+		 * 	Stores the plugin type to use
+		 */
+		private var _type:int;
+		
+		/**
 		 * 	@constructor
 		 */
 		public function ControlPlugin(name:String, display:String, type:int = 0, defaultValue:int = 0):void {
+			
+			_type = type;
 			
 			var data:Array;
 			
@@ -119,7 +133,48 @@ package onyx.controls {
 		 * 	Returns xml representation of the control
 		 */
 		override public function toXML():XML {
-			return <{name}>{_target[name].toString()}</{name}>;
+			
+			var xml:XML				= <{name}/>;
+			var plugin:PluginBase	= _target[name];
+			
+			if (plugin) {
+				
+				// set what type we are
+				xml.@type	= LOOKUP[_type];
+				
+				// get the registration name
+				xml.@id		= plugin._plugin.name;
+			}
+			
+			return xml;
+		}
+		
+		/**
+		 * 	Load xml (return a new object of type='id')
+		 */
+		override public function loadXML(xml:XML):void {
+			
+			var name:String, type:String, def:Plugin;
+			
+			type	= xml.@type,
+			name	= xml.@id;
+			
+			switch (type) {
+				case 'visualizer':
+					def = Visualizer.getDefinition(name);
+					break;
+				case 'filter':
+					def = Filter.getDefinition(name);
+					break;
+				case 'macro':
+					def = Macro.getDefinition(name);
+					break;
+				case 'transition':
+					def = Transition.getDefinition(name);
+					break;
+			}
+			
+			value = def.getDefinition();
 		}
 		
 		/**

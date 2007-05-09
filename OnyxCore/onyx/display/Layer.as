@@ -99,7 +99,7 @@ package onyx.display {
 		 **/
 		public function load(path:String, settings:LayerSettings = null, transition:Transition = null):void {
 	
-			// get extension
+			// get extension (onyx.utils)
 			var extension:String = getExtension(path);
 			
 			// if it's an onx file, pass it over to the display to load

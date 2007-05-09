@@ -28,31 +28,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.controls {
-	
-	[ExcludeClass]
-	
-	/**
-	 * 	This class is a proxy, and is only used when loading xml
-	 */
-	public final class ControlValue extends Control {
-		
-		/**
-		 * 	@private
-		 */
-		private var _value:*;
-		
-		/**
-		 * 	@constructor
-		 */
-		public function ControlValue(property:String, value:*):void {
-			_value = value;
-			super(property);
-		}
-		
-		override public function get value():* {
-			return _value;
-		}
-		
-	}
+package onyx.constants {
+
+	import flash.display.BlendMode;
+
+	public const ONYX_QUERYSTRING:String = 'onyx-';
+
 }

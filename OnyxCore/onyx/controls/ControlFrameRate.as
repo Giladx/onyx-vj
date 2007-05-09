@@ -49,7 +49,6 @@ package onyx.controls {
 
 		}
 		
- 		
 		/**
 		 * 	Faster reflection method (rather than using getDefinition)
 		 */

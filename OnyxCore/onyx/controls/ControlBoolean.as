@@ -33,6 +33,7 @@ package onyx.controls {
 	import onyx.constants.*;
 	import onyx.core.onyx_ns;
 	import onyx.events.ControlEvent;
+	import onyx.utils.string.parseBoolean;
 	
 	use namespace onyx_ns;
 
@@ -48,6 +49,13 @@ package onyx.controls {
 
 			super(name, display, BOOLEAN, defaultvalue, binding, options);
 
+		}
+		
+		/**
+		 * 
+		 */
+		override public function loadXML(xml:XML):void {
+			value = parseBoolean(xml);
 		}
 
 		/**

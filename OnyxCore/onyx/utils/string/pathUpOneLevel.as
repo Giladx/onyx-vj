@@ -28,61 +28,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.plugin {
-	
-	import flash.events.Event;
+package onyx.utils.string {
 	
 	/**
-	 * 	Manager class that loads and removes macros
+	 * 	
 	 */
-	public final class MacroManager {
+	public function pathUpOneLevel(folder:String):String {
+
+		// check folder for ..'s
+		var index:int		= folder.indexOf('../');
+		var ext:String		= folder.substr(index+3);
 		
-		/**
-		 * 	@private
-		 * 	Stores macros	
-		 */
-		private static var _macros:Array			= [];
-
-		/**
-		 * 	Loads an application macro
-		 */
-		public static function loadMacro(macro:Macro):void {
-
-			_macros.push(macro);
-			macro.initialize();
-
-		}
-		
-		/**
-		 * 	Removes an application macro
-		 */
-		public static function removeMacro(macro:Macro):void {
+		while (index >= 0) {
 			
-			// destroy
-			macro.terminate();
-			
-			// remove macro
-			_macros.splice(_macros.indexOf(macro), 1);
-			
-			// dispatch an event
-			macro.dispatchEvent(new Event(Event.COMPLETE));
+			var last:int	= folder.lastIndexOf('/', index - 2);
+			folder			= folder.substr(0, last) + '/' + ext;
+	
+			index			= folder.indexOf('../');
 			
 		}
 		
-		/**
-		 * 	Returns macro matches
-		 */
-		public static function getmacros(type:Class):Array {
-			
-			var matches:Array = [];
-			
-			for each (var macro:Macro in _macros) {
-				if (macro is type) {
-					matches.push(type);
-				}
-			}
-			
-			return matches;
-		}
+		return folder;
 	}
 }

@@ -30,13 +30,10 @@
  */
 package onyx.controls {
 	
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.events.IEventDispatcher;
+	import flash.events.*;
 	import flash.utils.Dictionary;
 	
 	import onyx.core.onyx_ns;
-	import onyx.utils.string.parseBoolean;
 	
 	use namespace onyx_ns;
 
@@ -176,31 +173,13 @@ package onyx.controls {
 			for each (var controlXML:XML in xml.*) {
 				
 				try {
-					
-					// proxy control
-					if (controlXML.hasComplexContent()) {
-
-						for each (var proxy:XML in controlXML.*) {
-							
-							name			= proxy.name();
-							control			= getControl(name);
-							
-							// TBD: better serialization
-							control.loadXML(proxy);
-						}
-						
-					// individual property
-					} else {
 	
-						name				= controlXML.name();
-						
-						control				= getControl(name);
-						
-						// TBD: better serialization
-						control.loadXML(controlXML);
-					}
+					name				= controlXML.name();
+					control				= getControl(name);
+					control.loadXML(controlXML);
 	
 				} catch (e:Error) {
+					
 				}
 			}
 		}

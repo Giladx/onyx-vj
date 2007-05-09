@@ -98,11 +98,21 @@ package onyx.controls {
 		 * 
 		 */
 		override public function toXML():XML {
-			var xml:XML = <{name}></{name}>;
+			var xml:XML = <{name}/>;
 			xml.appendChild(controlX.toXML());
 			xml.appendChild(controlY.toXML());
 
 			return xml;
+		}
+		
+		/**
+		 * 
+		 */
+		override public function loadXML(xml:XML):void {
+			
+			controlY.loadXML(xml.child(controlY.name));
+			controlX.loadXML(xml.child(controlX.name));
+			
 		}
 		
 		/**

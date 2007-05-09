@@ -41,11 +41,10 @@ package onyx.core {
 	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.file.*;
-	import onyx.macro.*;
 	import onyx.midi.*;
 	import onyx.plugin.*;
-	import onyx.sound.*;
 	import onyx.states.*;
+	import onyx.utils.GCTester;
 	
 	use namespace onyx_ns;
 	
@@ -144,8 +143,8 @@ package onyx.core {
 						Macro.registerPlugin(plugin);
 					}
 					
-					// destroy the object
-					object.dispose();
+					// test to make sure everything garbage collects
+					// var tester:GCTester = new GCTester(object);
 					
 					// output a message
 					Console.output('REGISTERING ' + plugin.name);

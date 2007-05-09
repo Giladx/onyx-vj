@@ -36,6 +36,7 @@ package onyx.content {
 	import flash.net.*;
 	import flash.utils.getQualifiedClassName;
 	
+	import onyx.constants.*;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.events.LayerContentEvent;
@@ -141,69 +142,117 @@ package onyx.content {
 		 */
 		public function load(path:String, settings:LayerSettings, transition:Transition):void {
 			
-			_path		= path;
-			_settings	= settings;
+			_path		= path,
+			_settings	= settings,
 			_transition = transition;
 			
-			var extension:String	= getExtension(path);
-		
-			// do different stuff based on the extension
-			switch (extension) {
-				
-				case 'flv':
-					var stream:Stream = new Stream(path);
-					stream.addEventListener(Event.COMPLETE,				_onStreamComplete);
-					stream.addEventListener(NetStatusEvent.NET_STATUS,	_onStreamComplete);
-					
-					break;
-					
-				case 'cam':
-				
-					var names:Array = Camera.names;
-					var name:String = path.substr(0, path.length - 4);
-					
-					_dispatchContent(ContentCamera, Camera.getCamera(String(names.indexOf(name))), new Event(Event.COMPLETE));
-					
-					break;
-					
-				case 'mp3':
-				
-					var sound:Sound		= new Sound();
-					sound.addEventListener(Event.COMPLETE, _onSoundHandler);
-					sound.addEventListener(IOErrorEvent.IO_ERROR, _onSoundHandler);
-					sound.addEventListener(ProgressEvent.PROGRESS, _onLoadProgress);
-					sound.load(new URLRequest(path));
-					break;
+			// first check for an onyx protocol
+			var len:int = ONYX_QUERYSTRING.length;
+			
+			// check the protocol for a plugin
+			if (path.substr(0, len) === ONYX_QUERYSTRING) {
 
-				// load a loader if we're any other type of file
-				case 'swf':
-
-					var reg:Registration = registration(path);
+				var index:int	= path.indexOf('://');
 				
-				case 'jpg':
-				case 'jpeg':
-				case 'png':
+				if (!index) {
+					return _pluginError();
+				}
 				
-					// check to see if it's to be a shared content object
-					if (reg) {
+				var type:String = path.substr(len, index - len);
+				var name:String	= path.substr(index + 3);
+				
+				switch (type) {
+					case 'camera':
+					
+						_dispatchContent(ContentCamera, Camera.getCamera(String(AVAILABLE_CAMERAS.indexOf(name))), new Event(Event.COMPLETE));
+					
+						break;
+					case 'visualizer':
+					
+						var plugin:Plugin				= Visualizer.getDefinition(name);
 						
-						register(path);
-						_createLoaderContent(reg.loader.contentLoaderInfo);
+						// does the plugin exist?
+						if (!plugin) {
+							return _pluginError();
+						}
 						
-					} else {
+						var render:IRenderObject	= plugin.getDefinition() as IRenderObject;
 						
-						var loader:Loader = new Loader();
+						// is it a renderable object
+						if (!render) {
+							return _pluginError();
+						}
 						
-						loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,				_onLoadHandler);
-						loader.contentLoaderInfo.addEventListener(Event.COMPLETE,						_onLoadHandler);
-						loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS,				_onLoadProgress);
-						loader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR,	_onLoadHandler);
+						// dispatch
+						_dispatchContent(ContentPlugin, render, new Event(Event.COMPLETE));
 						
-						loader.load(new URLRequest(path));
+						break;
+				}
+				
+			} else {
+				
+				
+				var extension:String	= getExtension(path);
+			
+				// do different stuff based on the extension
+				switch (extension) {
+					
+					case 'flv':
+						var stream:Stream = new Stream(path);
+						stream.addEventListener(Event.COMPLETE,				_onStreamComplete);
+						stream.addEventListener(NetStatusEvent.NET_STATUS,	_onStreamComplete);
 						
-					}
-					break;
+						break;
+						
+					case 'mp3':
+					
+						var sound:Sound		= new Sound();
+						sound.addEventListener(Event.COMPLETE, _onSoundHandler);
+						sound.addEventListener(IOErrorEvent.IO_ERROR, _onSoundHandler);
+						sound.addEventListener(ProgressEvent.PROGRESS, _onLoadProgress);
+						sound.load(new URLRequest(path));
+						break;
+	
+					// load a loader if we're any other type of file
+					case 'swf':
+	
+						// need to check for already loaded swf's of the same name (performance gain);
+						var reg:Registration = registration(path);
+					
+					case 'jpg':
+					case 'jpeg':
+					case 'png':
+					
+						// check to see if it's to be a shared content object
+						if (reg) {
+							
+							register(path);
+							_createLoaderContent(reg.loader.contentLoaderInfo);
+							
+						} else {
+							
+							var loader:Loader = new Loader();
+							
+							loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,				_onLoadHandler);
+							loader.contentLoaderInfo.addEventListener(Event.COMPLETE,						_onLoadHandler);
+							loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS,				_onLoadProgress);
+							loader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR,	_onLoadHandler);
+							
+							loader.load(new URLRequest(path));
+							
+						}
+						break;
+				}
+				
 			}
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function _pluginError():void {
+			Console.output('invalid type:', _path);
+			dispose();
 		}
 		
 		/**

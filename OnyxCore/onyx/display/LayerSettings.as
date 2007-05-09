@@ -67,7 +67,7 @@ package onyx.display {
 		public var framerate:Number		= 1;
 
 		public var filters:Array;
-		public var controls:Controls;
+		public var controls:Object;
 
 		public var loopStart:Number		= 0;
 		public var loopEnd:Number		= 1;
@@ -129,13 +129,7 @@ package onyx.display {
 			path		= xml.@path;
 			
 			if (xml.controls) {
-				
-				controls = new Controls(null);
-				
-				// tbd: add filters and controls
-				for each (var controlXML:XML in xml.controls.*) {
-					controls.addControl(new ControlValue(controlXML.name(), controlXML));
-				}
+				controls = xml.controls;
 			}
 			
 			// TBD: needs to be cleaned up
@@ -182,14 +176,42 @@ package onyx.display {
 			
 			// apply controls
 			if (controls && content.controls) {
-				for each (var control:Control in controls) {
-					try {
-						var targetControl:Control = content.controls.getControl(control.name);
-						if ( ! (targetControl is ControlExecute) ) {
-							targetControl.value = control.value;
+				
+				// check what type of object "controls" is
+				// type: Controls, set value to value
+				// type: XML, parse the xml values
+				
+				// it's a control object
+				if (controls is Controls) {
+					
+					for each (var control:Control in controls) {
+						
+						try {
+							var targetControl:Control = content.controls.getControl(control.name);
+							if ( ! (targetControl is ControlExecute) ) {
+								targetControl.value = control.value;
+							}
+						} catch (e:Error) {
+							Console.output('error setting property', control.name);
 						}
-					} catch (e:Error) {
-						Console.error(e);
+					}
+					
+				// it's xml
+				} else {
+					
+					var xml:XMLList = controls as XMLList;
+					
+					for each (var node:XML in xml.*) {
+						
+						try {
+							var name:String = node.name();
+
+							targetControl = content.controls.getControl(name);
+							targetControl.loadXML(node);
+							
+						} catch (e:Error) {
+							Console.output('error setting property', name);
+						}
 					}
 				}
 			}

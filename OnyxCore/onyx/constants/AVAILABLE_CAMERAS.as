@@ -28,24 +28,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.plugin {
+package onyx.constants {
+
+	import flash.media.Camera;
 	
-	public final class MuteLayerMacro extends Macro {
-		
-		public function MuteLayerMacro():void {
-		}
-		
-		/**
-		 * 	Initializes the macro
-		 */
-		override public function initialize():void {
-		}
-		
-		/**
-		 * 	Terminates the macro
-		 */
-		override public function terminate():void {
-		}
-		
-	}
+	public const AVAILABLE_CAMERAS:Array = Camera.names;
+
 }

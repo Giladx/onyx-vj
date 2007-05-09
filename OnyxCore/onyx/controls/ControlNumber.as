@@ -118,6 +118,19 @@ package onyx.controls {
  			return _max
  		}
  		
+ 		/**
+ 		 * 
+ 		 */
+ 		override public function toXML():XML {
+ 			var xml:XML			= <{name} />;
+ 			var value:Number	= this.value;
+ 			
+ 			if (!isNaN(value)) {
+ 				xml.appendChild(value.toFixed(3));
+ 			}
+ 			
+			return xml;
+ 		}
  		
 		/**
 		 * 	Faster reflection method (rather than using getDefinition)

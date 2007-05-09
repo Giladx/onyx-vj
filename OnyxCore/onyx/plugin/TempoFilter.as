@@ -51,7 +51,7 @@ package onyx.plugin {
 		/**
 		 * 	@private
 		 */
-		private static const GLOBAL_TEMPO_CONTROL:Control	= TEMPO.controls.getControl('snapTempo');
+		protected static const GLOBAL_TEMPO_CONTROL:Control	= TEMPO.controls.getControl('snapTempo');
 		
 		/**
 		 * 	Store multiplier
@@ -119,8 +119,37 @@ package onyx.plugin {
 			
 			super.controls.addControl.apply(null, controls);
 			
-			// default to global
-			this.snapTempo = defaultBeat || BEATS[0];
+			// tempo
+			_snapTempo = defaultBeat || BEATS[0];
+		}
+		
+		/**
+		 * 	listen
+		 */
+		override public function initialize():void {
+
+			// if tempo, listen for clicks, otherwise, set our own timer
+			if (_snapTempo) {
+
+				if (_snapTempo === GLOBAL_TEMPO) {
+					
+					GLOBAL_TEMPO_CONTROL.addEventListener(ControlEvent.CHANGE, _onTempoEvent);
+						
+					// set the beat
+					var tempo:TempoBeat = GLOBAL_TEMPO_CONTROL.value;
+					_snapBeat	= tempo ? tempo.mod : null;
+					
+				}
+
+				TEMPO.addEventListener(TempoEvent.CLICK, onTempo);
+				
+			} else {
+				
+				timer = new Timer(_delay);
+				timer.start();
+				timer.addEventListener(TimerEvent.TIMER, onTimer);
+
+			}
 		}
 		
 		/**
@@ -177,6 +206,7 @@ package onyx.plugin {
 				
 			} else {
 				
+				// remove listener
 				GLOBAL_TEMPO_CONTROL.removeEventListener(ControlEvent.CHANGE, _onTempoEvent);
 				
 				// set value
@@ -228,25 +258,6 @@ package onyx.plugin {
 		}
 		
 		/**
-		 * 	initialize
-		 */		
-		override public function initialize():void {
-			
-			if (_snapTempo) {
-
-				TEMPO.addEventListener(TempoEvent.CLICK, onTempo);
-				
-			} else {
-				
-				timer = new Timer(_delay);
-				timer.start();
-				timer.addEventListener(TimerEvent.TIMER, onTimer);
-				
-			}
-			
-		}
-		
-		/**
 		 * 	@private
 		 */
 		protected function onTempo(event:TempoEvent):void {
@@ -283,11 +294,23 @@ package onyx.plugin {
 				timer = null;
 			}
 			
+			// remove listeners
 			TEMPO.removeEventListener(TempoEvent.CLICK, onTempo);
 			GLOBAL_TEMPO_CONTROL.removeEventListener(ControlEvent.CHANGE, _onTempoEvent);
 			
 			_snapControl	= null,
 			_delayControl	= null;
+		}
+		
+		/**
+		 * 
+		 */
+		override final onyx_ns function clean():void {
+			
+			TEMPO.removeEventListener(TempoEvent.CLICK, onTempo);
+			GLOBAL_TEMPO_CONTROL.removeEventListener(ControlEvent.CHANGE, _onTempoEvent);
+			
+			super.clean();
 		}
 	}
 }

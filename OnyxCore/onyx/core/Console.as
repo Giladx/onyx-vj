@@ -74,8 +74,6 @@ package onyx.core {
 		 */
 		public static function executeCommand(command:String):void {
 			
-			var command:String = command.toLowerCase();
-			
 			var commands:Array = command.split(' ');
 			
 			if (commands.length) {

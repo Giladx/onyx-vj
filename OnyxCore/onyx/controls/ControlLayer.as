@@ -49,8 +49,29 @@ package onyx.controls {
 			
 			var display:Display = Display.getDisplay(0);
 
-			super(name, displayName, (display) ? display._valid : []);
+			super(name, displayName, (display) ? display._layers : []);
 
+		}
+		
+		/**
+		 * 
+		 */
+		override public function toXML():XML {
+			var xml:XML			= <{name} />;
+			var layer:ILayer	= this.value;
+			
+			if (value) {
+				xml.appendChild(layer.index);
+			}
+			
+			return xml;
+		}
+		
+		/**
+		 * 
+		 */
+		override public function loadXML(xml:XML):void {
+			
 		}
 
 		/**
@@ -60,8 +81,6 @@ package onyx.controls {
 			_target[name] = v;
 			dispatchEvent(new ControlEvent(v));
 		}
-		
-		
  		
 		/**
 		 * 	Faster reflection method (rather than using getDefinition)

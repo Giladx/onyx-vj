@@ -87,5 +87,19 @@ package onyx.controls {
 		override public function reflect():Class {
 			return ControlInt;
 		}
+		
+ 		/**
+ 		 * 
+ 		 */
+ 		override public function toXML():XML {
+ 			var xml:XML			= <{name} />;
+ 			var value:int		= this.value;
+ 			
+ 			if (!isNaN(value)) {
+ 				xml.appendChild(value);
+ 			}
+ 			
+			return xml;
+ 		}
 	}
 }

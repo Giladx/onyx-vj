@@ -194,5 +194,12 @@ package onyx.plugin {
 			
 			super.dispose();
 		}
+
+		/**
+		 * 
+		 */
+		override public function toString():String {
+			return ONYX_QUERYSTRING + 'transition://' + _plugin.name;
+		}
 	}
 }

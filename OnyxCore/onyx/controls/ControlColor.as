@@ -31,7 +31,7 @@
 package onyx.controls {
 	
 	/**
-	 * 
+	 * 	Color
 	 */
 	public final class ControlColor extends ControlUInt {
 		
@@ -47,6 +47,16 @@ package onyx.controls {
 		 */
 		override public function reflect():Class {
 			return ControlColor;
+		}
+		
+		/**
+		 * 	toXML
+		 */
+		override public function toXML():XML {
+			var xml:XML = <{name} />;
+			xml.appendChild( '0x' + (value as Number).toString(16));
+			
+			return xml;
 		}
 
 	}

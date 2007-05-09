@@ -33,12 +33,14 @@ package onyx.file {
 	import flash.display.Loader;
 	import flash.events.*;
 	import flash.media.Camera;
+	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
 	
+	import onyx.constants.*;
 	import onyx.core.*;
 	import onyx.file.http.HTTPAdapter;
+	import onyx.plugin.*;
 	import onyx.settings.*;
-	import flash.net.URLRequest;
 	
 	/**
 	 * 	Stores a cache of directories - so re-querying will not be necessary
@@ -47,11 +49,13 @@ package onyx.file {
 
 		/**
 		 * 	@private
+		 * 	Cache for the paths
 		 */
 		private static var _cache:Object = [];
 		
 		/**
 		 * 	@private
+		 * 	Store the file adapter
 		 */
 		private static var _adapter:FileAdapter;
 		
@@ -81,31 +85,29 @@ package onyx.file {
 		 */
 		public static function query(folder:String, callback:Function, filter:FileFilter = null, refresh:Boolean = false):void {
 			
-			// check folder for ..'s
-			var index:int = folder.indexOf('../');
-			var ext:String = folder.substr(index+3);
-			while (index >= 0) {
-				
-				var last:int = folder.lastIndexOf('/', index - 2);
-				folder = folder.substr(0, last) + '/' + ext;
-		
-				index = folder.indexOf('../');
-			}
-
 			// check for cache
 			if (refresh || !_cache[folder]) {
 				
-				var query:FileQuery = _adapter.query(folder, callback);
-				query.addEventListener(Event.COMPLETE,						_onLoadHandler);
-				query.addEventListener(IOErrorEvent.IO_ERROR,				_onLoadHandler);
-				query.addEventListener(SecurityErrorEvent.SECURITY_ERROR,	_onLoadHandler);
-				query.load(filter);
-				
-			} else {
-				
-				doCallBack(_cache[folder], callback, filter);
+				if (folder.substr(0,ONYX_QUERYSTRING.length) === ONYX_QUERYSTRING) {
+					
+					// query plugins
+					_queryPlugins(folder);
+					
+				} else {
+					
+					var query:FileQuery = _adapter.query(folder, callback);
+					query.addEventListener(Event.COMPLETE,						_onLoadHandler);
+					query.addEventListener(IOErrorEvent.IO_ERROR,				_onLoadHandler);
+					query.addEventListener(SecurityErrorEvent.SECURITY_ERROR,	_onLoadHandler);
+					query.load(filter);
+					
+					return;
+				}
 				
 			}
+
+			// execute callback
+			doCallBack(_cache[folder], callback, filter);
 		}
 		
 		/**
@@ -128,6 +130,7 @@ package onyx.file {
 		 */
 		private static function _onSaveHandler(event:Event):void {
 			
+			// get query
 			var query:FileQuery = event.currentTarget as FileQuery;
 			
 			// remove listener
@@ -146,6 +149,8 @@ package onyx.file {
 		private static function _onLoadHandler(event:Event):void {
 			
 			var query:FileQuery = event.currentTarget as FileQuery;
+			
+			// remove handlers
 			query.removeEventListener(Event.COMPLETE,						_onLoadHandler);
 			query.removeEventListener(IOErrorEvent.IO_ERROR,				_onLoadHandler);
 			query.removeEventListener(SecurityErrorEvent.SECURITY_ERROR,	_onLoadHandler);
@@ -172,44 +177,57 @@ package onyx.file {
 		/**
 		 * 	@private
 		 */
+		private static function _queryPlugins(lookup:String):void {
+			
+			var list:FolderList = new FolderList(lookup);
+			var files:Array		= list.files;
+			var type:String		= lookup.substr(13, lookup.length);
+			
+			var file:File, plugin:Plugin;
+			
+			switch (type) {
+				
+				// return cameras
+				case 'cameras':
+
+					var plugins:Array = AVAILABLE_CAMERAS;
+
+					for each (var name:String in plugins) {
+						
+						file = new File(ONYX_QUERYSTRING + 'camera://' + name, null);
+						files.push(file);
+					}
+					
+					break;
+				
+				// return visualizers
+				case 'visualizers':
+				
+					plugins = Visualizer.visualizers;
+					
+					for each (plugin in plugins) {
+						file = new File(ONYX_QUERYSTRING + 'visualizer://' + plugin.name, null);
+						files.push(file);
+					}
+				
+					break;
+			}
+
+			// save the cache
+			_cache[lookup] = list;
+		}
+		
+		/**
+		 * 	@private
+		 */
 		private static function doCallBack(list:FolderList, callback:Function, filter:FileFilter = null):void {
 			
 			if (filter && list) {
 				var list:FolderList = list.clone(filter);
 			}
 			
-			callback.apply(null, [list]);
+			// call the callback
+			callback(list);
 		}
-		
-		/**
-		 * 	@private
-		 */
-		private static function _getCameras():void {
-			
-			var list:FolderList = new FolderList('__cameras');
-			
-			var cameras:Array = Camera.names;
-			
-			var folder:Folder = new Folder(INITIAL_APP_DIRECTORY);
-			list.folders.push(folder);
-			
-			for each (var name:String in cameras) {
-				var file:File = new File(name + '.cam', null);
-				list.files.push(file);
-			}
-
-			// save the cache
-			_cache[list.path] = list;
-		}
-		
-		/**
-		 * 	Returns a folder list of cameras
-		 */
-		public static function getCameras():FolderList {
-			return _cache.cameras;
-		}
-		
-		// load initial cameras
-		_getCameras();
 	}
 }

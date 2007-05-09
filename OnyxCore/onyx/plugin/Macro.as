@@ -32,6 +32,7 @@ package onyx.plugin {
 	
 	import flash.utils.Dictionary;
 	
+	import onyx.constants.*;
 	import onyx.core.*;
 	
 	use namespace onyx_ns;
@@ -93,6 +94,13 @@ package onyx.plugin {
 		 * 	Terminates the macro
 		 */
 		public function terminate():void {
+		}
+		
+		/**
+		 * 
+		 */
+		override public function toString():String {
+			return ONYX_QUERYSTRING + 'macro://' + _plugin.name;
 		}
 	}
 }

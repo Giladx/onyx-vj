@@ -30,7 +30,7 @@
  */
 package onyx.core {
 	
-	public interface IRenderObject {
+	public interface IRenderObject extends IDisposable {
 		
 		function render():RenderTransform;
 		

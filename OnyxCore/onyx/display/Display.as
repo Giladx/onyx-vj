@@ -885,16 +885,20 @@ package onyx.display {
 		 * 	Returns the display as xml
 		 */
 		public function toXML():XML {
-			var xml:XML = <mix/>
+			
+			var xml:XML = <mix/>;
 
 			// add version metadata
 			var meta:XML = <metadata />
-			meta.appendChild(<version>{XML_FORMAT_VERSION}</version>);
+			meta.appendChild(<version>{VERSION}</version>);
+			meta.appendChild(<format>{XML_FORMAT_VERSION}</format>);
 			
 			xml.appendChild(meta);
 		
 			// add display xml
 			var display:XML = <display />;
+			
+			trace(_controls);
 			
 			// add background color
 			display.appendChild(<backgroundColor>{_backgroundColor}</backgroundColor>);

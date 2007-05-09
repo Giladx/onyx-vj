@@ -37,9 +37,13 @@ package onyx.utils.string {
 	 */
 	public function removeExtension(path:String):String {
 		
-		var start:int = max(path.lastIndexOf('//')+1,path.lastIndexOf('/')+1);
 		var end:int = path.lastIndexOf('.');
 		
-		return path.substr(start, end - start);
+		if (end) {
+			var start:int = max(path.lastIndexOf('//')+1,path.lastIndexOf('/')+1);
+			path.substr(start, end - start);
+		}
+		
+		return path;
 	}
 }

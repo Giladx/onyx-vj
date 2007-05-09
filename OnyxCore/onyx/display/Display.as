@@ -42,15 +42,11 @@ package onyx.display {
 	import onyx.controls.*;
 	import onyx.core.*;
 	import onyx.events.*;
-	import onyx.filter.*;
 	import onyx.jobs.*;
-	import onyx.layer.*;
-	import onyx.plugin.*;
-	import onyx.render.*;
-	import onyx.states.*;
-	import onyx.transition.*;
-	import onyx.utils.array.*;
 	import onyx.midi.Midi;
+	import onyx.plugin.*;
+	import onyx.states.*;
+	import onyx.utils.array.*;
 	
 	use namespace onyx_ns;
 	

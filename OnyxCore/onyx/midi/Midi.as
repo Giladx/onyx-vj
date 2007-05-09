@@ -39,7 +39,7 @@ package onyx.midi {
 	import onyx.display.Display;
 	import onyx.errors.*;
 	import onyx.events.*;
-	import onyx.layer.*;
+	import onyx.display.*;
 	import onyx.net.*;
 	import onyx.utils.math.*;
 

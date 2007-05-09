@@ -38,7 +38,7 @@ package onyx.plugin {
 		
 		/**
 		 * 	Returns a list of plugins inside the external swf
-		 * 	@see onyx.plugin.Plugin;  Please look at the basefilter example SWF project.
+		 * 	@see onyx.core.Plugin;  Please look at the basefilter example SWF project.
 		 */
 		function get plugins():Array;
 		

@@ -33,7 +33,7 @@ package onyx.events {
 	import flash.events.Event;
 	
 	import onyx.core.onyx_ns;
-	import onyx.filter.Filter;
+	import onyx.plugin.*;
 	
 	use namespace onyx_ns;
 

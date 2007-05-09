@@ -33,8 +33,8 @@ package onyx.events {
 	import flash.events.Event;
 	
 	import onyx.display.Display;
-	import onyx.layer.ILayer;
-	import onyx.layer.Layer;
+	import onyx.display.ILayer;
+	import onyx.display.Layer;
 
 	public final class DisplayEvent extends Event {
 		

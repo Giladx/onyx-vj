@@ -28,72 +28,89 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.macro {
+package onyx.content {
+
+	import flash.display.*;
+	import flash.events.*;
+	import flash.geom.*;
+	import flash.media.*;
+	import flash.utils.getTimer;
 	
-	import flash.utils.Dictionary;
-	
+	import onyx.constants.*;
+	import onyx.controls.*;
 	import onyx.core.*;
+	import onyx.display.*;
+	import onyx.events.*;
 	import onyx.plugin.*;
-	
+	import onyx.sound.*;
+	import onyx.utils.math.*;
+
 	use namespace onyx_ns;
-
-	/**
-	 * 
-	 */
-	public class Macro extends PluginBase {
-
-		/**
-		 * 	@private
-		 * 	Stores definitions
-		 */
-		private static var _definition:Object	= new Object();
+	
+	[ExcludeClass]
+	public final class ContentPlugin extends Content {
 		
 		/**
 		 * 	@private
 		 */
-		onyx_ns static var _macros:Array		= [];
-		
-		/**
-		 * 	Registers a plugin
-		 */
-		onyx_ns static function registerPlugin(plugin:Plugin, index:int = -1):void {
-			if (!_definition[plugin.name]) {
-				_definition[plugin.name] = plugin;
-				plugin._parent = _macros;
-				_macros.splice(index || _macros.length - 1, 0, plugin);
-			}
-		}
+		private var _render:IRenderObject;
 
-		/**
-		 * 	Returns a definition
-		 */
-		public static function getDefinition(name:String):Plugin {
-			return _definition[name];
-		}
-		
-		/**
-		 * 	Returns a list of plugins of all filters registered
-		 */
-		public static function get macros():Array {
-			return _macros.concat();
-		}
-		
+
 		/**
 		 * 	@constructor
 		 */
-		public function Macro():void {
+		public function ContentPlugin(layer:Layer, path:String, renderable:IRenderObject):void {
+			
+			_render = renderable;
+			
+			// add a control for the visualizer
+			_controls = new Controls(this);
+			
+			super(layer, path, null);
 		}
 		
 		/**
-		 * 	Initializes the macro
+		 * 	Updates the bimap source
 		 */
-		public function initialize():void {
+		override public function render():RenderTransform {
+	
+			var content:IRenderObject			= _render as IRenderObject;
+			var transform:RenderTransform		= content.render();
+			var drawContent:IBitmapDrawable		= transform.content || _content;
+			
+			// render content
+			renderContent(_source, drawContent, transform, _filter);
+			
+			// render filters
+			renderFilters(_source, _rendered, _filters);
+						
+			// return transformation
+			return transform;
+			
 		}
 		
 		/**
-		 * 	Terminates the macro
+		 * 	
 		 */
-		public function terminate():void {
+		override public function get time():Number {
+			return 0;
+		}
+		
+		/**
+		 * 	
+		 */
+		override public function set time(value:Number):void {
+		}
+		
+		/**
+		 * 	Dispose
+		 */
+		override public function dispose():void {
+
+			_render = null;
+			
+			super.dispose();
+
 		}
 	}
 }

@@ -34,11 +34,10 @@ package onyx.content {
 	import flash.events.Event;
 	import flash.geom.Matrix;
 	
-	import onyx.controls.Control;
-	import onyx.controls.Controls;
+	import onyx.controls.*;
 	import onyx.core.*;
-	import onyx.filter.Filter;
-	import onyx.render.*;
+	import onyx.display.*;
+	import onyx.plugin.*;
 
 	[ExcludeClass]
 	public final class ContentNull implements IContent {

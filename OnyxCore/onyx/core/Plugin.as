@@ -28,61 +28,101 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.macro{
+package onyx.core {
+
+	import onyx.utils.array.swap;
 	
-	import flash.events.Event;
+	use namespace onyx_ns;
 	
 	/**
-	 * 	Manager class that loads and removes macros
+	 * 	Base class for external files
 	 */
-	public final class MacroManager {
+	public final class Plugin {
+		
+		/**
+		 * 	Stores the name for the plug-in
+		 */
+		public var name:String;
 		
 		/**
 		 * 	@private
-		 * 	Stores macros	
+		 * 	Class definition for the object
 		 */
-		private static var _macros:Array			= [];
-
+		onyx_ns var _definition:Class;
+		
 		/**
-		 * 	Loads an application macro
+		 * 	@private
+		 * 	The parent global array used by Onyx to get filter indices
 		 */
-		public static function loadMacro(macro:Macro):void {
+		onyx_ns var _parent:Array;
+		
+		/**
+		 * 	Stores the description for the plug-in (for use in UI)
+		 */
+		public var description:String;
+		
+		/**
+		 * 	@private
+		 * 	Store metadata about the plugin
+		 */
+		private var metadata:Object;
+		
+		/**
+		 * 	@constructor
+		 */
+		public function Plugin(name:String, definition:Class, description:String):void {
 
-			_macros.push(macro);
-			macro.initialize();
+			this.name			= name,
+			this.description	= description,
+			_definition			= definition;
 
 		}
 		
 		/**
-		 * 	Removes an application macro
+		 * 	Returns a new object based on the plugin definition
 		 */
-		public static function removeMacro(macro:Macro):void {
+		public function getDefinition():PluginBase {
 			
-			// destroy
-			macro.terminate();
+			var obj:PluginBase	= new _definition() as PluginBase;
 			
-			// remove macro
-			_macros.splice(_macros.indexOf(macro), 1);
+			obj._plugin			= this,
+			obj._name			= name;
 			
-			// dispatch an event
-			macro.dispatchEvent(new Event(Event.COMPLETE));
-			
+			return obj;
 		}
 		
 		/**
-		 * 	Returns macro matches
+		 * 	Registers metadata with the object
 		 */
-		public static function getmacros(type:Class):Array {
-			
-			var matches:Array = [];
-			
-			for each (var macro:Macro in _macros) {
-				if (macro is type) {
-					matches.push(type);
-				}
+		public function registerData(name:String, value:*):void {
+			if (!metadata) {
+				metadata = new Object();
 			}
-			
-			return matches;
+			metadata[name] = value;
 		}
+		
+		/**
+		 * 	Gets metadata for the object
+		 */
+		public function getData(name:String):* {
+			return (metadata) ? metadata[name] : null;
+		}
+		
+		/**
+		 * 	Gets the index
+		 */
+		public function get index():int {
+			return _parent.indexOf(this);
+		}
+		
+		/**
+		 * 	Sets the index
+		 */
+		public function set index(value:int):void {
+			
+			// from utils package
+			swap(_parent, this, value);
+		}		
+
 	}
 }

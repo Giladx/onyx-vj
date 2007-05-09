@@ -36,18 +36,16 @@ package onyx.content {
 	import flash.utils.*;
 	
 	import onyx.constants.*;
-	import onyx.utils.math.*;
 	import onyx.controls.*;
 	import onyx.core.*;
+	import onyx.display.*;
 	import onyx.errors.*;
 	import onyx.events.FilterEvent;
-	import onyx.filter.*;
-	import onyx.layer.*;
 	import onyx.plugin.*;
-	import onyx.render.*;
 	import onyx.settings.*;
 	import onyx.tween.*;
 	import onyx.utils.array.*;
+	import onyx.utils.math.*;
 	
 	[Event(name="filter_applied",	type="onyx.events.FilterEvent")]
 	[Event(name="filter_removed",	type="onyx.events.FilterEvent")]

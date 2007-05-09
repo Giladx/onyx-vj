@@ -36,8 +36,8 @@ package onyx.content {
 	
 	import onyx.controls.*;
 	import onyx.core.*;
-	import onyx.filter.*;
-	import onyx.render.*;
+	import onyx.display.*;
+	import onyx.plugin.*;
 
 	[Event(name="filter_applied",	type="onyx.events.FilterEvent")]
 	[Event(name="filter_removed",	type="onyx.events.FilterEvent")]

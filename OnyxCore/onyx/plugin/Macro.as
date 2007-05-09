@@ -28,66 +28,71 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.core {
+package onyx.plugin {
 	
-	import flash.events.IEventDispatcher;
+	import flash.utils.Dictionary;
 	
-	import onyx.plugin.*;
+	import onyx.core.*;
 	
+	use namespace onyx_ns;
+
 	/**
-	 * 	Base interface for DisplayObject interface as well as tint, saturation etc
+	 * 
 	 */
-	public interface IColorObject extends IEventDispatcher {
+	public class Macro extends PluginBase {
+
+		/**
+		 * 	@private
+		 * 	Stores definitions
+		 */
+		private static var _definition:Object	= new Object();
 		
-		function set anchorX(value:int):void;
-		function get anchorX():int;
+		/**
+		 * 	@private
+		 */
+		onyx_ns static var _macros:Array		= [];
 		
-		function set anchorY(value:int):void;
-		function get anchorY():int;
+		/**
+		 * 	Registers a plugin
+		 */
+		onyx_ns static function registerPlugin(plugin:Plugin, index:int = -1):void {
+			if (!_definition[plugin.name]) {
+				_definition[plugin.name] = plugin;
+				plugin._parent = _macros;
+				_macros.splice(index || _macros.length - 1, 0, plugin);
+			}
+		}
+
+		/**
+		 * 	Returns a definition
+		 */
+		public static function getDefinition(name:String):Plugin {
+			return _definition[name];
+		}
 		
-		function set color(value:uint):void;
-		function get color():uint;
-
-		function get alpha():Number;
-		function set alpha(value:Number):void;
-
-		function get brightness():Number;
-		function set brightness(value:Number):void;
-
-		function get contrast():Number;
-		function set contrast(value:Number):void;
-
-		function get scaleX():Number;
-		function set scaleX(value:Number):void;
-
-		function get scaleY():Number;
-		function set scaleY(value:Number):void;
-
-		function get rotation():Number;
-		function set rotation(value:Number):void;
-
-		function get saturation():Number;
-		function set saturation(value:Number):void;
-
-		function get threshold():int;
-		function set threshold(value:int):void;
-
-		function get tint():Number;
-		function set tint(value:Number):void;
-
-		function get x():Number;
-		function set x(value:Number):void;
-
-		function get y():Number;
-		function set y(value:Number):void;
+		/**
+		 * 	Returns a list of plugins of all filters registered
+		 */
+		public static function get macros():Array {
+			return _macros.concat();
+		}
 		
-		function get blendMode():String;
-		function set blendMode(value:String):void;
+		/**
+		 * 	@constructor
+		 */
+		public function Macro():void {
+		}
 		
-		function get visible():Boolean;
-		function set visible(value:Boolean):void;
+		/**
+		 * 	Initializes the macro
+		 */
+		public function initialize():void {
+		}
 		
-		function pause(b:Boolean = true):void;
-		
+		/**
+		 * 	Terminates the macro
+		 */
+		public function terminate():void {
+		}
 	}
 }

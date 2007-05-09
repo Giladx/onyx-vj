@@ -31,12 +31,9 @@
 package onyx.core {
 
 	import onyx.constants.VERSION;
-	import onyx.display.Display;
-	import onyx.filter.Filter;
+	import onyx.display.*;
 	import onyx.jobs.StatJob;
-	import onyx.layer.ILayer;
-	import onyx.sound.Visualizer;
-	import onyx.transition.Transition;
+	import onyx.plugin.*;
 	
 	use namespace onyx_ns;
 

@@ -35,11 +35,9 @@ package onyx.jobs {
 	import flash.utils.Timer;
 	
 	import onyx.core.*;
-	import onyx.display.Display;
-	import onyx.display.IDisplay;
+	import onyx.display.*;
 	import onyx.jobs.onx.LayerLoadSettings;
-	import onyx.layer.*;
-	import onyx.transition.Transition;
+	import onyx.plugin.*;
 	
 	public final class LoadONXJob extends Job implements IDisposable {
 		

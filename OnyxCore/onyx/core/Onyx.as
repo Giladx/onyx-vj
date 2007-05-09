@@ -38,17 +38,14 @@ package onyx.core {
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
-	import onyx.display.Display;
+	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.file.*;
-	import onyx.filter.*;
-	import onyx.layer.*;
 	import onyx.macro.*;
 	import onyx.midi.*;
 	import onyx.plugin.*;
 	import onyx.sound.*;
 	import onyx.states.*;
-	import onyx.transition.*;
 	
 	use namespace onyx_ns;
 	

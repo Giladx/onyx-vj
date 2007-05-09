@@ -35,10 +35,10 @@ package onyx.jobs {
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
 	
+	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.jobs.onx.LayerLoadSettings;
-	import onyx.layer.*;
-	import onyx.transition.Transition;
+	import onyx.plugin.*;
 	
 	/**
 	 * 	Staggers loading of a mix file

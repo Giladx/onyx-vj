@@ -30,6 +30,31 @@
  */
 package onyx.display {
 	
-	public class RemoteDisplay {
+	import flash.display.BitmapData;
+	import flash.events.IEventDispatcher;
+	
+	import onyx.content.IContent;
+	import onyx.controls.*;
+	import onyx.core.*;
+	import onyx.plugin.*;
+	
+	[Event(name="filter_applied",	type="onyx.events.FilterEvent")]
+	[Event(name="filter_removed",	type="onyx.events.FilterEvent")]
+	[Event(name="filter_moved",		type="onyx.events.FilterEvent")]
+	[Event(name="layer_loaded",		type="onyx.events.LayerEvent")]
+	[Event(name="layer_moved",		type="onyx.events.LayerEvent")]
+	[Event(name="progress",			type="flash.events.Event")]
+
+	public interface ILayer extends IContent {
+
+		function get index():int;
+		function get properties():Controls;
+		function get display():IDisplay;
+
+		function copyLayer():void;
+		function moveLayer(index:int):void;
+
+		function load(path:String, settings:LayerSettings = null, transition:Transition = null):void;
+
 	}
 }

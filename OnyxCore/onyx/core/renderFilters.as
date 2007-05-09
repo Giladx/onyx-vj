@@ -30,64 +30,26 @@
  */
 package onyx.core {
 	
-	import flash.events.IEventDispatcher;
+	import flash.display.*;
+	import flash.geom.*;
 	
+	import onyx.constants.*;
+	import onyx.content.ColorFilter;
 	import onyx.plugin.*;
-	
+
 	/**
-	 * 	Base interface for DisplayObject interface as well as tint, saturation etc
+	 * 	Renders filters
 	 */
-	public interface IColorObject extends IEventDispatcher {
+	public function renderFilters(source:BitmapData, rendered:BitmapData, filters:FilterArray):void {
 		
-		function set anchorX(value:int):void;
-		function get anchorX():int;
+		// copy to the rendered bitmap
+		rendered.copyPixels(source, BITMAP_RECT, POINT);
 		
-		function set anchorY(value:int):void;
-		function get anchorY():int;
+		// render filters
+		filters.render(source);
 		
-		function set color(value:uint):void;
-		function get color():uint;
+		// copy pixels to the rendered bitmap
+		rendered.copyPixels(source, BITMAP_RECT, POINT);
 
-		function get alpha():Number;
-		function set alpha(value:Number):void;
-
-		function get brightness():Number;
-		function set brightness(value:Number):void;
-
-		function get contrast():Number;
-		function set contrast(value:Number):void;
-
-		function get scaleX():Number;
-		function set scaleX(value:Number):void;
-
-		function get scaleY():Number;
-		function set scaleY(value:Number):void;
-
-		function get rotation():Number;
-		function set rotation(value:Number):void;
-
-		function get saturation():Number;
-		function set saturation(value:Number):void;
-
-		function get threshold():int;
-		function set threshold(value:int):void;
-
-		function get tint():Number;
-		function set tint(value:Number):void;
-
-		function get x():Number;
-		function set x(value:Number):void;
-
-		function get y():Number;
-		function set y(value:Number):void;
-		
-		function get blendMode():String;
-		function set blendMode(value:String):void;
-		
-		function get visible():Boolean;
-		function set visible(value:Boolean):void;
-		
-		function pause(b:Boolean = true):void;
-		
-	}
+	}	
 }

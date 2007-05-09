@@ -33,7 +33,6 @@ package onyx.core {
 	import flash.events.EventDispatcher;
 	
 	import onyx.controls.*;
-	import onyx.plugin.Plugin;
 	
 	use namespace onyx_ns;
 

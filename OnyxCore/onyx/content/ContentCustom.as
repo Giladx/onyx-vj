@@ -39,8 +39,7 @@ package onyx.content {
 	import onyx.constants.*;
 	import onyx.controls.Controls;
 	import onyx.core.*;
-	import onyx.layer.*;
-	import onyx.render.*;
+	import onyx.display.*;
 	
 	[ExcludeClass]
 	public class ContentCustom extends Content {

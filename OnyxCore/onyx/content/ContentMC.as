@@ -38,10 +38,9 @@ package onyx.content {
 	import onyx.constants.*;
 	import onyx.controls.*;
 	import onyx.core.*;
+	import onyx.display.*;
 	import onyx.events.*;
-	import onyx.filter.*;
-	import onyx.layer.*;
-	import onyx.render.*;
+	import onyx.plugin.*;
 	import onyx.settings.*;
 	import onyx.utils.math.*;
 			

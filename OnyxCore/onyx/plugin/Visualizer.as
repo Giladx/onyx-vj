@@ -29,97 +29,73 @@
  * 
  */
 package onyx.plugin {
-
+	
+	import flash.display.BitmapData;
+	
+	import onyx.controls.Controls;
+	import onyx.controls.IControlObject;
 	import onyx.core.*;
-	import onyx.utils.array.swap;
+	import onyx.display.*;
 	
 	use namespace onyx_ns;
-	
-	/**
-	 * 	Base class for external files
-	 */
-	public final class Plugin {
 		
+	public class Visualizer extends PluginBase implements IRenderObject {
+
 		/**
-		 * 	Stores the name for the plug-in
+		 * 	@private
+		 * 	Stores definitions
 		 */
-		public var name:String;
+		private static var _definition:Object	= new Object();
 		
 		/**
 		 * 	@private
-		 * 	Class definition for the object
 		 */
-		onyx_ns var _definition:Class;
+		onyx_ns static var _visualizers:Array		= [];
 		
 		/**
-		 * 	@private
-		 * 	The parent global array used by Onyx to get filter indices
+		 * 	Registers a plugin
 		 */
-		onyx_ns var _parent:Array;
+		onyx_ns static function registerPlugin(plugin:Plugin):void {
+			
+			_definition[plugin.name] = plugin;
+			plugin._parent = _visualizers;
+			_visualizers.push(plugin);
+
+		}
+
+		/**
+		 * 	Returns a definition
+		 */
+		public static function getDefinition(name:String):Plugin {
+			return _definition[name];
+		}
 		
 		/**
-		 * 	Stores the description for the plug-in (for use in UI)
+		 * 
 		 */
-		public var description:String;
-		
-		/**
-		 * 	@private
-		 * 	Store metadata about the plugin
-		 */
-		private var metadata:Object;
-		
+		public static function get visualizers():Array {
+			return _visualizers.concat();
+		}
+				
 		/**
 		 * 	@constructor
 		 */
-		public function Plugin(name:String, definition:Class, description:String):void {
-
-			this.name = name;
-			this.description = description;
-			_definition = definition;
-
+		public function Visualizer(...controls:Array):void {
+			super.controls.addControl.apply(null, controls);
 		}
 		
 		/**
-		 * 	Returns a new object based on the plugin definition
+		 * 
 		 */
-		public function getDefinition():PluginBase {
-			var obj:PluginBase	= new _definition() as PluginBase;
-			obj._plugin			= this;
-			obj._name			= name;
-			
-			return obj;
+		public function render():RenderTransform {
+			return null;
 		}
 		
 		/**
-		 * 	Registers metadata with the object
+		 * 
 		 */
-		public function registerData(name:String, value:*):void {
-			if (!metadata) {
-				metadata = new Object();
-			}
-			metadata[name] = value;
+		override public function dispose():void {
 		}
 		
-		/**
-		 * 	Gets metadata for the object
-		 */
-		public function getData(name:String):* {
-			return (metadata) ? metadata[name] : null;
-		}
-		
-		/**
-		 * 	Gets the index
-		 */
-		public function get index():int {
-			return _parent.indexOf(this);
-		}
-		
-		/**
-		 * 	Sets the index
-		 */
-		public function set index(value:int):void {
-			swap(_parent, this, value);
-		}		
-
 	}
 }

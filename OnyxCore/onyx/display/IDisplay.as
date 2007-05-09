@@ -31,7 +31,6 @@
 package onyx.display {
 	
 	import onyx.content.IContent;
-	import onyx.layer.ILayer;
 	
 	public interface IDisplay extends IContent {
 

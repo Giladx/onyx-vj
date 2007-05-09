@@ -33,9 +33,9 @@ package onyx.events {
 	import flash.events.Event;
 	
 	import onyx.content.Content;
-	import onyx.layer.LayerSettings;
-	import onyx.transition.Transition;
-
+	import onyx.display.LayerSettings;
+	import onyx.plugin.*;
+	
 	[ExcludeClass]
 	public final class LayerContentEvent extends Event {
 		

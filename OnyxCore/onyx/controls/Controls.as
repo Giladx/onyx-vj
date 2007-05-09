@@ -30,13 +30,13 @@
  */
 package onyx.controls {
 	
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	import flash.utils.Dictionary;
 	
 	import onyx.core.onyx_ns;
 	import onyx.utils.string.parseBoolean;
-	import flash.events.Event;
 	
 	use namespace onyx_ns;
 

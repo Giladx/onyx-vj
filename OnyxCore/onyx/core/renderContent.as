@@ -30,64 +30,32 @@
  */
 package onyx.core {
 	
-	import flash.events.IEventDispatcher;
+	import flash.display.*;
+	import flash.geom.*;
 	
-	import onyx.plugin.*;
-	
+	import onyx.constants.*;
+	import onyx.content.ColorFilter;
+
 	/**
-	 * 	Base interface for DisplayObject interface as well as tint, saturation etc
+	 * 	Renders content
 	 */
-	public interface IColorObject extends IEventDispatcher {
+	public function renderContent(source:BitmapData, content:IBitmapDrawable, transform:RenderTransform, filter:ColorFilter):void {
 		
-		function set anchorX(value:int):void;
-		function get anchorX():int;
+		var matrix:Matrix, rect:Rectangle;
 		
-		function set anchorY(value:int):void;
-		function get anchorY():int;
+		matrix		= transform.matrix,
+		rect		= transform.rect;
 		
-		function set color(value:uint):void;
-		function get color():uint;
-
-		function get alpha():Number;
-		function set alpha(value:Number):void;
-
-		function get brightness():Number;
-		function set brightness(value:Number):void;
-
-		function get contrast():Number;
-		function set contrast(value:Number):void;
-
-		function get scaleX():Number;
-		function set scaleX(value:Number):void;
-
-		function get scaleY():Number;
-		function set scaleY(value:Number):void;
-
-		function get rotation():Number;
-		function set rotation(value:Number):void;
-
-		function get saturation():Number;
-		function set saturation(value:Number):void;
-
-		function get threshold():int;
-		function set threshold(value:int):void;
-
-		function get tint():Number;
-		function set tint(value:Number):void;
-
-		function get x():Number;
-		function set x(value:Number):void;
-
-		function get y():Number;
-		function set y(value:Number):void;
+		// fill our source with nothing
+		source.fillRect(BITMAP_RECT, 0x00000000);
 		
-		function get blendMode():String;
-		function set blendMode(value:String):void;
-		
-		function get visible():Boolean;
-		function set visible(value:Boolean):void;
-		
-		function pause(b:Boolean = true):void;
+		// draw our content
+		source.draw(content, matrix, filter, null, rect, true);
+
+		// apply the color filter to the source
+		source.applyFilter(source, BITMAP_RECT, POINT, filter.filter);
 		
 	}
+
+	
 }

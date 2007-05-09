@@ -36,8 +36,8 @@ package onyx.content {
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
-	import onyx.layer.*;
-	import onyx.render.*;
+	import onyx.core.*;
+	import onyx.display.*;
 	
 	[ExcludeClass]
 	public final class ContentCamera extends Content {

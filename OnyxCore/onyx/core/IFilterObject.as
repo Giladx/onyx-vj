@@ -28,24 +28,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.macro {
+package onyx.core {
 	
-	public final class MuteLayerMacro extends Macro {
+	import flash.events.IEventDispatcher;
+	
+	import onyx.controls.IControlObject;
+	import onyx.plugin.*;
+	
+	public interface IFilterObject extends IControlObject, IEventDispatcher {
 		
-		public function MuteLayerMacro():void {
-		}
-		
-		/**
-		 * 	Initializes the macro
-		 */
-		override public function initialize():void {
-		}
-		
-		/**
-		 * 	Terminates the macro
-		 */
-		override public function terminate():void {
-		}
-		
+		function get filters():Array;
+		function addFilter(filter:Filter):void;
+		function removeFilter(filter:Filter):void;
+		function getFilterIndex(filter:Filter):int;
+		function moveFilter(filter:Filter, index:int):void;
+		function muteFilter(filter:Filter, toggle:Boolean = true):void;
+
 	}
 }

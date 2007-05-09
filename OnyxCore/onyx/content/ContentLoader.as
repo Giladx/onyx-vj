@@ -37,13 +37,11 @@ package onyx.content {
 	import flash.utils.getQualifiedClassName;
 	
 	import onyx.core.*;
-	import onyx.display.Display;
+	import onyx.display.*;
 	import onyx.events.LayerContentEvent;
-	import onyx.layer.LayerSettings;
 	import onyx.net.*;
-	import onyx.render.*;
+	import onyx.plugin.*;
 	import onyx.settings.*;
-	import onyx.transition.Transition;
 	import onyx.utils.string.*;
 
 	[Event(name='complete',			type='flash.events.Event')]

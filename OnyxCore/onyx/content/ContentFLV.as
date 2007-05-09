@@ -39,10 +39,9 @@ package onyx.content {
 	import onyx.constants.*;
 	import onyx.controls.Controls;
 	import onyx.core.*;
-	import onyx.layer.*;
+	import onyx.display.*;
 	import onyx.net.Connection;
 	import onyx.net.Stream;
-	import onyx.render.*;
 
 
 	[ExcludeClass]

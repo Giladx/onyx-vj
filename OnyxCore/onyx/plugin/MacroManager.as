@@ -28,66 +28,61 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.core {
+package onyx.plugin {
 	
-	import flash.events.IEventDispatcher;
-	
-	import onyx.plugin.*;
+	import flash.events.Event;
 	
 	/**
-	 * 	Base interface for DisplayObject interface as well as tint, saturation etc
+	 * 	Manager class that loads and removes macros
 	 */
-	public interface IColorObject extends IEventDispatcher {
+	public final class MacroManager {
 		
-		function set anchorX(value:int):void;
-		function get anchorX():int;
+		/**
+		 * 	@private
+		 * 	Stores macros	
+		 */
+		private static var _macros:Array			= [];
+
+		/**
+		 * 	Loads an application macro
+		 */
+		public static function loadMacro(macro:Macro):void {
+
+			_macros.push(macro);
+			macro.initialize();
+
+		}
 		
-		function set anchorY(value:int):void;
-		function get anchorY():int;
+		/**
+		 * 	Removes an application macro
+		 */
+		public static function removeMacro(macro:Macro):void {
+			
+			// destroy
+			macro.terminate();
+			
+			// remove macro
+			_macros.splice(_macros.indexOf(macro), 1);
+			
+			// dispatch an event
+			macro.dispatchEvent(new Event(Event.COMPLETE));
+			
+		}
 		
-		function set color(value:uint):void;
-		function get color():uint;
-
-		function get alpha():Number;
-		function set alpha(value:Number):void;
-
-		function get brightness():Number;
-		function set brightness(value:Number):void;
-
-		function get contrast():Number;
-		function set contrast(value:Number):void;
-
-		function get scaleX():Number;
-		function set scaleX(value:Number):void;
-
-		function get scaleY():Number;
-		function set scaleY(value:Number):void;
-
-		function get rotation():Number;
-		function set rotation(value:Number):void;
-
-		function get saturation():Number;
-		function set saturation(value:Number):void;
-
-		function get threshold():int;
-		function set threshold(value:int):void;
-
-		function get tint():Number;
-		function set tint(value:Number):void;
-
-		function get x():Number;
-		function set x(value:Number):void;
-
-		function get y():Number;
-		function set y(value:Number):void;
-		
-		function get blendMode():String;
-		function set blendMode(value:String):void;
-		
-		function get visible():Boolean;
-		function set visible(value:Boolean):void;
-		
-		function pause(b:Boolean = true):void;
-		
+		/**
+		 * 	Returns macro matches
+		 */
+		public static function getmacros(type:Class):Array {
+			
+			var matches:Array = [];
+			
+			for each (var macro:Macro in _macros) {
+				if (macro is type) {
+					matches.push(type);
+				}
+			}
+			
+			return matches;
+		}
 	}
 }

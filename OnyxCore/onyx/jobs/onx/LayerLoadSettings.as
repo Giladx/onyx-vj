@@ -30,8 +30,8 @@
  */
 package onyx.jobs.onx {
 	
-	import onyx.layer.Layer;
-	import onyx.layer.LayerSettings;
+	import onyx.display.Layer;
+	import onyx.display.LayerSettings;
 
 	[ExcludeClass]
 	public final class LayerLoadSettings {

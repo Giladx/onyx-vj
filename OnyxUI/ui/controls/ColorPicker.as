@@ -30,10 +30,10 @@
  */
 package ui.controls {
 	
-	import flash.display.Graphics;
-	import flash.display.Shape;
+	import flash.display.*;
 	import flash.events.MouseEvent;
-	import flash.geom.ColorTransform;
+	import flash.geom.*;
+	import flash.utils.*;
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
@@ -43,6 +43,16 @@ package ui.controls {
 	import ui.core.UIObject;
 
 	public final class ColorPicker extends UIControl {
+		
+		/**
+		 * 	@private
+		 */
+		private static const STAGE_COLOR:BitmapData = new BitmapData(1,1, false);
+		
+		/**
+		 * 
+		 */
+		private static const RECT:Rectangle			= new Rectangle(0, 0, 1, 1);
 		
 		/**
 		 * 	@private
@@ -78,6 +88,7 @@ package ui.controls {
 			useHandCursor	= true;
 			buttonMode		= true;
 			mouseChildren	= false;
+
 		}
 		
 		/**
@@ -86,7 +97,6 @@ package ui.controls {
 		private function _draw(width:int, height:int):void {
 			
 			var graphics:Graphics = _preview.graphics;
-			
 			graphics.beginFill(0x000000);
 			graphics.drawRect(1, 1, width - 1, height - 1);
 			graphics.endFill();
@@ -121,16 +131,34 @@ package ui.controls {
 		private function _onMouseMove(event:MouseEvent):void {
 			
 			var transform:ColorTransform = new ColorTransform();
+			var picker:Picker	= _picker;
 			
-			_lastX = min(max(_picker.mouseX,0),99);
-			_lastY = min(max(_picker.mouseY,0),99);
+			// first, check to see if we're hitting the picker, if so, grab the pixel directly
+			if (_picker.mouseX > 0 && _picker.mouseX < 100 && _picker.mouseY > 0 && _picker.mouseY < 100) {
+				picker.alpha			= 1;
+				picker.cursor.visible	= true;
+				var color:uint			= picker.asset.bitmapData.getPixel(_lastX, _lastY);
+				
+				_lastX = min(max(picker.mouseX,0),99);
+				_lastY = min(max(picker.mouseY,0),99);
 
-			_picker.cursor.x = _lastX;
-			_picker.cursor.y = _lastY;
-			
-			transform.color = _picker.asset.bitmapData.getPixel(_lastX, _lastY);
-			
-			control as ControlUInt
+				picker.cursor.x = _lastX;
+				picker.cursor.y = _lastY;
+				
+			} else {
+				
+				picker.alpha			= .3;
+				picker.cursor.visible	= false;
+
+				var matrix:Matrix		= new Matrix();
+				matrix.translate(-STAGE.mouseX, -STAGE.mouseY);
+
+				STAGE_COLOR.draw(STAGE, matrix, null, null, RECT);
+				color = STAGE_COLOR.getPixel(0,0);
+
+			}
+						
+			transform.color = color;
 			_control.value = transform.color;
 			_preview.transform.colorTransform = transform;
 			
@@ -167,7 +195,8 @@ package ui.controls {
 
 import flash.display.Sprite;
 import ui.assets.AssetColorPicker;
-import flash.display.Shape;	
+import flash.display.Shape;
+import flash.geom.ColorTransform;	
 
 /**
  *
@@ -188,6 +217,7 @@ final class Picker extends Sprite {
 		cursor.graphics.lineStyle(0, 0x000000);
 		cursor.graphics.drawRect(0,0,2,2);
 		
-		mouseEnabled = false;
+		mouseEnabled	= false;
+		tabEnabled		= false;
 	}
 }

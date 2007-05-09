@@ -48,12 +48,12 @@ package ui.controls.layer {
 		/**
 		 * 
 		 */
-		public static const LAYER_VISIBLE:BitmapData	= new AssetEyeIcon().bitmapData;
+		public static const LAYER_VISIBLE:BitmapData	= new AssetEyeIcon();
 		
 		/**
 		 * 
 		 */
-		private static const LAYER_DISABLED:BitmapData	= new AssetEyeIconDisabled().bitmapData;
+		private static const LAYER_DISABLED:BitmapData	= new AssetEyeIconDisabled();
 		
 		/**
 		 * 	@private

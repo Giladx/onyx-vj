@@ -31,8 +31,7 @@
 package ui.controls.browser {
 	
 	import flash.display.*;
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
+	import flash.events.*;
 	import flash.filters.DropShadowFilter;
 	import flash.net.URLRequest;
 	import flash.text.TextFormat;
@@ -58,17 +57,12 @@ package ui.controls.browser {
 		/**
 		 * 	@private
 		 */
-		private var _label:TextField	= new TextField(46, 35,	TEXT_DEFAULT_CENTER);
+		private var _label:TextField			= new TextField(46, 35,	TEXT_DEFAULT_CENTER);
 
 		/**
 		 * 	@private
 		 */
-		private var _button:ButtonClear	= new ButtonClear(47, 36);
-
-		/**
-		 * 	@private
-		 */
-		private var _loader:Loader;
+		private var _button:ButtonClear			= new ButtonClear(47, 36);
 
 		/**
 		 * 	@private
@@ -78,47 +72,27 @@ package ui.controls.browser {
 		/**
 		 * 	@constructor
 		 */
-		public function FileControl(file:File):void {
+		public function FileControl(file:File, thumbnail:DisplayObject = null):void {
 			
+			// store file
 			_file = file;
 			
-			var path:String = file.path;
-			
-			// add label
-			_label.wordWrap = true,
-			_label.text = FileBrowser.getFileName(path),
-			_label.filters = DROP_SHADOW;
-
-			if (_file.thumbnail) {
-				
-				// if it's a displayobject, add it directly
-				if (_file.thumbnail is DisplayObject) {
-					
-					var thumbnail:DisplayObject = addChild(_file.thumbnail as DisplayObject);
-				
-				// it's a string, so load it
-				} else if (_file.thumbnail is String) {
-					_loader = new Loader();
-					_loader.load(new URLRequest(_file.thumbnail as String));
-					_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, _handler);
-					_loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, _handler);
-					
-					_loader.x = 1,
-					_loader.y = 1;
-	
-					addChild(_loader);
-				}
+			if (thumbnail) {
+				addChild(thumbnail);
 			}
 			
-			doubleClickEnabled = true;
-
+			// add label
+			_label.wordWrap 	= true,
+			_label.text			= FileBrowser.getFileName(path),
+			_label.filters		= DROP_SHADOW,
+			_label.y			= 1,
+			doubleClickEnabled	= true;
+			
 			addChild(_label);
 			addChild(_button);
 			
-			// performance increase
-			var graphics:Graphics = this.graphics;
-
 			// draw border
+			var graphics:Graphics = this.graphics;
 			graphics.beginFill(0x647789);
 			graphics.drawRect(0,0,48,37);
 			graphics.endFill();
@@ -152,6 +126,8 @@ package ui.controls.browser {
 			_button	= null,
 			_label	= null,
 			_file	= null;
+			
+			super.dispose();
 		}
 	}
 }

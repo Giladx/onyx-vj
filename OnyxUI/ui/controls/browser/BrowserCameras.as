@@ -50,7 +50,7 @@ package ui.controls.browser {
 			displayBackground(width, height);
 			
 			// add a label
-			addLabel(name.toUpperCase(), width, height, 1);
+			addLabel(name.toUpperCase(), width + 3, height, 1);
 
 			// add a button
 			var sprite:DisplayObject = addChild(new AssetIconCamera());

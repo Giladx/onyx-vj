@@ -30,11 +30,11 @@
  */
 package ui.window {
 	
-	import flash.display.Loader;
-	import flash.events.MouseEvent;
-	import flash.media.Camera;
+	import flash.display.*;
+	import flash.events.*;
+	import flash.net.URLRequest;
 	
-	import onyx.core.*;
+	import onyx.constants.*;
 	import onyx.display.LayerSettings;
 	import onyx.file.*;
 	import onyx.plugin.*;
@@ -54,38 +54,49 @@ package ui.window {
 	 * 	File Explorer
 	 */
 	public final class Browser extends Window {
+		
+		/**
+		 * 	@private
+		 * 	Handles thumbnail events
+		 */
+		private static function _handleThumbnail(event:Event):void {
+			var loader:LoaderInfo = event.currentTarget as LoaderInfo;
+			loader.removeEventListener(Event.COMPLETE, _handleThumbnail);
+			loader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, _handleThumbnail);
+			loader.removeEventListener(IOErrorEvent.IO_ERROR, _handleThumbnail);
+			
+			// do nothing
+		}
+		
+		/** @private **/
+		private static const CAMERA_ICON:BitmapData		= new AssetCamera();
+		
+		/** @private **/
+		private static const VISUALIZER_ICON:BitmapData	= new AssetVisualizer();
 
-		/**
-		 * 	@private
-		 */
-		private static const FILES_PER_ROW:int	= 6;
+		/** @private **/
+		private static const FILES_PER_ROW:int			= 6;
 		
-		/**
-		 * 	@private
-		 */
-		private static const FILE_WIDTH:int		= 49;
+		/** @private **/
+		private static const FILE_WIDTH:int				= 49;
 		
-		/**
-		 * 	@private
-		 */
-		private static const FILE_HEIGHT:int	= 38;
+		/** @private **/
+		private static const FILE_HEIGHT:int			= 38;
 		
-		/**
-		 * 	@private
-		 */
-		private static const FOLDER_HEIGHT:int	= 10;
+		/** @private **/
+		private static const FOLDER_HEIGHT:int			= 10;
 		
 		/**
 		 * 	@private
 		 * 	Holds the file objects
 		 */
-		private var _files:ScrollPane				= new ScrollPane(300, 210);
+		private var _files:ScrollPane					= new ScrollPane(300, 210);
 		
 		/**
 		 * 	@private
 		 * 	Holds the folder objects
 		 */
-		private var _folders:ScrollPane				= new ScrollPane(91, 173, null, true);
+		private var _folders:ScrollPane					= new ScrollPane(91, 173, null, true);
 		
 		/**
 		 * 	@private
@@ -100,12 +111,12 @@ package ui.window {
 		private var _buttonCameras:BrowserCameras;
 		
 		/**
-		 * 
+		 * 	@private
 		 */
 		private var _buttonVisualizers:BrowserVisualizers;
 		
 		/**
-		 * 
+		 * 	@private
 		 */
 		private var _path:String;
 		
@@ -146,7 +157,7 @@ package ui.window {
 			addChild(_buttonVisualizers);
 			
 			// query default folder
-			FileBrowser.query(FileBrowser.initialDirectory + INITIAL_APP_DIRECTORY, _onReceive, new SWFFilter());
+			FileBrowser.query(FileBrowser.initialDirectory + INITIAL_APP_DIRECTORY, _updateList, new SWFFilter());
 		}
 		
 		/**
@@ -158,18 +169,35 @@ package ui.window {
 				case _buttonFiles:
 				
 					if (_path !== FileBrowser.initialDirectory + INITIAL_APP_DIRECTORY) {
-						FileBrowser.query(FileBrowser.initialDirectory + INITIAL_APP_DIRECTORY, _onReceive, new SWFFilter());
+						FileBrowser.query(FileBrowser.initialDirectory + INITIAL_APP_DIRECTORY, _updateList, new SWFFilter());
 					}
 					
 					break;
 				case _buttonCameras:
 				
-					// TBD: Remove this from the filebrowser
-					FileBrowser.query('__cameras', _onReceive, new SWFFilter());
+					FileBrowser.query(ONYX_QUERYSTRING + 'query://cameras', _updateCamera);
+					
 					break;
 				case _buttonVisualizers:
+				
+					FileBrowser.query(ONYX_QUERYSTRING + 'query://visualizers', _updateVisualizer);
+				
 					break;
 			}
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function _updateCamera(list:FolderList):void {
+			_updateList(list, CAMERA_ICON);
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function _updateVisualizer(list:FolderList):void {
+			_updateList(list, VISUALIZER_ICON);
 		}
 		
 		/**
@@ -200,7 +228,7 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
-		private function _onReceive(list:FolderList):void {
+		private function _updateList(list:FolderList, defaultThumb:BitmapData = null):void {
 			
 			_path = list.path;
 			
@@ -220,7 +248,7 @@ package ui.window {
 
 				var folder:Folder = folders[index];
 				
-				var foldercontrol:FolderControl = new FolderControl(folder, folder.path.length < list.path.length);
+				var foldercontrol:FolderControl = new FolderControl(folder, false);
 				foldercontrol.addEventListener(MouseEvent.MOUSE_DOWN, _onFolderDown);
 				_folders.addChild(foldercontrol);
 				
@@ -234,7 +262,33 @@ package ui.window {
 			
 			for each (var file:File in list.files) {
 				
-				var control:FileControl = new FileControl(file);
+				var thumbnail:DisplayObject;
+				
+				// check for a default thumbnail
+				if (defaultThumb) {
+					
+					var bitmap:Bitmap	= new Bitmap(defaultThumb);
+					bitmap.x = bitmap.y = 1;
+					thumbnail			= bitmap;
+				
+				// check for loading thumbnail
+				} else if (file.thumbnail) {
+
+					var loader:Loader	= new Loader();
+					
+					// need to add listeners so errorevents don't hit the stage if thumbnail not found
+					loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, _handleThumbnail);
+					loader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR, _handleThumbnail);
+					loader.contentLoaderInfo.addEventListener(Event.COMPLETE, _handleThumbnail);
+					loader.x = loader.y = 1;
+					
+					// load the thumbnail					
+					loader.load(new URLRequest(file.thumbnail));
+					
+					thumbnail = loader;
+				}
+				
+				var control:FileControl = new FileControl(file, thumbnail);
 
 				// add it to the files scrollpane
 				_files.addChild(control);
@@ -243,7 +297,7 @@ package ui.window {
 				index = _files.getChildIndex(control);
 				
 				// position it
-				control.x = (index % FILES_PER_ROW) * FILE_WIDTH;
+				control.x = (index % FILES_PER_ROW) * FILE_WIDTH,
 				control.y = floor(index / FILES_PER_ROW) * FILE_HEIGHT;
 				
 				// start listening to start dragging
@@ -266,7 +320,8 @@ package ui.window {
 				settings.load(UILayer.selectedLayer.layer);
 			}
 			
-			UILayer.selectedLayer.load(control.path, settings);
+			// load
+			_loadFile(UILayer.selectedLayer, control.path, settings);
 		}
 		
 		/**
@@ -287,8 +342,7 @@ package ui.window {
 		private function _onFolderDown(event:MouseEvent):void {
 			var control:FolderControl = event.currentTarget as FolderControl;
 
-			FileBrowser.query(control.path, _onReceive, new SWFFilter());
-
+			FileBrowser.query(control.path, _updateList, new SWFFilter());
 		}
 		
 		/**
@@ -323,9 +377,18 @@ package ui.window {
 				var settings:LayerSettings = new LayerSettings();
 				settings.load(uilayer.layer);
 			}
-
-			uilayer.load(origin.path, settings);
-			UILayer.selectLayer(uilayer);
+			
+			_loadFile(uilayer, origin.path, settings);
+		}
+		
+		/**
+		 * 	@private
+		 * 	Load
+		 */
+		private function _loadFile(layer:UILayer, path:String, settings:LayerSettings):void {
+			
+			layer.load(path, settings);
+			UILayer.selectLayer(layer);
 		}
 	}
 }

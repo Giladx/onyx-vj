@@ -30,9 +30,13 @@
  */
 package ui.assets {
 	
-	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	
 	[Embed(source="/ui/assets/img/camera.png")]
-	public final class AssetCamera extends Bitmap {
+	public final class AssetCamera extends BitmapData {
+		
+		public function AssetCamera():void {
+			super(46, 35, false);
+		}
 	}
 }

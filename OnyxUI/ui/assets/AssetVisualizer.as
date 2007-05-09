@@ -28,35 +28,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package ui.controls.browser {
+package ui.assets {
 	
-	import ui.assets.*;
-	import ui.controls.*;
-	import ui.core.UIObject;
-	import flash.display.DisplayObject;
-
-	public final class BrowserFiles extends UIObject {
-
-		/**
-		 * 	@constsructor
-		 */
-		public function BrowserFiles(options:UIOptions, name:String):void {
-			
-			var width:int	= options.width;
-			var height:int	= options.height;
-
-			// create a background color			
-			displayBackground(width, height);
-			
-			// add a label
-			addLabel(name.toUpperCase(), width + 3, height, 1);
-
-			// add a button
-			var sprite:DisplayObject = addChild(new AssetFolder());
-			sprite.x = 3;
-			sprite.y = 2;
-			addChild(new ButtonClear(width, height));
-		}
+	import flash.display.BitmapData;
+	
+	[Embed(source="/ui/assets/img/visualizer.png")]
+	public final class AssetVisualizer extends BitmapData {
 		
+		public function AssetVisualizer():void {
+			super(46, 35, false);
+		}
 	}
 }

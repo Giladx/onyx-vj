@@ -224,13 +224,16 @@ package ui.window {
 			var bytes:ByteArray = new ByteArray();
 			bytes.writeUTFBytes(text);
 			
-			FileBrowser.save('test.mix', bytes, _onFileSaved);
+			FileBrowser.save('to clipboard', bytes, _onFileSaved);
 
 			event.stopPropagation();
 		}
 
+		/**
+		 * 	@private
+		 */
 		private function _onFileSaved(query:FileQuery):void {
-			trace('saved: ' + query.path);
+			// trace('saved: ' + query.path);
 		}
 	}
 }

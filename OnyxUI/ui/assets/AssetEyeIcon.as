@@ -28,11 +28,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package ui.assets
-{
-	import flash.display.Bitmap;
+package ui.assets {
+	
+	import flash.display.BitmapData;
 
 	[Embed(source="/ui/assets/img/eye_icon.png")]
-	public final class AssetEyeIcon extends Bitmap {
+	public final class AssetEyeIcon extends BitmapData {
+
+		public function AssetEyeIcon():void {
+			super(0,0,false);
+		}
+
 	}
 }

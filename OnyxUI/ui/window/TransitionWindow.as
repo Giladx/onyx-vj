@@ -30,16 +30,11 @@
  */
 package ui.window {
 	
-	import onyx.controls.ControlInt;
-	import onyx.controls.ControlPlugin;
-	import onyx.controls.ControlRange;
-	import onyx.controls.Controls;
-	import onyx.controls.IControlObject;
+	import onyx.controls.*;
 	import onyx.core.Onyx;
+	import onyx.display.Layer;
 	import onyx.events.TransitionEvent;
-	import onyx.layer.Layer;
-	import onyx.plugin.Plugin;
-	import onyx.transition.Transition;
+	import onyx.plugin.*;
 	
 	import ui.controls.*;
 	import ui.core.UIManager;

@@ -39,12 +39,10 @@ package ui.layer {
 	import onyx.constants.*;
 	import onyx.controls.*;
 	import onyx.core.Onyx;
+	import onyx.display.*;
 	import onyx.events.*;
-	import onyx.filter.Filter;
-	import onyx.layer.*;
-	import onyx.plugin.Plugin;
+	import onyx.plugin.*;
 	import onyx.states.StateManager;
-	import onyx.transition.Transition;
 	import onyx.utils.math.*;
 	import onyx.utils.string.*;
 	

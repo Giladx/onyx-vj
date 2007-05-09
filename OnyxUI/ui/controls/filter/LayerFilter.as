@@ -36,9 +36,9 @@ package ui.controls.filter {
 	import flash.utils.*;
 	
 	import onyx.core.*;
-	import onyx.filter.Filter;
-	import onyx.layer.*;
-	import onyx.plugin.Plugin;
+	import onyx.plugin.Filter;
+	import onyx.display.*;
+	import onyx.core.Plugin;
 	
 	import ui.assets.AssetLayerFilter;
 	import ui.controls.*;

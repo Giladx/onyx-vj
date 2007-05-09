@@ -30,7 +30,7 @@
  */
 package ui.core {
 	
-	import onyx.filter.Filter;
+	import onyx.plugin.Filter;
 	
 	public interface IFilterDrop {
 		

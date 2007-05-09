@@ -33,15 +33,12 @@ package ui.states {
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.geom.Rectangle;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
+	import flash.net.*;
 	
 	import onyx.constants.*;
 	import onyx.core.*;
-	import onyx.filter.Filter;
-	import onyx.macro.*;
 	import onyx.midi.Midi;
-	import onyx.plugin.Plugin;
+	import onyx.plugin.*;
 	import onyx.states.*;
 	import onyx.utils.string.parseBoolean;
 	

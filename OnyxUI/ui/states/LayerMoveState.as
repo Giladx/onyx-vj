@@ -34,7 +34,7 @@ package ui.states {
 	
 	import onyx.constants.*;
 	import onyx.controls.Control;
-	import onyx.layer.Layer;
+	import onyx.display.Layer;
 	import onyx.states.ApplicationState;
 	import onyx.states.StateManager;
 	

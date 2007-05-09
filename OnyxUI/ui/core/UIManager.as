@@ -35,13 +35,11 @@ package ui.core {
 	
 	import onyx.constants.*;
 	import onyx.core.Onyx;
-	import onyx.display.Display;
+	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.file.*;
-	import onyx.layer.*;
-	import onyx.plugin.Plugin;
+	import onyx.plugin.*;
 	import onyx.states.StateManager;
-	import onyx.transition.Transition;
 	
 	import ui.assets.*;
 	import ui.layer.UILayer;

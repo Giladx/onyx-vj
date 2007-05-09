@@ -33,7 +33,7 @@ package ui.controls.filter {
 	import flash.events.MouseEvent;
 	import flash.utils.Dictionary;
 	
-	import onyx.filter.Filter;
+	import onyx.plugin.Filter;
 	import onyx.states.StateManager;
 	
 	import ui.controls.ScrollPane;

@@ -34,8 +34,9 @@ package ui.layer {
 	import flash.events.MouseEvent;
 	import flash.geom.ColorTransform;
 	
+	import onyx.core.*;
 	import onyx.events.FilterEvent;
-	import onyx.filter.*;
+	import onyx.plugin.*;
 	
 	import ui.controls.filter.*;
 	import ui.controls.page.*;

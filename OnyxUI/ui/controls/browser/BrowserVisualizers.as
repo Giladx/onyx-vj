@@ -28,51 +28,39 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package ui.window {
-	
-	import flash.events.MouseEvent;
-	
-	import onyx.controls.*;
-	import onyx.core.*;
-	import onyx.plugin.*;
-	
-	/**
-	 * 	Macro window
-	 */
-	public final class MacroWindow extends Window implements IControlObject {
-		
-		private var _controls:Controls;
-		private var _action1:Plugin;
-		
-		/**
-		 * 	@constructor
-		 */
-		public function MacroWindow():void {
-			
-			_controls = new Controls(this,
-				new ControlRange('action1', 'action1', Macro.macros, 0)
-			);
-			
-			super('MACROS', 192, 200);
-		}
-		
-		/**
-		 * 
-		 */
-		public function get action1():Plugin {
-			return _action1;
-		}
-		
-		
-		/**
-		 * 
-		 */
-		public function set action1(value:Plugin):void {
-			_action1 = value;
-		}
+package ui.controls.browser {
 
-		public function get controls():Controls {
-			return _controls;
+	import flash.display.DisplayObject;
+	
+	import ui.assets.*;
+	import ui.controls.*;
+	import ui.core.UIObject;
+
+	/**
+	 * 
+	 */
+	public final class BrowserVisualizers extends UIObject {
+
+		/**
+		 * 	@constsructor
+		 */
+		public function BrowserVisualizers(options:UIOptions, name:String):void {
+			
+			var width:int	= options.width;
+			var height:int	= options.height;
+
+			// create a background color			
+			displayBackground(width, height);
+			
+			// add a label
+			addLabel(name.toUpperCase(), width, height, 1);
+
+			// add a button
+			var sprite:DisplayObject = addChild(new AssetIconVisualizer());
+			sprite.x = 3;
+			sprite.y = 2;
+
+			addChild(new ButtonClear(width, height));
 		}
 		
 	}

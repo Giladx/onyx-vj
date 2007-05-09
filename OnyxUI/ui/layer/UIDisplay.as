@@ -35,7 +35,7 @@ package ui.layer {
 	import onyx.controls.*;
 	import onyx.display.Display;
 	import onyx.events.FilterEvent;
-	import onyx.filter.Filter;
+	import onyx.plugin.Filter;
 	
 	import ui.assets.AssetDisplay;
 	import ui.controls.*;

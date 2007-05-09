@@ -36,7 +36,7 @@ package ui.states {
 	import flash.utils.*;
 	
 	import onyx.constants.ROOT;
-	import onyx.macro.Macro;
+	import onyx.plugin.*;
 	import onyx.states.ApplicationState;
 	
 	import ui.core.KeyDefinition;

@@ -34,7 +34,7 @@ package ui.window {
 	import onyx.core.Onyx;
 	import onyx.display.*;
 	import onyx.events.DisplayEvent;
-	import onyx.layer.ILayer;
+	import onyx.display.ILayer;
 	
 	import ui.controls.TextButton;
 	import ui.layer.UILayer;

@@ -30,8 +30,8 @@
  */
 package ui.controls.filter {
 
-	import onyx.filter.Filter;
-	import onyx.plugin.Plugin;
+	import onyx.core.Plugin;
+	import onyx.plugin.Filter;
 	
 	import ui.assets.AssetLayerFilterInactive;
 	import ui.controls.ButtonClear;

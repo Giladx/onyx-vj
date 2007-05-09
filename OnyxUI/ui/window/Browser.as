@@ -35,8 +35,9 @@ package ui.window {
 	import flash.media.Camera;
 	
 	import onyx.core.*;
+	import onyx.display.LayerSettings;
 	import onyx.file.*;
-	import onyx.layer.LayerSettings;
+	import onyx.plugin.*;
 	import onyx.settings.*;
 	import onyx.utils.math.*;
 	
@@ -84,7 +85,7 @@ package ui.window {
 		 * 	@private
 		 * 	Holds the folder objects
 		 */
-		private var _folders:ScrollPane				= new ScrollPane(91, 185, null, true);
+		private var _folders:ScrollPane				= new ScrollPane(91, 173, null, true);
 		
 		/**
 		 * 	@private
@@ -101,6 +102,11 @@ package ui.window {
 		/**
 		 * 
 		 */
+		private var _buttonVisualizers:BrowserVisualizers;
+		
+		/**
+		 * 
+		 */
 		private var _path:String;
 		
 		/**
@@ -110,30 +116,34 @@ package ui.window {
 			
 			super('loading ... ', 396, 222);
 			
-			var options:UIOptions	= new UIOptions();
-			options.width			= 90;
-			_buttonFiles			= new BrowserFiles(options, 'FILES');
-			_buttonCameras			= new BrowserCameras(options, 'CAMERAS')
+			var options:UIOptions		= new UIOptions();
+			options.width				= 90;
 			
-			_files.x = 2;
-			_files.y = 12;
+			_buttonFiles				= new BrowserFiles(options, 'FILES'),
+			_buttonCameras				= new BrowserCameras(options, 'CAMERAS'),
+			_buttonVisualizers			= new BrowserVisualizers(options, 'VISUALIZERS');
 			
-			_folders.x = 304;
-			_folders.y = 12;
-			
-			_buttonFiles.x		= 304;
-			_buttonFiles.y		= 198;
-			_buttonCameras.x	= 304;
-			_buttonCameras.y	= 210;
+			_files.x				= 2,
+			_files.y				= 12,
+			_folders.x				= 304,
+			_folders.y				= 12,
+			_buttonFiles.x			= 304,
+			_buttonFiles.y			= 186,
+			_buttonCameras.x		= 304,
+			_buttonCameras.y		= 198,
+			_buttonVisualizers.x	= 304,
+			_buttonVisualizers.y	= 210;
 			
 			// add handlers for buttons
 			_buttonFiles.addEventListener(MouseEvent.MOUSE_DOWN, _onFileDown);
 			_buttonCameras.addEventListener(MouseEvent.MOUSE_DOWN, _onFileDown);
+			_buttonVisualizers.addEventListener(MouseEvent.MOUSE_DOWN, _onFileDown);
 			
 			addChild(_folders);
 			addChild(_files);
 			addChild(_buttonFiles);
 			addChild(_buttonCameras);
+			addChild(_buttonVisualizers);
 			
 			// query default folder
 			FileBrowser.query(FileBrowser.initialDirectory + INITIAL_APP_DIRECTORY, _onReceive, new SWFFilter());
@@ -146,12 +156,18 @@ package ui.window {
 		private function _onFileDown(event:MouseEvent):void {
 			switch (event.currentTarget) {
 				case _buttonFiles:
+				
 					if (_path !== FileBrowser.initialDirectory + INITIAL_APP_DIRECTORY) {
 						FileBrowser.query(FileBrowser.initialDirectory + INITIAL_APP_DIRECTORY, _onReceive, new SWFFilter());
 					}
+					
 					break;
 				case _buttonCameras:
+				
+					// TBD: Remove this from the filebrowser
 					FileBrowser.query('__cameras', _onReceive, new SWFFilter());
+					break;
+				case _buttonVisualizers:
 					break;
 			}
 		}
@@ -162,6 +178,7 @@ package ui.window {
 		 */
 		private function _clearChildren():void {
 			
+			// clear our controls, etc
 			while (_files.numChildren) {
 				var control:FileControl = _files.removeChildAt(0) as FileControl;
 

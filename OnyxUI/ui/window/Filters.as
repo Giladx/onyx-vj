@@ -34,18 +34,17 @@ package ui.window {
 	import flash.events.MouseEvent;
 	
 	import onyx.core.Onyx;
+	import onyx.core.Plugin;
 	import onyx.events.FilterEvent;
-	import onyx.filter.Filter;
-	import onyx.plugin.Plugin;
+	import onyx.plugin.Filter;
 	
 	import ui.controls.ScrollPane;
 	import ui.controls.filter.LibraryFilter;
 	import ui.core.*;
 	import ui.events.DragEvent;
-	import ui.layer.UILayer;
+	import ui.layer.*;
 	import ui.policy.*;
 	import ui.styles.*;
-	import ui.layer.UIDisplay;
 	
 	/**
 	 * 	Filters Window

@@ -42,7 +42,7 @@
 		</order>
 	</filters>
 	
-	<!-- DEFAULT WINDOW LOCATIONS -->
+	<!-- CHANGE WINDOW LOCATIONS
 	<windows>
 		<window name="FILE BROWSER" enabled="true" x="6" y="318"/>
 		<window name="CONSOLE" enabled="true" x="6" y="582"/>
@@ -53,6 +53,7 @@
 		<window name="DISPLAY" enabled="true" x="508" y="602"/>
 		<window name="KEY MAPPING" enabled="false" x="6" y="544"/>
 	</windows>
+	 -->
 	
 	<!-- KEY MAPPING -->
 	<keys>

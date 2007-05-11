@@ -1,0 +1,3 @@
+notes for tonight:
+
+- layer should be able to load a visualizer or other custom plugin directly

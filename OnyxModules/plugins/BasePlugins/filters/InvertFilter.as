@@ -24,8 +24,11 @@ package filters {
 		public function InvertFilter():void {
 			super(
 				true
+//				, new ControlInt('test', 'test', 0, 100, 0)
 			);
 		}
+		
+		public var test:int = 0;
 		
 		public function applyFilter(bitmapData:BitmapData):void {
 			bitmapData.applyFilter(bitmapData, BITMAP_RECT, POINT, new ColorMatrixFilter(_arr));

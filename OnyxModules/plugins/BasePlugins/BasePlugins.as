@@ -63,6 +63,7 @@ package {
 						'Scroll: Scrolls the bitmap\n' +
 						'Frame Delay: # of frames to skip'
 				),
+				new Plugin('Pixelate',				Pixelate,		'Pixelate'),
 				new Plugin('Blur Filter', 			Blur,			'Blur Filter'),
 				new Plugin('Halo Filter', 			Halo,			'Halo Filter'),
 				new Plugin('Noise Filter',			NoiseFilter,	'Noise Filter'),
@@ -72,6 +73,7 @@ package {
 				new Plugin('Frame Random', 			FrameRND,		'Randomizes Frame Rates'),
 				new Plugin('MoveScale Effect', 		MoverScaler,	'Moves and Scales Object'),
 				new Plugin('Threshold Gate', 		ThreshGate,		'Randomly Threshold'),
+				new Plugin('Displace Filter',		DisplacementMap,'Displacement Map'),
 //				new Plugin('Matrix Effect',			MatrixEffect,	'Matrix Effect'),
 //				new Plugin('Bleed Filter',			PasteFilter,	'Bleed Filter'),
 				new Plugin('Blur Transition',		BlurTransition, 'Blurs the loaded layer'),

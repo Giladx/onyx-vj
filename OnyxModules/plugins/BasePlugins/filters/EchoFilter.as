@@ -41,6 +41,9 @@ package filters {
 	import onyx.core.*;
 	import onyx.plugin.*;
 
+	/**
+	 * 	Echo Filter
+	 */
 	public final class EchoFilter extends Filter implements IBitmapFilter {
 		
 		private var _source:BitmapData;
@@ -130,6 +133,7 @@ package filters {
 			
 			_feedAlpha = null;
 			_mixAlpha = null;
+			
 			super.dispose();
 		}
 	}

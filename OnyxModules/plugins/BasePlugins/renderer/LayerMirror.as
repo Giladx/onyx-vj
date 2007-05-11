@@ -36,7 +36,6 @@ package {
 	import onyx.display.ILayer;
 	import onyx.display.*;
 	import onyx.content.IContent;
-	import onyx.core.*;
 
 	public class LayerCopy extends Sprite implements IRenderObject, IControlObject {
 		

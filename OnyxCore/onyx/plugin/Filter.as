@@ -129,14 +129,16 @@ package onyx.plugin {
 			
 			_unique = unique;
 			
-			super.controls.addControl.apply(null, controls);
-			
+			// passing in controls?
+			if (controls) {
+				super.controls.addControl.apply(null, controls);
+			}
 		}
 		
 		/**
 		 * 
 		 */
-		final public function set muted(value:Boolean):void {
+		public function set muted(value:Boolean):void {
 			content.muteFilter(this, value);
 		}
 		
@@ -180,6 +182,7 @@ package onyx.plugin {
 		 * 	Clones the filter
 		 */
 		final public function clone():Filter {
+			
 			var plugin:Plugin = Filter.getDefinition(_name);
 			var filter:Filter = plugin.getDefinition() as Filter;
 			
@@ -206,18 +209,6 @@ package onyx.plugin {
 		}
 		
 		/**
-		 * 	@private
-		 */
-		onyx_ns override function clean():void {
-
-			// test to make sure everything garbage collects
-			var tester:GCTester = new GCTester(this);
-			
-			content	= null;
-			super.clean();
-		}
-		
-		/**
 		 * 	Returns xml
 		 */
 		public function toXML():XML {
@@ -230,7 +221,19 @@ package onyx.plugin {
 		 * 
 		 */
 		override public function toString():String {
-			return ONYX_QUERYSTRING + 'filter://' + (_plugin ? _plugin.name : '');
+			return ONYX_QUERYSTRING + 'filter://' + (_plugin ? _plugin.name : getQualifiedClassName(this));
+		}
+
+
+		/**
+		 * 	@private
+		 * 	Clean gets called after dispose
+		 */
+		onyx_ns override function clean():void {
+			
+			super.clean();
+			content	= null;
+
 		}
 	}
 }

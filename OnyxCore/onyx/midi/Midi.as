@@ -311,12 +311,13 @@ package onyx.midi {
 		}
 		
 		private function _registerMapByName(controlName: String, m:MidiMap):void {
-			var display:Display = Display.getDisplay(0);
+			/* var display:Display = Display.getDisplay(0);
 			var c:Control = display.getControlByName(controlName);
 			if ( c == null ) {
 				throw "Unable to find control="+controlName;
 			}
 			_registerMap(c,m);
+			*/
 		}
 	}
 }

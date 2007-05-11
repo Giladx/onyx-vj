@@ -116,6 +116,14 @@ package onyx.controls {
 		}
 		
 		/**
+		 * 
+		 */
+		override public function removeEventListener(type:String, listener:Function, useCapture:Boolean=false):void {
+			controlY.removeEventListener(type, listener, useCapture);
+			controlX.removeEventListener(type, listener, useCapture);
+		}
+		
+		/**
 		 * 	Faster reflection method (rather than using getDefinition)
 		 */
 		override public function reflect():Class {

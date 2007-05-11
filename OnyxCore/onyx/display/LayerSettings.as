@@ -109,23 +109,25 @@ package onyx.display {
 		 */
 		public function loadFromXML(xml:XML):void {
 			
-			x			= xml.properties.x;
-			y			= xml.properties.x;
-			alpha		= xml.properties.alpha;
-			scaleX		= xml.properties.scaleX;
-			scaleY		= xml.properties.scaleY;
-			rotation	= xml.properties.rotation;
-			brightness	= xml.properties.brightness;
-			contrast	= xml.properties.contrast;
-			saturation	= xml.properties.saturation;
-			tint		= xml.properties.tint;
-			color		= xml.properties.color;
-			threshold	= xml.properties.threshold;
-			blendMode	= xml.properties.blendMode;
-			time		= xml.properties.time;
-			framerate	= xml.properties.framerate;
-			loopStart	= xml.properties.loopStart;
-			loopEnd		= xml.properties.loopEnd;
+			var propXML:XMLList = xml.properties;
+			
+			x			= propXML.x;
+			y			= propXML.x;
+			alpha		= propXML.alpha;
+			scaleX		= propXML.scaleX;
+			scaleY		= propXML.scaleY;
+			rotation	= propXML.rotation;
+			brightness	= propXML.brightness;
+			contrast	= propXML.contrast;
+			saturation	= propXML.saturation;
+			tint		= propXML.tint;
+			color		= propXML.color;
+			threshold	= propXML.threshold;
+			blendMode	= propXML.blendMode;
+			time		= propXML.time;
+			framerate	= propXML.framerate;
+			loopStart	= propXML.loopStart;
+			loopEnd		= propXML.loopEnd;
 			path		= xml.@path;
 			
 			if (xml.controls) {

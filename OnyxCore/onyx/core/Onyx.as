@@ -30,8 +30,7 @@
  */
 package onyx.core {
 	
-	import flash.display.DisplayObjectContainer;
-	import flash.display.Stage;
+	import flash.display.*;
 	import flash.events.*;
 	import flash.net.*;
 	import flash.utils.*;
@@ -80,6 +79,7 @@ package onyx.core {
 
 			// load plug-ins?
 			if (loadPlugins) {
+				
 				// create a timer so that objects can listen for events
 				var timer:Timer = new Timer(0);
 				timer.addEventListener(TimerEvent.TIMER, _onInitialize);
@@ -141,10 +141,11 @@ package onyx.core {
 					} else if (object is Macro) {
 						
 						Macro.registerPlugin(plugin);
+						
+					} else if (object is Renderer) {
+						
+						Renderer.registerPlugin(plugin);
 					}
-					
-					// test to make sure everything garbage collects
-					// var tester:GCTester = new GCTester(object);
 					
 					// output a message
 					Console.output('REGISTERING ' + plugin.name);

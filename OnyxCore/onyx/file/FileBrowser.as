@@ -211,6 +211,15 @@ package onyx.file {
 					}
 				
 					break;
+					
+				case 'renderer':
+				
+					plugins = Renderer.renderers;
+					
+					for each (plugin in plugins) {
+						file = new File(ONYX_QUERYSTRING + 'renderer://' + plugin.name, null);
+						files.push(file);
+					}
 			}
 
 			// save the cache

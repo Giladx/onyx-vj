@@ -162,10 +162,10 @@ package onyx.core {
 		public function render(source:BitmapData):void {
 			
 			for each (var filter:Filter in this) {
-				if (filter is IBitmapFilter) {
-					if (!filter._muted) {
-						(filter as IBitmapFilter).applyFilter(source);
-					}
+				var bmp:IBitmapFilter = filter as IBitmapFilter;
+				
+				if (bmp && !filter._muted) {
+					bmp.applyFilter(source);
 				}
 			}
 		}
@@ -175,7 +175,9 @@ package onyx.core {
 		 */
 		public function loadXML(xml:XMLList):void {
 			
-			for each (var filterXML:XML in xml.filter) {
+			// trace('filterarray, loadXML()', xml);
+			
+			for each (var filterXML:XML in xml.*) {
 				
 				var name:String			= filterXML.@id;
 				var plugin:Plugin		= Filter.getDefinition(name);
@@ -184,10 +186,9 @@ package onyx.core {
 					
 					var filter:Filter = plugin.getDefinition() as Filter;
 					
-					for each (var controlXML:XML in filterXML.*) {
-						filter.controls.loadXML(controlXML);
-					}
+					filter.controls.loadXML(filterXML.controls);
 					
+					// if we have a parent, add it, otherwise, just add it to the array and don't dispatch events
 					(_parent) ? addFilter(filter) : push(filter);
 				}
 			}

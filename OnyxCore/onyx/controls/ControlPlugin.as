@@ -68,6 +68,11 @@ package onyx.controls {
 		public static const VISUALIZERS:int	= 3;
 		
 		/**
+		 * 	Use Renderers
+		 */
+		public static const RENDERERS:int	= 4;
+		
+		/**
 		 * 	@private
 		 * 	Stores the plugin type to use
 		 */
@@ -94,6 +99,9 @@ package onyx.controls {
 					break;
 				case VISUALIZERS:
 					data = Visualizer.visualizers;
+					break;
+				case RENDERERS:
+					data = Renderer.renderers;
 					break;
 			}
 			
@@ -171,6 +179,9 @@ package onyx.controls {
 					break;
 				case 'transition':
 					def = Transition.getDefinition(name);
+					break;
+				case 'renderer':
+					def = Renderer.getDefinition(name);
 					break;
 			}
 			

@@ -123,11 +123,6 @@ package onyx.display {
 		onyx_ns var _valid:Array		= [];
 		
 		/**
-		 * 
-		 */
-		private var _xml:XML;
-		
-		/**
 		 * 	@constructor
 		 */
 		public function Display():void {
@@ -136,8 +131,20 @@ package onyx.display {
 			_filters = new FilterArray(this);
 			
 			// create new properties
-			_controls = new LayerProperties(this);
+			_controls = new Controls(this);
 			_controls.addControl(
+				new ControlNumber(
+					'brightness',			'bright',		-1,		1,		0
+				),
+				new ControlNumber(
+					'contrast',				'contrast',		-1,		2,		0
+				),
+				new ControlNumber(
+					'saturation',			'saturation',	0,		2,		1
+				),
+				new ControlInt(
+					'threshold',			'threshold',	0,		100,	0
+				),
 				new ControlProxy(
 					'position', 'position',
 					__x,
@@ -803,7 +810,6 @@ package onyx.display {
 		
 		/**
 		 * 
-		 */
 		 public function getControlByName(fullControlName:String):Control {
 		 	// All control names start with a layer name
 		 	var i:int = fullControlName.indexOf(".");
@@ -880,7 +886,8 @@ package onyx.display {
 			}
 			return null;
 		}
-		
+		 */
+		 		
 		/**
 		 * 	Returns the display as xml
 		 */
@@ -898,10 +905,8 @@ package onyx.display {
 			// add display xml
 			var display:XML = <display />;
 			
-			trace(_controls);
-			
-			// add background color
-			display.appendChild(<backgroundColor>{_backgroundColor}</backgroundColor>);
+			// add display controls
+			display.appendChild(_controls.toXML('position', 'size', 'visible'));
 			
 			// add filters
 			display.appendChild(_filters.toXML());
@@ -920,41 +925,39 @@ package onyx.display {
 				}
 			}
 			
-			// add MIDI controls
-			display.appendChild(MIDI.toXML());
-			
 			return xml;
 		}
 		
 		/**
 		 * 	Loads settings from xml
 		 */
-		public function loadXML(xml:XML):void {
+		public function loadXML(xml:XMLList):void {
 			
-			if (xml.backgroundColor) {
-				backgroundColor = xml.backgroundColor;
-			}
+			// trace('Display.loadXML()', xml, xml.controls, xml.filters);
+			// trace('Display.loadXML():controls', xml.controls);
 			
+			// load display settings
+			controls.loadXML(xml.controls);
+
 			// remove filters
 			_filters.clear();
 			
-			if (xml.filters) {
-				_filters.loadXML(xml.filters);
-			}
-			// Save it so loadMidiXML can use it
-			_xml = xml;
+			// load xml
+			_filters.loadXML(xml.filters);
+			
 		}
 		
 		/**
 		 * 	Loads MIDI settings from xml (needs to be done
 		 *  after the layers and their filters get loaded, so
 		 *  that Controls are present)
-		 */
+		
 		public function loadMidiXML():void {
 			if (_xml.midi) {
 				MIDI.loadXML(_xml.midi);
 			}	
 		}
+		 **/
 		
 		/**
 		 * 	Disposes the display

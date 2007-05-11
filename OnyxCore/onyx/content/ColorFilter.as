@@ -221,6 +221,7 @@ package onyx.content {
 			super.redOffset		= r,
 			super.greenOffset	= g,
 			super.blueOffset	= b;
+			
 		}
 
 		/**
@@ -235,16 +236,20 @@ package onyx.content {
 		 */
 		override public function set color(value:uint):void {
 			
-			var amount:int;
+			_color	= value;
 			
-			_color	= value,
-			amount	= 1 - _tint;
+			var r:int, g:int, b:int;
+			
+			r = ((value & 0xFF0000) >> 16) * _tint,
+			g = ((value & 0x00FF00) >> 8) * _tint,
+			b = (value & 0x0000FF) * _tint;
 
+			var amount:Number = 1 - _tint;
+			
 			super.blueMultiplier = super.redMultiplier = super.greenMultiplier = amount,
-			super.redOffset		= ((_color & 0xFF0000) >> 16) * _tint,
-			super.greenOffset	= ((_color & 0x00FF00) >> 8) * _tint,
-			super.blueOffset	= (_color & 0x0000FF) * _tint;
-
+			super.redOffset		= r,
+			super.greenOffset	= g,
+			super.blueOffset	= b;
 		}
 		
 		/**

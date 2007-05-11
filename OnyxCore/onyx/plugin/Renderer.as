@@ -28,53 +28,90 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.core {
+package onyx.plugin {
+	
+	import flash.utils.Dictionary;
 	
 	import onyx.constants.*;
+	import onyx.core.*;
 	
+	use namespace onyx_ns;
+
 	/**
-	 *  Beats
+	 * 
 	 */
-	public final class TempoBeat {
+	public class Renderer extends PluginBase implements IRenderObject {
+
+		/**
+		 * 	@private
+		 * 	Stores definitions
+		 */
+		private static var _definition:Object	= new Object();
 		
 		/**
-		 * 	Stores a dictionary of available beats
-		 * 	This is also used for a lookup for xml serialization
+		 * 	@private
 		 */
-		public static const BEATS:Object = {
-			'global': new TempoBeat('global', 0),
-			'1/16': new TempoBeat('1/16', 1),
-			'1/8': new TempoBeat('1/8', 2),
-			'1/4': new TempoBeat('1/4', 4),
-			'1/2': new TempoBeat('1/2', 8),
-			'1': new TempoBeat('1', 16),
-			'2': new TempoBeat('2', 32),
-			'4': new TempoBeat('4', 64)
+		onyx_ns static var _renderers:Array		= [];
+		
+		/**
+		 * 	Registers a plugin
+		 */
+		onyx_ns static function registerPlugin(plugin:Plugin, index:int = -1):void {
+			if (!_definition[plugin.name]) {
+				_definition[plugin.name] = plugin;
+				plugin._parent = _renderers;
+				_renderers.splice(index || _renderers.length - 1, 0, plugin);
+			}
+		}
+		
+		/**
+		 * 	@public
+		 */
+		public function render():RenderTransform {
+			return null;
 		}
 
 		/**
-		 * 	Name
+		 * 	Returns a definition
 		 */
-		public var name:String;
+		public static function getDefinition(name:String):Plugin {
+			return _definition[name];
+		}
 		
 		/**
-		 * 	Beat
+		 * 	Returns a list of plugins of all filters registered
 		 */
-		public var mod:int;
+		public static function get renderers():Array {
+			return _renderers.concat();
+		}
 		
 		/**
 		 * 	@constructor
 		 */
-		public function TempoBeat(name:String, mod:int):void {
-			this.name	= name,
-			this.mod	= mod;
+		public function Renderer(... controls:Array):void {
+			
+			super();			
+			super.controls.addControl.apply(null, controls);
+
 		}
 		
 		/**
-		 * 	override toString();
+		 * 	Initializes the macro
 		 */
-		public function toString():String {
-			return name;
+		public function initialize():void {
+		}
+		
+		/**
+		 * 	Terminates the macro
+		 */
+		public function terminate():void {
+		}
+		
+		/**
+		 * 
+		 */
+		override public function toString():String {
+			return ONYX_QUERYSTRING + 'renderer://' + _plugin.name;
 		}
 	}
 }

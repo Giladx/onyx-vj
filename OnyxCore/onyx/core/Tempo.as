@@ -105,7 +105,11 @@ package onyx.core {
 		 * 	@private
 		 * 	The beat signature to apply to all tempo filters that are listening to global tempo
 		 */
-		private var _snapTempo:TempoBeat	= BEATS[3];
+		private var _snapTempo:TempoBeat		= BEATS[3];
+		/**
+		 * 
+		 */
+		private var _snapControl:ControlTempo;
 
 		/**
 		 * 	@constructor
@@ -116,9 +120,10 @@ package onyx.core {
 				throw INVALID_CLASS_CREATION;
 			} else {
 				
-				_timer		= new Timer(5);
+				_timer			= new Timer(5);
+				_snapControl	= new ControlTempo('snapTempo', 'global tempo', BEATS)
 				_controls	= new Controls(this,
-					new ControlTempo('snapTempo', 'global tempo', BEATS),
+					_snapControl,
 					new ControlInt('tempo', 'tempo', 40, 1000, _tempo)
 				);
 				

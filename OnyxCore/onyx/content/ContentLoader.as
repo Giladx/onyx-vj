@@ -53,6 +53,7 @@ package onyx.content {
 	/**
 	 * 	Loads different content based on the file url
 	 */
+	[ExcludeClass]
 	public final class ContentLoader extends EventDispatcher {
 		
 		/**
@@ -155,7 +156,7 @@ package onyx.content {
 				var index:int	= path.indexOf('://');
 				
 				if (!index) {
-					return _pluginError();
+					return _loadPlugin(null);
 				}
 				
 				var type:String = path.substr(len, index - len);
@@ -163,29 +164,14 @@ package onyx.content {
 				
 				switch (type) {
 					case 'camera':
-					
 						_dispatchContent(ContentCamera, Camera.getCamera(String(AVAILABLE_CAMERAS.indexOf(name))), new Event(Event.COMPLETE));
 					
 						break;
+					case 'renderer':
+						return _loadPlugin(Renderer.getDefinition(name));
+						break;
 					case 'visualizer':
-					
-						var plugin:Plugin				= Visualizer.getDefinition(name);
-						
-						// does the plugin exist?
-						if (!plugin) {
-							return _pluginError();
-						}
-						
-						var render:IRenderObject	= plugin.getDefinition() as IRenderObject;
-						
-						// is it a renderable object
-						if (!render) {
-							return _pluginError();
-						}
-						
-						// dispatch
-						_dispatchContent(ContentPlugin, render, new Event(Event.COMPLETE));
-						
+						return _loadPlugin(Visualizer.getDefinition(name));
 						break;
 				}
 				
@@ -250,7 +236,22 @@ package onyx.content {
 		/**
 		 * 	@private
 		 */
-		private function _pluginError():void {
+		private function _loadPlugin(plugin:Plugin):void {
+			
+			// is it a valid plugin
+			if (plugin) {
+				
+				// is it a renderable object
+				var render:IRenderObject	= plugin.getDefinition() as IRenderObject;
+				
+				if (render) {
+					
+					// dispatch
+					return _dispatchContent(ContentPlugin, render, new Event(Event.COMPLETE));
+				}
+			}
+			
+			// not valid,
 			Console.output('invalid type:', _path);
 			dispose();
 		}

@@ -49,9 +49,9 @@ package onyx.utils {
 		private var _timer:Timer = new Timer(150);
 		
 		/**
-		 * 
+		 * 	@private
 		 */
-		public var lastTrace:String;
+		private var lastTrace:String;
 
 		/**
 		 * 	@constructor
@@ -70,7 +70,6 @@ package onyx.utils {
 		private function _onTimer(event:TimerEvent):void {
 			for (var i:Object in dict) {
 				lastTrace = i.toString();
-				trace(lastTrace, _timer.currentCount)
 				return;
 			}
 			_timer.removeEventListener(TimerEvent.TIMER, _onTimer);

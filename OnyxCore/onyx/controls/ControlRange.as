@@ -80,6 +80,13 @@ package onyx.controls {
 		public function get data():Array {
 			return _data;
 		}
+		
+		/**
+		 * 
+		 */
+		override public function loadXML(xml:XML):void {
+			super.loadXML(xml);
+		}
  		
 		/**
 		 * 	Faster reflection method (rather than using getDefinition)

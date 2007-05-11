@@ -34,6 +34,7 @@ package onyx.controls {
 	
 	import onyx.core.onyx_ns;
 	import onyx.events.ControlEvent;
+	import onyx.plugin.Filter;
 	
 	use namespace onyx_ns;
 	

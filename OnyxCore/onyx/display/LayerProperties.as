@@ -33,7 +33,7 @@ package onyx.display {
 	import onyx.constants.*;
 	import onyx.content.IContent;
 	import onyx.controls.*;
-	;
+
 	/**
 	 * 	Stores property names for layers
 	 */

@@ -33,7 +33,8 @@ package onyx.controls {
 	import flash.events.*;
 	import flash.utils.Dictionary;
 	
-	import onyx.core.onyx_ns;
+	import onyx.core.*;
+	import onyx.events.*;
 	
 	use namespace onyx_ns;
 
@@ -71,7 +72,7 @@ package onyx.controls {
 		 * 	
 		 */
 		public function addEventListener(type:String, method:Function, useCapture:Boolean = false, priority:int = 0, weak:Boolean = false):void {
-			_dispatcher.addEventListener(type, method, useCapture, priority, true);
+			_dispatcher.addEventListener(type, method, useCapture, priority, weak);
 		}
 		
 		/**
@@ -80,7 +81,6 @@ package onyx.controls {
 		public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void {
 			_dispatcher.removeEventListener(type, listener, useCapture);
 		}
-		
 		
 		/**
 		 * 
@@ -166,43 +166,62 @@ package onyx.controls {
 		/**
 		 * 	Loads from xml
 		 */
-		public function loadXML(xml:XML):void {
+		public function loadXML(xml:XMLList):void {
+			
+			// trace('controls.loadXML', xml);
 			
 			var name:String, control:Control;
 			
+			// TBD: Change Control.loadXML(xml:XML) to Control.loadXML(xml:XMLList)
 			for each (var controlXML:XML in xml.*) {
 				
 				try {
-	
-					name				= controlXML.name();
-					control				= getControl(name);
-					control.loadXML(controlXML);
-	
-				} catch (e:Error) {
+
+					// check to see if it's complex content, if so, loop
+					if (controlXML.hasComplexContent()) {
+						
+						for each (var childXML:XML in controlXML.*) {
+
+							name		= childXML.name();
+							control		= getControl(name);
+							
+							control.loadXML(childXML);
+
+						}
+						
+					} else {
+
+						name			= controlXML.name();
+						control			= getControl(name);
 					
+						control.loadXML(controlXML);
+
+					}
+				} catch (e:Error) {
+
+					Console.error(e);
+			
 				}
 			}
 		}
 
 		/**
-		 * 
+		 * 	Concatenate the controls and return this control array
 		 */
 		AS3 override function concat(...args):Array {
 			
 			super.push.apply(super, args);
 			_dispatcher.dispatchEvent(new Event(Event.CHANGE));
 			
-			return null;
+			return this;
 		}
 		
 		/**
 		 * 	Destroys
 		 */
 		public function dispose():void {
-			
-			_target			= null,
-			_definitions	= null;
-			
+			_target		 = null;
+			_definitions = null;
 		}
 	}
 }

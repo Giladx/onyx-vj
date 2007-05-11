@@ -38,6 +38,7 @@ package onyx.file.http {
 	
 	import onyx.core.Console;
 	import onyx.file.*;
+	import onyx.settings.*;
 	import onyx.utils.string.pathUpOneLevel;
 
 	public final class HTTPQuery extends FileQuery {
@@ -106,6 +107,9 @@ package onyx.file.http {
 
 					if (name === '..') {
 						name = rootpath.substr(0, rootpath.lastIndexOf('/', rootpath.length - 2)) + '/';
+					} else if (name.substr(0,1) === '/') {
+						name = INITIAL_APP_DIRECTORY + name;
+						
 					} else {
 						name = pathUpOneLevel(rootpath + name);
 					}

@@ -104,12 +104,6 @@ package onyx.plugin {
 		
 		/**
 		 * 	@private
-		 * 	Stores transition controls
-		 */
-		private var _controls:Controls;
-		
-		/**
-		 * 	@private
 		 */
 		private var _easing:Function;
 		
@@ -119,7 +113,7 @@ package onyx.plugin {
 		public function Transition(easing:Function = null):void {
 			_easing	 	= easing || Linear.easeIn;
 			
-			_controls = new Controls(this);
+			super();
 		}
 		
 		/**

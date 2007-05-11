@@ -97,50 +97,49 @@ package onyx.jobs {
 				try {
 					
 					var xml:XML				= new XML(loader.data);
+					
 					var display:IDisplay	= _origin.display;
 					var layers:Array		= display.layers;
 					var index:int			= layers.indexOf(_origin);
 					var jobs:Array			= [];
 					
-					for each (var displayXML:XML in xml.display) {
+					// load xml
+					display.loadXML(xml.display);
+					
+					// loop through layers and apply settings
+					for each (var layerXML:XML in xml.display.layers.*) {
 						
-						display.loadXML(displayXML);
+						var layer:Layer				= layers[index++];
 						
-						// loop through layers and apply settings
-						for each (var layerXML:XML in displayXML.layers.*) {
+						// valid layer, load it
+						if (layer) {
 							
-							var layer:Layer				= layers[index++];
+							var settings:LayerSettings	= new LayerSettings();
+							settings.loadFromXML(layerXML);
 							
-							// valid layer, load it
-							if (layer) {
-								
-								var settings:LayerSettings	= new LayerSettings();
-								settings.loadFromXML(layerXML);
-								
-								var job:LayerLoadSettings	= new LayerLoadSettings();
-								job.layer					= layer;
-								job.settings				= settings;
-								jobs.push(job);
-								
-							// break out
-							} else {
-								break;
-							}
+							var job:LayerLoadSettings	= new LayerLoadSettings();
+							job.layer					= layer;
+							job.settings				= settings;
+							jobs.push(job);
+							
+						// break out
+						} else {
+							break;
 						}
-						
-						// DH: TBD -- load midi stuff into layersettings
-						
-						// TT:
-						// Need to load the MIDI stuff, but after the other stuff gets loaded.
-						// This is a hack - there should be some way of calling it
-						// exactly when everything about the display is loaded.
-						var _timer:Timer = new Timer(2000,1);
-						_timer.addEventListener(TimerEvent.TIMER, _onTimer);
-						_timer.start();
 					}
 					
+					// DH: TBD -- load midi stuff into layersettings
+					
+					// TT:
+					// Need to load the MIDI stuff, but after the other stuff gets loaded.
+					// This is a hack - there should be some way of calling it
+					// exactly when everything about the display is loaded.
+					// var _timer:Timer = new Timer(2000,1);
+					// _timer.addEventListener(TimerEvent.TIMER, _onTimer);
+					//_timer.start();
+					
 				} catch (e:Error) {
-					Console.error(e.message)
+					Console.error(e);
 				}
 				
 
@@ -154,13 +153,6 @@ package onyx.jobs {
 			}
 		}
 		
-		private function _onTimer(event:TimerEvent):void {
-			var timer:Timer = event.currentTarget as Timer;
-			timer.removeEventListener(TimerEvent.TIMER, _onTimer);
-			
-			var display:Display = Display.getDisplay(0);
-			display.loadMidiXML();
-		}		
 		/**
 		 * 
 		 */

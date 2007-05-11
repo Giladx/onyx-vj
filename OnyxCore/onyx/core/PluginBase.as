@@ -33,6 +33,7 @@ package onyx.core {
 	import flash.events.EventDispatcher;
 	
 	import onyx.controls.*;
+	import onyx.utils.GCTester;
 	
 	use namespace onyx_ns;
 
@@ -54,7 +55,7 @@ package onyx.core {
 		/**
 		 * 	@private
 		 */
-		private var _controls:Controls;
+		protected var _controls:Controls;
 		
 		/**
 		 * 	@constructor
@@ -80,11 +81,12 @@ package onyx.core {
 		 * 	Cleans the content
 		 */
 		onyx_ns function clean():void {
+			
 			if (_controls) {
 				_controls.dispose();
-				_controls	= null,
-				_plugin		= null;
 			}
+			_controls	= null,
+			_plugin		= null;
 		}
 	}
 }

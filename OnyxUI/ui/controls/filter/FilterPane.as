@@ -191,8 +191,11 @@ package ui.controls.filter {
 			
 			if (control) {
 				
-				control.transform.colorTransform = FILTER_HIGHLIGHT;
+				if (!control.filter.muted) {
+					control.transform.colorTransform = FILTER_HIGHLIGHT;
+				}
 				uilayer.selectPage(1, control.filter.controls);
+				
 //				PatchWindow.display(control, control.filter);
 			
 			// select nothing

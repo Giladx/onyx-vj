@@ -73,8 +73,9 @@ package ui.window {
 		public function KeysWindow():void {
 
 			// position and create			
-			super('KEY MAPPING', 200, 200);
+			super('KEY MAPPING', 192, 200);
 			
+			// set draggable
 			DragManager.setDraggable(this);
 			
 			// add the textfield
@@ -101,6 +102,8 @@ package ui.window {
 		 * 	@private
 		 */
 		private function _onClick(event:TextEvent):void {
+			
+			trace(x,y);
 			
 			var definition:KeyDefinition = _lookup[event.text];
 			var state:KeyLearnState = new KeyLearnState(definition, _state);

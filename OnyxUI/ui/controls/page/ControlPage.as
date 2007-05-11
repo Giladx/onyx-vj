@@ -60,7 +60,7 @@ package ui.controls.page {
 		 * 	@private
 		 * 	If the controls passed in is a control array, listen for updates
 		 */
-		private var _ref:Controls;
+		private var _target:Controls;
 		
 		/**
 		 * 	@constructor
@@ -79,6 +79,12 @@ package ui.controls.page {
 		 */
 		public function removeControls():void {
 			
+			// if it's a control array, remove listeners
+			if (_target) {
+				_target.removeEventListener(Event.CHANGE, _onUpdate);
+				_target = null;
+			}
+			
 			// remove alls controls
 			for each (var uicontrol:UIControl in _controls) {
 				removeChild(uicontrol);
@@ -87,12 +93,6 @@ package ui.controls.page {
 			
 			// set new array
 			_controls = [];
-			
-			// if it's a control array, remove listeners
-			if (_ref) {
-				_ref.removeEventListener(Event.CHANGE, _onUpdate);
-				_ref = null;
-			}
 		}
 		
 		/**
@@ -100,7 +100,7 @@ package ui.controls.page {
 		 * 	When the control is updated
 		 */
 		private function _onUpdate(event:Event):void {
-			addControls(_ref);
+			addControls(_target);
 		}
 		
 		/**
@@ -108,21 +108,21 @@ package ui.controls.page {
 		 */
 		public function addControls(controls:Array):void {
 			
-			var uicontrol:UIControl, x:int, y:int, width:int, ref:Controls, height:int;
+			var uicontrol:UIControl, x:int, y:int, width:int, target:Controls, height:int;
 
 			x						= 0,
 			y						= 8,
 			width					= DEFAULT.width + 3,
 			height					= DEFAULT.height,
-			ref						= controls as Controls;
+			target					= controls as Controls;
 			
 			// remove existing controls
 			removeControls();
 			
 			// if it's a Controls array, listen for changes
-			if (ref){ 
-				_ref = ref;
-				_ref.addEventListener(Event.CHANGE, _onUpdate);
+			if (target) { 
+				_target = target;
+				_target.addEventListener(Event.CHANGE, _onUpdate);
 			}
 
 			// now create a uicontrol based on each control

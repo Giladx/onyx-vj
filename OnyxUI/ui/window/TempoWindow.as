@@ -56,16 +56,6 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
-		private var _saveButton:TextButton;
-
-		/**
-		 * 	@private
-		 */
-		private var _controlXML:TextButton;
-		
-		/**
-		 * 	@private
-		 */
 		private var _controlTempo:SliderV;
 		
 		/**
@@ -89,17 +79,12 @@ package ui.window {
 		private var _samples:Array			= [0];
 		
 		/**
-		 * 	@private
-		 */
-		private var _fname:String;
-		
-		/**
 		 * 	@constructor
 		 */
 		public function TempoWindow():void {
 			
 			// super!
-			super('TEMPO', 202, 100);
+			super('TEMPO', 202, 34);
 			
 			var display:IDisplay	= Display.getDisplay(0);
 			var control:Control;
@@ -107,10 +92,6 @@ package ui.window {
 			// create new ui options
 			var options:UIOptions	= new UIOptions();
 			options.width			= 60;
-
-			// controls for display
-			_controlXML				= new TextButton(options, 'save layers');
-			_saveButton				= new TextButton(options, 'save jpgs');
 			
 			// tempo controls
 			_controlTempo			= new SliderV(options, TEMPO.controls.getControl('tempo'));
@@ -120,9 +101,7 @@ package ui.window {
 			addChildren(	
 				_controlActive,	2,		20,
 				_controlTempo,	70,		20,
-				_tapTempo,		138,	20,
-				_controlXML,	2,		40,
-				_saveButton,	2,		60
+				_tapTempo,		138,	20
 			);
 
 			// start the timer
@@ -131,18 +110,6 @@ package ui.window {
 			// tap tempo click
 			_tapTempo.addEventListener(MouseEvent.MOUSE_DOWN, _onTempoDown);
 			
-			// xml
-			_controlXML.addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
-			_saveButton.addEventListener(MouseEvent.MOUSE_DOWN, _onSaveDown);
-			
-		}
-
-		/**
-		 * 	@private
-		 */
-		private function _onMidiDown(event:MouseEvent):void {
-			StateManager.loadState(new MidiLearnState());
-			event.stopPropagation();
 		}
 
 		/**
@@ -194,47 +161,12 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
-		private function _onSaveDown(event:MouseEvent):void {
-			var job:SaveJob = new SaveJob(Display.getDisplay(0), 2);
-		}
-		
-		/**
-		 * 	@private
-		 */
 		private function _onTempoOff(event:TimerEvent):void {
 			_tapTempo.transform.colorTransform = DEFAULT;
 			_releaseTimer.removeEventListener(TimerEvent.TIMER, _onTempoOff);
 			_releaseTimer.stop();
 		}
-		
-		/**
-		 * 	@private
-		 */
-		private function _onMouseDown(event:MouseEvent):void {
-			
-			var display:Display = Display.getDisplay(0);
-			var text:String		= display.toXML().normalize();
-			
-			var popup:TextControlPopUp = new TextControlPopUp(this, 200, 200, 'Copied to clipboard\n\n' + text);
 
-			// saves breaks
-			var arr:Array = text.split(String.fromCharCode(10));
-			text		= arr.join(String.fromCharCode(13,10));
-			
-			var bytes:ByteArray = new ByteArray();
-			bytes.writeUTFBytes(text);
-			
-			FileBrowser.save('to clipboard', bytes, _onFileSaved);
-
-			event.stopPropagation();
-		}
-
-		/**
-		 * 	@private
-		 */
-		private function _onFileSaved(query:FileQuery):void {
-			// trace('saved: ' + query.path);
-		}
 	}
 }
 

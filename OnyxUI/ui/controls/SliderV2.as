@@ -205,6 +205,18 @@ package ui.controls {
 			
 			_value.text = String(floor(x * _multiplier)) + ':' + String(floor(y * _multiplier));
 		}
+		
+		/**
+		 * 
+		 */
+		override public function dispose():void {
+
+			_controlY.removeEventListener(ControlEvent.CHANGE, _onControlChange);
+			_controlX.removeEventListener(ControlEvent.CHANGE, _onControlChange);
+			
+			_controlY = null;
+			_controlX = null;
+		}
 
 	}
 }

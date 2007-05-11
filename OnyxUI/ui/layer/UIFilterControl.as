@@ -180,12 +180,17 @@ package ui.layer {
 			
 			var target:ControlPageButton = event.currentTarget as ControlPageButton;
 			
+			// if it's the filter page
 			if (target.index === 1) {
+				
 				var filter:LayerFilter = filterPane.getFilter(_target.filters[0]);
-				if (filter) {
+				
+				if (filter && !filter.filter.muted) {
 					filterPane.selectFilter(filter);
 				}
+				
 			} else {
+				
 				filterPane.selectFilter(null);
 				selectPage(target.index);
 			}

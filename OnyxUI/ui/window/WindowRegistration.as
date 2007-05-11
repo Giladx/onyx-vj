@@ -51,9 +51,9 @@ package ui.window {
 			new WindowRegistration('TEMPO',			TempoWindow, 200, 544),
 			new WindowRegistration('LAYERS',		LayerWindow, 0, 0),
 			new WindowRegistration('MEMORY',		MemoryWindow, 200,200, false),
-			new WindowRegistration('DISPLAY',		DisplayWindow, 412, 500),
-			new WindowRegistration('KEY MAPPING',	KeysWindow, 6, 544, false),
-			new WindowRegistration('MACROS',		MacroWindow, 649, 324, false)
+			new WindowRegistration('DISPLAY',		DisplayWindow, 508, 602),
+			new WindowRegistration('KEY MAPPING',	KeysWindow, 615, 319, false),
+			new WindowRegistration('SETTINGS',		SettingsWindow, 200, 582)
 		);
 		
 		/**

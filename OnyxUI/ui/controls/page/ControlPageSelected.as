@@ -41,12 +41,12 @@ package ui.controls.page {
 		/**
 		 * 	Store the tab
 		 */
-		private var background:AssetLayerTab = new AssetLayerTab();
+		private var background:AssetLayerTab	= new AssetLayerTab();
 
 		/**
 		 * 	@private
 		 */
-		private var _label:TextField		= new TextField(36, 10, TEXT_DEFAULT_CENTER);
+		private var _label:TextField			= new TextField(36, 10, TEXT_DEFAULT_CENTER);
 		
 		/**
 		 * 	@constructor

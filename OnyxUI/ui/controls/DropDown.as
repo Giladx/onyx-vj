@@ -102,7 +102,7 @@ package ui.controls {
 			_data	= control.data;
 
 			// listen for changes			
-			_control.addEventListener(ControlEvent.CHANGE, _onChanged);
+			_control.addEventListener(ControlEvent.CHANGE, _onChange);
 			
 			// draw
 			_draw(options.width, options.height);
@@ -139,7 +139,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private function _onChanged(event:ControlEvent):void {
+		private function _onChange(event:ControlEvent):void {
 			setText(event.value);
 		}
 		
@@ -190,7 +190,6 @@ package ui.controls {
 				var gr:Graphics = CONTAINER.graphics;
 				
 				// draw
-				gr.clear();
 				gr.lineStyle(0, LINE_DEFAULT, .5);
 				gr.drawRect(-1, -_index * ITEM_HEIGHT - 1, _width + 1, len * ITEM_HEIGHT + 1);
 				
@@ -271,7 +270,7 @@ package ui.controls {
 		override public function dispose():void {
 			
 			// remove value listening
-			_control.removeEventListener(ControlEvent.CHANGE, _onChanged);
+			_control.removeEventListener(ControlEvent.CHANGE, _onChange);
 			
 			// add listeners			
 			_button.removeEventListener(MouseEvent.MOUSE_DOWN, _onPress);

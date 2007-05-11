@@ -5,6 +5,7 @@ package ui.controls {
 	import flash.geom.*;
 	
 	import onyx.constants.*;
+	import onyx.utils.math.*;
 
 	public final class UnClippedContainer extends Sprite {
 		
@@ -14,8 +15,8 @@ package ui.controls {
 		public function display(object:DisplayObject, addObject:DisplayObject):void {
 
 			var local:Point = object.localToGlobal(POINT);
-			super.x			= local.x;
-			super.y			= local.y;
+			super.x			= max(local.x, 0);
+			super.y			= max(local.y, 0);
 			
 			STAGE.addChild(this);
 			
@@ -27,6 +28,9 @@ package ui.controls {
 		 * 	Remove
 		 */
 		public function remove():void {
+			
+			// clear graphics
+			graphics.clear();
 			
 			// remove everything
 			if (super.parent) {

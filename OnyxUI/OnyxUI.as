@@ -38,7 +38,6 @@ package {
 	import onyx.constants.*;
 	import onyx.controls.*;
 	import onyx.file.http.HTTPAdapter;
-	import onyx.states.BroadcastState;
 	import onyx.utils.array.*;
 	
 	import ui.assets.AssetLayerTab;
@@ -47,13 +46,21 @@ package {
 	import ui.states.*;
 	
 	[SWF(width="1024", height="768", backgroundColor="#141515", frameRate='30')]
-	public class OnyxUI extends UIObject {
+	public class OnyxUI extends Sprite {
 		
 		/**
 		 * 	@constructor
 		 */
 		public function OnyxUI():void {
 			
+			addEventListener(Event.ADDED_TO_STAGE, _onAdded);
+		}
+		
+		/**
+		 * 
+		 */
+		private function _onAdded(event:Event):void {
+
 			var stage:Stage = this.stage;
 			
 			// no scale please thanks
@@ -67,6 +74,7 @@ package {
 				new HTTPAdapter(),
 				new KeyListenerState()
 			);
+			
 		}
 	}
 }

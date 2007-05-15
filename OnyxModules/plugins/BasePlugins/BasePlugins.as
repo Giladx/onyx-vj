@@ -63,6 +63,7 @@ package {
 						'Scroll: Scrolls the bitmap\n' +
 						'Frame Delay: # of frames to skip'
 				),
+				new Plugin('Kaliedoscope', 			Kaliedoscope,	'Kaliedoscope'),
 				new Plugin('Pixelate',				Pixelate,		'Pixelate'),
 				new Plugin('Blur Filter', 			Blur,			'Blur Filter'),
 				new Plugin('Halo Filter', 			Halo,			'Halo Filter'),
@@ -80,11 +81,12 @@ package {
 				new Plugin('Dissolve Transition',	DissolveTransition, 'Dissolves the loaded layer'),
 				new Plugin('Basic',					BasicVisualizer, 'Visualizer'),
 				new Plugin('Circles',				CircleVisualizer, 'CircleVisualizer'),
+				new Plugin('SpectrumVisualizer',	SpectrumVisualizer, 'SpectrumVisualizer'),
 //				new Plugin('Burst Echo',			BurstEcho,		'Burst Echo'),
 				new Plugin('Invert',				InvertFilter,	'Invert'),
 //				new Plugin('Loop Scroll',			LoopScroll,		'Loop Scroll Filter'),
 //				new Plugin('Displace',				DisplaceFilter,	'Displace Filter')
-				new Plugin('Convolve Filter', 		ConvolveFilter,	'Convolve')
+//				new Plugin('Convolve Filter', 		ConvolveFilter,	'Convolve')
 			];
 		}
 	}

@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -90,34 +90,34 @@ package {
 			_mouseX = STAGE.mouseX;
 			_mouseY = STAGE.mouseY;
 			
-			STAGE.addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
-			STAGE.addEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
+			STAGE.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+			STAGE.addEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
 		}
 		
 		/**
 		 * 	@private
 		 */
-		private function _onMouseDown(event:MouseEvent):void {
-			STAGE.addEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+		private function _mouseDown(event:MouseEvent):void {
+			STAGE.addEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 			
 			_mouseX = STAGE.mouseX;
 			_mouseY = STAGE.mouseY;
 			
-			STAGE.removeEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
+			STAGE.removeEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
 		}
 		
 		/**
 		 * 	@private
 		 */
-		private function _onMouseUp(event:MouseEvent):void {
-			STAGE.removeEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
-			STAGE.addEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
+		private function _mouseUp(event:MouseEvent):void {
+			STAGE.removeEventListener(MouseEvent.MOUSE_UP, _mouseUp);
+			STAGE.addEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
 		}
 		
 		/**
 		 * 	@private
 		 */
-		private function _onMouseMove(event:MouseEvent):void {
+		private function _mouseMove(event:MouseEvent):void {
 			_mouseX = STAGE.mouseX;
 			_mouseY = STAGE.mouseY;
 		}
@@ -146,7 +146,7 @@ package {
 		 * 
 		 */
 		public function set backgroundColor(value:uint):void {
-			_backgroundColor = controls.getControl('backgroundColor').setValue(value);
+			_backgroundColor = controls.getControl('backgroundColor').dispatch(value);
 		}
 		
 		/**
@@ -184,8 +184,8 @@ package {
 			_controls.dispose();
 			_controls = null;
 			
-			STAGE.removeEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
-			STAGE.removeEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
+			STAGE.removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+			STAGE.removeEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
 
 		}
 	}

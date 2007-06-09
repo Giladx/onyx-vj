@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -61,15 +61,15 @@ package {
 			_controls = new Controls(this, 
 				new ControlColor('color', 'color')
 			);
-			addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
+			addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 		}
 		
 		/**
 		 * 	@private
 		 */
-		private function _onMouseDown(event:MouseEvent):void {
-			addEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
-			addEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+		private function _mouseDown(event:MouseEvent):void {
+			addEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
+			addEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 
 			_draw(event.localX, event.localY);
 		}
@@ -77,7 +77,7 @@ package {
 		/**
 		 * 	@private
 		 */
-		private function _onMouseMove(event:MouseEvent):void {
+		private function _mouseMove(event:MouseEvent):void {
 			_draw(event.localX, event.localY);
 		}
 		
@@ -112,9 +112,9 @@ package {
 		/**
 		 * 	@private
 		 */
-		private function _onMouseUp(event:MouseEvent):void {
-			removeEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
-			removeEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+		private function _mouseUp(event:MouseEvent):void {
+			removeEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
+			removeEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 		}
 		
 		public function get controls():Controls {
@@ -126,9 +126,9 @@ package {
 			_source.dispose();
 			_source = null;
 			
-			removeEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
-			removeEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
-			removeEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+			removeEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
+			removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+			removeEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 
 			_controls.dispose();
 			graphics.clear();

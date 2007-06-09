@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -51,6 +51,9 @@ package {
 		private var _targetY:Number = 0;
 		private var _timer:Timer = new Timer(500);
 		
+		/**
+		 * 	@constructor
+		 */
 		public function FunInTheSun():void {
 			
 			_bmp = new Bitmap(new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT, true, 0x00000000))

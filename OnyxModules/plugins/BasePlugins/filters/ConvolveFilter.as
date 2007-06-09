@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -80,7 +80,7 @@ package filters {
 		}
 		
 		public function set blurX(x:int):void {
-			_filter.blurX = __blurX.setValue(x);
+			_filter.blurX = __blurX.dispatch(x);
 		}
 		
 		public function get blurX():int {
@@ -88,7 +88,7 @@ package filters {
 		}
 		
 		public function set blurY(y:int):void {
-			_filter.blurY = __blurY.setValue(y);
+			_filter.blurY = __blurY.dispatch(y);
 		}
 		
 		public function get blurY():int {

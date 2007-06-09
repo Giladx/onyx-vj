@@ -42,13 +42,10 @@ package effects {
 				delay = (((maxdelay - mindelay) * random()) + mindelay) * 1000;
 			}
 			
-			var anchorX:int		= content.anchorX;
-			var anchorY:int		= content.anchorY;
-			
 			var scale:Number	= ((scaleMax - scaleMin) * random()) + scaleMin;
 			var ratio:Number	= (scale - 1);
-			var x:int			= ratio * (-BITMAP_WIDTH + anchorX) * random();
-			var y:int			= ratio * (-BITMAP_HEIGHT + anchorY) * random();
+			var x:int			= ratio * (-BITMAP_WIDTH) * random();
+			var y:int			= ratio * (-BITMAP_HEIGHT) * random();
 			
 			new Tween(
 				content, 

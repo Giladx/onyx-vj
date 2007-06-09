@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -75,6 +75,18 @@ package ui.window {
 			uilayer.reOrderLayer();
 
 			addChildAt(uilayer, 0);
+		}
+		
+		/**
+		 * 	Dispose
+		 */
+		override public function dispose():void {
+
+			// listen and create layer controls
+			var display:IDisplay = Display.getDisplay(0);
+			display.removeEventListener(DisplayEvent.LAYER_CREATED, _onLayerCreate);
+			
+			super.dispose();
 		}
 	}
 }

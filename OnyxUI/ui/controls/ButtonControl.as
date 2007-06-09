@@ -38,7 +38,7 @@ package ui.controls {
 	
 	import ui.core.UIObject;
 	import ui.styles.*;
-	import ui.text.TextField;
+	import ui.text.*;
 	
 	/**
 	 * 	Relates to ControlExecute
@@ -48,7 +48,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private var _label:TextField;
+		private var _label:TextFieldCenter;
 		
 		/**
 		 * 	@constructor
@@ -57,20 +57,19 @@ package ui.controls {
 			
 			super(options, control, true, control.display);
 
-			_label = new TextField(options.width + 3, options.height, TEXT_DEFAULT_CENTER);
+			_label = new TextFieldCenter(options.width + 3, options.height, 0, 1);
 			addChild(_label);
 			
-			_label.y			= 1;
 			_label.textColor	= 0x999999;
 			_label.text			= 'PUSH ME';
 				
-			addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);	
+			addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);	
 		}
 
 		/**
 		 * 	@private
 		 */
-		private function _onMouseDown(event:MouseEvent):void {
+		private function _mouseDown(event:MouseEvent):void {
 			
 			var f:ControlExecute = _control as ControlExecute;
 			f.execute();
@@ -83,7 +82,7 @@ package ui.controls {
 		 */
 		override public function dispose():void {
 			
-			removeEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
+			removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 			_control	= null,
 			_label		= null;
 			

@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -42,6 +42,7 @@ package ui.states {
 	import onyx.states.*;
 	import onyx.utils.string.parseBoolean;
 	
+	import ui.controls.ColorPicker;
 	import ui.window.WindowRegistration;
 
 	/**
@@ -55,7 +56,7 @@ package ui.states {
 		public static const PATH:String = 'settings/settings.xml';
 
 		/**
-		 * 
+		 * 	@constructor
 		 */
 		public function SettingsLoadState():void {
 		}
@@ -147,6 +148,19 @@ package ui.states {
 					if (plugin) {
 						plugin.index = filter.@index;
 					}
+				}
+				
+			}
+			
+			if (xml.hasOwnProperty('swatch')) {
+				list = xml.swatch;
+				
+				try {
+					for each (var color:uint in list.*) {
+						ColorPicker.registerSwatch(color);
+					}
+				} catch (e:Error) {
+					trace(1, e);
 				}
 				
 			}

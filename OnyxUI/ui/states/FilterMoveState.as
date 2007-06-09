@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -51,7 +51,7 @@ package ui.states {
 		
 		override public function initialize():void {
 
-			STAGE.addEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+			STAGE.addEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 
 			for each (var filter:LayerFilter in _filters) {
 				if (filter !== _origin) {
@@ -72,7 +72,7 @@ package ui.states {
 		/**
 		 * 	@private
 		 */
-		private function _onMouseUp(event:MouseEvent):void {
+		private function _mouseUp(event:MouseEvent):void {
 			StateManager.removeState(this);
 		}
 		
@@ -80,7 +80,7 @@ package ui.states {
 		 * 	Terminate
 		 */
 		override public function terminate():void {
-			STAGE.removeEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+			STAGE.removeEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 
 			for each (var filter:LayerFilter in _filters) {
 				filter.removeEventListener(MouseEvent.MOUSE_OVER, _onMouseOver);

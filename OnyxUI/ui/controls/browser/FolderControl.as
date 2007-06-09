@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -64,7 +64,7 @@ package ui.controls.browser {
 		/**
 		 * 	@private
 		 */
-		private var _btn:ButtonClear = new ButtonClear(FOLDER_WIDTH + 2,11);
+		private var _btn:ButtonClear = new ButtonClear(FOLDER_WIDTH - 1,11);
 		
 		/**
 		 * 	@private

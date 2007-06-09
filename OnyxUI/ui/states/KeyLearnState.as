@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -77,7 +77,7 @@ package ui.states {
 			
 			// listen for a key
 			STAGE.addEventListener(KeyboardEvent.KEY_DOWN, _onKeyDown, true, 9999);
-			STAGE.addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown, true, 9999);
+			STAGE.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown, true, 9999);
 			
 			// pause the keylistener
 			_state.pause();
@@ -104,7 +104,7 @@ package ui.states {
 		 * 	@private
 		 * 	Captures mouse events (to cancel the state if a mouse press is detected)
 		 */
-		private function _onMouseDown(event:MouseEvent):void {
+		private function _mouseDown(event:MouseEvent):void {
 
 			// don't let the event through
 			event.stopPropagation();
@@ -120,7 +120,7 @@ package ui.states {
 			
 			// remove keyboard listener
 			STAGE.removeEventListener(KeyboardEvent.KEY_DOWN, _onKeyDown, true);
-			STAGE.removeEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown, true);
+			STAGE.removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown, true);
 			
 			// remove the popup
 			if (_popup) {

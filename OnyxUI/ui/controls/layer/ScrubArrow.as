@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -42,9 +42,7 @@ package ui.controls.layer
 			mouseEnabled = false;
 			
 			var sprite:DisplayObject = addChild(new AssetLayerMarker());
-			sprite.x = sprite.width >> 1;
-			
-			cacheAsBitmap = true;
+			sprite.x -= sprite.width / 2;
 		}
 		
 	}

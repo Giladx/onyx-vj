@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -38,7 +38,7 @@ package ui.controls {
 	import onyx.utils.math.*;
 	
 	import ui.styles.*;
-	import ui.text.TextField;
+	import ui.text.TextFieldCenter;
 	
 	/**
 	 * 	Slider
@@ -73,7 +73,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		protected var _value:TextField;
+		protected var _value:TextFieldCenter;
 		
 		/**
 		 * 	@private
@@ -101,21 +101,19 @@ package ui.controls {
 			}
 
 			_button = new ButtonClear(width,	height);
-			_value	= new TextField(width + 3,	height, TEXT_DEFAULT_CENTER);
+			_value	= new TextFieldCenter(width + 3,	height, 0, 1);
 
 			_multiplier			= multiplier;
 			_factor				= factor;
 			_toFixed			= toFixed;
-
-			_value.y			= 1;
 			
 			addChild(_value);
 			addChild(_button);
 			
 			doubleClickEnabled	= true;
 
-			addEventListener(MouseEvent.MOUSE_DOWN,		_onMouseDown);
-			addEventListener(MouseEvent.DOUBLE_CLICK,	_onDoubleClick);
+			addEventListener(MouseEvent.MOUSE_DOWN,		_mouseDown);
+			addEventListener(MouseEvent.DOUBLE_CLICK,	_doubleClick);
 			addEventListener(MouseEvent.MOUSE_WHEEL,	_onMouseWheel);
 			
 			if (_toFixed > 0) {
@@ -137,27 +135,27 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		protected function _onDoubleClick(event:MouseEvent):void {
+		protected function _doubleClick(event:MouseEvent):void {
 			_control.reset();
 		}
 
 		/**
 		 * 	@private
 		 */
-		protected function _onMouseDown(event:MouseEvent):void {
+		protected function _mouseDown(event:MouseEvent):void {
 			
 			_mouseY = mouseY;
 			_tempY = _control.value * _multiplier;
 			
-			STAGE.addEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
-			STAGE.addEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+			STAGE.addEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
+			STAGE.addEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 
 		}
 		
 		/**
 		 * 	@private
 		 */
-		protected function _onMouseMove(event:MouseEvent):void {
+		protected function _mouseMove(event:MouseEvent):void {
 			
 			var diff:Number = (_mouseY - mouseY) / _factor;
 			
@@ -168,10 +166,10 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		protected function _onMouseUp(event:MouseEvent):void {
+		protected function _mouseUp(event:MouseEvent):void {
 
-			STAGE.removeEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
-			STAGE.removeEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+			STAGE.removeEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
+			STAGE.removeEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 
 		}
 		
@@ -202,8 +200,8 @@ package ui.controls {
 		override public function dispose():void {
 
 			// clean up event handlers
-			removeEventListener(MouseEvent.MOUSE_DOWN,		_onMouseDown);
-			removeEventListener(MouseEvent.DOUBLE_CLICK,	_onDoubleClick);
+			removeEventListener(MouseEvent.MOUSE_DOWN,		_mouseDown);
+			removeEventListener(MouseEvent.DOUBLE_CLICK,	_doubleClick);
 			removeEventListener(MouseEvent.MOUSE_WHEEL,		_onMouseWheel);
 			
 			// remove listeners

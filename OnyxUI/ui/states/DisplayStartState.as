@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -34,11 +34,11 @@ package ui.states {
 	import flash.events.*;
 	
 	import onyx.constants.*;
-	import onyx.core.Onyx;
+	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.events.*;
-	import onyx.states.*;
 	import onyx.midi.Midi;
+	import onyx.states.*;
 	
 	import ui.assets.*;
 	import ui.core.*;
@@ -93,7 +93,7 @@ package ui.states {
 			ROOT.addEventListener(Event.ADDED,				_onItemAdded);
 			
 			// listen for updates
-			var console:onyx.core.Console = onyx.core.Console.getInstance();
+			var console:Console = Console.getInstance();
 			console.addEventListener(ConsoleEvent.OUTPUT, _onOutput);
 			
 			// set the label type
@@ -103,7 +103,7 @@ package ui.states {
 		}
 		
 		/**
-		 * 
+		 * 	@private
 		 */
 		private function _onOutput(event:ConsoleEvent):void {
 			_label.appendText(event.message + '\n');
@@ -134,8 +134,8 @@ package ui.states {
 		 * 	Terminate
 		 */		
 		override public function terminate():void {
-			
-			var console:onyx.core.Console = onyx.core.Console.getInstance();
+
+			var console:Console = Console.getInstance();
 			console.removeEventListener(ConsoleEvent.OUTPUT, _onOutput);
 			
 			// remove listener to the stage
@@ -165,9 +165,12 @@ package ui.states {
 			// load menu bar
 			ROOT.addChild(window);
 			
-			// add a display
-			var display:Display = Onyx.createDisplay(STAGE.stageWidth - 320, STAGE.stageHeight - 240, 320 / BITMAP_WIDTH, 240 / BITMAP_HEIGHT, !SETTING_SUPPRESS_DISPLAYS);
+			// add a display, but only make it visible if the stagewidth is greater than > 1024
+			var display:Display = Onyx.createDisplay(STAGE.stageWidth - 640, 0, 640 / BITMAP_WIDTH, 480 / BITMAP_HEIGHT, !SETTING_SUPPRESS_DISPLAYS);
 			display.createLayers(5);
+			display.visible = STAGE.stageWidth >= 1664;
+			
+			Console.output(display.visible);
 			
 			// now add all the windows
 			window.createButtons();

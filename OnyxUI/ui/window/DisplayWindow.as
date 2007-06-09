@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -63,7 +63,9 @@ package ui.window {
 			
 			super(null, 286, BITMAP_HEIGHT);
 			
+			// set our display
 			_display	= new UIDisplay(Display.getDisplay(0));
+			_preview.smoothing	= false;
 
 //			_display.x	= 4;
 //			_display.y	= 57;

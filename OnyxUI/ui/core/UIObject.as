@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -30,22 +30,17 @@
  */
 package ui.core {
 	
-	import flash.display.DisplayObject;
-	import flash.display.Shape;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.events.MouseEvent;
-	import flash.events.TimerEvent;
-	import flash.geom.ColorTransform;
+	import flash.display.*;
+	import flash.events.*;
+	import flash.geom.*;
 	import flash.utils.*;
 	
 	import onyx.core.IDisposable;
 	import onyx.tween.easing.Back;
 	
-	import ui.assets.AssetShape;
+	import ui.assets.AssetBitmap;
 	import ui.styles.*;
-	import ui.text.TextField;
+	import ui.text.*;
 
 	/**
 	 * 	Base UIObject Class
@@ -86,11 +81,6 @@ package ui.core {
 		 * 	@private
 		 */
 		private static var _doubleTime:int;
-		
-		/**
-		 * 	Stores the background shape
-		 */		
-		protected var background:Shape;
 
 		/**
 		 * 	@constructor
@@ -144,10 +134,7 @@ package ui.core {
 		 * 	Creates a background
 		 */
 		protected function displayBackground(width:int, height:int):void {
-			if (!background) {
-				background = new AssetShape(width, height);
-				addChildAt(background, 0);
-			}
+			addChildAt(new AssetBitmap(width, height), 0);
 		}
 		
 		/**
@@ -157,7 +144,8 @@ package ui.core {
 			
 			var len:int = args.length;
 			for (var count:int = 0; count < len; count+=3) {
-				args[count].x = args[count+1];
+				
+				args[count].x = args[count+1],
 				args[count].y = args[count+2];
 
 				addChild(args[count]);
@@ -185,12 +173,10 @@ package ui.core {
 		 */
 		protected function addLabel(name:String, width:int, height:int, offsetY:int = -8, offsetX:int = 0):void {
 			
-			var label:TextField = new TextField(width + 3, height, TEXT_DEFAULT_CENTER);
-			label.textColor		= TEXT_LABEL;
-			label.text			= name.toUpperCase();
-			label.y				= offsetY;
-			label.x				= offsetX;
-			label.mouseEnabled	= false;
+			var label:TextFieldCenter	= new TextFieldCenter(width + 3, height, offsetX, offsetY);
+			label.textColor				= TEXT_LABEL;
+			label.text					= name.toUpperCase();
+			label.mouseEnabled			= false;
 
 			super.addChild(label);
 		}

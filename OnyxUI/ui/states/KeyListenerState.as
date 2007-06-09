@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -167,14 +167,14 @@ package ui.states {
 			
 			switch (event.keyCode) {
 				case SELECT_LAYER_PREV:
-					layer = UILayer.getLayerAt(UILayer.selectedLayer.index - 1);
+					layer = UILayer.layers[UILayer.selectedLayer.index - 1];
 					if (layer) {
 						UILayer.selectLayer(layer);
 					}
 					
 					break;
 				case SELECT_LAYER_NEXT:
-					layer = UILayer.getLayerAt(UILayer.selectedLayer.index + 1);
+					layer = UILayer.layers[UILayer.selectedLayer.index + 1];
 					if (layer) {
 						UILayer.selectLayer(layer);
 					}

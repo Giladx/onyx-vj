@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -59,6 +59,14 @@ package ui.policy {
 			// initialize
 			policy.initialize(target);
 			
+		}
+		
+		public static function removePolicies(target:IEventDispatcher):void {
+			var policies:Array = _dict[target];
+			
+			for each (var policy:Policy in policies) {
+				policy.terminate(target);
+			}
 		}
 		
 		/**

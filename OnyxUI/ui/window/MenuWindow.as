@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -53,8 +53,8 @@ package ui.window {
 			// position and create window
 			super(null, 100, 100);
 
-			x = 200;
-			y = 744;
+			x = 2;
+			y = 728;
 		}
 		
 		/**
@@ -70,8 +70,7 @@ package ui.window {
 				
 				// create control
 				var control:MenuButton = new MenuButton(reg, MENU_OPTIONS);
-				control.x = (index % 6) * (MENU_OPTIONS.width + 2);
-				control.y = floor(index / 6) * (MENU_OPTIONS.height + 2);
+				control.x = index * (MENU_OPTIONS.width + 2);
 
 				// add child
 				addChild(control);

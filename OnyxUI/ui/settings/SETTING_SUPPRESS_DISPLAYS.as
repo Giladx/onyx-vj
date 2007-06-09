@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -30,6 +30,9 @@
  */
 package ui.settings {
 
+	/**
+	 * 	
+	 */
 	public var SETTING_SUPPRESS_DISPLAYS:Boolean = false;
 	
 }

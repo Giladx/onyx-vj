@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -39,7 +39,7 @@ package ui.controls {
 	import onyx.utils.math.*;
 	
 	import ui.styles.*;
-	import ui.text.TextField;
+	import ui.text.TextFieldCenter;
 	
 	final public class SliderV2 extends UIControl {
 		
@@ -56,7 +56,7 @@ package ui.controls {
 		private var _factor:Number;
 
 		private var _button:ButtonClear;
-		private var _value:TextField;
+		private var _value:TextFieldCenter;
 		
 		/**
 		 * 	@constructor
@@ -80,7 +80,7 @@ package ui.controls {
 			super(options, control, true, proxy.display);
 
 			_button = new ButtonClear(width,	height);
-			_value	= new TextField(width + 3,	height,	TEXT_DEFAULT_CENTER);
+			_value	= new TextFieldCenter(width + 3,	height,	0, 1);
 
 			_controlY = proxy.controlY;
 			_controlX = proxy.controlX;
@@ -88,26 +88,25 @@ package ui.controls {
 			_multiplier = multiplier;
 			_factor = factor;
 
-			_value.y		= 1;
 			_value.text		= floor(_controlY.value * _multiplier) + ':' + floor(_controlX.value * _multiplier);	
 			
 			addChild(_value);
 			addChild(_button);
 
 			doubleClickEnabled = true;
-			addEventListener(MouseEvent.DOUBLE_CLICK, _onDoubleClick);
+			addEventListener(MouseEvent.DOUBLE_CLICK, _doubleClick);
 
 			_controlY.addEventListener(ControlEvent.CHANGE, _onControlChange);
 			_controlX.addEventListener(ControlEvent.CHANGE, _onControlChange);
 			
-			addEventListener(MouseEvent.MOUSE_DOWN, (invert) ? _onMouseDownInvert : _onMouseDownNormal);
+			addEventListener(MouseEvent.MOUSE_DOWN, (invert) ? _mouseDownInvert : _mouseDownNormal);
 
 		}
 		
 		/**
 		 * 	@private
 		 */
-		private function _onDoubleClick(event:MouseEvent):void {
+		private function _doubleClick(event:MouseEvent):void {
 			_controlY.reset();
 			_controlX.reset();
 		}
@@ -115,7 +114,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private function _onMouseDownNormal(event:MouseEvent):void {
+		private function _mouseDownNormal(event:MouseEvent):void {
 			
 			_mouseY = mouseY;
 			_mouseX = mouseX;
@@ -123,15 +122,15 @@ package ui.controls {
 			_tempY = (_controlY.value * _multiplier);
 			_tempX = (_controlX.value * _multiplier);
 			
-			STAGE.addEventListener(MouseEvent.MOUSE_MOVE, _onMouseMoveNormal);
-			STAGE.addEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+			STAGE.addEventListener(MouseEvent.MOUSE_MOVE, _mouseMoveNormal);
+			STAGE.addEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 			
 		}
 		
 		/**
 		 * 	@private
 		 */
-		private function _onMouseMoveNormal(event:MouseEvent):void {
+		private function _mouseMoveNormal(event:MouseEvent):void {
 
 
 			var x:Number = (_tempX + ((_mouseX - mouseX) / _factor));
@@ -149,7 +148,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private function _onMouseDownInvert(event:MouseEvent):void {
+		private function _mouseDownInvert(event:MouseEvent):void {
 			
 			_mouseY = mouseY;
 			_mouseX = mouseX;
@@ -157,15 +156,15 @@ package ui.controls {
 			_tempY = (_controlY.value * _multiplier);
 			_tempX = (_controlX.value * _multiplier);
 			
-			STAGE.addEventListener(MouseEvent.MOUSE_MOVE, _onMouseMoveInvert);
-			STAGE.addEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+			STAGE.addEventListener(MouseEvent.MOUSE_MOVE, _mouseMoveInvert);
+			STAGE.addEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 
 		}
 		
 		/**
 		 * 	@private
 		 */
-		private function _onMouseMoveInvert(event:MouseEvent):void {
+		private function _mouseMoveInvert(event:MouseEvent):void {
 
 			var x:Number = _tempX - ((_mouseX - mouseX) / _factor);
 			var y:Number = _tempY - ((_mouseY - mouseY) / _factor);
@@ -182,10 +181,10 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private function _onMouseUp(event:MouseEvent):void {
-			STAGE.removeEventListener(MouseEvent.MOUSE_MOVE, _onMouseMoveInvert);
-			STAGE.removeEventListener(MouseEvent.MOUSE_MOVE, _onMouseMoveNormal);
-			STAGE.removeEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+		private function _mouseUp(event:MouseEvent):void {
+			STAGE.removeEventListener(MouseEvent.MOUSE_MOVE, _mouseMoveInvert);
+			STAGE.removeEventListener(MouseEvent.MOUSE_MOVE, _mouseMoveNormal);
+			STAGE.removeEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 		}
 		
 		/**

@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -29,6 +29,8 @@
  * 
  */
 package ui.controls {
+	
+	import flash.display.BitmapData;
 	
 	import ui.core.UIObject;
 	import ui.styles.UI_OPTIONS;

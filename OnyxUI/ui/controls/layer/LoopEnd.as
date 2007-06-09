@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -96,7 +96,7 @@ package ui.controls.layer {
 			
 			var graphics:Graphics = this.graphics;
 			graphics.clear();
-			graphics.beginFill(0x111111, .8);
+			graphics.beginFill(0x000000, .9);
 			graphics.drawRect(0,0,193 - super.x,7);
 			graphics.endFill();
 		}

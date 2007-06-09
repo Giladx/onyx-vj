@@ -28,60 +28,117 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package ui.controls {
+package ui.controls.layer {
 	
 	import flash.events.MouseEvent;
-	import flash.geom.Rectangle;
-	import flash.text.Font;
 	
-	import onyx.controls.*;
+	import onyx.display.*;
 	
+	import ui.controls.ButtonClear;
 	import ui.core.UIObject;
-	import ui.styles.*;
-	import ui.text.TextFieldCenter;
-	
-	public final class TextControl extends UIControl {
+	import ui.text.TextField;
+	import ui.window.CrossFaderWindow;
+
+	public final class CrossFaderToggle extends UIObject {
+
+		/**
+		 * 	@private
+		 */
+		public static var window:CrossFaderWindow;
 		
 		/**
 		 * 	@private
 		 */
-		private var _label:TextFieldCenter;
+		private var _toggleA:ButtonClear;
+		
+		/**
+		 * 	@private
+		 */
+		private var _toggleB:ButtonClear;
+		
+		/**
+		 * 	@private
+		 */
+		private var _toggleOff:ButtonClear;
+		
+		/**
+		 * 	@private
+		 */
+		private var _layer:ILayer;
+		
+		/**
+		 * 	@private
+		 */
+		private var _current:TextField;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function TextControl(options:UIOptions, control:Control):void {
+		public function CrossFaderToggle(layer:ILayer):void {
 			
-			super(options, control, true, control.display);
+			_current	= new TextField(11,11),
+			_layer		= layer,
+			_toggleA	= new ButtonClear(11,11),
+			_toggleB	= new ButtonClear(11,11),
+			_toggleOff	= new ButtonClear(11,11);
 			
-			_label = new TextFieldCenter(options.width + 3, options.height, 0, 1);
-			addChild(_label);
+			_toggleA.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+			_toggleB.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+			_toggleOff.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 			
-			_label.textColor	= 0x999999;
-			_label.text			= 'EDIT';
-				
-			addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);	
+			_toggleA.x	= 12;
+			_toggleB.x	= 24;
+			
+			addChild(_toggleA);
+			addChild(_toggleB);
+			
 		}
-
+		
 		/**
 		 * 	@private
 		 */
 		private function _mouseDown(event:MouseEvent):void {
 			
-			var popup:TextControlPopUp	= new TextControlPopUp(this, null, 200, 200, _control.value, _control);
-			event.stopPropagation();
+			switch (event.currentTarget) {
+				case _toggleA:
+
+					addChild(_current);
+					addChild(_toggleOff);
+					
+					removeChild(_toggleA);
+					
+					break;
+				case _toggleB:
+
+					addChild(_current);
+					addChild(_toggleOff);
+					
+					removeChild(_toggleB);
+
+					break;
+
+				case _toggleOff:
+				
+					removeChild(_toggleOff);
+					removeChild(_current);
+
+					addChild(_toggleA);
+					addChild(_toggleB);
+
+					break;
+			}
+			
 		}
 		
 		/**
 		 * 
 		 */
 		override public function dispose():void {
-			
-			removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
-			_control	= null,
-			_label		= null;
-			
 			super.dispose();
-		}
+			
+			_toggleA.removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+			_toggleB.removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+			_toggleOff.removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+		}	
 	}
 }

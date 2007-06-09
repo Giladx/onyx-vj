@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -30,10 +30,8 @@
  */
 package ui.controls {
 
-	import flash.display.DisplayObjectContainer;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
+	import flash.display.*;
+	import flash.events.*;
 	import flash.geom.Rectangle;
 	
 	import onyx.constants.*;
@@ -57,7 +55,7 @@ package ui.controls {
 		/**
 		 * 	@constructor
 		 */
-		public function TextControlPopUp(parent:DisplayObjectContainer, width:int, height:int, text:String, control:Control = null):void {
+		public function TextControlPopUp(parent:DisplayObjectContainer, background:BitmapData, width:int, height:int, text:String, control:Control = null):void {
 			
 			if (parent) {
 				

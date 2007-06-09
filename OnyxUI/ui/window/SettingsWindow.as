@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -30,7 +30,7 @@
  */
 package ui.window {
 
-	import flash.display.Shape;
+	import flash.display.*;
 	import flash.events.*;
 	import flash.geom.*;
 	import flash.system.System;
@@ -40,64 +40,151 @@ package ui.window {
 	import onyx.controls.*;
 	import onyx.core.*;
 	import onyx.display.*;
-	import onyx.events.TempoEvent;
-	import onyx.file.FileBrowser;
+	import onyx.events.*;
+	import onyx.file.*;
 	import onyx.jobs.*;
+	import onyx.plugin.*;
 	import onyx.states.StateManager;
 	
+	import ui.assets.*;
 	import ui.controls.*;
-	import ui.core.UIObject;
+	import ui.core.*;
 	import ui.states.MidiLearnState;
 	import ui.styles.*;
-	import onyx.file.FileQuery;
+	import ui.text.*;
 
-	public final class SettingsWindow extends Window {
+	public final class SettingsWindow extends Window implements IControlObject {
 
 		/**
 		 * 	@private
 		 */
-		private var _controlXML:TextButton;
+		private var _buttonXML:TextButton;
+		
+		/**
+		 * 	@private
+		 */
+		private var _transitionDropDown:DropDown;
+		
+		/**
+		 * 	@private
+		 */
+		private var _durationSlider:SliderV;
+		
+		/**
+		 * 	@private
+		 */
+		private var _tempoSlider:SliderV;
+				
+		/**
+		 * 	@private
+		 */
+		private var _tempoDropDown:DropDown;
+
+		/**
+		 * 	Stores current transition plugin to use
+		 */		
+		private var _transition:Transition;
+		
+		/**
+		 * 	@private
+		 * 	returns controls
+		 */
+		private var _controls:Controls;
+		
+		/**
+		 * 	@private
+		 */
+		private var _tapTempo:TempoShape	= new TempoShape();
+		
+		/**
+		 * 	@private
+		 */
+		private var _releaseTimer:Timer		= new Timer(50);
+		
+		/**
+		 * 	@private
+		 */
+		private var _samples:Array			= [0];
+		
+		/**
+		 * 
+		 */
+		private var _line:Object;
 		
 		/**
 		 * 	@constructor
 		 */
 		public function SettingsWindow():void {
 			
-			super('SETTINGS WINDOW', 202, 32);
-			
-			var display:IDisplay	= Display.getDisplay(0);
 			var control:Control;
 
-			// create new ui options
-			var options:UIOptions	= new UIOptions();
-			options.width			= 60;
+			super('SETTINGS', 202, 161);
+			
+			// create transition controls
+			_controls = new Controls(this,
+				new ControlPlugin('transition', 'Layer Transition', ControlPlugin.TRANSITIONS),
+				new ControlInt('duration', 'Duration', 1, 20, 3, { factor: 10 })
+			);
+			
+			var options:UIOptions	= new UIOptions(true, true, 'center', 60, 10);
 
 			// controls for display
-			_controlXML				= new TextButton(options, 'save mix file');
+			_buttonXML				= new TextButton(options, 'save mix file');
+			
+			// transition controls
+			_durationSlider			= new SliderV(options, _controls.getControl('duration'));
+			_transitionDropDown		= new DropDown(options, _controls.getControl('transition'));
+
+			// tempo controls
+			_tempoSlider			= new SliderV(options, TEMPO.controls.getControl('tempo'));
+			_tempoDropDown			= new DropDown(options, TEMPO.controls.getControl('snapTempo'));
 			
 			// add controls
-			addChildren(	
-				_controlXML,	2,		18
+			addChildren(
+				new StaticText('GLOBAL TEMPO'),		4,		12,
+				new AssetLine(),					4,		20,
+				_tempoDropDown,						8,		35,
+				_tapTempo,							75,		28,
+				new StaticText('TRANSITION'),		4,		68,
+				new AssetLine(),					4,		76,
+				_transitionDropDown,				8,		90,
+				_durationSlider,					75,		90,
+				new StaticText('MIX FILE'),			4,		110,
+				new AssetLine(),					4,		118,
+				_buttonXML,							8,		124
 			);
 
 			// xml
-			_controlXML.addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
+			_buttonXML.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 
+			// start the timer
+			TEMPO.addEventListener(TempoEvent.CLICK, _onTempo);
+			
+			// tap tempo click
+			_tapTempo.addEventListener(MouseEvent.MOUSE_DOWN, _onTempoDown);
+
+		}
+		
+		/**
+		 * 
+		 */
+		public function get controls():Controls {
+			return _controls
 		}
 
 		/**
 		 * 	@private
 		 */
-		private function _onMouseDown(event:MouseEvent):void {
+		private function _mouseDown(event:MouseEvent):void {
 			
 			var display:Display = Display.getDisplay(0);
 			var text:String		= display.toXML().normalize();
 			
-			var popup:TextControlPopUp = new TextControlPopUp(this, 200, 200, 'Copied to clipboard\n\n' + text);
+			var popup:TextControlPopUp = new TextControlPopUp(this, null, 200, 200, 'Copied to clipboard\n\n' + text);
 
 			// saves breaks
-			var arr:Array = text.split(String.fromCharCode(10));
-			text		= arr.join(String.fromCharCode(13,10));
+			var arr:Array	= text.split(String.fromCharCode(10));
+			text			= arr.join(String.fromCharCode(13,10));
 			
 			var bytes:ByteArray = new ByteArray();
 			bytes.writeUTFBytes(text);
@@ -107,8 +194,126 @@ package ui.window {
 			event.stopPropagation();
 		}
 		
+		/**
+		 * 	@private
+		 */
 		private function _onFileSaved(query:FileQuery):void {
 			trace('saved');
 		}
+		
+
+		/**
+		 * 	Gets the transition duration
+		 */
+		public function get duration():int {
+			return (UIManager.transition) ? UIManager.transition.duration / 1000 : 2;
+		}
+		
+		/**
+		 * 	Sets the transition duration
+		 */
+		public function set duration(value:int):void {
+			(UIManager.transition) ? UIManager.transition.duration = value * 1000 : null;
+		}
+		
+		/**
+		 * 	Sets the transition
+		 */
+		public function set transition(value:Transition):void {
+			
+			_transition = value;
+
+			// valid
+			if (value)  {
+
+				value.duration			= duration * 1000,
+				UIManager.transition	= value;
+
+			}
+		}
+
+		/**
+		 * 	@private
+		 */
+		private function _onTempoDown(event:Event):void {
+			
+			var time:int = getTimer();
+			
+			if (time - _samples[_samples.length - 1] > 1000) {
+				_samples = [time];
+			} else {
+				_samples.push(time);
+			}
+			
+			var len:int = _samples.length;
+			
+			if (len > 2) {
+
+				var total:int	= 0;
+	
+				for (var count:int = 1; count < len; count++) {
+					total += _samples[count] - _samples[count - 1];
+				}
+
+				total /= (count - 1);
+				TEMPO.tempo = (total / 4);
+			} else {
+				TEMPO.start();
+			}
+			
+			if (len > 8) {
+				_samples.shift();
+			}
+
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function _onTempo(event:TempoEvent):void {
+			if (event.beat % 4 === 0) {
+				_tapTempo.transform.colorTransform = (event.beat % 16 == 0) ? TEMPO_BEAT : TEMPO_CLICK;
+				_releaseTimer.addEventListener(TimerEvent.TIMER, _onTempoOff);
+				_releaseTimer.start();
+			}
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function _onTempoOff(event:TimerEvent):void {
+			_tapTempo.transform.colorTransform = DEFAULT;
+			_releaseTimer.removeEventListener(TimerEvent.TIMER, _onTempoOff);
+			_releaseTimer.stop();
+		}
+		
+		/**
+		 * 
+		 */
+		public function get transition():Transition {
+			return _transition;
+		}
+	}
+}
+
+
+
+import flash.display.Sprite;
+import ui.assets.AssetTapTempo;
+
+/**
+ * 	Tempo shape
+ */
+final class TempoShape extends Sprite {
+	
+	/**
+	 * 	@constructor
+	 */
+	public function TempoShape():void {
+		
+		addChild(new AssetTapTempo());
+		
+		super.buttonMode = true;
+		
 	}
 }

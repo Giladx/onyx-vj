@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -80,7 +80,7 @@ package ui.window {
 		public function Filters():void {
 			
 			// set title, etc
-			super('FILTERS', 192, 200);
+			super('FILTERS', 192, 240);
 			
 			// add panes
 			addChild(_normalPane);
@@ -121,11 +121,12 @@ package ui.window {
 					_normalPane.addChild(lib);
 				}
 				
-				// handle events
+				// set it to listen for double clicks
 				lib.doubleClickEnabled = true;
 				
-				lib.addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
-				lib.addEventListener(MouseEvent.DOUBLE_CLICK, _onDoubleClick);
+				// add listeners
+				lib.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+				lib.addEventListener(MouseEvent.DOUBLE_CLICK, _doubleClick);
 			}
 		}
 
@@ -138,8 +139,8 @@ package ui.window {
 			while (_bitmapPane.numChildren) {
 				
 				var lib:LibraryFilter = _bitmapPane.removeChildAt(0) as LibraryFilter;
-				lib.removeEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
-				lib.removeEventListener(MouseEvent.DOUBLE_CLICK, _onDoubleClick);
+				lib.removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+				lib.removeEventListener(MouseEvent.DOUBLE_CLICK, _doubleClick);
 				
 			}
 		}
@@ -148,7 +149,7 @@ package ui.window {
 		 * 	@private
 		 * 	Double Click
 		 */
-		private function _onDoubleClick(event:MouseEvent):void {
+		private function _doubleClick(event:MouseEvent):void {
 			
 			var control:LibraryFilter	= event.target as LibraryFilter;
 			var plugin:Plugin			= control.filter;
@@ -165,7 +166,7 @@ package ui.window {
 		 * 	@private
 		 * 	Mouse Down
 		 */
-		private function _onMouseDown(event:MouseEvent):void {
+		private function _mouseDown(event:MouseEvent):void {
 			
 			var control:LibraryFilter = event.currentTarget as LibraryFilter;
 			DragManager.startDrag(control, targets, _onDragOver, _onDragOut, _onDragDrop);
@@ -230,6 +231,11 @@ package ui.window {
 		 */
 		override public function dispose():void {
 
+			// remove policites
+			Policy.removePolicies(_normalPane);
+			Policy.removePolicies(_bitmapPane);
+
+			// remove controls
 			_clearControls();
 
 			super.dispose();

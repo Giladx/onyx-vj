@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -44,16 +44,15 @@ package ui.window {
 		 * 	All window registrations
 		 */
 		public static const registrations:Array	= register(
-			new WindowRegistration('FILE BROWSER',	Browser, 6, 318),
-			new WindowRegistration('CONSOLE',		ui.window.Console, 6, 582),
-			new WindowRegistration('FILTERS',		Filters, 412, 318),
-			new WindowRegistration('TRANSITIONS',	TransitionWindow, 6, 544),
-			new WindowRegistration('TEMPO',			TempoWindow, 200, 544),
-			new WindowRegistration('LAYERS',		LayerWindow, 0, 0),
-			new WindowRegistration('MEMORY',		MemoryWindow, 200,200, false),
-			new WindowRegistration('DISPLAY',		DisplayWindow, 508, 602),
-			new WindowRegistration('KEY MAPPING',	KeysWindow, 615, 319, false),
-			new WindowRegistration('SETTINGS',		SettingsWindow, 200, 582)
+			new WindowRegistration('FILE BROWSER',	Browser,			6, 318),
+			new WindowRegistration('CONSOLE',		ConsoleWindow,		6, 561),
+			new WindowRegistration('FILTERS',		Filters,			412, 318),
+			new WindowRegistration('LAYERS',		LayerWindow,		0, 0),
+			new WindowRegistration('MEMORY',		MemoryWindow,		614, 318, false),
+			new WindowRegistration('DISPLAY',		DisplayWindow,		659, 580),
+			new WindowRegistration('KEY MAPPING',	KeysWindow,			615, 319, false),
+			new WindowRegistration('SETTINGS',		SettingsWindow,		200, 561),
+			new WindowRegistration('CROSSFADER',	CrossFaderWindow,	411, 561)
 		);
 		
 		/**
@@ -85,12 +84,14 @@ package ui.window {
 		}
 		
 		/**
-		 * 	Creates the windows
+		 * 	Creates the windows and menu buttons
 		 */
 		public static function createWindows():void {
+			
 			for each (var reg:WindowRegistration in registrations) {
 				reg.visible = reg.enabled;
 			}
+			
 		}
 		
 		/**
@@ -129,11 +130,13 @@ package ui.window {
 		 * 	@constructor
 		 */
 		public function WindowRegistration(name:String, definition:Class, x:int, y:int, enabled:Boolean = true):void {
-			this.name			= name;
-			this.x				= x;
-			this.y				= y;
-			this.definition		= definition;
+			
+			this.name			= name,
+			this.x				= x,
+			this.y				= y,
+			this.definition		= definition,
 			this.enabled		= enabled;
+			
 		}
 		
 		/**

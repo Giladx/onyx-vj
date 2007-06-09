@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -285,7 +285,7 @@ package ui.controls {
 	}
 }
 
-import flash.display.Sprite
+import flash.display.*;
 
 import ui.text.TextField;
 import ui.controls.DropDown;
@@ -300,6 +300,9 @@ final class Option extends Sprite {
 
 	public var index:int;
 	
+	/**
+	 * 	@constructor
+	 */
 	public function Option(text:String, index:int, width:int, bind:String = null):void {
 		
 		this.index			= index,
@@ -307,6 +310,8 @@ final class Option extends Sprite {
 		_label.x			= 2,
 		_label.y			= 1,
 		_label.text			= text ? text.toUpperCase() : '';
+		
+		var graphics:Graphics = this.graphics;
 		
 		graphics.beginFill(DROPDOWN_DEFAULT);
 		graphics.drawRect(0, 0, width, DropDown.ITEM_HEIGHT);

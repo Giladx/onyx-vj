@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -32,7 +32,8 @@ package {
 	
 	import flash.display.*;
 	import flash.events.Event;
-	import flash.system.Security;
+	import flash.geom.*;
+	import flash.system.*;
 	import flash.ui.*;
 	
 	import onyx.constants.*;
@@ -45,7 +46,7 @@ package {
 	import ui.core.UIObject;
 	import ui.states.*;
 	
-	[SWF(width="1024", height="768", backgroundColor="#141515", frameRate='30')]
+	[SWF(width="1024", height="740", backgroundColor="#141515", frameRate='30')]
 	public class OnyxUI extends Sprite {
 		
 		/**
@@ -54,6 +55,7 @@ package {
 		public function OnyxUI():void {
 			
 			addEventListener(Event.ADDED_TO_STAGE, _onAdded);
+			
 		}
 		
 		/**
@@ -66,7 +68,7 @@ package {
 			// no scale please thanks
 			stage.align		= StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
-			stage.quality	= StageQuality.LOW;
+			stage.quality	= StageQuality.MEDIUM;
 			
 			// init
 			UIManager.initialize(
@@ -75,6 +77,12 @@ package {
 				new KeyListenerState()
 			);
 			
+			// hide items
+			var menu:ContextMenu = new ContextMenu();
+			menu.hideBuiltInItems();
+			menu.customItems	= [new ContextMenuItem('test')];
+			contextMenu	= menu;
+
 		}
 	}
 }

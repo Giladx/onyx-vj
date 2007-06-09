@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -30,14 +30,20 @@
  */
 package ui.layer {
 	
+	/**
+	 * 	Stores a page inside a layer/display control (such as basic, filters, custom)
+	 */
 	public final class LayerPage {
 		
 		public var name:String;
 		public var controls:Array;
 		
+		/**
+		 * 	@constructor
+		 */
 		public function LayerPage(name:String,... args:Array):void {
-			this.name = name;
-			this.controls = args || [];
+			this.name		= name,
+			this.controls	= args || [];
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -35,6 +35,7 @@ package ui.controls.browser {
 	import ui.assets.AssetIconCamera;
 	import ui.controls.*;
 	import ui.core.UIObject;
+	import flash.display.BitmapData;
 
 	public final class BrowserCameras extends UIObject {
 

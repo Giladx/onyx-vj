@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -73,13 +73,13 @@ package ui.controls {
 			
 			control.addEventListener(ControlEvent.CHANGE, _onChanged);
 			
-			addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
+			addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 		}
 		
 		/**
 		 * 	@private
 		 */
-		private function _onMouseDown(event:MouseEvent):void {
+		private function _mouseDown(event:MouseEvent):void {
 			control.value = !_value;
 		}
 		
@@ -100,7 +100,7 @@ package ui.controls {
 			control.removeEventListener(ControlEvent.CHANGE, _onChanged);
 			_label	= null;
 			
-			removeEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
+			removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 
 			super.dispose();
 		}

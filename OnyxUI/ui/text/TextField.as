@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -44,19 +44,14 @@ package ui.text {
 		 */
 		public function TextField(width:int, height:int, format:TextFormat = null):void {
 			
-			super.selectable		= false;
-			super.defaultTextFormat	= format || TEXT_DEFAULT;
-			super.width				= width;
-			super.height			= height;
-			super.embedFonts		= true;
+			super.selectable		= false,
+			super.defaultTextFormat	= format || TEXT_DEFAULT,
+			super.gridFitType		= GridFitType.PIXEL,
+			super.width				= width,
+			super.height			= height,
+			super.embedFonts		= true,
+			super.antiAliasType		= AntiAliasType.NORMAL;
+		}
 
-		}
-		
-		/**
-		 * 	Gets alignment
-		 */
-		public function get align():String {
-			return defaultTextFormat.align;
-		}
 	}
 }

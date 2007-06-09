@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -38,7 +38,7 @@ package ui.controls {
 	import ui.assets.AssetWindow;
 	import ui.core.UIObject;
 	import ui.styles.*;
-	import ui.text.TextField;
+	import ui.text.TextFieldCenter;
 
 	/**
 	 * 	Popup class
@@ -48,7 +48,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private var _text:TextField;
+		private var _text:TextFieldCenter;
 		
 		/**
 		 * 	@constructor
@@ -61,11 +61,10 @@ package ui.controls {
 			sprite.height	= height;
 
 			// add the textfield
-			_text			= new TextField(width, height, TEXT_DEFAULT_CENTER);
+			_text			= new TextFieldCenter(width, height, 0, 14);
 			_text.multiline	= true;
 			_text.wordWrap	= true;
 			_text.text		= text;
-			_text.y			= 14;
 			
 			// add it
 			addChild(_text);

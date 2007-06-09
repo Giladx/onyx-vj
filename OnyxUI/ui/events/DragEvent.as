@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -53,6 +53,19 @@ package ui.events {
 		 */
 		public function DragEvent(type:String):void {
 			super(type);
+		}
+		
+		/**
+		 * 
+		 */
+		override public function clone():Event {
+			var event:DragEvent = new DragEvent(super.type);
+
+			event.origin		= origin,
+			event.ctrlKey		= ctrlKey,
+			event.shiftKey		= shiftKey;
+
+			return event;
 		}
 		
 	}

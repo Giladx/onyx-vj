@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -45,14 +45,42 @@ package ui.controls {
 	public final class ColorPicker extends UIControl {
 		
 		/**
+		 * 	Registers a color to be displayed on the swatch
+		 */
+		public static function registerSwatch(color:uint):void {
+			return;
+			_swatchColors.push(color);
+			
+			var len:int			= _swatchColors.length;
+			var bmp:BitmapData	= new BitmapData(len * 10, 10, false);
+
+			var rect:Rectangle = new Rectangle(0,0,10,10);
+
+			for (var count:int = 0; count < len; count++) {
+				bmp.fillRect(rect, _swatchColors[count]);
+				rect.offset(10, 0);
+			}
+		}
+		
+		/**
+		 * 
+		 */
+		private static const _swatchColors:Array	= [];
+		
+		/**
 		 * 	@private
 		 */
 		private static const STAGE_COLOR:BitmapData = new BitmapData(1,1, false);
 		
 		/**
-		 * 
+		 * 	@private
 		 */
 		private static const RECT:Rectangle			= new Rectangle(0, 0, 1, 1);
+		
+		/**
+		 * 	@private
+		 */
+		private static const _swatch:Bitmap			= new Bitmap();
 		
 		/**
 		 * 	@private
@@ -83,11 +111,15 @@ package ui.controls {
 			
 			_draw(options.width, options.height);
 			
-			addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
+			addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 			
 			useHandCursor	= true;
 			buttonMode		= true;
 			mouseChildren	= false;
+			
+			if (!_picker) {
+				_picker = new Picker();
+			}
 
 		}
 		
@@ -107,19 +139,18 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private function _onMouseDown(event:MouseEvent):void {
+		private function _mouseDown(event:MouseEvent):void {
 			
-			_picker		= new Picker();
 			_picker.x	= -_lastX + mouseX;
 			_picker.y	= -_lastY + mouseY;
 			
 			// add to the root outside container so it doesn't clip
 			CONTAINER.display(this, _picker);
 			
-			STAGE.addEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
-			STAGE.addEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+			STAGE.addEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
+			STAGE.addEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 			
-			_onMouseMove(event);
+			_mouseMove(event);
 
 			// prevent event propagation
 			event.stopPropagation();
@@ -128,27 +159,28 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private function _onMouseMove(event:MouseEvent):void {
+		private function _mouseMove(event:MouseEvent):void {
 			
 			var transform:ColorTransform = new ColorTransform();
-			var picker:Picker	= _picker;
 			
 			// first, check to see if we're hitting the picker, if so, grab the pixel directly
 			if (_picker.mouseX > 0 && _picker.mouseX < 100 && _picker.mouseY > 0 && _picker.mouseY < 100) {
-				picker.alpha			= 1;
-				picker.cursor.visible	= true;
-				var color:uint			= picker.asset.bitmapData.getPixel(_lastX, _lastY);
-				
-				_lastX = min(max(picker.mouseX,0),99);
-				_lastY = min(max(picker.mouseY,0),99);
 
-				picker.cursor.x = _lastX;
-				picker.cursor.y = _lastY;
+				var color:uint			= _picker.asset.bitmapData.getPixel(_lastX, _lastY);
+
+				_picker.alpha			= 1;
+				_picker.cursor.visible	= true;
+				
+				_lastX = min(max(_picker.mouseX,0),99);
+				_lastY = min(max(_picker.mouseY,0),99);
+
+				_picker.cursor.x = _lastX;
+				_picker.cursor.y = _lastY;
 				
 			} else {
 				
-				picker.alpha			= .3;
-				picker.cursor.visible	= false;
+				_picker.alpha			= .3;
+				_picker.cursor.visible	= false;
 
 				var matrix:Matrix		= new Matrix();
 				matrix.translate(-STAGE.mouseX, -STAGE.mouseY);
@@ -167,12 +199,12 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		public function _onMouseUp(event:MouseEvent):void {
+		public function _mouseUp(event:MouseEvent):void {
 
 			CONTAINER.remove();
 			
-			STAGE.removeEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
-			STAGE.removeEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+			STAGE.removeEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
+			STAGE.removeEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 			
 		}
 		
@@ -186,7 +218,7 @@ package ui.controls {
 		}
 		
 		override public function dispose():void {
-			removeEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
+			removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 			
 			super.dispose();			
 		}
@@ -196,7 +228,8 @@ package ui.controls {
 import flash.display.Sprite;
 import ui.assets.AssetColorPicker;
 import flash.display.Shape;
-import flash.geom.ColorTransform;	
+import flash.geom.ColorTransform;
+import flash.display.Bitmap;	
 
 /**
  *

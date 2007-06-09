@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -59,7 +59,8 @@ package ui.assets {
 			graphics.endFill();
 	
 			scale9Grid = RECT;
-	
+			
+			cacheAsBitmap = true;
 		}
 	}
 }

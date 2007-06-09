@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -90,13 +90,13 @@ package ui.window {
 		 * 	@private
 		 * 	Holds the file objects
 		 */
-		private var _files:ScrollPane					= new ScrollPane(300, 210);
+		private var _files:ScrollPane					= new ScrollPane(300, 227);
 		
 		/**
 		 * 	@private
 		 * 	Holds the folder objects
 		 */
-		private var _folders:ScrollPane					= new ScrollPane(91, 173, null, true);
+		private var _folders:ScrollPane					= new ScrollPane(91, 151, null, true);
 		
 		/**
 		 * 	@private
@@ -125,7 +125,8 @@ package ui.window {
 		 */
 		public function Browser():void {
 			
-			super('loading ... ', 396, 222);
+//			super('loading ... ', 396, 201);
+			super('loading ... ', 396, 240);
 			
 			var options:UIOptions		= new UIOptions();
 			options.width				= 90;
@@ -139,11 +140,11 @@ package ui.window {
 			_folders.x				= 304,
 			_folders.y				= 12,
 			_buttonFiles.x			= 304,
-			_buttonFiles.y			= 186,
+			_buttonFiles.y			= 164,
 			_buttonCameras.x		= 304,
-			_buttonCameras.y		= 198,
+			_buttonCameras.y		= 176,
 			_buttonVisualizers.x	= 304,
-			_buttonVisualizers.y	= 210;
+			_buttonVisualizers.y	= 188;
 			
 			// add handlers for buttons
 			_buttonFiles.addEventListener(MouseEvent.MOUSE_DOWN, _onFileDown);
@@ -211,8 +212,8 @@ package ui.window {
 				var control:FileControl = _files.removeChildAt(0) as FileControl;
 
 				// stop listening to start dragging
-				control.removeEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
-				control.removeEventListener(MouseEvent.DOUBLE_CLICK, _onDoubleClick);
+				control.removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+				control.removeEventListener(MouseEvent.DOUBLE_CLICK, _doubleClick);
 
 			}
 			
@@ -301,8 +302,8 @@ package ui.window {
 				control.y = floor(index / FILES_PER_ROW) * FILE_HEIGHT;
 				
 				// start listening to start dragging
-				control.addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
-				control.addEventListener(MouseEvent.DOUBLE_CLICK, _onDoubleClick);
+				control.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+				control.addEventListener(MouseEvent.DOUBLE_CLICK, _doubleClick);
 				
 			}
 		}
@@ -311,7 +312,7 @@ package ui.window {
 		 * 	@private
 		 *  double click auto-loads
 		 */
-		private function _onDoubleClick(event:MouseEvent):void {
+		private function _doubleClick(event:MouseEvent):void {
 			var control:FileControl = event.target as FileControl;
 
 			// try to preserve settings
@@ -328,7 +329,7 @@ package ui.window {
 		 * 	@private
 		 *  when we start dragging
 		 */
-		private function _onMouseDown(event:MouseEvent):void {
+		private function _mouseDown(event:MouseEvent):void {
 			
 			var control:FileControl = event.currentTarget as FileControl;
 			DragManager.startDrag(control, UILayer.layers, _onDragOver, _onDragOut, _onDragDrop);

@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -30,8 +30,10 @@
  */
 package ui.layer {
 	
+	import flash.display.Bitmap;
 	import flash.geom.ColorTransform;
 	
+	import onyx.constants.*;
 	import onyx.controls.*;
 	import onyx.display.Display;
 	import onyx.events.FilterEvent;
@@ -41,15 +43,15 @@ package ui.layer {
 	import ui.controls.*;
 	import ui.controls.page.*;
 	import ui.core.*;
+	import ui.settings.*;
 	import ui.styles.*;
 	import ui.window.*;
-	import flash.display.Bitmap;
 
 	/**
 	 * 	Display Control
 	 */
 	public final class UIDisplay extends UIFilterControl implements IFilterDrop, IControlObject {
-		
+
 		/**
 		 * 	@private
 		 */
@@ -61,12 +63,12 @@ package ui.layer {
 		private var _background:AssetDisplay			= new AssetDisplay();
 		
 		/**
-		 * 
+		 * 	@private
 		 */
 		private var _localControls:Controls;
 		
 		/**
-		 * 
+		 * 	@private
 		 */
 		private var _preview:Bitmap;
 		
@@ -76,7 +78,13 @@ package ui.layer {
 		public function UIDisplay(display:Display):void {
 			
 			_localControls = new Controls(this,
-				new ControlBoolean('preview', 'show prev')
+				new ControlBoolean('preview', 'show prev', 1),
+				new ControlProxy('previewLocation', 'preview',
+					new ControlInt('previewX', 'previewX', 0, 2440, 0),
+					new ControlInt('previewY', 'previewY', 0, 2440, 0),
+					{ invert: true }
+				),
+				new ControlInt('framerate', 'framerate', 12, 60, 30)
 			);
 			
 			var controls:Controls = display.controls;
@@ -87,18 +95,23 @@ package ui.layer {
 				88,
 				0,
 				new LayerPage('DISPLAY',
-					controls.getControl('position'),
-					controls.getControl('size'),
 					controls.getControl('backgroundColor'),
-					controls.getControl('visible'),
+					controls.getControl('alpha'),
+					controls.getControl('saturation'),
 					controls.getControl('threshold'),
 					controls.getControl('brightness'),
-					controls.getControl('contrast'),
-					controls.getControl('saturation'),
-					_localControls.getControl('preview')
+					controls.getControl('contrast')
 				),
 				new LayerPage('FILTER'),
-				new LayerPage('CUSTOM')
+				new LayerPage('POSITION',
+					controls.getControl('visible'),
+					controls.getControl('smoothing'),
+					controls.getControl('position'),
+					controls.getControl('size'),
+					_localControls.getControl('preview'),
+					_localControls.getControl('previewLocation'),
+					_localControls.getControl('framerate')
+				)
 			);
 
 			// save display
@@ -118,25 +131,39 @@ package ui.layer {
 			
 			// tbd: clean up tabs
 			addChild(tabContainer);
+			
+			// set the preview to true
+			preview = true;
 		}
 		
 		/**
 		 * 
 		 */
-		public function set preview(value:Boolean):void {
-			if (value) {
-				
-				_preview = new Bitmap();
-				_preview.x = 200;
-				_preview.y = -60;
-				
-				_preview.bitmapData = _display.rendered;
-				
-				addChild(_preview);
-				
-			} else if (_preview) {
-				removeChild(_preview);
-				_preview = null;
+		public function get previewX():int {
+			return _preview ? _preview.x : 0
+		}
+		
+		/**
+		 * 
+		 */
+		public function set previewX(value:int):void {
+			if (_preview) {
+				_preview.x = value;
+			}
+		}
+		
+		/**
+		 * 
+		 */
+		public function get previewY():int {
+			return _preview ? _preview.y : 0
+		}
+		/**
+		 * 
+		 */
+		public function set previewY(value:int):void {
+			if (_preview) {
+				_preview.y = value;
 			}
 		}
 		
@@ -148,10 +175,50 @@ package ui.layer {
 		}
 		
 		/**
+		 * 	Sets the preview location
+		 */
+		public function set preview(value:Boolean):void {
+			
+			if (value) {
+				
+				_preview = new Bitmap();
+				_preview.x = PREVIEW_X;
+				_preview.y = PREVIEW_Y;
+				_preview.bitmapData = _display.rendered;
+				
+				STAGE.addChildAt(_preview, 0);
+				
+			} else if (_preview) {
+				STAGE.removeChild(_preview);
+				
+				_preview.bitmapData = null;
+				_preview = null;
+			}
+			
+			// dispatch to the ui
+			_localControls.getControl('preview').dispatch(value);
+			
+		}
+		
+		/**
 		 * 
 		 */
 		public function get controls():Controls {
 			return _localControls;
+		}
+		
+		/**
+		 * 
+		 */
+		public function set framerate(value:int):void {
+			STAGE.frameRate = value;
+		}
+		
+		/**
+		 * 
+		 */
+		public function get framerate():int {
+			return STAGE.frameRate;
 		}
 	}
 }

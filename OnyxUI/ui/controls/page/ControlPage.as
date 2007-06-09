@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -67,7 +67,7 @@ package ui.controls.page {
 		 */		
 		public function ControlPage():void {
 			
-			super(100,120);		// controls size of ScrollPane
+			super(100, 122);		// controls size of ScrollPane
 			
 			// set mouseenabled
 			mouseEnabled = false;
@@ -151,7 +151,7 @@ package ui.controls.page {
 					
 					// add it
 					addChild(uicontrol);
-				}				
+				}
 			}
 		}		
 	}

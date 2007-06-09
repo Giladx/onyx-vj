@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -70,7 +70,7 @@ package ui.states {
 			}
 
 			// listen for mouse up
-			STAGE.addEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+			STAGE.addEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 		}
 		
 		/**
@@ -97,7 +97,7 @@ package ui.states {
 		/**
 		 * 	@private
 		 */
-		private function _onMouseUp(event:MouseEvent):void {
+		private function _mouseUp(event:MouseEvent):void {
 			StateManager.removeState(this);
 		}
 
@@ -106,7 +106,7 @@ package ui.states {
 		 */
 		override public function terminate():void {
 			if (_origin) {
-				STAGE.removeEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+				STAGE.removeEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 			}
 
 			for each (var layer:UILayer in UILayer.layers) {

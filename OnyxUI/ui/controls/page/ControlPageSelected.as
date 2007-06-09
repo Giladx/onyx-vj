@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -34,7 +34,7 @@ package ui.controls.page {
 	
 	import ui.assets.AssetLayerTab;
 	import ui.styles.*;
-	import ui.text.TextField;
+	import ui.text.TextFieldCenter;
 
 	public final class ControlPageSelected extends Sprite {
 		
@@ -46,20 +46,20 @@ package ui.controls.page {
 		/**
 		 * 	@private
 		 */
-		private var _label:TextField			= new TextField(36, 10, TEXT_DEFAULT_CENTER);
+		private var _label:TextFieldCenter			= new TextFieldCenter(36, 10, 0, 3);
 		
 		/**
 		 * 	@constructor
 		 */
 		public function ControlPageSelected():void {
 			
-			mouseEnabled = false;
-			mouseChildren = false;
+			mouseEnabled	= false;
+			mouseChildren	= false;
+			
+			_label.y		= 2;
 
 			addChild(background);
 			addChild(_label);
-
-			_label.y	= 3;
 		}
 		
 		/**

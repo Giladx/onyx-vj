@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -43,6 +43,7 @@ package ui.controls.browser {
 	import ui.core.UIObject;
 	import ui.styles.*;
 	import ui.text.TextField;
+	import ui.text.TextFieldCenter;
 	
 	/**
 	 * 	Thumbnail for file
@@ -57,7 +58,7 @@ package ui.controls.browser {
 		/**
 		 * 	@private
 		 */
-		private var _label:TextField			= new TextField(46, 35,	TEXT_DEFAULT_CENTER);
+		private var _label:TextField			= new TextField(46, 35);
 
 		/**
 		 * 	@private
@@ -82,9 +83,10 @@ package ui.controls.browser {
 			}
 			
 			// add label
-			_label.wordWrap 	= true,
+			_label.wordWrap		= true,
 			_label.text			= FileBrowser.getFileName(path),
 			_label.filters		= DROP_SHADOW,
+			_label.x			= 1,
 			_label.y			= 1,
 			doubleClickEnabled	= true;
 			

@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -30,6 +30,8 @@
  */
 package ui.controls {
 	
+	import flash.display.BitmapData;
+	
 	public class UIOptions {
 		
 		public var background:Boolean;
@@ -42,11 +44,11 @@ package ui.controls {
 		 * 	@constructor
 		 */
 		public function UIOptions(background:Boolean = true, label:Boolean = true, labelAlign:String = 'center', width:int = 44, height:int = 10):void {
-			this.label = label;
-			this.labelAlign = labelAlign;
-			this.background = background;
-			this.width = width;
-			this.height = height;
+			this.background	= background,
+			this.label		= label,
+			this.labelAlign = labelAlign,
+			this.width		= width,
+			this.height		= height;
 		}
 	}
 }

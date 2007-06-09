@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -75,12 +75,12 @@ package ui.layer {
 		/**
 		 * 	@private
 		 */
-		private static const SCRUB_LEFT:int				= 3;
+		private static const SCRUB_LEFT:int				= 8;
 
 		/**
 		 * 	@private
 		 */
-		private static const SCRUB_RIGHT:int			= 173;
+		private static const SCRUB_RIGHT:int			= 183;
 
 		/**
 		 * 	@private
@@ -90,26 +90,14 @@ package ui.layer {
 		/**
 		 * 	@private
 		 */
-		private static const _layers:Array				= [];
+		public static const layers:Array				= [];
 		
 		/**
-		 * 
+		 * 	@private
+		 * 	The text drop shadow
 		 */
 		private static const TEXT_DROP:Array			= [new DropShadowFilter(1, 45,0x000000, 1, 0, 0, 1)];
 
-		/**
-		 * 	Returns all layers
-		 */
-		public static function get layers():Array {
-			return _layers;
-		}
-
-		/**
-		 * 	Returns the layer control at a specified index
-		 */		
-		public static function getLayerAt(index:int):UILayer {
-			return _layers[index];
-		}
 
 		/**
 		 * 	Selects a layer
@@ -176,6 +164,9 @@ package ui.layer {
 		
 		/** @private **/
 		private var _regPoint:LayerRegPoint;
+		
+		/** @private **/
+		private var _crossFaderToggle:CrossFaderToggle;
 
 		/**
 		 * 	@private
@@ -222,7 +213,7 @@ package ui.layer {
 			_layer = layer;
 
 			// push
-			_layers.push(this);
+			layers.push(this);
 
 			// draw
 			_draw();
@@ -269,7 +260,7 @@ package ui.layer {
 				_btnScrub.addEventListener(MouseEvent.MOUSE_DOWN, _onScrubPress);
 				
 				// this listens for selecting the layer
-				addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
+				addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 	
 				// buttons
 				_btnCopy.addEventListener(MouseEvent.MOUSE_DOWN, _onButtonPress);
@@ -291,7 +282,7 @@ package ui.layer {
 				_btnScrub.removeEventListener(MouseEvent.MOUSE_DOWN,	_onScrubPress);
 				
 				// this listens for selecting the layer
-				removeEventListener(MouseEvent.MOUSE_DOWN,				_onMouseDown);
+				removeEventListener(MouseEvent.MOUSE_DOWN,				_mouseDown);
 	
 				// buttons
 				_btnCopy.removeEventListener(MouseEvent.MOUSE_DOWN,		_onButtonPress);
@@ -349,19 +340,24 @@ package ui.layer {
 		private function _draw():void {
 			
 			// resize preview
-			_preview.scaleX = .6 * (320 / BITMAP_WIDTH),
-			_preview.scaleY = .6 * (240 / BITMAP_HEIGHT);
+			_preview.scaleX			= .6 * (320 / BITMAP_WIDTH),
+			_preview.scaleY			= .6 * (240 / BITMAP_HEIGHT),
+			_preview.smoothing		= false,
+			_preview.pixelSnapping	= PixelSnapping.ALWAYS;
 			
 			// make the filename text have a drop shadow
-			_filename.filters		= TEXT_DROP,
-			_filename.cacheAsBitmap = true;
+			_filename.filters			= TEXT_DROP,
+			_filename.mouseEnabled		= false,
+			_filename.mouseWheelEnabled	= false,
+			_filename.cacheAsBitmap 	= true;
 			
 			var props:LayerProperties = _layer.properties as LayerProperties;
 			
-			_loopStart		= new LoopStart(props.getControl('loopStart')),
-			_loopEnd		= new LoopEnd(props.getControl('loopEnd')),
-			_regPoint		= new LayerRegPoint(props.getControl('anchor') as ControlProxy, _mask);
-			_btnVisible		= new LayerVisible(props.getControl('visible'));
+			_loopStart			= new LoopStart(props.getControl('loopStart')),
+			_loopEnd			= new LoopEnd(props.getControl('loopEnd')),
+			_regPoint			= new LayerRegPoint(props.getControl('anchor') as ControlProxy, _mask);
+			_btnVisible			= new LayerVisible(props.getControl('visible')),
+			_crossFaderToggle	= new CrossFaderToggle(_layer);
 			
 			var options:UIOptions		= new UIOptions();
 			var dropOptions:UIOptions	= new UIOptions(false, false, null, 140, 11);
@@ -381,6 +377,7 @@ package ui.layer {
 				_btnCopy,															169,		154,
 				_btnDelete,															181,		154,
 				
+				_crossFaderToggle,													159,		298,
 				tabContainer,														0,			169				
 			);
 
@@ -430,7 +427,7 @@ package ui.layer {
 			}
 			
 			// set name
-			_filename.text = removeExtension(path);
+			_filename.text = removeExtension(path).toUpperCase();
 			
 			// frame listener
 			addEventListener(Event.ENTER_FRAME, _updatePlayheadHandler);
@@ -507,9 +504,10 @@ package ui.layer {
 
 		/**
 		 * 	@private
-		 * 	When the scrubber is moved
+		 * 	When the scrubber is moved, change the frame
 		 */
 		private function _onScrubMove(event:MouseEvent):void {
+			
 			var value:int = min(max(_btnScrub.mouseX, SCRUB_LEFT), SCRUB_RIGHT);
 			_assetScrub.x = value;
 			_layer.time = (value - SCRUB_LEFT) / LAYER_WIDTH;
@@ -536,7 +534,7 @@ package ui.layer {
 		 * 	@private
 		 * 	Handler for the mousedown select
 		 */
-		private function _onMouseDown(event:MouseEvent):void {
+		private function _mouseDown(event:MouseEvent):void {
 			selectLayer(this);
 			
 			// check to see if we clicked on the top portion, if so, we're going to allow
@@ -627,7 +625,7 @@ package ui.layer {
 			super.dispose();
 			
 			// remove layer
-			_layers.splice(_layers.indexOf(this), 1);
+			layers.splice(layers.indexOf(this), 1);
 			
 			// remove references
 			_layer = null;

@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -30,11 +30,10 @@
  */
 package ui.controls {
 	
-	import flash.display.Shape;
-	import flash.display.Sprite;
+	import flash.display.*;
 	import flash.events.MouseEvent;
 	
-	import ui.assets.AssetShape;
+	import ui.assets.AssetBitmap;
 	import ui.core.UIObject;
 	import ui.styles.*;
 	import ui.text.*;
@@ -48,7 +47,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private var background:Shape;
+		private var background:Bitmap;
 
 		/**
 		 * 	@private
@@ -60,16 +59,15 @@ package ui.controls {
 		 */
 		public function MenuButton(reg:WindowRegistration, options:UIOptions):void {
 			
-			var options:UIOptions = options || UI_OPTIONS;
-			var width:int	= options.width;
-			var height:int	= options.height;
+			var options:UIOptions	= options || UI_OPTIONS;
+			var width:int			= options.width;
+			var height:int			= options.height;
 
 			// add a label
-			var label:TextField = new TextField(width + 3, height, TEXT_DEFAULT_CENTER);
-			label.textColor		= TEXT_LABEL;
-			label.text			= reg.name.toUpperCase();
-			label.mouseEnabled	= false;
-			label.y				= 1;
+			var label:TextFieldCenter	= new TextFieldCenter(width + 3, height, 0, 1);
+			label.textColor				= TEXT_LABEL,
+			label.text					= reg.name.toUpperCase(),
+			label.mouseEnabled			= false;
 
 			addChild(label);
 
@@ -77,10 +75,10 @@ package ui.controls {
 			addChild(new ButtonClear(width, height));
 			
 			// add background
-			addChildAt(background = new AssetShape(width, height), 0);
+			addChildAt(background = new AssetBitmap(width, height), 0);
 			
 			// save registration and set enabled / disabled
-			this.reg		= reg;
+			this.reg		= reg,
 			this.enabled	= reg.enabled;
 			
 			// add listener

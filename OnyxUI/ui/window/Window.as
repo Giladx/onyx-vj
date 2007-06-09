@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -62,20 +62,20 @@ package ui.window {
 			
 			if (text) {
 				
-				_title.autoSize			= TextFieldAutoSize.LEFT;
-				_title.x				= 2;
-				_title.y				= 1;
+				_title.autoSize			= TextFieldAutoSize.LEFT,
+				_title.x				= 2,
+				_title.y				= 1,
 				_title.text				= text;
+				
+				_background.width		= width,
+				_background.height		= height;
 				
 				addChildAt(_background, 0);
 				addChild(_title);
 				
-				_background.width	= width;
-				_background.height	= height;
-				
 			}
 			
-			this.x = x;
+			this.x = x,
 			this.y = y;
 			
 			super(true);	

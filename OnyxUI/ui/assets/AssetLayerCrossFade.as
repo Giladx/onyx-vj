@@ -28,81 +28,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package ui.window {
+package ui.assets {
 	
-	import flash.events.Event;
-	import flash.utils.getTimer;
-	
-	import onyx.controls.Control;
-	import onyx.controls.ControlInt;
-	import onyx.core.Onyx;
-	import onyx.events.ControlEvent;
-	
-	import ui.text.TextField;
-	
-	public final class PerfMonitor extends Window {
-		
-		private var _lasttime:int		= getTimer();
-		
-		private var _target:TextField	= new TextField(55,9);
-		private var _label:TextField	= new TextField(55,9);
-		
-		public function PerfMonitor():void {
-			
-			super('PERFORMANCE', 60, 30, 760, 384);
-			
-			_draw();
-			
-			_applyEventHandlers();
-			
-			draggable = true;
-		}
-		
-		private function _draw():void {
+	import flash.display.Bitmap;
 
-			addChildren(
-				_target,	2, 12,
-				_label,	2, 21
-			);
-			
-			// _frameRateChange();
-
-		}
-		
-		private function _applyEventHandlers():void {
-			
-			addEventListener(Event.ADDED, _onAdded);
-		}
-		
-		private function _onAdded(event:Event):void {
-
-			addEventListener(Event.ENTER_FRAME, _onEnterFrame);
-			_lasttime = getTimer();
-
-		}
-		
-		private function _onRemoved(event:Event):void {
-
-			removeEventListener(Event.ENTER_FRAME, _onEnterFrame);
-
-		}
-		
-		private function _onEnterFrame(event:Event):void {
-			
-			_label.text = 'actual: ' + round((1000 / (getTimer() - _lasttime))).toString();
-			_lasttime = getTimer();
-			
-		}
-		
-		override public function dispose():void {
-			
-			removeEventListener(Event.ENTER_FRAME, _onEnterFrame);
-			removeEventListener(Event.ADDED, _onAdded);
-
-			_target = null,
-			_label	= null,
-	
-			super.dispose();
-		}
+	[Embed(source='/ui/assets/img/crossfader_toggle.png')]
+	public final class AssetLayerCrossFade extends Bitmap {
 	}
 }

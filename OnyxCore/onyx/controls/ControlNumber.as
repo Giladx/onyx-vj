@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -96,7 +96,7 @@ package onyx.controls {
 		/**
 		 * 
 		 */
-		override public function setValue(v:*):* {
+		override public function dispatch(v:*):* {
 
 			var value:Number = onyx.utils.math.min(onyx.utils.math.max(v, _min), _max);
 			dispatchEvent(new ControlEvent(value));

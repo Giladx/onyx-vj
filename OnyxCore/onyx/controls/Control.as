@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -93,14 +93,14 @@ package onyx.controls {
 		 * 
 		 * 	<code>
 		 * 	public function set alpha(value:Number):void {
-		 * 		super.alpha = _setValue(value);
+		 * 		super.alpha = _dispatch(value);
 		 * 	}
 		 * 	</code>
 		 * 
 		 * 	This will dispatch an event to the control and update the UI.
 		 * 	
 		 */
-		public function setValue(v:*):* {
+		public function dispatch(v:*):* {
 			dispatchEvent(new ControlEvent(v));
 			return v;
 		}
@@ -109,7 +109,7 @@ package onyx.controls {
 		 * 	Sets the value to the target
 		 */
 		public function set value(v:*):void {
-			_target[name] = setValue(v);
+			_target[name] = dispatch(v);
 		}
 		
 		/**

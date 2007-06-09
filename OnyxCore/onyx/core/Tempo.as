@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -121,7 +121,7 @@ package onyx.core {
 			} else {
 				
 				_timer			= new Timer(5);
-				_snapControl	= new ControlTempo('snapTempo', 'global tempo', BEATS)
+				_snapControl	= new ControlTempo('snapTempo', 'snap to tempo', BEATS)
 				_controls	= new Controls(this,
 					_snapControl,
 					new ControlInt('tempo', 'tempo', 40, 1000, _tempo)
@@ -189,7 +189,7 @@ package onyx.core {
 		public function set tempo(value:int):void {
 			
 			// offset by 3 cause it's a little slow sometimes
-			_tempo = _controls.getControl('tempo').setValue(value);
+			_tempo = _controls.getControl('tempo').dispatch(value);
 			start();
 		}
 		

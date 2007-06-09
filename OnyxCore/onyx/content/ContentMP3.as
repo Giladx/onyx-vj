@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -78,6 +78,11 @@ package onyx.content {
 		 * 	@private
 		 */
 		private var _visualizer:Visualizer;
+		
+		/**
+		 * 	@private
+		 */
+		private var _volume:SoundTransform	= new SoundTransform(.5);
 
 		/**
 		 * 	@constructor
@@ -86,6 +91,7 @@ package onyx.content {
 			
 			// add a control for the visualizer
 			_controls = new Controls(this, 
+				new ControlInt('volume', 'volume', 0, 100, 50),
 				new ControlPlugin('visualizer', 'Visualizer', ControlPlugin.VISUALIZERS)
 			);
 			
@@ -96,6 +102,24 @@ package onyx.content {
 			_loopEnd	= _length;
 			
 			super(layer, path, null);
+		}
+		
+		/**
+		 * 
+		 */
+		public function set volume(value:int):void {
+			_volume.volume = value / 100;
+			
+			if (_channel) {
+				_channel.soundTransform = _volume;
+			}
+		}
+		
+		/**
+		 * 
+		 */
+		public function get volume():int {
+			return _volume.volume * 100;
 		}
 
 		/**
@@ -141,7 +165,7 @@ package onyx.content {
 				
 				if (position >= _loopEnd || position < _loopStart || position >= _length) {
 					_channel.stop();
-					_channel = _sound.play(_loopStart);
+					_channel = _sound.play(_loopStart, 0, _volume);
 				}
 	
 				// draw ourselves			
@@ -193,7 +217,7 @@ package onyx.content {
 		 * 	
 		 */
 		override public function set loopStart(value:Number):void {
-			_loopStart = __loopStart.setValue(value) * _length;
+			_loopStart = __loopStart.dispatch(value) * _length;
 		}
 		
 		/**
@@ -207,7 +231,7 @@ package onyx.content {
 		 * 	
 		 */
 		override public function set loopEnd(value:Number):void {
-			_loopEnd = __loopEnd.setValue(value) * _length;
+			_loopEnd = __loopEnd.dispatch(value) * _length;
 		}
 		
 		/**

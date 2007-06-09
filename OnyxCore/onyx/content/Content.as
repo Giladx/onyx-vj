@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -267,6 +267,11 @@ package onyx.content {
 		protected var _properties:LayerProperties;
 		
 		/**
+		 * 	@private
+		 */
+		protected var _baseColor:ColorTransform;
+		
+		/**
 		 * 	@constructor
 		 */		
 		public function Content(layer:Layer, path:String, content:IBitmapDrawable):void {
@@ -303,8 +308,9 @@ package onyx.content {
 			__anchorX		= props.anchorX,
 			__anchorY		= props.anchorY,
 			_scaleX			= 1,
-			_scaleY			= 1,
+			_scaleY			= 1,							// scale normally
 			_content		= content,						// store content
+			_baseColor		= new ColorTransform(),			// the color transform to always concat (for crossfader)
 			props.target	= this;							// set controls target to this
 			
 			// check for custom controls
@@ -331,7 +337,7 @@ package onyx.content {
 		 * 	Sets alpha
 		 */
 		public function set alpha(value:Number):void {
-			_filter.alphaMultiplier = __alpha.setValue(value);
+			_filter.alphaMultiplier = __alpha.dispatch(value);
 		}
 		
 		/**
@@ -366,7 +372,7 @@ package onyx.content {
 		 * 	Sets x
 		 */
 		public function set x(value:Number):void {
-			_x				= __x.setValue(value),
+			_x				= __x.dispatch(value),
 			_renderMatrix	= null;
 		}	
 
@@ -374,7 +380,7 @@ package onyx.content {
 		 * 	Sets y
 		 */
 		public function set y(value:Number):void {
-			_y				= __y.setValue(value),
+			_y				= __y.dispatch(value),
 			_renderMatrix	= null;
 		}
 
@@ -382,7 +388,7 @@ package onyx.content {
 		 * 	Sets scaleX
 		 */
 		public function set scaleX(value:Number):void {
-			_scaleX			= __scaleX.setValue(value),
+			_scaleX			= __scaleX.dispatch(value),
 			_renderMatrix	= null;
 		}
 
@@ -390,7 +396,7 @@ package onyx.content {
 		 * 	Sets scaleY
 		 */
 		public function set scaleY(value:Number):void {
-			_scaleY			= __scaleY.setValue(value),
+			_scaleY			= __scaleY.dispatch(value),
 			_renderMatrix	= null;
 		}
 		
@@ -419,7 +425,7 @@ package onyx.content {
 		 * 
 		 */
 		public function set anchorX(value:int):void {
-			_anchorX = __anchorX.setValue(value),
+			_anchorX = __anchorX.dispatch(value),
 			_renderMatrix	= null;
 		}
 		
@@ -434,7 +440,7 @@ package onyx.content {
 		 * 
 		 */
 		public function set anchorY(value:int):void {
-			_anchorY = __anchorY.setValue(value),
+			_anchorY = __anchorY.dispatch(value),
 			_renderMatrix	= null;
 		}
 
@@ -463,7 +469,7 @@ package onyx.content {
 		 * 	Sets saturation
 		 */
 		public function set saturation(value:Number):void {
-			_filter.saturation = __saturation.setValue(value);
+			_filter.saturation = __saturation.dispatch(value);
 		}
 
 		/**
@@ -477,7 +483,7 @@ package onyx.content {
 		 * 	Sets contrast
 		 */
 		public function set contrast(value:Number):void {
-			_filter.contrast = __contrast.setValue(value);
+			_filter.contrast = __contrast.dispatch(value);
 		}
 
 		/**
@@ -491,7 +497,7 @@ package onyx.content {
 		 * 	Sets brightness
 		 */
 		public function set brightness(value:Number):void {
-			_filter.brightness = __brightness.setValue(value);
+			_filter.brightness = __brightness.dispatch(value);
 		}
 
 		/**
@@ -505,7 +511,7 @@ package onyx.content {
 		 * 	Sets threshold
 		 */
 		public function set threshold(value:int):void {
-			_filter.threshold = __threshold.setValue(value);
+			_filter.threshold = __threshold.dispatch(value);
 		}
 		
 		/**
@@ -682,7 +688,7 @@ package onyx.content {
 		 * 	Sets framerate
 		 */
 		public function set framerate(value:Number):void {
-			__framerate.setValue(value);
+			__framerate.dispatch(value);
 		}
 		
 		/**
@@ -722,7 +728,7 @@ package onyx.content {
 		 * 	Sets blendmode
 		 */
 		public function set blendMode(value:String):void {
-			_blendMode = __blendMode.setValue(value);
+			_blendMode = __blendMode.dispatch(value);
 		}
 		
 		/**
@@ -736,7 +742,7 @@ package onyx.content {
 		 * 	@private
 		 * 	Forwards events
 		 */
-		private function _forwardEvents(event:MouseEvent):void {
+		final private function _forwardEvents(event:MouseEvent):void {
 			var content:IEventDispatcher = _content as IEventDispatcher;
 			content.dispatchEvent(event);
 		}
@@ -765,7 +771,7 @@ package onyx.content {
 		/**
 		 * 
 		 */
-		public function get blendMode():String {
+		final public function get blendMode():String {
 			return _blendMode;
 		}
 		
@@ -791,6 +797,35 @@ package onyx.content {
 			return _properties;
 		}
 		
+		/**
+		 * 	Sets visible
+		 */
+		final public function set visible(value:Boolean):void {
+			_visible = __visible.dispatch(value);
+		}
+
+		/**
+		 * 	Return visible
+		 */
+		final public function get visible():Boolean {
+			return _visible;
+		}
+		
+		/**
+		 * 
+		 */
+		final public function set baseColor(transform:ColorTransform):void {
+			_baseColor = transform;
+		}
+		
+		/**
+		 * 
+		 */
+		final public function get baseColor():ColorTransform {
+			return _baseColor;
+		}
+		
+
 		/**
 		 * 	Destroys the content
 		 */
@@ -847,20 +882,6 @@ package onyx.content {
 			_filters		= null,
 			_controls		= null,
 			_layer			= null;
-		}
-		
-		/**
-		 * 	Sets visible
-		 */
-		public function set visible(value:Boolean):void {
-			_visible = __visible.setValue(value);
-		}
-
-		/**
-		 * 	Return visible
-		 */
-		public function get visible():Boolean {
-			return _visible;
 		}
 	}
 }

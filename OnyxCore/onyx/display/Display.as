@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -85,27 +85,27 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private var _backgroundColor:uint		= 0x000000;
+		private var __x:Control						= new ControlInt('displayX', 'x', 0, 2000, STAGE.stageWidth - 320);
 		
 		/**
 		 * 	@private
 		 */
-		private var __x:Control					= new ControlInt('displayX', 'x', 0, 2000, 640);
+		private var __y:Control						= new ControlInt('displayY', 'y', 0, 2000, 0);
 		
 		/**
 		 * 	@private
 		 */
-		private var __y:Control					= new ControlInt('displayY', 'y', 0, 2000, 480);
+		private var __visible:Control				= new ControlBoolean('visible', 'visible');
 		
 		/**
 		 * 	@private
 		 */
-		private var __visible:Control			= new ControlBoolean('visible', 'visible');
+		private var __alpha:Control					= new ControlNumber('alpha','alpha', 0, 1, 1);
 
 		/**
 		 * 	@private
 		 */
-		private var	_size:DisplaySize			= DISPLAY_SIZES[0];
+		private var	_size:DisplaySize			= DISPLAY_SIZES[2];
 		
 		/**
 		 * 	@private
@@ -115,12 +115,17 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		onyx_ns var _layers:Array		= [];
+		onyx_ns var _layers:Array				= [];
 		
 		/**
 		 * 
 		 */
-		onyx_ns var _valid:Array		= [];
+		onyx_ns var _valid:Array				= [];
+		
+		/**
+		 * 	@private
+		 */
+		private var _baseColor:ColorTransform	= new ColorTransform();
 		
 		/**
 		 * 	@constructor
@@ -134,41 +139,45 @@ package onyx.display {
 			_controls = new Controls(this);
 			_controls.addControl(
 				new ControlNumber(
-					'brightness',			'bright',		-1,		1,		0
+					'brightness',			'BRIGHT',		-1,		1,		0
 				),
 				new ControlNumber(
-					'contrast',				'contrast',		-1,		2,		0
+					'contrast',				'CONTRAST',		-1,		2,		0
 				),
 				new ControlNumber(
-					'saturation',			'saturation',	0,		2,		1
+					'saturation',			'SATURATION',	0,		2,		1
 				),
 				new ControlInt(
-					'threshold',			'threshold',	0,		100,	0
+					'threshold',			'THRESHOLD',	0,		100,	0
 				),
 				new ControlProxy(
-					'position', 'position',
+					'position',				'POSITION',
 					__x,
 					__y,
 					{ invert:true }
 				),
 				new ControlColor(
-					'backgroundColor', 'backgroundColor'
+					'backgroundColor',		'BACKGROUND'
 				),
 				new ControlRange(
 					'size', 'size', DISPLAY_SIZES
 				),
+				new ControlBoolean(
+					'smoothing',			'SMOOTHING',	0
+				),
+				__alpha,
 				__visible
 			)
 			
-			// set background color
-			super(new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT, false, _backgroundColor));
+			// init the bitmap
+			super(new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT, false, _baseColor.color), PixelSnapping.ALWAYS, true);
 			
 			// add it to the displays index
 			_displays.push(this);
 			
 			// hide/show mouse when over the display
-			//addEventListener(MouseEvent.MOUSE_OVER, _onMouseOver, true);
-			//addEventListener(MouseEvent.MOUSE_OUT, _onMouseOut, true);
+			addEventListener(MouseEvent.MOUSE_OVER, _onMouseOver, true);
+			addEventListener(MouseEvent.MOUSE_OUT, _onMouseOut, true);
 
 			// load the rendering state
 			StateManager.loadState(new DisplayRenderState(this));
@@ -177,18 +186,18 @@ package onyx.display {
 		/**
 		 * 	@private
 		 * 	Make sure the mouse is gone when we roll over it
+		 */
 		private function _onMouseOver(event:MouseEvent):void {
 			Mouse.hide();
 		}
-		 */
 		
 		/**
 		 * 	@private
 		 * 	Make sure the mouse comes back when we roll over it
+		 */
 		private function _onMouseOut(event:MouseEvent):void {
 			Mouse.show();
 		}
-		 */
 		
 		/**
 		 * 	Returns the number of layers
@@ -358,14 +367,14 @@ package onyx.display {
 		 * 	Sets background color
 		 */
 		public function set backgroundColor(value:uint):void {
-			_backgroundColor = value;
+			_baseColor.color = value;
 		}
 		
 		/**
 		 * 	Sets the background color
 		 */
 		public function get backgroundColor():uint {
-			return _backgroundColor;
+			return _baseColor.color;
 		}
 		
 		/**
@@ -622,13 +631,15 @@ package onyx.display {
 		 */
 		public function render():RenderTransform {
 			
+			// lock the bitmaps so nothing updates
 			super.bitmapData.lock();
 		
 			// fill the display
-			super.bitmapData.fillRect(BITMAP_RECT, _backgroundColor);
+			super.bitmapData.fillRect(BITMAP_RECT, _baseColor.color);
 			
 			// loop and render
-			// TBD: raise the framerate of the root movie, and do calculation to render different content on different frames
+			// TBD: raise the framerate of the root movie, and do 
+			// calculation to render different content on different frames
 			var length:int = _valid.length - 1;
 			
 			if (length >= 0) {
@@ -643,7 +654,8 @@ package onyx.display {
 	
 					if (layer.visible && layer.rendered) {
 						
-						super.bitmapData.draw(layer.rendered, null, null, layer.blendMode);
+						super.bitmapData.draw(layer.rendered, null, _filter, layer.blendMode);
+						
 					}
 				}
 				
@@ -658,7 +670,7 @@ package onyx.display {
 			super.bitmapData.unlock();
 			
 			// dispatch a render event
-			dispatchEvent(new RenderEvent());
+			// dispatchEvent(new RenderEvent());
 			
 			return null;
 		}
@@ -667,7 +679,7 @@ package onyx.display {
 		 * 	Sets the display location
 		 */
 		public function set displayX(value:int):void {
-			super.x = __x.setValue(value);
+			super.x = __x.dispatch(value);
 		}
 		
 		/**
@@ -681,7 +693,7 @@ package onyx.display {
 		 * 	Sets the display location
 		 */
 		public function set displayY(value:int):void {
-			super.y = __y.setValue(value);
+			super.y = __y.dispatch(value);
 		}
 		
 		/**
@@ -696,14 +708,14 @@ package onyx.display {
 		 * 	@private
 		 */
 		override public function set x(value:Number):void {
-			// do nothing
+			// do nothing, use displayX
 		}
 		
 		/**
 		 * 	@private
 		 */
 		override public function set y(value:Number):void {
-			// do nothing
+			// do nothing, use displayY
 		}
 		
 		/**
@@ -730,6 +742,7 @@ package onyx.display {
 		 * 
 		 */
 		public function set anchorX(value:int):void {
+			// do nothing, use no anchor
 		}
 		
 		/**
@@ -743,6 +756,7 @@ package onyx.display {
 		 * 
 		 */
 		public function set anchorY(value:int):void {
+			// do nothing, use no anchor
 		}
 		
 		/**
@@ -756,7 +770,24 @@ package onyx.display {
 		 * 	Sets visibility
 		 */
 		override public function set visible(value:Boolean):void {
-			super.visible = __visible.setValue(value);
+			__visible.dispatch(value);
+			
+			if (value && !parent) {
+				
+				x = STAGE.stageWidth - width;
+				y = 0;
+				
+				STAGE.addChild(this);
+			} else if (!value && parent) {
+				STAGE.removeChild(this);
+			}
+		}
+		
+		/**
+		 * 	Visibility
+		 */
+		override public function get visible():Boolean {
+			return parent !== null;
 		}
 		
 		/**
@@ -764,7 +795,6 @@ package onyx.display {
 		 *  Currently, names are just the layer index, but it might
 		 *  be nice for layer names to be more persistent when they're moved.
 		 *  This is used when saving MIDI controller assignments.
-		 */
 		public function getNameOfControl(control:Control):String {
 			var c:Control;
 			var f:Filter;
@@ -807,6 +837,7 @@ package onyx.display {
 			}
 			return null;
 		}
+		 */
 		
 		/**
 		 * 
@@ -960,13 +991,38 @@ package onyx.display {
 		 **/
 		
 		/**
+		 * 
+		 */
+		override public function set alpha(value:Number):void {
+			_filter.alphaMultiplier = __alpha.dispatch(value);
+		}
+		
+		/**
+		 * 
+		 */
+		override public function get alpha():Number {
+			return _filter.alphaMultiplier;
+		}
+		
+		/**
+		 * 	The base transform (for crossfader & background color)
+		 */
+		public function get baseColor():ColorTransform {
+			return _baseColor;
+		}
+		
+		/**
+		 * 	The base transform (for crossfader & background color)
+		 */
+		public function set baseColor(value:ColorTransform):void {
+			_baseColor = value;
+		}
+		
+		/**
 		 * 	Disposes the display
 		 */
 		public function dispose():void {
-			var valid:Array = _valid.concat();
-			for each (var layer:Layer in valid) {
-				layer.dispose();
-			}
 		}
+
 	}
 }

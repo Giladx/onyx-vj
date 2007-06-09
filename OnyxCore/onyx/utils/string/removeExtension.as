@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -41,7 +41,7 @@ package onyx.utils.string {
 		
 		if (end) {
 			var start:int = max(path.lastIndexOf('//')+1,path.lastIndexOf('/')+1);
-			path.substr(start, end - start);
+			return path.substr(start, end - start);
 		}
 		
 		return path;

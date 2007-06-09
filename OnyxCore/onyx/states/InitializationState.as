@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -152,10 +152,26 @@ package onyx.states {
 		private function _initialize(delay:int = 1000):void {
 			
 			Console.output('INITIALIZING ...');
+			
+			// sort plugins first
+			var field:String = 'name';
+			Filter._filters.sortOn(field);
+			Transition._transitions.sortOn(field);
+			Macro._macros.sortOn(field);
+			Renderer._renderers.sortOn(field);
+			Visualizer._visualizers.sortOn(field);
 
+			// pause for a bit
 			_timer = new Timer(delay);
 			_timer.start();
 			_timer.addEventListener(TimerEvent.TIMER, _endState);
+		}
+		
+		/**
+		 * 
+		 */
+		private function _sortArray():void {
+			
 		}
 		
 		/**

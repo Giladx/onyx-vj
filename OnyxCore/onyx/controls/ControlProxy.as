@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -65,7 +65,7 @@ package onyx.controls {
 		/**
 		 * 
 		 */
-		override public function setValue(v:*):* {
+		override public function dispatch(v:*):* {
 			if (v is Array) {
 				controlX.value = v[0];
 				controlY.value = v[1];
@@ -76,7 +76,7 @@ package onyx.controls {
 		 * 
 		 */
 		override public function set value(v:*):void {
-			setValue(v);
+			dispatch(v);
 		}
 		
 		/**

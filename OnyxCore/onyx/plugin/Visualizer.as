@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -46,12 +46,12 @@ package onyx.plugin {
 		 * 	@private
 		 * 	Stores definitions
 		 */
-		private static var _definition:Object	= new Object();
+		private static const _definition:Object	= new Object();
 		
 		/**
 		 * 	@private
 		 */
-		onyx_ns static var _visualizers:Array		= [];
+		onyx_ns static const _visualizers:Array		= [];
 		
 		/**
 		 * 	Registers a plugin
@@ -75,7 +75,7 @@ package onyx.plugin {
 		 * 
 		 */
 		public static function get visualizers():Array {
-			return _visualizers.concat();
+			return _visualizers;
 		}
 				
 		/**

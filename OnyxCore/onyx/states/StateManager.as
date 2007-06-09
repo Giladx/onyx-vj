@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -89,11 +89,41 @@ package onyx.states {
 		}
 		
 		/**
-		 * 	Pauses all states (unimplemented)
+		 * 	Pauses all states of type
+		 * 	@param		the type of class to pause, if null, all states are paused
 		 */
-		public static function pauseStates():void {
-			for each (var state:ApplicationState in _states) {
-				state.pause();
+		public static function pauseStates(type:Class = null):void {
+			if (type) {
+				for each (var state:ApplicationState in _states) {
+					if (state is type) {
+						state.pause();
+					}
+				}
+				
+			} else {
+				for each (state in _states) {
+					state.pause();
+				}
+			}
+		}
+		
+		
+		/**
+		 * 	Pauses all states of type
+		 * 	@param		the type of class to pause, if null, all states are paused
+		 */
+		public static function resumeStates(type:Class = null):void {
+			if (type) {
+				for each (var state:ApplicationState in _states) {
+					if (state is type) {
+						state.initialize();
+					}
+				}
+				
+			} else {
+				for each (state in _states) {
+					state.initialize();
+				}
 			}
 		}
 	}

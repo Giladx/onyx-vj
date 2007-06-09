@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -35,7 +35,9 @@ package onyx.constants {
 	public const DISPLAY_SIZES:Array = [
 		new DisplaySize(1,1),
 		new DisplaySize(1.5,1.5),
-		new DisplaySize(2,2)
+		new DisplaySize(2,2),
+		new DisplaySize(3.2,3.2),
+		new DisplaySize(4,4)
 	];
 
 }

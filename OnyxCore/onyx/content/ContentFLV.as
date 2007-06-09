@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -142,7 +142,7 @@ package onyx.content {
 		 * 	Sets Loop Start
 		 */		
 		override public function set loopStart(value:Number):void {
-			_loopStart = __loopStart.setValue(value) * _totalTime;
+			_loopStart = __loopStart.dispatch(value) * _totalTime;
 		}
 
 		/**
@@ -157,7 +157,7 @@ package onyx.content {
 		 * 	Sets Loop Start
 		 */		
 		override public function set loopEnd(value:Number):void {
-			_loopEnd = __loopEnd.setValue(value) * _totalTime;
+			_loopEnd = __loopEnd.dispatch(value) * _totalTime;
 		}
 		
 		/**

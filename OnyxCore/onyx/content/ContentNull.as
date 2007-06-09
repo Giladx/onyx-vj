@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -32,7 +32,7 @@ package onyx.content {
 	
 	import flash.display.BitmapData;
 	import flash.events.Event;
-	import flash.geom.Matrix;
+	import flash.geom.*;
 	
 	import onyx.controls.*;
 	import onyx.core.*;
@@ -336,6 +336,20 @@ package onyx.content {
 		 * 
 		 */
 		public function set visible(value:Boolean):void {
+		}
+		
+		
+		/**
+		 * 	The base color transform to use for the layer (for crossfader)
+		 */
+		public function set baseColor(value:ColorTransform):void {
+		}
+		
+		/**
+		 * 	The base color transform to use for the layer (for crossfader)
+		 */
+		public function get baseColor():ColorTransform {
+			return null;
 		}
 	}
 }

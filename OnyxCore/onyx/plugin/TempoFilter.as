@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -221,7 +221,7 @@ package onyx.plugin {
 			_snapBeat	= tempo ? tempo.mod : null;
 			
 			// update all effects listening for tempo
-			_snapControl.setValue(GLOBAL_TEMPO);
+			_snapControl.dispatch(GLOBAL_TEMPO);
 			
 			// re-initialize the filter
 			_setTempo(event.value);
@@ -231,7 +231,7 @@ package onyx.plugin {
 		 * 	Sets delay
 		 */
 		final public function set delay(value:int):void {
-			_delay = _delayControl.setValue(value);
+			_delay = _delayControl.dispatch(value);
 			
 			if (timer) {
 				timer.delay = _delay;
@@ -257,7 +257,7 @@ package onyx.plugin {
 			if (value === GLOBAL_TEMPO) {
 				
 				// store it in the control, so it can dispatch a change event
-				_snapTempo	= _snapControl.setValue(value);
+				_snapTempo	= _snapControl.dispatch(value);
 				
 				// listen for global tempo changes
 				GLOBAL_TEMPO_CONTROL.addEventListener(ControlEvent.CHANGE, _globalTempoHandler);
@@ -270,7 +270,7 @@ package onyx.plugin {
 				// remove listener
 				GLOBAL_TEMPO_CONTROL.removeEventListener(ControlEvent.CHANGE, _globalTempoHandler);
 
-				_snapTempo	= _snapControl.setValue(value);
+				_snapTempo	= _snapControl.dispatch(value);
 				_setTempo(value);
 				
 			}

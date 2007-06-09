@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -42,7 +42,12 @@ package onyx.core {
 		/**
 		 * 	@private
 		 */
-		private static const dispatcher:Console	= new Console();
+		private static const REUSABLE_EVENT:ConsoleEvent	= new ConsoleEvent('');
+		
+		/**
+		 * 	@private
+		 */
+		private static const dispatcher:Console				= new Console();
 		
 		/**
 		 * 	Returns the console instance
@@ -56,17 +61,17 @@ package onyx.core {
 		 */
 		public static function output(... args:Array):void {
 			
-			dispatcher.dispatchEvent(
-				new ConsoleEvent(args.join(' '))
-			);
+			REUSABLE_EVENT.message	= args.join(' ');
 			
+			dispatcher.dispatchEvent(REUSABLE_EVENT);
 		}
 		
 		/**
 		 * 	Outputs an error event to the console
 		 */
 		public static function error(e:Error):void {
-			dispatcher.dispatchEvent(new ConsoleEvent(e.message));
+			REUSABLE_EVENT.message = e.message;
+			dispatcher.dispatchEvent(REUSABLE_EVENT);
 		}
 		
 		/**
@@ -77,13 +82,14 @@ package onyx.core {
 			var commands:Array = command.split(' ');
 			
 			if (commands.length) {
+				
 				var firstcommand:String = commands.shift();
 				
 				if (Command[firstcommand]) {
 					var fn:Function = Command[firstcommand];
 					
 					try {
-						var message:String = fn.apply(null, commands);
+						var message:String = fn.apply(Command, commands);
 					} catch (e:Error) {
 						error(e.message);
 					}
@@ -96,12 +102,17 @@ package onyx.core {
 		 */
 		public static function outputStack():void {
 			
-			trace('output stack');
+			// trace('output stack');
+			
+			//++compiler-remove
+			
 			try {
 				throw(new Error('stack trace'));
 			} catch (e:Error) {
 				trace(e.getStackTrace());
 			}
+			
+			//--compiler-remove
 		}
 
 	}

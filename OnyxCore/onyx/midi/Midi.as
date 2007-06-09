@@ -102,6 +102,8 @@ package onyx.midi {
 		 */
 		private function _layerUnloaded(event:LayerEvent):void {
 			
+			/*
+			
 			var target:Layer = event.currentTarget as Layer;
 			var disp:Display = Display.getDisplay(0);
 			
@@ -126,6 +128,7 @@ package onyx.midi {
 					_removeMapForControl(m.control);
 				}
 			}
+			*/
 		}
 		
 		/**
@@ -252,6 +255,8 @@ package onyx.midi {
 		}
 		
 		public function toXML():XML {
+			
+			/*
 			var disp:Display = Display.getDisplay(0);
 			var x:XML = <midi/>;
 			for each (var m:MidiMap in _map) {
@@ -289,6 +294,8 @@ package onyx.midi {
 				}
 			}
 			return x;
+			*/
+			return null;
 		}
 		
 		public function loadXML(xml:XMLList):void {

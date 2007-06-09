@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -44,7 +44,7 @@ package onyx.jobs {
 		/**
 		 * 	Boolean whether the job will override another job that the target has
 		 */
-		public var overrideJob:Boolean	= true;
+		public var overrideJob:Boolean	= false;
 		
 		/**
 		 * 	Called when the application state is initialized

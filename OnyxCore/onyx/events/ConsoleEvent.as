@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -55,19 +55,17 @@ package onyx.events {
 		 */
 		public function ConsoleEvent(message:String):void {
 			
-			this.message = message;
-			super(OUTPUT);
+			this.message	= message;
 			
+			super(OUTPUT);
+
 		}
 
 		/**
 		 * 	Clones the event
 		 */		
 		override public function clone():Event {
-			var event:ConsoleEvent = new ConsoleEvent(super.type);
-			event.message = message;
-			
-			return event;
+			return new ConsoleEvent(message);
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -173,7 +173,7 @@ package onyx.content {
 			_lastTime = getTimer();
 
 			// go to the right frame
-			mc.gotoAndStop(floor(_frame));
+			mc.gotoAndStop(_frame << 0);
 
 			// render me baby					
 			return super.render();
@@ -194,7 +194,7 @@ package onyx.content {
 		 */
 		override public function set framerate(value:Number):void {
 			var ratio:Number = _loader.contentLoaderInfo.frameRate / STAGE.frameRate;
-			_framerate = super.__framerate.setValue(value) * ratio;
+			_framerate = super.__framerate.dispatch(value) * ratio;
 		}
 
 		
@@ -203,7 +203,7 @@ package onyx.content {
 		 * 	Sets the beginning loop point (percentage)
 		 */		
 		override public function set loopStart(value:Number):void {
-			_loopStart = __loopStart.setValue(min(value, _loopEnd));
+			_loopStart = __loopStart.dispatch(min(value, _loopEnd));
 		}
 		
 		/**
@@ -218,7 +218,7 @@ package onyx.content {
 		 */
 		override public function set loopEnd(value:Number):void {
 			
-			_loopEnd = __loopEnd.setValue(max(value, _loopStart, 0.01));
+			_loopEnd = __loopEnd.dispatch(max(value, _loopStart, 0.01));
 
 		}
 		
@@ -262,14 +262,14 @@ package onyx.content {
 		 * 
 		 */
 		override public function set anchorX(value:int):void {
-			super._anchorX = super.__anchorX.setValue(value * _ratioX);
+			super._anchorX = super.__anchorX.dispatch(value * _ratioX);
 		}
 		
 		/**
 		 * 
 		 */
 		override public function set anchorY(value:int):void {
-			super._anchorY = super.__anchorY.setValue(value * _ratioY);
+			super._anchorY = super.__anchorY.dispatch(value * _ratioY);
 		}
 		
 		
@@ -293,5 +293,6 @@ package onyx.content {
 			// remove reference
 			_loader = null;
 		}
+
 	}
 }

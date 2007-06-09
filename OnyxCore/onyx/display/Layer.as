@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -769,6 +769,20 @@ package onyx.display {
 		 */
 		override public function toString():String {
 			return (_content.path) ? FileBrowser.getFileName(_content.path) : '';
+		}
+		
+		/**
+		 * 	The base color transform to use for the layer (for crossfader)
+		 */
+		public function set baseColor(value:ColorTransform):void {
+			_content.baseColor = value;
+		}
+		
+		/**
+		 * 	The base color transform to use for the layer (for crossfader)
+		 */
+		public function get baseColor():ColorTransform {
+			return _content.baseColor;
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -122,7 +122,14 @@ package onyx.core {
 			
 			// from utils package
 			swap(_parent, this, value);
-		}		
+		}
+		
+		/**
+		 * 
+		 */
+		public function toString():String {
+			return '[Plugin: ' + name + ']';
+		}
 
 	}
 }

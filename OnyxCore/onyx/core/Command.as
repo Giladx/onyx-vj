@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2003-2006, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -30,7 +30,7 @@
  */
 package onyx.core {
 
-	import onyx.constants.VERSION;
+	import onyx.constants.*;
 	import onyx.display.*;
 	import onyx.jobs.StatJob;
 	import onyx.plugin.*;
@@ -49,11 +49,13 @@ package onyx.core {
 				
 					text =	_createHeader('commands') + 'PLUGINS: SHOWS # OF PLUGINS<br>' +
 							'CLEAR: CLEARS THE TEXT<br>' +
-							'STAT [TIME:INT]:	TESTS ALL LAYERS FOR AVERAGE RENDERING TIME';
+							'STAT [TIME:INT]:	TESTS ALL LAYERS FOR AVERAGE RENDERING TIME<br>' +
+							'HELP CONTRIBUTORS: LIST OF CONTRIBUTORS TO THE ONYX PROJECT<br>' +
+							'RESOLUTION: OUTPUTS THE SIZE OF THE FLASH STAGE';
 				
 					break;
 				case 'contributors':
-					text =	'CONTRIBUTORS<br>-------------<br>DANIEL HAI: HTTP://WWW.DANIELHAI.COM'
+					text =	'CONTRIBUTORS<br>-------------<br>DANIEL HAI: <A HREF="HTTP://WWW.DANIELHAI.COM">HTTP://WWW.DANIELHAI.COM</A>'
 					break;
 				case 'plugins':
 					text =	Filter.filters.length + ' FILTERS, ' +
@@ -63,19 +65,32 @@ package onyx.core {
 				case 'stat':
 					text =	_createHeader('stat') + 'TESTS FRAMERATE AND LAYER RENDERING TIMES.<br><br>USAGE: STAT [NUM_SECONDS:INT]<br>';
 					break;
+				// dispatch the start-up motd
 				default:
 					text =	_createHeader('<b>ONYX ' + VERSION + '</b>', 21) + 
-							'COPYRIGHT 2003-2006: WWW.ONYX-VJ.COM' +
+							'COPYRIGHT 2003-2007: WWW.ONYX-VJ.COM' +
 							'<br>TYPE "HELP" OR "HELP COMMANDS" FOR MORE COMMANDS.';
 					break;
 			}
-			// dispatch the start-up motd
+			
+			// output?
 			Console.output(text);
-	
 		}
 		
 		private static function _createHeader(command:String, size:int = 14):String {
-			return '<font size="' + size + '" color="#DCC697">' + command + '</font><br><br>';
+			return '<font size="' + size + '" color="#DCC697" face="Pixel">' + command + '</font><br><br>';
+		}
+
+		/**
+		 * 	Gets resolution
+		 */		
+		public static const resolution:Function = res;
+
+		/**
+		 * 	Gets resolution
+		 */		
+		public static function res():void {
+			Console.output('RESOLUTION: ' + STAGE.stageWidth + 'x' + STAGE.stageHeight);
 		}
 		
 		/**

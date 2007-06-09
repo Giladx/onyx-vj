@@ -28,90 +28,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.plugin {
+package onyx.controls {
 	
-	import flash.utils.Dictionary;
-	
-	import onyx.constants.*;
-	import onyx.core.*;
-	
-	use namespace onyx_ns;
-
-	/**
-	 * 
-	 */
-	public class Renderer extends PluginBase implements IRenderObject {
-
-		/**
-		 * 	@private
-		 * 	Stores definitions
-		 */
-		private static const _definition:Object	= new Object();
-		
-		/**
-		 * 	@private
-		 */
-		onyx_ns static const _renderers:Array		= [];
-		
-		/**
-		 * 	Registers a plugin
-		 */
-		onyx_ns static function registerPlugin(plugin:Plugin, index:int = -1):void {
-			if (!_definition[plugin.name]) {
-				_definition[plugin.name] = plugin;
-				plugin._parent = _renderers;
-				_renderers.splice(index || _renderers.length - 1, 0, plugin);
-			}
-		}
-		
-		/**
-		 * 	@public
-		 */
-		public function render():RenderTransform {
-			return null;
-		}
-
-		/**
-		 * 	Returns a definition
-		 */
-		public static function getDefinition(name:String):Plugin {
-			return _definition[name];
-		}
-		
-		/**
-		 * 	Returns a list of plugins of all filters registered
-		 */
-		public static function get renderers():Array {
-			return _renderers;
-		}
-		
-		/**
-		 * 	@constructor
-		 */
-		public function Renderer(... controls:Array):void {
-			
-			super();			
-			super.controls.addControl.apply(null, controls);
-
-		}
-		
-		/**
-		 * 	Initializes the macro
-		 */
-		public function initialize():void {
-		}
-		
-		/**
-		 * 	Terminates the macro
-		 */
-		public function terminate():void {
-		}
+	public final class ControlBitmapFilter extends ControlRange {
 		
 		/**
 		 * 
 		 */
-		override public function toString():String {
-			return ONYX_QUERYSTRING + 'renderer://' + _plugin.name;
+		public function ControlBitmapFilter(name:String, displayName:String):void {
+			super(name, displayName, []);
 		}
+		
 	}
 }

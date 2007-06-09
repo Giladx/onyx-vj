@@ -5,7 +5,7 @@
 	<property name="revision.number" value="${build.number}" />
 
 	<property name="compiler.root" location="." />
-	<property name="compiler.compc" value="compc" />
+	<property name="compiler.compc" value="C:\Program Files\Adobe\Flex Builder 2 Plug-in\Flex SDK 2\bin\compc.exe" />
 	
 	<property name="build.destination" location="../swc" />
 	

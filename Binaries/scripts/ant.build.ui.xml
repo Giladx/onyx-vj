@@ -1,7 +1,7 @@
 <project name="OnyxUI" default="buildUI">
 	
 	<property name="compiler.root" location="." />
-	<property name="compiler.mxmlc" value="mxmlc" />
+	<property name="compiler.mxmlc" value="C:\Program Files\Adobe\Flex Builder 2 Plug-in\Flex SDK 2\bin\mxmlc.exe" />
 	
 	<property name="build.destination" location="../onyx/Onyx.swf" />
 	<property name="swc.path"	location="../swc/OnyxCore-optimized.swc" />

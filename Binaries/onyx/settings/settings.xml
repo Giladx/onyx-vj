@@ -2,16 +2,13 @@
 
 	<!-- CORE SETTINGS -->
 	<core>
-
+	
 		<render>
 			<!-- the width / height of bitmaps -->
 			<bitmapData>
 				<width>320</width>
 				<height>240</height>
 			</bitmapData>
-			
-			<!-- quality of flash -->
-			<quality>low</quality>
 		</render>
 		
 		<!-- midi settings -->
@@ -33,6 +30,7 @@
 			<difference/>
 			<invert/>
 		</blendModes>
+		
 	</core>
 
 	<!-- FILTER ORDERING -->
@@ -44,16 +42,27 @@
 	
 	<!-- CHANGE WINDOW LOCATIONS
 	<windows>
-		<window name="FILE BROWSER" enabled="true" x="6" y="318"/>
-		<window name="CONSOLE" enabled="true" x="6" y="582"/>
-		<window name="FILTERS" enabled="true" x="412" y="318"/>
-		<window name="TEMPO" enabled="true" x="200" y="544"/>
-		<window name="LAYERS" enabled="true" x="0" y="0"/>
 		<window name="MEMORY" enabled="false" x="614" y="318"/>
-		<window name="DISPLAY" enabled="true" x="508" y="602"/>
-		<window name="KEY MAPPING" enabled="false" x="6" y="544"/>
 	</windows>
-	 -->
+	-->
+	
+	<!-- LOCATION OF THE PREVIEW WINDOW -->
+	<preview>
+		<display>auto</display>
+		<x>0</x>
+		<y>0</y>
+	</preview>
+	
+	<!-- COLOR SWATCH SETTINGS -->
+	<swatch>
+		<color>0x000000</color>
+		<color>0x333333</color>
+		<color>0x666666</color>
+		<color>0x999999</color>
+		<color>0xAAAAAA</color>
+		<color>0xCCCCCC</color>
+		<color>0xFFFFFF</color>
+	</swatch>
 	
 	<!-- KEY MAPPING -->
 	<keys>

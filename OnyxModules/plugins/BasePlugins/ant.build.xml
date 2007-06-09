@@ -16,7 +16,7 @@
 		<echo message="building ${plugin.main}" />
 		
 		<!-- compile -->
-		<exec executable="mxmlc" failonerror="true">
+		<exec executable="${compiler.mxmlc}" failonerror="true">
 			<arg line="-output ${output.path}"/>
 			<arg line="-compiler.library-path+=${onyx.corepath}"/>
 			<arg line="${plugin.main}"/>

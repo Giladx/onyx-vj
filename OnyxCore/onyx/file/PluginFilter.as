@@ -38,7 +38,7 @@ package onyx.file {
 
 			switch (extension) {
 				case 'swf':
-					if (file.path.indexOf('-debug') < 0) {
+					if (file.path.indexOf('-debug') < 0 && file.path.indexOf('-profile') < 0) {
 						return true;
 					}
 					break;

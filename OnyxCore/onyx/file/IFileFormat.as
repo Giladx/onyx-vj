@@ -29,40 +29,15 @@
  * 
  */
 package onyx.file {
-	
-	import flash.display.*;
-	
-	import onyx.utils.*;
-	import onyx.utils.string.*;
+
+	import flash.utils.ByteArray;
 	
 	/**
-	 * 	Core File Class
+	 * 	Base class for file formats
 	 */
-	public final class File {
+	public interface IFileFormat {
 		
-		/**
-		 * 	Saves the path
-		 */
-		public var path:String;
+		function get bytes():ByteArray;
 		
-		/**
-		 * 	Saves thumbnail
-		 * 	This can either be a string or a bitmap (updated from it)
-		 */
-		public var thumbnail:Bitmap	= new Bitmap(null, PixelSnapping.NEVER, false);
-		
-		/**
-		 * 	@constructor
-		 */
-		public function File(path:String):void {
-			this.path		= path;
-		}
-		
-		/**
-		 * 	Gets extension
-		 */
-		public function get extension():String {
-			return getExtension(path);
-		}
 	}
 }

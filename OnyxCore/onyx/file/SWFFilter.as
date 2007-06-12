@@ -41,7 +41,7 @@ package onyx.file {
 
 			switch (extension) {
 				case 'swf':
-					if (file.path.indexOf('-debug') >= 0) {
+					if (file.path.indexOf('-debug') >= 0 || file.path.indexOf('-profile') >= 0) {
 						break;
 					}
 				case 'onx':
@@ -50,7 +50,6 @@ package onyx.file {
 				case 'jpg':
 				case 'jpeg':
 				case 'png':
-				case 'cam':
 				case 'mp3':
 				case 'xml':
 					return true;

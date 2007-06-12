@@ -30,15 +30,12 @@
  */
 package onyx.file {
 	
-	import flash.display.Loader;
+	import flash.display.*;
 	import flash.events.*;
-	import flash.media.Camera;
-	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
 	
 	import onyx.constants.*;
 	import onyx.core.*;
-	import onyx.file.http.HTTPAdapter;
 	import onyx.plugin.*;
 	import onyx.settings.*;
 	
@@ -46,6 +43,12 @@ package onyx.file {
 	 * 	Stores a cache of directories - so re-querying will not be necessary
 	 */
 	final public class FileBrowser {
+		
+		/** @private **/
+		public static var CAMERA_ICON:BitmapData;
+		
+		/** @private **/
+		public static var VISUALIZER_ICON:BitmapData;
 
 		/**
 		 * 	@private
@@ -83,14 +86,14 @@ package onyx.file {
 		/**
 		 * 	Queries the filesystem
 		 */
-		public static function query(folder:String, callback:Function, filter:FileFilter = null, refresh:Boolean = false):void {
+		public static function query(folder:String, callback:Function, filter:FileFilter = null, refresh:Boolean = false, thumbnail:Boolean = false):void {
 			
 			// check for cache
 			if (refresh || !_cache[folder]) {
 				
 				if (folder.substr(0,ONYX_QUERYSTRING.length) === ONYX_QUERYSTRING) {
 					
-					// query plugins
+					// query default objects (such as visualizers, cameras, etc)
 					_queryPlugins(folder);
 					
 				} else {
@@ -99,7 +102,8 @@ package onyx.file {
 					query.addEventListener(Event.COMPLETE,						_onLoadHandler);
 					query.addEventListener(IOErrorEvent.IO_ERROR,				_onLoadHandler);
 					query.addEventListener(SecurityErrorEvent.SECURITY_ERROR,	_onLoadHandler);
-					query.load(filter);
+					
+					query.load(filter, thumbnail);
 					
 					return;
 				}
@@ -194,7 +198,8 @@ package onyx.file {
 
 					for each (var name:String in plugins) {
 						
-						file = new File(ONYX_QUERYSTRING + 'camera://' + name, null);
+						file = new File(ONYX_QUERYSTRING + 'camera://' + name);
+						file.thumbnail.bitmapData = CAMERA_ICON;
 						files.push(file);
 					}
 					
@@ -206,7 +211,8 @@ package onyx.file {
 					plugins = Visualizer.visualizers;
 					
 					for each (plugin in plugins) {
-						file = new File(ONYX_QUERYSTRING + 'visualizer://' + plugin.name, null);
+						file = new File(ONYX_QUERYSTRING + 'visualizer://' + plugin.name);
+						file.thumbnail.bitmapData = VISUALIZER_ICON;
 						files.push(file);
 					}
 				
@@ -217,7 +223,7 @@ package onyx.file {
 					plugins = Renderer.renderers;
 					
 					for each (plugin in plugins) {
-						file = new File(ONYX_QUERYSTRING + 'renderer://' + plugin.name, null);
+						file = new File(ONYX_QUERYSTRING + 'renderer://' + plugin.name);
 						files.push(file);
 					}
 			}

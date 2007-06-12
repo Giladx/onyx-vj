@@ -125,16 +125,12 @@ package onyx.states {
 				Console.output((event as ErrorEvent).text);
 			} else {
 				
-				var pluginSWF:IPluginLoader = info.content as IPluginLoader;
+				var plugins:Array = info.content['plugins'];
 				
-				if (pluginSWF) {
-					
-					var plugins:Array = pluginSWF.plugins;
+				if (plugins) {
 					
 					for each (var plugin:Object in plugins) {
-						
 						Onyx.registerPlugin(plugin);
-						
 					}
 				}
 			}
@@ -153,7 +149,7 @@ package onyx.states {
 			
 			Console.output('INITIALIZING ...');
 			
-			// sort plugins first
+			// sort plugins
 			var field:String = 'name';
 			Filter._filters.sortOn(field);
 			Transition._transitions.sortOn(field);

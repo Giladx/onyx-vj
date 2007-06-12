@@ -78,7 +78,7 @@ package onyx.file {
 		public function save(bytes:ByteArray):void {
 		}
 		
-		public function load(file:FileFilter):void {
+		public function load(file:FileFilter, thumbnail:Boolean):void {
 		}
 		
 		public function dispose():void {

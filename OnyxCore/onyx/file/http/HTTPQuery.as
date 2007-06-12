@@ -30,16 +30,17 @@
  */
 package onyx.file.http {
 	
+	import flash.display.BitmapData;
 	import flash.events.*;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.system.System;
 	import flash.utils.ByteArray;
 	
-	import onyx.core.Console;
 	import onyx.file.*;
+	import onyx.jobs.*;
 	import onyx.settings.*;
-	import onyx.utils.string.pathUpOneLevel;
+	import onyx.utils.string.*;
 
 	public final class HTTPQuery extends FileQuery {
 		
@@ -53,7 +54,7 @@ package onyx.file.http {
 		/**
 		 * 	Loads files
 		 */
-		override public function load(filter:FileFilter):void {
+		override public function load(filter:FileFilter, thumbnail:Boolean):void {
 			
 			super.filter = filter;
 			
@@ -109,7 +110,6 @@ package onyx.file.http {
 						name = rootpath.substr(0, rootpath.lastIndexOf('/', rootpath.length - 2)) + '/';
 					} else if (name.substr(0,1) === '/') {
 						name = INITIAL_APP_DIRECTORY + name;
-						
 					} else {
 						name = pathUpOneLevel(rootpath + name);
 					}
@@ -117,17 +117,32 @@ package onyx.file.http {
 					list.folders.push(new Folder(name));
 				}
 				
+				var thumbs:Array		= [];
+				var thumbfiles:Array	= [];
+				
 				// parse for files Folder
 				for each (node in files) {
 					
 					// get name of the node
 					var name:String = String(node.name());
 					
-					var thumb:String = node.@thumb;
-					list.files.push(
-						new File(pathUpOneLevel(rootpath + node.@name), (thumb) ? rootpath + thumb : '')
-					);
+					var thumbpath:String	= node.@thumb;
+					var file:File			= new File(pathUpOneLevel(rootpath + node.@name));
 					
+					// call a job to update these bitmaps
+					if (thumbpath) {
+						thumbfiles.push(file);
+						thumbs.push(rootpath + thumbpath);
+					}
+					
+					list.files.push(file);
+					
+				}
+				
+				// if we need to call to get thumbnails updated, call the job to do that
+				if (thumbs.length) {
+					var job:HTTPThumbnailJob = new HTTPThumbnailJob(thumbs, thumbfiles);
+					job.initialize();
 				}
 				
 				folderList = list;

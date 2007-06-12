@@ -145,6 +145,7 @@ package onyx.core {
 					} else if (object is Renderer) {
 						
 						Renderer.registerPlugin(plugin);
+						
 					}
 					
 					// output a message
@@ -163,7 +164,7 @@ package onyx.core {
 		 * 	@param		The number of layers to create in the display
 		 * 	@returns	Display
 		 */
-		public static function createDisplay(x:int = 0, y:int = 0, scaleX:Number = 1, scaleY:Number = 1, visible:Boolean = true):Display {
+		public static function createDisplay(x:int = 0, y:int = 0, scaleX:Number = 1, scaleY:Number = 1):Display {
 			
 			var display:Display = new Display();
 			display.displayX = x;
@@ -171,9 +172,7 @@ package onyx.core {
 			display.scaleX = scaleX;
 			display.scaleY = scaleY;
 			
-			if (visible) {
-				ROOT.addChild(display);
-			}
+			ROOT.addChild(display);
 			
 			return display;
 		}

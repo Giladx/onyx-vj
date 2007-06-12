@@ -777,7 +777,7 @@ package onyx.display {
 				x = STAGE.stageWidth - width;
 				y = 0;
 				
-				STAGE.addChild(this);
+				STAGE.addChildAt(this, 0);
 			} else if (!value && parent) {
 				STAGE.removeChild(this);
 			}

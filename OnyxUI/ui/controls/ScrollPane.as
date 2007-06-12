@@ -111,7 +111,7 @@ package ui.controls {
 		override public function addChild(child:DisplayObject):DisplayObject {
 			var child:DisplayObject = _holder.addChild(child);
 			_calculateAdd();
-			
+
 			return child;
 		}
 		

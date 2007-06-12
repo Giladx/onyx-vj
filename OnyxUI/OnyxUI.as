@@ -38,12 +38,13 @@ package {
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
+	import onyx.file.FileBrowser;
 	import onyx.file.http.HTTPAdapter;
 	import onyx.utils.array.*;
 	
-	import ui.assets.AssetLayerTab;
-	import ui.core.UIManager;
-	import ui.core.UIObject;
+	import ui.assets.AssetCamera;
+	import ui.assets.AssetVisualizer;
+	import ui.core.*;
 	import ui.states.*;
 	
 	[SWF(width="1024", height="740", backgroundColor="#141515", frameRate='30')]
@@ -69,6 +70,9 @@ package {
 			stage.align		= StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.quality	= StageQuality.MEDIUM;
+			
+			FileBrowser.CAMERA_ICON		= new AssetCamera();
+			FileBrowser.VISUALIZER_ICON	= new AssetVisualizer();
 			
 			// init
 			UIManager.initialize(

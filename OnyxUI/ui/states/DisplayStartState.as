@@ -166,7 +166,7 @@ package ui.states {
 			ROOT.addChild(window);
 			
 			// add a display, but only make it visible if the stagewidth is greater than > 1024
-			var display:Display = Onyx.createDisplay(STAGE.stageWidth - 640, 0, 640 / BITMAP_WIDTH, 480 / BITMAP_HEIGHT, !SETTING_SUPPRESS_DISPLAYS);
+			var display:Display = Onyx.createDisplay(STAGE.stageWidth - 640, 0, 640 / BITMAP_WIDTH, 480 / BITMAP_HEIGHT);
 			display.createLayers(5);
 			display.visible = STAGE.stageWidth >= 1664;
 			

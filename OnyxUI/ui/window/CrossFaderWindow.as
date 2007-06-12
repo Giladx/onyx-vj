@@ -39,11 +39,18 @@ package ui.window {
 	import ui.controls.layer.*;
 	import ui.core.*;
 	import ui.styles.UI_OPTIONS;
+	import flash.display.Shape;
+	import flash.display.Graphics;
 	
 	/**
 	 * 	This window allows one to use a crossfader
 	 */
 	public final class CrossFaderWindow extends Window {
+		
+		/**
+		 * 	@private
+		 */
+		private var fader:Shape = new Shape();
 		
 		/**
 		 * 	@constructor
@@ -54,6 +61,15 @@ package ui.window {
 			
 			CrossFaderToggle.window = this;
 
+			var graphics:Graphics = fader.graphics;
+			graphics.beginFill(0xFFFFFF);
+			graphics.drawRect(0,0,5,20);
+			graphics.endFill();
+			
+			fader.x = 2;
+			fader.y = 12;
+			
+			addChild(fader);
 		}
 
 	}

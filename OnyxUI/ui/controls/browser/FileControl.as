@@ -73,14 +73,14 @@ package ui.controls.browser {
 		/**
 		 * 	@constructor
 		 */
-		public function FileControl(file:File, thumbnail:DisplayObject = null):void {
+		public function FileControl(file:File, thumbnail:Bitmap):void {
 			
 			// store file
 			_file = file;
 			
-			if (thumbnail) {
-				addChild(thumbnail);
-			}
+			thumbnail.x = 1,
+			thumbnail.y	= 1;
+			addChild(thumbnail);
 			
 			// add label
 			_label.wordWrap		= true,
@@ -130,6 +130,13 @@ package ui.controls.browser {
 			_file	= null;
 			
 			super.dispose();
+		}
+		
+		/**
+		 * 
+		 */
+		override public function toString():String {
+			return '[FileControl: ' + _file.path + ']';
 		}
 	}
 }

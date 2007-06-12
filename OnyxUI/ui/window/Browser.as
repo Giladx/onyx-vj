@@ -54,25 +54,6 @@ package ui.window {
 	 * 	File Explorer
 	 */
 	public final class Browser extends Window {
-		
-		/**
-		 * 	@private
-		 * 	Handles thumbnail events
-		 */
-		private static function _handleThumbnail(event:Event):void {
-			var loader:LoaderInfo = event.currentTarget as LoaderInfo;
-			loader.removeEventListener(Event.COMPLETE, _handleThumbnail);
-			loader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, _handleThumbnail);
-			loader.removeEventListener(IOErrorEvent.IO_ERROR, _handleThumbnail);
-			
-			// do nothing
-		}
-		
-		/** @private **/
-		private static const CAMERA_ICON:BitmapData		= new AssetCamera();
-		
-		/** @private **/
-		private static const VISUALIZER_ICON:BitmapData	= new AssetVisualizer();
 
 		/** @private **/
 		private static const FILES_PER_ROW:int			= 6;
@@ -96,7 +77,7 @@ package ui.window {
 		 * 	@private
 		 * 	Holds the folder objects
 		 */
-		private var _folders:ScrollPane					= new ScrollPane(91, 151, null, true);
+		private var _folders:ScrollPane					= new ScrollPane(91, 191, null, true);
 		
 		/**
 		 * 	@private
@@ -140,11 +121,11 @@ package ui.window {
 			_folders.x				= 304,
 			_folders.y				= 12,
 			_buttonFiles.x			= 304,
-			_buttonFiles.y			= 164,
+			_buttonFiles.y			= 204,
 			_buttonCameras.x		= 304,
-			_buttonCameras.y		= 176,
+			_buttonCameras.y		= 216,
 			_buttonVisualizers.x	= 304,
-			_buttonVisualizers.y	= 188;
+			_buttonVisualizers.y	= 228;
 			
 			// add handlers for buttons
 			_buttonFiles.addEventListener(MouseEvent.MOUSE_DOWN, _onFileDown);
@@ -158,7 +139,9 @@ package ui.window {
 			addChild(_buttonVisualizers);
 			
 			// query default folder
-			FileBrowser.query(FileBrowser.initialDirectory + INITIAL_APP_DIRECTORY, _updateList, new SWFFilter());
+			FileBrowser.query(
+				FileBrowser.initialDirectory + INITIAL_APP_DIRECTORY, _updateList, new SWFFilter()
+			);
 		}
 		
 		/**
@@ -191,14 +174,14 @@ package ui.window {
 		 * 	@private
 		 */
 		private function _updateCamera(list:FolderList):void {
-			_updateList(list, CAMERA_ICON);
+			_updateList(list);
 		}
 		
 		/**
 		 * 	@private
 		 */
 		private function _updateVisualizer(list:FolderList):void {
-			_updateList(list, VISUALIZER_ICON);
+			_updateList(list);
 		}
 		
 		/**
@@ -229,7 +212,7 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
-		private function _updateList(list:FolderList, defaultThumb:BitmapData = null):void {
+		private function _updateList(list:FolderList):void {
 			
 			_path = list.path;
 			
@@ -261,42 +244,13 @@ package ui.window {
 			
 			_files.reset();
 			
-			for each (var file:File in list.files) {
-				
-				var thumbnail:DisplayObject;
-				
-				// check for a default thumbnail
-				if (defaultThumb) {
-					
-					var bitmap:Bitmap	= new Bitmap(defaultThumb);
-					bitmap.x = bitmap.y = 1;
-					thumbnail			= bitmap;
-				
-				// check for loading thumbnail
-				} else if (file.thumbnail) {
+			var files:Array = list.files;
+			index = 0;
+			
+			for each (var file:File in files) {
 
-					var loader:Loader	= new Loader();
-					
-					// need to add listeners so errorevents don't hit the stage if thumbnail not found
-					loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, _handleThumbnail);
-					loader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR, _handleThumbnail);
-					loader.contentLoaderInfo.addEventListener(Event.COMPLETE, _handleThumbnail);
-					loader.x = loader.y = 1;
-					
-					// load the thumbnail					
-					loader.load(new URLRequest(file.thumbnail));
-					
-					thumbnail = loader;
-				}
-				
-				var control:FileControl = new FileControl(file, thumbnail);
+				var control:FileControl = new FileControl(file, file.thumbnail);
 
-				// add it to the files scrollpane
-				_files.addChild(control);
-
-				// get the index
-				index = _files.getChildIndex(control);
-				
 				// position it
 				control.x = (index % FILES_PER_ROW) * FILE_WIDTH,
 				control.y = floor(index / FILES_PER_ROW) * FILE_HEIGHT;
@@ -305,6 +259,10 @@ package ui.window {
 				control.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 				control.addEventListener(MouseEvent.DOUBLE_CLICK, _doubleClick);
 				
+				// add it to the files scrollpane
+				_files.addChild(control);
+				
+				index++;
 			}
 		}
 		
@@ -343,7 +301,7 @@ package ui.window {
 		private function _onFolderDown(event:MouseEvent):void {
 			var control:FolderControl = event.currentTarget as FolderControl;
 
-			FileBrowser.query(control.path, _updateList, new SWFFilter());
+			FileBrowser.query(control.path, _updateList, new SWFFilter(), false, true);
 		}
 		
 		/**

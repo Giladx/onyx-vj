@@ -82,6 +82,8 @@ package ui.controls.layer {
 			_toggleB	= new ButtonClear(11,11),
 			_toggleOff	= new ButtonClear(11,11);
 			
+			_current.y			= 1;
+			
 			_toggleA.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 			_toggleB.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 			_toggleOff.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
@@ -101,17 +103,25 @@ package ui.controls.layer {
 			
 			switch (event.currentTarget) {
 				case _toggleA:
+				
+					_current.text	= 'A';
+					_current.x		= 14;
 
 					addChild(_current);
 					addChild(_toggleOff);
+					addChild(_toggleB);
 					
 					removeChild(_toggleA);
 					
 					break;
 				case _toggleB:
 
+					_current.text	= 'B';
+					_current.x		= 25;
+
 					addChild(_current);
 					addChild(_toggleOff);
+					addChild(_toggleA);
 					
 					removeChild(_toggleB);
 

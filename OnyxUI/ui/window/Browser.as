@@ -214,55 +214,59 @@ package ui.window {
 		 */
 		private function _updateList(list:FolderList):void {
 			
-			_path = list.path;
-			
-			title = 'file browser: [' + list.path + ']';
-
-			// kill all previous objects here
-			_clearChildren();
-
-			// Now we add all the new stuff for this folder;
-
-			_folders.reset();
-			
-			var folders:Array	= list.folders;
-			var len:int			= folders.length
-			
-			for (var index:int = 0; index < len; index++) {
-
-				var folder:Folder = folders[index];
+			// check for valid path first
+			if (list) {
 				
-				var foldercontrol:FolderControl = new FolderControl(folder, false);
-				foldercontrol.addEventListener(MouseEvent.MOUSE_DOWN, _onFolderDown);
-				_folders.addChild(foldercontrol);
+				_path = list.path;
 				
-				index = _folders.getChildIndex(foldercontrol) - 1;
-				foldercontrol.x = 3;
-				foldercontrol.y = FOLDER_HEIGHT * index + 2;
+				title = 'file browser: [' + list.path + ']';
+	
+				// kill all previous objects here
+				_clearChildren();
+	
+				// Now we add all the new stuff for this folder;
+	
+				_folders.reset();
 				
-			}
-			
-			_files.reset();
-			
-			var files:Array = list.files;
-			index = 0;
-			
-			for each (var file:File in files) {
-
-				var control:FileControl = new FileControl(file, file.thumbnail);
-
-				// position it
-				control.x = (index % FILES_PER_ROW) * FILE_WIDTH,
-				control.y = floor(index / FILES_PER_ROW) * FILE_HEIGHT;
+				var folders:Array	= list.folders;
+				var len:int			= folders.length
 				
-				// start listening to start dragging
-				control.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
-				control.addEventListener(MouseEvent.DOUBLE_CLICK, _doubleClick);
+				for (var index:int = 0; index < len; index++) {
+	
+					var folder:Folder = folders[index];
+					
+					var foldercontrol:FolderControl = new FolderControl(folder, list.path.length > folder.path.length);
+					foldercontrol.addEventListener(MouseEvent.MOUSE_DOWN, _onFolderDown);
+					_folders.addChild(foldercontrol);
+					
+					index = _folders.getChildIndex(foldercontrol) - 1;
+					foldercontrol.x = 3;
+					foldercontrol.y = FOLDER_HEIGHT * index + 2;
+					
+				}
 				
-				// add it to the files scrollpane
-				_files.addChild(control);
+				_files.reset();
 				
-				index++;
+				var files:Array = list.files;
+				index = 0;
+				
+				for each (var file:File in files) {
+	
+					var control:FileControl = new FileControl(file, file.thumbnail);
+	
+					// position it
+					control.x = (index % FILES_PER_ROW) * FILE_WIDTH,
+					control.y = floor(index / FILES_PER_ROW) * FILE_HEIGHT;
+					
+					// start listening to start dragging
+					control.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+					control.addEventListener(MouseEvent.DOUBLE_CLICK, _doubleClick);
+					
+					// add it to the files scrollpane
+					_files.addChild(control);
+					
+					index++;
+				}
 			}
 		}
 		

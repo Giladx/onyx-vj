@@ -30,16 +30,15 @@
  */
 package file {
 	
+	import flash.display.BitmapData;
 	import flash.events.*;
 	import flash.filesystem.*;
-	import flash.net.Responder;
 	import flash.utils.*;
 	
 	import onyx.constants.*;
 	import onyx.file.*;
+	import onyx.settings.INITIAL_APP_DIRECTORY;
 	import onyx.utils.string.*;
-	import flash.display.BitmapData;
-	import flash.display.Bitmap;
 	
 	/**
 	 * 	Queries via the apollo filesystem
@@ -50,6 +49,11 @@ package file {
 		 * 	@private
 		 */
 		private var _db:ONXThumbnailDB;
+		
+		/**
+		 * 	@private
+		 */
+		private static const _startup:String = new flash.filesystem.File('app-resource:/' + INITIAL_APP_DIRECTORY).nativePath;
 		
 		/**
 		 * 	@constructor
@@ -123,9 +127,19 @@ package file {
 			// get our filesys path
 			var folder:flash.filesystem.File = new flash.filesystem.File(path);
 			
-			// get directory
-			folder.addEventListener(FileListEvent.DIRECTORY_LISTING, _onDirectoryList);
-			folder.listDirectoryAsync();
+			if (folder.exists) {
+				
+				// get directory
+				folder.addEventListener(FileListEvent.DIRECTORY_LISTING, _onDirectoryList);
+				folder.listDirectoryAsync();
+				
+			// folder doesn't exist, dispatch an error
+			} else {
+				
+				dispatchEvent(
+					new IOErrorEvent(IOErrorEvent.IO_ERROR, false, false, 'Directory does not exist')
+				);
+			}
 			
 		}
 		
@@ -150,13 +164,15 @@ package file {
 			folder.removeEventListener(FileListEvent.DIRECTORY_LISTING, _onDirectoryList);
 
 			// create our onyx folder object
-			var list:FolderList		= new FolderList(path);
-			var directory:Array		= event.files;
-			
-			var dbChanged:Boolean	= false;
+			var list:FolderList					= new FolderList(path);
+			var directory:Array					= event.files;
 
 			// push the parent diretory
-			list.folders.push(new onyx.file.Folder(folder.parent.url));
+			var parent:flash.filesystem.File	= folder.parent;
+			
+			if (parent.nativePath.length >= _startup.length) {
+				list.folders.push(new onyx.file.Folder(parent.url));
+			}
 			
 			// loop through files and folders
 			for each (var fileObj:flash.filesystem.File in directory) {

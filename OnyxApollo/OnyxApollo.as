@@ -72,6 +72,8 @@ package {
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.quality	= StageQuality.LOW;
 			
+			STAGE = this.stage;
+			
 			// init
 			UIManager.initialize(stage, new ApolloAdapter(),
 			

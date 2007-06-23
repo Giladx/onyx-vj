@@ -61,7 +61,7 @@ package {
 			
 			addChild(_bmp);
 			
-			for (var count:int = 0; count < 30; count++) {
+			for (var count:int = 0; count < 40; count++) {
 				var circle:Circle = new Circle(_bmp.bitmapData);
 			}
 			

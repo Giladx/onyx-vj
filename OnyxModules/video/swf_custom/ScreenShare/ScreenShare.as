@@ -81,11 +81,15 @@ package {
 		 * 	@constructor
 		 */
 		public function ScreenShare():void {
+			
+			trace(STAGE);
+
+			return;
+			
 			_controls = new Controls(this,
 				new ControlInt('scale', 'scale', 1, 200, 100),
 				new ControlColor('backgroundColor', 'Background Color')
 			);
-			
 
 			_mouseX = STAGE.mouseX;
 			_mouseY = STAGE.mouseY;

@@ -28,18 +28,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package ui.assets {
+package ui.styles {
 	
-	import flash.text.Font;
+	import ui.controls.UIOptions;
 	
-	[Embed(
-			source='/ui/assets/font/FFFGALAX.ttf',
-			fontName='Pixel2',
-			mimeType='application/x-font',
-			unicodeRange='U+0020-U+0040,U+0041-U+005A,U+005B-U+0060,U+0061-U+007A,U+007B-U+007F')
-	]
-	[ExcludeClass]
-	public final class ArialFont extends Font {
-
-	}
+	public const UI_OPTIONS_NOLABEL:UIOptions = new UIOptions(true, false);
+	
 }

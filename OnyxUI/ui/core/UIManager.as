@@ -76,7 +76,10 @@ package ui.core {
 		public static function initialize(root:DisplayObjectContainer, adapter:FileAdapter, ... states:Array):void {
 			
 			// initializes onyx
-			var engine:EventDispatcher = Onyx.initialize(root, adapter);
+			Onyx.initialize(root, adapter);
+			
+			// load plugins
+			var engine:EventDispatcher = Onyx.loadPlugins();
 
 			// show startup image
 			engine.addEventListener(ApplicationEvent.ONYX_STARTUP_START, _onInitializeStart);

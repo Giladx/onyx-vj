@@ -42,6 +42,16 @@ package ui.controls.layer {
 	public final class CrossFaderToggle extends UIObject {
 
 		/**
+		 * 
+		 */
+		public static const A:String	= 'A';
+		
+		/**
+		 * 
+		 */
+		public static const B:String	= 'B';
+
+		/**
 		 * 	@private
 		 */
 		public static var window:CrossFaderWindow;
@@ -101,43 +111,52 @@ package ui.controls.layer {
 		 */
 		private function _mouseDown(event:MouseEvent):void {
 			
-			switch (event.currentTarget) {
-				case _toggleA:
+			if (window) {
 				
-					_current.text	= 'A';
-					_current.x		= 14;
-
-					addChild(_current);
-					addChild(_toggleOff);
-					addChild(_toggleB);
+				switch (event.currentTarget) {
+					case _toggleA:
 					
-					removeChild(_toggleA);
+						window.registerLayer(_layer, A);
 					
-					break;
-				case _toggleB:
-
-					_current.text	= 'B';
-					_current.x		= 25;
-
-					addChild(_current);
-					addChild(_toggleOff);
-					addChild(_toggleA);
+						_current.text	= A;
+						_current.x		= 14;
+	
+						addChild(_current);
+						addChild(_toggleOff);
+						addChild(_toggleB);
+						
+						removeChild(_toggleA);
+						
+						break;
+					case _toggleB:
+	
+						window.registerLayer(_layer, B);
 					
-					removeChild(_toggleB);
-
-					break;
-
-				case _toggleOff:
+						_current.text	= B;
+						_current.x		= 25;
+	
+						addChild(_current);
+						addChild(_toggleOff);
+						addChild(_toggleA);
+						
+						removeChild(_toggleB);
+	
+						break;
+	
+					case _toggleOff:
+					
+						window.registerLayer(_layer, null);
+					
+						removeChild(_toggleOff);
+						removeChild(_current);
+	
+						addChild(_toggleA);
+						addChild(_toggleB);
+	
+						break;
+				}
 				
-					removeChild(_toggleOff);
-					removeChild(_current);
-
-					addChild(_toggleA);
-					addChild(_toggleB);
-
-					break;
 			}
-			
 		}
 		
 		/**

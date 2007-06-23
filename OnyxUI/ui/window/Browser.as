@@ -235,7 +235,7 @@ package ui.window {
 	
 					var folder:Folder = folders[index];
 					
-					var foldercontrol:FolderControl = new FolderControl(folder, list.path.length > folder.path.length);
+					var foldercontrol:FolderControl = new FolderControl(folder);
 					foldercontrol.addEventListener(MouseEvent.MOUSE_DOWN, _onFolderDown);
 					_folders.addChild(foldercontrol);
 					

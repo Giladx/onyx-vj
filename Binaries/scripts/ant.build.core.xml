@@ -5,7 +5,7 @@
 	<property name="revision.number" value="${build.number}" />
 
 	<property name="compiler.root" location="." />
-	<property name="compiler.compc" value="C:\Program Files\Adobe\Flex Builder 2 Plug-in\Flex SDK 2\bin\compc.exe" />
+	<property name="compiler.compc" value="C:\Program Files\Adobe\Flex Builder 3 Plug-in\sdks\moxie\bin\compc.exe" />
 	
 	<property name="build.destination" location="../swc" />
 	
@@ -34,7 +34,7 @@
 		<replaceregexp file="${tempdir.core}/constants/VERSION.as" match=" r0" replace=" r${revision.number}"/>
 
 		<!-- REMOVE DEBUG METADATA
-		<replaceregexp match="//+debug-remove.*?//-debug-remove" replace="" flags="gm">
+		<replaceregexp match="//debug::start.*?//debug::end" replace="" flags="gm">
 		    <fileset dir="${temp.dir}/onyx" includes="**/*.as"/>
 		</replaceregexp>
 		 -->
@@ -49,9 +49,9 @@
 	<!-- BUILD THE CORE SWC -->
 	<target name="buildCore" depends="copyCorePath">
 		<exec executable="${compiler.compc}" failonerror="true">
-			<arg line="-output ${build.destination}\OnyxCore-optimized.swc"/>
+			<arg line="-output ${build.destination}\OnyxCore-air.swc"/>
 			<arg line="-source-path ${tempdir.root}" />
-			<arg line="-load-config onyxcore_config.xml" />
+			<arg line="-include-sources ${tempdir.root}" />
 		</exec>
 				
 		<antcall target="cleanTemp" />

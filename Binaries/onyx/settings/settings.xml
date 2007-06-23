@@ -9,6 +9,13 @@
 				<width>320</width>
 				<height>240</height>
 			</bitmapData>
+			
+			<!--
+				the start-up quality of flash
+				recommended: medium
+				
+				<quality>high</quality>
+			-->
 		</render>
 		
 		<!-- midi settings -->

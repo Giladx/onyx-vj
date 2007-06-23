@@ -1,7 +1,7 @@
 <project name="OnyxUI" default="buildUI">
 	
 	<property name="compiler.root" location="." />
-	<property name="compiler.mxmlc" value="C:\Program Files\Adobe\Flex Builder 2 Plug-in\Flex SDK 2\bin\mxmlc.exe" />
+	<property name="compiler.mxmlc" value="C:\Program Files\Adobe\Flex Builder 3 Plug-in\sdks\moxie\bin\mxmlc" />
 	
 	<property name="build.destination" location="../onyx/Onyx.swf" />
 	<property name="swc.path"	location="../swc/OnyxCore-optimized.swc" />
@@ -31,6 +31,7 @@
 		    <fileset dir="${tempdir.ui}" includes="**/*.as"/>
 		</replaceregexp>
 
+		<!-- BUILD -->
 		<exec executable="${compiler.mxmlc}" failonerror="true">
 			<arg line="-output ${build.destination}"/>
 			<arg line="-compiler.library-path+=${swc.path}"/>

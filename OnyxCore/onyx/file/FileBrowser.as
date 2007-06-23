@@ -111,7 +111,7 @@ package onyx.file {
 			}
 
 			// execute callback
-			doCallBack(_cache[folder], callback, filter);
+			doCallBack(callback, _cache[folder], filter);
 		}
 		
 		/**
@@ -166,11 +166,15 @@ package onyx.file {
 				_cache[query.path] = query.folderList;
 				
 				// do the callback
-				doCallBack(query.folderList, query.callback, query.filter);
+				doCallBack(query.callback, query.folderList, query.filter);
 				
 			} else {
+				
 				var error:ErrorEvent = event as ErrorEvent;
 				Console.error(new Error(error.text));
+				
+				// do the callback
+				doCallBack(query.callback);
 				
 			}
 
@@ -235,7 +239,7 @@ package onyx.file {
 		/**
 		 * 	@private
 		 */
-		private static function doCallBack(list:FolderList, callback:Function, filter:FileFilter = null):void {
+		private static function doCallBack(callback:Function, list:FolderList = null, filter:FileFilter = null):void {
 			
 			if (filter && list) {
 				var list:FolderList = list.clone(filter);

@@ -28,47 +28,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.file.nth {
-	
-	import flash.events.Event;
-	import flash.utils.ByteArray;
-	
-	import onyx.file.FileAdapter;
-	import onyx.file.FileFilter;
-	import onyx.file.FileQuery;
+package onyx.constants {
 
-	/**
-	 * 	Adapter for NthServer File operations
-	 */
-	public final class NthAdapter extends FileAdapter {
+	import onyx.core.TempoBeat;
+	
+	public const TEMPO_BEATS:Array = [
+		null,
+		TempoBeat.BEATS['1/16'],
+		TempoBeat.BEATS['1/8'],
+		TempoBeat.BEATS['1/4'],
+		TempoBeat.BEATS['1/2'],
+		TempoBeat.BEATS['1'],
+		TempoBeat.BEATS['2'],
+		TempoBeat.BEATS['4']
+	];
 
-		/**
-		 * 	@constructor
-		 */		
-		public function NthAdapter():void {
-			super('');
-		}
-		
-		/**
-		 * 
-		 */
-		override public function getFileName(path:String):String {
-			var index:int = path.lastIndexOf('/', path.length - 2)+1;
-			return (index) ? path.substr(index) : path;
-		}
-		
-		/**
-		 * 	Query
-		 */
-		override public function query(path:String, callback:Function):FileQuery {
-			return new NthQuery(path, callback);
-		}
-		
-		/**
-		 * 
-		 */
-		override public function save(path:String, callback:Function):FileQuery {
-			return new NthQuery(path, callback);
-		}
-	}
 }

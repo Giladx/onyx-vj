@@ -41,7 +41,7 @@ package onyx.core {
 	 */
 	public function renderContent(source:BitmapData, content:IBitmapDrawable, transform:RenderTransform, filter:ColorFilter):void {
 		
-		var matrix:Matrix, rect:Rectangle;
+		var matrix:Matrix, rect:Rectangle, clone:ColorTransform;
 		
 		matrix		= transform.matrix,
 		rect		= transform.rect;

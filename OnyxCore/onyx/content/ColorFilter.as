@@ -105,7 +105,7 @@ package onyx.content {
 		 * 	@private
 		 */
 		onyx_ns var _tint:Number					= 0;
-
+		
 		/**
 		 * 	Returns threshold
 		 */		

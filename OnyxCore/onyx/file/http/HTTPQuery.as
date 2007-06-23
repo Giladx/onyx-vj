@@ -62,7 +62,7 @@ package onyx.file.http {
 			loader.addEventListener(Event.COMPLETE, _onLoadHandler);
 			loader.addEventListener(IOErrorEvent.IO_ERROR, _onLoadHandler);
 			
-			loader.load(new URLRequest(path + 'files.xml'));
+			loader.load(new URLRequest(path + '/files.xml'));
 		}
 		
 		/**

@@ -641,27 +641,6 @@ package onyx.display {
 		}
 		
 		/**
-		 * 	Disposes the layer
-		 */
-		public function dispose():void {
-			
-			// disposes content
-			if (_content) {
-
-				// change the property target to this layer
-				_properties.target	= this;
-
-				// destroy the content
-				_destroyContent();
-
-				// set content to nothing					
-				_content			= NULL_LAYER;
-
-			}
-			
-		}
-		
-		/**
 		 * 	Gets Blendmode
 		 */
 		public function get blendMode():String {
@@ -770,19 +749,26 @@ package onyx.display {
 		override public function toString():String {
 			return (_content.path) ? FileBrowser.getFileName(_content.path) : '';
 		}
-		
+
 		/**
-		 * 	The base color transform to use for the layer (for crossfader)
+		 * 	Disposes the layer
 		 */
-		public function set baseColor(value:ColorTransform):void {
-			_content.baseColor = value;
-		}
-		
-		/**
-		 * 	The base color transform to use for the layer (for crossfader)
-		 */
-		public function get baseColor():ColorTransform {
-			return _content.baseColor;
+		public function dispose():void {
+			
+			// disposes content
+			if (_content) {
+
+				// change the property target to this layer
+				_properties.target	= this;
+
+				// destroy the content
+				_destroyContent();
+
+				// set content to nothing					
+				_content			= NULL_LAYER;
+
+			}
+			
 		}
 	}
 }

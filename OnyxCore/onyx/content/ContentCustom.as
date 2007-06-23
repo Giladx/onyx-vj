@@ -84,7 +84,7 @@ package onyx.content {
 		override public function render():RenderTransform {
 			
 			var content:IRenderObject			= _content as IRenderObject;
-			var transform:RenderTransform		= content.render();
+			var transform:RenderTransform		= content.render() || new RenderTransform();
 			var drawContent:IBitmapDrawable		= transform.content || _content;
 			
 			// render content

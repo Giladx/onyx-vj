@@ -62,7 +62,6 @@ package onyx.core {
 		
 		/**
 		 * 	Removes a filter
-		 * 	@returns	true if the filter was added successfully
 		 */
 		public function addFilter(filter:Filter):void {
 

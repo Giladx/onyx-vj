@@ -43,7 +43,7 @@ package onyx.file {
 		/**
 		 * 	The function to call back
 		 */
-		public var callback:Function;
+		internal var callback:Function;
 		
 		/**
 		 * 	The folder list stored

@@ -89,9 +89,6 @@ package onyx.core {
 		function get visible():Boolean;
 		function set visible(value:Boolean):void;
 		
-		function set baseColor(value:ColorTransform):void;
-		function get baseColor():ColorTransform;
-		
 		function pause(b:Boolean = true):void;
 		
 	}

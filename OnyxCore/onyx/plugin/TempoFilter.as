@@ -30,8 +30,7 @@
  */
 package onyx.plugin {
 	
-	import flash.events.Event;
-	import flash.events.TimerEvent;
+	import flash.events.*;
 	import flash.utils.Timer;
 	
 	import onyx.constants.*;
@@ -103,14 +102,14 @@ package onyx.plugin {
 		 * 	@private
 		 * 	
 		 */
-		protected const BEATS:Array					= [GLOBAL_TEMPO].concat(TEMPO.BEATS);;
+		protected const BEATS:Array					= [GLOBAL_TEMPO].concat(TEMPO_BEATS);;
 		
 		/**
 		 * 	@constructor
 		 */
 		public function TempoFilter(unique:Boolean, defaultBeat:TempoBeat = null, ... controls:Array):void {
 			
-			_snapControl	= new ControlTempo('snapTempo', 'Snap Tempo', BEATS),
+			_snapControl	= new ControlTempo('snapTempo', 'Snap Tempo'),
 			_delayControl	= new ControlInt('delay', 'delay', 1, 5000, 0, DEFAULT_FACTOR);
 			
 			super(unique);

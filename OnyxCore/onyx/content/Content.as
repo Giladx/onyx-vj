@@ -267,11 +267,6 @@ package onyx.content {
 		protected var _properties:LayerProperties;
 		
 		/**
-		 * 	@private
-		 */
-		protected var _baseColor:ColorTransform;
-		
-		/**
 		 * 	@constructor
 		 */		
 		public function Content(layer:Layer, path:String, content:IBitmapDrawable):void {
@@ -310,7 +305,6 @@ package onyx.content {
 			_scaleX			= 1,
 			_scaleY			= 1,							// scale normally
 			_content		= content,						// store content
-			_baseColor		= new ColorTransform(),			// the color transform to always concat (for crossfader)
 			props.target	= this;							// set controls target to this
 			
 			// check for custom controls
@@ -664,7 +658,7 @@ package onyx.content {
 	
 				// get the transformation
 				var transform:RenderTransform		= getTransform();
-				
+
 				// render content
 				renderContent(_source, _content, transform, _filter);
 				
@@ -810,21 +804,6 @@ package onyx.content {
 		final public function get visible():Boolean {
 			return _visible;
 		}
-		
-		/**
-		 * 
-		 */
-		final public function set baseColor(transform:ColorTransform):void {
-			_baseColor = transform;
-		}
-		
-		/**
-		 * 
-		 */
-		final public function get baseColor():ColorTransform {
-			return _baseColor;
-		}
-		
 
 		/**
 		 * 	Destroys the content
@@ -843,7 +822,7 @@ package onyx.content {
 			
 			// check to see if it's disposable, but only if it's not a movieclip
 			// movieclips are handled through ContentManager
-			if (_content is IDisposable && (!this is ContentMC)) {
+			if (_content is IDisposable && !(this is ContentMC)) {
 				(_content as IDisposable).dispose();
 			}
 			

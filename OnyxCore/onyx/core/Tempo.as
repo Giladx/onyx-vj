@@ -46,20 +46,6 @@ package onyx.core {
 	public final class Tempo extends EventDispatcher implements IControlObject {
 
 		/**
-		 * 	@private
-		 */
-		public const BEATS:Array = [
-			null,
-			TempoBeat.BEATS['1/16'],
-			TempoBeat.BEATS['1/8'],
-			TempoBeat.BEATS['1/4'],
-			TempoBeat.BEATS['1/2'],
-			TempoBeat.BEATS['1'],
-			TempoBeat.BEATS['2'],
-			TempoBeat.BEATS['4']
-		];
-		
-		/**
 		 * 
 		 */
 		public static function serialize():void {
@@ -105,7 +91,7 @@ package onyx.core {
 		 * 	@private
 		 * 	The beat signature to apply to all tempo filters that are listening to global tempo
 		 */
-		private var _snapTempo:TempoBeat		= BEATS[3];
+		private var _snapTempo:TempoBeat		= TEMPO_BEATS[3];
 		/**
 		 * 
 		 */
@@ -121,7 +107,7 @@ package onyx.core {
 			} else {
 				
 				_timer			= new Timer(5);
-				_snapControl	= new ControlTempo('snapTempo', 'snap to tempo', BEATS)
+				_snapControl	= new ControlTempo('snapTempo', 'snap to tempo')
 				_controls	= new Controls(this,
 					_snapControl,
 					new ControlInt('tempo', 'tempo', 40, 1000, _tempo)

@@ -75,6 +75,12 @@ package onyx.display {
 		 * 	Stores the saturation, tint, etc, as well as colortransform
 		 */
 		private var _filter:ColorFilter			= new ColorFilter();
+		
+		/**
+		 * 	@private
+		 * 	Stores the color transform to apply to the layer when being rendered (for crossfader)
+		 */
+		private var _channel:Dictionary				= new Dictionary(true);
 
 		/**
 		 * 	@private
@@ -654,7 +660,7 @@ package onyx.display {
 	
 					if (layer.visible && layer.rendered) {
 						
-						super.bitmapData.draw(layer.rendered, null, _filter, layer.blendMode);
+						super.bitmapData.draw(layer.rendered, null, _channel[layer], layer.blendMode);
 						
 					}
 				}
@@ -789,135 +795,6 @@ package onyx.display {
 		override public function get visible():Boolean {
 			return parent !== null;
 		}
-		
-		/**
-		 *  Get name of layer containing a particular control.
-		 *  Currently, names are just the layer index, but it might
-		 *  be nice for layer names to be more persistent when they're moved.
-		 *  This is used when saving MIDI controller assignments.
-		public function getNameOfControl(control:Control):String {
-			var c:Control;
-			var f:Filter;
-			for ( var i:int=0; i<_layers.length; i++ ) {
-				var layer:Layer = _layers[i];
-				// The layer name is "layer" plus the layer index
-				var layerName:String = "layer" + i.toString();
-				// Why doesn't layer.properties.indexOf(control) work for this??
-				for each (c in layer.properties) {
-					if ( c == control ) {
-						return layerName+"."+control.name;
-					}
-				}
-				for each (f in layer.filters) {
-					if (f.controls.indexOf(control) >= 0) {
-						return layerName+"."+f.name+"."+control.name;
-					}
-				}
-				if (layer._content!=null && layer._content.controls!=null) {
-					for each (c in layer._content.controls) {
-						if ( c == control ) {
-							return layerName+".content."+control.name;
-						}
-					}
-				}
-			}
-			// If it wasn't in one of the layers, then it's got
-			// to be a control on the display
-			for each (c in _controls) {
-				if ( c == control ) {
-					return "display."+control.name;
-				}
-			}
-			for each (f in _filters) {
-				for each (c in f.controls) {
-					if ( c == control ) {
-						return "display."+f.name+"."+control.name;
-					}
-				}
-			}
-			return null;
-		}
-		 */
-		
-		/**
-		 * 
-		 public function getControlByName(fullControlName:String):Control {
-		 	// All control names start with a layer name
-		 	var i:int = fullControlName.indexOf(".");
-		 	if ( i < 0 ) {
-		 		throw Error("getControlByName needs a fullControlName with a '.'");
-		 	}
-	 		var controlName:String;
-		 	var filterName:String;
-		 	var f:Filter;
-		 	var layerName:String = fullControlName.substring(0,i);
-		 	var postLayer:String = fullControlName.substring(i+1);
-		 	var c:Control;
-		 	
-		 	if (layerName == "display") {
-			 	i = postLayer.indexOf(".");
-			 	if (i>=0) {
-			 		// If there's another dot, then it's a display filter control
-			 		filterName = postLayer.substring(0,i);
-			 		controlName = postLayer.substring(i+1);
-					for each (f in _filters) {
-						if ( f.name == filterName ) {
-							for each (c in f.controls) {
-								if ( c.name == controlName )
-									return c;
-							}
-						}
-					}
-			 	} else {
-			 		// It's a display control
-			 		controlName = postLayer;
-					for each (c in _controls) {
-						if ( c.name == controlName )
-							return c;
-					}
-				}
-				return null;
-		 	}
-		 	// Get the layer it's referring to -
-		 	// Currently layer names are just "layer" plus the index
-		 	if ( ! (layerName.search("layer") == 0) ) {
-		 		trace("Unrecognized layer name in control name: ",layerName);
-		 		return null;
-		 	}
-		 	// The layer name is "layer" followed by an integer
-		 	var layer:Layer = _layers[int(layerName.substr(5))];
-		 	i = postLayer.indexOf(".");
-		 	if ( i < 0 ) {
-		 		// It's layer control, look for a control with that name
-		 		controlName = postLayer;
-				for each (c in layer.properties) {
-					if ( c.name == controlName ) {
-						return c;
-					}
-				}
-		 	} else {
-		 		// It's a filter control
-		 		filterName = postLayer.substring(0,i);
-		 		controlName = postLayer.substring(i+1);
-		 		if (filterName == "content") {
-					for each (c in layer._content.controls) {
-						if ( c.name == controlName )
-							return c;
-					}
-		 		} else {
-					for each (f in layer.filters) {
-						if ( f.name == filterName ) {
-							for each (c in f.controls) {
-								if ( c.name == controlName )
-									return c;
-							}
-						}
-					}
-				}
-			}
-			return null;
-		}
-		 */
 		 		
 		/**
 		 * 	Returns the display as xml
@@ -1018,6 +895,13 @@ package onyx.display {
 			_baseColor = value;
 		}
 		
+		/**
+		 * 
+		 */
+		public function registerBaseTransform(layer:ILayer, transform:ColorTransform):void {
+			_channel[layer] = transform;
+		}
+
 		/**
 		 * 	Disposes the display
 		 */

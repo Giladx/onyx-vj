@@ -68,7 +68,7 @@ package onyx.core {
 		/**
 		 * 	Initializes the Onyx engine
 		 */
-		public static function initialize(root:DisplayObjectContainer, adapter:FileAdapter, loadPlugins:Boolean = true):EventDispatcher {
+		public static function initialize(root:DisplayObjectContainer, adapter:FileAdapter = null):void {
 			
 			// store the flash root / stage objects
 			ROOT	= root;
@@ -76,15 +76,17 @@ package onyx.core {
 			
 			// initialize adapter
 			FileBrowser.initialize(adapter);
-
-			// load plug-ins?
-			if (loadPlugins) {
-				
-				// create a timer so that objects can listen for events
-				var timer:Timer = new Timer(0);
-				timer.addEventListener(TimerEvent.TIMER, _onInitialize);
-				timer.start();
-			}
+		}
+		
+		/**
+		 * 
+		 */
+		public static function loadPlugins():EventDispatcher {
+	
+			// create a timer so that objects can listen for events
+			var timer:Timer = new Timer(0);
+			timer.addEventListener(TimerEvent.TIMER, _onInitialize);
+			timer.start();
 
 			// return dispatcher
 			return instance;

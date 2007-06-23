@@ -85,7 +85,7 @@ package onyx.states {
 		 */
 		private function _loadExternalPlugins(list:FolderList):void {
 			
-			// valid folder list
+			// if there are plugins to load ...
 			if (list) {
 				
 				for each (var file:File in list.files) {
@@ -101,6 +101,12 @@ package onyx.states {
 					
 					Console.output('LOADING ' + String(file.path).toUpperCase());
 				}
+			
+			// otherwise start initializing
+			} else {
+				
+				_initialize();
+				
 			}
 		}
 		
@@ -161,13 +167,6 @@ package onyx.states {
 			_timer = new Timer(delay);
 			_timer.start();
 			_timer.addEventListener(TimerEvent.TIMER, _endState);
-		}
-		
-		/**
-		 * 
-		 */
-		private function _sortArray():void {
-			
 		}
 		
 		/**

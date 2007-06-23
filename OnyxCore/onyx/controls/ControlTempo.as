@@ -30,9 +30,8 @@
  */
 package onyx.controls {
 
-	import onyx.core.Tempo;
-	import onyx.core.TempoBeat;
-	import onyx.core.onyx_ns;
+	import onyx.constants.*;
+	import onyx.core.*;
 	import onyx.events.ControlEvent;
 	
 	use namespace onyx_ns;
@@ -55,9 +54,9 @@ package onyx.controls {
 		/**
 		 * 	@constructor
 		 */
-		public function ControlTempo(name:String, display:String, data:Array, defaultvalue:uint = 0, binding:String = null, options:Object = null):void {
+		public function ControlTempo(name:String, display:String, defaultvalue:uint = 0, binding:String = null, options:Object = null):void {
 			
-			super(name, display, data, defaultvalue, binding, options);
+			super(name, display, TEMPO_BEATS, defaultvalue, binding, options);
 			
 		}
 

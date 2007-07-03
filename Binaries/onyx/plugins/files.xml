@@ -1,5 +1,6 @@
 <response>
 	<query path="plugins/">
 		<file name="BasePlugins.swf" />
+		<file name="BaseFonts.swf" />
 	</query>
 </response>

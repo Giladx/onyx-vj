@@ -49,7 +49,7 @@
 	<!-- BUILD THE CORE SWC -->
 	<target name="buildCore" depends="copyCorePath">
 		<exec executable="${compiler.compc}" failonerror="true">
-			<arg line="-output ${build.destination}\OnyxCore-air.swc"/>
+			<arg line="-output ${build.destination}\OnyxCore-optimized.swc"/>
 			<arg line="-source-path ${tempdir.root}" />
 			<arg line="-include-sources ${tempdir.root}" />
 		</exec>

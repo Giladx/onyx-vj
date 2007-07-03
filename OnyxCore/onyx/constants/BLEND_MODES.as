@@ -32,6 +32,9 @@ package onyx.constants {
 
 	import flash.display.BlendMode;
 
+	/**
+	 * 	Holds the order and blend modes available to use within a ControlBlend Control.
+	 */
 	public const BLEND_MODES:Array = [
 		BlendMode.NORMAL, BlendMode.OVERLAY, BlendMode.HARDLIGHT, BlendMode.MULTIPLY, BlendMode.SCREEN, BlendMode.ADD, BlendMode.SUBTRACT,
 		BlendMode.DIFFERENCE, BlendMode.LIGHTEN, BlendMode.DARKEN, BlendMode.INVERT

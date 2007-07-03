@@ -37,7 +37,7 @@ package onyx.core {
 	import flash.geom.ColorTransform;
 	
 	/**
-	 * 	Base interface for DisplayObject interface as well as tint, saturation etc
+	 * 	Core interface that determines whether an object can change its' tint, saturation, etc
 	 */
 	public interface IColorObject extends IEventDispatcher {
 		

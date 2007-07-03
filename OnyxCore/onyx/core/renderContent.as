@@ -37,7 +37,10 @@ package onyx.core {
 	import onyx.content.ColorFilter;
 
 	/**
-	 * 	Renders content
+	 * 	Core function that renders content
+	 * 
+	 * 	@see onyx.content.Content
+	 * 	@see onyx.display.Layer
 	 */
 	public function renderContent(source:BitmapData, content:IBitmapDrawable, transform:RenderTransform, filter:ColorFilter):void {
 		

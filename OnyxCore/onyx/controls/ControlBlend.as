@@ -31,9 +31,18 @@
 package onyx.controls {
 	
 	import onyx.constants.*;
+	import onyx.core.*;
 	
+	/**
+	 * 	This control will display available blend modes.  This will dispatch a string value to the IControlObject
+	 * 
+	 * 	@see onyx.core.IControlObject
+	 */
 	public final class ControlBlend extends ControlRange {
 		
+		/**
+		 * 	@constructor
+		 */
 		public function ControlBlend(name:String, displayName:String):void {
 			super(name, displayName, BLEND_MODES);
 		}

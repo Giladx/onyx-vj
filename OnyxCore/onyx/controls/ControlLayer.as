@@ -38,7 +38,11 @@ package onyx.controls {
 	use namespace onyx_ns;
 	
 	/**
-	 * 	Layer Control
+	 * 	This class will display available layers and their path names.  Use this control if you'd like
+	 * 	your filter or plug-in to use another layer as its' source.  For example, once you have a layer, you can
+	 * 	read the layer.rendered (bitmapdata) or layer.source (bitmapdata before rendering filters)
+	 * 
+	 * 	@see onyx.core.IControlObject
 	 */
 	public final class ControlLayer extends ControlRange {
 		

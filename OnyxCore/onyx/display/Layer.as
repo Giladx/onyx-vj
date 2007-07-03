@@ -44,6 +44,7 @@ package onyx.display {
 	import onyx.net.Stream;
 	import onyx.plugin.*;
 	import onyx.utils.string.*;
+	import onyx.utils.GCTester;
 	
 	use namespace onyx_ns;
 	

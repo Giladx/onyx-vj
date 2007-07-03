@@ -31,7 +31,7 @@
 package onyx.utils.math {
 	
 	/**
-	 * 	Number to Radians
+	 * 	Converts Degrees to Radians
 	 */
 	public const DEGREES_TO_RADIANS:Number = Math.PI / 180;
 }

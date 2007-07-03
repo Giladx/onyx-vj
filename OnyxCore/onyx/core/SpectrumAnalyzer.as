@@ -40,7 +40,8 @@ package onyx.core {
 	use namespace onyx_ns;
 	
 	/**
-	 * 	Plugin
+	 * 	Core Spectrum Analysis class.  Use this class instead of Sound.computeSpectrum().  This class will cache results
+	 * 	of the Sound.computeSpectrum per frame, as well as normal results in an easy-to-use Array.
 	 */
 	public class SpectrumAnalyzer {
 		

@@ -39,7 +39,8 @@ package onyx.controls {
 	use namespace onyx_ns;
 
 	/**
-	 * 
+	 * 	Controls Array.  This class stores all possible user-defined controls for a filter,
+	 * 	transition, or other plugins.  Must be defined for any user-defined object.
 	 */
 	dynamic public class Controls extends Array implements IEventDispatcher {
 		

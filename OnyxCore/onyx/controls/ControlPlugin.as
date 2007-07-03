@@ -37,7 +37,12 @@ package onyx.controls {
 	use namespace onyx_ns;
 	
 	/**
-	 * 	Returns plugins based on type passed in
+	 * 	Returns a list of plugins.  These can either be filters, macros, transitions, or visualizers.
+	 * 	This control will dispatch an actual instance of the plugin, rather than the plugin definition itself.
+	 * 
+	 * 	@see onyx.plugin.Filter
+	 * 	@see onyx.plugin.Transition
+	 * 	@see onyx.plugin.Visualizer
 	 */
 	public final class ControlPlugin extends ControlRange {
 		
@@ -45,7 +50,7 @@ package onyx.controls {
 		 * 	@private
 		 * 	This is used for serialization of the plugin
 		 */
-		private static const LOOKUP:Array	= ['filter', 'macro', 'transition', 'visualizer'];
+		private static const LOOKUP:Array	= ['filter', 'macro', 'transition', 'visualizer', 'renderer'];
 		
 		/**
 		 * 	Use Filters

@@ -37,6 +37,9 @@ package onyx.core {
 
 	[Event(name="output",	type="onyx.events.ConsoleEvent")]
 	
+	/**
+	 * 	This class dispatches messages dispatched from the Onyx core
+	 */
 	public final class Console extends EventDispatcher {
 		
 		/**

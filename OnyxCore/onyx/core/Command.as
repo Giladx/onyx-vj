@@ -37,6 +37,9 @@ package onyx.core {
 	
 	use namespace onyx_ns;
 
+	/**
+	 * 	This class defines command-line commands usable by Onyx
+	 */
 	public final class Command {
 		
 		public static function help(... args:Array):void {

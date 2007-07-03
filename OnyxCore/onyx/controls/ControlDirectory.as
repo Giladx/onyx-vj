@@ -31,7 +31,9 @@
 package onyx.controls {
 	
 	/**
-	 * 	Control Directory
+	 * 	This control will return a list of files within a particular directory.
+	 * 
+	 * 	(currently unimplemented)
 	 */
 	public final class ControlDirectory extends Control {
 		

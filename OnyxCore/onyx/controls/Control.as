@@ -32,17 +32,44 @@ package onyx.controls {
 
 	import flash.events.EventDispatcher;
 	
-	import onyx.core.onyx_ns;
+	import onyx.core.*;
 	import onyx.events.ControlEvent;
-	import onyx.plugin.Filter;
 	
 	use namespace onyx_ns;
 	
 	[Event(name='change', type='onyx.events.ControlEvent')]
 	
+	
 	/**
-	 *	Base Control Class, dispatches when values have changed, as well as 
-	 *	enforces limits on values
+	 *	Base control class.  This class is used in all objects that have user-defined parameters.
+	 * 	For each control, a user editable control will display on-screen.  These controls will also
+	 * 	save into "mix" files or presets for filters, transitions, etc. Do not instantiate this class directly.
+	 * 
+	 * 	@see onyx.controls.Controls
+	 * 
+	 * 	@example 
+	 * 
+	 * 	<code>
+	 * 	public class SomeFilter extends IControlObject {
+	 * 
+	 * 		public var value:int			= 10;
+	 * 
+	 * 		private var _controls:Controls;
+	 * 
+	 * 		// constructor
+	 *  	public function SomeFilter():void {
+	 * 			_controls = new Controls(this,
+	 * 				new ControlInt(
+	 * 					'value',
+	 * 					'display value',
+	 * 					0,					-- minimum value
+	 * 					100,				-- maximum value
+	 * 					20					-- default value to assume when user double-clicks a control
+	 * 				)
+	 * 			)
+	 *  	}
+	 *	}
+	 * 	</code>
 	 */
 	public class Control extends EventDispatcher {
 

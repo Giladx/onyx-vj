@@ -31,7 +31,7 @@
 package onyx.utils.string {
 
 	/**
-	 * 	Returns a filename without it's extension
+	 * 	Repeats a string
 	 */
 	public function repeatString(string:String, length:int):String {
 		

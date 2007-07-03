@@ -37,6 +37,13 @@ package onyx.core {
 	import onyx.content.ColorFilter;
 	import onyx.utils.math.*;
 	
+	/**
+	 * 	Transformation class used by the Onyx core to determine how to render content
+	 * 
+	 * 	@see onyx.content.Content
+	 * 	@see onyx.display.Layer
+	 * 	@see onyx.core.IRenderObject
+	 */
 	public final class RenderTransform {
 
 		/**

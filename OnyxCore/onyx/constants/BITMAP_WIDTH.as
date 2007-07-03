@@ -32,6 +32,12 @@ package onyx.constants {
 
 	import flash.display.*;
 	
+	/**
+	 * 	A "constant" used to determine the rectangle of a display or layer.  This value 
+	 * 	changes based on the value changed in the settings.xml.  You can increase or
+	 * 	decrease the height and width via the settings.xml -- this value should *NOT*
+	 * 	be changed at runtime.
+	 */
 	public var BITMAP_WIDTH:int = 320;
 
 }

@@ -30,6 +30,9 @@
  */
 package onyx.utils.string {
 	
+	/**
+	 * 	Parses a string value and returns actual Boolean values if they are "true" or "false"
+	 */
 	public function parseBoolean(value:Object):* {
 		var name:String = value.toString();
 		

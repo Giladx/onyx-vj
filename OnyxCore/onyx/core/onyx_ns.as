@@ -33,9 +33,7 @@ package onyx.core {
 
 	/**
 	 * 
-	 * 	Namespace for onyx
-	 * 
-	 * 	Needed for non-public/private methods
+	 * 	Onyx namespace
 	 * 
 	 **/
 	public namespace onyx_ns = 'http://www.onyx-vj.com/';

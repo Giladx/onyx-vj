@@ -30,6 +30,9 @@
  */
 package onyx.utils.math {
 	
+	/**
+	 * 	Copied from default Math package.  This constant is a performance variable.
+	 */
 	public const abs:Function = Math.abs;
 	
 }

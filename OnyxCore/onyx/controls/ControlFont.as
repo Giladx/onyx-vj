@@ -33,8 +33,16 @@ package onyx.controls {
 	
 	import onyx.core.*;
 	
+	/**
+	 * 	This control will display available fonts to the user.  This will dispatch a flash.text.Font value to the IControlObject
+	 * 
+	 * 	@see onyx.core.IControlObject
+	 */
 	public final class ControlFont extends ControlRange {
 		
+		/**
+		 * 	@constructor
+		 */
 		public function ControlFont(name:String, display:String):void {
 			super(name, display, Onyx.fonts, 0, 'fontName');
 		}

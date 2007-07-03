@@ -39,7 +39,8 @@ package onyx.plugin {
 	use namespace onyx_ns;
 
 	/**
-	 * 
+	 * 	Renderer is used by Displays to determine how it is rendered.  Subclass this
+	 * 	if you want to not have a display render content and layers flattened.
 	 */
 	public class Renderer extends PluginBase {
 

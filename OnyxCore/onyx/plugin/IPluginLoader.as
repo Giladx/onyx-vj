@@ -32,7 +32,8 @@
 package onyx.plugin {
 	
 	/**
-	 * 	External Loading SWF's must implement this interface to load plugins.
+	 * 	Interface for defining whether an external swf contains plugins.
+	 * 	Plugins can hold an array of fonts, or Plugin objects to load into the Onyx core.
 	 */
 	public interface IPluginLoader {
 		

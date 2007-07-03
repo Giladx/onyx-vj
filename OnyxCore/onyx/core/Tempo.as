@@ -41,7 +41,7 @@ package onyx.core {
 	[Event(name='click', type='onyx.events.TempoEvent')]
 	
 	/**
-	 * 	Tempo
+	 * 	Base tempo dispatcher.  use onyx.constants.TEMPO instead of this class directly.  (for performance)
 	 */
 	public final class Tempo extends EventDispatcher implements IControlObject {
 

@@ -31,7 +31,9 @@
 package onyx.utils.string {
 	
 	/**
-	 * 	Gets a file extension based on a file path
+	 * 	Returns a file extension based on a path string
+	 * 
+	 * 	@returns	the path file extension
 	 */
 	public function getExtension(path:String):String {
 		return path.substr(path.lastIndexOf('.')+1, path.length).toLowerCase();

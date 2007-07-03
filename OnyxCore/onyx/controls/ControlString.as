@@ -35,6 +35,9 @@ package onyx.controls{
 	
 	use namespace onyx_ns;
 	
+	/**
+	 * 	Open-ended Text control
+	 */
 	public final class ControlString extends Control {
 		
 		/**

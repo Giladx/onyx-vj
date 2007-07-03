@@ -30,6 +30,10 @@
  */
 package onyx.core {
 	
+	/**
+	 * 	Interface that defines a plugin or external swf that enables it to render itself,
+	 * 	rather than be rendered by Onyx directly
+	 */
 	public interface IRenderObject extends IDisposable {
 		
 		function render():RenderTransform;

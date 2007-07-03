@@ -45,7 +45,7 @@ package onyx.plugin {
 	use namespace onyx_ns;
 	
 	/**
-	 * 	Transition
+	 * 	Transition is a plug-in that is executed when a layer is loaded over another layer.
 	 */
 	public class Transition extends PluginBase implements IControlObject {
 

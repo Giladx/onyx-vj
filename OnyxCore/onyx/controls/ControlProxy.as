@@ -34,7 +34,7 @@ package onyx.controls {
 	use namespace onyx_ns;
 	
 	/**
-	 * 	A proxy control is a control that points to multiple other controls (used for dual values)
+	 * 	This control is a pointer to child controls -- it is used to display multiple values in a control (such as x/y, or scaleX/scaleY)
 	 */
 	public final class ControlProxy extends Control {
 		

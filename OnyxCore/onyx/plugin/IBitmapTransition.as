@@ -34,6 +34,11 @@ package onyx.plugin {
 	
 	import onyx.core.*;
 	
+	/**
+	 * 	Interface for defining whether a transition will alter the layer bitmap.
+	 * 
+	 * 	@see onyx.plugin.Transition
+	 */
 	public interface IBitmapTransition {
 		
 		function render(source:BitmapData, ratio:Number):void;

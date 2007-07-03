@@ -31,7 +31,7 @@
 package onyx.controls {
 	
 	/**
-	 * 
+	 * 	Number Control that stores and constrains unsigned integer values.
 	 */
 	public class ControlUInt extends Control {
 		

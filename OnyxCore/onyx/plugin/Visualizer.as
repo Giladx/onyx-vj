@@ -39,7 +39,10 @@ package onyx.plugin {
 	import onyx.display.*;
 	
 	use namespace onyx_ns;
-		
+	
+	/**
+	 * 	A Visualizer plug-in is a plugin that will respond to audio events
+	 */
 	public class Visualizer extends PluginBase implements IRenderObject {
 
 		/**

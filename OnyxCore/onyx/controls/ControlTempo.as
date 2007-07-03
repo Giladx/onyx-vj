@@ -37,7 +37,9 @@ package onyx.controls {
 	use namespace onyx_ns;
 
 	/**
-	 * 	Range Array Control
+	 * 	Displays available tempo beats that the user-defined object can sync to.  Current values are: 16th note, eighth note, quarter note, half note, whole note.
+	 * 
+	 * 	@see onyx.core.IControlObject
 	 */
 	public final class ControlTempo extends ControlRange {
 		

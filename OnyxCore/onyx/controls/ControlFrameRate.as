@@ -31,7 +31,7 @@
 package onyx.controls {
 
 	/**
-	 * 	Frame rate control
+	 * 	Similar to a ControlNumber Control, however, this control will display as 1.00x instead of just 1
 	 */	
 	public final class ControlFrameRate extends ControlNumber {
 		

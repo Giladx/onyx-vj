@@ -33,6 +33,12 @@ package onyx.plugin {
 	import flash.display.BitmapData;
 	import flash.geom.*;
 	
+	/**
+	 * 	Interface for defining whether a filter will alter the bitmap.
+	 * 	Apply this interface if you would like to create your own custom filter.
+	 * 
+	 *  @see onyx.plugin.Filter
+	 */
 	public interface IBitmapFilter {
 		
 		function applyFilter(bitmapData:BitmapData):void;

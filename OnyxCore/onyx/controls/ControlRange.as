@@ -36,7 +36,11 @@ package onyx.controls {
 	use namespace onyx_ns;
 
 	/**
-	 * 	Range Array Control
+	 * 	Control that has a confined set of values.
+	 * 
+	 * 	@see onyx.controls.ControlBlend
+	 * 	@see onyx.controls.ControlTempo
+	 * 	@see onyx.controls.ControlLayer
 	 */
 	public class ControlRange extends Control {
 		

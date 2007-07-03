@@ -31,7 +31,7 @@
 package onyx.utils.string {
 	
 	/**
-	 * 	
+	 * 	Returns absolute paths based on relative paths
 	 */
 	public function pathUpOneLevel(folder:String):String {
 

@@ -46,6 +46,7 @@ package onyx.core {
 	/**
 	 * 	Filter array
 	 */
+	[ExcludeClass]
 	dynamic public final class FilterArray extends Array {
 		
 		/**

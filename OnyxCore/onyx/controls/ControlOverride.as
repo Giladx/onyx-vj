@@ -30,6 +30,9 @@
  */
 package onyx.controls {
 	
+	/**
+	 * 	Control class that allows for a parent control to be overridden or taken over by another control
+	 */
 	public final class ControlOverride {
 		
 		public var target:IControlObject;

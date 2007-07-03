@@ -36,14 +36,18 @@ package onyx.plugin {
 	import onyx.constants.*;
 	import onyx.controls.*;
 	import onyx.core.*;
-	import onyx.events.ControlEvent;
-	import onyx.events.TempoEvent;
+	import onyx.events.*;
 	import onyx.tween.*;
 	import onyx.tween.easing.*;
-	import onyx.utils.GCTester;
 	
 	use namespace onyx_ns;
 	
+	/**
+	 * 	Base Tempo Filter class.  Extend this class if you'd like your filter to respond to the tempo.
+	 * 
+	 * 	@see onyx.plugin.Filter
+	 * 	@see onyx.core.Tempo
+	 */
 	public class TempoFilter extends Filter {
 		
 		/**

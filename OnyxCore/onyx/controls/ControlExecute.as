@@ -35,7 +35,7 @@ package onyx.controls {
 	use namespace onyx_ns;
 	
 	/**
-	 * 	Exeuction control
+	 * 	Control that executed a method on the target object
 	 */
 	public final class ControlExecute extends Control {
 		

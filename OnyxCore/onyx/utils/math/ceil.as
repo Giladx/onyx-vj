@@ -30,6 +30,10 @@
  */
 package onyx.utils.math {
 	
+	/**
+	 * 	Copied from default Math package.  This constant is a performance variable.
+	 * 	Use this function for performance.
+	 */
 	public const ceil:Function = Math.ceil;
 	
 }

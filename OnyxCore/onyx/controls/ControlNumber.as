@@ -37,7 +37,7 @@ package onyx.controls {
 	use namespace onyx_ns;
 	
 	/**
-	 * 	Number Control
+	 * 	Number Control that stores and constrains numeric values.
 	 */
 	public class ControlNumber extends Control {
 

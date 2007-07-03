@@ -30,6 +30,9 @@
  */
 package onyx.core {
 	
+	/**
+	 * 	Core interface that determines whether an object has a clean-up function
+	 */
 	public interface IDisposable {
 		
 		function dispose():void;

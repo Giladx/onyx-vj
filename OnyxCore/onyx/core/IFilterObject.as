@@ -35,6 +35,9 @@ package onyx.core {
 	import onyx.controls.IControlObject;
 	import onyx.plugin.*;
 	
+	/**
+	 * 	Interface that defines whether an object can add or remove filters
+	 */
 	public interface IFilterObject extends IControlObject, IEventDispatcher {
 		
 		function get filters():Array;

@@ -31,7 +31,7 @@
 package onyx.utils.string {
 	
 	/**
-	 * 	Gets a file extension based on a file path
+	 * 	Pads a string value so that it contains at minimum amount of characters
 	 */
 	public function pad(object:Object, len:int = 4):String {
 		var str:String = object.toString();

@@ -31,7 +31,7 @@
 package onyx.controls {
 	
 	/**
-	 * 	Color
+	 * 	This control allows the user to change the color of an object with a color chooser.
 	 */
 	public final class ControlColor extends ControlUInt {
 		

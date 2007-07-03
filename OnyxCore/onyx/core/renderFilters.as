@@ -38,7 +38,10 @@ package onyx.core {
 	import onyx.plugin.*;
 
 	/**
-	 * 	Renders filters
+	 * 	Core function that renders filters (use after renderContent)
+	 * 
+	 * 	@see onyx.content.Content
+	 * 	@see onyx.display.Layer
 	 */
 	public function renderFilters(source:BitmapData, rendered:BitmapData, filters:FilterArray):void {
 		

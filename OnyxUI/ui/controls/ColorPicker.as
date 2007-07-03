@@ -47,25 +47,20 @@ package ui.controls {
 		/**
 		 * 	Registers a color to be displayed on the swatch
 		 */
-		public static function registerSwatch(color:uint):void {
-			return;
-			_swatchColors.push(color);
+		public static function registerSwatch(colors:Array):void {
 			
-			var len:int			= _swatchColors.length;
+			var len:int			= colors.length;
 			var bmp:BitmapData	= new BitmapData(len * 10, 10, false);
 
 			var rect:Rectangle = new Rectangle(0,0,10,10);
 
 			for (var count:int = 0; count < len; count++) {
-				bmp.fillRect(rect, _swatchColors[count]);
+				bmp.fillRect(rect, colors[count]);
 				rect.offset(10, 0);
 			}
+			
+			SWATCH.bitmapData = bmp;
 		}
-		
-		/**
-		 * 
-		 */
-		private static const _swatchColors:Array	= [];
 		
 		/**
 		 * 	@private
@@ -80,7 +75,12 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private static const _swatch:Bitmap			= new Bitmap();
+		private static const SWATCH:Bitmap			= new Bitmap(null, PixelSnapping.ALWAYS, false);
+		
+		/**
+		 * 	@private
+		 */
+		private static const MATRIX:Matrix			= new Matrix();
 		
 		/**
 		 * 	@private
@@ -90,7 +90,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private var _preview:Shape		= new Shape();
+		private var _preview:Shape					= new Shape();
 
 		/**
 		 * 	@private
@@ -118,9 +118,10 @@ package ui.controls {
 			mouseChildren	= false;
 			
 			if (!_picker) {
-				_picker = new Picker();
+				_picker		= new Picker();
+				SWATCH.y	= 100;
+				_picker.addChild(SWATCH);
 			}
-
 		}
 		
 		/**
@@ -130,7 +131,7 @@ package ui.controls {
 			
 			var graphics:Graphics = _preview.graphics;
 			graphics.beginFill(0x000000);
-			graphics.drawRect(1, 1, width - 1, height - 1);
+			graphics.drawRect(1, 1, width - 2, height - 2);
 			graphics.endFill();
 
 			addChild(_preview);
@@ -161,14 +162,13 @@ package ui.controls {
 		 */
 		private function _mouseMove(event:MouseEvent):void {
 			
-			var transform:ColorTransform = new ColorTransform();
+			var transform:ColorTransform	= new ColorTransform();
 			
 			// first, check to see if we're hitting the picker, if so, grab the pixel directly
 			if (_picker.mouseX > 0 && _picker.mouseX < 100 && _picker.mouseY > 0 && _picker.mouseY < 100) {
 
 				var color:uint			= _picker.asset.bitmapData.getPixel(_lastX, _lastY);
 
-				_picker.alpha			= 1;
 				_picker.cursor.visible	= true;
 				
 				_lastX = min(max(_picker.mouseX,0),99);
@@ -179,13 +179,12 @@ package ui.controls {
 				
 			} else {
 				
-				_picker.alpha			= .3;
 				_picker.cursor.visible	= false;
 
-				var matrix:Matrix		= new Matrix();
-				matrix.translate(-STAGE.mouseX, -STAGE.mouseY);
+				MATRIX.tx = -STAGE.mouseX;
+				MATRIX.ty = -STAGE.mouseY;
 
-				STAGE_COLOR.draw(STAGE, matrix, null, null, RECT);
+				STAGE_COLOR.draw(STAGE, MATRIX, null, null, RECT);
 				color = STAGE_COLOR.getPixel(0,0);
 
 			}

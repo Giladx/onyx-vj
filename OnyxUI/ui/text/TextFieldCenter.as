@@ -69,6 +69,8 @@ package ui.text {
 			super.width				= width,
 			super.height			= height,
 			super.embedFonts		= true,
+			super.mouseEnabled		= false,
+			super.mouseWheelEnabled	= false,
 			super.y					= y;
 			
 		}

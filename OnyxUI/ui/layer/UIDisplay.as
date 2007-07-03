@@ -111,6 +111,9 @@ package ui.layer {
 					_localControls.getControl('preview'),
 					_localControls.getControl('previewLocation'),
 					_localControls.getControl('framerate')
+				),
+				new LayerPage('RENDER',
+					controls.getControl('renderer')
 				)
 			);
 

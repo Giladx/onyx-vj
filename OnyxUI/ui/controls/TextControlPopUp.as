@@ -32,12 +32,14 @@ package ui.controls {
 
 	import flash.display.*;
 	import flash.events.*;
-	import flash.geom.Rectangle;
+	import flash.geom.*;
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
+	import onyx.states.*;
 	
 	import ui.core.UIObject;
+	import ui.states.*;
 	import ui.text.TextInput;
 	
 	public final class TextControlPopUp extends UIObject {
@@ -51,6 +53,11 @@ package ui.controls {
 		 * 	@private
 		 */
 		private var _control:Control;
+		
+		/**
+		 * 	@private
+		 */
+		private var _states:Array;
 
 		/**
 		 * 	@constructor
@@ -62,7 +69,7 @@ package ui.controls {
 				_control		= control;
 
 				var bounds:Rectangle	= parent.getBounds(parent.stage);
-				x						= bounds.x;
+				x						= bounds.x,
 				y						= bounds.y;
 				
 				STAGE.addChildAt(this, STAGE.numChildren);
@@ -71,17 +78,32 @@ package ui.controls {
 				displayBackground(width, height);
 				
 				_input				= new TextInput(width - 4, height - 4);
-				_input.multiline	= true;
-				_input.x			= 2;
-				_input.y			= 2;
+				_input.multiline	= true,
+				_input.x			= 2,
+				_input.y			= 2,
 				_input.text			= text;
+				
 				addChild(_input);
+
+				_input.addEventListener(FocusEvent.FOCUS_IN, _onFocus);
 
 				_input.setSelection(0, text.length - 1);
 			}
 			
-			mouseEnabled = true;
-			mouseChildren = true;
+			mouseEnabled	= true,
+			mouseChildren	= true;
+			
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function _onFocus(event:FocusEvent):void {
+			
+			_states = StateManager.getStates(KeyListenerState);
+			for each (var state:ApplicationState in _states) {
+				state.pause();
+			}
 			
 		}
 		
@@ -92,13 +114,23 @@ package ui.controls {
 			
 			if (!hitTestPoint(STAGE.mouseX, STAGE.mouseY)) {
 				
+				_input.removeEventListener(FocusEvent.FOCUS_IN, _onFocus);
+				
 				if (_control) {
 					_control.value = _input.text;
 					_control = null;
 				}
 				
+				// remove mouse capturing
 				STAGE.removeEventListener(MouseEvent.MOUSE_DOWN, _captureMouse, false);
 				STAGE.removeChild(this);
+				
+				// check for keylistener states, and turn them back on
+				if (_states) {
+					for each (var state:ApplicationState in _states) {
+						state.initialize();
+					}
+				}
 				
 				dispose();
 			}

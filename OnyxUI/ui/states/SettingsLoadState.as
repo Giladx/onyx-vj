@@ -156,9 +156,11 @@ package ui.states {
 				list = xml.swatch;
 				
 				try {
+					var colors:Array = [];
 					for each (var color:uint in list.*) {
-						ColorPicker.registerSwatch(color);
+						colors.push(color);
 					}
+					ColorPicker.registerSwatch(colors);
 				} catch (e:Error) {
 					trace(1, e);
 				}

@@ -36,7 +36,7 @@ package ui.assets {
 	public final class AssetCrossFaderBG extends Bitmap {
 
 		public function AssetCrossFaderBG():void {
-			super(null, PixelSnapping.NEVER, false);
+			super(null, PixelSnapping.ALWAYS, false);
 		}
 
 	}

@@ -35,7 +35,7 @@ package ui.assets {
 	[Embed(source='/ui/assets/img/crossfader_slider.png')]
 	public final class AssetCrossFader extends Bitmap {
 		public function AssetCrossFader():void {
-			super(null, PixelSnapping.NEVER, false);
+			super(null, PixelSnapping.ALWAYS, false);
 		}
 	}
 	

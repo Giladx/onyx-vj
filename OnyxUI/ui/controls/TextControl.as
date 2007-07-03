@@ -31,12 +31,10 @@
 package ui.controls {
 	
 	import flash.events.MouseEvent;
-	import flash.geom.Rectangle;
-	import flash.text.Font;
 	
 	import onyx.controls.*;
+	import onyx.events.ControlEvent;
 	
-	import ui.core.UIObject;
 	import ui.styles.*;
 	import ui.text.TextFieldCenter;
 	
@@ -55,12 +53,12 @@ package ui.controls {
 			super(options, control, true, control.display);
 			
 			_label = new TextFieldCenter(options.width + 3, options.height, 0, 1);
-			addChild(_label);
 			
-			_label.textColor	= 0x999999;
-			_label.text			= 'EDIT';
+			_label.textColor	= 0x999999,
+			_label.text			= 'CLICK TO EDIT';
 				
 			addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);	
+			addChild(_label);
 		}
 
 		/**
@@ -68,7 +66,7 @@ package ui.controls {
 		 */
 		private function _mouseDown(event:MouseEvent):void {
 			
-			var popup:TextControlPopUp	= new TextControlPopUp(this, null, 200, 200, _control.value, _control);
+			var popup:TextControlPopUp	= new TextControlPopUp(this, null, 100, 100, _control.value, _control);
 			event.stopPropagation();
 		}
 		
@@ -78,6 +76,7 @@ package ui.controls {
 		override public function dispose():void {
 			
 			removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+			
 			_control	= null,
 			_label		= null;
 			

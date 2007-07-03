@@ -1,0 +1,19 @@
+<project name="build.module" default="build">
+
+	<property file="../../../properties.ini" />
+
+	<path id="currentDirectory">
+		<dirset dir=".">
+			<include name="*/"/>
+		</dirset>
+	</path>
+	
+	<target name="build">
+	
+		<foreach pathsep=" " property="temp" refid="currentDirectory">
+			<echo>${temp}</echo>
+		</foreach>
+		
+	</target>
+	
+</project>

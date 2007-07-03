@@ -24,6 +24,7 @@
 			<arg line="-compiler.library-path+=${onyx.corepath}"/>
 			<arg line="${plugin.main}"/>
 		</exec>
+		
 	</target>
 	
 </project>

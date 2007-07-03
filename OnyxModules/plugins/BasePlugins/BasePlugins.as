@@ -35,10 +35,11 @@ package {
 	import filters.*;
 	
 	import flash.display.Sprite;
-	import flash.system.Security;
 	
 	import onyx.core.*;
 	import onyx.plugin.*;
+	
+	import renderer.*;
 	
 	import transitions.*;
 	
@@ -63,6 +64,7 @@ package {
 						'Scroll: Scrolls the bitmap\n' +
 						'Frame Delay: # of frames to skip'
 				),
+				new Plugin('Scroll Render',			ScrollRender,	'Scroll Render'),
 				new Plugin('Kaliedoscope', 			Kaliedoscope,	'Kaliedoscope'),
 				new Plugin('Pixelate',				Pixelate,		'Pixelate'),
 				new Plugin('Blur Filter', 			Blur,			'Blur Filter'),

@@ -44,6 +44,7 @@ package onyx.core {
 	import onyx.plugin.*;
 	import onyx.states.*;
 	import onyx.utils.GCTester;
+	import flash.text.Font;
 	
 	use namespace onyx_ns;
 	
@@ -56,12 +57,18 @@ package onyx.core {
 		 * 	@private
 		 * 	Dispatcher
 		 */
-		onyx_ns static const instance:Onyx = new Onyx();
+		onyx_ns static const instance:Onyx	= new Onyx();
+		
+		/**
+		 * 	@private
+		 * 	Returns a list of fonts
+		 */
+		public static const fonts:Array		= [];
 		
 		/**
 		 * 	
 		 */
-		public static function getInstance():EventDispatcher {
+		public static function getInstance():IEventDispatcher {
 			return instance;
 		}
 		
@@ -112,8 +119,18 @@ package onyx.core {
 		 */
 		public static function registerPlugin(registration:Object):void {
 			
-			// check if the passed in object is a midi master or a plugin
-			if (registration is Plugin) {
+			var definition:Class = registration as Class;
+
+			if (definition) {
+				
+				var instance:Object = new definition();
+				
+				if (instance is Font) {
+					Font.registerFont(definition);
+					fonts.push(instance);
+				}
+				
+			} else if (registration is Plugin) {
 				
 				var plugin:Plugin = registration as Plugin;
 				
@@ -145,7 +162,6 @@ package onyx.core {
 						Macro.registerPlugin(plugin);
 						
 					} else if (object is Renderer) {
-						
 						Renderer.registerPlugin(plugin);
 						
 					}

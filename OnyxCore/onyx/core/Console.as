@@ -102,9 +102,7 @@ package onyx.core {
 		 */
 		public static function outputStack():void {
 			
-			// trace('output stack');
-			
-			//++compiler-remove
+			//debug::start
 			
 			try {
 				throw(new Error('stack trace'));
@@ -112,7 +110,7 @@ package onyx.core {
 				trace(e.getStackTrace());
 			}
 			
-			//--compiler-remove
+			//debug::end
 		}
 
 	}

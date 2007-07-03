@@ -90,22 +90,28 @@ package onyx.controls {
 			switch (type) {
 				case FILTERS:
 					data = Filter.filters;
+					data.unshift(null);
 					break;
+					
 				case MACROS:
 					data = Macro.macros;
+					data.unshift(null);
+					
 					break;
 				case TRANSITIONS:
 					data = Transition.transitions;
+					data.unshift(null);
+					
 					break;
 				case VISUALIZERS:
 					data = Visualizer.visualizers;
+					data.unshift(null);
+					
 					break;
 				case RENDERERS:
 					data = Renderer.renderers;
 					break;
 			}
-			
-			data.unshift(null);
 			
 			super(name, display, data, defaultValue, 'name');
 		}

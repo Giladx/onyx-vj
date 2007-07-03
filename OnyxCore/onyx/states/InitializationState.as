@@ -131,10 +131,12 @@ package onyx.states {
 				Console.output((event as ErrorEvent).text);
 			} else {
 				
-				var plugins:Array = info.content['plugins'];
+				var loader:IPluginLoader = info.content as IPluginLoader;
 				
-				if (plugins) {
+				if (loader) {
 					
+					var plugins:Array = loader.plugins;
+				
 					for each (var plugin:Object in plugins) {
 						Onyx.registerPlugin(plugin);
 					}

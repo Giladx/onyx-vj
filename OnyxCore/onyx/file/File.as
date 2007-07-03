@@ -48,7 +48,7 @@ package onyx.file {
 		/**
 		 * 	Saves thumbnail
 		 */
-		public var thumbnail:Bitmap	= new Bitmap(null, PixelSnapping.NEVER, false);
+		public var thumbnail:Bitmap	= new Bitmap(null, PixelSnapping.ALWAYS, false);
 		
 		/**
 		 * 	@constructor

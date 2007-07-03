@@ -309,7 +309,7 @@ package onyx.plugin {
 		 * 	@private
 		 */
 		protected function onTrigger(beat:int, event:Event):void {
-			trace('BEAT');
+			// trace('BEAT');
 		}
 
 		/**

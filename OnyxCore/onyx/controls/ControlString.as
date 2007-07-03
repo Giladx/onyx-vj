@@ -37,9 +37,12 @@ package onyx.controls{
 	
 	public final class ControlString extends Control {
 		
-		public function ControlString(name:String, display:String, metadata:Object = null):void {
+		/**
+		 * 	@constructor
+		 */
+		public function ControlString(name:String, display:String):void {
 			
-			super(name, display, metadata);
+			super(name, display);
 		}
 		
 		/**

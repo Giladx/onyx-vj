@@ -33,7 +33,6 @@ package onyx.display {
 	import flash.display.*;
 	import flash.events.*;
 	import flash.geom.*;
-	import flash.net.URLRequest;
 	import flash.ui.Mouse;
 	import flash.utils.*;
 	
@@ -43,7 +42,6 @@ package onyx.display {
 	import onyx.core.*;
 	import onyx.events.*;
 	import onyx.jobs.*;
-	import onyx.midi.Midi;
 	import onyx.plugin.*;
 	import onyx.states.*;
 	import onyx.utils.array.*;
@@ -56,12 +54,18 @@ package onyx.display {
 	 * 	Base Display class
 	 */
 	public class Display extends Bitmap implements IDisplay {
-		
+
+		/**
+		 * 	@private
+		 * 	Stores the color transform to apply to the layer when being rendered (for crossfader)
+		 */
+		public static const LAYER_DRAW_TRANSFORM:Dictionary			= new Dictionary(true);
+
 		/**
 		 * 	@private
 		 * 
 		 */
-		onyx_ns static var _displays:Array		= [];
+		onyx_ns static const _displays:Array			= [];
 		
 		/**
 		 * 	Gets display
@@ -76,12 +80,6 @@ package onyx.display {
 		 */
 		private var _filter:ColorFilter			= new ColorFilter();
 		
-		/**
-		 * 	@private
-		 * 	Stores the color transform to apply to the layer when being rendered (for crossfader)
-		 */
-		private var _channel:Dictionary				= new Dictionary(true);
-
 		/**
 		 * 	@private
 		 * 	Stores the filters for this content
@@ -111,7 +109,7 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private var	_size:DisplaySize			= DISPLAY_SIZES[2];
+		private var	_size:DisplaySize				= DISPLAY_SIZES[2];
 		
 		/**
 		 * 	@private
@@ -121,29 +119,31 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		onyx_ns var _layers:Array				= [];
+		onyx_ns var _layers:Array					= [];
 		
 		/**
 		 * 
 		 */
-		onyx_ns var _valid:Array				= [];
+		onyx_ns var _valid:Array					= [];
 		
 		/**
 		 * 	@private
 		 */
-		private var _baseColor:ColorTransform	= new ColorTransform();
+		private var _renderer:Renderer;
+		
+		/**
+		 * 
+		 */
+		private var _backgroundColor:uint;
 		
 		/**
 		 * 	@constructor
 		 */
 		public function Display():void {
 			
-			// create new filter array
-			_filters = new FilterArray(this);
-			
-			// create new properties
-			_controls = new Controls(this);
-			_controls.addControl(
+			_renderer	= (Renderer.renderers[0] as Plugin).getDefinition() as Renderer,
+			_filters	= new FilterArray(this),
+			_controls	= new Controls(this,
 				new ControlNumber(
 					'brightness',			'BRIGHT',		-1,		1,		0
 				),
@@ -172,11 +172,15 @@ package onyx.display {
 					'smoothing',			'SMOOTHING',	0
 				),
 				__alpha,
-				__visible
-			)
+				__visible,
+				new ControlPlugin(
+					'renderer',				'renderer',	ControlPlugin.RENDERERS, 0
+				)
+			);
 			
 			// init the bitmap
-			super(new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT, false, _baseColor.color), PixelSnapping.ALWAYS, true);
+			super(
+				new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT, false, _backgroundColor), PixelSnapping.ALWAYS, true);
 			
 			// add it to the displays index
 			_displays.push(this);
@@ -373,14 +377,14 @@ package onyx.display {
 		 * 	Sets background color
 		 */
 		public function set backgroundColor(value:uint):void {
-			_baseColor.color = value;
+			_backgroundColor = value;
 		}
 		
 		/**
 		 * 	Sets the background color
 		 */
 		public function get backgroundColor():uint {
-			return _baseColor.color;
+			return _backgroundColor;
 		}
 		
 		/**
@@ -588,14 +592,14 @@ package onyx.display {
 		}
 		
 		/**
-		 * 
+		 * 	Returns the display bitmap before rendering filters
 		 */
 		public function get source():BitmapData {
 			return super.bitmapData;
 		}
 
 		/**
-		 * 
+		 * 	Returns the display bitmap
 		 */
 		public function get rendered():BitmapData {
 			return super.bitmapData;
@@ -621,13 +625,6 @@ package onyx.display {
 		/**
 		 * 
 		 */
-		public function get path():String {
-			return null;
-		}
-		
-		/**
-		 * 
-		 */
 		public function get time():Number {
 			return 0;
 		}
@@ -637,11 +634,13 @@ package onyx.display {
 		 */
 		public function render():RenderTransform {
 			
+			var data:BitmapData = super.bitmapData;
+			
 			// lock the bitmaps so nothing updates
-			super.bitmapData.lock();
+			data.lock();
 		
 			// fill the display
-			super.bitmapData.fillRect(BITMAP_RECT, _baseColor.color);
+			data.fillRect(BITMAP_RECT, _backgroundColor);
 			
 			// loop and render
 			// TBD: raise the framerate of the root movie, and do 
@@ -649,31 +648,19 @@ package onyx.display {
 			var length:int = _valid.length - 1;
 			
 			if (length >= 0) {
-	
-				// loop through layers and render			
-				for (var count:int = length; count >= 0; count--) {
-					
-					var layer:ILayer = _valid[count];
-	
-					// render the layer
-					layer.render();
-	
-					if (layer.visible && layer.rendered) {
-						
-						super.bitmapData.draw(layer.rendered, null, _channel[layer], layer.blendMode);
-						
-					}
-				}
 				
-				// render filters
-				_filters.render(super.bitmapData);
+				// render the display using the renderer
+				_renderer.render(data, _valid);
+				
+				// render filters onto the bitmap
+				_filters.render(data);
 			}
 			
 			// apply threshold, etc
-			super.bitmapData.applyFilter(super.bitmapData, BITMAP_RECT, POINT, _filter.filter);
+			data.applyFilter(data, BITMAP_RECT, POINT, _filter.filter);
 			
 			// unlock
-			super.bitmapData.unlock();
+			data.unlock();
 			
 			// dispatch a render event
 			// dispatchEvent(new RenderEvent());
@@ -738,21 +725,21 @@ package onyx.display {
 			return 0;
 		}
 		/**
-		 * 
+		 * 	Returns the anchor
 		 */
 		public function get anchorX():int {
 			return 0;
 		}
 		
 		/**
-		 * 
+		 * 	Sets the anchor
 		 */
 		public function set anchorX(value:int):void {
 			// do nothing, use no anchor
 		}
 		
 		/**
-		 * 
+		 * 	Returns the anchor
 		 */
 		public function get anchorY():int {
 			return 0;
@@ -841,9 +828,6 @@ package onyx.display {
 		 */
 		public function loadXML(xml:XMLList):void {
 			
-			// trace('Display.loadXML()', xml, xml.controls, xml.filters);
-			// trace('Display.loadXML():controls', xml.controls);
-			
 			// load display settings
 			controls.loadXML(xml.controls);
 
@@ -854,18 +838,6 @@ package onyx.display {
 			_filters.loadXML(xml.filters);
 			
 		}
-		
-		/**
-		 * 	Loads MIDI settings from xml (needs to be done
-		 *  after the layers and their filters get loaded, so
-		 *  that Controls are present)
-		
-		public function loadMidiXML():void {
-			if (_xml.midi) {
-				MIDI.loadXML(_xml.midi);
-			}	
-		}
-		 **/
 		
 		/**
 		 * 
@@ -882,24 +854,10 @@ package onyx.display {
 		}
 		
 		/**
-		 * 	The base transform (for crossfader & background color)
-		 */
-		public function get baseColor():ColorTransform {
-			return _baseColor;
-		}
-		
-		/**
-		 * 	The base transform (for crossfader & background color)
-		 */
-		public function set baseColor(value:ColorTransform):void {
-			_baseColor = value;
-		}
-		
-		/**
 		 * 
 		 */
 		public function registerBaseTransform(layer:ILayer, transform:ColorTransform):void {
-			_channel[layer] = transform;
+			LAYER_DRAW_TRANSFORM[layer] = transform;
 		}
 
 		/**
@@ -908,5 +866,32 @@ package onyx.display {
 		public function dispose():void {
 		}
 
+		/**
+		 * 
+		 */
+		public function get path():String {
+			return null;
+		}
+		
+
+		/**
+		 * 	Sets the renderer
+		 */
+		public function set renderer(value:Renderer):void {
+			if (_renderer) {
+				_renderer.dispose();
+				_renderer.clean();
+			}
+			_renderer = value;
+			value.initialize();
+		}
+		
+		/**
+		 * 	Gets the renderer
+		 */
+		public function get renderer():Renderer {
+			return _renderer;
+		}
+		
 	}
 }

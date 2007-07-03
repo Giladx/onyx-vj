@@ -30,23 +30,30 @@
  */
 package onyx.plugin {
 	
-	import flash.utils.Dictionary;
+	import flash.display.BitmapData;
 	
 	import onyx.constants.*;
 	import onyx.core.*;
+	import onyx.display.*;
 	
 	use namespace onyx_ns;
 
 	/**
 	 * 
 	 */
-	public class Renderer extends PluginBase implements IRenderObject {
+	public class Renderer extends PluginBase {
+
+		/*
+			Automatically register the default renderer plugin
+		*/		
+		registerPlugin(new Plugin('Default', Renderer, 'Default'));
+
 
 		/**
 		 * 	@private
 		 * 	Stores definitions
 		 */
-		private static const _definition:Object	= new Object();
+		private static const _definition:Object		= {};
 		
 		/**
 		 * 	@private
@@ -62,13 +69,6 @@ package onyx.plugin {
 				plugin._parent = _renderers;
 				_renderers.splice(index || _renderers.length - 1, 0, plugin);
 			}
-		}
-		
-		/**
-		 * 	@public
-		 */
-		public function render():RenderTransform {
-			return null;
 		}
 
 		/**
@@ -96,15 +96,32 @@ package onyx.plugin {
 		}
 		
 		/**
-		 * 	Initializes the macro
+		 * 	Renders the Display
 		 */
-		public function initialize():void {
+		public function render(source:BitmapData, layers:Array):void {
+			
+			var length:int = layers.length - 1;
+
+			// loop through layers and render			
+			for (var count:int = length; count >= 0; count--) {
+				
+				var layer:ILayer = layers[count];
+
+				// render the layer
+				layer.render();
+
+				if (layer.visible && layer.rendered) {
+					
+					source.draw(layer.rendered, null, Display.LAYER_DRAW_TRANSFORM[layer], layer.blendMode);
+					
+				}
+			}
 		}
 		
 		/**
-		 * 	Terminates the macro
+		 * 	Initializes the macro
 		 */
-		public function terminate():void {
+		public function initialize():void {
 		}
 		
 		/**

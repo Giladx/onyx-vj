@@ -96,7 +96,7 @@ package onyx.core {
 		 */
 		public function registerData(name:String, value:*):void {
 			if (!metadata) {
-				metadata = new Object();
+				metadata = {};
 			}
 			metadata[name] = value;
 		}

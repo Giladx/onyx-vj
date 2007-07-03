@@ -46,7 +46,7 @@ package onyx.plugin {
 		 * 	@private
 		 * 	Stores definitions
 		 */
-		private static const _definition:Object	= new Object();
+		private static const _definition:Object		= {};
 		
 		/**
 		 * 	@private

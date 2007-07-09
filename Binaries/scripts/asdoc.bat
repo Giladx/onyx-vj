@@ -1,1 +1,0 @@
-C:\\Program Files\\Adobe\Flex Builder 3 Plug-in\sdks\moxie\bin\asdoc

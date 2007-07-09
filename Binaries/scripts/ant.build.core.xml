@@ -33,11 +33,10 @@
 		<attrib file="${tempdir.core}/constants/VERSION.as" readonly="false" />
 		<replaceregexp file="${tempdir.core}/constants/VERSION.as" match=" r0" replace=" r${revision.number}"/>
 
-		<!-- REMOVE DEBUG METADATA
-		<replaceregexp match="//debug::start.*?//debug::end" replace="" flags="gm">
-		    <fileset dir="${temp.dir}/onyx" includes="**/*.as"/>
+		<!-- REMOVE DEBUG METADATA -->
+		<replaceregexp match="//*.debug::start.*?//*.debug::end" replace="" flags="gm">
+		    <fileset dir="${tempdir.core}" includes="**/*.as"/>
 		</replaceregexp>
-		 -->
 		
 		<!-- CHANGE ,\n to comma (for performance reasons) -->
 		<replaceregexp match=",\r\n" replace="," flags="gm">

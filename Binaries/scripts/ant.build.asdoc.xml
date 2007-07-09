@@ -13,14 +13,16 @@
 		<exec executable="${compiler.asdoc}" failonerror="true">
 			<arg line="-output ${build.destination}/OnyxCore"/>
 			<arg line="-source-path ${source.OnyxCore}" />
-			<arg line="-doc-sources ${source.OnyxCore}/onyx" />
+			<arg line="-doc-sources ${source.OnyxCore}" />
 		</exec>
-				
+
+		<!--
 		<exec executable="${compiler.asdoc}" failonerror="true">
 			<arg line="-output ${build.destination}/OnyxUI"/>
-			<arg line="-source-path ${source.OnyxCore}" />
-			<arg line="-doc-sources ${source.OnyxCore}/onyxUI" />
+			<arg line="-source-path ${source.OnyxCore} ${source.OnyxUI}" />
+			<arg line="-doc-sources ${source.OnyxUI}/OnyxUI.as" />
 		</exec>
+		-->
 	</target>
 
 </project>

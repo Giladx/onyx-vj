@@ -88,6 +88,7 @@ package ui.controls {
 				_input.addEventListener(FocusEvent.FOCUS_IN, _onFocus);
 
 				_input.setSelection(0, text.length - 1);
+				_input.addEventListener(Event.CHANGE, _onChange);
 			}
 			
 			mouseEnabled	= true,
@@ -110,20 +111,21 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
+		private function _onChange(event:Event):void {
+			_control.value = _input.text;
+		}
+		
+		/**
+		 * 	@private
+		 */
 		private function _captureMouse(event:MouseEvent):void {
 			
 			if (!hitTestPoint(STAGE.mouseX, STAGE.mouseY)) {
 				
-				_input.removeEventListener(FocusEvent.FOCUS_IN, _onFocus);
-				
 				if (_control) {
-					_control.value = _input.text;
+					// _control.value = _input.text;
 					_control = null;
 				}
-				
-				// remove mouse capturing
-				STAGE.removeEventListener(MouseEvent.MOUSE_DOWN, _captureMouse, false);
-				STAGE.removeChild(this);
 				
 				// check for keylistener states, and turn them back on
 				if (_states) {
@@ -136,6 +138,20 @@ package ui.controls {
 			}
 			
 			event.stopPropagation();
+		}
+		
+		/**
+		 * 
+		 */
+		override public  function dispose():void {
+			_input.removeEventListener(FocusEvent.FOCUS_IN, _onFocus);
+			_input.removeEventListener(Event.CHANGE, _onChange);
+			_input = null;
+			
+			
+				// remove mouse capturing
+				STAGE.removeEventListener(MouseEvent.MOUSE_DOWN, _captureMouse, false);
+				STAGE.removeChild(this);
 		}
 	}
 }

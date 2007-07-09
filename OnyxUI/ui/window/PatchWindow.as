@@ -54,7 +54,7 @@ package ui.window {
 		 * 	@constructor
 		 */
 		public function PatchWindow():void {
-			super('PATCH', 396, 200, 614, 318);
+			super('PATCH', 396, 200);
 			instance = this;
 		}
 		

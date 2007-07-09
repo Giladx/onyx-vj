@@ -51,17 +51,25 @@ package ui.controls {
 		private var _label:TextFieldCenter;
 		
 		/**
+		 * 	@private
+		 */
+		private var _button:ButtonClear;
+		
+		/**
 		 * 	@constructor
 		 */
 		public function ButtonControl(options:UIOptions, control:Control):void {
 			
 			super(options, control, true, control.display);
 
-			_label = new TextFieldCenter(options.width + 3, options.height, 0, 1);
-			addChild(_label);
+			_button		= new ButtonClear(options.width, options.height),
+			_label		= new TextFieldCenter(options.width + 3, options.height, 0, 1);
 			
-			_label.textColor	= 0x999999;
-			_label.text			= 'PUSH ME';
+			addChild(_label);
+			addChild(_button);
+				
+			_label.textColor	= 0x999999,
+			_label.text			= 'execute';
 				
 			addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);	
 		}

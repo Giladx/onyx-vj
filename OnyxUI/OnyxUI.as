@@ -71,13 +71,14 @@ package {
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.quality	= StageQuality.MEDIUM;
 			
+			// store default icons
 			FileBrowser.CAMERA_ICON		= new AssetCamera();
 			FileBrowser.VISUALIZER_ICON	= new AssetVisualizer();
 			
 			// init
 			UIManager.initialize(
 				stage, 
-				new HTTPAdapter(),
+				new HTTPAdapter(stage.loaderInfo.parameters.initial_dir || ''),
 				new KeyListenerState()
 			);
 			

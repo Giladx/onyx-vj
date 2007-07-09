@@ -55,7 +55,7 @@ package ui.core {
 			
 			var dispatcher:EventDispatcher = event.currentTarget as EventDispatcher;
 			
-			if (_doubleObject == dispatcher) {
+			if (_doubleObject === dispatcher) {
 				if (getTimer() - _doubleTime < 300) {
 					event.stopPropagation();
 					

@@ -106,7 +106,6 @@ package ui.window {
 		 */
 		public function Browser():void {
 			
-//			super('loading ... ', 396, 201);
 			super('loading ... ', 396, 240);
 			
 			var options:UIOptions		= new UIOptions();
@@ -140,7 +139,7 @@ package ui.window {
 			
 			// query default folder
 			FileBrowser.query(
-				FileBrowser.initialDirectory + INITIAL_APP_DIRECTORY, _updateList, new SWFFilter()
+				FileBrowser.startupFolder + INITIAL_APP_DIRECTORY, _updateList, new SWFFilter()
 			);
 		}
 		
@@ -152,8 +151,8 @@ package ui.window {
 			switch (event.currentTarget) {
 				case _buttonFiles:
 				
-					if (_path !== FileBrowser.initialDirectory + INITIAL_APP_DIRECTORY) {
-						FileBrowser.query(FileBrowser.initialDirectory + INITIAL_APP_DIRECTORY, _updateList, new SWFFilter());
+					if (_path !== FileBrowser.startupFolder + INITIAL_APP_DIRECTORY) {
+						FileBrowser.query(FileBrowser.startupFolder + INITIAL_APP_DIRECTORY, _updateList, new SWFFilter());
 					}
 					
 					break;
@@ -323,7 +322,7 @@ package ui.window {
 		 */
 		private function _onDragOut(event:DragEvent):void {
 			var obj:UIObject = event.currentTarget as UIObject;
-			obj.transform.colorTransform = (obj == UILayer.selectedLayer) ? LAYER_HIGHLIGHT : DEFAULT;
+			obj.transform.colorTransform = (obj === UILayer.selectedLayer) ? LAYER_HIGHLIGHT : DEFAULT;
 		}
 		
 		/**

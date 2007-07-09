@@ -45,11 +45,23 @@ package ui.window {
 	import ui.controls.layer.*;
 	import ui.core.*;
 	import ui.styles.*;
+	import onyx.plugin.Transition;
+	import onyx.core.TransitionTransform;
 	
 	/**
 	 * 	This window allows one to use a crossfader
 	 */
 	public final class CrossFaderWindow extends Window implements IControlObject {
+		
+		/**
+		 * 	The transition transform for layers marked 'A';
+		 */
+		public var _leftChannel:TransitionTransform;
+		
+		/**
+		 * 	The transition transform for layers marked 'A';
+		 */
+		public var _rightChannel:TransitionTransform;
 		
 		/**
 		 * 	@private
@@ -72,65 +84,60 @@ package ui.window {
 		private var _controls:Controls;
 		
 		/**
-		 * 
-		 */
-		private var _ratioControl:ControlNumber;
-		
-		/**
-		 * 	@private
-		 */
-		private var _faderDisplay:SliderV;
-		
-		/**
-		 * 	@private
-		 */
-		private static const LEFT_CHANNEL:ColorTransform	= new ColorTransform();
-		
-		/**
-		 * 	@private
-		 */
-		private static const RIGHT_CHANNEL:ColorTransform	= new ColorTransform(1,1,1,0);
-		
-		/**
 		 * 	@private
 		 */
 		private var _display:IDisplay;
 		
 		/**
+		 * 	@private
+		 */
+		private var _transitionDrop:DropDown;
+				
+		/**
 		 * 	@constructor
 		 */
 		public function CrossFaderWindow():void {
 			
-			super('CROSS FADER', 192, 53);
+			// create a new dissolve transition
+			var transition:Transition = Transition.getDefinition('DISSOLVE').getDefinition() as Transition;
 			
-			_ratioControl	= new ControlNumber('ratio', 'ratio', 0, 1, 0);
+			// create the transformations
+			_leftChannel	= new TransitionTransform(transition, 0);
+			_rightChannel	= new TransitionTransform(transition, 1);
+			
+			var options:UIOptions	= new UIOptions();
+			options.width			= 100;
+			options.label			= false;
+			
+			// create the window
+			super('CROSS FADER', 192, 53);
 			
 			_btn			= new ButtonClear(187, 20),
 			_fader			= new AssetCrossFader(),
 			_faderBG		= new AssetCrossFaderBG(),
-			_controls		= new Controls(this, _ratioControl),
+			_controls		= new Controls(this, 
+				new ControlPlugin('transition', 'transition', ControlPlugin.TRANSITIONS, false)
+			),
 			_display		= Display.getDisplay(0);
 
 			// add the control
-			_faderDisplay	= new SliderV(UI_OPTIONS_NOLABEL, _controls.getControl('ratio'));
-			
-			// listen for changes
-			_ratioControl.addEventListener(ControlEvent.CHANGE, changeHandler);
+			_transitionDrop	= new DropDown(options, _controls.getControl('transition'));
 
-			_btn.x			= 3,
-			_btn.y			= 14,
-			_fader.x		=  RIGHT_CHANNEL.alphaMultiplier * 179 + 3,
-			_fader.y		= 14,
-			_faderBG.x		= 3,
-			_faderBG.y		= 18,
-			_faderDisplay.x	= 74,
-			_faderDisplay.y	= 40;
+			// draw
+			_btn.x				= 3,
+			_btn.y				= 14,
+			_fader.x			= _leftChannel.ratio * 179 + 3,
+			_fader.y			= 14,
+			_faderBG.x			= 3,
+			_faderBG.y			= 18,
+			_transitionDrop.x	= 44,
+			_transitionDrop.y	= 40;
 
 			// add the fader
 			addChild(_faderBG);
 			addChild(_fader);
-			addChild(_faderDisplay);
 			addChild(_btn);
+			addChild(_transitionDrop);
 
 			// tell the toggle controls that this is the controller
 			CrossFaderToggle.window = this;
@@ -143,16 +150,32 @@ package ui.window {
 		/**
 		 * 
 		 */
+		public function set transition(value:Transition):void {
+			_leftChannel.transition = _rightChannel.transition = value;
+		}
+		
+		/**
+		 * 
+		 */
+		public function get transition():Transition {
+			return _leftChannel.transition;
+		}
+		
+		/**
+		 * 
+		 */
 		public function set ratio(value:Number):void {
-			LEFT_CHANNEL.alphaMultiplier	= 1 - value;
-			RIGHT_CHANNEL.alphaMultiplier	= value;
+			_leftChannel.ratio				= value;
+			_rightChannel.ratio				= 1 - value;
+
+			_fader.x = floor(value * 176) + 3;
 		}
 		
 		/**
 		 * 	Gets the ratio
 		 */
 		public function get ratio():Number {
-			return RIGHT_CHANNEL.alphaMultiplier;
+			return _rightChannel.ratio;
 		}
 		
 		/**
@@ -160,18 +183,18 @@ package ui.window {
 		 */
 		public function registerLayer(layer:ILayer, channelType:String):void {
 			
-			var channel:ColorTransform;
+			var channel:TransitionTransform;
 			
 			switch (channelType) {
 				case 'A':
-					channel = LEFT_CHANNEL;
+					channel = _leftChannel;
 					break;
 				case 'B':
-					channel = RIGHT_CHANNEL;
+					channel = _rightChannel;
 					break;
 			}
 						
-			_display.registerBaseTransform(layer, channel);
+			_display.setLayerTransition(layer, channel);
 
 		}
 		
@@ -191,17 +214,10 @@ package ui.window {
 		}
 		
 		/**
-		 * 
-		 */
-		private function changeHandler(event:ControlEvent):void {
-			_fader.x = floor(event.value * 176) + 3;
-		}
-		
-		/**
 		 * 	@private
 		 */
 		private function moveHandler(event:MouseEvent):void {
-			_ratioControl.value	= ((_btn.mouseX >> 0) - 5) / 176;
+			ratio = min(max((((_btn.mouseX >> 0) - 5) / 176), 0), 1);
 		}
 		
 		/**
@@ -222,7 +238,6 @@ package ui.window {
 			STAGE.removeEventListener(MouseEvent.MOUSE_UP, upHandler);
 			
 			_fader.removeEventListener(MouseEvent.MOUSE_DOWN, downHandler);
-			_ratioControl.removeEventListener(ControlEvent.CHANGE, changeHandler);
 
 			CrossFaderToggle.window = null;
 		}

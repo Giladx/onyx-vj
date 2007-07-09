@@ -31,8 +31,7 @@
 package ui.core {
 	
 	import flash.utils.Dictionary;
-	
-	import onyx.macro.Macro;
+	import onyx.plugin.Macro;
 	
 	public final class ActionManager {
 		

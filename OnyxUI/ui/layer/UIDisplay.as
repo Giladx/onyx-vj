@@ -30,14 +30,11 @@
  */
 package ui.layer {
 	
-	import flash.display.Bitmap;
-	import flash.geom.ColorTransform;
+	import flash.display.*;
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
 	import onyx.display.Display;
-	import onyx.events.FilterEvent;
-	import onyx.plugin.Filter;
 	
 	import ui.assets.AssetDisplay;
 	import ui.controls.*;
@@ -174,7 +171,7 @@ package ui.layer {
 		 * 	Returns whether the Preview window is being used
 		 */
 		public function get preview():Boolean {
-			return _preview !== null
+			return _preview !== null;
 		}
 		
 		/**
@@ -184,10 +181,9 @@ package ui.layer {
 			
 			if (value) {
 				
-				_preview = new Bitmap();
-				_preview.x = PREVIEW_X;
-				_preview.y = PREVIEW_Y;
-				_preview.bitmapData = _display.rendered;
+				_preview			= new Bitmap(_display.rendered, PixelSnapping.ALWAYS, false);
+				_preview.x			= PREVIEW_X;
+				_preview.y			= PREVIEW_Y;
 				
 				STAGE.addChildAt(_preview, 0);
 				

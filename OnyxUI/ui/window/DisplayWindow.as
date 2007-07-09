@@ -51,12 +51,6 @@ package ui.window {
 		private var _display:UIDisplay;
 		
 		/**
-		 * 	@private
-		 * 	The display controls
-		 */
-		private var _preview:Bitmap		= new Bitmap();
-		
-		/**
 		 * 	@constructor
 		 */
 		public function DisplayWindow():void {
@@ -65,24 +59,8 @@ package ui.window {
 			
 			// set our display
 			_display	= new UIDisplay(Display.getDisplay(0));
-			_preview.smoothing	= false;
 
-//			_display.x	= 4;
-//			_display.y	= 57;
-			
-			//_preview.scaleX = .94;
-			//_preview.scaleY = .94;
-			//_preview.x = 292;
-			//_preview.y = 13;
-
-//			_preview.scaleX = .585;
-//			_preview.scaleY = .585;
-//			_preview.y = 57;
-			
-			//_preview.bitmapData = display.bitmapData;
-			
 			addChild(_display);
-			// addChild(_preview);
 		}
 	}
 }

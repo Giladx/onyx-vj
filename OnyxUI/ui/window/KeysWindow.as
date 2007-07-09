@@ -103,8 +103,6 @@ package ui.window {
 		 */
 		private function _onClick(event:TextEvent):void {
 			
-			trace(x,y);
-			
 			var definition:KeyDefinition = _lookup[event.text];
 			var state:KeyLearnState = new KeyLearnState(definition, _state);
 			state.addEventListener(Event.COMPLETE, _onLearnComplete);

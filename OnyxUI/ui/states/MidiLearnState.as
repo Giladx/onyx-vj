@@ -92,7 +92,7 @@ package ui.states {
 			// Unhighlight everything except selected control
 			_unHighlight(_control);
 			
-			if ( _control == null ) {
+			if ( _control === null ) {
 				
 				// Clicked outside any control - abort learning
 				StateManager.removeState(this);

@@ -203,23 +203,17 @@ package ui.states {
 					break;
 				case SELECT_PAGE_0:
 				
-					for each (layer in UILayer.layers) {
-						layer.selectPage(0);
-					}
+					UILayer.selectedLayer.selectPage(0);
 					
 					break;
 				case SELECT_PAGE_1:
 				
-					for each (layer in UILayer.layers) {
-						layer.selectPage(1);
-					}
+					UILayer.selectedLayer.selectPage(1);
 					
 					break;
 				case SELECT_PAGE_2:
 				
-					for each (layer in UILayer.layers) {
-						layer.selectPage(2);
-					}
+					UILayer.selectedLayer.selectPage(2);
 					
 					break;
 					

@@ -78,8 +78,11 @@ package ui.controls.browser {
 			// store file
 			_file = file;
 			
-			thumbnail.x = 1,
-			thumbnail.y	= 1;
+			thumbnail.x			= 1,
+			thumbnail.y			= 1,
+			thumbnail.width		= 46,
+			thumbnail.height	= 35;
+			
 			addChild(thumbnail);
 			
 			// add label

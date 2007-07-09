@@ -157,7 +157,7 @@ package ui.layer {
 		private var _btnScrub:ButtonClear					= new ButtonClear(192, 12, false);
 
 		/** @private **/
-		private var _preview:Bitmap							= new Bitmap();
+		private var _preview:Bitmap;
 
 		/** @private **/
 		private var _filename:TextField						= new TextField(162,16);
@@ -316,13 +316,21 @@ package ui.layer {
 					break;
 				case _btnDelete:
 				
+					// unload all layers
 					if (event.ctrlKey) {
-						_layer.display.dispose();
+						for each (var layer:UILayer in UILayer.layers) {
+							layer._layer.dispose();
+						}
+						
+					// unload single layer
 					} else {
 						_layer.dispose();
 					}
-					break;
+
+					// make sure the event doesn't propagate to any other methods
+					event.stopPropagation();
 					
+					break;
 			}
 		}
 		
@@ -340,10 +348,9 @@ package ui.layer {
 		private function _draw():void {
 			
 			// resize preview
-			_preview.scaleX			= .6 * (320 / BITMAP_WIDTH),
-			_preview.scaleY			= .6 * (240 / BITMAP_HEIGHT),
-			_preview.smoothing		= false,
-			_preview.pixelSnapping	= PixelSnapping.ALWAYS;
+			_preview					= new Bitmap(null, PixelSnapping.ALWAYS, false);
+			_preview.scaleX				= .6 * (320 / BITMAP_WIDTH),
+			_preview.scaleY				= .6 * (240 / BITMAP_HEIGHT);
 			
 			// make the filename text have a drop shadow
 			_filename.filters			= TEXT_DROP,

@@ -109,9 +109,9 @@ package onyx.file.http {
 					if (name === '..') {
 						name = rootpath.substr(0, rootpath.lastIndexOf('/', rootpath.length - 2)) + '/';
 					} else if (name.substr(0,1) === '/') {
-						name = INITIAL_APP_DIRECTORY + name;
+						name = FileBrowser.startupFolder + INITIAL_APP_DIRECTORY + name;
 					} else {
-						name = pathUpOneLevel(rootpath + name);
+						name = FileBrowser.startupFolder + pathUpOneLevel(rootpath + name);
 					}
 					
 					list.folders.push(new Folder(name));
@@ -127,7 +127,7 @@ package onyx.file.http {
 					var name:String = String(node.name());
 					
 					var thumbpath:String	= node.@thumb;
-					var file:File			= new File(pathUpOneLevel(rootpath + node.@name));
+					var file:File			= new File(FileBrowser.startupFolder + pathUpOneLevel(rootpath + node.@name));
 					
 					// call a job to update these bitmaps
 					if (thumbpath) {

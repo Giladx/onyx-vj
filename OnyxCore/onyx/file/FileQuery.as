@@ -33,6 +33,11 @@ package onyx.file {
 	import flash.events.EventDispatcher;
 	import flash.utils.ByteArray;
 
+	[Event(name='complete', type='flash.events.Event')]
+				
+	/**
+	 * 	Base File Query Class.  Do not create this class directly, use HTTPQuery, ApolloQuery, etc.
+	 */
 	public class FileQuery extends EventDispatcher {
 		
 		/**
@@ -56,17 +61,10 @@ package onyx.file {
 		public var filter:FileFilter;
 		
 		/**
-		 * 
+		 * 	The bytes
 		 */
 		public var bytes:ByteArray;
 		
-		/**
-		 * 
-		 */
-		// public var job:FileJob;
-		
-		[Event(name='complete', type='flash.events.Event')]
-				
 		/**
 		 * 	@constructor
 		 */
@@ -75,12 +73,21 @@ package onyx.file {
 			this.callback	= callback;
 		}
 		
+		/**
+		 * 	Saves the byte array as a file
+		 */
 		public function save(bytes:ByteArray):void {
 		}
 		
+		/**
+		 * 	Starts a File Query
+		 */
 		public function load(file:FileFilter, thumbnail:Boolean):void {
 		}
 		
+		/**
+		 * 	Disposes the query
+		 */
 		public function dispose():void {
 			callback	= null,
 			folderList	= null,

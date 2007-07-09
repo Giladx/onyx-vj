@@ -107,7 +107,7 @@ package onyx.core {
 			} else {
 				
 				_timer			= new Timer(5);
-				_snapControl	= new ControlTempo('snapTempo', 'snap to tempo')
+				_snapControl	= new ControlTempo('snapTempo', 'snap to tempo', false)
 				_controls	= new Controls(this,
 					_snapControl,
 					new ControlInt('tempo', 'tempo', 40, 1000, _tempo)

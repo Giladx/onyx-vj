@@ -69,11 +69,11 @@ package onyx.states {
 			Onyx.instance.dispatchEvent(new ApplicationEvent(ApplicationEvent.ONYX_STARTUP_START));
 			
 			// output to console
-			Console.output('LOADING PLUG-INS: ' + FileBrowser.initialDirectory + PLUGINS_DIRECTORY + '... \n');
+			Console.output('LOADING PLUG-INS: ' + FileBrowser.startupFolder + PLUGINS_DIRECTORY + '... \n');
 			
 			// query directory
 			FileBrowser.query(
-				FileBrowser.initialDirectory + PLUGINS_DIRECTORY,
+				FileBrowser.startupFolder + PLUGINS_DIRECTORY,
 				_loadExternalPlugins,
 				new PluginFilter()
 			);
@@ -144,7 +144,7 @@ package onyx.states {
 			}
 			
 			// no more filters to load
-			if (_filtersToLoad.length == 0) {
+			if (_filtersToLoad.length === 0) {
 				_initialize();
 			}
 		}
@@ -153,7 +153,7 @@ package onyx.states {
 		 * 	@private
 		 * 	Begin initialization timer
 		 */
-		private function _initialize(delay:int = 1000):void {
+		private function _initialize():void {
 			
 			Console.output('INITIALIZING ...');
 			
@@ -166,7 +166,7 @@ package onyx.states {
 			Visualizer._visualizers.sortOn(field);
 
 			// pause for a bit
-			_timer = new Timer(delay);
+			_timer = new Timer(1500);
 			_timer.start();
 			_timer.addEventListener(TimerEvent.TIMER, _endState);
 		}

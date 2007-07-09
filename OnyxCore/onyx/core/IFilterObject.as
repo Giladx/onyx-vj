@@ -46,6 +46,7 @@ package onyx.core {
 		function getFilterIndex(filter:Filter):int;
 		function moveFilter(filter:Filter, index:int):void;
 		function muteFilter(filter:Filter, toggle:Boolean = true):void;
+		function applyFilter(filter:IBitmapFilter):void;
 
 	}
 }

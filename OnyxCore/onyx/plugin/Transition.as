@@ -48,6 +48,12 @@ package onyx.plugin {
 	 * 	Transition is a plug-in that is executed when a layer is loaded over another layer.
 	 */
 	public class Transition extends PluginBase implements IControlObject {
+		
+		
+		/*
+			Automatically register the default transition
+		*/		
+		registerPlugin(new Plugin('DISSOLVE', Transition, 'DISSOLVES THE LOADED LAYER'));
 
 		/**
 		 * 	@private
@@ -90,30 +96,10 @@ package onyx.plugin {
 		 */
 		onyx_ns var _duration:int;
 		
-		/** 
-		 * 	@private
-		 * 	The content that is currently loaded
-		 */
-		protected var currentContent:IContent;
-
-		/** 
-		 * 	@private
-		 * 	The new content that is loading in
-		 */
-		protected var loadedContent:IContent;
-		
-		/**
-		 * 	@private
-		 */
-		private var _easing:Function;
-		
 		/**
 		 * 	@constructor
 		 */
-		public function Transition(easing:Function = null):void {
-			_easing	 	= easing || Linear.easeIn;
-			
-			super();
+		public function Transition():void {
 		}
 		
 		/**
@@ -122,19 +108,16 @@ package onyx.plugin {
 		final public function get name():String {
 			return _name;
 		}
-
-		/**
-		 * 	Called when the transition is first loaded
-		 */
-		public function initialize():void {
-		}
 		
 		/**
 		 * 	Renders content onto the source bitmap
-		 * 	@returns	Return true if Onyx is to render the content
-		 * 	@returns	Return false if the Transition will render the content itself
+		 * 	@returns	Return true if Onyx should render the content, false if not
 		 */
-		public function apply(ratio:Number):void {
+		public function render(content:IContent, ratio:Number):Boolean {
+			
+			content.alpha	= 1 - ratio;
+
+			return true;
 		}
 		
 		/**
@@ -149,14 +132,6 @@ package onyx.plugin {
 		 */
 		final public function get duration():int {
 			return _duration;
-		}
-		
-		/**
-		 * 	Internal function that sets the old and new content variables
-		 */
-		onyx_ns final function setContent(current:IContent, loaded:IContent):void {
-			currentContent	= current;
-			loadedContent	=  loaded;
 		}
 
 		/**
@@ -182,9 +157,6 @@ package onyx.plugin {
 		 * 	Destroys
 		 */
 		override public function dispose():void {
-			
-			currentContent	= null,
-			loadedContent	= null;
 			
 			super.dispose();
 		}

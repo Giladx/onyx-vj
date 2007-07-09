@@ -56,16 +56,15 @@ package onyx.display {
 	public class Display extends Bitmap implements IDisplay {
 
 		/**
-		 * 	@private
-		 * 	Stores the color transform to apply to the layer when being rendered (for crossfader)
+		 * 
 		 */
-		public static const LAYER_DRAW_TRANSFORM:Dictionary			= new Dictionary(true);
+		public static const LAYER_TRANSITION:Dictionary		= new Dictionary(true);
 
 		/**
 		 * 	@private
 		 * 
 		 */
-		onyx_ns static const _displays:Array			= [];
+		onyx_ns static const _displays:Array				= [];
 		
 		/**
 		 * 	Gets display
@@ -174,7 +173,7 @@ package onyx.display {
 				__alpha,
 				__visible,
 				new ControlPlugin(
-					'renderer',				'renderer',	ControlPlugin.RENDERERS, 0
+					'renderer',				'renderer',	ControlPlugin.RENDERERS
 				)
 			);
 			
@@ -239,6 +238,13 @@ package onyx.display {
 					new DisplayEvent(DisplayEvent.LAYER_CREATED, layer)
 				);
 			}
+		}
+		
+		/**
+		 * 	Call this function to apply a transition to the layer before it is rendered to the display
+		 */
+		public function setLayerTransition(layer:ILayer, transform:TransitionTransform):void {
+			LAYER_TRANSITION[layer] = transform;
 		}
 		
 		/**
@@ -801,7 +807,7 @@ package onyx.display {
 			var display:XML = <display />;
 			
 			// add display controls
-			display.appendChild(_controls.toXML('position', 'size', 'visible'));
+			display.appendChild(_controls.toXML('position', 'size', 'visible','renderer'));
 			
 			// add filters
 			display.appendChild(_filters.toXML());
@@ -852,13 +858,6 @@ package onyx.display {
 		override public function get alpha():Number {
 			return _filter.alphaMultiplier;
 		}
-		
-		/**
-		 * 
-		 */
-		public function registerBaseTransform(layer:ILayer, transform:ColorTransform):void {
-			LAYER_DRAW_TRANSFORM[layer] = transform;
-		}
 
 		/**
 		 * 	Disposes the display
@@ -884,6 +883,13 @@ package onyx.display {
 			}
 			_renderer = value;
 			value.initialize();
+		}
+		
+		/**
+		 * 	Applies a filter to the rendered output
+		 */
+		public function applyFilter(filter:IBitmapFilter):void {
+			filter.applyFilter(super.bitmapData);
 		}
 		
 		/**

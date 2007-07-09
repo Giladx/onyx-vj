@@ -32,6 +32,7 @@
 package onyx.controls {
 	
 	import onyx.core.*;
+	import flash.text.Font;
 	
 	/**
 	 * 	This control will display available fonts to the user.  This will dispatch a flash.text.Font value to the IControlObject
@@ -46,6 +47,23 @@ package onyx.controls {
 		public function ControlFont(name:String, display:String):void {
 			super(name, display, Onyx.fonts, 0, 'fontName');
 		}
+		
+		/**
+		 * 	Loads the value from xml
+		 */
+		override public function loadXML(xml:XML):void {
+			value = Onyx.getFont(xml);
+		}
+		
+		/**
+		 * 
+		 */
+		override public function toXML():XML {
+			var xml:XML = <{name}/>;
+			var font:Font = this.value;
+			xml.appendChild((font) ? font.fontName : font);
+			
+			return xml;
+		}
 	}
-	
 }

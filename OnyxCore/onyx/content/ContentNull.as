@@ -346,6 +346,12 @@ package onyx.content {
 		}
 		
 		/**
+		 * 	Applies a filter to the rendered output
+		 */
+		public function applyFilter(filter:IBitmapFilter):void {
+		}
+		
+		/**
 		 * 	The base color transform to use for the layer (for crossfader)
 		 */
 		public function get baseColor():ColorTransform {

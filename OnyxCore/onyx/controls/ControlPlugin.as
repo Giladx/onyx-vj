@@ -86,7 +86,7 @@ package onyx.controls {
 		/**
 		 * 	@constructor
 		 */
-		public function ControlPlugin(name:String, display:String, type:int = 0, defaultValue:int = 0):void {
+		public function ControlPlugin(name:String, display:String, type:int = 0, showEmpty:Boolean = true, defaultValue:int = 0):void {
 			
 			_type = type;
 			
@@ -95,27 +95,25 @@ package onyx.controls {
 			switch (type) {
 				case FILTERS:
 					data = Filter.filters;
-					data.unshift(null);
 					break;
-					
 				case MACROS:
 					data = Macro.macros;
-					data.unshift(null);
-					
 					break;
 				case TRANSITIONS:
 					data = Transition.transitions;
-					data.unshift(null);
-					
 					break;
 				case VISUALIZERS:
 					data = Visualizer.visualizers;
-					data.unshift(null);
-					
 					break;
 				case RENDERERS:
 					data = Renderer.renderers;
+					showEmpty = false;
 					break;
+			}
+
+			if (showEmpty) {
+				data = data.concat();
+				data.unshift(null);
 			}
 			
 			super(name, display, data, defaultValue, 'name');

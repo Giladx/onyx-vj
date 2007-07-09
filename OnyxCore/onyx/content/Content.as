@@ -630,7 +630,7 @@ package onyx.content {
 				_renderMatrix.scale(_scaleX, _scaleY);		
 				_renderMatrix.rotate(_rotation);
 				
-				if (_anchorX==0 || _anchorY==0){
+				if (_anchorX === 0 || _anchorY === 0){
 					_renderMatrix.translate(_x, _y);
 				} else {
 					_renderMatrix.translate(_x + OFFSCALEX - OFFROTX, _y + OFFSCALEY - OFFROTY);	
@@ -805,6 +805,13 @@ package onyx.content {
 			return _visible;
 		}
 
+		/**
+		 * 
+		 */
+		final public function applyFilter(filter:IBitmapFilter):void {
+			filter.applyFilter(_rendered);
+		}
+			
 		/**
 		 * 	Destroys the content
 		 */

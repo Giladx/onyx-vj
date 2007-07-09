@@ -74,6 +74,13 @@ package onyx.display {
 		public var path:String;
 		
 		/**
+		 * 
+		 */
+		public function LayerSettings():void {
+			// trace(this);
+		}
+		
+		/**
 		 * 	Gets variables from a layer
 		 */
 		public function load(content:ILayer):void {
@@ -96,12 +103,17 @@ package onyx.display {
 			loopStart	= content.loopStart,
 			loopEnd		= content.loopEnd,
 			visible		= content.visible,
-			path		= content.path,
-			filters		= content.filters;
+			path		= content.path;
+			filters		= [];
+			
+			for each (var filter:Filter in content.filters) {
+				filters.push(filter.clone());	
+			}
 			
 			if (content.controls) {
 				controls = content.controls;
 			}
+
 		}
 		
 		/**
@@ -172,8 +184,8 @@ package onyx.display {
 			content.visible		= visible;
 			
 			// clone filters
-			for each (var filter:Filter in filters) {
-				content.addFilter(filter.clone());
+			for each (var filter:Filter in this.filters) {
+				content.addFilter(filter);
 			}
 			
 			// apply controls

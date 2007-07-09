@@ -169,7 +169,7 @@ package onyx.content {
 		 * 	Sets brightness
 		 */
 		public function set brightness(value:Number):void {
-			if (_brightness != value) {
+			if (_brightness !== value) {
 				
 				var old:Number, v:Number;
 				

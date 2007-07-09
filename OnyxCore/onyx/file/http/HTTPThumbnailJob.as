@@ -30,15 +30,14 @@
  */
 package onyx.file.http {
 	
-	import flash.display.Loader;
+	import flash.display.*;
 	import flash.events.*;
-	
-	import onyx.file.File;
-	import onyx.jobs.Job;
 	import flash.net.URLRequest;
-	import flash.display.Sprite;
-	import flash.display.Bitmap;
-	import flash.display.LoaderInfo;
+	
+	import onyx.core.*;
+	import onyx.file.*;
+	import onyx.jobs.Job;
+	import onyx.utils.event.*;
 
 	public final class HTTPThumbnailJob extends Job {
 		
@@ -56,11 +55,14 @@ package onyx.file.http {
 				var path:String = paths.shift() as String;
 				var file:File = files.shift() as File;
 				
+				// create a thumbnail loader
 				var loader:ThumbLoader = new ThumbLoader(file);
-				loader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR, _onComplete);
-				loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, _onComplete);
-				loader.contentLoaderInfo.addEventListener(Event.COMPLETE, _onComplete);
-				loader.load(new URLRequest(path));
+				
+				// listen for ioerror, complete, security_error
+				addStatusListeners(loader.contentLoaderInfo, _onComplete);
+				
+				// load
+				loader.load(new URLRequest(FileBrowser.startupFolder + path));
 			}
 		}
 		
@@ -68,13 +70,16 @@ package onyx.file.http {
 			var info:LoaderInfo		= event.currentTarget as LoaderInfo;
 			var loader:ThumbLoader	= info.loader as ThumbLoader;
 			
-			info.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, _onComplete);
-			info.removeEventListener(IOErrorEvent.IO_ERROR, _onComplete);
-			info.removeEventListener(Event.COMPLETE, _onComplete);
+			removeStatusListeners(info, _onComplete);
 			
 			var content:Bitmap = loader.content as Bitmap;
+			
 			if (content) {
-				loader.file.thumbnail.bitmapData = content.bitmapData;
+				var thumbnail:Bitmap = loader.file.thumbnail;
+				
+				thumbnail.bitmapData	= content.bitmapData,
+				thumbnail.width			= 46,
+				thumbnail.height		= 35;
 			}
 			
 			loader.unload();

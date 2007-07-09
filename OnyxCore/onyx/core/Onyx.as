@@ -57,13 +57,25 @@ package onyx.core {
 		 * 	@private
 		 * 	Dispatcher
 		 */
-		onyx_ns static const instance:Onyx	= new Onyx();
+		onyx_ns static const instance:Onyx		= new Onyx();
 		
 		/**
 		 * 	@private
 		 * 	Returns a list of fonts
 		 */
-		public static const fonts:Array		= [];
+		public static const fonts:Array			= [];
+		
+		/**
+		 * 
+		 */
+		private static const _fontDef:Object	= {};
+		
+		/**
+		 * 
+		 */
+		public static function getFont(name:String):Font {
+			return _fontDef[name];
+		}
 		
 		/**
 		 * 	
@@ -123,11 +135,13 @@ package onyx.core {
 
 			if (definition) {
 				
-				var instance:Object = new definition();
+				var instance:Font = new definition() as Font;
 				
-				if (instance is Font) {
+				if (instance) {
 					Font.registerFont(definition);
 					fonts.push(instance);
+					
+					_fontDef[instance.fontName] = instance;
 				}
 				
 			} else if (registration is Plugin) {

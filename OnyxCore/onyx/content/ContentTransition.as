@@ -98,12 +98,6 @@ package onyx.content {
 			// change the target properties to the new content
 			layer.properties.target = newContent;
 
-			// initialize the transition
-			_transition.setContent(current, loaded);
-
-			// initialize the transition
-			_transition.initialize();
-
 			// set time			
 			_startTime = getTimer();
 
@@ -131,26 +125,25 @@ package onyx.content {
 				endTransition();
 								
 				return null;
-				
 			}
 
-			// check bitmap transition			
-			if (_transition is IBitmapTransition) {
-				
-				_transition.apply(ratio);
-				(_transition as IBitmapTransition).render(_source, ratio);
-				
-			// otherwise just normal render
-			} else {
-				
-				oldContent.render();
-				newContent.render();
-				
-				_transition.apply(ratio);
-
+			// render both content files
+			oldContent.render();
+			newContent.render();
+			
+			// now render the transition against both of them
+			var render_old:Boolean = _transition.render(oldContent, ratio);
+			var render_new:Boolean = _transition.render(newContent, 1 - ratio);
+			
+			if (render_old) {
 				_source.copyPixels(oldContent.rendered, BITMAP_RECT, POINT);
-				_source.draw(newContent.rendered);
-
+				
+				if (render_new) {
+					_source.draw(newContent.rendered);
+				}
+				
+			} else {
+				_source.copyPixels(newContent.rendered, BITMAP_RECT, POINT);
 			}
 			
 			return null;

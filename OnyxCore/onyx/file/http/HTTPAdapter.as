@@ -45,8 +45,8 @@ package onyx.file.http {
 		/**
 		 * 	@constructor
 		 */		
-		public function HTTPAdapter():void {
-			super('');
+		public function HTTPAdapter(initial_dir:String = ''):void {
+			super(initial_dir);
 		}
 		
 		/**

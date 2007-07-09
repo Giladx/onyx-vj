@@ -49,7 +49,7 @@ package onyx.file {
 		
 		/** @private **/
 		public static var VISUALIZER_ICON:BitmapData;
-
+		
 		/**
 		 * 	@private
 		 * 	Cache for the paths
@@ -63,11 +63,9 @@ package onyx.file {
 		private static var _adapter:FileAdapter;
 		
 		/**
-		 * 	Returns initial directory
+		 * 	Initial startup folder;
 		 */
-		public static function get initialDirectory():String {
-			return _adapter.INITIAL_DIR;
-		}
+		public static var startupFolder:String;
 		
 		/**
 		 * 	Gets file name from a path
@@ -81,6 +79,7 @@ package onyx.file {
 		 */
 		public static function initialize(adapter:FileAdapter):void {
 			_adapter = adapter;
+			startupFolder = _adapter.INITIAL_DIR
 		}
 
 		/**

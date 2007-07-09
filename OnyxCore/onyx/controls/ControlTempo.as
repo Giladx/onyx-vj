@@ -52,13 +52,17 @@ package onyx.controls {
 		 * 	@private
 		 */
 		private var _defaultvalue:uint;
+		
+		/**
+		 * 
+		 */
 
 		/**
 		 * 	@constructor
 		 */
-		public function ControlTempo(name:String, display:String, defaultvalue:uint = 0, binding:String = null, options:Object = null):void {
+		public function ControlTempo(name:String, display:String, showGlobal:Boolean = true, options:Object = null):void {
 			
-			super(name, display, TEMPO_BEATS, defaultvalue, binding, options);
+			super(name, display, showGlobal ? TEMPO_BEATS_GLOBAL : TEMPO_BEATS, 0, null, options);
 			
 		}
 

@@ -28,20 +28,20 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.plugin {
+package onyx.constants {
 
-	import flash.display.BitmapData;
+	import onyx.core.TempoBeat;
 	
-	import onyx.core.*;
-	
-	/**
-	 * 	Interface for defining whether a transition will alter the layer bitmap.
-	 * 
-	 * 	@see onyx.plugin.Transition
-	 */
-	public interface IBitmapTransition {
-		
-		function render(source:BitmapData, ratio:Number):void;
-		
-	}
+	public const TEMPO_BEATS_GLOBAL:Array = [
+		null,
+		TempoBeat.BEATS['global'],
+		TempoBeat.BEATS['1/16'],
+		TempoBeat.BEATS['1/8'],
+		TempoBeat.BEATS['1/4'],
+		TempoBeat.BEATS['1/2'],
+		TempoBeat.BEATS['1'],
+		TempoBeat.BEATS['2'],
+		TempoBeat.BEATS['4']
+	];
+
 }

@@ -235,6 +235,7 @@ package onyx.content {
 		
 		/**
 		 * 	@private
+		 * 	Loads a plugin object
 		 */
 		private function _loadPlugin(plugin:Plugin):void {
 			
@@ -277,7 +278,7 @@ package onyx.content {
 			
 			var stream:Stream = event.currentTarget as Stream;
 
-			if (event.type == Event.COMPLETE) {
+			if (event.type === Event.COMPLETE) {
 				
 				stream.removeEventListener(Event.COMPLETE, _onStreamComplete);
 				stream.removeEventListener(NetStatusEvent.NET_STATUS, _onStreamComplete);
@@ -386,13 +387,17 @@ package onyx.content {
 				dispatchEvent(event);
 			} else {
 				var dispatch:LayerContentEvent	= new LayerContentEvent(Event.COMPLETE);
+				
 				dispatch.contentType			= contentType,
 				dispatch.reference				= reference,
 				dispatch.settings				= _settings || new LayerSettings(),
 				dispatch.transition 			= _transition,
 				dispatch.path					= _path;
+				
 				dispatchEvent(dispatch);
 			}
+			
+			dispose();
 		}
 		
 		/**

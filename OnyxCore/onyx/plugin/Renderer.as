@@ -47,8 +47,7 @@ package onyx.plugin {
 		/*
 			Automatically register the default renderer plugin
 		*/		
-		registerPlugin(new Plugin('Default', Renderer, 'Default'));
-
+		registerPlugin(new Plugin('DEFAULT', Renderer, 'DEFAULT'));
 
 		/**
 		 * 	@private
@@ -113,7 +112,17 @@ package onyx.plugin {
 
 				if (layer.visible && layer.rendered) {
 					
-					source.draw(layer.rendered, null, Display.LAYER_DRAW_TRANSFORM[layer], layer.blendMode);
+					var transform:TransitionTransform = Display.LAYER_TRANSITION[layer];
+					
+					// transition exists, and transition wants the layer to be rendered?
+					if (transform) {
+						
+						if (transform.transition.render(layer, transform.ratio)) {
+							source.draw(layer.rendered, null, null, layer.blendMode);
+						}
+					} else {
+						source.draw(layer.rendered, null, null, layer.blendMode);
+					}
 					
 				}
 			}

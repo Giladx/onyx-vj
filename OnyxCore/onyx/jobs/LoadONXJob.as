@@ -89,7 +89,7 @@ package onyx.jobs {
 			// success
 			if (event is ErrorEvent) {
 				
-				Console.output((event as ErrorEvent).text);
+				Console.error(new Error((event as ErrorEvent).text));
 				
 				// error
 			} else {

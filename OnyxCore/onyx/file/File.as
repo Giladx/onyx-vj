@@ -41,6 +41,11 @@ package onyx.file {
 	public final class File {
 		
 		/**
+		 * 
+		 */
+		public static const DEFAULT_BITMAP:BitmapData	= new BitmapData(1,1, false, 0x000000);
+		
+		/**
 		 * 	Saves the path
 		 */
 		public var path:String;
@@ -48,7 +53,7 @@ package onyx.file {
 		/**
 		 * 	Saves thumbnail
 		 */
-		public var thumbnail:Bitmap	= new Bitmap(null, PixelSnapping.ALWAYS, false);
+		public var thumbnail:Bitmap		= new Bitmap(DEFAULT_BITMAP, PixelSnapping.ALWAYS, false);
 		
 		/**
 		 * 	@constructor

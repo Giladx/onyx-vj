@@ -131,23 +131,24 @@ package onyx.display {
 		 */
 		private function _onContentStatus(event:Event):void {
 			
-			// remove references
-			var loader:ContentLoader = event.currentTarget as ContentLoader;
+			var error:ErrorEvent, contentEvent:LayerContentEvent, loader:ContentLoader;
 			
+			loader			= event.currentTarget as ContentLoader,
+			error			= event as ErrorEvent,
+			contentEvent	= event as LayerContentEvent;
+			
+			// remove references
 			loader.removeEventListener(Event.COMPLETE,						_onContentStatus);
 			loader.removeEventListener(IOErrorEvent.IO_ERROR,				_onContentStatus);
 			loader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR,	_onContentStatus);
 			loader.removeEventListener(ProgressEvent.PROGRESS,				_forwardEvents);
-		
+			
 			// check for error
-			if (event is ErrorEvent) {
+			if (error) {
 				
-				Console.output('Error loading layer: ', index, (event as ErrorEvent).text);
+				Console.output('Error loading layer: ', index, error.text);
 			
 			} else {
-			
-				// get event info
-				var contentEvent:LayerContentEvent = event as LayerContentEvent;
 
 				// create the new content object based on the type				
 				var loadedContent:Content = new contentEvent.contentType(this, contentEvent.path, contentEvent.reference);
@@ -770,6 +771,13 @@ package onyx.display {
 
 			}
 			
+		}
+		
+		/**
+		 * 	Applies a filter to the rendered output
+		 */
+		public function applyFilter(filter:IBitmapFilter):void {
+			_content.applyFilter(filter);
 		}
 	}
 }

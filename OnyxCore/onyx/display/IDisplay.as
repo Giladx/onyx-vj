@@ -31,7 +31,7 @@
 package onyx.display {
 	
 	import onyx.content.IContent;
-	import flash.geom.ColorTransform;
+	import onyx.core.*;
 	
 	public interface IDisplay extends IContent {
 
@@ -48,7 +48,7 @@ package onyx.display {
 		
 		function loadXML(xml:XMLList):void;
 		
-		function registerBaseTransform(layer:ILayer, transform:ColorTransform):void;
+		function setLayerTransition(layer:ILayer, transform:TransitionTransform):void;
 //		function loadMidiXML():void;
 
 	}

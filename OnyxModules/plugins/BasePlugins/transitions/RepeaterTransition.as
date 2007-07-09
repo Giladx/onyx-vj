@@ -30,29 +30,41 @@
  */
 package transitions {
 	
-	import flash.display.BitmapData;
+	import filters.Repeater;
+	
+	import flash.display.*;
 	import flash.geom.*;
 	
-	import onyx.plugin.Transition;
-
-	public final class DissolveTransition extends Transition {
-		
-		public function DissolveTransition():void {
-			super();
-		}
+	import onyx.constants.*;
+	import onyx.content.IContent;
+	import onyx.plugin.*;
+	import onyx.tween.easing.Sine;
+	
+	/**
+	 * 
+	 */
+	public final class RepeaterTransition extends Transition {
 		
 		/**
-		 * 	Renders
+		 * 	@private
 		 */
-		override public function apply(ratio:Number):void {
+		private var _filter:Repeater = new Repeater();
+		
+		override public function render(content:IContent, ratio:Number):Boolean {
 			
-			// fade out
-			currentContent.alpha	= 1 - ratio;
+			if (ratio <= .5) {
+				
+				var amount:int = ratio * 20;
+				if (amount > 0) {
+					_filter.amount = amount;
+					content.applyFilter(_filter);
+				}
+				
+				return true;
+			}
 			
-			// fade in
-			loadedContent.alpha		= ratio;
-
+			return false;
 		}
-
+		
 	}
 }

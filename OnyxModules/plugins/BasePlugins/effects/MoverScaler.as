@@ -18,7 +18,7 @@ package effects {
 		public var mindelay:Number	= .4;
 		public var maxdelay:Number	= 1;
 		public var scaleMin:Number	= 1;
-		public var scaleMax:Number	= 1.5;
+		public var scaleMax:Number	= 1.8;
 		
 		public function MoverScaler():void {
 
@@ -28,7 +28,7 @@ package effects {
 				new ControlNumber('mindelay',	'Min Delay', .1, 50, .4),
 				new ControlNumber('maxdelay',	'Min Delay', .1, 50, 1),
 				new ControlNumber('scaleMin', 'scale min', 1, 4, 1),
-				new ControlNumber('scaleMax', 'scale max', 1, 4, 1.5)
+				new ControlNumber('scaleMax', 'scale max', 1, 4, 1.8)
 			);
 			
 		}

@@ -37,36 +37,31 @@ package transitions {
 	import onyx.constants.*;
 	import onyx.content.IContent;
 	import onyx.plugin.*;
+	import filters.Pixelate;
 	
 	/**
 	 * 
 	 */
-	public final class BlurTransition extends Transition {
+	public final class PixelTransition extends Transition {
 		
-		/**
-		 * 	@private
-		 */
-		private var _blur:BlurFilter	= new BlurFilter(0,0);
-		
-		/**
-		 * 
-		 */
-		public function BlurTransition():void {
-			super();
-		}
+		private var _filter:Pixelate = new Pixelate();
 		
 		override public function render(content:IContent, ratio:Number):Boolean {
 			
 			if (ratio <= .5) {
 				
-				var bitmap:BitmapData = content.rendered;
-				_blur.blurX = _blur.blurY = (ratio * 40) << 0;
-				bitmap.applyFilter(bitmap, BITMAP_RECT, POINT, _blur);
+				var amount:int = ratio * 40;
+				if (amount >= 2) {
+					_filter.amount = amount;
+					content.applyFilter(_filter);
+					
+				}
 				
 				return true;
 			}
 			
 			return false;
 		}
+		
 	}
 }

@@ -56,7 +56,7 @@ package effects {
 		 * 
 		 */
 		override protected function onTrigger(beat:int, event:Event):void {
-			content.visible = random() * 100 > seed;
+			content.alpha = (random() * 100 > seed) ? 1 : 0;
 		}
 	}
 }

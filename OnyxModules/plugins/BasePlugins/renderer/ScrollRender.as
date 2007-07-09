@@ -48,7 +48,7 @@ package renderer {
 
 				if (layer.visible && layer.rendered) {
 					
-					source.draw(layer.rendered, matrix, Display.LAYER_DRAW_TRANSFORM[layer], layer.blendMode);
+					source.draw(layer.rendered, matrix, null, layer.blendMode);
 					
 				}
 			}

@@ -43,7 +43,9 @@ package filters {
 			if (_temp) {
 				_temp.dispose();
 			}
-			_temp = new BitmapData(BITMAP_WIDTH / value, BITMAP_HEIGHT / value, true, 0x00000000);
+			if (value > 0) {
+				_temp = new BitmapData(BITMAP_WIDTH / value, BITMAP_HEIGHT / value, true, 0x00000000);
+			}
 		}
 		
 		public function get amount():int {

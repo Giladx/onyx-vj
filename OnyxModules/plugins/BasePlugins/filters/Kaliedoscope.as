@@ -17,7 +17,7 @@ package filters {
 		
 		private var diag:Number;
 		private var _alpha:ColorTransform	= new ColorTransform();
-		private var _slices:int				= 12;
+		private var _slices:int				= 9;
 		
 		private var nudge:Number			= 0.09;
 		private var sclfact:Number			= 0;

@@ -77,6 +77,7 @@ package {
 				new Plugin('MoveScale Effect', 		MoverScaler,	'Moves and Scales Object'),
 				new Plugin('Threshold Gate', 		ThreshGate,		'Randomly Threshold'),
 				new Plugin('Displace Filter',		DisplacementMap,'Displacement Map'),
+				new Plugin('Slit Scan',				SlitScan,		'Slit Scan'),
 //				new Plugin('Matrix Effect',			MatrixEffect,	'Matrix Effect'),
 //				new Plugin('Bleed Filter',			PasteFilter,	'Bleed Filter'),
 				new Plugin('Repeater Transition',	RepeaterTransition, 'Repeater Transition'),

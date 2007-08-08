@@ -52,6 +52,7 @@ package {
 		 */
 		public function get plugins():Array {
 			return [
+				new Plugin('Chroma-K Filter', KeyingFilter, 'Chroma Keying Filter'),
 				new Plugin('Mirror Filter', MirrorFilter, 'Mirror Filter'),
 				new Plugin(
 						'Echo Filter',

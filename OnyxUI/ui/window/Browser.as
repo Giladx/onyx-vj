@@ -77,7 +77,7 @@ package ui.window {
 		 * 	@private
 		 * 	Holds the folder objects
 		 */
-		private var _folders:ScrollPane					= new ScrollPane(91, 191, null, true);
+		private var _folders:ScrollPane					= new ScrollPane(91, 191, null);
 		
 		/**
 		 * 	@private

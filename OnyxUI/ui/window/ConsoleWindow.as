@@ -30,12 +30,18 @@
  */
 package ui.window {
 	
+	import flash.display.*;
 	import flash.events.*;
 	
 	import onyx.core.*;
 	import onyx.events.*;
 	import onyx.states.*;
+	import onyx.utils.*;
 	
+	import onyx.net.Telnet;
+	import onyx.net.Vlc;
+	
+	import ui.core.DragManager;
 	import ui.policy.*;
 	import ui.text.*;
 	import ui.states.KeyListenerState;
@@ -46,6 +52,11 @@ package ui.window {
 	 * 	Console window
 	 */
 	public final class ConsoleWindow extends Window {
+		
+		/**
+		 * 	@private
+		 */
+		private var _border:Graphics;
 		
 		/**
 		 * 	@private
@@ -61,7 +72,7 @@ package ui.window {
 		 * 	@private
 		 */
 		private var _commandStack:Array;
-
+		
 		/**
 		 * 	@constructor
 		 */
@@ -70,10 +81,14 @@ package ui.window {
 			super('console', 190, 161);
 
 			Console.getInstance().addEventListener(ConsoleEvent.OUTPUT, _onMessage);
+			Console.getInstance().addEventListener(VlcEvent.STATE, _onVlcState);
+			Console.getInstance().addEventListener(VlcEvent.DATA, _onVlcData);
 			
 			_draw();
 			
 			// add listeners
+			addEventListener(KeyboardEvent.KEY_DOWN, _onKeyDownGlobal);
+			
 			_input.addEventListener(FocusEvent.FOCUS_IN, _focusHandler);
 			_input.addEventListener(FocusEvent.FOCUS_OUT, _focusHandler);
 			_input.addEventListener(MouseEvent.MOUSE_DOWN, _onClick);
@@ -81,11 +96,17 @@ package ui.window {
 			// add a scroller
 			Policy.addPolicy(_input, new TextScrollPolicy());
 			
+			// make draggable
+			DragManager.setDraggable(this);
+			
 			// get the start-up motd
 			Command.help();
 			Command.help('plugins');
+			
+			// try default connection to VLC
+			Console.getInstance().vlc.connect('localhost', Number(4212));
 		}
-		
+			
 		/**
 		 * 	@private
 		 * 	Pauses global keylistener state, as well as listens for the enter button
@@ -110,9 +131,27 @@ package ui.window {
 		 */
 		private function _onMessage(event:ConsoleEvent):void {
 			
-			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="Pixel" SIZE="7" COLOR="#e4eaef" KERNING="0">' + event.message + '</font></textformat><br/><br/>';
+			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="Pixel" SIZE="7" COLOR="#e4eaef" KERNING="0">' + event.message + '</font></textformat><br/>';
 			_text.scrollV = _text.maxScrollV;
-
+			
+		}
+		
+		/**
+		 * 	@private
+		 * 	Handler when onyx console outputs a VLC message (khaki color)
+		 */
+		private function _onVlcState(event:VlcEvent):void {
+			
+			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="Pixel" SIZE="7" COLOR="#f0e68c" KERNING="0">' + event.message + '</font></textformat><br/>';
+			_text.scrollV = _text.maxScrollV;
+			
+		}
+		
+		private function _onVlcData(event:VlcEvent):void {
+			
+			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="Pixel" SIZE="7" COLOR="#f0e68c" KERNING="0">' + event.message + '</font></textformat><br/>';
+			_text.scrollV = _text.maxScrollV;
+			
 		}
 		
 		/**
@@ -120,7 +159,9 @@ package ui.window {
 		 * 	Draw
 		 */
 		private function _draw():void {
-
+			
+			_border						= this.graphics;
+						
 			_text						= new TextField(187, 141);
 			_text.multiline				= true;
 			_text.wordWrap				= true;
@@ -137,7 +178,7 @@ package ui.window {
 			_input.doubleClickEnabled	= true;
 
 			addChild(_text);
-			addChild(_input)
+			addChild(_input);
 			
 		}
 		
@@ -145,14 +186,54 @@ package ui.window {
 		 * 	@private
 		 * 	Handler for when a key is pressed
 		 */
-		private function _onKeyDown(event:KeyboardEvent):void {
+		private function _onKeyDownGlobal(event:KeyboardEvent):void {
 			switch (event.keyCode) {
+				// switch permanently local/remote
+				case 84: if(event.ctrlKey && Console.getInstance().vlc.status == 'connected') {
+						toggleConsole();
+				}
+			}
+		}
+		
+		private function _onKeyDown(event:KeyboardEvent):void {
+			
+			switch (event.keyCode) {				
 				// execute
 				case 13:
-					executeCommand(_input.text);
-					_input.setSelection(0,_input.text.length);
+					if(!Console.getInstance().remote) { //is local console
+						executeCommand(_input.text);
+						_input.setSelection(0,_input.text.length);
+					} 
+					else {
+						Console.getInstance().vlc.sendCommand(_input.text);
+					}
 					break;
 			}
+		}
+		
+		/**
+		 * 	@private
+		 */
+		public function toggleConsole():void {
+			
+			Console.getInstance().remote = !Console.getInstance().remote;
+			
+			if(Console.getInstance().remote) {
+				
+				title = 'TELNET';
+				
+				_border.beginFill(0xf0e68c);
+				_border.drawRoundRectComplex(-1,-1,this.width + 3, this.height + 3, 4, 4, 4, 4);
+				_border.endFill();
+			
+			} else {
+				
+				title = 'CONSOLE';
+				
+				_border.clear();
+			
+			}
+			
 		}
 		
 		/**
@@ -161,6 +242,7 @@ package ui.window {
 		private function _onClick(event:MouseEvent):void {
 			
 			_input.setSelection(0,_input.text.length);
+			
 		}
 		
 		/**
@@ -177,8 +259,11 @@ package ui.window {
 					_text.text = '';
 				
 					break;
+				//case 'vlc':
+				//	toggleConsole();
 				default:
 					Console.executeCommand(command);
+					_input.text = '';
 					break;
 			}
 		}

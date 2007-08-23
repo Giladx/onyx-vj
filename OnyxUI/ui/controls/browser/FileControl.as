@@ -96,9 +96,21 @@ package ui.controls.browser {
 			addChild(_label);
 			addChild(_button);
 			
-			// draw border
+			// draw border: choose different color for VLC files
 			var graphics:Graphics = this.graphics;
-			graphics.beginFill(0x647789);
+			switch(_file.extension) {
+				case 'swf':
+				case 'onx':
+				case 'mix':
+				case 'flv':
+				case 'jpg':
+				case 'jpeg':
+				case 'png':
+				case 'mp3':
+				case 'xml':	graphics.beginFill(0x647789);
+							break;
+				default	  : graphics.beginFill(0xf0e68c);		
+			}
 			graphics.drawRect(0,0,48,37);
 			graphics.endFill();
 		}

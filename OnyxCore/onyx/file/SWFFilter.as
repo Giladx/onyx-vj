@@ -52,6 +52,27 @@ package onyx.file {
 				case 'png':
 				case 'mp3':
 				case 'xml':
+				
+				//VLC formats
+				case 'asf':
+				case 'avi':
+				case 'divx':
+				case 'dv':
+				case 'm1v':
+				case 'm2v':
+				case 'm4v':
+				case 'mov':
+				case 'mp4':
+				
+				case 'mpg':
+				case 'mpeg':
+ 				case 'ogg':
+				case 'ogm':
+				case 'ps':
+				case 'ts':
+				case 'vob':
+				case 'wmv':
+				case '3gp':	
 					return true;
 			}
 

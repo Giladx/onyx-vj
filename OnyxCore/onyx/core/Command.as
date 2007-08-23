@@ -55,6 +55,7 @@ package onyx.core {
 							'STAT [TIME:INT]:	TESTS ALL LAYERS FOR AVERAGE RENDERING TIME<br>' +
 							'HELP CONTRIBUTORS: LIST OF CONTRIBUTORS TO THE ONYX PROJECT<br>' +
 							'RESOLUTION: OUTPUTS THE SIZE OF THE FLASH STAGE';
+							'VLC: TOGGLE LOCAL(CONSOLE)/REMOTE(TELNET)';
 				
 					break;
 				case 'contributors':
@@ -68,11 +69,18 @@ package onyx.core {
 				case 'stat':
 					text =	_createHeader('stat') + 'TESTS FRAMERATE AND LAYER RENDERING TIMES.<br><br>USAGE: STAT [NUM_SECONDS:INT]<br>';
 					break;
+				case 'vlc':
+					text =	_createHeader('vlc') + 'VLC COMMANDS HELP<br><br>CTRL+T toggle console/telnet<br>' + 
+					'USAGE:<br>' + 'vlc connect server port<br>' +
+									'vlc disconnect <br>';
+					break;
 				// dispatch the start-up motd
 				default:
 					text =	_createHeader('<b>ONYX ' + VERSION + '</b>', 21) + 
 							'COPYRIGHT 2003-2007: WWW.ONYX-VJ.COM' +
-							'<br>TYPE "HELP" OR "HELP COMMANDS" FOR MORE COMMANDS.';
+							'<br>TYPE "HELP" OR "HELP COMMANDS" FOR MORE COMMANDS.' +
+							'<br>TYPE "CTRL+T" FOR TELNET CONSOLE.' +
+							'<br>' ;
 					break;
 			}
 			
@@ -124,5 +132,27 @@ package onyx.core {
 			}
 			
 		}
+		
+		/**
+		 * 
+		 */
+		public static function vlc(... args:Array):void {
+			
+				switch(args[0]) {
+					case 'connect'		: if(args.length != 3) {
+											help('vlc');	
+										  } else {
+										  	Console.getInstance().vlc.connect(args[1], args[2]);
+										  }
+									  	  break;
+					case 'disconnect'	: Console.getInstance().vlc.disconnect();
+										  Console.getInstance().vlc.status = 'Disconnected by the client';
+										  Console.stateVlc(Console.getInstance().vlc.status);
+										  break;
+					default				: help('vlc');
+				}
+				
+		}
+		
 	}
 }

@@ -28,52 +28,66 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package visualizer {
+package effects {
 	
-	import flash.display.*;
+	import flash.display.BitmapData;
+	import flash.events.Event;
+	import flash.filters.BlurFilter;
 	
 	import onyx.constants.*;
-	import onyx.controls.ControlInt;
-	import onyx.core.*;
-	import onyx.plugin.*;
+	import onyx.controls.*;
+	import onyx.plugin.IBitmapFilter;
+	import onyx.plugin.TempoFilter;
+	import onyx.tween.*;
+	import onyx.tween.easing.*;
+	import onyx.utils.math.*;
 
-	public final class CircleVisualizer extends Visualizer {
+	public final class TempoBlur extends TempoFilter implements IBitmapFilter {
 		
-		public var height:int		= 200;
-		private var _shape:Shape	= new Shape();
+		/**
+		 * 	@private
+		 */
+		private var _toggle:Boolean			= false;
 		
-		public function CircleVisualizer():void {
-			super(
-				new ControlInt('height', 'height', 100, 300, height)
-			)
+		/**
+		 * 
+		 */
+		public var frameRelease:int				= 6;
+		
+		/**
+		 * 
+		 */
+		private var _release:int		= 6;
+		
+		/**
+		 * 	@constructor
+		 */
+		public function TempoBlur():void {
+
+			super(true,
+				null,
+				new ControlInt('frameRelease', 'release', 1, 20, 6)
+			);
+			
 		}
 		
 		/**
-		 * 	Render
+		 * 
 		 */
-		override public function render():RenderTransform {
-			
-			var transform:RenderTransform	= RenderTransform.getTransform(_shape);
-			var step:Number					= BITMAP_WIDTH / 127;
-			var graphics:Graphics			= _shape.graphics;
-			
-			graphics.clear();
-			
-			var analysis:Array = SpectrumAnalyzer.getSpectrum(true);
-			
-			for (var count:int = 0; count < analysis.length; count++) {
-				var value:Number	= analysis[count];
-				var color:uint		= 0xFFFFFF * value;
-				graphics.beginFill(color);
-				graphics.drawCircle(count * 2.5, 120, value * 100);
-				graphics.endFill();
+		public function applyFilter(source:BitmapData):void {
+			if (_toggle) {
+				source.applyFilter(source, BITMAP_RECT, POINT, new BlurFilter(_release*4, _release*4));
+				
+				_toggle = --_release > 0;
 			}
-
-			return transform;
 		}
 		
-		override public function dispose():void {
-			_shape = null;
+		/**
+		 * 
+		 */
+		override protected function onTrigger(beat:int, event:Event):void {
+			_toggle			= true;
+			_release		= frameRelease;
 		}
 	}
 }

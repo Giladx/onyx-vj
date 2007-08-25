@@ -28,52 +28,91 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package visualizer {
+package modules {
 	
-	import flash.display.*;
-	
-	import onyx.constants.*;
-	import onyx.controls.ControlInt;
-	import onyx.core.*;
-	import onyx.plugin.*;
+	import onyx.core.InterfaceOptions;
+	import onyx.plugin.Module;
 
-	public final class CircleVisualizer extends Visualizer {
+	/**
+	 * 	Debugger Module
+	 */
+	public final class Debugger extends Module {
 		
-		public var height:int		= 200;
-		private var _shape:Shape	= new Shape();
-		
-		public function CircleVisualizer():void {
+		/**
+		 * 	@constructor
+		 */
+		public function Debugger():void {
 			super(
-				new ControlInt('height', 'height', 100, 300, height)
+				new InterfaceOptions(DebuggerUI, 200, 200, 614, 318)
 			)
 		}
 		
 		/**
-		 * 	Render
+		 * 
 		 */
-		override public function render():RenderTransform {
-			
-			var transform:RenderTransform	= RenderTransform.getTransform(_shape);
-			var step:Number					= BITMAP_WIDTH / 127;
-			var graphics:Graphics			= _shape.graphics;
-			
-			graphics.clear();
-			
-			var analysis:Array = SpectrumAnalyzer.getSpectrum(true);
-			
-			for (var count:int = 0; count < analysis.length; count++) {
-				var value:Number	= analysis[count];
-				var color:uint		= 0xFFFFFF * value;
-				graphics.beginFill(color);
-				graphics.drawCircle(count * 2.5, 120, value * 100);
-				graphics.endFill();
-			}
+		override public function command(... args:Array):String {
+			return 'ASDF';
+		}
+	}
+}
 
-			return transform;
-		}
+import flash.display.Sprite;
+import onyx.core.IDisposable;
+import flash.events.Event;
+import onyx.utils.GraphPlotter;
+import flash.system.System;
+import flash.utils.*;
+
+/**
+ * 	The debugger window
+ */
+final class DebuggerUI extends Sprite implements IDisposable {
+
+	/**
+	 * 	@private
+	 */
+	private var _memory:GraphPlotter	= new GraphPlotter(System.totalMemory / 1024);
+	
+	/**
+	 * 	@private
+	 */
+	private var _fps:GraphPlotter		= new GraphPlotter(0, 0xFFFFFF, 50);
+	
+	/**
+	 * 	@private
+	 */
+	private var _last:int				= getTimer();
+	
+	/**
+	 * 	@constructor
+	 */
+	public function DebuggerUI():void {
 		
-		override public function dispose():void {
-			_shape = null;
-		}
+		addChild(_fps);
+		addChild(_memory);
+		
+		// start listening
+		addEventListener(Event.ENTER_FRAME, _onFrame);
+	}
+	
+	/**
+	 * 	@private
+	 */
+	private function _onFrame(event:Event):void {
+		_fps.register((1000 / (getTimer() - _last)));
+
+		_memory.register(System.totalMemory / 1024);
+		_last = getTimer();
+	}
+	
+	/**
+	 * 	Dispose
+	 */
+	public function dispose():void {
+		
+		removeEventListener(Event.ENTER_FRAME, _onFrame);
+
+		_memory = null,
+		_fps	= null;
 	}
 }

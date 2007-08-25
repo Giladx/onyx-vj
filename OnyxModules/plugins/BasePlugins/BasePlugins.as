@@ -36,6 +36,8 @@ package {
 	
 	import flash.display.Sprite;
 	
+	import modules.*;
+	
 	import onyx.core.*;
 	import onyx.plugin.*;
 	
@@ -52,7 +54,6 @@ package {
 		 */
 		public function get plugins():Array {
 			return [
-				new Plugin('Chroma-K Filter', KeyingFilter, 'Chroma Keying Filter'),
 				new Plugin('Mirror Filter', MirrorFilter, 'Mirror Filter'),
 				new Plugin(
 						'Echo Filter',
@@ -65,7 +66,9 @@ package {
 						'Scroll: Scrolls the bitmap\n' +
 						'Frame Delay: # of frames to skip'
 				),
+				new Plugin('Debugger',				Debugger,		'Debugger'),
 				new Plugin('Scroll Render',			ScrollRender,	'Scroll Render'),
+				new Plugin('Tempo Blur',			TempoBlur,		'Tempo Blur'),
 				new Plugin('Kaliedoscope', 			Kaliedoscope,	'Kaliedoscope'),
 				new Plugin('Pixelate',				Pixelate,		'Pixelate'),
 				new Plugin('Blur Filter', 			Blur,			'Blur Filter'),

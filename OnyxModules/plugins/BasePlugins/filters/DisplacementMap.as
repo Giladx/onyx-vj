@@ -2,25 +2,16 @@ package filters {
 	
 	import flash.display.*;
 	import flash.events.*;
-	import flash.filters.DisplacementMapFilter;
+	import flash.filters.*;
 	import flash.geom.*;
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
+	import onyx.display.*;
 	import onyx.plugin.*;
 	import onyx.utils.math.*;
 
 	public final class DisplacementMap extends Filter implements IBitmapFilter {
-		
-		/**
-		 * 	@private
-		 */
-		private var _filter:DisplacementMapFilter;
-		
-		/**
-		 * 	@private
-		 */
-		private var _bmp:BitmapData;
 		
 		/**
 		 * 
@@ -38,11 +29,6 @@ package filters {
 		private var pointArr:Array	= [pointA, pointB];
 		
 		/**
-		 * 	Shows map
-		 */
-		public var showMap:String;
-		
-		/**
 		 * 	SpeedX
 		 */
 		public var speedX:int		= 1;
@@ -58,53 +44,86 @@ package filters {
 		public var seed:Number		= random() * 100;
 		
 		/**
+		 * 	@private
+		 */
+		private var _layer:ILayer;
+		
+		/**
+		 * 	@private
+		 */
+		private var _bmp:BitmapData;
+		
+		/**
+		 * 
+		 */
+		public var scaleX:Number	= 2;
+		public var scaleY:Number	= 2;
+		
+		/**
 		 * 	@constructor
 		 */
 		public function DisplacementMap():void {
 
-			_filter		= new DisplacementMapFilter(_bmp, POINT, 1|2|4, 4, 15.55, 2.55, 'wrap');
-						
 			super(false,
-				new ControlInt('speedX', 'speedX', 0, 100, 1),
-				new ControlInt('speedY', 'speedY', 0, 100, 1),
-				new ControlRange('showMap', 'debug map', [null, 'all', 'red', 'green'])
+				new ControlLayer('layer', 'layer'),
+				new ControlProxy('scale', 'scale',
+					new ControlInt('scaleX', 'scaleX', 0, 1000, 1),
+					new ControlInt('scaleX', 'scaleY', 0, 1000, 1)
+				)
+			);
+			
+			layer = null;
+		}
+		
+		override public function initialize():void {
+		}
+		
+		/**
+		 * 
+		 */
+		public function set layer(value:ILayer):void {
+			_layer = value;
+			
+			if (value) {
+				if (_bmp) {
+					_bmp.dispose();
+					_bmp = null;
+				}
+			} else {
+				_bmp = BASE_BITMAP();
+			}
+		}
+		
+		/**
+		 * 	@public
+		 */
+		public function get layer():ILayer {
+			return _layer;
+		}
+		
+		/**
+		 * 
+		 */
+		public function applyFilter(source:BitmapData):void {
+			
+			var filter:DisplacementMapFilter;
+			
+			if (_layer) {
+				filter = new DisplacementMapFilter(_layer.rendered, POINT, 4, 4, scaleX, scaleY, DisplacementMapFilterMode.WRAP);
+			} else {
+				filter = new DisplacementMapFilter(_bmp, POINT, 2, 4, scaleX, scaleY, DisplacementMapFilterMode.WRAP);
+			}
+			
+			source.applyFilter(
+					source, 
+					BITMAP_RECT, 
+					POINT,
+					filter
 			);
 			
 		}
 		
-		override public function initialize():void {
-			_bmp		= BASE_BITMAP();
-		}
-		
-		public function applyFilter(source:BitmapData):void {
-			
-			pointA.x += speedX;
-
-			_bmp.perlinNoise(40, 40, 2, seed, false, true, 1|2|4|8, false, pointArr);
-			
-			switch (showMap) {
-				case 'red':
-					source.fillRect(BITMAP_RECT, 0xFF000000);
-					source.copyChannel(_bmp, BITMAP_RECT, POINT, 1, 1);
-					break;
-				case 'green':
-					source.fillRect(BITMAP_RECT, 0xFF000000);
-					source.copyChannel(_bmp, BITMAP_RECT, POINT, 2, 2);
-					break;
-				case 'all':
-					source.copyPixels(_bmp, BITMAP_RECT, POINT);
-					break;
-				default:
-					source.applyFilter(source, BITMAP_RECT, POINT, _filter);
-					break;
-				
-			}
-		}
-		
 		override public function dispose():void {
-			if (_bmp) {
-				_bmp.dispose();
-			}
 			super.dispose();
 		}
 		

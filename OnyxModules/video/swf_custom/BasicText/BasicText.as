@@ -37,6 +37,7 @@
 	
 	import onyx.controls.*;
 	import onyx.core.*;
+	import flash.filters.*;
 
 	/**
 	 * 	Basic Text Control with Typewriter functionality
@@ -88,7 +89,8 @@
 				new ControlString('text', 'text'),
 				new ControlColor('color', 'color'),
 				new ControlInt('size', 'size', 8, 100, 30),
-				new ControlExecute('start', 'typewriter')
+				new ControlExecute('start', 'typewriter'),
+				new ControlBoolean('dropShadow', 'shadow')
 			);
 			
 			_label				= new TextField();
@@ -101,6 +103,17 @@
 			font				= Onyx.fonts[0];
 			
 			addChild(_label);
+		}
+		
+		/**
+		 * 
+		 */
+		public function set dropShadow(value:Boolean):void {
+			super.filters = (value) ? [new DropShadowFilter(2)] : [];
+		}
+		
+		public function get dropShadow():Boolean {
+			return super.filters.length > 0;
 		}
 		
 		/**

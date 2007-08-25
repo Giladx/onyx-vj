@@ -50,11 +50,6 @@ package onyx.controls {
 		private var _data:Array;
 		
 		/**
-		 * 	@private
-		 */
-		private var _defaultvalue:uint;
-		
-		/**
 		 * 	The property name to bind to when displaying
 		 */
 		public var binding:String;
@@ -62,20 +57,19 @@ package onyx.controls {
 		/**
 		 * 	@constructor
 		 */
-		public function ControlRange(name:String, display:String, data:Array, defaultvalue:uint = 0, binding:String = null, options:Object = null):void {
+		public function ControlRange(name:String, display:String, data:Array, defaultValue:Object, binding:String = null, options:Object = null):void {
 
 			this.binding  		= binding,
-			this._data			= data,
-			this._defaultvalue	= defaultvalue;
+			this._data			= data;
 			
-			super(name, display, options);
+			super(name, display, defaultValue, options);
 		}
 		
 		/**
 		 * 
 		 */
 		override public function reset():void {
-			_target[name] = _data[_defaultvalue];
+			_target[name] = defaultValue;
 		}
 
 		/**

@@ -47,7 +47,7 @@ package onyx.controls {
 		 */
 		public function ControlDisplay(name:String, displayName:String):void {
 			
-			super(name, displayName, Display._displays);
+			super(name, displayName, Display._displays, Display.getDisplay(0));
 
 		}
 		

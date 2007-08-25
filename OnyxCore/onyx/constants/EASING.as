@@ -29,7 +29,14 @@
  * 
  */
 package onyx.constants {
+	
+	import onyx.core.EasingType;
+	import onyx.tween.easing.*;
 
-	public const EASING:Array = [];
+	public const EASING:Array = [
+		new EasingType('LINEAR', Linear.easeIn),
+		new EasingType('SINE: IN', Sine.easeIn),
+		new EasingType('SINE: OUT', Sine.easeOut)
+	];
 
 }

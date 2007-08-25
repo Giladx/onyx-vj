@@ -52,8 +52,9 @@ package onyx.controls {
 		public function ControlLayer(name:String, displayName:String):void {
 			
 			var display:Display = Display.getDisplay(0);
+			var data:Array		= (display) ? display._layers : [];
 
-			super(name, displayName, (display) ? display._layers : []);
+			super(name, displayName, data, data[0]);
 
 		}
 		

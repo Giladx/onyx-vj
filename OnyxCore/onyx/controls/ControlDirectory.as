@@ -41,7 +41,7 @@ package onyx.controls {
 		 * 	@constructor
 		 */
 		public function ControlDirectory():void {
-			super(null, null);
+			super(null, null, null);
 		}
 		
 		/**

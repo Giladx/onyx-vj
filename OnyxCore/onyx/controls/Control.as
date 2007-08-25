@@ -90,19 +90,32 @@ package onyx.controls {
 		public var name:String;
 		
 		/**
-		 * 	stores options that will be implemented by the UI
+		 * 	Stores options that will be implemented by the UI
 		 */
 		public var metadata:Object;
 		
 		/**
+		 * 	Stores the default value for the control
+		 */
+		onyx_ns var _defaultValue:*;
+		
+		/**
 		 * @constructor
 		 */
-		public function Control(name:String, display:String = null, metadata:Object = null):void {
+		public function Control(name:String, display:String, defaultValue:*, metadata:Object = null):void {
 			
-			this.name		= name,
-			this.display	= display || name,
-			this.metadata	= metadata;
+			this.name			= name,
+			this.display		= display || name,
+			this.metadata		= metadata,
+			this._defaultValue	= defaultValue;
 			
+		}
+		
+		/**
+		 * 
+		 */
+		public function get defaultValue():* {
+			return _defaultValue;
 		}
 		
 		/**
@@ -165,6 +178,8 @@ package onyx.controls {
 		 * 	Resets the control
 		 */
 		public function reset():void {
+			_target[name] = defaultValue;
+			dispatchEvent(new ControlEvent(defaultValue));
 		}
 
 		/**

@@ -128,8 +128,8 @@ package onyx.core {
 		public static function output(... args:Array):void {
 			
 			REUSABLE_EVENT.message	= args.join(' ');
-			
 			dispatcher.dispatchEvent(REUSABLE_EVENT);
+			
 		}
 		
 		/**
@@ -162,21 +162,16 @@ package onyx.core {
 		 */
 		public static function executeCommand(command:String):void {
 			
-			var commands:Array = command.split(' ');
+			var args:Array = command.toUpperCase().split(' ');
 			
-			if (commands.length) {
+			if (args.length) {
 				
-				var firstcommand:String = commands.shift();
+				// we need to check the command qualifier
+				var name:String		= args.shift();
 				
-				if (Command[firstcommand]) {
-					var fn:Function = Command[firstcommand];
-					
-					try {
-						var message:String = fn.apply(Command, commands);
-					} catch (e:Error) {
-						error(e.message);
-					}
-				}
+				// grab the output
+				var commandReturn:Object = Command.execute(name, args) || 'COMMAND "' + name + '" NOT SUPPORTED.';
+				(commandReturn is String) ? output(commandReturn as String) : error(commandReturn as Error);
 			}
 		}
 		

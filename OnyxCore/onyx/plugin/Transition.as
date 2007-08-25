@@ -100,13 +100,9 @@ package onyx.plugin {
 		 * 	@constructor
 		 */
 		public function Transition():void {
-		}
-		
-		/**
-		 * 	Returns name of the transition
-		 */
-		final public function get name():String {
-			return _name;
+			super(
+				new ControlInt('duration', 'duration', 0, 0, 5)
+			)
 		}
 		
 		/**
@@ -132,25 +128,6 @@ package onyx.plugin {
 		 */
 		final public function get duration():int {
 			return _duration;
-		}
-
-		/**
-		 * 	Clones a transition
-		 */
-		final public function clone():Transition {
-			
-			var plugin:Plugin = Transition.getDefinition(_name);
-			var transition:Transition = plugin.getDefinition() as Transition;
-			
-			// loops through controls
-			for each (var control:Control in _controls) {
-				var newControl:Control = transition.controls.getControl(control.name);
-				newControl.value = control.value;
-			}
-			
-			transition._duration = _duration;
-			
-			return transition;
 		}
 		
 		/**

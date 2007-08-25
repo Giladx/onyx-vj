@@ -19,10 +19,8 @@ import onyx.utils.math.*;
  *
  *  For more information, see http://www.robertpenner.com/profmx.
  */  
-final public class Sine
-{
+final public class Sine {
 	
-
 	//--------------------------------------------------------------------------
 	//
 	//  Class methods

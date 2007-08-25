@@ -180,9 +180,15 @@ package onyx.content {
 				
 				var extension:String	= getExtension(path);
 			
+				// .mp4,.m4v,.m4a,.mov and .3gp
 				// do different stuff based on the extension
 				switch (extension) {
 					
+					case 'mp4':
+					case 'm4v':
+					case 'm4a':
+					case 'mov':
+					case '3gp':
 					case 'flv':
 						var stream:Stream = new Stream(path);
 						stream.addEventListener(Event.COMPLETE,				_onStreamComplete);

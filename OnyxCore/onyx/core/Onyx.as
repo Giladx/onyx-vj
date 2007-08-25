@@ -55,6 +55,12 @@ package onyx.core {
 		
 		/**
 		 * 	@private
+		 * 	All modules
+		 */
+		public static const modules:Object		= {};
+		
+		/**
+		 * 	@private
 		 * 	Dispatcher
 		 */
 		onyx_ns static const instance:Onyx		= new Onyx();
@@ -98,7 +104,7 @@ package onyx.core {
 		}
 		
 		/**
-		 * 
+		 * 	Loads plugins
 		 */
 		public static function loadPlugins():EventDispatcher {
 	
@@ -159,36 +165,44 @@ package onyx.core {
 					if (object is Filter) {
 						
 						Filter.registerPlugin(plugin);
-						plugin.registerData('bitmap', object is IBitmapFilter);
+						plugin.registerData('effect', object is TempoFilter);
 						
 					// register transition
 					} else if (object is Transition) {
-						
 						Transition.registerPlugin(plugin);
-	
 					// register visualizer
 					} else if (object is Visualizer) {
-						
 						Visualizer.registerPlugin(plugin);
-						
 					} else if (object is Macro) {
-						
 						Macro.registerPlugin(plugin);
-						
 					} else if (object is Renderer) {
 						Renderer.registerPlugin(plugin);
-						
+					} else if (object is Module) {
+						registerModule(plugin);
 					}
 					
 					// output a message
 					Console.output('REGISTERING ' + plugin.name);
 				}
 			}
-			/*
-			 else if (registration is IMidiDispatcher) {
-				Midi.registerMidiMaster(registration as IMidiDispatcher);
-			}
-			*/
+		}
+		
+		/**
+		 * 
+		 */
+		public static function registerModule(plugin:Plugin):void {
+			
+			var module:Module = plugin.getDefinition() as Module;
+			modules[module.name] = module;
+			
+			// start the module
+			module.initialize();
+			
+			// registers the module with a command
+			Command.registerModule(plugin.name, module);
+			
+			// register with the console, etc
+			Console.output(plugin.name + ' module loaded.');
 		}
 
 		/**

@@ -44,7 +44,7 @@ package onyx.controls {
 		 */
 		public function ControlExecute(name:String, display:String = null):void {
 			
-			super(name, display);
+			super(name, display, null);
 		}
 		
 		/**

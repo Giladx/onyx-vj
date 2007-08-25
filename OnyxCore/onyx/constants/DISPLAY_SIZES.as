@@ -34,6 +34,7 @@ package onyx.constants {
 	
 	public const DISPLAY_SIZES:Array = [
 		new DisplaySize(1,1),
+		new DisplaySize(1.25, 1.25),
 		new DisplaySize(1.5,1.5),
 		new DisplaySize(2,2),
 		new DisplaySize(3.2,3.2),

@@ -43,9 +43,9 @@ package onyx.controls{
 		/**
 		 * 	@constructor
 		 */
-		public function ControlString(name:String, display:String):void {
+		public function ControlString(name:String, display:String, defaultValue:String):void {
 			
-			super(name, display);
+			super(name, display, defaultValue);
 		}
 		
 		/**

@@ -57,6 +57,7 @@ package onyx.states {
 		 */
 		public function ListenState(display:Display):void {
 			this.display = display;
+			super();
 		}
 		
 		/**

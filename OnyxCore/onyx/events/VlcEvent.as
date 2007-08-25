@@ -31,8 +31,6 @@
 package onyx.events {
 	
 	import flash.events.Event;
-	
-	//import onyx.net.Vlc;
 
 	/**
 	 * 	Events dispatched by the onyx console

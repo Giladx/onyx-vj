@@ -40,6 +40,20 @@ package onyx.states {
 	public class ApplicationState extends EventDispatcher {
 		
 		/**
+		 * 	Stores the type of state it is.  Only one state of any type may be present at any time
+		 * 	(implemented now for different types of KeyListener states).  null types never override each
+		 * 	other
+		 */
+		public var type:Class;
+		
+		/**
+		 * 
+		 */
+		public function ApplicationState(type:Class = null):void {
+			this.type = type;
+		}
+		
+		/**
 		 * 	Called when the application state is initialized
 		 */
 		public function initialize():void {
@@ -56,6 +70,5 @@ package onyx.states {
 		 */
 		public function pause():void {
 		}
-
 	}
 }

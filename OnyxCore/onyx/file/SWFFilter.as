@@ -52,8 +52,13 @@ package onyx.file {
 				case 'png':
 				case 'mp3':
 				case 'xml':
-				
-				//VLC formats
+
+				// VLC formats
+				// TBD: Need to determine what formats come from VLC, and what don't --
+				// This should probably be done via some protocol handler --
+				// vlc://etc etc
+				//
+				// MovieStar (Flash 9.0.60.184) currently supports mp4, mov, m4v, 3gp, etc
 				case 'asf':
 				case 'avi':
 				case 'divx':
@@ -63,7 +68,6 @@ package onyx.file {
 				case 'm4v':
 				case 'mov':
 				case 'mp4':
-				
 				case 'mpg':
 				case 'mpeg':
  				case 'ogg':

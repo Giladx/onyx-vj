@@ -57,8 +57,11 @@ package onyx.net {
         
         private var _status:String;			// socket status (connected, unconnected, error)
         private var _code:int;				// output data code
-        private var _data:String;			// output text from telnet server
+		private var _data:String;			// output text from telnet server
         
+		/**
+		 * 	@constructor
+		 */
         public function Telnet() {
             
             _serverURL 	= new String();

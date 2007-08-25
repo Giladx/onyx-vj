@@ -61,6 +61,13 @@ package onyx.states {
 		private var _timer:Timer;
 		
 		/**
+		 * 
+		 */
+		public function InitializationState():void {
+			super();
+		}
+		
+		/**
 		 * 	Initializes
 		 */
 		override public function initialize():void {

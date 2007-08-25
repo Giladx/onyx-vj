@@ -56,6 +56,8 @@ package onyx.states {
 		public function BroadcastState():void {
 			conn = new LocalHost();
 			conn.addEventListener(Event.CONNECT, _onClientConnect);
+			
+			super();
 		}
 		
 		/**

@@ -28,107 +28,50 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.core {
-
-	import onyx.utils.array.swap;
+ 
+package onyx.plugin {
+	
+	import flash.display.*;
+	import onyx.core.*;
 	
 	use namespace onyx_ns;
 	
 	/**
-	 * 	Base class for external files
+	 * 
 	 */
-	public final class Plugin {
+	public class Module extends PluginBase {
 		
 		/**
-		 * 	Stores the name for the plug-in
+		 * 	Does it have interface options?
 		 */
-		public var name:String;
-		
-		/**
-		 * 	@private
-		 * 	Class definition for the object
-		 */
-		onyx_ns var _definition:Class;
-		
-		/**
-		 * 	@private
-		 * 	The parent global array used by Onyx to get filter indices
-		 */
-		onyx_ns var _parent:Array;
-		
-		/**
-		 * 	Stores the description for the plug-in (for use in UI)
-		 */
-		public var description:String;
-		
-		/**
-		 * 	@private
-		 * 	Store metadata about the plugin
-		 */
-		private var metadata:Object;
+		public var uiOptions:InterfaceOptions;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function Plugin(name:String, definition:Class, description:String):void {
-
-			this.name			= name,
-			this.description	= description,
-			_definition			= definition;
-
+		public function Module(uiOptions:InterfaceOptions = null):void {
+			this.uiOptions = uiOptions;
 		}
 		
 		/**
-		 * 	Returns a new object based on the plugin definition
+		 * 	Method called when you type a command into the console with the module name
 		 */
-		public function getDefinition():PluginBase {
-			
-			var obj:PluginBase	= new _definition() as PluginBase;
-			
-			obj._plugin			= this;
-			
-			return obj;
-		}
-		
-		/**
-		 * 	Registers metadata with the object
-		 */
-		public function registerData(name:String, value:*):void {
-			if (!metadata) {
-				metadata = {};
-			}
-			metadata[name] = value;
-		}
-		
-		/**
-		 * 	Gets metadata for the object
-		 */
-		public function getData(name:String):* {
-			return (metadata) ? metadata[name] : null;
-		}
-		
-		/**
-		 * 	Gets the index
-		 */
-		public function get index():int {
-			return _parent.indexOf(this);
-		}
-		
-		/**
-		 * 	Sets the index
-		 */
-		public function set index(value:int):void {
-			
-			// from utils package
-			swap(_parent, this, value);
+		public function command(... args:Array):String {
+			return '';
 		}
 		
 		/**
 		 * 
 		 */
-		public function toString():String {
-			return '[Plugin: ' + name + ']';
+		public function initialize():void {
+			
 		}
-
+		
+		/**
+		 * 	Disposes the module
+		 */
+		override public function dispose():void {
+			super.dispose();
+		}
 	}
 }

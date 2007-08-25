@@ -29,106 +29,54 @@
  * 
  */
 package onyx.core {
-
-	import onyx.utils.array.swap;
 	
-	use namespace onyx_ns;
+	import flash.display.DisplayObject;
 	
 	/**
-	 * 	Base class for external files
+	 * 
 	 */
-	public final class Plugin {
+	public final class InterfaceOptions extends Object {
 		
 		/**
-		 * 	Stores the name for the plug-in
+		 * 	The user interface definition
 		 */
-		public var name:String;
+		public var definition:Class;
 		
 		/**
-		 * 	@private
-		 * 	Class definition for the object
+		 * 	The default width of the window
 		 */
-		onyx_ns var _definition:Class;
+		public var width:int;
 		
 		/**
-		 * 	@private
-		 * 	The parent global array used by Onyx to get filter indices
+		 * 	The default height of the window
 		 */
-		onyx_ns var _parent:Array;
+		public var height:int;
 		
 		/**
-		 * 	Stores the description for the plug-in (for use in UI)
+		 * 	The default x location of the window
 		 */
-		public var description:String;
+		public var x:int;
 		
 		/**
-		 * 	@private
-		 * 	Store metadata about the plugin
+		 * 	The default y location of the window
 		 */
-		private var metadata:Object;
+		public var y:int;
+		
+		/**
+		 * 	Whether the window should be draggable
+		 */
+		public var draggable:Boolean;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function Plugin(name:String, definition:Class, description:String):void {
-
-			this.name			= name,
-			this.description	= description,
-			_definition			= definition;
-
+		public function InterfaceOptions(definition:Class, width:int, height:int, x:int = 0, y:int = 0, draggable:Boolean = true):void {
+			this.definition	= definition,
+			this.width		= width,
+			this.height		= height,
+			this.x			= x,
+			this.y			= y,
+			this.draggable	= draggable;
 		}
-		
-		/**
-		 * 	Returns a new object based on the plugin definition
-		 */
-		public function getDefinition():PluginBase {
-			
-			var obj:PluginBase	= new _definition() as PluginBase;
-			
-			obj._plugin			= this;
-			
-			return obj;
-		}
-		
-		/**
-		 * 	Registers metadata with the object
-		 */
-		public function registerData(name:String, value:*):void {
-			if (!metadata) {
-				metadata = {};
-			}
-			metadata[name] = value;
-		}
-		
-		/**
-		 * 	Gets metadata for the object
-		 */
-		public function getData(name:String):* {
-			return (metadata) ? metadata[name] : null;
-		}
-		
-		/**
-		 * 	Gets the index
-		 */
-		public function get index():int {
-			return _parent.indexOf(this);
-		}
-		
-		/**
-		 * 	Sets the index
-		 */
-		public function set index(value:int):void {
-			
-			// from utils package
-			swap(_parent, this, value);
-		}
-		
-		/**
-		 * 
-		 */
-		public function toString():String {
-			return '[Plugin: ' + name + ']';
-		}
-
 	}
 }

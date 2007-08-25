@@ -165,7 +165,7 @@ package onyx.display {
 					'backgroundColor',		'BACKGROUND'
 				),
 				new ControlRange(
-					'size', 'size', DISPLAY_SIZES
+					'size', 'size', DISPLAY_SIZES, DISPLAY_SIZES[0]
 				),
 				new ControlBoolean(
 					'smoothing',			'SMOOTHING',	0

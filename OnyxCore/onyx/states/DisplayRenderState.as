@@ -50,6 +50,7 @@ package onyx.states {
 		 */
 		public function DisplayRenderState(display:Display):void {
 			this.display = display;
+			super();
 		}
 		
 		/**

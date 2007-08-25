@@ -113,6 +113,7 @@ package onyx.states {
 		 * 	@param		the type of class to pause, if null, all states are paused
 		 */
 		public static function resumeStates(type:Class = null):void {
+			
 			if (type) {
 				for each (var state:ApplicationState in _states) {
 					if (state is type) {

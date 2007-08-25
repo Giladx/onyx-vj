@@ -151,13 +151,6 @@ package onyx.plugin {
 		}
 		
 		/**
-		 * 	Returns the name of the filter
-		 */
-		final public function get name():String {
-			return _name;
-		}
-		
-		/**
 		 * 	Gets the index of the filter
 		 */
 		final public function get index():int {
@@ -177,23 +170,7 @@ package onyx.plugin {
 		 */
 		public function initialize():void {
 		}
-		
-		/**
-		 * 	Clones the filter
-		 */
-		final public function clone():Filter {
-			
-			var plugin:Plugin = Filter.getDefinition(_name);
-			var filter:Filter = plugin.getDefinition() as Filter;
-			
-			for each (var control:Control in controls) {
-				var newControl:Control = filter.controls.getControl(control.name);
-				newControl.value = control.value;
-			}
-			
-			return filter;
-		}
-		
+				
 		/**
 		 * 	Moves the filter up
 		 */
@@ -212,7 +189,7 @@ package onyx.plugin {
 		 * 	Returns xml
 		 */
 		public function toXML():XML {
-			var xml:XML = <filter id={_name} />;
+			var xml:XML = <filter id={name} />;
 			xml.appendChild(controls.toXML());
 			return xml;
 		}

@@ -30,6 +30,8 @@
  */
 package onyx.core {
 
+	import flash.system.Capabilities;
+	
 	import onyx.constants.*;
 	import onyx.display.*;
 	import onyx.jobs.StatJob;
@@ -42,13 +44,50 @@ package onyx.core {
 	 */
 	public final class Command {
 		
-		public static function help(... args:Array):void {
+		/**
+		 * 	@private
+		 */
+		private static const _modules:Object = {}
+		
+		/**
+		 * 	Registers a module to be executable through the console object
+		 */
+		public static function registerModule(name:String, module:Module):void {
+			_modules[name] = module;
+		}
+		
+		/**
+		 * 	Executes a command
+		 */
+		internal static function execute(name:String, args:Array):Object {
+			
+			var method:Function = Command[name];
+			var module:Module	= _modules[name];
+			
+			try {
+				if (method !== null) {
+					var message:String = method.apply(null, args);
+				} else if (module !== null) {
+					message = ((args.length > 0) ? '' : _createHeader(name)) + module.command(args);
+				}
+			} catch (e:Error) {
+				return e;
+			}
+			
+			return message;
+		}
+		
+		/**
+		 * 	@private
+		 * 	Help information
+		 */
+		private static function HELP(... args:Array):String {
 			
 			var text:String;
 			
 			switch (args[0]) {
-				case 'command':
-				case 'commands':
+				case 'COMMAND':
+				case 'COMMANDS':
 				
 					text =	_createHeader('commands') + 'PLUGINS: SHOWS # OF PLUGINS<br>' +
 							'CLEAR: CLEARS THE TEXT<br>' +
@@ -58,22 +97,30 @@ package onyx.core {
 							'VLC: TOGGLE LOCAL(CONSOLE)/REMOTE(TELNET)';
 				
 					break;
-				case 'contributors':
+				case 'CONTRIBUTORS':
 					text =	'CONTRIBUTORS<br>-------------<br>DANIEL HAI: <A HREF="HTTP://WWW.DANIELHAI.COM">HTTP://WWW.DANIELHAI.COM</A>'
 					break;
-				case 'plugins':
+				case 'PLUGINS':
 					text =	Filter.filters.length + ' FILTERS, ' +
 							Transition.transitions.length + ' TRANSITIONS, ' +
 							Visualizer.visualizers.length + ' VISUALIZERS LOADED.';
 					break;
-				case 'stat':
-					text =	_createHeader('stat') + 'TESTS FRAMERATE AND LAYER RENDERING TIMES.<br><br>USAGE: STAT [NUM_SECONDS:INT]<br>';
+				case 'VERSION':
+					text =	'FLASH PLUG-IN VERSION: ' + Capabilities.version;
 					break;
+				case 'MODULES':
+					text =	'';
+					for each (var module:Module in Onyx.modules) {
+						text +=	module.name + ' loaded.  type ' + module.name + ' for more info.'
+					}
+					break;
+/*				TBD: Modularize this
 				case 'vlc':
 					text =	_createHeader('vlc') + 'VLC COMMANDS HELP<br><br>CTRL+T toggle console/telnet<br>' + 
 					'USAGE:<br>' + 'vlc connect server port<br>' +
 									'vlc disconnect <br>';
 					break;
+*/
 				// dispatch the start-up motd
 				default:
 					text =	_createHeader('<b>ONYX ' + VERSION + '</b>', 21) + 
@@ -85,29 +132,32 @@ package onyx.core {
 			}
 			
 			// output?
-			Console.output(text);
+			return text;
 		}
 		
+		/**
+		 * 	@private
+		 */
 		private static function _createHeader(command:String, size:int = 14):String {
-			return '<font size="' + size + '" color="#DCC697" face="Pixel">' + command + '</font><br><br>';
+			return '<font size="' + size + '" color="#DCC697" face="Pixel">' + command + '</font><br>';
 		}
 
 		/**
 		 * 	Gets resolution
 		 */		
-		public static const resolution:Function = res;
+		private static const RESOLUTION:Function = RES;
 
 		/**
 		 * 	Gets resolution
 		 */		
-		public static function res():void {
-			Console.output('RESOLUTION: ' + STAGE.stageWidth + 'x' + STAGE.stageHeight);
+		private static function RES():String {
+			return 'RESOLUTION: ' + STAGE.stageWidth + 'x' + STAGE.stageHeight;
 		}
 		
 		/**
 		 * 	Finds out
 		 */
-		public static function stat(... args:Array):void {
+		private static function STAT(... args:Array):void {
 			
 			// does a stat job for a specified amount of time
 			var time:int = args[0] || 2;
@@ -119,7 +169,7 @@ package onyx.core {
 		/**
 		 * 
 		 */
-		public static function layer(... args:Array):void {
+		private static function LAYER(... args:Array):String {
 			
 			try {
 				
@@ -130,7 +180,7 @@ package onyx.core {
 			} catch (e:Error) {
 				Console.error(e.message);
 			}
-			
+			return 'unimplemented';
 		}
 		
 		/**
@@ -139,8 +189,8 @@ package onyx.core {
 		public static function vlc(... args:Array):void {
 			
 				switch(args[0]) {
-					case 'connect'		: if(args.length != 3) {
-											help('vlc');	
+					case 'connect'		: if (args.length != 3) {
+											HELP('vlc');	
 										  } else {
 										  	Console.getInstance().vlc.connect(args[1], args[2]);
 										  }
@@ -149,7 +199,7 @@ package onyx.core {
 										  Console.getInstance().vlc.status = 'Disconnected by the client';
 										  Console.stateVlc(Console.getInstance().vlc.status);
 										  break;
-					default				: help('vlc');
+					default				: HELP('vlc');
 				}
 				
 		}

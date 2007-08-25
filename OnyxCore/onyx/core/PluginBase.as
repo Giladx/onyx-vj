@@ -43,11 +43,6 @@ package onyx.core {
 	public class PluginBase extends EventDispatcher implements IControlObject {
 		
 		/**
-		 * 	@private
-		 */
-		onyx_ns var _name:String;
-		
-		/**
 		 * 
 		 */
 		onyx_ns var _plugin:Plugin;
@@ -60,8 +55,16 @@ package onyx.core {
 		/**
 		 * 	@constructor
 		 */
-		public function PluginBase():void {
+		public function PluginBase(... args:Array):void {
 			_controls = new Controls(this);
+			_controls.addControl.apply(null, args);
+		}
+		
+		/**
+		 * 
+		 */
+		final public function get name():String {
+			return _plugin ? _plugin.name : '';
 		}
 		
 		/**
@@ -70,11 +73,25 @@ package onyx.core {
 		final public function get controls():Controls {
 			return _controls;
 		}
-		
+
 		/**
 		 * 	Disposes the filter
 		 */
 		public function dispose():void {
+		}
+		
+		/**
+		 * 	Clones the filter
+		 */
+		final public function clone():PluginBase {
+			
+			var base:PluginBase = _plugin.getDefinition();
+			for each (var control:Control in controls) {
+				var newControl:Control = base.controls.getControl(control.name);
+				newControl.value = control.value;
+			}
+			
+			return base;
 		}
 		
 		/**

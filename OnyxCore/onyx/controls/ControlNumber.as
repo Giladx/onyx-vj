@@ -57,11 +57,6 @@ package onyx.controls {
 		private var _max:Number;
 		
 		/**
-		 * 	@private
-		 */
-		protected var _defaultValue:Number;
-		
-		/**
 		 * 	Multiplier
 		 */
 		public var multiplier:Number;
@@ -73,24 +68,16 @@ package onyx.controls {
 			
 			_min = min;
 			_max = max;
-			_defaultValue = defaultvalue;
 			
-			super(name, display, options || FACTOR);
+			super(name, display, defaultvalue, options || FACTOR);
 		}
 				
 		/**
 		 * 	Resets
 		 */
 		override public function reset():void {
-			_target[name] = _defaultValue;
+			_target[name] = defaultValue;
 			dispatchEvent(new ControlEvent(_defaultValue));
-		}
-		
-		/**
-		 * 
-		 */
-		public function defaultValue():Number {
-			return _defaultValue;
 		}
 		
 		/**

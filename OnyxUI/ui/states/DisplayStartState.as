@@ -47,6 +47,9 @@ package ui.states {
 	import ui.text.*;
 	import ui.window.*;
 	
+	/**
+	 * 	The state that shows the loading screen
+	 */
 	public final class DisplayStartState extends ApplicationState {
 
 		/**
@@ -65,6 +68,11 @@ package ui.states {
 		private var _states:Array;
 		
 		/**
+		 * 	The window state to start up
+		 */
+		public var startupWindowState:String	= 'DEFAULT';
+		
+		/**
 		 * 
 		 */
 		public function DisplayStartState(states:Array):void {
@@ -72,6 +80,7 @@ package ui.states {
 			// save states to run
 			_states = states;
 			
+			super(DisplayStartState);
 		}
 
 		/**
@@ -160,23 +169,26 @@ package ui.states {
 				}
 			}
 			
-			var window:MenuWindow = new MenuWindow();
-			
-			// load menu bar
-			ROOT.addChild(window);
-			
 			// add a display, but only make it visible if the stagewidth is greater than > 1024
 			var display:Display = Onyx.createDisplay(STAGE.stageWidth - 640, 0, 640 / BITMAP_WIDTH, 480 / BITMAP_HEIGHT);
 			display.createLayers(5);
 			display.visible = STAGE.stageWidth >= 1664;
 			
-			Console.output(display.visible);
-			
-			// now add all the windows
-			window.createButtons();
+			// add menu buttons to modules that have interface states
+			trace(1);
+			UIManager.registerModuleWindows();
 
-			// create all windows
-			WindowRegistration.createWindows();
+			// register the default state
+			WindowState.load(
+				WindowState.getState(startupWindowState)
+			);
+			
+			// create the bottom buttons
+			var window:MenuWindow = new MenuWindow(null);
+			window.createButtons(2, 728);
+			
+			// load menu bar
+			ROOT.addChild(window);
 			
 			// TBD -- midi should automatically listen to layer creations / deletions?
 			MIDI.registerLayers(display.layers);

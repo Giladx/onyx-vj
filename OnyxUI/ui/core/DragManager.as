@@ -49,7 +49,7 @@ package ui.core {
 		 * 	@private
 		 * 	Targets that I can drop onto
 		 */
-		private static var _targets:Array = [];
+		private static var _targets:Object;
 		
 		/**
 		 * 	@private
@@ -94,7 +94,7 @@ package ui.core {
 		/**
 		 * 	Starts a drag
 		 */
-		public static function startDrag(origin:UIObject, targets:Array, dragOver:Function, dragOut:Function, dragDrop:Function):void {
+		public static function startDrag(origin:UIObject, targets:Object, dragOver:Function, dragOut:Function, dragDrop:Function):void {
 			
 			// save variables
 			_origin = origin;
@@ -171,6 +171,7 @@ package ui.core {
 			
 			// in each target, we're going to look for rollover, rollout events
 			for each (var target:DisplayObject in _targets) {
+				
 				target.addEventListener(DragEvent.DRAG_OVER, _dragOver);
 				target.addEventListener(DragEvent.DRAG_OUT, _dragOut);
 				target.addEventListener(DragEvent.DRAG_DROP, _dragDrop);

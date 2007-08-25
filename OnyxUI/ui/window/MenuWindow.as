@@ -30,37 +30,76 @@
  */
 package ui.window {
 	
-	import flash.events.MouseEvent;
-	import flash.utils.Dictionary;
-	
+	import onyx.controls.*;
 	import onyx.errors.*;
 	import onyx.utils.math.*;
 	
-	import ui.controls.MenuButton;
-	import ui.controls.TextButton;
-	import ui.styles.MENU_OPTIONS;
+	import ui.controls.*;
+	import ui.core.*;
+	import ui.styles.*;
 	
 	/**
 	 * 	Menu Window
 	 */
-	public final class MenuWindow extends Window {
+	public final class MenuWindow extends Window implements IControlObject {
+		
+		/**
+		 * 	@private
+		 */
+		private var _stateDropDown:DropDown;
+		
+		/**
+		 *	@private
+		 */
+		private var _controls:Controls;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function MenuWindow():void {
+		public function MenuWindow(reg:WindowRegistration):void {
+			
+			_controls = new Controls(this,
+				new ControlRange('state', 'state', WindowState.states, null, 'name')
+			);
+			
+			_stateDropDown = new DropDown(UI_OPTIONS_NOLABEL, _controls.getControl('state'));
 			
 			// position and create window
-			super(null, 100, 100);
-
-			x = 2;
-			y = 728;
+			super(reg, false, 100, 100);
+			
+			// add the drop down
+			addChild(_stateDropDown);
+		}
+		
+		/**
+		 * 
+		 */
+		public function set state(value:WindowState):void {
+			UIObject.select(null);
+			WindowState.load(value);
+		}
+		
+		/**
+		 * 
+		 */
+		public function get state():WindowState {
+			return WindowState.currentState;
+		}
+		
+		/**
+		 * 
+		 */
+		public function get controls():Controls {
+			return _controls;
 		}
 		
 		/**
 		 * 	Creates all the buttons
 		 */
-		public function createButtons():void {
+		public function createButtons(x:int, y:int):void {
+			
+			this.x = x;
+			this.y = y;
 			
 			// loop through registrations
 			for each (var reg:WindowRegistration in WindowRegistration.registrations) {
@@ -70,11 +109,19 @@ package ui.window {
 				
 				// create control
 				var control:MenuButton = new MenuButton(reg, MENU_OPTIONS);
-				control.x = index * (MENU_OPTIONS.width + 2);
+				control.x = index * (MENU_OPTIONS.width + 2) + 50;
 
 				// add child
 				addChild(control);
+				
 			}
+		}
+		
+		/**
+		 * 	
+		 */
+		override public function dispose():void {
+			
 		}
 	}
 }

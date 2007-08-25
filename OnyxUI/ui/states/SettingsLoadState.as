@@ -44,6 +44,8 @@ package ui.states {
 	
 	import ui.controls.ColorPicker;
 	import ui.window.WindowRegistration;
+	import ui.window.WindowState;
+	import ui.window.WindowStateReg;
 
 	/**
 	 * 	Load settings
@@ -54,11 +56,17 @@ package ui.states {
 		 * 	Path
 		 */
 		public static const PATH:String = 'settings/settings.xml';
-
+		
+		/**
+		 * 
+		 */
+		public var startupWindowState:String;
+		
 		/**
 		 * 	@constructor
 		 */
 		public function SettingsLoadState():void {
+			super(SettingsLoadState);
 		}
 
 		/**
@@ -113,11 +121,6 @@ package ui.states {
 					STAGE.quality = list.quality;
 				}
 			}
-			
-			// see if MIDI should be listening by default
-			// if (core.hasOwnProperty('midi')) {
-			// 	MIDI.listen = parseBoolean(core.midi.enabled);
-			// }
 
 			// add custom order for blendmodes
 			if (core.hasOwnProperty('blendModes')) {
@@ -136,10 +139,12 @@ package ui.states {
 				
 			}
 			
+			var uiXML:XMLList	= xml.ui;
+			
 			// re-order the filters based on settings
-			if (xml.hasOwnProperty('filters')) {
+			if (uiXML.hasOwnProperty('filters')) {
 				
-				list = xml.filters.order.filter;
+				list = uiXML.filters.order.filter;
 				
 				for each (var filter:XML in list.*) {
 					var plugin:Plugin = Filter.getDefinition(filter.@name);
@@ -152,8 +157,8 @@ package ui.states {
 				
 			}
 			
-			if (xml.hasOwnProperty('swatch')) {
-				list = xml.swatch;
+			if (uiXML.hasOwnProperty('swatch')) {
+				list = uiXML.swatch;
 				
 				try {
 					var colors:Array = [];
@@ -162,48 +167,48 @@ package ui.states {
 					}
 					ColorPicker.registerSwatch(colors);
 				} catch (e:Error) {
-					trace(1, e);
+					Console.error(e);
 				}
 				
 			}
 			
 			// stored keys
-			if (xml.hasOwnProperty('keys')) {
+			if (uiXML.hasOwnProperty('keys')) {
 				
-				list = xml.keys;
+				list = uiXML.keys;
 				
 				// map keys
 				for each (var key:XML in list.*) {
 					try {
 						KeyListenerState[key.name()] = key;
 					} catch (e:Error) {
-						Console.error(e.message);
+						Console.error(e);
 					}
 				}
 			}
 			
-			// set window locations / enabled
-			if (xml.hasOwnProperty('windows')) {
-				
-				list = xml.windows;
-				
-				for each (var windowXML:XML in list.*) {
-					var reg:WindowRegistration = WindowRegistration.getWindow(windowXML.@name);
-					if (reg) {
-						reg.x		= windowXML.@x;
-						reg.y		= windowXML.@y;
-						reg.enabled = parseBoolean(windowXML.@enabled);
-					}
-				}
-				
-			}
+			// parse states
+			if (uiXML.hasOwnProperty('states')) {
 
-			var macro:Plugin = Macro.macros[0] as Plugin;
-			if (macro) {
+				// set the startup window state
+				startupWindowState = uiXML.states.@['startup-state'];
 				
-				// map macros
-				// KeyListenerState.ACTION_MACRO_1 = macro.getDefinition() as Macro;
-			
+				list = uiXML.states;
+				for each (var stateXML:XML in list.*) {
+					var windows:Array		= [];
+
+					for each (var regXML:XML in stateXML.windows.*) {
+						
+						switch (regXML.name().toString()) {
+							case 'window':
+								windows.push(new WindowStateReg(String(regXML.toString()), regXML.@x, regXML.@y));
+								break;
+						}
+					}
+
+					WindowState.register(new WindowState(String(stateXML.name), windows));
+				}
+				
 			}
 			
 			// kill myself

@@ -76,9 +76,9 @@ package ui.window {
 		/**
 		 * 	@constructor
 		 */
-		public function ConsoleWindow():void {
+		public function ConsoleWindow(reg:WindowRegistration):void {
 			
-			super('console', 190, 161);
+			super(reg, true, 190, 161);
 
 			Console.getInstance().addEventListener(ConsoleEvent.OUTPUT, _onMessage);
 			Console.getInstance().addEventListener(VlcEvent.STATE, _onVlcState);
@@ -100,8 +100,10 @@ package ui.window {
 			DragManager.setDraggable(this);
 			
 			// get the start-up motd
-			Command.help();
-			Command.help('plugins');
+			Console.executeCommand('help');
+			Console.executeCommand('help plugins');
+			// Console.executeCommand('help version');
+			Console.executeCommand('help modules');
 			
 			// try default connection to VLC
 			Console.getInstance().vlc.connect('localhost', Number(4212));
@@ -220,7 +222,8 @@ package ui.window {
 			
 			if(Console.getInstance().remote) {
 				
-				title = 'TELNET';
+				// TBD: there should be a telnet module
+				// title = 'TELNET';
 				
 				_border.beginFill(0xf0e68c);
 				_border.drawRoundRectComplex(-1,-1,this.width + 3, this.height + 3, 4, 4, 4, 4);
@@ -228,7 +231,7 @@ package ui.window {
 			
 			} else {
 				
-				title = 'CONSOLE';
+				// title = 'CONSOLE';
 				
 				_border.clear();
 			

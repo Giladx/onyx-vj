@@ -49,11 +49,26 @@ package ui.window {
 	import ui.layer.*;
 	import ui.styles.*;
 	import ui.text.*;
+	import flash.utils.Dictionary;
+	import onyx.utils.GCTester;
 
 	/**
 	 * 	File Explorer
 	 */
 	public final class Browser extends Window {
+		
+		/**
+		 * 	@private
+		 * 	An array of targets you can drag filters to
+		 */
+		private static const targets:Dictionary			= new Dictionary(true);
+
+		/**
+		 * 	Registers a UIObject to be a target of a Browser drag
+		 */
+		public static function registerTarget(obj:UIObject, enable:Boolean):void {
+			(enable) ? targets[obj] = obj : delete targets[obj];
+		}
 
 		/** @private **/
 		private static const FILES_PER_ROW:int			= 6;
@@ -104,9 +119,9 @@ package ui.window {
 		/**
 		 * 	@constructor
 		 */
-		public function Browser():void {
+		public function Browser(reg:WindowRegistration):void {
 			
-			super('loading ... ', 396, 240);
+			super(reg, true, 396, 240);
 			
 			var options:UIOptions		= new UIOptions();
 			options.width				= 90;
@@ -218,7 +233,7 @@ package ui.window {
 				
 				_path = list.path;
 				
-				title = 'file browser: [' + list.path + ']';
+//				title = 'file browser: [' + list.path + ']';
 	
 				// kill all previous objects here
 				_clearChildren();
@@ -275,15 +290,21 @@ package ui.window {
 		 */
 		private function _doubleClick(event:MouseEvent):void {
 			var control:FileControl = event.target as FileControl;
-
-			// try to preserve settings
-			if (event.ctrlKey && UILayer.selectedLayer.layer.path) {
-				var settings:LayerSettings = new LayerSettings();
-				settings.load(UILayer.selectedLayer.layer);
-			}
 			
-			// load
-			_loadFile(UILayer.selectedLayer, control.path, settings);
+			var target:ILayerDrop		= UIObject.selection as ILayerDrop;
+			
+			if (target) {
+
+				// try to preserve settings
+				if (event.ctrlKey && target.layer.path) {
+					
+					var settings:LayerSettings	= new LayerSettings();
+					settings.load(target.layer);
+				}
+				
+				// load
+				_loadFile(target, control.path, settings);
+			}
 		}
 		
 		/**
@@ -293,7 +314,7 @@ package ui.window {
 		private function _mouseDown(event:MouseEvent):void {
 			
 			var control:FileControl = event.currentTarget as FileControl;
-			DragManager.startDrag(control, UILayer.layers, _onDragOver, _onDragOut, _onDragDrop);
+			DragManager.startDrag(control, targets, _onDragOver, _onDragOut, _onDragDrop);
 			
 		}
 		
@@ -322,7 +343,7 @@ package ui.window {
 		 */
 		private function _onDragOut(event:DragEvent):void {
 			var obj:UIObject = event.currentTarget as UIObject;
-			obj.transform.colorTransform = (obj === UILayer.selectedLayer) ? LAYER_HIGHLIGHT : DEFAULT;
+			obj.transform.colorTransform = (obj === UIObject.selection) ? LAYER_HIGHLIGHT : DEFAULT;
 		}
 		
 		/**
@@ -330,7 +351,7 @@ package ui.window {
 		 *  Drag functions
 		 */
 		private function _onDragDrop(event:DragEvent):void {
-			var uilayer:UILayer = event.currentTarget as UILayer
+			var uilayer:ILayerDrop = event.currentTarget as ILayerDrop;
 			var origin:FileControl = event.origin as FileControl;
 			
 			uilayer.transform.colorTransform = DEFAULT;
@@ -347,10 +368,10 @@ package ui.window {
 		 * 	@private
 		 * 	Load
 		 */
-		private function _loadFile(layer:UILayer, path:String, settings:LayerSettings):void {
+		private function _loadFile(layer:ILayerDrop, path:String, settings:LayerSettings):void {
 			
 			layer.load(path, settings);
-			UILayer.selectLayer(layer);
+			UIObject.select(layer as UIObject);
 		}
 	}
 }

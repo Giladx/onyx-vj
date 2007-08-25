@@ -28,80 +28,91 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package ui.window {
+package ui.controls.sequence {
 	
-	import flash.display.DisplayObject;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.system.System;
-	import flash.utils.*;
+	import onyx.display.*;
+	import onyx.plugin.Filter;
 	
-	import onyx.constants.*;
-	import onyx.utils.GraphPlotter;
-	
-	import ui.core.DragManager;
+	import ui.assets.*;
+	import ui.core.*;
 	import ui.text.TextField;
-	
-	/**
-	 * 	Memory Window
-	 */
-	public final class MemoryWindow extends Window {
+	import ui.window.Browser;
 
-		/**
-		 * 	@private
-		 */
-		private var _memory:GraphPlotter	= new GraphPlotter(System.totalMemory / 1024);
+	/**
+	 * 
+	 */
+	public final class SequenceTrack extends UIObject implements ILayerDrop, IFilterDrop, ISelectable {
 		
 		/**
 		 * 	@private
 		 */
-		private var _fps:GraphPlotter		= new GraphPlotter(0, 0xFFFFFF, 50);
-		
-		/**
-		 * 	@private
-		 */
-		private var _last:int				= getTimer();
+		private var _layer:Layer;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function MemoryWindow():void {
+		public function SequenceTrack(layer:Layer):void {
 			
-			super('MEMORY', 200,200);
-
-			_memory.y	= 12;
-			_fps.y		= 12;
+			_layer = layer;
 			
-			addChild(_fps);
-			addChild(_memory);
+			var text:TextField	= new TextField(50,12);
+			text.x				= 4;
+			text.y				= 12;
+			text.text			= 'TRACK ' + (_layer.index + 1);
 			
-			DragManager.setDraggable(this);
+			// add display
+			addChild(new AssetSequenceTrack());
+			addChild(text);
 			
-			// start listening
-			addEventListener(Event.ENTER_FRAME, _onFrame);
+			// register it as a drop target
+			Browser.registerTarget(this, true);
 		}
 		
 		/**
-		 * 	@private
+		 * 
 		 */
-		private function _onFrame(event:Event):void {
-			_fps.register((1000 / (getTimer() - _last)));
-
-			_memory.register(System.totalMemory / 1024);
-			_last = getTimer();
+		public function set selected(value:Boolean):void {
+			
 		}
 		
 		/**
-		 * 	Dispose
+		 * 
+		 */
+		public function get layer():ILayer {
+			return _layer;
+		}
+		
+		/**
+		 * 
+		 */
+		public function load(path:String, settings:LayerSettings = null):void {
+			
+		}
+		
+		/**
+		 * 
+		 */
+		public function addFilter(filter:Filter):void {
+			
+		}
+		
+		/**
+		 * 	Returns the index of the track
+		 */
+		public function get index():int {
+			return _layer.index;
+		}
+		
+		/**
+		 * 
 		 */
 		override public function dispose():void {
 			
-			removeEventListener(Event.ENTER_FRAME, _onFrame);
-
+			// register it as a drop target
+			Browser.registerTarget(this, false);
+			
 			super.dispose();
-
-			_memory = null,
-			_fps	= null;
 		}
+		
 	}
 }

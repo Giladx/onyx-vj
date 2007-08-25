@@ -28,38 +28,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package ui.window {
+package ui.core {
 	
-	import flash.display.Bitmap;
+	import onyx.display.*;
 	
-	import onyx.constants.*;
-	import onyx.core.Onyx;
-	import onyx.display.Display;
-	
-	import ui.layer.UIDisplay;
-
 	/**
-	 * 	Display Window
+	 * 	Interface for determining whether a UIObject takes a file drop
 	 */
-	public final class DisplayWindow extends Window {
+	public interface ILayerDrop extends IDisplayObject {
 		
 		/**
-		 * 	@private
-		 * 	The display controls
+		 * 	Returns the associated layer
 		 */
-		private var _display:UIDisplay;
+		function get layer():ILayer;
 		
 		/**
-		 * 	@constructor
+		 * 	Loads a layer into the select area
 		 */
-		public function DisplayWindow(reg:WindowRegistration):void {
-			
-			super(reg, false, 286, BITMAP_HEIGHT);
-
-			// set our display
-			_display	= new UIDisplay(Display.getDisplay(0));
-
-			addChild(_display);
-		}
+		function load(path:String, settings:LayerSettings = null):void;
+		
+		/**
+		 * 	The index of the related layer
+		 */
+		function get index():int;
+		
 	}
 }

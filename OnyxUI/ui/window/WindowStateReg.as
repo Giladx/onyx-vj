@@ -30,36 +30,43 @@
  */
 package ui.window {
 	
-	import flash.display.Bitmap;
+	import onyx.constants.ROOT;
 	
-	import onyx.constants.*;
-	import onyx.core.Onyx;
-	import onyx.display.Display;
-	
-	import ui.layer.UIDisplay;
-
 	/**
-	 * 	Display Window
+	 * 
 	 */
-	public final class DisplayWindow extends Window {
+	public final class WindowStateReg {
 		
 		/**
-		 * 	@private
-		 * 	The display controls
+		 * 	The name of the window to affect
 		 */
-		private var _display:UIDisplay;
+		public var name:String;
+		
+		/**
+		 * 	The x location of the window
+		 */
+		public var x:int;
+		
+		/**
+		 * 	The y location of the window
+		 */
+		public var y:int;
+		
+		/**
+		 * 	Whether the window shows up when the state is loaded
+		 */
+		public var enabled:Boolean;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function DisplayWindow(reg:WindowRegistration):void {
+		public function WindowStateReg(name:String, x:int, y:int, enabled:Boolean = true):void {
+
+			this.name		= name,
+			this.x			= x,
+			this.y			= y,
+			this.enabled	= enabled;
 			
-			super(reg, false, 286, BITMAP_HEIGHT);
-
-			// set our display
-			_display	= new UIDisplay(Display.getDisplay(0));
-
-			addChild(_display);
 		}
 	}
 }

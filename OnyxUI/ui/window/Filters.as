@@ -32,11 +32,11 @@ package ui.window {
 	
 	import flash.display.DisplayObject;
 	import flash.events.MouseEvent;
+	import flash.utils.Dictionary;
 	
-	import onyx.core.Onyx;
 	import onyx.core.Plugin;
-	import onyx.events.FilterEvent;
 	import onyx.plugin.Filter;
+	import onyx.utils.*;
 	
 	import ui.controls.ScrollPane;
 	import ui.controls.filter.LibraryFilter;
@@ -55,13 +55,14 @@ package ui.window {
 		 * 	@private
 		 * 	An array of targets you can drag filters to
 		 */
-		private static const targets:Array		= [];
+		private static const targets:Dictionary	= new Dictionary(true);
 
 		/**
 		 * 	
 		 */
-		public static function registerTarget(obj:UIObject):void {
-			targets.push(obj);
+		public static function registerTarget(obj:UIObject, enable:Boolean):void {
+			(enable) ? targets[obj] = obj : delete targets[obj];
+			var test:GCTester = new GCTester(obj);
 		}
 		
 		/**
@@ -77,10 +78,10 @@ package ui.window {
 		/**
 		 * 	@constructor
 		 */
-		public function Filters():void {
+		public function Filters(reg:WindowRegistration):void {
 			
 			// set title, etc
-			super('FILTERS', 192, 240);
+			super(reg, true, 192, 240);
 			
 			// add panes
 			addChild(_normalPane);
@@ -115,10 +116,10 @@ package ui.window {
 				// create library ui item
 				var lib:LibraryFilter = new LibraryFilter(plugin);
 				
-				if (plugin.getData('bitmap')) {
-					_bitmapPane.addChild(lib);
-				} else {
+				if (plugin.getData('effect')) {
 					_normalPane.addChild(lib);
+				} else {
+					_bitmapPane.addChild(lib);
 				}
 				
 				// set it to listen for double clicks
@@ -153,13 +154,16 @@ package ui.window {
 			
 			var control:LibraryFilter	= event.target as LibraryFilter;
 			var plugin:Plugin			= control.filter;
+			var target:IFilterDrop		= UIObject.selection as IFilterDrop;
 			
-			if (event.ctrlKey) {
-				_applyToAll(plugin);
-			} else {
-				UILayer.selectedLayer.addFilter(plugin.getDefinition() as Filter);
+			if (target) {
+				if (event.ctrlKey) {
+					_applyToAll(plugin);
+				} else {
+					target.addFilter(plugin.getDefinition() as Filter);
+				}
 			}
-			
+				
 		}
 		
 		/**

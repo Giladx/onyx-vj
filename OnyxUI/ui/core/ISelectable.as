@@ -28,38 +28,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package ui.window {
+package ui.core {
 	
-	import flash.display.Bitmap;
-	
-	import onyx.constants.*;
-	import onyx.core.Onyx;
-	import onyx.display.Display;
-	
-	import ui.layer.UIDisplay;
-
-	/**
-	 * 	Display Window
-	 */
-	public final class DisplayWindow extends Window {
+	public interface ISelectable {
 		
-		/**
-		 * 	@private
-		 * 	The display controls
-		 */
-		private var _display:UIDisplay;
+		function set selected(value:Boolean):void;
 		
-		/**
-		 * 	@constructor
-		 */
-		public function DisplayWindow(reg:WindowRegistration):void {
-			
-			super(reg, false, 286, BITMAP_HEIGHT);
-
-			// set our display
-			_display	= new UIDisplay(Display.getDisplay(0));
-
-			addChild(_display);
-		}
 	}
 }

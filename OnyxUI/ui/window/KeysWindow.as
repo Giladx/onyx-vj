@@ -70,10 +70,10 @@ package ui.window {
 		/**
 		 * 	@Constructor
 		 */
-		public function KeysWindow():void {
+		public function KeysWindow(reg:WindowRegistration):void {
 
 			// position and create			
-			super('KEY MAPPING', 192, 200);
+			super(reg, true, 192, 200);
 			
 			// set draggable
 			DragManager.setDraggable(this);

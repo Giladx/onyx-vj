@@ -114,11 +114,11 @@ package ui.window {
 		/**
 		 * 	@constructor
 		 */
-		public function SettingsWindow():void {
+		public function SettingsWindow(reg:WindowRegistration):void {
 			
 			var control:Control;
 
-			super('SETTINGS', 202, 161);
+			super(reg, true, 202, 161);
 			
 			// create transition controls
 			_controls = new Controls(this,

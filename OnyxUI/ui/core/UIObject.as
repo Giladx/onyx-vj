@@ -41,6 +41,7 @@ package ui.core {
 	import ui.assets.AssetBitmap;
 	import ui.styles.*;
 	import ui.text.*;
+	import ui.layer.UILayer;
 
 	/**
 	 * 	Base UIObject Class
@@ -48,12 +49,17 @@ package ui.core {
 	public class UIObject extends Sprite {
 		
 		/**
+		 * 	The overall selection for the app
+		 */
+		public static var selection:UIObject;
+		
+		/**
 		 * 	@private
 		 * 	When mouse is clicked
 		 */
 		private static function _mouseDown(event:MouseEvent):void {
 			
-			var dispatcher:EventDispatcher = event.currentTarget as EventDispatcher;
+			var dispatcher:IEventDispatcher = event.currentTarget as IEventDispatcher;
 			
 			if (_doubleObject === dispatcher) {
 				if (getTimer() - _doubleTime < 300) {
@@ -73,9 +79,27 @@ package ui.core {
 		}
 		
 		/**
+		 * 
+		 */
+		public static function select(layer:UIObject):void {
+			
+			if (selection) {
+				selection.transform.colorTransform = DEFAULT;
+			}
+			
+			if (layer) {
+				// highlight
+				layer.transform.colorTransform = LAYER_HIGHLIGHT;
+			}
+			
+			// select layer
+			selection = layer;
+		}
+		
+		/**
 		 * 	@private
 		 */
-		private static var _doubleObject:EventDispatcher;
+		private static var _doubleObject:IEventDispatcher;
 		
 		/**
 		 * 	@private
@@ -85,7 +109,7 @@ package ui.core {
 		/**
 		 * 	@constructor
 		 */
-		public function UIObject(movesToTop:Boolean = false):void {
+		final public function UIObject(movesToTop:Boolean = false):void {
 
 			if (movesToTop) {
 				addEventListener(MouseEvent.MOUSE_DOWN, moveToTop, false, 0, true);
@@ -97,7 +121,7 @@ package ui.core {
 		/**
 		 * 	Sets doubleClickEnabled
 		 */
-		public override function set doubleClickEnabled(s:Boolean):void {
+		final public override function set doubleClickEnabled(s:Boolean):void {
 			if (s) {
 				addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown, true, 0, true);
 			} else {
@@ -108,7 +132,7 @@ package ui.core {
 		/**
 		 * 	Removes all children
 		 */
-		public function clearChildren():void {
+		final public function clearChildren():void {
 			
 			var numChildren:int = numChildren;
 			for (var count:int = 0; count < numChildren; count++) {
@@ -124,7 +148,7 @@ package ui.core {
 		/**
 		 * 	Moves to the top
 		 */
-		public function moveToTop(event:MouseEvent = null):void {
+		final public function moveToTop(event:MouseEvent = null):void {
 			
 			parent.setChildIndex(this, parent.numChildren - 1);
 			
@@ -133,14 +157,14 @@ package ui.core {
 		/**
 		 * 	Creates a background
 		 */
-		protected function displayBackground(width:int, height:int):void {
+		final protected function displayBackground(width:int, height:int):void {
 			addChildAt(new AssetBitmap(width, height), 0);
 		}
 		
 		/**
 		 * 	Adds Children
 		 */
-		public function addChildren(... args:Array):void {
+		final public function addChildren(... args:Array):void {
 			
 			var len:int = args.length;
 			for (var count:int = 0; count < len; count+=3) {
@@ -171,7 +195,7 @@ package ui.core {
 		/**
 		 * 	Adds a label to the control
 		 */
-		protected function addLabel(name:String, width:int, height:int, offsetY:int = -8, offsetX:int = 0):void {
+		final protected function addLabel(name:String, width:int, height:int, offsetY:int = -8, offsetX:int = 0):void {
 			
 			var label:TextFieldCenter	= new TextFieldCenter(width + 3, height, offsetX, offsetY);
 			label.textColor				= TEXT_LABEL;

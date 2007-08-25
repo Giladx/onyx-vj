@@ -31,10 +31,10 @@
 package ui.core {
 	
 	import flash.display.*;
-	import flash.events.EventDispatcher;
+	import flash.events.*;
 	
 	import onyx.constants.*;
-	import onyx.core.Onyx;
+	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.file.*;
@@ -42,11 +42,11 @@ package ui.core {
 	import onyx.states.StateManager;
 	
 	import ui.assets.*;
-	import ui.layer.UILayer;
 	import ui.settings.*;
 	import ui.states.*;
 	import ui.window.*;
-	import flash.events.Event;
+	
+	use namespace onyx_ns;
 
 	/**
 	 * 	Class that handles top-level management of all ui objects
@@ -94,6 +94,35 @@ package ui.core {
 		/**
 		 * 
 		 */
+		public static function registerModuleWindows():void {
+			
+			// get the default state
+			var windows:Array = WindowState.getState('DEFAULT').windows;
+			
+			for each (var module:Module in Onyx.modules) {
+				
+				// if it has a ui definition
+				if (module.uiOptions) {
+					
+					var options:InterfaceOptions	= module.uiOptions;
+					var name:String					= module.name;
+					
+					// register a new window registration
+					WindowRegistration.register(
+						new WindowRegistration(name, ModuleWindow)
+					);
+					
+					// add it to the default state
+					windows.push(
+						new WindowStateReg(name, options.x, options.y, false)
+					);
+				}
+			}
+		}
+		
+		/**
+		 * 	@private
+		 */
 		private static function _onInitializeStart(event:ApplicationEvent):void {
 			
 			// create the loading window
@@ -130,6 +159,9 @@ package ui.core {
 		private static function _onSettingsComplete(event:Event):void {
 			var state:SettingsLoadState = event.currentTarget as SettingsLoadState;
 			state.removeEventListener(Event.COMPLETE, _onSettingsComplete);
+			
+			// set the startup state value from the settings startup value;
+			displayState.startupWindowState = state.startupWindowState;
 			
 			StateManager.removeState(displayState);
 			displayState = null;

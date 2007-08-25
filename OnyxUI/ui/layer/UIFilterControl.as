@@ -115,7 +115,7 @@ package ui.layer {
 			selectPage(0);
 			
 			// register this as a drop target for filters
-			Filters.registerTarget(this);
+			Filters.registerTarget(this, true);
 		}
 		
 		/**
@@ -253,6 +253,11 @@ package ui.layer {
 		 * 	Disposes content
 		 */
 		override public function dispose():void {
+			
+			// tell the filters that we are unregistering
+			// Filters.registerTarget(this, false);
+			
+			// dispose
 			super.dispose();
 		}
 	}

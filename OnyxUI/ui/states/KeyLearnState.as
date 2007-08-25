@@ -64,6 +64,8 @@ package ui.states {
 			// store definitions
 			_definition = definition;
 			_state	= listener;
+			
+			super(KeyLearnState);
 		}
 		
 		/**

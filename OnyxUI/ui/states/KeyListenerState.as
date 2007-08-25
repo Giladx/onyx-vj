@@ -30,17 +30,14 @@
  */
 package ui.states {
 	
-	import flash.display.Stage;
 	import flash.events.KeyboardEvent;
-	import flash.ui.Keyboard;
 	import flash.utils.*;
 	
 	import onyx.constants.ROOT;
 	import onyx.plugin.*;
 	import onyx.states.ApplicationState;
 	
-	import ui.core.KeyDefinition;
-	import ui.core.UIManager;
+	import ui.core.*;
 	import ui.layer.UILayer;
 	
 	// TBD, this should be a hash map to the key codes
@@ -132,6 +129,12 @@ package ui.states {
 			public var ACTION_MACRO_11:Macro;
 			public var ACTION_MACRO_12:Macro;
 		 */
+		/**
+		 * 
+		 */
+		public function KeyListenerState():void {
+			super(KeyListenerState);
+		}
 		
 		/**
 		 * 	Initialize
@@ -163,65 +166,67 @@ package ui.states {
 		 */
 		private function _onKeyPress(event:KeyboardEvent):void {
 			
-			var layer:UILayer;
-			
-			switch (event.keyCode) {
-				case SELECT_LAYER_PREV:
-					layer = UILayer.layers[UILayer.selectedLayer.index - 1];
-					if (layer) {
-						UILayer.selectLayer(layer);
-					}
-					
-					break;
-				case SELECT_LAYER_NEXT:
-					layer = UILayer.layers[UILayer.selectedLayer.index + 1];
-					if (layer) {
-						UILayer.selectLayer(layer);
-					}
-
-					break;
-				case SELECT_FILTER_UP:
-					UILayer.selectedLayer.selectFilterUp(true);
-					break;
-				case SELECT_FILTER_DOWN:
-					UILayer.selectedLayer.selectFilterUp(false);
-					break;
-				case SELECT_LAYER_0:
-					UILayer.selectLayer(UILayer.layers[0]);
-					break;
-				case SELECT_LAYER_1:
-					UILayer.selectLayer(UILayer.layers[1]);
-					break;
-				case SELECT_LAYER_2:
-					UILayer.selectLayer(UILayer.layers[2]);
-					break;
-				case SELECT_LAYER_3:
-					UILayer.selectLayer(UILayer.layers[3]);
-					break;
-				case SELECT_LAYER_4:
-					UILayer.selectLayer(UILayer.layers[4]);
-					break;
-				case SELECT_PAGE_0:
+			if (UIObject.selection is UILayer) {
 				
-					UILayer.selectedLayer.selectPage(0);
-					
-					break;
-				case SELECT_PAGE_1:
+				var layer:UILayer = UIObject.selection as UILayer;
 				
-					UILayer.selectedLayer.selectPage(1);
+				switch (event.keyCode) {
+					case SELECT_LAYER_PREV:
+						layer = UILayer.layers[layer.index - 1];
+						if (layer) {
+							UIObject.select(layer);
+						}
+						
+						break;
+					case SELECT_LAYER_NEXT:
+						layer = UILayer.layers[layer.index + 1];
+						if (layer) {
+							UIObject.select(layer);
+						}
+	
+						break;
+					case SELECT_FILTER_UP:
+						layer.selectFilterUp(true);
+						break;
+					case SELECT_FILTER_DOWN:
+						layer.selectFilterUp(false);
+						break;
+					case SELECT_LAYER_0:
+						UIObject.select(UILayer.layers[0]);
+						break;
+					case SELECT_LAYER_1:
+						UIObject.select(UILayer.layers[1]);
+						break;
+					case SELECT_LAYER_2:
+						UIObject.select(UILayer.layers[2]);
+						break;
+					case SELECT_LAYER_3:
+						UIObject.select(UILayer.layers[3]);
+						break;
+					case SELECT_LAYER_4:
+						UIObject.select(UILayer.layers[4]);
+						break;
+					case SELECT_PAGE_0:
 					
-					break;
-				case SELECT_PAGE_2:
-				
-					UILayer.selectedLayer.selectPage(2);
+						layer.selectPage(0);
+						
+						break;
+					case SELECT_PAGE_1:
 					
-					break;
+						layer.selectPage(1);
+						
+						break;
+					case SELECT_PAGE_2:
 					
-				default:
-					// trace(event.keyCode);
-					// break;
+						layer.selectPage(2);
+						
+						break;
+						
+					default:
+						// trace(event.keyCode);
+						// break;
+				}
 			}
 		}
-
 	}
 }

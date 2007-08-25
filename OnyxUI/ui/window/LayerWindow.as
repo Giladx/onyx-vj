@@ -48,10 +48,10 @@ package ui.window {
 		/**
 		 * 	@constructor
 		 */
-		public function LayerWindow():void {
+		public function LayerWindow(reg:WindowRegistration):void {
 			
 			// position and create window
-			super(null, 0, 0);
+			super(reg, true, 0, 0);
 
 			// listen and create layer controls
 			var display:IDisplay = Display.getDisplay(0);

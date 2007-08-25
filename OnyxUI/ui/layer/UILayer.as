@@ -60,7 +60,7 @@ package ui.layer {
 	/**
 	 * 	Controls layers
 	 */	
-	public class UILayer extends UIFilterControl implements IFilterDrop {
+	public class UILayer extends UIFilterControl implements IFilterDrop, ILayerDrop {
 		
 		/**
 		 * 	@private
@@ -97,28 +97,6 @@ package ui.layer {
 		 * 	The text drop shadow
 		 */
 		private static const TEXT_DROP:Array			= [new DropShadowFilter(1, 45,0x000000, 1, 0, 0, 1)];
-
-
-		/**
-		 * 	Selects a layer
-		 */
-		public static function selectLayer(uilayer:UILayer):void {
-			
-			if (selectedLayer) {
-				selectedLayer.transform.colorTransform = DEFAULT;
-			}
-			
-			// highlight
-			uilayer.transform.colorTransform = LAYER_HIGHLIGHT;
-			
-			// select layer
-			selectedLayer = uilayer;
-		}
-		
-		/**
-		 *	The currently selected layer 
-		 */
-		public static var selectedLayer:UILayer;
 
 		/********************************************************
 		 * 
@@ -178,6 +156,9 @@ package ui.layer {
 		 **/
 		public function UILayer(layer:ILayer):void {
 			
+			// register for file drops
+			Browser.registerTarget(this, true);
+			
 			// this is the mask for the registration point
 			var graphics:Graphics = _mask.graphics;
 			graphics.beginFill(0x000000);
@@ -222,8 +203,8 @@ package ui.layer {
 			_assignHandlers(true);
 
 			// if there is no selected layer, select current layer
-			if (!selectedLayer) {
-				selectLayer(this);
+			if (!UIObject.selection) {
+				UIObject.select(this);
 			}
 			
 			// if there's already a file in there, set it to update
@@ -410,7 +391,7 @@ package ui.layer {
 			
 			// see if we're passing a transition
 			if (UIManager.transition) {
-				var transition:Transition = UIManager.transition.clone();
+				var transition:Transition = UIManager.transition.clone() as Transition;
 			}
 			
 			_layer.load(path, settings, transition);
@@ -542,7 +523,8 @@ package ui.layer {
 		 * 	Handler for the mousedown select
 		 */
 		private function _mouseDown(event:MouseEvent):void {
-			selectLayer(this);
+			
+			UIObject.select(this);
 			
 			// check to see if we clicked on the top portion, if so, we're going to allow
 			// dragging to move a layer
@@ -625,6 +607,10 @@ package ui.layer {
 		 * 	Dispose
 		 */
 		override public function dispose():void {
+			
+			// register for file drops
+			Browser.registerTarget(this, false);
+			
 			// remove listeners
 			_assignHandlers(false);
 
@@ -637,8 +623,8 @@ package ui.layer {
 			// remove references
 			_layer = null;
 			
-			if (selectedLayer === this) {
-				selectLayer(null);
+			if (UIObject.selection === this) {
+				UIObject.select(null);
 			}
 		}
 	}

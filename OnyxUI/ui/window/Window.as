@@ -39,6 +39,7 @@ package ui.window {
 	import ui.assets.AssetWindow;
 	import ui.core.UIObject;
 	import ui.text.*;
+	import onyx.tween.easing.Back;
 	
 	/**
 	 * 	Window
@@ -48,52 +49,42 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
-		private var _title:TextField			= new TextField(80, 16);
+		private var _title:TextField;
 		
 		/**
 		 * 	@private
 		 */
-		private var _background:AssetWindow		= new AssetWindow();
+		private var _background:AssetWindow;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function Window(text:String, width:int, height:int):void {
+		public function Window(reg:WindowRegistration, background:Boolean, width:int, height:int):void {
 			
-			if (text) {
+			// check for title
+			if (reg && reg.name) {
+				_title					= new TextField(width, 16);
 				
 				_title.autoSize			= TextFieldAutoSize.LEFT,
 				_title.x				= 2,
 				_title.y				= 1,
-				_title.text				= text;
+				_title.text				= reg.name;
 				
-				_background.width		= width,
-				_background.height		= height;
-				
-				addChildAt(_background, 0);
 				addChild(_title);
-				
 			}
 			
-			this.x = x,
-			this.y = y;
+			// check for background
+			if (background) {
+				_background = new AssetWindow();
+				
+				_background.width	= width,
+				_background.height	= height;
+	
+				addChildAt(_background, 0);
+			}
 			
 			super(true);	
 		}
-		
-		/**
-		 * 	Sets title
-		 */
-		public function set title(t:String):void {
-			_title.text = t;
-		}
 
-		/**
-		 * 	Returns title
-		 */
-		public function get title():String {
-			return _title.text;
-		}
-		
 	}
 }

@@ -41,19 +41,26 @@ package ui.window {
 	 */
 	public final class MacroWindow extends Window implements IControlObject {
 		
+		/**
+		 * 	@private
+		 */
 		private var _controls:Controls;
+
+		/**
+		 * 	@private
+		 */
 		private var _action1:Plugin;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function MacroWindow():void {
+		public function MacroWindow(reg:WindowRegistration):void {
 			
 			_controls = new Controls(this,
 				new ControlRange('action1', 'action1', Macro.macros, 0)
 			);
 			
-			super('MACROS', 192, 200);
+			super(reg, 192, 200);
 		}
 		
 		/**

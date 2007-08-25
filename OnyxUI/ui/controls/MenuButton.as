@@ -34,10 +34,9 @@ package ui.controls {
 	import flash.events.MouseEvent;
 	
 	import ui.assets.AssetBitmap;
-	import ui.core.UIObject;
 	import ui.styles.*;
 	import ui.text.*;
-	import ui.window.WindowRegistration;
+	import ui.window.*;
 	
 	/**
 	 * 	Text Button
@@ -78,8 +77,9 @@ package ui.controls {
 			addChildAt(background = new AssetBitmap(width, height), 0);
 			
 			// save registration and set enabled / disabled
-			this.reg		= reg,
+			this.reg		= reg;
 			this.enabled	= reg.enabled;
+			//this.enabled	= reg.enabled;
 			
 			// add listener
 			addEventListener(MouseEvent.MOUSE_DOWN, _onClick);
@@ -96,7 +96,7 @@ package ui.controls {
 		 * 	@private
 		 */
 		private function _onClick(event:MouseEvent):void {
-			this.enabled = reg.visible = !reg.visible;
+			this.enabled = reg.enabled = !reg.enabled;
 		}
 	}
 }

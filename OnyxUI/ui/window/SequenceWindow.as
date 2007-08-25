@@ -30,36 +30,62 @@
  */
 package ui.window {
 	
-	import flash.display.Bitmap;
+	import onyx.display.*;
+	import onyx.time.Sequence;
+	import ui.controls.sequence.SequenceTrack;
+	import ui.controls.ScrollPane;
 	
-	import onyx.constants.*;
-	import onyx.core.Onyx;
-	import onyx.display.Display;
-	
-	import ui.layer.UIDisplay;
-
 	/**
-	 * 	Display Window
+	 * 
 	 */
-	public final class DisplayWindow extends Window {
+	public final class SequenceWindow extends Window {
 		
 		/**
 		 * 	@private
-		 * 	The display controls
+		 * 	The related sequence
 		 */
-		private var _display:UIDisplay;
+		private var _sequence:Sequence;
 		
 		/**
-		 * 	@constructor
+		 * 	@private
+		 * 	The related display
 		 */
-		public function DisplayWindow(reg:WindowRegistration):void {
+		private var _display:Display;
+		
+		/**
+		 * 	@private
+		 */
+		private var _tracks:Array;
+		
+		/**
+		 * 
+		 */
+		public function SequenceWindow(reg:WindowRegistration):void {
 			
-			super(reg, false, 286, BITMAP_HEIGHT);
-
-			// set our display
-			_display	= new UIDisplay(Display.getDisplay(0));
-
-			addChild(_display);
+			_sequence	= new Sequence(_display = Display.getDisplay(0));
+			
+			// constructor
+			super(reg, 900, 300);
+			
+			// create initial tracks
+			drawTracks();
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function drawTracks():void {
+			
+			var len:int = _display.layers.length;
+			
+			// create a track for each layer
+			for each (var layer:Layer in _display.layers) {
+				var track:SequenceTrack = new SequenceTrack(layer);
+				track.x = 2;
+				track.y = layer.index * 36 + 12;
+				
+				addChild(track);
+			}
 		}
 	}
 }

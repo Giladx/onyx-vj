@@ -30,36 +30,85 @@
  */
 package ui.window {
 	
-	import flash.display.Bitmap;
+	import ui.core.*;
+	import flash.utils.Dictionary;
 	
-	import onyx.constants.*;
-	import onyx.core.Onyx;
-	import onyx.display.Display;
-	
-	import ui.layer.UIDisplay;
-
 	/**
-	 * 	Display Window
+	 * 	Stores states of windows
 	 */
-	public final class DisplayWindow extends Window {
+	public final class WindowState {
+
+		// auto-register the default window state
+		{	register(
+				new WindowState('DEFAULT', [
+					new WindowStateReg('FILE BROWSER',	6,		318),
+					new WindowStateReg('CONSOLE',		6,		561),
+					new WindowStateReg('FILTERS',		412,	318),
+					new WindowStateReg('LAYERS',		0,		0),
+					new WindowStateReg('DISPLAY',		659,	580),
+					new WindowStateReg('KEY MAPPING',	615,	319, 	false),
+					new WindowStateReg('SETTINGS',		200,	561),
+					new WindowStateReg('CROSSFADER',	411,	561)
+				])
+			)
+		}
 		
 		/**
 		 * 	@private
-		 * 	The display controls
 		 */
-		private var _display:UIDisplay;
+		public static const states:Array = [];
+		
+		/**
+		 * 	@private
+		 * 	Look-up for states by name
+		 */
+		private static const lookup:Object	= {};
+		
+		/**
+		 * 	@private
+		 * 	The current window state
+		 */
+		public static var currentState:WindowState;
+		
+		/**
+		 * 	Registers a window state
+		 */
+		public static function register(state:WindowState):void {
+			states.push(state);
+			lookup[state.name] = state;
+		}
+		
+		/**
+		 * 	Registers a state for use
+		 */
+		public static function load(state:WindowState):void {
+			currentState = state || lookup.DEFAULT;
+			WindowRegistration.initialize(currentState);
+		}
+		
+		/**
+		 * 	Returns a window state based upon name
+		 */
+		public static function getState(name:String):WindowState {
+			return lookup[name];
+		}
+		
+		/**
+		 * 	The states of the windows to arrange
+		 */
+		public var windows:Array;
+		
+		/**
+		 * 	Name of the state
+		 */
+		public var name:String;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function DisplayWindow(reg:WindowRegistration):void {
-			
-			super(reg, false, 286, BITMAP_HEIGHT);
-
-			// set our display
-			_display	= new UIDisplay(Display.getDisplay(0));
-
-			addChild(_display);
+		public function WindowState(name:String, windows:Array):void {
+			this.name		= name,
+			this.windows	= windows;
 		}
 	}
 }

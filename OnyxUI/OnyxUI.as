@@ -60,7 +60,7 @@ package {
 		}
 		
 		/**
-		 * 
+		 * 	@private
 		 */
 		private function _onAdded(event:Event):void {
 
@@ -77,7 +77,7 @@ package {
 			
 			// init
 			UIManager.initialize(
-				stage, 
+				stage,
 				new HTTPAdapter(stage.loaderInfo.parameters.initial_dir || ''),
 				new KeyListenerState()
 			);
@@ -85,7 +85,6 @@ package {
 			// hide items
 			var menu:ContextMenu = new ContextMenu();
 			menu.hideBuiltInItems();
-			menu.customItems	= [new ContextMenuItem('test')];
 			contextMenu	= menu;
 
 		}

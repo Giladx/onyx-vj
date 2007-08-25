@@ -28,38 +28,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package ui.window {
+package ui.assets {
 	
-	import flash.display.Bitmap;
-	
-	import onyx.constants.*;
-	import onyx.core.Onyx;
-	import onyx.display.Display;
-	
-	import ui.layer.UIDisplay;
+	import flash.display.*;
 
-	/**
-	 * 	Display Window
-	 */
-	public final class DisplayWindow extends Window {
-		
-		/**
-		 * 	@private
-		 * 	The display controls
-		 */
-		private var _display:UIDisplay;
-		
-		/**
-		 * 	@constructor
-		 */
-		public function DisplayWindow(reg:WindowRegistration):void {
-			
-			super(reg, false, 286, BITMAP_HEIGHT);
-
-			// set our display
-			_display	= new UIDisplay(Display.getDisplay(0));
-
-			addChild(_display);
-		}
+	[Embed(source='/ui/assets/img/sequence_track.png')]
+	public final class AssetSequenceTrack extends Bitmap {
 	}
 }

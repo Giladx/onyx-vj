@@ -37,25 +37,12 @@ package ui.window {
 	 * 	Displays a patch
 	 */
 	public final class PatchWindow extends Window {
-		
-		/**
-		 * 	@private
-		 */
-		private static var instance:PatchWindow;
-		
-		/**
-		 * 
-		 */
-		public static function display(origin:DisplayObject, obj:IControlObject):void {
-			instance.display(origin, obj);
-		}
-		
+
 		/**
 		 * 	@constructor
 		 */
-		public function PatchWindow():void {
-			super('PATCH', 396, 200);
-			instance = this;
+		public function PatchWindow(reg:WindowRegistration):void {
+			super(reg, 396, 200);
 		}
 		
 		/**

@@ -35,7 +35,7 @@ package ui.core {
 	/**
 	 * 	Interface that tells UI that a UIObject can drop a filter onto it
 	 */
-	public interface IFilterDrop {
+	public interface IFilterDrop extends IDisplayObject {
 		
 		function addFilter(filter:Filter):void;
 		

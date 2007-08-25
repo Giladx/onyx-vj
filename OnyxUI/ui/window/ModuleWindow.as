@@ -30,36 +30,48 @@
  */
 package ui.window {
 	
-	import flash.display.Bitmap;
+	import onyx.core.*;
+	import onyx.plugin.Module;
+	import ui.core.DragManager;
+	import flash.display.DisplayObject;
 	
-	import onyx.constants.*;
-	import onyx.core.Onyx;
-	import onyx.display.Display;
-	
-	import ui.layer.UIDisplay;
-
 	/**
-	 * 	Display Window
+	 * 
 	 */
-	public final class DisplayWindow extends Window {
-		
-		/**
-		 * 	@private
-		 * 	The display controls
-		 */
-		private var _display:UIDisplay;
+	public final class ModuleWindow extends Window {
 		
 		/**
 		 * 	@constructor
 		 */
-		public function DisplayWindow(reg:WindowRegistration):void {
+		public function ModuleWindow(reg:WindowRegistration):void {
 			
-			super(reg, false, 286, BITMAP_HEIGHT);
+			var module:Module				= Onyx.modules[reg.name];
+			var options:InterfaceOptions	= module.uiOptions;
+			
+			super(reg, true, options.width, options.height);
+			
+			// check if we need to make it draggable
+			if (options.draggable) {
+				DragManager.setDraggable(this, true);
+			}
 
-			// set our display
-			_display	= new UIDisplay(Display.getDisplay(0));
+			var ui:DisplayObject = new options.definition();
+			ui.x = 1;
+			ui.y = 12;
+			
+			addChild(ui);
+		}
 
-			addChild(_display);
+		/**
+		 * 
+		 */
+		override public function dispose():void {
+			
+			// remove drag listeners
+			DragManager.setDraggable(this, false);
+
+			// dispose
+			super.dispose();
 		}
 	}
 }

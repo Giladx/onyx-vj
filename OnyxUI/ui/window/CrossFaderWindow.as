@@ -96,7 +96,7 @@ package ui.window {
 		/**
 		 * 	@constructor
 		 */
-		public function CrossFaderWindow():void {
+		public function CrossFaderWindow(reg:WindowRegistration):void {
 			
 			// create a new dissolve transition
 			var transition:Transition = Transition.getDefinition('DISSOLVE').getDefinition() as Transition;
@@ -110,7 +110,7 @@ package ui.window {
 			options.label			= false;
 			
 			// create the window
-			super('CROSS FADER', 192, 53);
+			super(reg, true, 192, 53);
 			
 			_btn			= new ButtonClear(187, 20),
 			_fader			= new AssetCrossFader(),

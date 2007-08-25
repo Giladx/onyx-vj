@@ -41,12 +41,24 @@ package ui.states {
 
 	public final class FilterMoveState extends ApplicationState {
 		
+		/**
+		 * 	@private
+		 */
 		private var _origin:LayerFilter;
+
+		/**
+		 * 	@private
+		 */
 		private var _filters:Dictionary;
 		
+		/**
+		 * 	@constructor
+		 */
 		public function FilterMoveState(origin:LayerFilter, filters:Dictionary):void {
 			_origin = origin;
 			_filters = filters;
+			
+			super(FilterMoveState);
 		}
 		
 		override public function initialize():void {

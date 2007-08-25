@@ -28,38 +28,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package ui.window {
-	
-	import flash.display.Bitmap;
-	
-	import onyx.constants.*;
-	import onyx.core.Onyx;
-	import onyx.display.Display;
-	
-	import ui.layer.UIDisplay;
+package ui.core {
 
-	/**
-	 * 	Display Window
-	 */
-	public final class DisplayWindow extends Window {
+	import flash.geom.Transform;
+	
+	public interface IDisplayObject {
 		
-		/**
-		 * 	@private
-		 * 	The display controls
-		 */
-		private var _display:UIDisplay;
+		function get transform():Transform;
 		
-		/**
-		 * 	@constructor
-		 */
-		public function DisplayWindow(reg:WindowRegistration):void {
-			
-			super(reg, false, 286, BITMAP_HEIGHT);
-
-			// set our display
-			_display	= new UIDisplay(Display.getDisplay(0));
-
-			addChild(_display);
-		}
 	}
 }

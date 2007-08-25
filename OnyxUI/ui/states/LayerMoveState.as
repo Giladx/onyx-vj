@@ -55,6 +55,7 @@ package ui.states {
 		 */
 		public function LayerMoveState(origin:UILayer):void {
 			_origin = origin;
+			super(LayerMoveState);
 		}
 		
 		/**

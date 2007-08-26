@@ -37,6 +37,7 @@ package {
 	import flash.display.Sprite;
 	
 	import modules.*;
+	import modules.VLC.*;
 	
 	import onyx.core.*;
 	import onyx.plugin.*;
@@ -66,6 +67,7 @@ package {
 						'Scroll: Scrolls the bitmap\n' +
 						'Frame Delay: # of frames to skip'
 				),
+				new Plugin('VLC',					VLCModule,		'VLC'),
 				new Plugin('Debugger',				Debugger,		'Debugger'),
 				new Plugin('Scroll Render',			ScrollRender,	'Scroll Render'),
 				new Plugin('Tempo Blur',			TempoBlur,		'Tempo Blur'),

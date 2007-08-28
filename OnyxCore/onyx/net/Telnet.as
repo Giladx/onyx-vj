@@ -185,6 +185,14 @@ package onyx.net {
 		/**
 		 *  Get connection infos 
 		 **/
+		public function isConnected():Boolean {
+			if(_status == 'connected') {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		 
 		public function get serverURL():String {
         	return _serverURL;
         }

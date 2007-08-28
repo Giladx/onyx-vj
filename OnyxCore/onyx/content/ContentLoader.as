@@ -36,6 +36,8 @@ package onyx.content {
 	import flash.net.*;
 	import flash.utils.getQualifiedClassName;
 	
+	import flash.system.Security;
+	
 	import onyx.constants.*;
 	import onyx.core.*;
 	import onyx.display.*;
@@ -234,6 +236,28 @@ package onyx.content {
 							
 						}
 						break;
+						
+					default :
+						if(Console.getInstance().vlc.isConnected()) {
+							
+							var server:String = new String(Console.getInstance().vlc.serverURL);
+							var vlcPath:String = new String('http://' + server + ':8081/stream.flv');
+							
+							// ON TESTING
+							Console.getInstance().vlc.sendCommand('new ch1 broadcast input C:\\chasta.mpg output #transcode{vcodec=FLV1}:std{access=http,dst=' + vlcPath.split('//')[1] + '} enabled');
+							Console.getInstance().vlc.play('ch1');
+							
+							var vlcStream:Stream = new Stream(vlcPath);
+							//vlcStream.addEventListener(Event.COMPLETE,				_onStreamComplete);
+							//vlcStream.addEventListener(NetStatusEvent.NET_STATUS,	_onStreamComplete);
+							
+							_dispatchContent(ContentVLC, vlcStream, new Event(Event.COMPLETE));
+							
+						} else {
+							
+							Console.output('error: vlc not connected');
+							
+						}
 				}
 				
 			}

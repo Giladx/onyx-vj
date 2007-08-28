@@ -49,9 +49,30 @@ package onyx.net {
     	public function Vlc():void {
     		super();
         }
-       		
+       	
+       	/**
+        *  get VLC file length from the server
+        **/
+        public function getLength(ch:String):void {
+        	
+            sendCommand("show " + ch);
+            addEventListener(Event.COMPLETE, _getLength);
+        
+        }
+        
+        private function _getLength():void {
+        	
+        	data = String(this.data.split('length:')[1]).split('rate:')[0];
+        	
+        	removeEventListener(Event.COMPLETE, _getLength);
+        	
+        	dispatchEvent(new Event(Event.COMPLETE));
+        	
+        }
+        
+
         /**
-        *  show VLC telnet specific commands help.
+        *  VLC telnet specific commands help.
         **/   
         public function help():void {
             sendCommand("help");

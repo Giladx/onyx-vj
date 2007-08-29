@@ -30,6 +30,11 @@
 		<replaceregexp match=",\r\n" replace="," flags="gm">
 		    <fileset dir="${tempdir.ui}" includes="**/*.as"/>
 		</replaceregexp>
+		
+		<!-- REMOVE DEBUG METADATA -->
+		<replaceregexp match="//*.debug::start.*?//*.debug::end" replace="" flags="gmi">
+		    <fileset dir="${tempdir.core}" includes="**/*.as"/>
+		</replaceregexp>
 
 		<!-- BUILD -->
 		<exec executable="${compiler.mxmlc}" failonerror="true">

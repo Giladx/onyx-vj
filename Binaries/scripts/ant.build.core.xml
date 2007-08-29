@@ -34,7 +34,7 @@
 		<replaceregexp file="${tempdir.core}/constants/VERSION.as" match=" r0" replace=" r${revision.number}"/>
 
 		<!-- REMOVE DEBUG METADATA -->
-		<replaceregexp match="//*.debug::start.*?//*.debug::end" replace="" flags="gm">
+		<replaceregexp match="//*.debug::start.*?//*.debug::end" replace="" flags="gmi">
 		    <fileset dir="${tempdir.core}" includes="**/*.as"/>
 		</replaceregexp>
 		

@@ -170,7 +170,7 @@ package ui.controls {
 			var y:Number = _tempY - ((_mouseY - mouseY) / _factor);
 
 			if (event.shiftKey) {
-				x = y = (x + y) / 2;
+				x = y = (x + y) >> 1;
 			}
 			
 			_controlX.value = x / _multiplier;

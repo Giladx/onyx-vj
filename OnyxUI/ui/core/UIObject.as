@@ -162,6 +162,13 @@ package ui.core {
 		}
 		
 		/**
+		 * 
+		 */
+		final public function getBackground():DisplayObject {
+			return getChildAt(0) is AssetBitmap ? getChildAt(0) : null;
+		}
+		
+		/**
 		 * 	Adds Children
 		 */
 		final public function addChildren(... args:Array):void {

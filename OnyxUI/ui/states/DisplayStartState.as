@@ -170,12 +170,11 @@ package ui.states {
 			}
 			
 			// add a display, but only make it visible if the stagewidth is greater than > 1024
-			var display:Display = Onyx.createDisplay(STAGE.stageWidth - 640, 0, 640 / BITMAP_WIDTH, 480 / BITMAP_HEIGHT);
+			var display:IDisplay = Onyx.createDisplay(STAGE.stageWidth - 640, 0, 640 / BITMAP_WIDTH, 480 / BITMAP_HEIGHT);
 			display.createLayers(5);
 			display.visible = STAGE.stageWidth >= 1664;
 			
 			// add menu buttons to modules that have interface states
-			trace(1);
 			UIManager.registerModuleWindows();
 
 			// register the default state
@@ -191,7 +190,7 @@ package ui.states {
 			ROOT.addChild(window);
 			
 			// TBD -- midi should automatically listen to layer creations / deletions?
-			MIDI.registerLayers(display.layers);
+			// MIDI.registerLayers(display.layers);
 
 			// remove references
 			_states = null;

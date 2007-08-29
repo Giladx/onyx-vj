@@ -43,6 +43,7 @@ package ui.layer {
 	import ui.settings.*;
 	import ui.styles.*;
 	import ui.window.*;
+	import onyx.display.IDisplay;
 
 	/**
 	 * 	Display Control
@@ -52,7 +53,7 @@ package ui.layer {
 		/**
 		 * 	@private
 		 */
-		private var _display:Display;
+		private var _display:IDisplay;
 		
 		/**
 		 * 	@private
@@ -72,7 +73,7 @@ package ui.layer {
 		/**
 		 * 	@constructor
 		 */
-		public function UIDisplay(display:Display):void {
+		public function UIDisplay(display:IDisplay):void {
 			
 			_localControls = new Controls(this,
 				new ControlBoolean('preview', 'show prev', 1),
@@ -218,6 +219,16 @@ package ui.layer {
 		 */
 		public function get framerate():int {
 			return STAGE.frameRate;
+		}
+		
+		/**
+		 * 
+		 */
+		override public function dispose():void {
+			if (_preview) {
+				_preview.parent.removeChild(_preview);
+			}
+			super.dispose();
 		}
 	}
 }

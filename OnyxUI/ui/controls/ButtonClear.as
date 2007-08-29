@@ -95,7 +95,7 @@ final class DownState extends Shape {
 	
 	final public function DownState(width:int, height:int):void {
 
-		graphics.beginFill(BUTTON_DOWN, .2);
+		graphics.beginFill(BUTTON_DOWN, .1);
 		graphics.drawRect(0, 0, width, height);
 		graphics.endFill();
 		

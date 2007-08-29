@@ -177,8 +177,8 @@ package ui.window {
 		 */
 		private function _mouseDown(event:MouseEvent):void {
 			
-			var display:Display = Display.getDisplay(0);
-			var text:String		= display.toXML().normalize();
+			var display:IDisplay	= AVAILABLE_DISPLAYS[0];
+			var text:String			= display.toXML().normalize();
 			
 			var popup:TextControlPopUp = new TextControlPopUp(this, null, 200, 200, 'Copied to clipboard\n\n' + text);
 

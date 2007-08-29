@@ -72,8 +72,6 @@ package ui.states {
 		 */
 		private function _onControlSelect(event:MouseEvent):void {
 			
-			trace(event.currentTarget);
-			
 			var objects:Array		= STAGE.getObjectsUnderPoint(new Point(STAGE.mouseX, STAGE.mouseY));
 			
 			// look for UIControls

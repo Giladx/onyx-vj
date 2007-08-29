@@ -42,7 +42,7 @@ package ui.controls.layer
 			mouseEnabled = false;
 			
 			var sprite:DisplayObject = addChild(new AssetLayerMarker());
-			sprite.x -= sprite.width / 2;
+			sprite.x -= sprite.width >> 1;
 		}
 		
 	}

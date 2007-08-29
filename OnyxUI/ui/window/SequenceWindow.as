@@ -62,7 +62,7 @@ package ui.window {
 		 */
 		public function SequenceWindow(reg:WindowRegistration):void {
 			
-			_sequence	= new Sequence(_display = Display.getDisplay(0));
+			_sequence	= new Sequence(_display = AVAILABLE_DISPLAYS[0]);
 			
 			// constructor
 			super(reg, 900, 300);

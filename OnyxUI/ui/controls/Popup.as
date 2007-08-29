@@ -74,8 +74,8 @@ package ui.controls {
 			// add or remove from stage?
 			(add) ? STAGE.addChild(this) : STAGE.removeChild(this);
 			
-			x = STAGE.stageWidth / 2 - (this.width / 2);
-			y = STAGE.stageHeight / 2 - (this.height / 2);
+			x = STAGE.stageWidth >> 1 - (this.width >> 1);
+			y = STAGE.stageHeight >> 1 - (this.height >> 1);
 		}
 	}
 }

@@ -62,19 +62,19 @@ package ui.window {
 		public function Window(reg:WindowRegistration, background:Boolean, width:int, height:int):void {
 			
 			// check for title
-			if (reg && reg.name) {
-				_title					= new TextField(width, 16);
-				
-				_title.autoSize			= TextFieldAutoSize.LEFT,
-				_title.x				= 2,
-				_title.y				= 1,
-				_title.text				= reg.name;
-				
-				addChild(_title);
-			}
-			
-			// check for background
 			if (background) {
+				
+				if (reg && reg.name) {
+					_title					= new TextField(width, 16);
+					
+					_title.autoSize			= TextFieldAutoSize.LEFT,
+					_title.x				= 2,
+					_title.y				= 1,
+					_title.text				= reg.name;
+					
+					addChild(_title);
+				}
+			
 				_background = new AssetWindow();
 				
 				_background.width	= width,

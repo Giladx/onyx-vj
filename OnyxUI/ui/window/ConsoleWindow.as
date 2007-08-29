@@ -38,9 +38,6 @@ package ui.window {
 	import onyx.states.*;
 	import onyx.utils.*;
 	
-	import onyx.net.Telnet;
-	import onyx.net.Vlc;
-	
 	import ui.core.DragManager;
 	import ui.policy.*;
 	import ui.text.*;
@@ -81,13 +78,8 @@ package ui.window {
 			super(reg, true, 190, 161);
 
 			Console.getInstance().addEventListener(ConsoleEvent.OUTPUT, _onMessage);
-			Console.getInstance().addEventListener(VlcEvent.STATE, _onVlcState);
-			Console.getInstance().addEventListener(VlcEvent.DATA, _onVlcData);
 			
 			_draw();
-			
-			// add listeners
-			addEventListener(KeyboardEvent.KEY_DOWN, _onKeyDownGlobal);
 			
 			_input.addEventListener(FocusEvent.FOCUS_IN, _focusHandler);
 			_input.addEventListener(FocusEvent.FOCUS_OUT, _focusHandler);
@@ -101,12 +93,10 @@ package ui.window {
 			
 			// get the start-up motd
 			Console.executeCommand('help');
-			Console.executeCommand('help plugins');
+			// Console.executeCommand('help plugins');
 			// Console.executeCommand('help version');
 			Console.executeCommand('help modules');
 			
-			// try default connection to VLC
-			Console.getInstance().vlc.connect('localhost', Number(4212));
 		}
 			
 		/**
@@ -140,24 +130,6 @@ package ui.window {
 		
 		/**
 		 * 	@private
-		 * 	Handler when onyx console outputs a VLC message (khaki color)
-		 */
-		private function _onVlcState(event:VlcEvent):void {
-			
-			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="Pixel" SIZE="7" COLOR="#f0e68c" KERNING="0">' + event.message + '</font></textformat><br/>';
-			_text.scrollV = _text.maxScrollV;
-			
-		}
-		
-		private function _onVlcData(event:VlcEvent):void {
-			
-			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="Pixel" SIZE="7" COLOR="#f0e68c" KERNING="0">' + event.message + '</font></textformat><br/>';
-			_text.scrollV = _text.maxScrollV;
-			
-		}
-		
-		/**
-		 * 	@private
 		 * 	Draw
 		 */
 		private function _draw():void {
@@ -184,59 +156,15 @@ package ui.window {
 			
 		}
 		
-		/**
-		 * 	@private
-		 * 	Handler for when a key is pressed
-		 */
-		private function _onKeyDownGlobal(event:KeyboardEvent):void {
-			switch (event.keyCode) {
-				// switch permanently local/remote
-				case 84: if(event.ctrlKey && Console.getInstance().vlc.status == 'connected') {
-						toggleConsole();
-				}
-			}
-		}
-		
 		private function _onKeyDown(event:KeyboardEvent):void {
 			
 			switch (event.keyCode) {				
 				// execute
 				case 13:
-					if(!Console.getInstance().remote) { //is local console
-						executeCommand(_input.text);
-						_input.setSelection(0,_input.text.length);
-					} 
-					else {
-						Console.getInstance().vlc.sendCommand(_input.text);
-					}
+					executeCommand(_input.text);
+					_input.setSelection(0,_input.text.length);
 					break;
 			}
-		}
-		
-		/**
-		 * 	@private
-		 */
-		public function toggleConsole():void {
-			
-			Console.getInstance().remote = !Console.getInstance().remote;
-			
-			if(Console.getInstance().remote) {
-				
-				// TBD: there should be a telnet module
-				// title = 'TELNET';
-				
-				_border.beginFill(0xf0e68c);
-				_border.drawRoundRectComplex(-1,-1,this.width + 3, this.height + 3, 4, 4, 4, 4);
-				_border.endFill();
-			
-			} else {
-				
-				// title = 'CONSOLE';
-				
-				_border.clear();
-			
-			}
-			
 		}
 		
 		/**
@@ -262,8 +190,6 @@ package ui.window {
 					_text.text = '';
 				
 					break;
-				//case 'vlc':
-				//	toggleConsole();
 				default:
 					Console.executeCommand(command);
 					_input.text = '';

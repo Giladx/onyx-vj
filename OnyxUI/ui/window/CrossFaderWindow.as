@@ -118,7 +118,7 @@ package ui.window {
 			_controls		= new Controls(this, 
 				new ControlPlugin('transition', 'transition', ControlPlugin.TRANSITIONS, false)
 			),
-			_display		= Display.getDisplay(0);
+			_display		= AVAILABLE_DISPLAYS[0];
 
 			// add the control
 			_transitionDrop	= new DropDown(options, _controls.getControl('transition'));

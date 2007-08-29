@@ -50,8 +50,9 @@ package ui.text {
 			super.width				= width,
 			super.height			= height,
 			super.embedFonts		= true,
-			super.antiAliasType		= AntiAliasType.NORMAL;
+			super.antiAliasType		= AntiAliasType.NORMAL,
+			this.mouseEnabled		= false;
+			
 		}
-
 	}
 }

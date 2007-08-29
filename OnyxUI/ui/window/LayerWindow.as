@@ -30,15 +30,11 @@
  */
 package ui.window {
 	
-	import onyx.constants.ROOT;
-	import onyx.core.Onyx;
+	import onyx.constants.*;
 	import onyx.display.*;
 	import onyx.events.DisplayEvent;
-	import onyx.display.ILayer;
 	
-	import ui.controls.TextButton;
 	import ui.layer.UILayer;
-	import ui.styles.MENU_OPTIONS;
 	
 	/**
 	 * 	Layer Container - stores layer objects
@@ -51,10 +47,10 @@ package ui.window {
 		public function LayerWindow(reg:WindowRegistration):void {
 			
 			// position and create window
-			super(reg, true, 0, 0);
+			super(reg, false, 0, 0);
 
 			// listen and create layer controls
-			var display:IDisplay = Display.getDisplay(0);
+			var display:IDisplay = AVAILABLE_DISPLAYS[0];
 			display.addEventListener(DisplayEvent.LAYER_CREATED, _onLayerCreate);
 			
 			// create already created layers
@@ -83,7 +79,7 @@ package ui.window {
 		override public function dispose():void {
 
 			// listen and create layer controls
-			var display:IDisplay = Display.getDisplay(0);
+			var display:IDisplay = AVAILABLE_DISPLAYS[0];
 			display.removeEventListener(DisplayEvent.LAYER_CREATED, _onLayerCreate);
 			
 			super.dispose();

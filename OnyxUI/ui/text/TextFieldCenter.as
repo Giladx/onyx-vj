@@ -32,8 +32,6 @@ package ui.text {
 	
 	import flash.text.*;
 	
-	import onyx.utils.math.floor;
-	
 	import ui.styles.TEXT_DEFAULT;
 	
 	/**
@@ -80,7 +78,8 @@ package ui.text {
 			
 			// autocenter based on width / size of the textfield
 			// << 0 is for floor
-			super.x = (_width / 2) - (super.width / 2) << 0;
+			// >> 1 is division by 2
+			super.x = (_width >> 1) - (super.width >> 1);
 		}
 		
 		/**
@@ -90,7 +89,7 @@ package ui.text {
 			super.x = _x = x;
 
 			// autocenter based on width / size of the textfield
-			super.x = (_width / 2) - (super.width / 2);
+			super.x = (_width >> 1) - (super.width >> 1);
 		}
 	}
 }

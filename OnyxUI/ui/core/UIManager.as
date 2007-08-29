@@ -99,7 +99,7 @@ package ui.core {
 			// get the default state
 			var windows:Array = WindowState.getState('DEFAULT').windows;
 			
-			for each (var module:Module in Onyx.modules) {
+			for each (var module:Module in Module.modules) {
 				
 				// if it has a ui definition
 				if (module.uiOptions) {

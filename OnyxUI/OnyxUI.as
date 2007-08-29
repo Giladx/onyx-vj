@@ -47,7 +47,7 @@ package {
 	import ui.core.*;
 	import ui.states.*;
 	
-	[SWF(width="1024", height="740", backgroundColor="#141515", frameRate='30')]
+	[SWF(width="1024", height="740", backgroundColor="#141515", frameRate='26')]
 	public class OnyxUI extends Sprite {
 		
 		/**
@@ -63,6 +63,9 @@ package {
 		 * 	@private
 		 */
 		private function _onAdded(event:Event):void {
+			
+			// remove listener
+			removeEventListener(Event.ADDED_TO_STAGE, _onAdded);
 
 			var stage:Stage = this.stage;
 			

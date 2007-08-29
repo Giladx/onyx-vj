@@ -38,6 +38,9 @@ package ui.controls {
 	
 	import ui.styles.*;
 	import ui.text.TextField;
+	import onyx.controls.ControlBoolean;
+	import flash.display.DisplayObject;
+	import onyx.controls.ControlRange;
 	
 	/**
 	 * 	Checkbox
@@ -47,49 +50,72 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private var _value:Boolean;
+		private var _value:*;
 
 		/**
 		 * 	@private
 		 */
 		private var _label:TextField;
+		
+		/**
+		 * 	@private
+		 */
+		private var _button:ButtonClear;
 
 		/**
 		 * 	@constructor
 		 */
-		public function CheckBox(options:UIOptions, control:Control):void {
-
+		public function CheckBox(options:UIOptions, control:ControlRange):void {
+			
+			trace(control, options);
+			
 			super(options, control, true, control.display);
 			
-			_value = control.value;
+			trace(control);
+			trace(control.value);
 
-			_label			= new TextField(options.width + 3, options.height, TEXT_DEFAULT_CENTER);
-			_label.text		= _value.toString();
+			_label			= new TextField(options.width + 3, options.height);
+			_button			= new ButtonClear(options.width, options.height);
+			_value			= control.value;
+			
+			
+			_label.text		= _value,
 			_label.y		= 1;
 			
 			addChild(_label);
+			addChild(_button);
 
 			_onChanged();
 			
 			control.addEventListener(ControlEvent.CHANGE, _onChanged);
+			_button.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 			
-			addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 		}
 		
 		/**
 		 * 	@private
 		 */
 		private function _mouseDown(event:MouseEvent):void {
-			control.value = !_value;
+			var range:ControlRange	= super.control as ControlRange;
+			var data:Array			= range.data;
+			var index:int			= data.indexOf(_value) + 1;
+			control.value			= (index >= data.length) ? data[0] : data[index];
 		}
 		
 		/**
 		 * 	@private
 		 */
 		private function _onChanged(event:ControlEvent = null):void {
-			_value				= event ? event.value : _value;
-			_label.textColor	= _value ? 0xFFFFFF : 0x999999;
-			_label.text			= _value.toString();
+			
+			var background:DisplayObject = super.getBackground();
+
+			_value		= event ? event.value : _value;
+			_label.text	= _value;
+			
+			if (background) {
+				background.transform.colorTransform = _value ? LAYER_HIGHLIGHT : DEFAULT;
+			}
+			
 		}
 		
 		/**
@@ -98,7 +124,10 @@ package ui.controls {
 		override public function dispose():void {
 			
 			control.removeEventListener(ControlEvent.CHANGE, _onChanged);
+			_button.removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+			
 			_label	= null;
+			_button = null;
 			
 			removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 

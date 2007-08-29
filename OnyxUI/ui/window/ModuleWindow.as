@@ -45,7 +45,7 @@ package ui.window {
 		 */
 		public function ModuleWindow(reg:WindowRegistration):void {
 			
-			var module:Module				= Onyx.modules[reg.name];
+			var module:Module				= Module.modules[reg.name];
 			var options:InterfaceOptions	= module.uiOptions;
 			
 			super(reg, true, options.width, options.height);

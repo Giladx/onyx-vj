@@ -28,37 +28,88 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.events {
+package onyx.display{
 	
-	import flash.events.Event;
+	import flash.display.*;
+	import flash.events.*;
+	import flash.media.*;
+	import flash.net.*;
 	
-	import onyx.content.Content;
-	import onyx.display.LayerSettings;
+	import onyx.constants.*;
+	import onyx.content.*;
+	import onyx.core.*;
+	import onyx.events.*;
+	import onyx.file.*;
+	import onyx.net.*;
 	import onyx.plugin.*;
-	
-	[ExcludeClass]
-	public final class LayerContentEvent extends Event {
+	import onyx.settings.*;
+	import onyx.utils.string.*;
+
+	[Event(name='complete',			type='flash.events.Event')]
+	[Event(name='security_error',	type='flash.events.SecurityErrorEvent')]
+	[Event(name='io_error',			type='flash.events.IOErrorEvent')]
+	[Event(name='progress',			type='flash.events.ProgressEvent')]
+
+	/**
+	 * 	Loads different content based on the file url
+	 */
+	final internal class ContentLoader extends EventDispatcher {
 		
-		public var contentType:Class;
-		public var reference:Object;
+		/**
+		 * 	@private
+		 */
 		public var settings:LayerSettings;
+		
+		/**
+		 * 	@private
+		 * 	Transition to load with
+		 */
 		public var transition:Transition;
-		public var path:String;
 		
-		public function LayerContentEvent(type:String):void {
-			super(type);
-		}
+		/**
+		 * 	@private
+		 */
+		private var _protocol:Protocol;
 		
-		override public function clone():Event {
-			var event:LayerContentEvent = new LayerContentEvent(super.type);
-			event.contentType = contentType;
-			event.reference = reference;
-			event.settings = settings;
-			event.transition = transition;
-			event.path = path;
+		/**
+		 * 	The stored content to use
+		 */
+		public var content:IContent;
+		
+		/**
+		 * 	Loads a file
+		 */
+		public function load(path:String, settings:LayerSettings, transition:Transition, layer:ILayer):void {
 			
-			return event;
+			this.settings	= settings || new LayerSettings(),
+			this.transition = transition,
+			_protocol		= FileBrowser.resolve(path, handler, layer);
+
+			// create a content object			
+			_protocol.resolve();
 		}
 		
+		/**
+		 * 	@private
+		 */
+		private function handler(event:Event, content:IContent = null):void {
+			
+			this.content = content;
+			super.dispatchEvent(event);
+
+		}
+		
+		/**
+		 * 	Dispose
+		 */
+		public function dispose():void {
+
+			// dispose
+			this.settings	= null,
+			this.transition = null,
+			this._protocol	= null,
+			this.content	= null;
+
+		}
 	}
 }

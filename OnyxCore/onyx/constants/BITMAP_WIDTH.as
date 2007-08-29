@@ -31,7 +31,9 @@
 package onyx.constants {
 
 	import flash.display.*;
-	
+
+	[ExcludeClass]
+
 	/**
 	 * 	A "constant" used to determine the rectangle of a display or layer.  This value 
 	 * 	changes based on the value changed in the settings.xml.  You can increase or

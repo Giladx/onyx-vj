@@ -46,66 +46,48 @@ package onyx.midi {
  	/**
  	 * 	Base Midi Class
  	 */
-	public class Midi extends EventDispatcher implements IControlObject {
+	public class Midi {
 		
-		/**
-		 * 
-		 */
-		public static function registerMidiMaster(module:IMidiDispatcher):void {
-			MIDI._client = module;
-			MIDI.start();
-		}
+		/*
+		extends EventDispatcher implements IControlObject
 
-		/**
-		 * 	@private
-		 */
 		private var _controls:Controls;
 
-		/**
-		 * 	@private
-		 */
 		private var _client:IMidiDispatcher;
-
-		/**
-		 * 	@private
-		 */
+		
 		private var _map:Array = new Array();
 
-		/**
-		 * 	@constructor
-		 */
 		public function Midi():void {
 			
+			// DEBUG::START (these lines get removed by the ant build)
 			if (MIDI) {
 				throw INVALID_CLASS_CREATION;
 			}
+			// DEBUG::END
 			
 			/*
 			_controls = new Controls(this,
 				new ControlRange('listen', 'midi control', BOOLEAN)
 			);
-			*/
 			_controls = new Controls(this);
 		}
 		
 		/**
 		 * 	Register layers to listen for
-		 */
 		public function registerLayers(layers:Array):void {
-			for each (var layer:Layer in layers) {
+			for each (var layer:ILayer in layers) {
 				layer.addEventListener(LayerEvent.LAYER_UNLOADED,_layerUnloaded);
 			}
 		}
 		
 		/**
 		 * 	@private
-		 */
 		private function _layerUnloaded(event:LayerEvent):void {
 			
 			/*
 			
 			var target:Layer = event.currentTarget as Layer;
-			var disp:Display = Display.getDisplay(0);
+			var disp:Display = AVAILABLE_DISPLAYS[0];
 			
 			target.removeEventListener(LayerEvent.LAYER_UNLOADED,_layerUnloaded);
 			
@@ -128,12 +110,10 @@ package onyx.midi {
 					_removeMapForControl(m.control);
 				}
 			}
-			*/
 		}
 		
 		/**
 		 * 	Starts listening for midi events
-		 */
 		public function start():void {
 			_client.addEventListener(MidiMsg.NOTEON, _onNoteonoff);
 			_client.addEventListener(MidiMsg.NOTEOFF, _onNoteonoff);
@@ -143,7 +123,6 @@ package onyx.midi {
 		
 		/**
 		 * 	Stops listening for midi events
-		 */
 		public function stop():void {
 			_client.removeEventListener(MidiMsg.NOTEON, _onNoteonoff);
 			_client.removeEventListener(MidiMsg.NOTEOFF, _onNoteonoff);
@@ -153,7 +132,6 @@ package onyx.midi {
 		/**
 		 * 	@private
 		 * 	Remove map (need documentation)
-		 */
 		private function _removeMapForControl(c:Control):void {
 			for ( var i:int = 0; i<_map.length; i++ ) {
 				if ((_map[i] as MidiMap).control == c) {
@@ -167,7 +145,6 @@ package onyx.midi {
 		
 		/**
 		 * 
-		 */
 		private function _onController(e:MidiEvent):void {
 			for each (var m:MidiMap in _map) {
 				if ( m is MidiMapController ) {
@@ -224,7 +201,6 @@ package onyx.midi {
 		
 		/**
 		 *  public
-		 */
 		public function registerController(c:Control, e:MidiEvent):void {
 			var any:Boolean = true;
 			// If we're registering something that is triggered,
@@ -257,7 +233,7 @@ package onyx.midi {
 		public function toXML():XML {
 			
 			/*
-			var disp:Display = Display.getDisplay(0);
+			var disp:Display = AVAILABLE_DISPLAYS[0];
 			var x:XML = <midi/>;
 			for each (var m:MidiMap in _map) {
 				var fullControlname:String = disp.getNameOfControl(m.control);
@@ -294,7 +270,6 @@ package onyx.midi {
 				}
 			}
 			return x;
-			*/
 			return null;
 		}
 		
@@ -318,13 +293,13 @@ package onyx.midi {
 		}
 		
 		private function _registerMapByName(controlName: String, m:MidiMap):void {
-			/* var display:Display = Display.getDisplay(0);
+			/* var display:Display = AVAILABLE_DISPLAYS[0];
 			var c:Control = display.getControlByName(controlName);
 			if ( c == null ) {
 				throw "Unable to find control="+controlName;
 			}
 			_registerMap(c,m);
-			*/
 		}
+		*/
 	}
 }

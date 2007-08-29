@@ -69,7 +69,7 @@ package onyx.file {
 		 * 	@constructor
 		 */
 		public function FileQuery(folder:String, callback:Function):void {
-			this.path		= folder;
+			this.path		= folder,
 			this.callback	= callback;
 		}
 		

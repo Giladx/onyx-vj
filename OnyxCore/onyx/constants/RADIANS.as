@@ -32,6 +32,8 @@ package onyx.constants {
 	
 	import onyx.utils.math.*;
 
+	[ExcludeClass]
+
 	public const RADIANS:Number = PI / 180;
 
 }

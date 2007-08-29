@@ -70,6 +70,5 @@ package onyx.file {
 		public function getFileName(path:String):String {
 			return null;
 		}
-
 	}
 }

@@ -87,7 +87,7 @@ package onyx.content {
 		/**
 		 * 	@constructor
 		 */
-		public function ContentMP3(layer:Layer, path:String, sound:Sound):void {
+		public function ContentMP3(layer:ILayer, path:String, sound:Sound):void {
 			
 			// add a control for the visualizer
 			_controls = new Controls(this, 
@@ -96,7 +96,7 @@ package onyx.content {
 			);
 			
 			_sound		= sound;
-			_length		= max(floor(sound.length / 100) * 100, 0);
+			_length		= max(int(sound.length / 100) * 100, 0);
 			
 			_loopStart	= 0;
 			_loopEnd	= _length;

@@ -32,6 +32,8 @@ package onyx.constants {
 
 	import flash.display.*;
 	
+	[ExcludeClass]
+
 	public const XML_FORMAT_VERSION:String = '1.0.1';
 	
 }

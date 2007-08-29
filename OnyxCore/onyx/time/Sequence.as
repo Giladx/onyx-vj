@@ -32,9 +32,7 @@ package onyx.time {
 	
 	import flash.events.EventDispatcher;
 	
-	import onyx.display.Display;
-	import onyx.display.Layer;
-	import onyx.display.LayerSettings;
+	import onyx.display.*;
 
 	/**
 	 * 	
@@ -44,19 +42,19 @@ package onyx.time {
 		/**
 		 * 	@private
 		 */
-		private var _display:Display;
+		private var _display:IDisplay;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function Sequence(display:Display):void {
+		public function Sequence(display:IDisplay):void {
 			_display = display;
 		}
 		
 		/**
 		 * 	Adds content
 		 */
-		public function addContent(layer:Layer, path:String):void {
+		public function addContent(layer:ILayer, path:String):void {
 			
 		}
 		

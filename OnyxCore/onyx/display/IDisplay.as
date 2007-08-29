@@ -32,8 +32,9 @@ package onyx.display {
 	
 	import onyx.content.IContent;
 	import onyx.core.*;
+	import onyx.plugin.Transition;
 	
-	public interface IDisplay extends IContent {
+	public interface IDisplay extends IContent, ISerializable {
 
 		function get layers():Array;
 
@@ -46,10 +47,15 @@ package onyx.display {
 		function set backgroundColor(value:uint):void;
 		function get backgroundColor():uint;
 		
-		function loadXML(xml:XMLList):void;
-		
 		function setLayerTransition(layer:ILayer, transform:TransitionTransform):void;
-//		function loadMidiXML():void;
+		
+		function load(path:String, layer:ILayer, transition:Transition):void;
+		
+		function moveLayer(... args:Array):void;
+		function copyLayer(layer:ILayer, index:int):void;
+		function indexOf(layer:ILayer):int;
+
+		function createLayers(num:int):void;
 
 	}
 }

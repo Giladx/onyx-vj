@@ -65,7 +65,7 @@ package onyx.content {
 		/**
 		 * 	@constructor
 		 */		
-		public function ContentCustom(layer:Layer, path:String, loader:Loader):void {
+		public function ContentCustom(layer:ILayer, path:String, loader:Loader):void {
 			
 			_loader		= loader;
 

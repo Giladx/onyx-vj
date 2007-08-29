@@ -69,7 +69,7 @@ package onyx.content {
 		/**
 		 * 	@constructor
 		 */		
-		public function ContentSprite(layer:Layer, path:String, loader:Loader):void {
+		public function ContentSprite(layer:ILayer, path:String, loader:Loader):void {
 			
 			_loader		= loader;
 

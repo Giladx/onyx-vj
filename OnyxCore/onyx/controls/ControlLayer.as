@@ -30,8 +30,8 @@
  */
 package onyx.controls {
 	
-	import onyx.core.Onyx;
-	import onyx.core.onyx_ns;
+	import onyx.core.*;
+	import onyx.constants.*;
 	import onyx.display.*;
 	import onyx.events.ControlEvent;
 	
@@ -51,8 +51,8 @@ package onyx.controls {
 		 */
 		public function ControlLayer(name:String, displayName:String):void {
 			
-			var display:Display = Display.getDisplay(0);
-			var data:Array		= (display) ? display._layers : [];
+			var display:IDisplay	= AVAILABLE_DISPLAYS[0];
+			var data:Array			= (display) ? display.layers : [];
 
 			super(name, displayName, data, data[0]);
 

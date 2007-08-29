@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2007, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -28,33 +28,72 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
- package onyx.events
-{
-	import onyx.constants.*;
-	import flash.display.DisplayObject;
+package onyx.file {
 	
-	public class FingerState 
-	{
-		public var deviceIndex:uint;
-		public var fingerIndex:uint;
-		public var fingerUID:String;
-		public var isDown:Boolean;
-		public var x:Number;
-		public var y:Number;
-		public var proximity:Number;
+	import flash.events.*;
+	import flash.media.*;
+	
+	import onyx.constants.*;
+	import onyx.content.*;
+	import onyx.core.*;
+	import onyx.display.*;
+	import onyx.events.*;
+	import onyx.plugin.*;
+	
+	/**
+	 * 	Protocol for default onyx types
+	 */
+	public final class ProtocolPlugin extends Protocol {
 		
-		public function FingerState(f:FingerEvent)
-		{
-			deviceIndex = f.deviceIndex;
-			fingerIndex = f.fingerIndex;
-			fingerUID = f.fingerUID();
-			isDown = (f.type == FingerEvent.DOWN || f.type == FingerEvent.DRAG);
-			proximity = f.proximity;
-			x = f.x * BITMAP_WIDTH;
-			y = BITMAP_HEIGHT - f.y * BITMAP_HEIGHT;
+		/**
+		 *	@constructor 
+		 */
+		public function ProtocolPlugin(path:String, callback:Function, layer:ILayer):void {
+			super(path, callback, layer);
 		}
-		public function toString():String {
-			return "FingerState(deviceIndex="+deviceIndex+",fingerIndex="+fingerIndex+",isDown="+isDown+",x="+x+",y="+y+",prox="+proximity+")";
+		
+		/**
+		 * 
+		 */
+		override public function resolve():void {
+
+			var len:int, index:int, type:String, name:String;
+			
+			len		= ONYX_QUERYSTRING.length,
+			index	= _path.indexOf('://');
+			
+			type	= _path.substr(len, index - len),
+			name	= _path.substr(index + 3);
+			
+			trace(type);
+			
+			switch (type) {
+				case 'camera':
+					return dispatchContent(
+						new Event(Event.COMPLETE), 
+						new ContentCamera(_layer, _path, Camera.getCamera(
+							String(AVAILABLE_CAMERAS.indexOf(name))
+						)
+					));
+				case 'visualizer':
+				
+					var plugin:Plugin = Visualizer.getDefinition(name);
+						
+					// is it a valid plugin?
+					if (plugin) {
+						
+						// is it a renderable object?
+						var render:IRenderObject	= plugin.getDefinition() as IRenderObject;
+						
+						if (render) {
+							// dispatch
+							return dispatchContent(new Event(Event.COMPLETE), new ContentPlugin(_layer, _path, render));
+						}
+					}
+					break;
+			}
+				
+			dispatchContent(new IOErrorEvent(IOErrorEvent.IO_ERROR, false, false, ''));
 		}
 	}
 }

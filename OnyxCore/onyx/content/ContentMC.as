@@ -33,13 +33,14 @@ package onyx.content {
 	import flash.display.*;
 	import flash.events.*;
 	import flash.geom.*;
-	import flash.utils.getTimer;
+	import flash.utils.*;
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.events.*;
+	import onyx.content.ContentMC;
 	import onyx.plugin.*;
 	import onyx.settings.*;
 	import onyx.utils.math.*;
@@ -48,6 +49,56 @@ package onyx.content {
 	
 	[ExcludeClass]
 	public class ContentMC extends Content {
+		
+
+		/**
+		 * 	@private
+		 * 	Stores paths of loaded stuff
+		 */
+		private static const _dict:Object = {};
+		
+		/**
+		 * 	@private
+		 * 	Registers a loader
+		 */
+		public static function registration(path:String):ContentRegistration {
+			return _dict[path];
+		}
+		
+		/**
+		 * 
+		 */
+		public static function register(path:String, loader:Loader = null):void {
+			
+			var reg:ContentRegistration = _dict[path];
+			
+			if (!reg) {
+				reg			= new ContentRegistration(),
+				reg.loader	= loader,
+				_dict[path] = reg;
+			}
+			
+			reg.refCount++;
+		}
+		
+		/**
+		 * 	Unregisters from shared
+		 */
+		public static function unregister(path:String):Boolean {
+			var reg:ContentRegistration = _dict[path];
+			if (reg) {
+				reg.refCount--;
+				
+				if (reg.refCount === 0) {
+					reg.dispose();
+					delete _dict[path];
+				}
+			} else {
+				return false;
+			}
+			
+			return true;
+		}
 
 		/**
 		 * 	@private
@@ -98,7 +149,7 @@ package onyx.content {
 		/**
 		 * 	@constructor
 		 */		
-		public function ContentMC(layer:Layer, path:String, loader:Loader):void {
+		public function ContentMC(layer:ILayer, path:String, loader:Loader):void {
 
 			_loader			= loader,
 			_framerate		= loader.contentLoaderInfo.frameRate / STAGE.frameRate, // sets the framerate based on the swf framerate
@@ -283,8 +334,8 @@ package onyx.content {
 			// dispose
 			super.dispose();
 
-			// unregister
-			var value:Boolean = ContentLoader.unregister(_path);
+			// unregister from the shared movieclips if it's the last one
+			var value:Boolean = unregister(_path);
 			
 			if (!value && mc is IDisposable) {
 				(mc as IDisposable).dispose();

@@ -10,14 +10,21 @@ package onyx.core {
 	 */
 	public final class TransitionTransform extends Object {
 		
+		/**
+		 * 	Transition
+		 */
 		public var transition:Transition;
+		
+		/**
+		 * 	Ratio
+		 */
 		public var ratio:Number;
 		
 		/**
 		 * 	@constructor
 		 */
 		public function TransitionTransform(transition:Transition, ratio:Number):void {
-			this.transition = transition;
+			this.transition = transition,
 			this.ratio		= ratio;
 		}
 	}

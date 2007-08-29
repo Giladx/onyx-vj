@@ -30,6 +30,8 @@
  */
 package onyx.constants {
 
+	[ExcludeClass]
+
 	public const BOOLEAN:Array = [false, true];
 
 }

@@ -30,6 +30,8 @@
  */
 package onyx.constants {
 
+	[ExcludeClass]
+
 	import flash.display.*;
 	
 	/**

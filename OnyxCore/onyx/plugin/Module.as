@@ -42,6 +42,12 @@ package onyx.plugin {
 	public class Module extends PluginBase {
 		
 		/**
+		 * 	@private
+		 * 	All modules
+		 */
+		public static const modules:Object		= {};
+		
+		/**
 		 * 	Does it have interface options?
 		 */
 		public var uiOptions:InterfaceOptions;

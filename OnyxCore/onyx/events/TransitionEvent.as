@@ -34,6 +34,7 @@ package onyx.events {
 	
 	import onyx.content.Content;
 	import onyx.plugin.*;
+	import onyx.content.IContent;
 	
 	/**
 	 * 	Dispatched from a ContentTransition when a transition has finished
@@ -48,12 +49,12 @@ package onyx.events {
 		/**
 		 * 	The content to replace in the layer
 		 */
-		public var content:Content;
+		public var content:IContent;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function TransitionEvent(type:String, content:Content):void {
+		public function TransitionEvent(type:String, content:IContent):void {
 			this.content = content;
 			super(type);
 		}

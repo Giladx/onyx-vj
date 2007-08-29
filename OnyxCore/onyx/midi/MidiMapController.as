@@ -33,7 +33,9 @@ package onyx.midi {
 	import onyx.controls.Control;
 	import onyx.events.MidiEvent;
 	
-	public class MidiMapController extends MidiMap {
+	public class MidiMapController {
+		
+		/*
 		
 		public var controller:int;
 		public var channel:int;
@@ -61,5 +63,6 @@ package onyx.midi {
 				&& m.controller == controller );
 			return anyvalue ? matches : (matches && m.value == value);
 		}
+		*/
 	}
 }

@@ -34,15 +34,14 @@
 	/**
 	 * 	Midi event
 	 */
-	public class MidiEvent extends NthEvent {
+	public class MidiEvent {
+		
+		/*
 		
 		public var time:Number;
 		public var deviceIndex:uint;
 		public var midimsg:MidiMsg;
 
-		/**
-		 * 	@constructor
-		 */
 		public function MidiEvent(t:String, tm:Number, x:XML):void {
 			time = tm;
 			deviceIndex = x.attribute("devindex");
@@ -65,5 +64,6 @@
 			}
 			super(t)
 		}
+		*/
 	}
 }

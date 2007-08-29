@@ -102,18 +102,20 @@ package onyx.core {
 		 */
 		public function Tempo():void {
 			
+			// DEBUG::START (these lines get removed by the ant build)
 			if (TEMPO) {
 				throw INVALID_CLASS_CREATION;
-			} else {
-				
-				_timer			= new Timer(5);
-				_snapControl	= new ControlTempo('snapTempo', 'snap to tempo', false)
-				_controls	= new Controls(this,
-					_snapControl,
-					new ControlInt('tempo', 'tempo', 40, 1000, _tempo)
-				);
-				
 			}
+			// DEBUG::END
+				
+			_timer			=	new Timer(5),
+			_snapControl	=	new ControlTempo('snapTempo', 'snap to tempo', false);
+			
+			_controls		=	new Controls(this,
+									_snapControl,
+									new ControlInt('tempo', 'tempo', 40, 1000, _tempo)
+								);
+								
 			_timer.addEventListener(TimerEvent.TIMER, _onTimer);
 		}
 		

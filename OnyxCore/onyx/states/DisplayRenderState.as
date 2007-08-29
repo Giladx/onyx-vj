@@ -48,7 +48,7 @@ package onyx.states {
 		/**
 		 * 	@constructor
 		 */
-		public function DisplayRenderState(display:Display):void {
+		public function DisplayRenderState(display:IDisplay):void {
 			this.display = display;
 			super();
 		}

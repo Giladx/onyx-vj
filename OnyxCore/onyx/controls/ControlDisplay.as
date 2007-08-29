@@ -34,6 +34,7 @@ package onyx.controls {
 	import onyx.core.onyx_ns;
 	import onyx.display.*;
 	import onyx.events.ControlEvent;
+	import onyx.constants.*;
 	
 	use namespace onyx_ns;
 	
@@ -47,7 +48,7 @@ package onyx.controls {
 		 */
 		public function ControlDisplay(name:String, displayName:String):void {
 			
-			super(name, displayName, Display._displays, Display.getDisplay(0));
+			super(name, displayName, AVAILABLE_DISPLAYS, AVAILABLE_DISPLAYS[0]);
 
 		}
 		

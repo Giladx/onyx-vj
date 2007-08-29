@@ -40,16 +40,19 @@ package onyx.net {
     [Event(name='complete', type='flash.events.Event')]
     [Event(name='connect', type='flash.events.Event')]
     [Event(name='close', type='flash.events.Event')]
-    [Event(name='error', type='flash.events.ErrorEvent')]
+    [Event(name='io_error', type='flash.events.ErrorEvent')]
 	
-    public class Telnet extends EventDispatcher {
+	/**
+	 * 	Telnet Client
+	 */
+    public class TelnetClient extends EventDispatcher {
     	
-        private const CR:int 	= 13; 		// Carriage Return (CR)
-        private const WILL:int 	= 0xFB; 	// 251 - WILL (option code)
-        private const WONT:int 	= 0xFC; 	// 252 - WON'T (option code)
-        private const DO:int   	= 0xFD; 	// 253 - DO (option code)
-        private const DONT:int 	= 0xFE; 	// 254 - DON'T (option code)
-        private const IAC:int  	= 0xFF; 	// 255 - Interpret as Command (IAC)
+        private static const CR:int 	= 13; 		// Carriage Return (CR)
+        private static const WILL:int 	= 0xFB; 	// 251 - WILL (option code)
+        private static const WONT:int 	= 0xFC; 	// 252 - WON'T (option code)
+        private static const DO:int   	= 0xFD; 	// 253 - DO (option code)
+        private static const DONT:int 	= 0xFE; 	// 254 - DON'T (option code)
+        private static const IAC:int  	= 0xFF; 	// 255 - Interpret as Command (IAC)
 
         private var _serverURL:String;
         private var _portNumber:Number;
@@ -62,7 +65,7 @@ package onyx.net {
 		/**
 		 * 	@constructor
 		 */
-        public function Telnet() {
+        public function TelnetClient():void {
             
             _serverURL 	= new String();
             _portNumber = new Number();
@@ -104,7 +107,10 @@ package onyx.net {
             _status = "Unable to connect: socket error";
             dispatchEvent(new ErrorEvent(ErrorEvent.ERROR));
         }
-                
+
+		/**
+		 * 	@private
+		 */                
         private function _connectHandler(event:Event):void {
             if (_socket.connected) {
                 _status = "connected";
@@ -114,18 +120,26 @@ package onyx.net {
             dispatchEvent(new Event(Event.CONNECT));
         }
         
+		/**
+		 * 	@private
+		 */                
         private function _closeHandler(event:Event):void {
         	        	
             _status = "Disconnected by the server";
             dispatchEvent(new Event(Event.CLOSE));
         }
         
+		/**
+		 * 	@private
+		 */                
         private function _errorHandler(event:ErrorEvent):void {
             _status = event.text;
             dispatchEvent(new ErrorEvent(ErrorEvent.ERROR));
         }
         
-        // called when the socket receives data from the server.
+		/**
+		 * 	@private
+		 */                
         private function _dataHandler(event:ProgressEvent):void {
             
             var n:int = _socket.bytesAvailable;
@@ -185,14 +199,6 @@ package onyx.net {
 		/**
 		 *  Get connection infos 
 		 **/
-		public function isConnected():Boolean {
-			if(_status == 'connected') {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		 
 		public function get serverURL():String {
         	return _serverURL;
         }

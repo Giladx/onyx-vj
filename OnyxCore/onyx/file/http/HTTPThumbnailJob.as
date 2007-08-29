@@ -75,11 +75,13 @@ package onyx.file.http {
 			var content:Bitmap = loader.content as Bitmap;
 			
 			if (content) {
-				var thumbnail:Bitmap = loader.file.thumbnail;
+				var thumbnail:Bitmap	= loader.file.thumbnail;
 				
 				thumbnail.bitmapData	= content.bitmapData,
 				thumbnail.width			= 46,
-				thumbnail.height		= 35;
+				thumbnail.height		= 35,
+				thumbnail.smoothing		= false,
+				thumbnail.pixelSnapping	= PixelSnapping.ALWAYS;
 			}
 			
 			loader.unload();
@@ -91,8 +93,10 @@ package onyx.file.http {
 import flash.display.Loader;
 import onyx.file.File;
 
-class ThumbLoader extends Loader {
+final class ThumbLoader extends Loader {
+	
 	public var file:File;
+	
 	public function ThumbLoader(file:File):void {
 		this.file = file;
 	}

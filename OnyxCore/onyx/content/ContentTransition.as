@@ -52,13 +52,13 @@ package onyx.content {
 		 * 	@private
 		 * 	Stores old content
 		 */
-		onyx_ns var oldContent:Content;
+		onyx_ns var oldContent:IContent;
 
 		/**
 		 * 	@private
 		 * 	Stores new content
 		 */
-		onyx_ns var newContent:Content;
+		onyx_ns var newContent:IContent;
 
 		/**
 		 * 	@private
@@ -75,7 +75,7 @@ package onyx.content {
 		/**
 		 * 	@constructor
 		 */
-		public function ContentTransition(layer:Layer, transition:Transition, current:IContent, loaded:IContent):void {
+		public function ContentTransition(layer:ILayer, transition:Transition, current:IContent, loaded:IContent):void {
 
 			// super!
 			super(layer, null, null);
@@ -84,8 +84,8 @@ package onyx.content {
 			_transition = transition;
 			
 			// store content
-			oldContent	= current as Content,
-			newContent = loaded as Content;
+			oldContent	= current,
+			newContent = loaded;
 			
 			// add listeners for filter events
 			newContent.addEventListener(FilterEvent.FILTER_APPLIED,		_forwardEvents);

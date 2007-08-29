@@ -48,9 +48,12 @@ package onyx.net {
 		 * 	@constructor
 		 */
 		public function Connection():void {
+			
+			// DEBUG::START (these lines get removed by the ant build)
 			if (DEFAULT_CONNECTION) {
 				throw INVALID_CLASS_CREATION;
 			}
+			// DEBUG::END
 			
 			connect(null);
 		}

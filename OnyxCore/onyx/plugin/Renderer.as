@@ -112,7 +112,7 @@ package onyx.plugin {
 
 				if (layer.visible && layer.rendered) {
 					
-					var transform:TransitionTransform = Display.LAYER_TRANSITION[layer];
+					var transform:TransitionTransform = DISPLAY_TRANSITIONS[layer];
 					
 					// transition exists, and transition wants the layer to be rendered?
 					if (transform) {

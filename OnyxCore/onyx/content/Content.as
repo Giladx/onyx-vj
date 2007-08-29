@@ -65,11 +65,6 @@ package onyx.content {
 		 * 	@private
 		 */
 		private var _visible:Boolean;
-		 
-		/**
-		 * 	@private
-		 */
-		onyx_ns var _layer:Layer;
 		
 		/**
 		 * 	@private
@@ -269,7 +264,7 @@ package onyx.content {
 		/**
 		 * 	@constructor
 		 */		
-		public function Content(layer:Layer, path:String, content:IBitmapDrawable):void {
+		public function Content(layer:ILayer, path:String, content:IBitmapDrawable):void {
 			
 			var props:LayerProperties	= layer.properties as LayerProperties;
 			_properties					= props;
@@ -279,7 +274,6 @@ package onyx.content {
 			_blendMode		= 'normal',
 			_visible		= true,
 			_filter			= new ColorFilter(),
-			_layer 			= layer,
 			_path  			= path,
 			_source			= BASE_BITMAP(),
 			_rendered		= BASE_BITMAP(),
@@ -828,7 +822,7 @@ package onyx.content {
 			}
 			
 			// check to see if it's disposable, but only if it's not a movieclip
-			// movieclips are handled through ContentManager
+			// movieclips are handled through CombineContent
 			if (_content is IDisposable && !(this is ContentMC)) {
 				(_content as IDisposable).dispose();
 			}
@@ -866,8 +860,7 @@ package onyx.content {
 			_content		= null,
 			_filter			= null,
 			_filters		= null,
-			_controls		= null,
-			_layer			= null;
+			_controls		= null;
 		}
 	}
 }

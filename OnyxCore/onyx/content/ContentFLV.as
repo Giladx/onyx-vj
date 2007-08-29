@@ -75,7 +75,7 @@ package onyx.content {
 		/**
 		 * 	@constructor
 		 */
-		public function ContentFLV(layer:Layer, path:String, stream:Stream):void {
+		public function ContentFLV(layer:ILayer, path:String, stream:Stream):void {
 			
 			_stream = stream;
 			_stream.addEventListener(NetStatusEvent.NET_STATUS, _onStatus);

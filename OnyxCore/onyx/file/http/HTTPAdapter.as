@@ -30,12 +30,7 @@
  */
 package onyx.file.http {
 	
-	import flash.events.Event;
-	import flash.utils.ByteArray;
-	
-	import onyx.file.FileAdapter;
-	import onyx.file.FileFilter;
-	import onyx.file.FileQuery;
+	import onyx.file.*;
 
 	/**
 	 * 	Adapter for http / local-without-networking
@@ -53,7 +48,7 @@ package onyx.file.http {
 		 * 
 		 */
 		override public function getFileName(path:String):String {
-			var index:int = path.lastIndexOf('/', path.length - 2)+1;
+			var index:int = path.lastIndexOf('/', path.length - 2) + 1;
 			return (index) ? path.substr(index) : path;
 		}
 		

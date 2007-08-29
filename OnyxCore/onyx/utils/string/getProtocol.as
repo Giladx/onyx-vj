@@ -28,59 +28,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.states {
+package onyx.utils.string {
+	
+	public function getProtocol(path:String):String {
+		
+		var index:int = path.indexOf('://', 1);
+		
+		if (index > 0) {
+			return path.substr(0, index);
+		}
 
-	import flash.display.BitmapData;
-	import flash.events.Event;
-	
-	import onyx.constants.*;
-	import onyx.display.Display;
-	import onyx.net.LocalClient;
-	
-	/**
-	 * 	Broadcast
-	 */
-	public final class ListenState extends ApplicationState {
-		
-		/**
-		 * 	Connection
-		 */
-		private var conn:LocalClient;
-		
-		/**
-		 * 
-		 */
-		private var display:Display;
-		
-		/**
-		 * 
-		 */
-		public function ListenState(display:Display):void {
-			this.display = display;
-			super();
-		}
-		
-		/**
-		 * 	Initialize
-		 */
-		override public function initialize():void {
-			
-			conn = new LocalClient();
-			conn.connect();
-			
-		}
-		
-		private function _onFrame(event:Event):void {
-			if (conn.bytes) {
-				conn.bytes.position = 0;
-				var bmp:BitmapData = display.bitmapData;
-				bmp.setPixels(BITMAP_RECT, conn.bytes);
-			}
-		}
-		
-		override public function terminate():void {
-			display = null;
-		}
-		
+		return null;
 	}
 }

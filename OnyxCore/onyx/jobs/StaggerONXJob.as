@@ -71,7 +71,7 @@ package onyx.jobs {
 			
 			// load jobs immediately if they have no path
 			for each (var job:LayerLoadSettings in jobs) {
-				var layer:Layer = job.layer;
+				var layer:ILayer = job.layer;
 				
 				if (!layer.path) {
 					layer.load(job.settings.path, job.settings);
@@ -99,7 +99,7 @@ package onyx.jobs {
 			
 			if (job) {
 	
-				var layer:Layer				= job.layer;
+				var layer:ILayer			= job.layer;
 				var settings:LayerSettings	= job.settings;
 				layer.load(settings.path, settings, _transition);
 				

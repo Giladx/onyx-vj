@@ -73,7 +73,7 @@ package onyx.content {
 		/**
 		 * 	@constructor
 		 */
-		public function ContentCamera(layer:Layer, path:String, camera:Camera):void {
+		public function ContentCamera(layer:ILayer, path:String, camera:Camera):void {
 			
 			_controls = new Controls(this);
 			

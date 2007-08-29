@@ -32,7 +32,8 @@ package onyx.constants {
 
 	import flash.geom.Point;
 
+	[ExcludeClass]
+
 	public const POINT:Point = new Point(0,0);
-		
 
 }

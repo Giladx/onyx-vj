@@ -34,11 +34,8 @@ package onyx.core {
 	
 	import onyx.display.Display;
 	import onyx.events.ConsoleEvent;
-	import onyx.events.VlcEvent;
-	import onyx.net.Vlc;
 
 	[Event(name="output",	type="onyx.events.ConsoleEvent")]
-	[Event(name="vlc",	type="onyx.events.VlcEvent")]
 	
 	/**
 	 * 	This class dispatches messages dispatched from the Onyx core
@@ -53,67 +50,18 @@ package onyx.core {
 		/**
 		 * 	@private
 		 */
-		public var vlc:Vlc = new Vlc();
-		
-		/**
-		 * 	@private
-		 */
 		private static const REUSABLE_EVENT:ConsoleEvent	= new ConsoleEvent('');
-		
-		/**
-		 * 	@private
-		 */
-		private static const REUSABLE_VLC_STATE:VlcEvent	= new VlcEvent('state','');
-		private static const REUSABLE_VLC_DATA:VlcEvent		= new VlcEvent('data','');
-		
+
 		/**
 		 * 	@private
 		 */
 		private static const dispatcher:Console				= new Console();
 		
-		
-		public function Console():void {
-			
-			// add VLC listeners
-			vlc.addEventListener(Event.CONNECT, _onConnect);
-			vlc.addEventListener(Event.CLOSE, _onClose);
-			vlc.addEventListener(ErrorEvent.ERROR, _onError);
-			vlc.addEventListener(Event.COMPLETE, _onComplete);
-		}
-		
 		/**
-		 *  VLC handlers
-		 **/
-		private function _onConnect(event:Event):void {
-			
-			vlc.sendCommand("admin");
-			Console.stateVlc(vlc.status+' TO VLC @ '+vlc.serverURL+':'+vlc.portNumber.toString());
-									
-			// show VLC status
-			vlc.show();
-			//vlc.load(); //standard file
-			//vlc.play("ch1");
-			//vlc.newCh("ch2");
+		 * 	@constructor
+		 */
+		public function Console():void {
 		}
-		
-		private function _onClose(event:Event):void {
-			
-			Console.stateVlc(vlc.status);
-			
-		}
-		
-		private function _onError(event:ErrorEvent):void {
-			
-			Console.stateVlc(vlc.status);
-
-		}
-		
-		private function _onComplete(event:Event):void {
-			
-			Console.dataVlc(vlc.data);
-		
-		}
-		
 		
 		/**
 		 * 	Returns the console instance
@@ -138,23 +86,6 @@ package onyx.core {
 		public static function error(e:Error):void {
 			REUSABLE_EVENT.message = e.message;
 			dispatcher.dispatchEvent(REUSABLE_EVENT);
-		}
-		
-		/**
-		 * 	Outputs a VLC event to the console
-		 */
-		public static function stateVlc(... args:Array):void {
-			
-			REUSABLE_VLC_STATE.message	= args.join(' ');
-			
-			dispatcher.dispatchEvent(REUSABLE_VLC_STATE);
-		}
-		
-		public static function dataVlc(... args:Array):void {
-			
-			REUSABLE_VLC_DATA.message	= args.join(' ');
-			
-			dispatcher.dispatchEvent(REUSABLE_VLC_DATA);
 		}
 		
 		/**
@@ -189,17 +120,6 @@ package onyx.core {
 			}
 			
 			//debug::end
-		}
-		
-		/**
-		 *  _remote getter/setter
-		 **/
-		public function get remote():Boolean {
-			return _remote;
-		}
-		
-		public function set remote(value:Boolean):void {
-			_remote = value;
 		}
 	}
 }

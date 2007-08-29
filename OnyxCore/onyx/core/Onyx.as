@@ -33,6 +33,7 @@ package onyx.core {
 	import flash.display.*;
 	import flash.events.*;
 	import flash.net.*;
+	import flash.text.Font;
 	import flash.utils.*;
 	
 	import onyx.constants.*;
@@ -40,11 +41,10 @@ package onyx.core {
 	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.file.*;
+	import onyx.file.http.*;
 	import onyx.midi.*;
 	import onyx.plugin.*;
 	import onyx.states.*;
-	import onyx.utils.GCTester;
-	import flash.text.Font;
 	
 	use namespace onyx_ns;
 	
@@ -52,12 +52,6 @@ package onyx.core {
 	 * 	Core Application class that stores all layers, displays, and loaded plugins
 	 */
 	public final class Onyx extends EventDispatcher {
-		
-		/**
-		 * 	@private
-		 * 	All modules
-		 */
-		public static const modules:Object		= {};
 		
 		/**
 		 * 	@private
@@ -193,7 +187,7 @@ package onyx.core {
 		public static function registerModule(plugin:Plugin):void {
 			
 			var module:Module = plugin.getDefinition() as Module;
-			modules[module.name] = module;
+			Module.modules[module.name] = module;
 			
 			// start the module
 			module.initialize();
@@ -202,7 +196,7 @@ package onyx.core {
 			Command.registerModule(plugin.name, module);
 			
 			// register with the console, etc
-			Console.output(plugin.name + ' module loaded.');
+			Console.output(plugin.name + ' module loaded.<br>');
 		}
 
 		/**
@@ -210,7 +204,7 @@ package onyx.core {
 		 * 	@param		The number of layers to create in the display
 		 * 	@returns	Display
 		 */
-		public static function createDisplay(x:int = 0, y:int = 0, scaleX:Number = 1, scaleY:Number = 1):Display {
+		public static function createDisplay(x:int = 0, y:int = 0, scaleX:Number = 1, scaleY:Number = 1):IDisplay {
 			
 			var display:Display = new Display();
 			display.displayX = x;
@@ -221,13 +215,6 @@ package onyx.core {
 			ROOT.addChild(display);
 			
 			return display;
-		}
-		
-		/**
-		 * 
-		 */
-		override public function toString():String {
-			return '[Display]';
 		}
 	}
 }

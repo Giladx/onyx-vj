@@ -32,6 +32,8 @@ package onyx.constants {
 
 	import flash.display.*;
 	
+	[ExcludeClass]
+
 	public const VERSION:String = '3.0.5 r0';
 	
 }

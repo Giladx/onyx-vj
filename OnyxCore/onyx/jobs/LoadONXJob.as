@@ -109,7 +109,7 @@ package onyx.jobs {
 					// loop through layers and apply settings
 					for each (var layerXML:XML in xml.display.layers.*) {
 						
-						var layer:Layer				= layers[index++];
+						var layer:ILayer				= layers[index++];
 						
 						// valid layer, load it
 						if (layer) {
@@ -160,7 +160,7 @@ package onyx.jobs {
 			
 			for each (var job:LayerLoadSettings in jobs) {
 				
-				var layer:Layer				= job.layer;
+				var layer:ILayer			= job.layer;
 				var settings:LayerSettings	= job.settings;
 	
 				layer.load(settings.path, settings);

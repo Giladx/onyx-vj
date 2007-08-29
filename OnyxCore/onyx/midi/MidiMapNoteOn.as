@@ -33,8 +33,9 @@ package onyx.midi {
 	import onyx.controls.Control;
 	import onyx.events.MidiEvent;
 	
-	public class MidiMapNoteOn extends MidiMap {
+	public class MidiMapNoteOn {
 		
+		/*
 		public var note:MidiNoteOn;
 
 		public function MidiMapNoteOn(di:int, n:MidiNoteOn):void {
@@ -56,5 +57,6 @@ package onyx.midi {
 			}
 			return true;
 		}
+		*/
 	}
 }

@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2007, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -28,37 +28,76 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
- package onyx.events
-{
-	public class FingerEvent extends NthEvent
-	{
-		public static const DOWN:String  = "down";
-		public static const UP:String = "up";
-		public static const DRAG:String = "drag";
+package onyx.file {
+	
+	import flash.events.*;
+	
+	import onyx.core.IDisposable;
+	import onyx.content.IContent;
+	import onyx.display.ILayer;
+	
+	/**
+	 * 
+	 */
+	public class Protocol extends Object implements IDisposable {
 		
-		public var time:Number;
-		public var deviceIndex:uint;
-		public var fingerIndex:uint;
-		public var x:Number;
-		public var y:Number;
-		public var proximity:Number;
-
-		public function FingerEvent(t:String, tm:Number, xml:XML)
-		{
-			time = tm;
-			deviceIndex = xml.attribute("devindex");
-			fingerIndex = xml.attribute("finger");
-			proximity = xml.attribute("prox");
-   			x = xml.attribute("x");
-    		y = xml.attribute("y");
-			super(t)
+		/**
+		 * 	@protected
+		 */
+		protected var _callback:Function;
+		
+		/**
+		 * 	@protected
+		 */
+		protected var _path:String;
+		
+		/**
+		 * 
+		 */
+		protected var _layer:ILayer;
+		
+		/**
+		 * 
+		 */
+		public function Protocol(path:String, callback:Function, layer:ILayer):void {
+			_path		= path,
+			_callback	= callback,
+			_layer		= layer;
 		}
-		public override function toString():String {
-			return "FingerEvent[time="+this.time+" type="+this.type+" dev="+deviceIndex+" fing="+fingerIndex+"]";
+		
+		/**
+		 * 
+		 */
+		public function resolve():void {
+			
 		}
-		public function fingerUID():String {
-			// Returns unique id string across all devices
-			return "d"+deviceIndex+"_f"+fingerIndex;
+		
+		/**
+		 * 
+		 */
+		public function dispatchContent(event:Event, content:IContent = null):void {
+			
+			// send the content back over to the layer
+			_callback(event, content);
+			
+			// clear references
+			dispose();
+			
+		}
+		
+		/**
+		 * 	Pass the event to the content loader object
+		 */
+		protected function dispatchEvent(event:Event):void {
+			_callback(event);
+		}
+		
+		/**
+		 * 
+		 */
+		final public function dispose():void {
+			_callback	= null,
+			_layer		= null;
 		}
 	}
 }

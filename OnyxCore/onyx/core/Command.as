@@ -93,8 +93,7 @@ package onyx.core {
 							'CLEAR: CLEARS THE TEXT<br>' +
 							'STAT [TIME:INT]:	TESTS ALL LAYERS FOR AVERAGE RENDERING TIME<br>' +
 							'HELP CONTRIBUTORS: LIST OF CONTRIBUTORS TO THE ONYX PROJECT<br>' +
-							'RESOLUTION: OUTPUTS THE SIZE OF THE FLASH STAGE';
-							'VLC: TOGGLE LOCAL(CONSOLE)/REMOTE(TELNET)';
+							'RESOLUTION: OUTPUTS THE SIZE OF THE FLASH STAGE'
 				
 					break;
 				case 'CONTRIBUTORS':
@@ -110,23 +109,15 @@ package onyx.core {
 					break;
 				case 'MODULES':
 					text =	'';
-					for each (var module:Module in Onyx.modules) {
-						text +=	module.name + ' loaded.  type ' + module.name + ' for more info.'
+					for each (var module:Module in Module.modules) {
+						text +=	module.name + ' loaded.  type ' + module.name + ' for options.<br>'
 					}
 					break;
-/*				TBD: Modularize this
-				case 'vlc':
-					text =	_createHeader('vlc') + 'VLC COMMANDS HELP<br><br>CTRL+T toggle console/telnet<br>' + 
-					'USAGE:<br>' + 'vlc connect server port<br>' +
-									'vlc disconnect <br>';
-					break;
-*/
 				// dispatch the start-up motd
 				default:
 					text =	_createHeader('<b>ONYX ' + VERSION + '</b>', 21) + 
 							'COPYRIGHT 2003-2007: WWW.ONYX-VJ.COM' +
 							'<br>TYPE "HELP" OR "HELP COMMANDS" FOR MORE COMMANDS.' +
-							'<br>TYPE "CTRL+T" FOR TELNET CONSOLE.' +
 							'<br>' ;
 					break;
 			}
@@ -173,35 +164,15 @@ package onyx.core {
 			
 			try {
 				
-				var display:Display = Display.getDisplay(0);
-				var layer:ILayer	= display.layers[args[0]];
+				var display:IDisplay	= AVAILABLE_DISPLAYS[0];
+				var layer:ILayer		= display.layers[args[0]];
 				
 				layer[args[1]] = args[2];
 			} catch (e:Error) {
 				Console.error(e.message);
 			}
-			return 'unimplemented';
-		}
-		
-		/**
-		 * 
-		 */
-		public static function vlc(... args:Array):void {
 			
-				switch(args[0]) {
-					case 'connect'		: if (args.length != 3) {
-											HELP('vlc');	
-										  } else {
-										  	Console.getInstance().vlc.connect(args[1], args[2]);
-										  }
-									  	  break;
-					case 'disconnect'	: Console.getInstance().vlc.disconnect();
-										  Console.getInstance().vlc.status = 'Disconnected by the client';
-										  Console.stateVlc(Console.getInstance().vlc.status);
-										  break;
-					default				: HELP('vlc');
-				}
-				
+			return 'unimplemented';
 		}
 		
 	}

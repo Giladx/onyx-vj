@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2007, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -28,22 +28,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
- package onyx.events
-{
-	import onyx.file.*;
-	
-	public class NthFileEvent extends NthCmdEvent
-	{
-		public var path:String;
-		public var fileData:String;
-		public var folderList:FolderList;
-		
-		private var _xml:XML;
+package onyx.constants {
 
-		public function NthFileEvent(t:String, x:XML)
-		{
-			_xml = x;
-			super(t)
-		}
-	}
+	public const AVAILABLE_DISPLAYS:Array = [];
+
 }

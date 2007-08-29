@@ -54,11 +54,10 @@ package onyx.content {
 		 */
 		private var _render:IRenderObject;
 
-
 		/**
 		 * 	@constructor
 		 */
-		public function ContentPlugin(layer:Layer, path:String, renderable:IRenderObject):void {
+		public function ContentPlugin(layer:ILayer, path:String, renderable:IRenderObject):void {
 			
 			_render = renderable;
 			

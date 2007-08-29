@@ -71,7 +71,7 @@ package onyx.display {
 		 * 	@private
 		 * 	The display the layer belongs to
 		 */
-		onyx_ns var			_display:Display;
+		onyx_ns var			_display:IDisplay;
 		
 		/**
 		 * 	@private
@@ -121,7 +121,7 @@ package onyx.display {
 				loader.addEventListener(ProgressEvent.PROGRESS,				_forwardEvents);
 				
 				// load
-				loader.load(path, settings, transition);
+				loader.load(path, settings, transition, this);
 			}
 		}
 		
@@ -131,11 +131,10 @@ package onyx.display {
 		 */
 		private function _onContentStatus(event:Event):void {
 			
-			var error:ErrorEvent, contentEvent:LayerContentEvent, loader:ContentLoader;
+			var error:ErrorEvent, loader:ContentLoader;
 			
 			loader			= event.currentTarget as ContentLoader,
-			error			= event as ErrorEvent,
-			contentEvent	= event as LayerContentEvent;
+			error			= event as ErrorEvent;
 			
 			// remove references
 			loader.removeEventListener(Event.COMPLETE,						_onContentStatus);
@@ -151,20 +150,18 @@ package onyx.display {
 			} else {
 
 				// create the new content object based on the type				
-				var loadedContent:Content = new contentEvent.contentType(this, contentEvent.path, contentEvent.reference);
+				var loadedContent:IContent = loader.content;
 
 				// if a transition was loaded, load the transition with the layer
-				if (contentEvent.transition && !(_content === NULL_LAYER)) {
+				if (loader.transition && !(_content === NULL_LAYER)) {
 					
 					// if current content is already a transition, destroy it, then load
 					if (_content is ContentTransition) {
-						
 						(_content as ContentTransition).endTransition();
-
 					}
 						
 					// create a new transition
-					loadedContent = new ContentTransition(this, contentEvent.transition, _content, loadedContent);
+					loadedContent = new ContentTransition(this, loader.transition, _content, loadedContent);
 
 					// here we need to dispatch that our old filters went away
 					for each (var filter:Filter in _content.filters) {
@@ -174,16 +171,19 @@ package onyx.display {
 				}
 
 				// pass the content on
-				_createContent(loadedContent, contentEvent.settings);
+				_createContent(loadedContent, loader.settings);
 
 			}
+			
+			// clear the contentloader
+			loader.dispose();
 		}
 		
 		/**
 		 * 	@private
 		 * 	Initializes Content
 		 */
-		private function _createContent(content:Content, settings:LayerSettings):void {
+		private function _createContent(content:IContent, settings:LayerSettings):void {
 
 			// get rid of earlier content
 			if (!(content is ContentTransition)) {

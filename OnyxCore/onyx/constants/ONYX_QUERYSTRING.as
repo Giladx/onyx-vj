@@ -32,6 +32,8 @@ package onyx.constants {
 
 	import flash.display.BlendMode;
 
+	[ExcludeClass]
+
 	public const ONYX_QUERYSTRING:String = 'onyx-';
 
 }

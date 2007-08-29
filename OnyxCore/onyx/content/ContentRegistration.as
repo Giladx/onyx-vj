@@ -1,5 +1,5 @@
 /** 
- * Copyright (c) 2007, www.onyx-vj.com
+ * Copyright (c) 2003-2007, www.onyx-vj.com
  * All rights reserved.	
  * 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -28,14 +28,32 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
- package onyx.events
-{
-	import flash.events.Event;
-
-	public class NthEvent extends Event
-	{    
-		public function NthEvent(t:String) {
-			super(t);
-     	}
+package onyx.content {
+	
+	import flash.display.Loader;
+	
+	/**
+	 * 	Content registration
+	 */
+	final public class ContentRegistration {
+		
+		/**
+		 * 	how many objects are looking at this loader?
+		 */
+		public var refCount:int;
+		
+		/**
+		 * 
+		 */
+		public var loader:Loader;
+	
+		/**
+		 * 	Dispose and kill the content
+		 */
+		public function dispose():void {
+			loader.unload();
+			loader	= null;
+		}
+		
 	}
 }

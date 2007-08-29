@@ -42,6 +42,9 @@ package onyx.file.http {
 	import onyx.settings.*;
 	import onyx.utils.string.*;
 
+	/**
+	 * 	Base HTTP Query class
+	 */
 	public final class HTTPQuery extends FileQuery {
 		
 		/**
@@ -84,32 +87,40 @@ package onyx.file.http {
 			loader.removeEventListener(Event.COMPLETE, _onLoadHandler);
 			loader.removeEventListener(IOErrorEvent.IO_ERROR, _onLoadHandler);
 			loader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, _onLoadHandler);
-	
+			
 			// error			
 			if (!(event is ErrorEvent)) {
 	
 				// declare the node
-				var node:XML;
+				var node:XML, thumbs:Array, thumbfiles:Array, xml:XML, files:XMLList, dirs:XMLList;
 	
 				// load the data into an xml doc			
-				var xml:XML = new XML(loader.data);
+				xml = new XML(loader.data);
 				
 				// create the Folder
 				var rootpath:String = pathUpOneLevel(xml.query.@path.toString());
 				var list:FolderList = new FolderList(pathUpOneLevel(rootpath));
 	
 				// get the children
-				var files:XMLList = xml.query.file;
-				var dirs:XMLList = xml.query.folder;
+				files	= xml.query.file,
+				dirs	= xml.query.folder;
 				
 				// parse for files Folder
 				for each (node in dirs) {
 					name = node.@name;
-
-					if (name === '..') {
-						name = rootpath.substr(0, rootpath.lastIndexOf('/', rootpath.length - 2)) + '/';
+					
+					// check for full protocol
+					if (name.indexOf('://') > 0) {
+						
+					// check for parent folder directive
+					} else if (name === '..') {
+						name = rootpath.substr(0, rootpath.lastIndexOf('/', rootpath.length - 2));
+						
+					// check to see if it's a relative path directoive
 					} else if (name.substr(0,1) === '/') {
 						name = FileBrowser.startupFolder + INITIAL_APP_DIRECTORY + name;
+						
+					// default, append the file name
 					} else {
 						name = FileBrowser.startupFolder + pathUpOneLevel(rootpath + name);
 					}
@@ -117,17 +128,26 @@ package onyx.file.http {
 					list.folders.push(new Folder(name));
 				}
 				
-				var thumbs:Array		= [];
-				var thumbfiles:Array	= [];
+				thumbs = [],
+				thumbfiles = [];
 				
 				// parse for files Folder
 				for each (node in files) {
 					
 					// get name of the node
-					var name:String = String(node.name());
+					var name:String = String(node.@name);
 					
 					var thumbpath:String	= node.@thumb;
-					var file:File			= new File(FileBrowser.startupFolder + pathUpOneLevel(rootpath + node.@name));
+					
+					// check for full protocol
+					if (name.indexOf('://') > 0) {
+					
+					// default, append the directory / path
+					} else {
+						name = FileBrowser.startupFolder + pathUpOneLevel(rootpath + name);
+					}
+					
+					var file:File			= new File(name);
 					
 					// call a job to update these bitmaps
 					if (thumbpath) {

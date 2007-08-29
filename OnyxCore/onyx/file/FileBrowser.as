@@ -38,11 +38,22 @@ package onyx.file {
 	import onyx.core.*;
 	import onyx.plugin.*;
 	import onyx.settings.*;
+	import onyx.utils.string.*;
+	import onyx.display.ILayer;
 	
 	/**
 	 * 	Stores a cache of directories - so re-querying will not be necessary
 	 */
 	final public class FileBrowser {
+
+		// set up default protocols for onyx plugins		
+		{	_def[ONYX_QUERYSTRING + 'filter']		= ProtocolPlugin,
+			_def[ONYX_QUERYSTRING + 'macro']		= ProtocolPlugin,
+			_def[ONYX_QUERYSTRING + 'renderer']		= ProtocolPlugin,
+			_def[ONYX_QUERYSTRING + 'transition']	= ProtocolPlugin,
+			_def[ONYX_QUERYSTRING + 'visualizer']	= ProtocolPlugin;
+			_def[ONYX_QUERYSTRING + 'camera']		= ProtocolPlugin;
+		}
 		
 		/** @private **/
 		public static var CAMERA_ICON:BitmapData;
@@ -52,16 +63,45 @@ package onyx.file {
 		
 		/**
 		 * 	@private
+		 * 	Definitions for protocols
+		 */
+		private static const _def:Object = {};
+		
+		/**
+		 * 	@private
 		 * 	Cache for the paths
 		 */
-		private static var _cache:Object = [];
+		private static var _cache:Object		= {};
 		
 		/**
 		 * 	@private
 		 * 	Store the file adapter
 		 */
 		private static var _adapter:FileAdapter;
+
+		/**
+		 * 	Registers a protocol class to be used with a certain type
+		 * 	i.e. vlc/VLCProtocol
+		 * 	@see FileProtocol
+		 */
+		public static function registerProtocol(name:String, definition:Class):void {
+			_def[name] = definition;
+		}
 		
+		/**
+		 * 	Returns a protocol query for a content type
+		 * 	Use this method when determining what kind of content type should be returned
+		 * 	based on a path
+		 */
+		public static function resolve(path:String, callback:Function, layer:ILayer):Protocol {
+			
+			var type:String = getProtocol(path);
+			var protocolClass:Class	= _def[type] || ProtocolDefault;
+			var protocol:Protocol = new protocolClass(path, callback, layer);
+			
+			return protocol;
+		}
+				
 		/**
 		 * 	Initial startup folder;
 		 */

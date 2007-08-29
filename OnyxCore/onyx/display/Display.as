@@ -56,24 +56,6 @@ package onyx.display {
 	public class Display extends Bitmap implements IDisplay {
 
 		/**
-		 * 
-		 */
-		public static const LAYER_TRANSITION:Dictionary		= new Dictionary(true);
-
-		/**
-		 * 	@private
-		 * 
-		 */
-		onyx_ns static const _displays:Array				= [];
-		
-		/**
-		 * 	Gets display
-		 */
-		public static function getDisplay(index:int):Display {
-			return _displays[index];
-		}
-
-		/**
 		 * 	@private
 		 * 	Stores the saturation, tint, etc, as well as colortransform
 		 */
@@ -182,7 +164,7 @@ package onyx.display {
 				new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT, false, _backgroundColor), PixelSnapping.ALWAYS, true);
 			
 			// add it to the displays index
-			_displays.push(this);
+			AVAILABLE_DISPLAYS.push(this);
 			
 			// hide/show mouse when over the display
 			addEventListener(MouseEvent.MOUSE_OVER, _onMouseOver, true);
@@ -218,7 +200,7 @@ package onyx.display {
 		/**
 		 * 	Creates a specified number of layers
 		 */
-		public function createLayers(numLayers:uint, local:Boolean = true):void {
+		public function createLayers(numLayers:int):void {
 			
 			while (numLayers-- ) {
 				
@@ -244,7 +226,7 @@ package onyx.display {
 		 * 	Call this function to apply a transition to the layer before it is rendered to the display
 		 */
 		public function setLayerTransition(layer:ILayer, transform:TransitionTransform):void {
-			LAYER_TRANSITION[layer] = transform;
+			DISPLAY_TRANSITIONS[layer] = transform;
 		}
 		
 		/**
@@ -332,7 +314,7 @@ package onyx.display {
 		 * 	Gets the display index
 		 */
 		public function get index():int {
-			return _displays.indexOf(this);
+			return AVAILABLE_DISPLAYS.indexOf(this);
 		}
 		
 		/**
@@ -345,7 +327,7 @@ package onyx.display {
 		/**
 		 * 	Copies a layer
 		 */
-		public function copyLayer(layer:Layer, index:int):void {
+		public function copyLayer(layer:ILayer, index:int):void {
 			
 			var layerindex:int	= layer.index;
 			var copylayer:Layer	= _layers[index];
@@ -363,7 +345,7 @@ package onyx.display {
 		/**
 		 * 
 		 */
-		public function indexOf(layer:Layer):int {
+		public function indexOf(layer:ILayer):int {
 			return _layers.indexOf(layer);
 		}
 		

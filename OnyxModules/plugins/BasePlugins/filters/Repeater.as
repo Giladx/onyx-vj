@@ -80,7 +80,7 @@ package filters {
 					newbmp, 
 					newbmp.rect, 
 					new Point((count % amount) * scaleX, 
-					floor(count / amount) * scaleY)
+					int(count / amount) * scaleY)
 				);
 			}
 		}

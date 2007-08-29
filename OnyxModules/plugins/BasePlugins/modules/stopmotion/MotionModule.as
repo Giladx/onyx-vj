@@ -28,66 +28,94 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package effects {
+package modules.stopmotion {
 	
-	import flash.display.BitmapData;
-	import flash.events.Event;
-	import flash.filters.BlurFilter;
-	
-	import onyx.constants.*;
-	import onyx.controls.*;
-	import onyx.plugin.IBitmapFilter;
-	import onyx.plugin.TempoFilter;
-	import onyx.tween.*;
-	import onyx.tween.easing.*;
-	import onyx.utils.math.*;
+	import onyx.plugin.Module;
+	import onyx.core.InterfaceOptions;
 
-	public final class TempoBlur extends TempoFilter implements IBitmapFilter {
-		
-		/**
-		 * 	@private
-		 */
-		private var _toggle:Boolean			= false;
-		
-		/**
-		 * 	Release
-		 */
-		public var frameRelease:int			= 6;
-		
-		/**
-		 * 	Release
-		 */
-		private var _release:int			= 6;
+	public final class MotionModule extends Module {
 		
 		/**
 		 * 	@constructor
 		 */
-		public function TempoBlur():void {
-
-			super(true,
-				null,
-				new ControlInt('frameRelease', 'release', 1, 20, 6)
-			);
+		public function MotionModule():void {
+			super(
+				new InterfaceOptions(MotionModuleUI, 300, 300)
+			)
+		}
+		
+		/**
+		 * 	Turn on the module
+		 */		
+		override public function initialize():void {
 			
 		}
+	}
+}
+
+import flash.display.*;
+import onyx.core.*;
+import onyx.controls.*;
+import onyx.display.Display;
+import onyx.constants.*;
+
+final class MotionModuleUI extends Sprite implements IDisposable, IControlObject {
+	
+	/**
+	 * 	@private
+	 */
+	private var bitmap:Bitmap;
+	
+	/**
+	 * 	@private
+	 */
+	private var display:Display;
+	
+	/**
+	 * 
+	 */
+	private var _controls:Controls;
+	
+	/**
+	 * 	@constructor
+	 */
+	public function MotionModuleUI():void {
 		
-		/**
-		 * 
-		 */
-		public function applyFilter(source:BitmapData):void {
-			if (_toggle) {
-				source.applyFilter(source, BITMAP_RECT, POINT, new BlurFilter(_release*4, _release*4));
-				
-				_toggle = --_release > 0;
-			}
-		}
+		_controls = new Controls(this,
+			new ControlExecute('capture', 'capture')
+		);
 		
-		/**
-		 * 
-		 */
-		override protected function onTrigger(beat:int, event:Event):void {
-			_toggle			= true;
-			_release		= frameRelease;
-		}
+		display	= AVAILABLE_DISPLAYS[0];
+		bitmap = new Bitmap(display.rendered);
+		
+		bitmap.width	= 160,
+		bitmap.height	= 120,
+		bitmap.x		= 1;
+		
+		addChild(bitmap);
+	}
+	
+	/**
+	 * 
+	 */
+	public function capture():void {
+		Console.output('motion captured');
+	}
+	
+	/**
+	 * 
+	 */
+	public function get controls():Controls {
+		return _controls;
+	}
+	
+	/**
+	 * 	Dispose the UI
+	 */
+	public function dispose():void {
+		
+		display = null,
+		bitmap	= null;
+		
 	}
 }

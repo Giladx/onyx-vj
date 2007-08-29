@@ -40,7 +40,7 @@ package {
 		/**
 		 * 	@private
 		 */
-		private var _layer:IDisplay		= Display.getDisplay(0);
+		private var _layer:IDisplay		= AVAILABLE_DISPLAYS[0];
 		
 		/**
 		 * 	@private

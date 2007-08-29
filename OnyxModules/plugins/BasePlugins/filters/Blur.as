@@ -68,8 +68,7 @@ package filters {
 				false,
 				new ControlProxy('blur', 'blur',
 					__blurX,
-					__blurY,
-					{ factor: 5, invert: true }
+					__blurY
 				),
 				new ControlNumber('mindelay',	'Min Delay', .1, 50, .1),
 				new ControlNumber('maxdelay',	'Min Delay', .1, 50, 1),

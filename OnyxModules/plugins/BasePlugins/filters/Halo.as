@@ -62,8 +62,7 @@ package filters {
 				false,
 				new ControlProxy('blur', 'blur',
 					__blurX,
-					__blurY,
-					{ factor: 5, invert: true }
+					__blurY
 				),
 				new ControlRange('blendMode', 'blendMode', BLEND_MODES, 0)
 			);

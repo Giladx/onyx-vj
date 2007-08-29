@@ -81,8 +81,6 @@ package {
 		 * 	@constructor
 		 */
 		public function ScreenShare():void {
-			
-			trace(STAGE);
 
 			return;
 			

@@ -36,39 +36,46 @@
  */
 
 #include <sys/stat.h>
-#include <iostream>
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
 #include <dirent.h>
 
-void recurse(char *root, char *query);
+// file copy
+#include <iostream>
+#include <fstream>
+#include <string>
 
-void recurse(char *root, char *query)
+using namespace std;
+
+void recurse(string root, string query);
+
+void recurse(string root, string query)
 {
-	char tmpA[PATH_MAX+1];
-	char tmpB[PATH_MAX+1];
-	char tmpC[PATH_MAX+1];
 	
-	char fileXml[PATH_MAX+1];
-	char nquery[PATH_MAX+1]; 	// next query 
+	string tmp = root+"/"+query+"/files.xml";
 	
-	char name[] = "\0"; 		// no file extension
-		
-	strcat(strcpy(fileXml,query),"/files.xml");	
-			
-	FILE* xml = fopen(fileXml, "w");
-	
-	fprintf(xml, "<response>\n\t<query path=\"%s/\">\n\t\t\n\t\t<folder name=\"..\" />\n\t\t\n\t\t", query);
-		
-	strcat(strcat(strcpy(tmpA, root), "/"), query);
+	string fileXml;
+	string name;
+	string nameNoExt;
+
+	bool hasThumbDir 	= false;	//check for thumbs dir
 	
 	DIR* pdir;
 	struct dirent* ent;
-    struct stat info;
-    
+	struct stat info;
+	struct stat thumb;   
+	
+	fstream xml;
+	
+	///start here
+	fclose( fopen(tmp.c_str(), "w"));
+	xml.open(tmp.c_str(), fstream::in | fstream::out);
+	xml << "<response>\n\t<query path=\""+query+"/\">\n\t\t\n\t\t<folder name=\"..\" />\n\t\t\n\t\t";	
+		
     //list dir only
-    pdir = opendir(tmpA);
+	tmp = root+"/"+query;
+    pdir = opendir(tmp.c_str());
     
     if (pdir != NULL) {
     	
@@ -77,31 +84,42 @@ void recurse(char *root, char *query)
     	
     	while(ent = readdir(pdir)) {
     		
-    		strcpy(tmpB,tmpA);
-    		stat(strcat(strcat(tmpA,"/"),ent->d_name), &info);
+    		name = ent->d_name;
+    		tmp = root+"/"+query+"/"+name; 
+    		
+    		stat(tmp.c_str(), &info);
     		    			
-    		if(S_ISDIR(info.st_mode) && strcmp(ent->d_name,"thumbs")) {
+    		if(S_ISDIR(info.st_mode) && name!="thumbs") {
     			
-    			fprintf(xml, "<folder name=\"%s/\" url=\"%s/%s\" />\n\t\t", ent->d_name, tmpB, ent->d_name);
+    			xml << "<folder name=\""+name+"/\" url=\""+tmp+"\" />\n\t\t";
     			
-    			strcpy(nquery,"\0");
-    			printf("%s\n", strcat(strcat(strcat(nquery,query),"/"),ent->d_name));
-    			
-    			strcpy(nquery,"\0");
-    			recurse(root, strcat(strcat(strcat(nquery,query),"/"),ent->d_name));
+    			recurse(root, query+"/"+name);
     				    			
+    		} else if (S_ISDIR(info.st_mode) && name=="thumbs") {
+    	
+    			hasThumbDir = true;
+    			
     		}
-    		
-    		strcpy(tmpA,tmpB);
-    		
+    		    		
     	}
     	
-    	fprintf(xml, "\n\t\t");
+    	//create "thumbs" dir
+    	if(!hasThumbDir) {
+    		
+    		tmp = root+"/"+query+"/thumbs";
+    		mkdir(tmp.c_str());
+    		
+    		hasThumbDir = false;
+    	
+    	}
+    	
+    	xml << "\n\t\t";
     	closedir(pdir);
     }
     
     //list files only
-    pdir = opendir(tmpA);
+    tmp = root+"/"+query;
+    pdir = opendir(tmp.c_str());
     
     if (pdir != NULL) {
 
@@ -110,35 +128,57 @@ void recurse(char *root, char *query)
         	
        	while(ent = readdir(pdir)) {
         		
-      		strcpy(tmpB,tmpA);
-       		stat(strcat(strcat(tmpA,"/"),ent->d_name), &info);
-        		    			
-       		if(S_ISREG(info.st_mode) && strcmp(ent->d_name,"files.xml") && strcmp(ent->d_name,"Thumbs.db")) {
-       				
-       			strncpy( name, ent->d_name, strlen(ent->d_name) - strlen(strpbrk(ent->d_name,".")) );
-       			fprintf(xml, "<file name=\"%s\" url=\"%s/%s\" thumb=\"thumbs/%s.png\" />\n\t\t", ent->d_name, tmpB, ent->d_name, name);
+       		name = ent->d_name;
+       		nameNoExt = name.substr(0,name.find_last_of("."));
        		
+       		tmp = root+"/"+query+"/"+name;
+       		
+       		stat(tmp.c_str(), &info);
+        		    			
+       		if(S_ISREG(info.st_mode) && name!="files.xml" && name!="Thumbs.db") {
+       			
+       			xml << "<file name=\""+name+"\" url=\""+query+"/"+name+"\" thumb=\"thumbs/"+nameNoExt+".png\" />\n\t\t";
+       		
+       			//create .png thumb if not exists (unknown,yellow-black content)
+       			tmp = root+"/"+query+"/thumbs/"+nameNoExt+".png";
+       			       			
+       			if(stat(tmp.c_str(), &thumb) == -1) {
+       				
+       				//create file
+       				fclose(fopen(tmp.c_str(),"w"));
+       				
+       				string tmp2 = root+"/unknown.png";
+       				
+       				fstream src, dst;
+       				src.open(tmp2.c_str(), fstream::in | fstream::binary);
+       				dst.open(tmp.c_str(), fstream::out | fstream::binary);
+       				
+       				dst << src.rdbuf();
+       				
+       				src.close();
+       				dst.close();
+       				
+       			}
        		}
-       		strcpy(tmpA,tmpB);
-       		strcpy(tmpC,"\0");
        		
         }
         	
-        fprintf(xml, "\n\t\t");
+        xml << "\n\t\t";
         closedir(pdir);
     }
     
-    fprintf(xml,"</query>\n</response>");
-    fclose(xml);
+    xml << "</query>\n</response>";
+    xml.close();
     
 }
 
 int main (/*int argc, char *argv[]*/) {
 	
-	char root[PATH_MAX+1];
-	char query[] = "video"; 
+	char path[PATH_MAX+1];
+	 
+	string root 	= getcwd(path, PATH_MAX+1);
+	string query	= "video";
 	
-	getcwd(root, PATH_MAX+1);
 	recurse(root, query);
 	
 	return EXIT_SUCCESS;

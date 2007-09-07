@@ -36,7 +36,7 @@ package onyx.tween {
 	import onyx.constants.*;
 	import onyx.core.*;
 	import onyx.tween.easing.*;
-	import onyx.utils.math.*;
+
 	
 	use namespace onyx_ns;
 
@@ -127,7 +127,7 @@ package onyx.tween {
 			
 			// apply values
 			for each (var prop:TweenProperty in _props) {
-				var args:Array		= [min(curTime, _ms), 0, prop.end - prop.start, _ms];
+				var args:Array		= [Math.min(curTime, _ms), 0, prop.end - prop.start, _ms];
 				var fn:Function		= prop.easing || Linear.easeIn;
 				var value:Number 	= fn.apply(null, args) + prop.start;
 			

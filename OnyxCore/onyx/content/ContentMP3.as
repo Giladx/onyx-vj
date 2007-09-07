@@ -42,7 +42,7 @@ package onyx.content {
 	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.plugin.*;
-	import onyx.utils.math.*;
+
 
 	use namespace onyx_ns;
 	
@@ -82,7 +82,7 @@ package onyx.content {
 		/**
 		 * 	@private
 		 */
-		private var _volume:SoundTransform	= new SoundTransform(.5);
+		private var _transform:SoundTransform	= new SoundTransform(.5);
 
 		/**
 		 * 	@constructor
@@ -92,11 +92,12 @@ package onyx.content {
 			// add a control for the visualizer
 			_controls = new Controls(this, 
 				new ControlInt('volume', 'volume', 0, 100, 50),
+				new ControlInt('pan', 'pan', 0, 100, 50),
 				new ControlPlugin('visualizer', 'Visualizer', ControlPlugin.VISUALIZERS)
 			);
 			
 			_sound		= sound;
-			_length		= max(int(sound.length / 100) * 100, 0);
+			_length		= Math.max(int(sound.length / 100) * 100, 0);
 			
 			_loopStart	= 0;
 			_loopEnd	= _length;
@@ -108,10 +109,10 @@ package onyx.content {
 		 * 
 		 */
 		public function set volume(value:int):void {
-			_volume.volume = value / 100;
+			_transform.volume = value / 100;
 			
 			if (_channel) {
-				_channel.soundTransform = _volume;
+				_channel.soundTransform = _transform;
 			}
 		}
 		
@@ -119,7 +120,26 @@ package onyx.content {
 		 * 
 		 */
 		public function get volume():int {
-			return _volume.volume * 100;
+			return _transform.volume * 100;
+		}
+
+
+		/**
+		 * 
+		 */
+		public function set pan(value:int):void {
+			_transform.pan = value / 100;
+			
+			if (_channel) {
+				_channel.soundTransform = _transform;
+			}
+		}
+		
+		/**
+		 * 
+		 */
+		public function get pan():int {
+			return _transform.pan * 100;
 		}
 
 		/**
@@ -161,11 +181,11 @@ package onyx.content {
 			
 			if (_channel) {
 				
-				var position:Number = ceil(_channel.position);
+				var position:Number = Math.ceil(_channel.position);
 				
 				if (position >= _loopEnd || position < _loopStart || position >= _length) {
 					_channel.stop();
-					_channel = _sound.play(_loopStart, 0, _volume);
+					_channel = _sound.play(_loopStart, 0, _transform);
 				}
 	
 				// draw ourselves			

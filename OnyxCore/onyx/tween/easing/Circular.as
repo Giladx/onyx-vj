@@ -9,7 +9,7 @@
 
 package onyx.tween.easing {
 
-	import onyx.utils.math.*;
+
 
 /**
  *  The Circular class defines three easing functions to implement 
@@ -44,7 +44,7 @@ final public class Circular
 	public static function easeIn(t:Number, b:Number,
 								  c:Number, d:Number):Number
 	{
-		return -c * (sqrt(1 - (t /= d) * t) - 1) + b;
+		return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
 	}
 
     /**
@@ -64,7 +64,7 @@ final public class Circular
 	public static function easeOut(t:Number, b:Number,
 								   c:Number, d:Number):Number
 	{
-		return c * sqrt(1 - (t = t/d - 1) * t) + b;
+		return c * Math.sqrt(1 - (t = t/d - 1) * t) + b;
 	}
 
     /**
@@ -86,9 +86,9 @@ final public class Circular
 									 c:Number, d:Number):Number
 	{
 		if ((t /= d >> 1) < 1)
-			return -c >> 1 * (sqrt(1 - t * t) - 1) + b;
+			return -c >> 1 * (Math.sqrt(1 - t * t) - 1) + b;
 
-		return c >> 1 * (sqrt(1 - (t -= 2) * t) + 1) + b;
+		return c >> 1 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
 	}
 }
 

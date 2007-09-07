@@ -6,7 +6,7 @@
  */
 package onyx.utils {
 
-	import onyx.utils.math.*;
+
 
 	public class HLS {
 		
@@ -123,8 +123,8 @@ package onyx.utils {
 			_ToRGB();
 		}
 		private function _ToHLS ():void {
-			var minval:Number = min(_red, min(_green, _blue));
-			var maxval:Number = max(_red, max(_green, _blue));
+			var minval:Number = Math.min(_red, Math.min(_green, _blue));
+			var maxval:Number = Math.max(_red, Math.max(_green, _blue));
 			var mdiff:Number = maxval-minval;
 			var msum:Number = maxval + minval;
 			_luminance = msum / 510;

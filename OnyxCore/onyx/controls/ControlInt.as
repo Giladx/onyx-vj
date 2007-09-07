@@ -32,7 +32,7 @@ package onyx.controls {
 	
 	import onyx.core.onyx_ns;
 	import onyx.events.ControlEvent;
-	import onyx.utils.math.*;
+
 
 	use namespace onyx_ns;
 	
@@ -75,7 +75,7 @@ package onyx.controls {
 		}
 		
 		override public function dispatch(v:*):* {
-			var value:int = onyx.utils.math.min(onyx.utils.math.max(v, _min), _max);
+			var value:int = Math.min(Math.max(v, _min), _max);
 			dispatchEvent(new ControlEvent(value));
 			
 			return value;

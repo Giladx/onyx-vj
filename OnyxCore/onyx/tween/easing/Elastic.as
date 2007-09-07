@@ -9,8 +9,6 @@
 
 package onyx.tween.easing {
 
-import onyx.utils.math.*;
-
 /**
  *  The Elastc class defines three easing functions to implement 
  *  motion with Flex effect classes, where the motion is defined by 
@@ -60,18 +58,18 @@ final public class Elastic
 			p = d * 0.3;
 		
 		var s:Number;
-		if (!a || a < abs(c))
+		if (!a || a < Math.abs(c))
 		{
 			a = c;
 			s = p / 4;
 		}
 		else
 		{
-			s = p / (2 * PI) * asin(c / a);
+			s = p / (2 * Math.PI) * Math.asin(c / a);
 		}
 
-		return -(a * pow(2, 10 * (t -= 1)) *
-				 sin((t * d - s) * (2 * PI) / p)) + b;
+		return -(a * Math.pow(2, 10 * (t -= 1)) *
+				 Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
 	}
 
     /**
@@ -106,18 +104,18 @@ final public class Elastic
 			p = d * 0.3;
 
 		var s:Number;
-		if (!a || a < abs(c))
+		if (!a || a < Math.abs(c))
 		{
 			a = c;
 			s = p / 4;
 		}
 		else
 		{
-			s = p / (2 * PI) * asin(c / a);
+			s = p / (2 * Math.PI) * Math.asin(c / a);
 		}
 
-		return a * pow(2, -10 * t) *
-			   sin((t * d - s) * (2 * PI) / p) + c + b;
+		return a * Math.pow(2, -10 * t) *
+			   Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
 	}
 
     /**
@@ -153,24 +151,24 @@ final public class Elastic
 			p = d * (0.3 * 1.5);
 
 		var s:Number;
-		if (!a || a < abs(c))
+		if (!a || a < Math.abs(c))
 		{
 			a = c;
 			s = p / 4;
 		}
 		else
 		{
-			s = p / (2 * PI) * asin(c / a);
+			s = p / (2 * Math.PI) * Math.asin(c / a);
 		}
 
 		if (t < 1)
 		{
-			return -0.5 * (a * pow(2, 10 * (t -= 1)) *
-				   sin((t * d - s) * (2 * PI) /p)) + b;
+			return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) *
+				  Math.sin((t * d - s) * (2 * Math.PI) /p)) + b;
 		}
 		
-		return a * pow(2, -10 * (t -= 1)) *
-			   sin((t * d - s) * (2 * PI) / p ) * 0.5 + c + b;
+		return a * Math.pow(2, -10 * (t -= 1)) *
+			   Math.sin((t * d - s) * (2 * Math.PI) / p ) * 0.5 + c + b;
 	}
 }
 

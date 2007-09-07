@@ -34,8 +34,6 @@ package onyx.utils.bitmap {
 	import flash.geom.*;
 	import flash.utils.*;
 	
-	import onyx.utils.math.*;
-	
 	public class JPGEncoder {
 
 		// Core processing
@@ -52,12 +50,30 @@ package onyx.utils.bitmap {
 			21,34,37,47,50,56,59,61,
 			35,36,48,49,57,58,62,63
 		];
-	
+
+		/**
+		 * 	@private
+		 */
 		private var YTable:Array = new Array(64);
+
+		/**
+		 * 	@private
+		 */
 		private var UVTable:Array = new Array(64);
+
+		/**
+		 * 	@private
+		 */
 		private var fdtbl_Y:Array = new Array(64);
+
+		/**
+		 * 	@private
+		 */
 		private var fdtbl_UV:Array = new Array(64);
-	
+
+		/**
+		 * 	@private
+		 */
 		private function initQuantTables(sf:int):void {
 			
 			var YQT:Array = [
@@ -71,7 +87,7 @@ package onyx.utils.bitmap {
 				72, 92, 95, 98,112,100,103, 99
 			];
 			for (var i:int = 0; i < 64; i++) {
-				var t:Number = floor((YQT[i]*sf+50)/100);
+				var t:Number = Math.floor((YQT[i]*sf+50)/100);
 				if (t < 1) {
 					t = 1;
 				} else if (t > 255) {
@@ -90,7 +106,7 @@ package onyx.utils.bitmap {
 				99, 99, 99, 99, 99, 99, 99, 99
 			];
 			for (i = 0; i < 64; i++) {
-				t = floor((UVQT[i]*sf+50)/100);
+				t = Math.floor((UVQT[i]*sf+50)/100);
 				if (t < 1) {
 					t = 1;
 				} else if (t > 255) {
@@ -113,14 +129,32 @@ package onyx.utils.bitmap {
 				}
 			}
 		}
-	
+
+		/**
+		 * 	@private
+		 */
 		private var YDC_HT:Array;
+
+		/**
+		 * 	@private
+		 */
 		private var UVDC_HT:Array;
+
+		/**
+		 * 	@private
+		 */
 		private var YAC_HT:Array;
+
+		/**
+		 * 	@private
+		 */
 		private var UVAC_HT:Array;
-	
-		private function computeHuffmanTbl(nrcodes:Array, std_table:Array):Array
-		{
+
+		/**
+		 * 	@private
+		 */
+		private function computeHuffmanTbl(nrcodes:Array, std_table:Array):Array {
+			
 			var codevalue:int = 0;
 			var pos_in_table:int = 0;
 			var HT:Array = new Array();
@@ -365,7 +399,7 @@ package onyx.utils.bitmap {
 			// Quantize/descale the coefficients
 			for (i=0; i<64; i++) {
 				// Apply the quantization and scaling factor & Round to nearest integer
-				data[i] = round((data[i]*fdtbl[i]));
+				data[i] = Math.round((data[i]*fdtbl[i]));
 			}
 			return data;
 		}

@@ -558,14 +558,14 @@ package onyx.display {
 		 * 	Gets content rotation
 		 */
 		public function get rotation():Number {
-			return _content.rotation / RADIANS;
+			return _content.rotation / (Math.PI / 180);
 		}
 
 		/**
 		 * 	Sets content rotation
 		 */
 		public function set rotation(value:Number):void {
-			_content.rotation = value * RADIANS;
+			_content.rotation = value * (Math.PI / 180);
 		}
 		
 		/**

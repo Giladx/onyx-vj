@@ -42,7 +42,7 @@ package onyx.content {
 	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.plugin.*;
-	import onyx.utils.math.*;
+
 
 	use namespace onyx_ns;
 	

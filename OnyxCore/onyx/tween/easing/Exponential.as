@@ -45,7 +45,7 @@ final public class Exponential
 	public static function easeIn(t:Number, b:Number,
 								  c:Number, d:Number):Number
 	{
-		return t == 0 ? b : c * pow(2, 10 * (t / d - 1)) + b;
+		return t == 0 ? b : c * Math.pow(2, 10 * (t / d - 1)) + b;
 	}
 
     /**
@@ -65,7 +65,7 @@ final public class Exponential
 	public static function easeOut(t:Number, b:Number,
 								   c:Number, d:Number):Number
 	{
-		return t == d ? b + c : c * (-pow(2, -10 * t / d) + 1) + b;
+		return t == d ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b;
 	}
 
     /**
@@ -93,9 +93,9 @@ final public class Exponential
 			return b + c;
 
 		if ((t /= d >> 1) < 1)
-			return c >> 1 * pow(2, 10 * (t - 1)) + b;
+			return c >> 1 * Math.pow(2, 10 * (t - 1)) + b;
 
-		return c >> 1 * (-pow(2, -10 * --t) + 2) + b;
+		return c >> 1 * (-Math.pow(2, -10 * --t) + 2) + b;
 	}
 }
 

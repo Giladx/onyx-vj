@@ -30,7 +30,7 @@
  */
 package onyx.utils.string {
 
-	import onyx.utils.math.*;
+
 
 	/**
 	 * 	Returns a filename without it's extension
@@ -40,7 +40,7 @@ package onyx.utils.string {
 		var end:int = path.lastIndexOf('.');
 		
 		if (end) {
-			var start:int = max(path.lastIndexOf('//')+1,path.lastIndexOf('/')+1);
+			var start:int = Math.max(path.lastIndexOf('//')+1,path.lastIndexOf('/')+1);
 			return path.substr(start, end - start);
 		}
 		

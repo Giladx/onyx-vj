@@ -41,7 +41,7 @@ package onyx.midi {
 	import onyx.events.*;
 	import onyx.display.*;
 	import onyx.net.*;
-	import onyx.utils.math.*;
+
 
  	/**
  	 * 	Base Midi Class

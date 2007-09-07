@@ -45,7 +45,7 @@ package onyx.content {
 	import onyx.settings.*;
 	import onyx.tween.*;
 	import onyx.utils.array.*;
-	import onyx.utils.math.*;
+
 	
 	[Event(name="filter_applied",	type="onyx.events.FilterEvent")]
 	[Event(name="filter_removed",	type="onyx.events.FilterEvent")]
@@ -604,19 +604,19 @@ package onyx.content {
 			var transform:RenderTransform = new RenderTransform();
 
 			// if rotation is 0, send a clipRect, otherwise, don't clip
-			var rect:Rectangle = (_rotation === 0) ? new Rectangle(0, 0, max(BITMAP_WIDTH / _scaleX, BITMAP_WIDTH), max(BITMAP_HEIGHT / _scaleY, BITMAP_HEIGHT)) : null;
+			var rect:Rectangle = (_rotation === 0) ? new Rectangle(0, 0, Math.max(BITMAP_WIDTH / _scaleX, BITMAP_WIDTH), Math.max(BITMAP_HEIGHT / _scaleY, BITMAP_HEIGHT)) : null;
 			
 			// build a matrix
 			if (!_renderMatrix) {
 				
 				// performance math functions used
-				var ANCHORX:Number = _anchorX * abs(_scaleX);
-				var ANCHORY:Number = _anchorY * abs(_scaleY);
+				var ANCHORX:Number = _anchorX * Math.abs(_scaleX);
+				var ANCHORY:Number = _anchorY * Math.abs(_scaleY);
 				
-				var H:Number			= sqrt(pow(ANCHORX,2) + pow(ANCHORY,2));
-				var OFFANG:Number		= atan(ANCHORY/ANCHORX);
-				var OFFROTX:Number		= ((H * cos((_rotation+OFFANG))) - ANCHORX);
-				var OFFROTY:Number		= ((H * sin((_rotation+OFFANG))) - ANCHORY);
+				var H:Number			= Math.sqrt(Math.pow(ANCHORX,2) + Math.pow(ANCHORY,2));
+				var OFFANG:Number		= Math.atan(ANCHORY/ANCHORX);
+				var OFFROTX:Number		= ((H * Math.cos((_rotation+OFFANG))) - ANCHORX);
+				var OFFROTY:Number		= ((H * Math.sin((_rotation+OFFANG))) - ANCHORY);
 				var OFFSCALEX:Number	= (_anchorX * (1 - _scaleX));
 				var OFFSCALEY:Number	= (_anchorY * (1 - _scaleY));
 				

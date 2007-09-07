@@ -16,10 +16,8 @@ package onyx.tween.easing
  *
  *  For more information, see http://www.robertpenner.com/profmx.
  */  
-final public class Back
-{
+final public class Back {
 	
-
 	//--------------------------------------------------------------------------
 	//
 	//  Class methods

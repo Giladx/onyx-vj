@@ -38,7 +38,7 @@ package onyx.utils {
 	
 	import onyx.constants.STAGE;
 	import onyx.core.IDisposable;
-	import onyx.utils.math.*;
+
 	
 	/**
 	 * 	Displays a graph over time
@@ -137,10 +137,10 @@ package onyx.utils {
 		 * 	Calculates minimum and maximum values
 		 */
 		private function _calc(x:Number, y:Number):void {
-			maxY = max(y, maxY);
-			minY = min(y, minY);
-			maxX = max(x, maxX);
-			minX = min(x, minX);
+			maxY = Math.max(y, maxY);
+			minY = Math.min(y, minY);
+			maxX = Math.max(x, maxX);
+			minX = Math.min(x, minX);
 			
 			_minText.text = minY.toFixed(2);
 			_maxText.text = maxY.toFixed(2);

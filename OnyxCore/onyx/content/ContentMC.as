@@ -40,10 +40,8 @@ package onyx.content {
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.events.*;
-	import onyx.content.ContentMC;
 	import onyx.plugin.*;
 	import onyx.settings.*;
-	import onyx.utils.math.*;
 			
 	use namespace onyx_ns;
 	
@@ -213,7 +211,7 @@ package onyx.content {
 				loopStart	= totalFrames * _loopStart;
 				
 				// constrain the frame
-				frame = (frame < loopStart) ? loopEnd : max(frame % loopEnd, loopStart);
+				frame = (frame < loopStart) ? loopEnd : Math.max(frame % loopEnd, loopStart);
 
 				// save the frame				
 				_frame = frame;
@@ -254,7 +252,7 @@ package onyx.content {
 		 * 	Sets the beginning loop point (percentage)
 		 */		
 		override public function set loopStart(value:Number):void {
-			_loopStart = __loopStart.dispatch(min(value, _loopEnd));
+			_loopStart = __loopStart.dispatch(Math.min(value, _loopEnd));
 		}
 		
 		/**
@@ -269,7 +267,7 @@ package onyx.content {
 		 */
 		override public function set loopEnd(value:Number):void {
 			
-			_loopEnd = __loopEnd.dispatch(max(value, _loopStart, 0.01));
+			_loopEnd = __loopEnd.dispatch(Math.max(value, _loopStart, 0.01));
 
 		}
 		

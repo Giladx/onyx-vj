@@ -35,7 +35,7 @@ package onyx.core {
 	
 	import onyx.constants.*;
 	import onyx.content.ColorFilter;
-	import onyx.utils.math.*;
+
 	
 	/**
 	 * 	Transformation class used by the Onyx core to determine how to render content
@@ -61,7 +61,7 @@ package onyx.core {
 			matrix.translate(ref.x, ref.y);
 
 			transform.matrix			= matrix,
-			transform.rect				= (ref.rotation === 0) ? new Rectangle(0, 0, max(BITMAP_WIDTH / ref.scaleX, BITMAP_WIDTH), max(BITMAP_HEIGHT / ref.scaleY, BITMAP_HEIGHT)) : null,
+			transform.rect				= (ref.rotation === 0) ? new Rectangle(0, 0, Math.max(BITMAP_WIDTH / ref.scaleX, BITMAP_WIDTH), Math.max(BITMAP_HEIGHT / ref.scaleY, BITMAP_HEIGHT)) : null,
 			transform.content			= ref;
 
 			return transform;

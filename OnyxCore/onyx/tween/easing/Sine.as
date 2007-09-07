@@ -8,9 +8,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 package onyx.tween.easing {
-	
-	
-import onyx.utils.math.*;
 
 /**
  *  The Sine class defines three easing functions to implement 
@@ -44,7 +41,7 @@ final public class Sine {
 	public static function easeIn(t:Number, b:Number,
 								  c:Number, d:Number):Number
 	{
-		return -c * cos(t / d * (PI / 2)) + c + b;
+		return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
 	}
 
     /**
@@ -64,7 +61,7 @@ final public class Sine {
 	public static function easeOut(t:Number, b:Number,
 								   c:Number, d:Number):Number
 	{
-		return c * sin(t / d * (PI / 2)) + b;
+		return c * Math.sin(t / d * (Math.PI / 2)) + b;
 	}
 
     /**
@@ -86,7 +83,7 @@ final public class Sine {
 	public static function easeInOut(t:Number, b:Number,
 									 c:Number, d:Number):Number
 	{
-		return -c / 2 * (cos(PI * t / d) - 1) + b;
+		return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
 	}
 }
 

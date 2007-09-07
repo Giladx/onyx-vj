@@ -36,9 +36,7 @@ package ui.controls {
 	import onyx.controls.*;
 	import onyx.events.ControlEvent;
 	import onyx.net.Stream;
-	import onyx.utils.math.*;
-	
-	import ui.styles.*;
+
 	import ui.text.TextFieldCenter;
 	
 	final public class SliderV2 extends UIControl {
@@ -88,7 +86,7 @@ package ui.controls {
 			_multiplier = multiplier;
 			_factor = factor;
 
-			_value.text		= floor(_controlY.value * _multiplier) + ':' + floor(_controlX.value * _multiplier);	
+			_value.text		= ((_controlY.value * _multiplier) >> 0) + ':' + ((_controlX.value * _multiplier) >> 0);	
 			
 			addChild(_value);
 			addChild(_button);
@@ -202,7 +200,7 @@ package ui.controls {
 				y = _controlY.value;
 			}
 			
-			_value.text = String(floor(x * _multiplier)) + ':' + String(floor(y * _multiplier));
+			_value.text = String((x * _multiplier) >> 0) + ':' + String((y * _multiplier) >> 0);
 		}
 		
 		/**

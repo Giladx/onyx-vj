@@ -35,9 +35,7 @@ package ui.controls {
 	import onyx.constants.*;
 	import onyx.controls.*;
 	import onyx.events.ControlEvent;
-	import onyx.utils.math.*;
-	
-	import ui.styles.*;
+
 	import ui.text.TextFieldCenter;
 	
 	/**
@@ -177,7 +175,7 @@ package ui.controls {
 		 * 	@private
 		 */
 		protected function _onControlChange(event:ControlEvent = null):void {
-			value	= String(floor(((event) ? event.value : _control.value) * _multiplier));
+			value	= String((((event) ? event.value : _control.value) * _multiplier) >> 0);
 		}
 		
 		/**

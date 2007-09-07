@@ -41,6 +41,7 @@ package ui.controls {
 	import onyx.controls.ControlBoolean;
 	import flash.display.DisplayObject;
 	import onyx.controls.ControlRange;
+	import ui.text.TextFieldCenter;
 	
 	/**
 	 * 	Checkbox
@@ -55,7 +56,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private var _label:TextField;
+		private var _label:TextFieldCenter;
 		
 		/**
 		 * 	@private
@@ -67,20 +68,13 @@ package ui.controls {
 		 */
 		public function CheckBox(options:UIOptions, control:ControlRange):void {
 			
-			trace(control, options);
-			
 			super(options, control, true, control.display);
-			
-			trace(control);
-			trace(control.value);
 
-			_label			= new TextField(options.width + 3, options.height);
+			_label			= new TextFieldCenter(options.width + 3, options.height, 0, 0);
 			_button			= new ButtonClear(options.width, options.height);
 			_value			= control.value;
 			
-			
-			_label.text		= _value,
-			_label.y		= 1;
+			_label.text		= _value;
 			
 			addChild(_label);
 			addChild(_button);

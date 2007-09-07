@@ -34,6 +34,7 @@ package ui.controls {
 	
 	import ui.core.UIObject;
 	import ui.styles.UI_OPTIONS;
+	import onyx.utils.GCTester;
 	
 	/**
 	 * 	Text Button
@@ -57,7 +58,6 @@ package ui.controls {
 
 			// add a button
 			addChild(new ButtonClear(width, height));
-			
 		}
 	}
 }

@@ -32,13 +32,12 @@ package ui.controls {
 	
 	import flash.display.*;
 	import flash.events.MouseEvent;
-	import flash.geom.Point;
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
 	import onyx.events.ControlEvent;
-	import onyx.utils.math.*;
 	
+	import ui.core.*;
 	import ui.styles.*;
 	import ui.text.TextField;
 	

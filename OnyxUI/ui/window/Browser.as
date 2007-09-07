@@ -32,16 +32,14 @@ package ui.window {
 	
 	import flash.display.*;
 	import flash.events.*;
-	import flash.net.URLRequest;
+	import flash.utils.Dictionary;
 	
 	import onyx.constants.*;
 	import onyx.display.LayerSettings;
 	import onyx.file.*;
 	import onyx.plugin.*;
 	import onyx.settings.*;
-	import onyx.utils.math.*;
 	
-	import ui.assets.*;
 	import ui.controls.*;
 	import ui.controls.browser.*;
 	import ui.core.*;
@@ -49,8 +47,6 @@ package ui.window {
 	import ui.layer.*;
 	import ui.styles.*;
 	import ui.text.*;
-	import flash.utils.Dictionary;
-	import onyx.utils.GCTester;
 
 	/**
 	 * 	File Explorer
@@ -233,7 +229,7 @@ package ui.window {
 				
 				_path = list.path;
 				
-//				title = 'file browser: [' + list.path + ']';
+				title = 'file browser: [' + list.path + ']';
 	
 				// kill all previous objects here
 				_clearChildren();
@@ -254,7 +250,8 @@ package ui.window {
 					_folders.addChild(foldercontrol);
 					
 					index = _folders.getChildIndex(foldercontrol) - 1;
-					foldercontrol.x = 3;
+
+					foldercontrol.x = 3,
 					foldercontrol.y = FOLDER_HEIGHT * index + 2;
 					
 				}
@@ -270,7 +267,7 @@ package ui.window {
 	
 					// position it
 					control.x = (index % FILES_PER_ROW) * FILE_WIDTH,
-					control.y = floor(index / FILES_PER_ROW) * FILE_HEIGHT;
+					control.y = ((index++ / FILES_PER_ROW) >> 0) * FILE_HEIGHT;
 					
 					// start listening to start dragging
 					control.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
@@ -278,8 +275,6 @@ package ui.window {
 					
 					// add it to the files scrollpane
 					_files.addChild(control);
-					
-					index++;
 				}
 			}
 		}

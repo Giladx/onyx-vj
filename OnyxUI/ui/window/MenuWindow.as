@@ -32,7 +32,6 @@ package ui.window {
 	
 	import onyx.controls.*;
 	import onyx.errors.*;
-	import onyx.utils.math.*;
 	
 	import ui.controls.*;
 	import ui.core.*;

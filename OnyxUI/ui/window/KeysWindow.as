@@ -34,17 +34,12 @@ package ui.window {
 	import flash.ui.*;
 	
 	import onyx.states.*;
-	import onyx.utils.math.*;
 	import onyx.utils.string.*;
 	
 	import ui.controls.*;
-	import ui.core.DragManager;
-	import ui.core.KeyDefinition;
-	import ui.core.UIManager;
+	import ui.core.*;
 	import ui.policy.*;
-	import ui.states.KeyLearnState;
-	import ui.states.KeyListenerState;
-	import ui.styles.UI_OPTIONS;
+	import ui.states.*;
 	import ui.text.TextField;
 	
 	/**
@@ -135,7 +130,7 @@ package ui.window {
 				_lookup[def.prop] = def;
 				
 				htmlText += '<a href="event:' + prop + '">' + prop;
-				htmlText += repeatString('\t', max(10 - floor(prop.length / 4), 0));
+				htmlText += repeatString('\t', Math.max(10 - ((prop.length / 4) >> 0), 0));
 				htmlText += getKeyName(_state[prop]) + '</a>\n';
 			}
 			

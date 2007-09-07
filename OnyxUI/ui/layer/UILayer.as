@@ -34,16 +34,13 @@ package ui.layer {
 	import flash.events.*;
 	import flash.filters.DropShadowFilter;
 	import flash.geom.*;
-	import flash.utils.Timer;
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
-	import onyx.core.Onyx;
 	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.plugin.*;
 	import onyx.states.StateManager;
-	import onyx.utils.math.*;
 	import onyx.utils.string.*;
 	
 	import ui.assets.*;
@@ -283,7 +280,7 @@ package ui.layer {
 		 * 	Handler while a file loads
 		 */
 		private function _onLayerProgress(event:ProgressEvent):void {
-			_filename.text = 'LOADING ' + floor(event.bytesLoaded / event.bytesTotal * 100) + '% (' + floor(event.bytesTotal / 1024) + ' kb)';
+			_filename.text = 'LOADING ' + ((event.bytesLoaded / event.bytesTotal * 100) >> 0) + '% (' + ((event.bytesTotal / 1024) >> 0) + ' kb)';
 		}
 		
 		/**
@@ -496,7 +493,7 @@ package ui.layer {
 		 */
 		private function _onScrubMove(event:MouseEvent):void {
 			
-			var value:int = min(max(_btnScrub.mouseX, SCRUB_LEFT), SCRUB_RIGHT);
+			var value:int = Math.min(Math.max(_btnScrub.mouseX, SCRUB_LEFT), SCRUB_RIGHT);
 			_assetScrub.x = value;
 			_layer.time = (value - SCRUB_LEFT) / LAYER_WIDTH;
 			

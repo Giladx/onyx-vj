@@ -37,11 +37,7 @@ package ui.controls {
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
-	import onyx.utils.math.*;
 	
-	import ui.assets.AssetColorPicker;
-	import ui.core.UIObject;
-
 	public final class ColorPicker extends UIControl {
 		
 		/**
@@ -171,8 +167,8 @@ package ui.controls {
 
 				_picker.cursor.visible	= true;
 				
-				_lastX = min(max(_picker.mouseX,0),99);
-				_lastY = min(max(_picker.mouseY,0),99);
+				_lastX = Math.min(Math.max(_picker.mouseX,0),99);
+				_lastY = Math.min(Math.max(_picker.mouseY,0),99);
 
 				_picker.cursor.x = _lastX;
 				_picker.cursor.y = _lastY;

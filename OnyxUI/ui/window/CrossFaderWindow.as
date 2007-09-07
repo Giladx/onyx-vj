@@ -32,21 +32,19 @@ package ui.window {
 	
 	import flash.display.*;
 	import flash.events.*;
-	import flash.geom.ColorTransform;
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
+	import onyx.core.TransitionTransform;
 	import onyx.display.*;
 	import onyx.events.*;
-	import onyx.utils.math.*;
+	import onyx.plugin.Transition;
 	
 	import ui.assets.*;
 	import ui.controls.*;
 	import ui.controls.layer.*;
 	import ui.core.*;
 	import ui.styles.*;
-	import onyx.plugin.Transition;
-	import onyx.core.TransitionTransform;
 	
 	/**
 	 * 	This window allows one to use a crossfader
@@ -168,7 +166,7 @@ package ui.window {
 			_leftChannel.ratio				= value;
 			_rightChannel.ratio				= 1 - value;
 
-			_fader.x = floor(value * 176) + 3;
+			_fader.x = ((value * 176) >> 0) + 3;
 		}
 		
 		/**
@@ -217,7 +215,7 @@ package ui.window {
 		 * 	@private
 		 */
 		private function moveHandler(event:MouseEvent):void {
-			ratio = min(max((((_btn.mouseX >> 0) - 5) / 176), 0), 1);
+			ratio = Math.min(Math.max((((_btn.mouseX >> 0) - 5) / 176), 0), 1);
 		}
 		
 		/**

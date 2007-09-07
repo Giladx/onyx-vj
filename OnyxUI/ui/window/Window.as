@@ -85,6 +85,20 @@ package ui.window {
 			
 			super(true);	
 		}
+		
+		/**
+		 * 
+		 */
+		public function set title(value:String):void {
+			_title.text = value;
+		}
+		
+		/**
+		 * 
+		 */
+		public function get title():String {
+			return _title.text;
+		}
 
 	}
 }

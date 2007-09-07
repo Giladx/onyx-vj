@@ -31,16 +31,13 @@
 package ui.controls {
 	
 	import flash.display.*;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
+	import flash.events.*;
 	import flash.geom.Rectangle;
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
-	import onyx.core.IDisposable;
-	import onyx.utils.math.*;
 	
-	import ui.core.UIObject;
+	import ui.core.*;
 	import ui.styles.*;
 
 	/**
@@ -291,7 +288,7 @@ package ui.controls {
 		 */
 		private function _scroll(y:int):void {
 
-			_scrollY.y = min(max(y, 0), _height - _scrollY.height);
+			_scrollY.y = Math.min(Math.max(y, 0), _height - _scrollY.height);
 			
 			var ratio:Number = (_scrollY.y / (_height - _scrollY.height));
 			_holder.y = -ratio * (_holder.height - _height);

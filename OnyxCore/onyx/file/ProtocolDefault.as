@@ -61,10 +61,7 @@ package onyx.file {
 		 */
 		override public function resolve():void {
 			
-			var path:String, extension:String;
-			
-			path		= _path,
-			extension	= getExtension(_path);
+			var extension:String = getExtension(path);
 		
 			switch (extension) {
 				case 'mp4':
@@ -131,7 +128,7 @@ package onyx.file {
 			sound.removeEventListener(IOErrorEvent.IO_ERROR, _onSoundHandler);
 			sound.removeEventListener(ProgressEvent.PROGRESS, _onLoadProgress);
 
-			dispatchContent(event, new ContentMP3(_layer, _path, sound));
+			dispatchContent(event, new ContentMP3(layer, path, sound));
 		}
 		
 		/**
@@ -147,7 +144,7 @@ package onyx.file {
 				stream.removeEventListener(Event.COMPLETE, _onStreamComplete);
 				stream.removeEventListener(NetStatusEvent.NET_STATUS, _onStreamComplete);
 				
-				dispatchContent(event, new ContentFLV(_layer, _path, stream));
+				dispatchContent(event, new ContentFLV(layer, path, stream));
 				
 			} else if (event is NetStatusEvent) {
 				var status:NetStatusEvent = event as NetStatusEvent;
@@ -189,14 +186,14 @@ package onyx.file {
 				
 			if (getQualifiedClassName(info.content) === 'flash.display::MovieClip') {
 				
-				var reg:ContentRegistration = ContentMC.registration(_path);
+				var reg:ContentRegistration = ContentMC.registration(path);
 				
 				// if something loaded before us, use it's loader instead of our own
 				if (reg) {
 					info = reg.loader.contentLoaderInfo;
 				}
 				
-				ContentMC.register(_path, info.loader);
+				ContentMC.register(path, info.loader);
 			}
 
 			// load it
@@ -220,7 +217,7 @@ package onyx.file {
 			}
 			
 			//contentEvent.contentType(this, contentEvent.path, contentEvent.reference)
-			dispatchContent(new Event(Event.COMPLETE), new type(_layer, _path, loader));
+			dispatchContent(new Event(Event.COMPLETE), new type(layer, path, loader));
 		}
 	}
 }

@@ -43,7 +43,7 @@ package onyx.controls{
 		/**
 		 * 	@constructor
 		 */
-		public function ControlString(name:String, display:String, defaultValue:String):void {
+		public function ControlString(name:String, display:String, defaultValue:String = ''):void {
 			
 			super(name, display, defaultValue);
 		}

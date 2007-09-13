@@ -95,13 +95,22 @@ package onyx.core {
 		}
 		
 		/**
+		 * 
+		 */
+		public function get plugin():Plugin {
+			return _plugin;
+		}
+		
+		/**
 		 * 	Cleans the content
 		 */
 		onyx_ns function clean():void {
-			
-			if (_controls) {
-				_controls.dispose();
-			}
+	
+//			removed 9.13.07
+//			everything should be weak referenced
+//			if (_controls) {
+//				_controls.dispose();
+//			}
 			_controls	= null,
 			_plugin		= null;
 		}

@@ -101,7 +101,7 @@ package onyx.plugin {
 		 */
 		public function Transition():void {
 			super(
-				new ControlInt('duration', 'duration', 0, 0, 5)
+				new ControlInt('duration', 'duration', 0, 5000, 2000)
 			)
 		}
 		
@@ -134,7 +134,6 @@ package onyx.plugin {
 		 * 	Destroys
 		 */
 		override public function dispose():void {
-			
 			super.dispose();
 		}
 

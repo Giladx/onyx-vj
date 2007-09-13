@@ -62,6 +62,13 @@ package onyx.controls {
 		/**
 		 * 
 		 */
+		override public function get value():* {
+			return '';
+		}
+		
+		/**
+		 * 
+		 */
 		override public function reflect():Class {
 			return ControlExecute;
 		}

@@ -44,12 +44,6 @@ package onyx.core {
 	 * 	Base tempo dispatcher.  use onyx.constants.TEMPO instead of this class directly.  (for performance)
 	 */
 	public final class Tempo extends EventDispatcher implements IControlObject {
-
-		/**
-		 * 
-		 */
-		public static function serialize():void {
-		}
 		
 		/**
 		 * 	Gets tempo
@@ -211,16 +205,17 @@ package onyx.core {
 		}
 		
 		/**
-		 * 	Disposes
-		 */
-		public function dispose():void {
-		}
-		
-		/**
 		 * 
 		 */
 		public function get controls():Controls {
 			return _controls;
+		}
+		
+		
+		/**
+		 * 	Disposes
+		 */
+		public function dispose():void {
 		}
 		
 	}

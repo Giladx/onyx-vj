@@ -46,13 +46,14 @@ package onyx.file {
 	 */
 	final public class FileBrowser {
 
-		// set up default protocols for onyx plugins		
+		// set up default protocols for onyx plugins, and rtmp		
 		{	_def[ONYX_QUERYSTRING + 'filter']		= ProtocolPlugin,
 			_def[ONYX_QUERYSTRING + 'macro']		= ProtocolPlugin,
 			_def[ONYX_QUERYSTRING + 'renderer']		= ProtocolPlugin,
 			_def[ONYX_QUERYSTRING + 'transition']	= ProtocolPlugin,
 			_def[ONYX_QUERYSTRING + 'visualizer']	= ProtocolPlugin;
 			_def[ONYX_QUERYSTRING + 'camera']		= ProtocolPlugin;
+			_def['rtmp']							= ProtocolRTMP;
 		}
 		
 		/** @private **/

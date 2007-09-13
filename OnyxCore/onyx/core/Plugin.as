@@ -84,7 +84,6 @@ package onyx.core {
 		public function getDefinition():PluginBase {
 			
 			var obj:PluginBase	= new _definition() as PluginBase;
-			
 			obj._plugin			= this;
 			
 			return obj;
@@ -105,22 +104,6 @@ package onyx.core {
 		 */
 		public function getData(name:String):* {
 			return (metadata) ? metadata[name] : null;
-		}
-		
-		/**
-		 * 	Gets the index
-		 */
-		public function get index():int {
-			return _parent.indexOf(this);
-		}
-		
-		/**
-		 * 	Sets the index
-		 */
-		public function set index(value:int):void {
-			
-			// from utils package
-			swap(_parent, this, value);
 		}
 		
 		/**

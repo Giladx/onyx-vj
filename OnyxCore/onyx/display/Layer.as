@@ -44,7 +44,6 @@ package onyx.display {
 	import onyx.net.Stream;
 	import onyx.plugin.*;
 	import onyx.utils.string.*;
-	import onyx.utils.GCTester;
 	
 	use namespace onyx_ns;
 	
@@ -760,8 +759,8 @@ package onyx.display {
 			// disposes content
 			if (_content) {
 
-				// change the property target to this layer
-				_properties.target	= this;
+				// change target (performance)
+				_properties.setNewTarget(this);
 
 				// destroy the content
 				_destroyContent();

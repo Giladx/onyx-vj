@@ -44,25 +44,25 @@ package onyx.file {
 		/**
 		 * 	@protected
 		 */
-		protected var _callback:Function;
+		protected var callback:Function;
 		
 		/**
 		 * 	@protected
 		 */
-		protected var _path:String;
+		protected var path:String;
 		
 		/**
 		 * 
 		 */
-		protected var _layer:ILayer;
+		protected var layer:ILayer;
 		
 		/**
 		 * 
 		 */
 		public function Protocol(path:String, callback:Function, layer:ILayer):void {
-			_path		= path,
-			_callback	= callback,
-			_layer		= layer;
+			this.path		= path,
+			this.callback	= callback,
+			this.layer		= layer;
 		}
 		
 		/**
@@ -78,7 +78,7 @@ package onyx.file {
 		public function dispatchContent(event:Event, content:IContent = null):void {
 			
 			// send the content back over to the layer
-			_callback(event, content);
+			callback(event, content);
 			
 			// clear references
 			dispose();
@@ -89,15 +89,15 @@ package onyx.file {
 		 * 	Pass the event to the content loader object
 		 */
 		protected function dispatchEvent(event:Event):void {
-			_callback(event);
+			callback(event);
 		}
 		
 		/**
 		 * 
 		 */
 		final public function dispose():void {
-			_callback	= null,
-			_layer		= null;
+			callback	= null,
+			layer		= null;
 		}
 	}
 }

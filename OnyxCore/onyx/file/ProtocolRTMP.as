@@ -28,88 +28,75 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.display{
+package onyx.file {
 	
-	import flash.display.*;
 	import flash.events.*;
 	import flash.media.*;
-	import flash.net.*;
 	
 	import onyx.constants.*;
 	import onyx.content.*;
 	import onyx.core.*;
+	import onyx.display.*;
 	import onyx.events.*;
-	import onyx.file.*;
 	import onyx.net.*;
 	import onyx.plugin.*;
-	import onyx.settings.*;
 	import onyx.utils.string.*;
-
-	[Event(name='complete',			type='flash.events.Event')]
-	[Event(name='security_error',	type='flash.events.SecurityErrorEvent')]
-	[Event(name='io_error',			type='flash.events.IOErrorEvent')]
-	[Event(name='progress',			type='flash.events.ProgressEvent')]
-
+	
 	/**
-	 * 	Loads different content based on the file url
+	 * 	Protocol for default onyx types
 	 */
-	final internal class ContentLoader extends EventDispatcher {
+	public final class ProtocolRTMP extends Protocol {
+		
+		public var file:String;
 		
 		/**
-		 * 	@private
+		 *	@constructor 
 		 */
-		public var settings:LayerSettings;
+		public function ProtocolRTMP(path:String, callback:Function, layer:ILayer):void {
+			super(path, callback, layer);
+		}
 		
 		/**
-		 * 	@private
-		 * 	Transition to load with
+		 * 
 		 */
-		public var transition:Transition;
-		
-		/**
-		 * 	@private
-		 */
-		private var _protocol:Protocol;
-		
-		/**
-		 * 	The stored content to use
-		 */
-		public var content:IContent;
-		
-		/**
-		 * 	Loads a file
-		 */
-		public function load(path:String, settings:LayerSettings, transition:Transition, layer:ILayer):void {
+		override public function resolve():void {
 			
-			this.settings	= settings || new LayerSettings(),
-			this.transition = (transition && transition.duration > 0) ? transition : null,
-			_protocol		= FileBrowser.resolve(path, handler, layer);
-
-			// create a content object			
-			_protocol.resolve();
+			var match:Array		= path.match('rtmp://(.*/.*/)');
+			var server:String	= match[0];
+			file				= removeExtension(path.replace(match[1], ''));
+			
+			var conn:Connection	= Connection.getConnection(server);
+			
+			if (!conn.connected) {
+				conn.addEventListener(NetStatusEvent.NET_STATUS, connectHandler);
+			} else {
+				connectHandler(null, conn);
+			}
 		}
 		
 		/**
 		 * 	@private
 		 */
-		private function handler(event:Event, content:IContent = null):void {
+		private function connectHandler(event:NetStatusEvent = null, conn:Connection = null):void {
 			
-			this.content = content;
-			super.dispatchEvent(event);
-
+			var conn:Connection = conn || event.currentTarget as Connection;
+			
+			if (event) {
+				
+				if (!(event.info.code == 'NetConnection.Connect.Success')) {
+					return dispatchContent(new IOErrorEvent(IOErrorEvent.IO_ERROR));
+				}
+			}
+			
+			var stream:Stream = new Stream(file, conn);
+			stream.addEventListener(Event.COMPLETE, streamHandler);
 		}
 		
-		/**
-		 * 	Dispose
-		 */
-		public function dispose():void {
-
-			// dispose
-			this.settings	= null,
-			this.transition = null,
-			this._protocol	= null,
-			this.content	= null;
-
+		private function streamHandler(event:Event):void {
+			var stream:Stream = event.currentTarget as Stream;
+			stream.removeEventListener(Event.COMPLETE, streamHandler);
+			
+			dispatchContent(new Event(Event.COMPLETE), new ContentFLV(layer, path, stream))
 		}
 	}
 }

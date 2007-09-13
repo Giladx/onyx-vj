@@ -78,6 +78,12 @@ package onyx.controls {
 		 * 	The target object for the control
 		 */
 		onyx_ns var _target:IControlObject;
+		
+		/**
+		 * 	@private
+		 * 	The parent control object
+		 */
+		internal var parent:Controls;
 
 		/**
 		 * 	stores the display name
@@ -194,6 +200,13 @@ package onyx.controls {
 		 */
 		public function loadXML(xml:XML):void {
 			value = xml;
+		}
+		
+		/**
+		 * 
+		 */
+		public function initialize():void {
+			
 		}
 		
 		/**

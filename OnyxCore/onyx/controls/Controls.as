@@ -60,60 +60,75 @@ package onyx.controls {
 		private var _target:IControlObject;
 		
 		/**
+		 * 	@private
+		 * 	Children controls
+		 */
+		private var _children:Array;
+		
+		/**
 		 * 	@constructor
 		 */
 		public function Controls(target:IControlObject, ... controls:Array):void {
 			
-			_target = target;
+			_target		= target,
+			_children	= [];
 			
+			// add default controls
 			addControl.apply(this, controls);
 		}
 		
 		/**
 		 * 	
 		 */
-		public function addEventListener(type:String, method:Function, useCapture:Boolean = false, priority:int = 0, weak:Boolean = false):void {
+		final public function addEventListener(type:String, method:Function, useCapture:Boolean = false, priority:int = 0, weak:Boolean = false):void {
 			_dispatcher.addEventListener(type, method, useCapture, priority, weak);
 		}
 		
 		/**
 		 * 
 		 */
-		public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void {
+		final public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void {
 			_dispatcher.removeEventListener(type, listener, useCapture);
 		}
 		
 		/**
 		 * 
 		 */
-		public function hasEventListener(type:String):Boolean {
+		final public function hasEventListener(type:String):Boolean {
 			return _dispatcher.hasEventListener(type);
 		}
 		
 		/**
 		 * 	Dispatch event
 		 */
-		public function dispatchEvent(event:Event):Boolean {
+		final public function dispatchEvent(event:Event):Boolean {
 			return _dispatcher.dispatchEvent(event);
 		}
 		
 		/**
 		 * 
 		 */
-		public function willTrigger(type:String):Boolean{
+		final public function willTrigger(type:String):Boolean{
 			return _dispatcher.willTrigger(type);
 		}
 		
 		/**
-		 * 	Adds controls
+		 * 	Adds controls, if the control does 
 		 */
-		public function addControl(... controls:Array):void {
+		final public function addControl(... controls:Array):void {
 			
 			// loop through and add them controls
 			for each (var control:Control in controls) {
 				
-				control.target = _target;
-				
+				// store the target
+				if (!control._target) {
+					control.target	= _target,
+					control.parent	= this;
+					
+					control.initialize();
+				}
+								
+				// store a name index
 				_definitions[control.name] = control;
 				
 				if (control is ControlProxy) {
@@ -127,26 +142,93 @@ package onyx.controls {
 		}
 		
 		/**
-		 * 	
+		 * 
 		 */
-		public function getControl(name:String):Control {
-			return _definitions[name];
+		final public function setNewTarget(target:IControlObject):void {
+			_target = target
+			for each (var control:Control in this) {
+				control.target = target;
+			}
 		}
 		
 		/**
-		 * 	@private
+		 * 
 		 */
-		onyx_ns function set target(value:IControlObject):void {
-			for each (var control:Control in this) {
-				control.target = value;
+		final public function removeControl(... controls:Array):void {
+			
+			var changed:Boolean = false;
+			
+			// loop through and add them controls
+			for each (var control:Control in controls) {
+				
+				// delete the name index
+				delete _definitions[control.name];
+				
+				// if it's a proxy, remove the child indexes as well
+				if (control is ControlProxy) {
+					var proxy:ControlProxy = control as ControlProxy;
+					delete _definitions[proxy.controlY.name];
+					delete _definitions[proxy.controlX.name];
+				}
+
+				// remove from array
+				var index:int = super.indexOf(control);
+				if (index >= 0) {
+					super.splice(index, 1);
+					changed = true;
+				}
 			}
+			
+			if (changed) {
+
+				// dispatch an update event
+				_dispatcher.dispatchEvent(new Event(Event.CHANGE)); 
+			}
+		}
+		
+		/**
+		 * 
+		 */
+		final public function addChild(child:Controls):void {
+			
+			// store a hash
+			_children.push(child);
+
+			// dispatch an update event
+			_dispatcher.dispatchEvent(new Event(Event.CHANGE)); 
+		}
+		
+		/**
+		 * 
+		 */
+		final public function removeChildren():void {
+
+			_children = [];
+			
+			// dispatch an update event
+			_dispatcher.dispatchEvent(new Event(Event.CHANGE)); 
+
+		}
+		
+		/**
+		 * 
+		 */
+		final public function get children():Array {
+			return _children;
+		}
+		
+		/**
+		 * 	Returns a control by name
+		 */
+		final public function getControl(name:String):Control {
+			return _definitions[name];
 		}
 		
 		/**
 		 * 	Returns the control array as an xml object
 		 * 	@param	An array of control names to exclude from the xml 
 		 */
-		public function toXML(... excludeControls:Array):XML {
+		final public function toXML(... excludeControls:Array):XML {
 			
 			var exclude:Array = excludeControls || [];
 			var xml:XML = <controls />;
@@ -167,11 +249,11 @@ package onyx.controls {
 		/**
 		 * 	Loads from xml
 		 */
-		public function loadXML(xml:XMLList):void {
+		final public function loadXML(xml:XMLList):void {
 			
 			var name:String, control:Control;
 			
-			// TBD: Change Control.loadXML(xml:XML) to Control.loadXML(xml:XMLList)
+			// loop through each control
 			for each (var controlXML:XML in xml.*) {
 				
 				try {
@@ -203,24 +285,16 @@ package onyx.controls {
 				}
 			}
 		}
-
+		
+		//debug::start
 		/**
 		 * 	Concatenate the controls and return this control array
-		 */
+
 		AS3 override function concat(...args):Array {
-			
-			super.push.apply(super, args);
-			_dispatcher.dispatchEvent(new Event(Event.CHANGE));
-			
+			throw new Error('Do not use concat.  Use addChild()');
 			return this;
 		}
-		
-		/**
-		 * 	Destroys
 		 */
-		public function dispose():void {
-			_target		 = null;
-			_definitions = null;
-		}
+		 //debug::end
 	}
 }

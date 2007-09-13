@@ -77,23 +77,28 @@ package onyx.content {
 		/**
 		 * 	@private
 		 */
-		private var _visualizer:Visualizer;
+		private var _plugin:Plugin;
 		
 		/**
 		 * 	@private
 		 */
 		private var _transform:SoundTransform	= new SoundTransform(.5);
+		
+		/**
+		 * 
+		 */
+		private var _baseControls:Controls;
 
 		/**
 		 * 	@constructor
 		 */
 		public function ContentMP3(layer:ILayer, path:String, sound:Sound):void {
 			
-			// add a control for the visualizer
-			_controls = new Controls(this, 
+			// create base controls
+			_baseControls = _controls = new Controls(this, 
 				new ControlInt('volume', 'volume', 0, 100, 50),
-				new ControlInt('pan', 'pan', 0, 100, 50),
-				new ControlPlugin('visualizer', 'Visualizer', ControlPlugin.VISUALIZERS)
+				new ControlInt('pan', 'pan', -100, 100, 0),
+				new ControlPlugin('plugin', 'plugin', ControlPlugin.VISUALIZERS)
 			);
 			
 			_sound		= sound;
@@ -145,33 +150,15 @@ package onyx.content {
 		/**
 		 * 	Gets the visualizer
 		 */
-		public function get visualizer():Visualizer {
-			return _visualizer;
+		public function get plugin():Plugin {
+			return _plugin;
 		}
 
 		/**
 		 * 	Sets the visualizer
 		 */
-		public function set visualizer(obj:Visualizer):void {
-			
-			// remove extra controls
-			if (_visualizer && _controls.length > 1) {
-				
-				_controls.splice(1, _controls.length - 1);
-				_controls.dispatchEvent(new Event(Event.CHANGE));
-				
-			}
-			
-			// we get passed in a visualizer			
-			if (obj) {
-
-				// if it has controls, add them to our controls (dispatches a change)
-				if (obj.controls) {
-					_controls.concat.apply(_controls, obj.controls);
-				}
-			}
-
-			_visualizer = obj;
+		public function set plugin(obj:Plugin):void {
+			_plugin = obj
 		}
 		
 		/**
@@ -189,9 +176,10 @@ package onyx.content {
 				}
 	
 				// draw ourselves			
-				if (_visualizer) {
+				if (_plugin) {
 					
-					var transform:RenderTransform		= _visualizer.render();
+					var visualizer:Visualizer 		= (_controls.getControl('plugin') as ControlPlugin).item as Visualizer;
+					var transform:RenderTransform	= visualizer.render();
 					
 					transform = (transform) ? transform.concat(getTransform()) : getTransform();
 								

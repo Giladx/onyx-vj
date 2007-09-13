@@ -28,11 +28,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.display {
+package onyx.controls {
 	
 	import onyx.constants.*;
-	import onyx.content.IContent;
-	import onyx.controls.*;
+	import onyx.content.*;
+
+	[ExcludeClass]
 
 	/**
 	 * 	Stores property names for layers
@@ -145,10 +146,6 @@ package onyx.display {
 				visible,
 				anchor
 			);
-		}
-		
-		override public function dispose():void {
-			super.dispose();
 		}
 
 	}

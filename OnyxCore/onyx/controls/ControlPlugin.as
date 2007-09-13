@@ -55,27 +55,32 @@ package onyx.controls {
 		/**
 		 * 	Use Filters
 		 */
-		public static const FILTERS:int		= 0;
+		public static const FILTERS_BITMAP:int	= 0;
+		
+		/**
+		 * 
+		 */
+		public static const FILTERS_TEMPO:int	= 5;
 
 		/**
 		 * 	Use Macros
 		 */
-		public static const MACROS:int		= 1;
+		public static const MACROS:int			= 1;
 
 		/**
 		 * 	Use Transitions
 		 */
-		public static const TRANSITIONS:int	= 2;
+		public static const TRANSITIONS:int		= 2;
 
 		/**
 		 * 	Use Visualizers
 		 */
-		public static const VISUALIZERS:int	= 3;
+		public static const VISUALIZERS:int		= 3;
 		
 		/**
 		 * 	Use Renderers
 		 */
-		public static const RENDERERS:int	= 4;
+		public static const RENDERERS:int		= 4;
 		
 		/**
 		 * 	@private
@@ -84,16 +89,30 @@ package onyx.controls {
 		private var _type:int;
 		
 		/**
+		 * 	@private
+		 */
+		private var _item:PluginBase;
+		
+		/**
+		 * 	@private
+		 */
+		private var _autoCreate:Boolean;
+		
+		/**
 		 * 	@constructor
 		 */
-		public function ControlPlugin(name:String, display:String, type:int = 0, showEmpty:Boolean = true, defaultValue:int = 0):void {
-			
-			_type = type;
+		public function ControlPlugin(name:String, display:String, type:int = 0, showEmpty:Boolean = true, autoCreate:Boolean = true, defaultValue:PluginBase = null):void {
 			
 			var data:Array;
 			
+			_type		= type,
+			_autoCreate = autoCreate;
+
 			switch (type) {
-				case FILTERS:
+				case FILTERS_BITMAP:
+					data = Filter.filters;
+					break;
+				case FILTERS_TEMPO:
 					data = Filter.filters;
 					break;
 				case MACROS:
@@ -110,60 +129,100 @@ package onyx.controls {
 					showEmpty = false;
 					break;
 			}
-
+			
 			if (showEmpty) {
 				data = data.concat();
 				data.unshift(null);
 			}
 			
+			_item = defaultValue;
+
 			super(name, display, data, defaultValue, 'name');
 		}
 		
 		/**
 		 * 
 		 */
+		override public function initialize():void {
+
+			switch (_type) {
+				case FILTERS_BITMAP:
+				
+					var parent:Filter = _target as Filter;
+					
+					if (parent) {
+						
+						var index:int = _data.indexOf(parent._plugin);
+						
+						if (index >= 0) {
+							_data.concat();
+							_data.splice(index, 1);
+						}
+					}
+					break;
+			}
+			
+		}
+		
+		/**
+		 * 	Returns the created plugin
+		 */
+		public function get item():PluginBase {
+			return _item;
+		}
+		
+		/**
+		 * 
+		 */
 		override public function get value():* {
-			var type:PluginBase = _target[name];
-			return type ? type._plugin : null;
+			return _target[name];
 		}
 		
 		/**
 		 * 
 		 */
 		override public function set value(v:*):void {
+			
 			var plugin:Plugin = v as Plugin;
+			
+			// initialize and create a plugin 
+			if (_item) {
+				_item.dispose();
+				parent.removeChildren();
+			}
+			
+			// create new plugin
+			if (_autoCreate && plugin) {
+				
+				// _item a new plugin
+				_item = plugin.getDefinition();
+				
+				var obj:IControlObject = _item as IControlObject;
+				
+				// need to update parent with new controls
+				if (obj && obj.controls.length) {		
+					parent.addChild(obj.controls);
+				}
+				
+				// now we need to see if we should propagate the content object
+				if (_item is Filter && obj is Filter) {
+					(_item as Filter).setContent((obj as Filter).getContent());
+				}
+			} 
+			
 			dispatchEvent(new ControlEvent(v));
-			_target[name] = plugin ? plugin.getDefinition() : null;
+			_target[name] = plugin;
 		}
 		
 		/**
 		 * 
 		 */
 		override public function dispatch(v:*):* {
+			
 			var plugin:Plugin = v as Plugin;
 			dispatchEvent(new ControlEvent(v));
-			return plugin ? plugin.getDefinition() : null;
-		}
-		
-		/**
-		 * 	TBD: This needs to store data
-		 * 	Returns xml representation of the control
-		 */
-		override public function toXML():XML {
 			
-			var xml:XML				= <{name}/>;
-			var plugin:PluginBase	= _target[name];
-			
-			if (plugin) {
-				
-				// set what type we are
-				xml.@type	= LOOKUP[_type];
-				
-				// get the registration name
-				xml.@id		= plugin._plugin.name;
-			}
-			
-			return xml;
+			return plugin;
 		}
 		
 		/**
@@ -194,7 +253,40 @@ package onyx.controls {
 					break;
 			}
 			
-			value = def.getDefinition();
+			value = def;
+			
+			var parent:IControlObject = _item as IControlObject; 
+			
+			if (parent) {
+				parent.controls.loadXML(xml.controls);
+			}
+		}
+		
+		
+		
+		/**
+		 * 	Returns xml representation of the control
+		 */
+		override public function toXML():XML {
+			
+			var xml:XML				= <{name}/>;
+			
+			if (_item) {
+				
+				var parent:IControlObject = _item as IControlObject;
+				
+				// set what type we are
+				xml.@type	= LOOKUP[_type];
+				
+				// get the registration name
+				xml.@id		= _item._plugin.name;
+				
+				if (parent) {
+					xml.appendChild(parent.controls.toXML());
+				}
+			}
+			
+			return xml;
 		}
 		
 		/**

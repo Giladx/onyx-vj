@@ -31,16 +31,13 @@
  
 package onyx.content {
 	
-	import flash.display.BitmapData;
-	import flash.events.Event;
 	import flash.events.NetStatusEvent;
-	import flash.media.Video;
+	import flash.media.*;
 	
 	import onyx.constants.*;
-	import onyx.controls.Controls;
+	import onyx.controls.*;
 	import onyx.core.*;
 	import onyx.display.*;
-	import onyx.net.Connection;
 	import onyx.net.Stream;
 
 
@@ -71,6 +68,11 @@ package onyx.content {
 		 * 	@private
 		 */
 		private var _video:Video;
+		
+		/**
+		 * 	@private
+		 */
+		private var _transform:SoundTransform	= new SoundTransform(.5);
 	
 		/**
 		 * 	@constructor
@@ -85,7 +87,46 @@ package onyx.content {
 			_video		= new Video(BITMAP_WIDTH,BITMAP_HEIGHT);
 			_video.attachNetStream(stream);
 			
+			_controls = new Controls(this, 
+				new ControlInt('volume', 'volume', 0, 100, 50),
+				new ControlInt('pan', 'pan', -100, 100, 0)
+			);
+			
 			super(layer, path, _video);
+		}
+		
+		
+		/**
+		 * 
+		 */
+		public function set volume(value:int):void {
+			_transform.volume = value / 100;
+			
+			_stream.soundTransform = _transform;
+		}
+		
+		/**
+		 * 
+		 */
+		public function get volume():int {
+			return _transform.volume * 100;
+		}
+
+
+		/**
+		 * 
+		 */
+		public function set pan(value:int):void {
+			_transform.pan = value / 100;
+			
+			_stream.soundTransform = _transform;
+		}
+		
+		/**
+		 * 
+		 */
+		public function get pan():int {
+			return _transform.pan * 100;
 		}
 		
 		/**
@@ -112,7 +153,23 @@ package onyx.content {
 				_stream.seek(_loopStart);
 			}
 			
-			return super.render();
+			// remove
+			_video.attachNetStream(null);
+	
+			// get the transformation
+			var transform:RenderTransform		= getTransform();
+
+			// render content
+			renderContent(_source, _content, transform, _filter);
+			
+			// render filters
+			renderFilters(_source, _rendered, _filters);
+
+			// attach
+			_video.attachNetStream(_stream);
+	
+			// return transformation
+			return transform;
 		}
 
 		/**

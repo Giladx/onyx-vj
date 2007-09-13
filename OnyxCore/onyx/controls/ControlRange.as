@@ -47,7 +47,7 @@ package onyx.controls {
 		/**
 		 * 	@private
 		 */
-		private var _data:Array;
+		protected var _data:Array;
 		
 		/**
 		 * 	The property name to bind to when displaying
@@ -58,7 +58,7 @@ package onyx.controls {
 		 * 	@constructor
 		 */
 		public function ControlRange(name:String, display:String, data:Array, defaultValue:Object, binding:String = null, options:Object = null):void {
-
+			
 			this.binding  		= binding,
 			this._data			= data;
 			

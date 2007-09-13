@@ -34,21 +34,22 @@ package onyx.display {
 	
 	public class DisplaySize {
 		
-		public var scaleX:Number;
-		public var scaleY:Number;
+		public var width:int;
+		public var height:int;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function DisplaySize(scaleX:Number, scaleY:Number):void {
-			this.scaleX	= scaleX, this.scaleY = scaleY;
+		public function DisplaySize(width:int, height:int):void {
+			this.width = width,
+			this.height = height;
 		}
 		
 		/**
 		 * 
 		 */
 		public function toString():String {
-			return int(BITMAP_WIDTH * scaleX) + 'x' + int(BITMAP_HEIGHT * scaleY);
+			return width + 'x' + height;
 		}
 	}
 }

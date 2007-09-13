@@ -80,12 +80,12 @@ package onyx.content {
 			// super!
 			super(layer, null, null);
 
-			// initialize transition			
+			// store transition			
 			_transition = transition;
 			
 			// store content
 			oldContent	= current,
-			newContent = loaded;
+			newContent	= loaded;
 			
 			// add listeners for filter events
 			newContent.addEventListener(FilterEvent.FILTER_APPLIED,		_forwardEvents);
@@ -96,7 +96,7 @@ package onyx.content {
 			oldContent.addEventListener(FilterEvent.FILTER_REMOVED,		_forwardEvents);
 			
 			// change the target properties to the new content
-			layer.properties.target = newContent;
+			layer.properties.setNewTarget(newContent);
 
 			// set time			
 			_startTime = getTimer();

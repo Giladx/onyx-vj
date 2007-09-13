@@ -30,7 +30,7 @@
  */
 package onyx.net {
 	
-	import flash.net.NetConnection;
+	import flash.net.*;
 	
 	import onyx.errors.*;
 
@@ -45,17 +45,34 @@ package onyx.net {
 		internal static const DEFAULT_CONNECTION:Connection = new Connection();
 		
 		/**
+		 * 	@private
+		 */
+		private static const HOSTS:Object = {};
+		
+		/**
+		 * 	Returns a connection for a given host name
+		 * 	Creates one if one doesn't exist
+		 */
+		public static function getConnection(host:String):Connection {
+			if (host) {
+				var conn:Connection = HOSTS[host];
+				if (!conn) {
+					conn = new Connection(host);
+					HOSTS[host] = conn;
+				}
+				return conn;
+			} else {
+				return DEFAULT_CONNECTION;
+			}
+		}
+		
+		/**
 		 * 	@constructor
 		 */
-		public function Connection():void {
+		public function Connection(server:String = null):void {
 			
-			// DEBUG::START (these lines get removed by the ant build)
-			if (DEFAULT_CONNECTION) {
-				throw INVALID_CLASS_CREATION;
-			}
-			// DEBUG::END
-			
-			connect(null);
+			objectEncoding = ObjectEncoding.AMF0;
+			connect(server);
 		}
 	}
 }

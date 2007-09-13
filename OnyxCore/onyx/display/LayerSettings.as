@@ -74,13 +74,6 @@ package onyx.display {
 		public var path:String;
 		
 		/**
-		 * 
-		 */
-		public function LayerSettings():void {
-			// trace(this);
-		}
-		
-		/**
 		 * 	Gets variables from a layer
 		 */
 		public function load(content:ILayer):void {

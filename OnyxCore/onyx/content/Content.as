@@ -298,8 +298,10 @@ package onyx.content {
 			__anchorY		= props.anchorY,
 			_scaleX			= 1,
 			_scaleY			= 1,							// scale normally
-			_content		= content,						// store content
-			props.target	= this;							// set controls target to this
+			_content		= content;						// store content
+			
+			// change target to this (performance)
+			layer.properties.setNewTarget(this);
 			
 			// check for custom controls
 			if (_content is IControlObject) {

@@ -49,14 +49,19 @@ package onyx.net {
 		 * 	@private
 		 */
 		private var _path:String;
+		
+		/**
+		 * 
+		 */
+		private static const REUSABLE:NetStatusEvent = new NetStatusEvent(NetStatusEvent.NET_STATUS, false, false);
 
 		/**
 		 * 	@constructor
 		 */
-		public function Stream(path:String):void {
+		public function Stream(path:String, connection:Connection = null):void {
 			_path = path;
 			
-			super(Connection.DEFAULT_CONNECTION);
+			super(connection || Connection.DEFAULT_CONNECTION);
 
 			play(path);
 		}
@@ -85,10 +90,10 @@ package onyx.net {
 		 */
 		public function onPlayStatus(info:Object):void {
 			
+			REUSABLE.info = info;
+			
 			// dispatch a client-side net status event
-			dispatchEvent(
-				new NetStatusEvent(NetStatusEvent.NET_STATUS, { code: info })
-			);
+			dispatchEvent(REUSABLE);
 		}
 
 	}

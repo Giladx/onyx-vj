@@ -60,18 +60,16 @@ package onyx.file {
 			var len:int, index:int, type:String, name:String;
 			
 			len		= ONYX_QUERYSTRING.length,
-			index	= _path.indexOf('://');
+			index	= path.indexOf('://');
 			
-			type	= _path.substr(len, index - len),
-			name	= _path.substr(index + 3);
-			
-			trace(type);
+			type	= path.substr(len, index - len),
+			name	= path.substr(index + 3);
 			
 			switch (type) {
 				case 'camera':
 					return dispatchContent(
 						new Event(Event.COMPLETE), 
-						new ContentCamera(_layer, _path, Camera.getCamera(
+						new ContentCamera(layer, path, Camera.getCamera(
 							String(AVAILABLE_CAMERAS.indexOf(name))
 						)
 					));
@@ -87,7 +85,7 @@ package onyx.file {
 						
 						if (render) {
 							// dispatch
-							return dispatchContent(new Event(Event.COMPLETE), new ContentPlugin(_layer, _path, render));
+							return dispatchContent(new Event(Event.COMPLETE), new ContentPlugin(layer, path, render));
 						}
 					}
 					break;

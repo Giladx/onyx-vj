@@ -46,11 +46,6 @@ package onyx.controls {
 		/**
 		 * 	@private
 		 */
-		private var _data:Array;
-		
-		/**
-		 * 	@private
-		 */
 		private var _defaultvalue:uint;
 		
 		/**

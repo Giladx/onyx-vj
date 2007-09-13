@@ -166,6 +166,14 @@ package onyx.plugin {
 		}
 		
 		/**
+		 * 	@private
+		 *	Called by layer when a filter is added to it
+		 */
+		onyx_ns final function getContent():IContent {
+			return content;
+		}
+		
+		/**
 		 * 	Initialized when the filter is added to the object
 		 */
 		public function initialize():void {

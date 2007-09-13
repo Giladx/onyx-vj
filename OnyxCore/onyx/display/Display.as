@@ -379,9 +379,9 @@ package onyx.display {
 		 * 	Sets the size of the display
 		 */
 		public function set size(value:DisplaySize):void {
-			_size	= value;
-			scaleX	= value.scaleX;
-			scaleY	= value.scaleY;
+			_size	= value,
+			width	= value.width,
+			height	= value.height;
 		}
 		
 		/**

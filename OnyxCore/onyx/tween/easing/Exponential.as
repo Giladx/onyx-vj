@@ -9,8 +9,6 @@
 
 package onyx.tween.easing {
 
-import onyx.utils.math.*;
-
 /**
  *  The Exponential class defines three easing functions to implement 
  *  motion with Flex effect classes, where the motion is defined by 
@@ -18,8 +16,7 @@ import onyx.utils.math.*;
  *
  *  For more information, see http://www.robertpenner.com/profmx.
  */  
-final public class Exponential
-{
+final public class Exponential {
 	
 
 	//--------------------------------------------------------------------------

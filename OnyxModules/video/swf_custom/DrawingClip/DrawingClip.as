@@ -130,7 +130,7 @@ package {
 			removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 			removeEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 
-			_controls.dispose();
+			_controls = null;
 			graphics.clear();
 
 		}

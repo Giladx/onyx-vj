@@ -40,7 +40,7 @@ package effects {
 	import onyx.plugin.TempoFilter;
 	import onyx.tween.*;
 	import onyx.tween.easing.*;
-	import onyx.utils.math.*;
+
 
 	public final class TempoBlur extends TempoFilter implements IBitmapFilter {
 		

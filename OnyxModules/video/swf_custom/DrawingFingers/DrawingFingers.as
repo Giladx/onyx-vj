@@ -159,15 +159,15 @@
 		
 		public function dispose():void {
 			_source.dispose();
-			_source = null;
 			
 			_client.removeEventListener(FingerEvent.DOWN,onFingerDown);
     		_client.removeEventListener(FingerEvent.UP,onFingerUp);
     		_client.removeEventListener(FingerEvent.DRAG,onFingerDrag);
     		
-			_controls.dispose();
+			_controls	= null,
+			_source		= null;
+			
 			graphics.clear();
-
 		}
 	}
 }

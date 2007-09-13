@@ -36,7 +36,7 @@ package renderer {
 	import onyx.constants.*;
 	import onyx.display.*;
 	import onyx.plugin.Renderer;
-	import onyx.utils.math.*;
+
 	
 	/**
 	 * 
@@ -68,8 +68,8 @@ package renderer {
 			// loop through layers and render			
 			for (var count:int = length; count >= 0; count--) {
 
-				matrix.tx = random() * BITMAP_WIDTH;
-				matrix.ty = random() * BITMAP_HEIGHT;
+				matrix.tx = Math.random() * BITMAP_WIDTH;
+				matrix.ty = Math.random() * BITMAP_HEIGHT;
 
 				var layer:ILayer	= layers[count];
 

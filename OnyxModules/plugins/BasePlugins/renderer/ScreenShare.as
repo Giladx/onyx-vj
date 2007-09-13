@@ -180,7 +180,6 @@ package {
 		 * 	dispose
 		 */
 		public function dispose():void {
-			_controls.dispose();
 			_controls = null;
 			
 			STAGE.removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);

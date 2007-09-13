@@ -40,7 +40,7 @@ package filters {
 	import onyx.controls.*;
 	import onyx.core.*;
 	import onyx.plugin.*;
-	import onyx.utils.math.*;
+
 
 	/**
 	 * 	Noise filter
@@ -62,7 +62,7 @@ package filters {
 		
 		public function applyFilter(bmp:BitmapData):void {
 			
-			_noise.noise(random() * 100, 0, _amount * 255, 7, _greyscale);
+			_noise.noise(Math.random() * 100, 0, _amount * 255, 7, _greyscale);
 			
 			bmp.draw(_noise, new Matrix(), null, 'overlay');
 			

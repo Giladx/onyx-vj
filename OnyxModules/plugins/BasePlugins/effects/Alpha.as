@@ -38,7 +38,7 @@ package effects {
 	import onyx.controls.*;
 	import onyx.core.Tempo;
 	import onyx.plugin.TempoFilter;
-	import onyx.utils.math.*;
+
 
 	public final class Alpha extends TempoFilter {
 		
@@ -62,7 +62,7 @@ package effects {
 		 * 
 		 */
 		override protected function onTrigger(beat:int, event:Event):void {
-			content.alpha = ((max - min) * random()) + min;
+			content.alpha = ((max - min) * Math.random()) + min;
 		}
 	}
 }

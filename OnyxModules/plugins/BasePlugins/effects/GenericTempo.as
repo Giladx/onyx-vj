@@ -28,76 +28,46 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package {
+package effects {
 	
-	import flash.display.Sprite;
-	
-	import onyx.controls.*;
-	import onyx.display.ILayer;
-	import onyx.display.*;
-	import onyx.content.IContent;
-	import onyx.core.*;
+	import onyx.plugin.TempoFilter;
+	import onyx.controls.ControlPlugin;
+	import onyx.core.Plugin;
+	import onyx.plugin.IBitmapFilter;
+	import onyx.plugin.Filter;
+	import flash.display.BitmapData;
 
-	public class LayerCopy extends Sprite implements IRenderObject, IControlObject {
+	public final class GenericTempo extends TempoFilter implements IBitmapFilter {
+		
+		/**
+		 * 
+		 */
+		public var item:Plugin;
 		
 		/**
 		 * 	@private
 		 */
-		private var _controls:Controls;
-
-		/**
-		 * 	@private
-		 */
-		private var _layer:IContent;
+		private var filter:ControlPlugin	= new ControlPlugin('item', 'item', ControlPlugin.FILTERS_BITMAP)
 		
 		/**
-		 * 	@constructor
+		 * 
 		 */
-		public function LayerCopy():void {
-			 _controls = new Controls(this,
-			 	new ControlLayer('layer', 'layer'),
-			 	new ControlDisplay('layer', 'display')
-			 );
+		public function GenericTempo():void {
+			super(true,
+				null,
+				filter
+			);
 		}
 		
 		/**
-		 * 	The layer to render
+		 * 
 		 */
-		public function get layer():IContent {
-			return _layer;
-		}
-		
-		/**
-		 * 	The layer to render
-		 */
-		public function set layer(value:IContent):void {
-			this._layer = value;
-		}
-		
-		/**
-		 * 	Return controls
-		 */
-		public function get controls():Controls {
-			return _controls;
-		}
-		
-		/**
-		 * 	Render, called from Onyx
-		 */
-		public function render():RenderTransform {
+		public function applyFilter(source:BitmapData):void {
 			
-			var transform:RenderTransform = new RenderTransform();
-			transform.content = _layer ? _layer.rendered : null;
-			
-			return transform;
-		}
-		
-		/**
-		 * 	Dispose, called from onyx
-		 */
-		public function dispose():void {
-			_controls	= null;
-			_layer		= null;
+			var item:IBitmapFilter = filter.item as IBitmapFilter;
+			if (item) {
+				item.applyFilter(source);
+			}
 		}
 	}
 }

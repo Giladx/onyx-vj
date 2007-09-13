@@ -42,7 +42,7 @@ package effects {
 	import onyx.plugin.*;
 	import onyx.tween.*;
 	import onyx.tween.easing.*;
-	import onyx.utils.math.*;
+
 
 	public final class FrameRND extends TempoFilter {
 		
@@ -73,27 +73,27 @@ package effects {
 		override protected function onTrigger(beat:int, event:Event):void {
 
 			if (event is TimerEvent) {
-				delay = (((maxdelay - mindelay) * random()) + mindelay) * 1000;
+				delay = (((maxdelay - mindelay) * Math.random()) + mindelay) * 1000;
 			}
 			
 			var nextDelay:int = this.nextDelay;
 			
 			switch (rndframe) {
 				case 'end':
-					var newtime:Number			= random();
+					var newtime:Number			= Math.random();
 					var timeToTraverse:Number	= content.totalTime * (newtime - content.time);
 					
 					new Tween(content, nextDelay, new TweenProperty('framerate', content.framerate, timeToTraverse / nextDelay));
 
 					break;
 				case 'start':
-					content.time = random();
+					content.time = Math.random();
 					break;
 				default:
-					var framerate:Number = (((maxframe - minframe) * random()) + minframe);
+					var framerate:Number = (((maxframe - minframe) * Math.random()) + minframe);
 					switch (direction) {
 						case 'both':
-							framerate *= (random() <= .5 ? 1 : -1)
+							framerate *= (Math.random() <= .5 ? 1 : -1)
 							break;
 						case 'reverse':
 							framerate *= -1;
@@ -101,7 +101,7 @@ package effects {
 					}
 					
 					if (smooth) {
-						if (random() > .5) {
+						if (Math.random() > .5) {
 							new Tween(content, 500, new TweenProperty('framerate', 0, 1));
 							return;
 						}

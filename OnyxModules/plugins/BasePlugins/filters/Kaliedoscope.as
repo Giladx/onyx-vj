@@ -11,13 +11,13 @@ package filters {
 	import onyx.controls.*;
 	import onyx.plugin.Filter;
 	import onyx.plugin.IBitmapFilter;
-	import onyx.utils.math.*;
+
 	
 	public final class Kaliedoscope extends Filter implements IBitmapFilter {
 		
 		private var diag:Number;
 		private var _alpha:ColorTransform	= new ColorTransform();
-		private var _slices:int				= 9;
+		private var _slices:int				= 12;
 		
 		private var nudge:Number			= 0.09;
 		private var sclfact:Number			= 0;
@@ -58,9 +58,9 @@ package filters {
 				new ControlBoolean('rotate3', 'rotate3'),
 				new ControlBoolean('flip', 'flip'),
 				new ControlBoolean('singleview', 'singleview'),
-				new ControlNumber('rotspeed1', 'rotspd1', -1, 1, 0.007, 1000),
-				new ControlNumber('rotspeed2', 'rotspd2', -1, 1, 0.007, 1000),
-				new ControlNumber('rotspeed3', 'rotspd3', -1, 1, 0.007, 1000)
+				new ControlNumber('rotspeed1', 'rotspd1', -1, 1, 0.007, { multiplier: 1000}),
+				new ControlNumber('rotspeed2', 'rotspd2', -1, 1, 0.007, { multiplier: 1000}),
+				new ControlNumber('rotspeed3', 'rotspd3', -1, 1, 0.007, { multiplier: 1000})
 			);
 		}
 		
@@ -74,7 +74,7 @@ package filters {
 		
 		public function set slices(value:int):void {
 			_slices = value;
-			angle	= PI / value;
+			angle	= Math.PI / value;
 		}
 		
 		public function get slices():int {
@@ -84,7 +84,7 @@ package filters {
 		override public function initialize():void {
 			
 			stampImage = BASE_BITMAP();
-			diag = sqrt(2 * BITMAP_HEIGHT * BITMAP_HEIGHT) * .62;
+			diag = Math.sqrt(2 * BITMAP_HEIGHT * BITMAP_HEIGHT) * .62;
 			mat1 = new Matrix(0.5, 0, 0, 0.5);
 			mat2 = new Matrix(-0.5, 0, 0, 0.5, BITMAP_WIDTH);
 			mat3 = new Matrix(0.5, 0, 0, -0.5, 0, BITMAP_HEIGHT);
@@ -128,8 +128,8 @@ package filters {
 				graphics.lineStyle();
 				graphics.moveTo(0, 0);
 				graphics.beginBitmapFill(stampImage, m);
-				graphics.lineTo(cos((angle+nudge)-PI/2)*diag, sin((angle+nudge)-PI/2)*diag);
-				graphics.lineTo(cos(-(angle+nudge)-PI/2)*diag, sin(-(angle+nudge)-PI/2)*diag);
+				graphics.lineTo(Math.cos((angle+nudge)-Math.PI/2)*diag, Math.sin((angle+nudge)-Math.PI/2)*diag);
+				graphics.lineTo(Math.cos(-(angle+nudge)-Math.PI/2)*diag, Math.sin(-(angle+nudge)-Math.PI/2)*diag);
 				graphics.lineTo(0, 0);
 				graphics.endFill();
 				m.identity();

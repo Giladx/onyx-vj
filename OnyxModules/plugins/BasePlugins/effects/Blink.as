@@ -37,7 +37,7 @@ package effects {
 	import onyx.content.Content;
 	import onyx.controls.*;
 	import onyx.plugin.*;
-	import onyx.utils.math.*;
+
 
 	public final class Blink extends TempoFilter {
 		
@@ -56,7 +56,7 @@ package effects {
 		 * 
 		 */
 		override protected function onTrigger(beat:int, event:Event):void {
-			content.alpha = (random() * 100 > seed) ? 1 : 0;
+			content.alpha = (Math.random() * 100 > seed) ? 1 : 0;
 		}
 	}
 }

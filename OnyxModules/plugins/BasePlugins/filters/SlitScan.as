@@ -6,7 +6,7 @@ package filters {
 	import onyx.constants.*;
 	import onyx.controls.*;
 	import onyx.plugin.*;
-	import onyx.utils.math.*;
+
 	
 	public final class SlitScan extends Filter implements IBitmapFilter {
 		
@@ -87,7 +87,7 @@ package filters {
 			var height:int, rect:Rectangle;
 			
 			rect		= BITMAP_RECT.clone();
-			rect.height = height = ceil(rect.height / _numSlices);
+			rect.height = height = Math.ceil(rect.height / _numSlices);
 			
 			for (var count:int = 1; count < _numSlices; count++) {
 				var slice:SlitSlice = _slices[count - 1];

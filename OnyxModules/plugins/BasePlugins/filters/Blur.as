@@ -41,7 +41,7 @@ package filters {
 	import onyx.core.*;
 	import onyx.plugin.*;
 	import onyx.tween.*;
-	import onyx.utils.math.*;
+
 	
 	use namespace onyx_ns;
 
@@ -125,14 +125,14 @@ package filters {
 		
 		private function _onTimer(event:TimerEvent):void {
 
-			var delay:int = (((maxdelay - mindelay) * random()) + mindelay) * 1000; 
+			var delay:int = (((maxdelay - mindelay) * Math.random()) + mindelay) * 1000; 
 			_timer.delay = delay;
 			
 			new Tween(
 				_filter, 
-				min(200, delay),
-				new TweenProperty('blurX', _filter.blurX, int(_blurX * random())),
-				new TweenProperty('blurY', _filter.blurY, int(_blurY * random()))
+				Math.min(200, delay),
+				new TweenProperty('blurX', _filter.blurX, int(_blurX * Math.random())),
+				new TweenProperty('blurY', _filter.blurY, int(_blurY * Math.random()))
 			);
 			
 		}

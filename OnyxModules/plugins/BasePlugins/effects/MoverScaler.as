@@ -41,7 +41,7 @@ package effects {
 	import onyx.plugin.TempoFilter;
 	import onyx.tween.*;
 	import onyx.tween.easing.*;
-	import onyx.utils.math.*;
+
 
 	public final class MoverScaler extends TempoFilter {
 		
@@ -69,17 +69,17 @@ package effects {
 		override protected function onTrigger(beat:int, event:Event):void {
 			
 			if (event is TimerEvent) {
-				delay = (((maxdelay - mindelay) * random()) + mindelay) * 1000;
+				delay = (((maxdelay - mindelay) * Math.random()) + mindelay) * 1000;
 			}
 			
-			var scale:Number	= ((scaleMax - scaleMin) * random()) + scaleMin;
+			var scale:Number	= ((scaleMax - scaleMin) * Math.random()) + scaleMin;
 			var ratio:Number	= (scale - 1);
-			var x:int			= ratio * (-BITMAP_WIDTH) * random();
-			var y:int			= ratio * (-BITMAP_HEIGHT) * random();
+			var x:int			= ratio * (-BITMAP_WIDTH) * Math.random();
+			var y:int			= ratio * (-BITMAP_HEIGHT) * Math.random();
 			
 			new Tween(
 				content, 
-				max(delay * random(), 32),
+				Math.max(delay * Math.random(), 32),
 				new TweenProperty('x', content.x, x),
 				new TweenProperty('y', content.y, y),
 				new TweenProperty('scaleX', content.scaleX, scale),

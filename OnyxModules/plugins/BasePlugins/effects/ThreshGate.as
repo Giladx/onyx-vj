@@ -40,7 +40,7 @@ package effects {
 	import onyx.tween.Tween;
 	import onyx.tween.TweenProperty;
 	import onyx.tween.easing.*;
-	import onyx.utils.math.*;
+
 
 	public final class ThreshGate extends TempoFilter {
 		
@@ -59,7 +59,7 @@ package effects {
 		 * 
 		 */
 		override protected function onTrigger(beat:int, event:Event):void {
-			if (random() < seed) {
+			if (Math.random() < seed) {
 
 				Tween.stopTweens(this);
 

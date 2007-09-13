@@ -28,76 +28,95 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package {
+package effects {
 	
-	import flash.display.Sprite;
+	import flash.events.Event;
 	
-	import onyx.controls.*;
-	import onyx.display.ILayer;
-	import onyx.display.*;
-	import onyx.content.IContent;
-	import onyx.core.*;
-
-	public class LayerCopy extends Sprite implements IRenderObject, IControlObject {
+	import onyx.plugin.TempoFilter;
+	import onyx.display.LayerSettings;
+	
+	/**
+	 * 
+	 */
+	public final class SuperTrigger extends TempoFilter {
 		
-		/**
-		 * 	@private
-		 */
-		private var _controls:Controls;
-
-		/**
-		 * 	@private
-		 */
-		private var _layer:IContent;
+		public static const REVERSE:int = 1;
+		public static const DOUBLE:int	= 2;
+		public static const HALF:int	= 3;
+		
+		public var behavior:int;
+		public var length:int			= 2;
+		public var currentLength:int	= 0;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function LayerCopy():void {
-			 _controls = new Controls(this,
-			 	new ControlLayer('layer', 'layer'),
-			 	new ControlDisplay('layer', 'display')
-			 );
-		}
-		
-		/**
-		 * 	The layer to render
-		 */
-		public function get layer():IContent {
-			return _layer;
-		}
-		
-		/**
-		 * 	The layer to render
-		 */
-		public function set layer(value:IContent):void {
-			this._layer = value;
-		}
-		
-		/**
-		 * 	Return controls
-		 */
-		public function get controls():Controls {
-			return _controls;
-		}
-		
-		/**
-		 * 	Render, called from Onyx
-		 */
-		public function render():RenderTransform {
+		public function SuperTrigger():void {
 			
-			var transform:RenderTransform = new RenderTransform();
-			transform.content = _layer ? _layer.rendered : null;
+			super(true);
 			
-			return transform;
 		}
 		
 		/**
-		 * 	Dispose, called from onyx
+		 * 
 		 */
-		public function dispose():void {
-			_controls	= null;
-			_layer		= null;
+		override protected function onTrigger(beat:int, event:Event):void {
+			
+			// check for a re-do of the behavior
+			if (currentLength === 0) {
+				
+				// check for end behavior
+				switch (behavior) {
+					case REVERSE:
+						content.time += nextDelay / content.totalTime;
+						break;
+				}
+				
+				var seed:int = Math.random() * 100;
+				
+				// reverse
+				if (seed > 85) {
+					
+					// reverse
+					content.time += nextDelay / content.totalTime; 
+					content.framerate = -1;
+					
+					behavior = REVERSE;
+				
+				// double
+				} else if (seed > 60) {
+					
+					content.framerate = 2;
+					behavior = DOUBLE;
+				
+				// normal
+				}  else if (seed > 40) {
+					
+					content.framerate = .6;
+					behavior = HALF;
+				}  else if (seed > 20) {
+					
+					content.framerate = 3;
+					behavior = HALF;
+				}
+				
+				currentLength = Math.random() * 3 + 1;
+				
+				return;
+			}
+			
+			currentLength--;
+			
+			// check for end behavior
+			switch (behavior) {
+				case REVERSE:
+					content.time += nextDelay / content.totalTime;
+					break;
+			}
 		}
+
+		/**
+		 * 
+		 */
 	}
 }

@@ -41,7 +41,7 @@ package filters {
 	import onyx.controls.*;
 	import onyx.core.*;
 	import onyx.plugin.*;
-	import onyx.utils.math.*;
+
 
 	/**
 	 * 	Repeater
@@ -65,10 +65,10 @@ package filters {
 		public function applyFilter(bitmapData:BitmapData):void {
 			
 			var amount:int = amount;
-			var square:int = pow(amount, 2);
+			var square:int = Math.pow(amount, 2);
 			
-			var scaleX:Number = ceil(bitmapData.width / amount);
-			var scaleY:Number = ceil(bitmapData.height / amount);
+			var scaleX:Number = Math.ceil(bitmapData.width / amount);
+			var scaleY:Number = Math.ceil(bitmapData.height / amount);
 			
 			var newbmp:BitmapData = new BitmapData(scaleX, scaleY, true, 0x00000000);
 			var matrix:Matrix = new Matrix();

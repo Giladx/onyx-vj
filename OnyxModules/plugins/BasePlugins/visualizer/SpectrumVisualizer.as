@@ -30,31 +30,49 @@
  */
 package visualizer {
 	
-	import flash.geom.Matrix;
+	import flash.display.*;
+	import flash.geom.*;
 	
+	import onyx.constants.*;
+	import onyx.controls.*;
 	import onyx.core.*;
-	import onyx.plugin.Visualizer;
+	import onyx.plugin.*;
 
 	public final class SpectrumVisualizer extends Visualizer {
 		
-		/**
-		 * 	@private
-		 */
-		private var _matrix:Matrix = new Matrix(1.03, 0, 0, 1.03, -8. -6.5);
+		public var height:int		= 200;
+		private var _shape:Shape	= new Shape();
 		
 		/**
-		 * 
+		 * 	@constructor
 		 */
 		public function SpectrumVisualizer():void {
+			super(
+				new ControlInt('height', 'height', 100, 300, height)
+			)
 		}
 		
 		/**
 		 * 
 		 */
 		override public function render():RenderTransform {
-			var spectrum:Array = SpectrumAnalyzer.getSpectrum(true);
+			var transform:RenderTransform	= RenderTransform.getTransform(_shape);
+			var step:Number					= BITMAP_WIDTH / 127;
+			var graphics:Graphics			= _shape.graphics;
 			
-			return null;
+			graphics.clear();
+			
+			var analysis:Array = SpectrumAnalyzer.getSpectrum(true);
+			
+			for (var count:int = 0; count < analysis.length; count++) {
+				var value:Number	= analysis[count];
+				var color:uint		= 0xFFFFFF * value;
+				graphics.beginFill(color);
+				graphics.drawCircle(count * 2.5, 120, value * 100);
+				graphics.endFill();
+			}
+
+			return transform;
 		}
 		
 		/*

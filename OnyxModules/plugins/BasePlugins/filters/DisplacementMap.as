@@ -9,7 +9,7 @@ package filters {
 	import onyx.controls.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
-	import onyx.utils.math.*;
+
 
 	public final class DisplacementMap extends Filter implements IBitmapFilter {
 		
@@ -41,7 +41,7 @@ package filters {
 		/**
 		 * 
 		 */
-		public var seed:Number		= random() * 100;
+		public var seed:Number		= Math.random() * 100;
 		
 		/**
 		 * 	@private

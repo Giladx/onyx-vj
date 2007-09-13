@@ -95,7 +95,6 @@ package {
 		 * 	Dispose, called from onyx
 		 */
 		public function dispose():void {
-			_controls.dispose();
 			_controls	= null;
 			_layer		= null;
 		}

@@ -53,39 +53,31 @@ package filters {
 	    
 	    private var _preBlurFilter:BlurFilter;
 		private var _postBlurFilter:BlurFilter;
-		private var _defringeFilter:GlowFilter;
 	    
 	    private var _keyColor:ColorTransform = new ColorTransform();
 		
 		private var _mat:Matrix 		= new Matrix();
 	
-		private var _alphaArray:Array 	= new Array();
-		private var _nullArray:Array 	= new Array();
+		private var _alphaArray:Array 	= new Array ();
+		private var _nullArray:Array 	= new Array ();
+		private var alpha_in:Number;
+		private var alpha_out:Number;
 			
-		private var _maskIn:Number		= new Number();
-		private var _maskOut:Number		= new Number();
-		private var _preBlur:Number		= new Number();
-		private var _postBlur:Number	= new Number();
-		private var _defRadius:Number	= new Number();
-		private var _defAmount:Number	= new Number();
-		private var _maskGamma:Number	= new Number();
-		
-		private var _map:Boolean		= false;
-		private var _apply:Boolean		= false;
+		private var _maskIn:Number;
+		private var _maskOut:Number;
+		private var _preBlur:Number;
+		private var _postBlur:Number;
+		private var _maskGamma:Number;
 		
 		public function KeyingFilter():void {
 			super(
 				false,
-				new ControlNumber('maskIn', 'Mask In', 0, 2.56, .30),
-				new ControlNumber('preBlur', 'Pre Blur', 0, 100, 0),
-				new ControlNumber('maskOut', 'Mask Out', 0, 2.56, .50),
-				new ControlNumber('postBlur', 'Post Blur', 0, 160, 0),
-				//new ControlNumber('defRadius', 'Def Radius', 0, 1000, 200),
-				//new ControlNumber('defAmount', 'Def Amount', 0, 300, 0),
-				new ControlNumber('maskGamma', 'Mask Gamma', 0.01, 4.00, 1.00),
-				new ControlColor('keyColor', 'Key Color'),
-				new ControlBoolean('map', 'Map'),
-				new ControlBoolean('apply', 'Apply') 
+				new ControlNumber('maskIn', 'Mask In', 0, 2.56, .3),
+				new ControlNumber('preBlur', 'Pre Blur', 0, 1, 0),
+				new ControlNumber('maskOut', 'Mask Out', 0, 2.56, .5),
+				new ControlNumber('postBlur', 'Post Blur', 0, 1.60, 0),
+				new ControlNumber('maskGamma', 'Mask Gamma', 0.01, 4.00, 1),
+				new ControlColor('keyColor', 'Key Color')
 			);
 		}
 		
@@ -96,18 +88,19 @@ package filters {
 			_mask		= content.source.clone();
 			
 			//init controls
-			_maskIn				= .30;
-			_maskOut			= .50;
+			_maskIn				= .3;
+			_maskOut			= .5;
 			_preBlur			= 0;
 			_postBlur			= 0;
-			_defRadius			= 0;
-			_defAmount			= 0;
-			_maskGamma			= 1.00;
+			_maskGamma			= 1;
 			_keyColor.color 	= 0xFF000000;
 			
-			_preBlurFilter 		= new BlurFilter(1 + _preBlur/1, 1 + _preBlur/1, 1);
-			_postBlurFilter 	= new BlurFilter(1 + _postBlur/1, 1 + _postBlur/1, 1);
-					
+			_preBlurFilter 		= new BlurFilter(1 + _preBlur * 10, 1 + _preBlur * 10, 1);
+			_postBlurFilter 	= new BlurFilter(1 + _postBlur * 10, 1 + _postBlur * 10, 1);
+			
+			alpha_in 			= _maskIn*10;
+			alpha_out 			= _maskOut*10;
+			
 			average(1/3, 1/3, 1/3);
 			calculateAlphaTables();
 						
@@ -117,7 +110,6 @@ package filters {
 		public function set keyColor(value:Number):void {
 			_keyColor.color = value;
 			_transform.colorTransform( BITMAP_RECT, _keyColor);
-			average(1/3, 1/3, 1/3);
 		}
 		
 		public function get keyColor():Number {
@@ -126,6 +118,7 @@ package filters {
 		
 		public function set maskIn(value:Number):void {
 			_maskIn = value;
+			alpha_in = _maskIn*10;
 			calculateAlphaTables();
 		}
 		
@@ -135,6 +128,7 @@ package filters {
 		
 		public function set maskOut(value:Number):void {
 			_maskOut = value;
+			alpha_out = _maskOut*10;
 			calculateAlphaTables();
 		}
 		
@@ -144,7 +138,7 @@ package filters {
 		
 		public function set preBlur(value:Number):void {
 			_preBlur = value;
-			_preBlurFilter = new BlurFilter(1 + value/1, 1 + value/1, 1);
+			_preBlurFilter = new BlurFilter(1 + value * 10, 1 + value * 10, 1);
 		}
 		
 		public function get preBlur():Number {
@@ -153,7 +147,7 @@ package filters {
 		
 		public function set postBlur(value:Number):void {
 			_postBlur = value;
-			_postBlurFilter = new BlurFilter(1 + value/1, 1 + value/1, 1);
+			_postBlurFilter = new BlurFilter(1 + value * 10, 1 + value * 10, 1);
 		}
 		
 		public function get postBlur():Number {
@@ -167,22 +161,6 @@ package filters {
 		
 		public function get maskGamma():Number {
 			return _maskGamma;
-		}
-		
-		public function set apply(value:Boolean):void {
-			_apply = value;
-		}
-		
-		public function get apply():Boolean {
-			return _apply;
-		}
-		
-		public function set map(value:Boolean):void {
-			_map = value;
-		}
-		
-		public function get map():Boolean {
-			return _map;
 		}
 		
 		
@@ -206,18 +184,18 @@ package filters {
 			var f:Number;
 			var n:Number;
 			
-			for (i = 0; i < _maskIn*100; i++ ) {
+			for (i = 0; i < alpha_in;i++ ) {
 				_alphaArray[i] = 0;
 			}
 		
-			f = 1 / ( _maskOut*100 - _maskIn*100 );
+			f = 1 / ( alpha_out - alpha_in );
 			n = f;
 		
-			for (i = _maskIn*100; i < _maskOut*100; i++ ) {
-				_alphaArray[i] =  Math.round(255 * Math.pow (n, 1/(_maskGamma)) )<<24  | 0xffffff;
+			for (i = alpha_in; i<alpha_out; i++ ) {
+				_alphaArray[i] =  Math.round(255 * Math.pow (n, 1.0 / ( _maskGamma *10)) )<<24  | 0xffffff;
 				n += f;
 			}
-			for (i = _maskOut*100; i < 256; i++ ) {
+			for (i = alpha_out; i < 256; i++ ) {
 				_alphaArray[i] = 0xffffffff;
 			}
 		}
@@ -227,62 +205,44 @@ package filters {
 			//take the bitmapData stream and make a copy into _source
 			_source.draw(bitmapData);
 			
-			if(_apply) {
-				
-				// Prebluring will reduce compression artefacts and smooth the edges
-				if ( _preBlur > 0 ) {
-					_mask.applyFilter(_source, BITMAP_RECT, POINT, _preBlurFilter );
-				} else {
-					_mask.draw(_source);
-				}
-				
-				// Subtracts the key color from the image
-				_mask.draw(_transform, _mat, null, "difference");
-				
-				// this calculates the average color difference
-				_mask.applyFilter(_mask, BITMAP_RECT, POINT, new ColorMatrixFilter(matrix));
-				
-				// maps the accumulated difference from the blue channel to the alpha channel and creates the mask
-				_mask.paletteMap(_mask, BITMAP_RECT, POINT, _nullArray, _nullArray, _alphaArray, _nullArray );	
-				
-				// blurs the mask edges
-				if ( _postBlur > 0 ) {
-					_mask.applyFilter(_mask, BITMAP_RECT, POINT, _postBlurFilter );
-				}
-				
-				if (_map) {
-					// show mask
-					bitmapData.fillRect(BITMAP_RECT, 0xff000000);
-					bitmapData.draw(_mask);
-				} else {
-					// mask the video
-					bitmapData.copyPixels(_source, BITMAP_RECT, POINT, _mask, POINT, false );
-				}
-				
-			} 
-						
+			// Prebluring will reduce compression artefacts and smooth the edges
+			if ( _preBlur > 0 ) {
+				_mask.applyFilter(_source, BITMAP_RECT, POINT, _preBlurFilter );
+			} else {
+				_mask.draw(_source);
+			}
+			
+			// Subtracts the key color from the image
+			_mask.draw(_transform, _mat, null, "difference");
+			
+			// this calculates the average color difference
+			_mask.applyFilter(_mask, BITMAP_RECT, POINT, new ColorMatrixFilter(matrix));
+			
+			// maps the accumulated difference from the blue channel to the alpha channel and creates the mask
+			_mask.paletteMap(_mask, BITMAP_RECT, POINT, _nullArray, _nullArray, _alphaArray, _nullArray );
+			
+			// blurs the mask edges
+			if ( _postBlur > 0 ) {
+				_mask.applyFilter(_mask, BITMAP_RECT, POINT, _postBlurFilter );
+			}
+			
+			bitmapData.copyPixels( _source, BITMAP_RECT, POINT, _mask, POINT, false );
 		}
 		
 		override public function dispose():void {
-			
 			if (_source) {
 				_source.dispose();
 				_source = null;
 			}
-			
 			_source				= null;
 			_transform			= null;
 			_mask				= null;
-			
-			_maskIn				= .30;
-			_maskOut			= .50;
+			_maskIn				= 0;
+			_maskOut			= 0;
 			_preBlur			= 0;
 			_postBlur			= 0;
-			_maskGamma			= 1.00;
-			_keyColor.color		= 0xFF000000;
-			_apply				= false;
-			_map				= false;
-			
+			_maskGamma			= 0;
+			_keyColor			= null;
 			super.dispose();
 		}
 	}

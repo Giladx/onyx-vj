@@ -71,6 +71,11 @@ package ui.controls {
 		private var _scrollY:ScrollBar;
 		
 		/**
+		 * 	@private
+		 */
+		private var _rect:Rectangle;
+		
+		/**
 		 * 	@constructor
 		 */
 		public function ScrollPane(width:int, height:int, label:String = null, background:Boolean = false):void {
@@ -89,7 +94,7 @@ package ui.controls {
 			addEventListener(MouseEvent.MOUSE_OVER, _onMouseOver);
 			
 			// set the scroll 
-			super.scrollRect = new Rectangle(0, 0, width, height);
+			scrollRect = _rect = new Rectangle(0, 0, width + 6, height);
 			
 			// check for label
 			if (label) {
@@ -230,7 +235,7 @@ package ui.controls {
 			if (!_scrollY) {
 				
 				_scrollY = new ScrollBar();
-				_scrollY.x = _width - 6;
+				_scrollY.x = _width;
 				_scrollY.addEventListener(MouseEvent.MOUSE_DOWN, _onScrollPress);
 				
 				super.addChild(_scrollY);
@@ -292,7 +297,6 @@ package ui.controls {
 			
 			var ratio:Number = (_scrollY.y / (_height - _scrollY.height));
 			_holder.y = -ratio * (_holder.height - _height);
-			
 		}
 		
 		/**

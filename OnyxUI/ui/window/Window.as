@@ -34,12 +34,9 @@ package ui.window {
 	import flash.geom.*;
 	import flash.text.TextFieldAutoSize;
 	
-	import onyx.core.Plugin;
-	
 	import ui.assets.AssetWindow;
 	import ui.core.UIObject;
 	import ui.text.*;
-	import onyx.tween.easing.Back;
 	
 	/**
 	 * 	Window

@@ -90,7 +90,7 @@ package ui.policy {
 		 * 	@private
 		 */
 		private function _onScrollPress(event:MouseEvent):void {
-			trace(event);
+			// trace(event);
 		}
 		
 		/**

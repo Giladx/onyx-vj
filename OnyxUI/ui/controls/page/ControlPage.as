@@ -81,7 +81,7 @@ package ui.controls.page {
 			
 			// if it's a control array, remove listeners
 			if (_target) {
-				_target.removeEventListener(Event.CHANGE, _onUpdate);
+				_target.removeEventListener(Event.CHANGE, update);
 				_target = null;
 			}
 			
@@ -99,7 +99,7 @@ package ui.controls.page {
 		 * 	@private
 		 * 	When the control is updated
 		 */
-		private function _onUpdate(event:Event):void {
+		private function update(event:Event):void {
 			addControls(_target);
 		}
 		
@@ -108,25 +108,35 @@ package ui.controls.page {
 		 */
 		public function addControls(controls:Array):void {
 			
-			var uicontrol:UIControl, x:int, y:int, width:int, target:Controls, height:int;
+			var uicontrol:UIControl, x:int, y:int, width:int, target:Controls, height:int, creationArray:Array;
 
 			x						= 0,
 			y						= 8,
 			width					= DEFAULT.width + 3,
 			height					= DEFAULT.height,
-			target					= controls as Controls;
+			target					= controls as Controls,
+			creationArray			= [];
 			
 			// remove existing controls
 			removeControls();
 			
+			// create first layer of controls to display
+			creationArray = controls.concat();
+			
 			// if it's a Controls array, listen for changes
-			if (target) { 
+			if (target) {
+				
 				_target = target;
-				_target.addEventListener(Event.CHANGE, _onUpdate);
+				_target.addEventListener(Event.CHANGE, update);
+				
+				for each (var child:Controls in target.children) {
+					creationArray =  creationArray.concat(child);
+				}
+
 			}
 
 			// now create a uicontrol based on each control
-			for each (var control:Control in controls) {
+			for each (var control:Control in creationArray) {
 				
 				var uiClass:Class		= CONTROL_MAP[control.reflect()];
 				
@@ -143,9 +153,9 @@ package ui.controls.page {
 					
 					x += width;
 					
-					// check width, respotion based on it
+					// check width, reposition based on it
 					if (x > width) {
-						x = 0;
+						x = 0,
 						y += height + 10;
 					}
 					
@@ -153,6 +163,17 @@ package ui.controls.page {
 					addChild(uicontrol);
 				}
 			}
-		}		
+		}
+		
+		/**
+		 * 
+		 */
+		override public function dispose():void {
+			if (_target) {
+				_target.removeEventListener(Event.CHANGE, update);
+			}
+			
+			super.dispose();
+		}
 	}
 }

@@ -82,13 +82,13 @@ package ui.window {
 		 * 	@private
 		 * 	Holds the file objects
 		 */
-		private var _files:ScrollPane					= new ScrollPane(300, 227);
+		private var _files:ScrollPane					= new ScrollPane(294, 227);
 		
 		/**
 		 * 	@private
 		 * 	Holds the folder objects
 		 */
-		private var _folders:ScrollPane					= new ScrollPane(91, 191, null);
+		private var _folders:ScrollPane					= new ScrollPane(91, 191, null, true);
 		
 		/**
 		 * 	@private

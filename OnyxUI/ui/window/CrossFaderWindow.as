@@ -35,7 +35,7 @@ package ui.window {
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
-	import onyx.core.TransitionTransform;
+	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.plugin.Transition;
@@ -90,6 +90,11 @@ package ui.window {
 		 * 	@private
 		 */
 		private var _transitionDrop:DropDown;
+		
+		/**
+		 * 
+		 */
+		private var control:ControlPlugin;
 				
 		/**
 		 * 	@constructor
@@ -107,19 +112,19 @@ package ui.window {
 			options.width			= 100;
 			options.label			= false;
 			
+			control = new ControlPlugin('transition', 'transition', ControlPlugin.TRANSITIONS, false, true);
+			
 			// create the window
 			super(reg, true, 192, 53);
 			
-			_btn			= new ButtonClear(187, 20),
-			_fader			= new AssetCrossFader(),
-			_faderBG		= new AssetCrossFaderBG(),
-			_controls		= new Controls(this, 
-				new ControlPlugin('transition', 'transition', ControlPlugin.TRANSITIONS, false)
-			),
-			_display		= AVAILABLE_DISPLAYS[0];
+			_btn					= new ButtonClear(187, 20),
+			_fader					= new AssetCrossFader(),
+			_faderBG				= new AssetCrossFaderBG(),
+			_controls				= new Controls(this, control),
+			_display				= AVAILABLE_DISPLAYS[0];
 
 			// add the control
-			_transitionDrop	= new DropDown(options, _controls.getControl('transition'));
+			_transitionDrop		= new DropDown(options, _controls.getControl('transition'));
 
 			// draw
 			_btn.x				= 3,
@@ -148,15 +153,15 @@ package ui.window {
 		/**
 		 * 
 		 */
-		public function set transition(value:Transition):void {
-			_leftChannel.transition = _rightChannel.transition = value;
+		public function set transition(value:Plugin):void {
+			_leftChannel.transition = _rightChannel.transition = control.item as Transition;
 		}
 		
 		/**
 		 * 
 		 */
-		public function get transition():Transition {
-			return _leftChannel.transition;
+		public function get transition():Plugin {
+			return _leftChannel.transition.plugin;
 		}
 		
 		/**

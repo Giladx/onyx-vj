@@ -183,8 +183,11 @@ package ui.layer {
 			if (value) {
 				
 				_preview			= new Bitmap(_display.rendered, PixelSnapping.ALWAYS, false);
-				_preview.x			= PREVIEW_X;
-				_preview.y			= PREVIEW_Y;
+				
+				_preview.x			= PREVIEW_X,
+				_preview.y			= PREVIEW_Y,
+				_preview.width		= 320,
+				_preview.height		= 240;
 				
 				STAGE.addChildAt(_preview, 0);
 				

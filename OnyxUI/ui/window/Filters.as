@@ -68,12 +68,12 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
-		private var _normalPane:ScrollPane		= new ScrollPane(90, 185, 'EFFECT FILTERS');
+		private var _normalPane:ScrollPane		= new ScrollPane(89, 222, 'EFFECT FILTERS');
 		
 		/**
 		 * 	@private
 		 */
-		private var _bitmapPane:ScrollPane		= new ScrollPane(90, 185, 'BITMAP FILTERS');
+		private var _bitmapPane:ScrollPane		= new ScrollPane(89, 222, 'BITMAP FILTERS');
 		
 		/**
 		 * 	@constructor
@@ -91,9 +91,9 @@ package ui.window {
 			Policy.addPolicy(_normalPane, new VOrderPolicy());
 			Policy.addPolicy(_bitmapPane, new VOrderPolicy());
 			
-			_normalPane.x = 98;
-			_normalPane.y = 15;
-			_bitmapPane.x = 4;
+			_normalPane.x = 99,
+			_normalPane.y = 15,
+			_bitmapPane.x = 4,
 			_bitmapPane.y = 15;
 
 			// create filter controls

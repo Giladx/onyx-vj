@@ -141,22 +141,6 @@ package ui.states {
 			
 			var uiXML:XMLList	= xml.ui;
 			
-			// re-order the filters based on settings
-			if (uiXML.hasOwnProperty('filters')) {
-				
-				list = uiXML.filters.order.filter;
-				
-				for each (var filter:XML in list.*) {
-					var plugin:Plugin = Filter.getDefinition(filter.@name);
-					
-					// make sure the plugin exists
-					if (plugin) {
-						plugin.index = filter.@index;
-					}
-				}
-				
-			}
-			
 			if (uiXML.hasOwnProperty('swatch')) {
 				list = uiXML.swatch;
 				

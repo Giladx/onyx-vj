@@ -83,7 +83,7 @@ package ui.window {
 		/**
 		 * 	Stores current transition plugin to use
 		 */		
-		private var _transition:Transition;
+		private var _transition:ControlPlugin;
 		
 		/**
 		 * 	@private
@@ -107,9 +107,14 @@ package ui.window {
 		private var _samples:Array			= [0];
 		
 		/**
-		 * 
+		 * 	@private
 		 */
 		private var _line:Object;
+		
+		/**
+		 * 
+		 */
+		public var duration:int = 2;
 		
 		/**
 		 * 	@constructor
@@ -120,10 +125,12 @@ package ui.window {
 
 			super(reg, true, 202, 161);
 			
+			_transition = new ControlPlugin('transition', 'Layer Transition', ControlPlugin.TRANSITIONS, true, false);
+			
 			// create transition controls
 			_controls = new Controls(this,
-				new ControlPlugin('transition', 'Layer Transition', ControlPlugin.TRANSITIONS),
-				new ControlInt('duration', 'Duration', 1, 20, 3, { factor: 10 })
+				_transition,
+				new ControlInt('duration', 'Duration', 1, 20, 3)
 			);
 			
 			var options:UIOptions	= new UIOptions(true, true, 'center', 60, 10);
@@ -201,35 +208,30 @@ package ui.window {
 			trace('saved');
 		}
 		
-
-		/**
-		 * 	Gets the transition duration
-		 */
-		public function get duration():int {
-			return (UIManager.transition) ? UIManager.transition.duration / 1000 : 2;
-		}
-		
-		/**
-		 * 	Sets the transition duration
-		 */
-		public function set duration(value:int):void {
-			(UIManager.transition) ? UIManager.transition.duration = value * 1000 : null;
-		}
-		
 		/**
 		 * 	Sets the transition
 		 */
-		public function set transition(value:Transition):void {
+		public function set transition(value:Plugin):void {
 			
-			_transition = value;
-
+			var transition:Transition = value ? value.getDefinition() as Transition : null;
+			
 			// valid
-			if (value)  {
+			if (transition)  {
 
-				value.duration			= duration * 1000,
-				UIManager.transition	= value;
+				transition.duration		= duration * 1000,
+				UIManager.transition	= transition;
 
+			} else {
+				UIManager.transition	= null;
 			}
+
+		}
+		
+		/**
+		 * 
+		 */
+		public function get transition():Plugin {
+			return UIManager.transition ? UIManager.transition.plugin : null;
 		}
 
 		/**
@@ -285,13 +287,6 @@ package ui.window {
 			_tapTempo.transform.colorTransform = DEFAULT;
 			_releaseTimer.removeEventListener(TimerEvent.TIMER, _onTempoOff);
 			_releaseTimer.stop();
-		}
-		
-		/**
-		 * 
-		 */
-		public function get transition():Transition {
-			return _transition;
 		}
 	}
 }

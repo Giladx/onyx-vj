@@ -229,8 +229,8 @@ package ui.controls {
 			}
 			
 			// remove references
-			_selectedIndex = null,
-			_items = null;
+			_selectedIndex	= null,
+			_items			= null;
 			
 			// remove the popup
 			CONTAINER.remove();
@@ -258,6 +258,7 @@ package ui.controls {
 		 * 	Sets text to a value
 		 */
 		public function setText(value:*):void {
+			
 			var control:ControlRange	= _control as ControlRange;
 			_label.text = (control.binding && value) ? value[control.binding] || 'None' : value || 'None';
 
@@ -297,6 +298,9 @@ final class Option extends Sprite {
 	 */
 	private var _label:TextField;
 
+	/**
+	 * 	Row index
+	 */
 	public var index:int;
 	
 	/**

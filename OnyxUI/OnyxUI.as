@@ -89,7 +89,7 @@ package {
 			var menu:ContextMenu = new ContextMenu();
 			menu.hideBuiltInItems();
 			contextMenu	= menu;
-
 		}
+		
 	}
 }

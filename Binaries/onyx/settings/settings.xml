@@ -15,10 +15,7 @@
 				<height>240</height>
 			</bitmapData>
 			
-			<!--
-				the start-up quality of flash
-				recommended: medium
-				
+			<!-- the start-up quality of flash, recommended: omit for medium
 				<quality>high</quality>
 			-->
 		</render>
@@ -47,14 +44,6 @@
 	
 	<!-- UI STATES -->
 	<ui>
-		
-		<!-- FILTER ORDERING
-		<filters>
-			<order>
-				<filter name="BLUR FILTER" index="0" />
-			</order>
-		</filters>
-		 -->
 		
 		<!-- LOCATION OF THE PREVIEW WINDOW -->
 		<preview>

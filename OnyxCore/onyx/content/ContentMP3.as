@@ -73,11 +73,6 @@ package onyx.content {
 		 * 	@private
 		 */
 		private var _channel:SoundChannel;
-
-		/**
-		 * 	@private
-		 */
-		private var _plugin:Plugin;
 		
 		/**
 		 * 	@private
@@ -88,17 +83,24 @@ package onyx.content {
 		 * 
 		 */
 		private var _baseControls:Controls;
+		
+		/**
+		 * 
+		 */
+		private var _plugin:ControlPlugin;
 
 		/**
 		 * 	@constructor
 		 */
 		public function ContentMP3(layer:ILayer, path:String, sound:Sound):void {
 			
+			_plugin = new ControlPlugin('plugin', 'plugin', ControlPlugin.VISUALIZERS);
+			
 			// create base controls
 			_baseControls = _controls = new Controls(this, 
 				new ControlInt('volume', 'volume', 0, 100, 50),
 				new ControlInt('pan', 'pan', -100, 100, 0),
-				new ControlPlugin('plugin', 'plugin', ControlPlugin.VISUALIZERS)
+				_plugin
 			);
 			
 			_sound		= sound;
@@ -146,20 +148,6 @@ package onyx.content {
 		public function get pan():int {
 			return _transform.pan * 100;
 		}
-
-		/**
-		 * 	Gets the visualizer
-		 */
-		public function get plugin():Plugin {
-			return _plugin;
-		}
-
-		/**
-		 * 	Sets the visualizer
-		 */
-		public function set plugin(obj:Plugin):void {
-			_plugin = obj
-		}
 		
 		/**
 		 * 	Updates the bimap source
@@ -176,9 +164,9 @@ package onyx.content {
 				}
 	
 				// draw ourselves			
-				if (_plugin) {
+				if (_plugin.item) {
 					
-					var visualizer:Visualizer 		= (_controls.getControl('plugin') as ControlPlugin).item as Visualizer;
+					var visualizer:Visualizer 		= _plugin.item as Visualizer;
 					var transform:RenderTransform	= visualizer.render();
 					
 					transform = (transform) ? transform.concat(getTransform()) : getTransform();

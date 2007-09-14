@@ -110,11 +110,6 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private var _renderer:Plugin;
-		
-		/**
-		 * 	@private
-		 */
 		private var __renderer:ControlPlugin;
 		
 		/**
@@ -129,16 +124,14 @@ package onyx.display {
 			
 			var plugin:Plugin = Renderer.renderers[0]; 
 			
-			
 			__x 		= new ControlInt('displayX', 'x', 0, 2000, STAGE.stageWidth - 320),
 			__y 		= new ControlInt('displayY', 'y', 0, 2000, 0),
 			__visible	= new ControlBoolean('visible', 'visible'),
 			__alpha		= new ControlNumber('alpha','alpha', 0, 1, 1),
-			__renderer	= new ControlPlugin('renderer',	'renderer',	ControlPlugin.RENDERERS, false, true, plugin.getDefinition());
+			__renderer	= new ControlPlugin('renderer',	'renderer',	ControlPlugin.RENDERERS, false, true, plugin);
 			_size		= DISPLAY_SIZES[2],
 			_filter		= new ColorFilter();
 			
-			_renderer	= Renderer.renderers[0],
 			_filters	= new FilterArray(this),
 			_controls	= new Controls(this,
 				new ControlNumber(
@@ -868,21 +861,6 @@ package onyx.display {
 			return null;
 		}
 		
-
-		/**
-		 * 	Sets the renderer
-		 */
-		public function set renderer(value:Plugin):void {
-			_renderer = value;
-		}
-
-		/**
-		 * 	Gets the renderer
-		 */
-		public function get renderer():Plugin {
-			return _renderer;
-		}
-				
 		/**
 		 * 	Applies a filter to the rendered output
 		 */

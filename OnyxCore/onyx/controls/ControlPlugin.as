@@ -52,34 +52,11 @@ package onyx.controls {
 		 */
 		private static const LOOKUP:Array	= ['filter', 'macro', 'transition', 'visualizer', 'renderer'];
 		
-		/**
-		 * 	Use Filters
-		 */
 		public static const FILTERS_BITMAP:int	= 0;
-		
-		/**
-		 * 
-		 */
 		public static const FILTERS_TEMPO:int	= 5;
-
-		/**
-		 * 	Use Macros
-		 */
 		public static const MACROS:int			= 1;
-
-		/**
-		 * 	Use Transitions
-		 */
 		public static const TRANSITIONS:int		= 2;
-
-		/**
-		 * 	Use Visualizers
-		 */
 		public static const VISUALIZERS:int		= 3;
-		
-		/**
-		 * 	Use Renderers
-		 */
 		public static const RENDERERS:int		= 4;
 		
 		/**
@@ -96,12 +73,17 @@ package onyx.controls {
 		/**
 		 * 	@private
 		 */
+		private var _value:Plugin;
+		
+		/**
+		 * 	@private
+		 */
 		private var _autoCreate:Boolean;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function ControlPlugin(name:String, display:String, type:int = 0, showEmpty:Boolean = true, autoCreate:Boolean = true, defaultValue:PluginBase = null):void {
+		public function ControlPlugin(name:String, display:String, type:int = 0, showEmpty:Boolean = true, autoCreate:Boolean = true, defaultValue:Plugin = null):void {
 			
 			var data:Array;
 			
@@ -136,7 +118,8 @@ package onyx.controls {
 			}
 			
 			if (defaultValue) {
-				_item = defaultValue;
+				_value	= defaultValue,
+				_item	= defaultValue.getDefinition();
 			}
 
 			super(name, display, data, defaultValue, 'name');
@@ -147,6 +130,13 @@ package onyx.controls {
 		 */
 		override public function reset():void {
 			
+		}
+		
+		/**
+		 * 
+		 */
+		override public function get value():* {
+			return _value;
 		}
 		
 		/**
@@ -183,13 +173,6 @@ package onyx.controls {
 		/**
 		 * 
 		 */
-		override public function get value():* {
-			return _target[name];
-		}
-		
-		/**
-		 * 
-		 */
 		override public function set value(v:*):void {
 			
 			var plugin:Plugin = v as Plugin;
@@ -219,9 +202,11 @@ package onyx.controls {
 					(_item as Filter).setContent((obj as Filter).getContent());
 				}
 			} 
-			
+
+			// see if it has the property, it's ok if it doesn't
+			_value = plugin;
+						
 			dispatchEvent(new ControlEvent(v));
-			_target[name] = plugin;
 		}
 		
 		/**

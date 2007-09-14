@@ -63,6 +63,11 @@ package onyx.plugin {
 				_macros.splice(index || _macros.length - 1, 0, plugin);
 			}
 		}
+		
+		/**
+		 * 
+		 */
+		public var repeatable:Boolean			= false;
 
 		/**
 		 * 	Returns a definition
@@ -79,21 +84,23 @@ package onyx.plugin {
 		}
 		
 		/**
-		 * 	@constructor
+		 * 
 		 */
-		public function Macro():void {
-		}
-		
-		/**
-		 * 	Terminates the macro
-		 */
-		public function terminate():void {
+		public function keyUp():void {
+			
 		}
 		
 		/**
 		 * 
 		 */
-		override public function toString():String {
+		public function keyDown():void {
+			
+		}
+		
+		/**
+		 * 
+		 */
+		final override public function toString():String {
 			return ONYX_QUERYSTRING + 'macro://' + _plugin.name;
 		}
 	}

@@ -32,6 +32,6 @@ package ui.styles {
 	
 	import ui.controls.UIOptions;
 	
-	public const MENU_OPTIONS:UIOptions = new UIOptions(true, false, 'center', 82, 10);
+	public const MENU_OPTIONS:UIOptions = new UIOptions(true, false, null, 82, 10);
 	
 }

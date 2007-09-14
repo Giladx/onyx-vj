@@ -133,7 +133,7 @@ package ui.window {
 				new ControlInt('duration', 'Duration', 1, 20, 3)
 			);
 			
-			var options:UIOptions	= new UIOptions(true, true, 'center', 60, 10);
+			var options:UIOptions	= new UIOptions(true, true, null, 60, 10);
 
 			// controls for display
 			_buttonXML				= new TextButton(options, 'save mix file');

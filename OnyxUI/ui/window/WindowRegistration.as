@@ -45,7 +45,8 @@ package ui.window {
 				new WindowRegistration('DISPLAY',		DisplayWindow),
 				new WindowRegistration('KEY MAPPING',	KeysWindow),
 				new WindowRegistration('SETTINGS',		SettingsWindow),
-				new WindowRegistration('CROSSFADER',	CrossFaderWindow)
+				new WindowRegistration('CROSSFADER',	CrossFaderWindow),
+				new WindowRegistration('MACROS',		MacroWindow)
 			);
 		}
 		

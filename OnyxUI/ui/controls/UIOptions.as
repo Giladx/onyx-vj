@@ -43,7 +43,7 @@ package ui.controls {
 		/**
 		 * 	@constructor
 		 */
-		public function UIOptions(background:Boolean = true, label:Boolean = true, labelAlign:String = 'center', width:int = 44, height:int = 10):void {
+		public function UIOptions(background:Boolean = true, label:Boolean = true, labelAlign:String = null, width:int = 44, height:int = 10):void {
 			this.background	= background,
 			this.label		= label,
 			this.labelAlign = labelAlign,

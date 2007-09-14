@@ -54,7 +54,7 @@ package ui.window {
 			_midiButton				= new TextButton(options, 'midi learn');
 			_midiListen				= new DropDown(options, MIDI.controls.getControl('listen'));
 			
-			super(reg, 100, 100);
+			super(reg, true, 100, 100);
 			
 		}
 	}

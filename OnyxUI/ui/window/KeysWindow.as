@@ -74,8 +74,9 @@ package ui.window {
 			DragManager.setDraggable(this);
 			
 			// add the textfield
-			_text.x = 4;
-			_text.y = 14;
+			_text.x				= 4,
+			_text.y				= 14,
+			_text.mouseEnabled	= true;
 			addChild(_text);
 
 			// add a text scroll policy

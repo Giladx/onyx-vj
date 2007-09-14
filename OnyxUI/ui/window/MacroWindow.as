@@ -30,11 +30,15 @@
  */
 package ui.window {
 	
-	import flash.events.MouseEvent;
+	import flash.display.DisplayObject;
 	
 	import onyx.controls.*;
 	import onyx.core.*;
+	import onyx.events.ControlEvent;
 	import onyx.plugin.*;
+	
+	import ui.controls.*;
+	import ui.core.MacroManager;
 	
 	/**
 	 * 	Macro window
@@ -45,11 +49,6 @@ package ui.window {
 		 * 	@private
 		 */
 		private var _controls:Controls;
-
-		/**
-		 * 	@private
-		 */
-		private var _action1:Plugin;
 		
 		/**
 		 * 	@constructor
@@ -57,27 +56,49 @@ package ui.window {
 		public function MacroWindow(reg:WindowRegistration):void {
 			
 			_controls = new Controls(this,
-				new ControlRange('action1', 'action1', Macro.macros, 0)
+				new ControlPlugin('f1', 'f1', ControlPlugin.MACROS, true, true, MacroManager.ACTION_1),
+				new ControlPlugin('f2', 'f2', ControlPlugin.MACROS, true, true, MacroManager.ACTION_2),
+				new ControlPlugin('f3', 'f3', ControlPlugin.MACROS, true, true, MacroManager.ACTION_3),
+				new ControlPlugin('f4', 'f4', ControlPlugin.MACROS, true, true, MacroManager.ACTION_4),
+				new ControlPlugin('f5', 'f5', ControlPlugin.MACROS, true, true, MacroManager.ACTION_5),
+				new ControlPlugin('f6', 'f6', ControlPlugin.MACROS, true, true, MacroManager.ACTION_6),
+				new ControlPlugin('f7', 'f7', ControlPlugin.MACROS, true, true, MacroManager.ACTION_7),
+				new ControlPlugin('f8', 'f8', ControlPlugin.MACROS, true, true, MacroManager.ACTION_8),
+				new ControlPlugin('f9', 'f9', ControlPlugin.MACROS, true, true, MacroManager.ACTION_9),
+				new ControlPlugin('f10', 'f10', ControlPlugin.MACROS, true, true, MacroManager.ACTION_10),
+				new ControlPlugin('f11', 'f11', ControlPlugin.MACROS, true, true, MacroManager.ACTION_11),
+				new ControlPlugin('f12', 'f12', ControlPlugin.MACROS, true, true, MacroManager.ACTION_12)
 			);
 			
-			super(reg, 192, 200);
+			super(reg, true, 192, 104);
+			
+			var options:UIOptions	= new UIOptions(true, true, 'left', 72);
+			var index:int			= 0;
+			
+			for each (var control:ControlPlugin in _controls) {
+				var sprite:DisplayObject = addChild(new DropDown(options, control));
+				sprite.x = ((index / 6) >> 0) * 94 + 20,
+				sprite.y = (index % 6) * 15 + 15;
+				
+				index++;
+				control.addEventListener(ControlEvent.CHANGE, _controlChange);
+			}
 		}
 		
 		/**
 		 * 
 		 */
-		public function get action1():Plugin {
-			return _action1;
-		}
-		
-		
-		/**
-		 * 
-		 */
-		public function set action1(value:Plugin):void {
-			_action1 = value;
+		private function _controlChange(event:ControlEvent):void {
+			
+			var control:ControlPlugin		= event.currentTarget as ControlPlugin;
+			var num:int						= int(control.name.substr(1));
+			
+			MacroManager['ACTION_' + num]	= event.value;
 		}
 
+		/**
+		 * 
+		 */
 		public function get controls():Controls {
 			return _controls;
 		}

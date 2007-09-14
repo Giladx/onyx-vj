@@ -81,7 +81,7 @@ package ui.controls {
 				}
 				
 				if (options.label && label) {
-					addLabel(label, options.width, options.height);
+					addLabel(label, options.width, options.height, -8, 0, options.labelAlign);
 				}
 			}
 			

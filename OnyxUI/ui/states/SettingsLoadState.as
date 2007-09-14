@@ -30,22 +30,18 @@
  */
 package ui.states {
 	
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
+	import flash.events.*;
 	import flash.geom.Rectangle;
 	import flash.net.*;
 	
 	import onyx.constants.*;
 	import onyx.core.*;
-	import onyx.midi.Midi;
 	import onyx.plugin.*;
 	import onyx.states.*;
-	import onyx.utils.string.parseBoolean;
 	
 	import ui.controls.ColorPicker;
-	import ui.window.WindowRegistration;
-	import ui.window.WindowState;
-	import ui.window.WindowStateReg;
+	import ui.core.*;
+	import ui.window.*;
 
 	/**
 	 * 	Load settings
@@ -165,6 +161,29 @@ package ui.states {
 				for each (var key:XML in list.*) {
 					try {
 						KeyListenerState[key.name()] = key;
+					} catch (e:Error) {
+						Console.error(e);
+					}
+				}
+			}
+			
+			// macros
+			if (uiXML.hasOwnProperty('macro')) {
+				
+				list = uiXML.macro;
+				
+				// map keys
+				for each (var macro:XML in list.*) {
+					try {
+						var name:String = macro.name();
+						var value:String = macro.toString();
+						var plugin:Plugin = Macro.getDefinition(value.toUpperCase());
+						
+						if (plugin) {
+							MacroManager[name.toUpperCase()] = plugin;
+						}
+						
+						// KeyListenerState[key.name()] = key;
 					} catch (e:Error) {
 						Console.error(e);
 					}

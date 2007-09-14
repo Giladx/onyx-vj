@@ -31,7 +31,6 @@
 package ui.controls {
 	
 	import flash.display.*;
-	import flash.text.TextFormatAlign;
 	
 	import onyx.constants.*;
 	
@@ -39,6 +38,7 @@ package ui.controls {
 	import ui.core.UIObject;
 	import ui.styles.*;
 	import ui.text.TextFieldCenter;
+	import ui.text.TextField;
 
 	/**
 	 * 	Popup class
@@ -48,7 +48,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private var _text:TextFieldCenter;
+		private var _text:TextField;
 		
 		/**
 		 * 	@constructor
@@ -61,9 +61,10 @@ package ui.controls {
 			sprite.height	= height;
 
 			// add the textfield
-			_text			= new TextFieldCenter(width, height, 0, 14);
-			_text.multiline	= true;
-			_text.wordWrap	= true;
+			_text			= new TextField(width, height);
+			_text.y			= 14,
+			_text.multiline	= true,
+			_text.wordWrap	= true,
 			_text.text		= text;
 			
 			// add it
@@ -74,8 +75,8 @@ package ui.controls {
 			// add or remove from stage?
 			(add) ? STAGE.addChild(this) : STAGE.removeChild(this);
 			
-			x = STAGE.stageWidth >> 1 - (this.width >> 1);
-			y = STAGE.stageHeight >> 1 - (this.height >> 1);
+			x = (STAGE.stageWidth >> 1) - (this.width >> 1);
+			y = (STAGE.stageHeight >> 1) - (this.height >> 1);
 		}
 	}
 }

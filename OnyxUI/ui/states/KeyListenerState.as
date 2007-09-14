@@ -39,6 +39,8 @@ package ui.states {
 	
 	import ui.core.*;
 	import ui.layer.UILayer;
+	import flash.events.Event;
+	import onyx.core.Plugin;
 	
 	// TBD, this should be a hash map to the key codes
 	// - Keys should have down and up states
@@ -65,23 +67,18 @@ package ui.states {
 			new KeyDefinition('SELECT_LAYER_2', 'Select layer 2'),
 			new KeyDefinition('SELECT_LAYER_3', 'Select layer 3'),
 			new KeyDefinition('SELECT_LAYER_4', 'Select layer 4'),
-			/*
-			DH: TBD
-			DEFERRED TIL POST 3.03
-
-			new KeyDefinition('ACTION_1', 'Executes Macro 1'),
-			new KeyDefinition('ACTION_2', 'Executes Macro 2'),
-			new KeyDefinition('ACTION_3', 'Executes Macro 3'),
-			new KeyDefinition('ACTION_4', 'Executes Macro 4'),
-			new KeyDefinition('ACTION_5', 'Executes Macro 5'),
-			new KeyDefinition('ACTION_6', 'Executes Macro 6'),
-			new KeyDefinition('ACTION_7', 'Executes Macro 7'),
-			new KeyDefinition('ACTION_8', 'Executes Macro 8'),
-			new KeyDefinition('ACTION_9', 'Executes Macro 9'),
-			new KeyDefinition('ACTION_10', 'Executes Macro 10'),
-			new KeyDefinition('ACTION_11', 'Executes Macro 11'),
-			new KeyDefinition('ACTION_12', 'Executes Macro 12')
-			*/
+			new KeyDefinition('MACRO_1', 'Executes Macro 1'),
+			new KeyDefinition('MACRO_2', 'Executes Macro 2'),
+			new KeyDefinition('MACRO_3', 'Executes Macro 3'),
+			new KeyDefinition('MACRO_4', 'Executes Macro 4'),
+			new KeyDefinition('MACRO_5', 'Executes Macro 5'),
+			new KeyDefinition('MACRO_6', 'Executes Macro 6'),
+			new KeyDefinition('MACRO_7', 'Executes Macro 7'),
+			new KeyDefinition('MACRO_8', 'Executes Macro 8'),
+			new KeyDefinition('MACRO_9', 'Executes Macro 9'),
+			new KeyDefinition('MACRO_10', 'Executes Macro 10'),
+			new KeyDefinition('MACRO_11', 'Executes Macro 11'),
+			new KeyDefinition('MACRO_12', 'Executes Macro 12')
 		]
 		
 		public var SELECT_FILTER_UP:int		= 38;
@@ -98,37 +95,24 @@ package ui.states {
 		public var SELECT_LAYER_3:int			= 52;
 		public var SELECT_LAYER_4:int			= 53;
 		
-		/* 	DH: TBD
-			DEFERRED to post 3.0.3
-
-		public var ACTION_1:int					= 112;
-		public var ACTION_2:int					= 113;
-		public var ACTION_3:int					= 114;
-		public var ACTION_4:int					= 115;
-		public var ACTION_5:int					= 116;
-		public var ACTION_6:int					= 117;
-		public var ACTION_7:int					= 118;
-		public var ACTION_8:int					= 119;
-		public var ACTION_9:int					= 120;
-		public var ACTION_10:int				= 121;
-		public var ACTION_11:int				= 122;
-		public var ACTION_12:int				= 123;
+		public var MACRO_1:int					= 112;
+		public var MACRO_2:int					= 113;
+		public var MACRO_3:int					= 114;
+		public var MACRO_4:int					= 115;
+		public var MACRO_5:int					= 116;
+		public var MACRO_6:int					= 117;
+		public var MACRO_7:int					= 118;
+		public var MACRO_8:int					= 119;
+		public var MACRO_9:int					= 120;
+		public var MACRO_10:int					= 121;
+		public var MACRO_11:int					= 122;
+		public var MACRO_12:int					= 123;
 		
-
-			
-			public var ACTION_MACRO_1:Macro;
-			public var ACTION_MACRO_2:Macro;
-			public var ACTION_MACRO_3:Macro;
-			public var ACTION_MACRO_4:Macro;
-			public var ACTION_MACRO_5:Macro;
-			public var ACTION_MACRO_6:Macro;
-			public var ACTION_MACRO_7:Macro;
-			public var ACTION_MACRO_8:Macro;
-			public var ACTION_MACRO_9:Macro;
-			public var ACTION_MACRO_10:Macro;
-			public var ACTION_MACRO_11:Macro;
-			public var ACTION_MACRO_12:Macro;
+		/**
+		 * 
 		 */
+		private const keyUpHash:Object			= {};
+
 		/**
 		 * 
 		 */
@@ -143,6 +127,7 @@ package ui.states {
 			
 			// listen for keys
 			ROOT.addEventListener(KeyboardEvent.KEY_DOWN, _onKeyPress);
+			
 		}
 		
 		/**
@@ -151,8 +136,8 @@ package ui.states {
 		override public function pause():void {
 
 			// remove listener
-			ROOT.removeEventListener(KeyboardEvent.KEY_DOWN, _onKeyPress);
-			
+			ROOT.removeEventListener(KeyboardEvent.KEY_DOWN,	_onKeyPress);
+			ROOT.removeEventListener(KeyboardEvent.KEY_UP,		_onKeyPress);
 		}
 		
 		/**
@@ -221,12 +206,77 @@ package ui.states {
 						layer.selectPage(2);
 						
 						break;
-						
+					case MACRO_1:
+						execMacro(MacroManager.ACTION_1, event.keyCode);
+						break;
+					case MACRO_2:
+						execMacro(MacroManager.ACTION_2, event.keyCode);
+						break;
+					case MACRO_3:
+						execMacro(MacroManager.ACTION_3, event.keyCode);
+						break;
+					case MACRO_4:
+						execMacro(MacroManager.ACTION_4, event.keyCode);
+						break;
+					case MACRO_5:
+						execMacro(MacroManager.ACTION_5, event.keyCode);
+						break;
+					case MACRO_6:
+						execMacro(MacroManager.ACTION_6, event.keyCode);
+						break;
+					case MACRO_7:
+						execMacro(MacroManager.ACTION_7, event.keyCode);
+						break;
+					case MACRO_8:
+						execMacro(MacroManager.ACTION_8, event.keyCode);
+						break;
+					case MACRO_9:
+						execMacro(MacroManager.ACTION_9, event.keyCode);
+						break;
+					case MACRO_10:
+						execMacro(MacroManager.ACTION_10, event.keyCode);
+						break;
+					case MACRO_11:
+						execMacro(MacroManager.ACTION_11, event.keyCode);
+						break;
+					case MACRO_12:
+						execMacro(MacroManager.ACTION_12, event.keyCode);
+						break;
 					default:
-						// trace(event.keyCode);
+						trace(event.keyCode);
 						// break;
 				}
 			}
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function execMacro(plugin:Plugin, key:int):void {
+			
+			if (plugin && !keyUpHash[key]) {
+				var macro:Macro = plugin.getDefinition() as Macro;
+				macro.keyDown();
+				ROOT.addEventListener(KeyboardEvent.KEY_UP, keyUp);
+				keyUpHash[key] = macro;
+			}
+		}
+		
+		/**
+		 * 
+		 */
+		private function keyUp(event:KeyboardEvent):void {
+			var macro:Macro = keyUpHash[event.keyCode];
+			if (macro) {
+				macro.keyUp();
+			}
+			delete keyUpHash[event.keyCode];
+			
+			// if no key ups left, remove listener
+			for each (var i:Macro in keyUpHash) {
+				return;
+			}
+			ROOT.removeEventListener(KeyboardEvent.KEY_UP, keyUp);
 		}
 	}
 }

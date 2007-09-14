@@ -30,21 +30,22 @@
  */
 package ui.core {
 	
-	import flash.utils.Dictionary;
-	import onyx.plugin.Macro;
+	import onyx.core.Plugin;
 	
-	public final class ActionManager {
+	public final class MacroManager {
 		
-		private static var _dict:Dictionary = new Dictionary(true);
+		public static var ACTION_1:Plugin;
+		public static var ACTION_2:Plugin;
+		public static var ACTION_3:Plugin;
+		public static var ACTION_4:Plugin;
+		public static var ACTION_5:Plugin;
+		public static var ACTION_6:Plugin;
+		public static var ACTION_7:Plugin;
+		public static var ACTION_8:Plugin;
+		public static var ACTION_9:Plugin;
+		public static var ACTION_10:Plugin;
+		public static var ACTION_11:Plugin;
+		public static var ACTION_12:Plugin;
 		
-		public static function register(id:int, macro:Macro):void {
-			_dict[id] = macro;
-		}
-		
-		public static function execute(id:int):void {
-			var macro:Macro = _dict[id];
-			if (macro) {
-			}
-		}
 	}
 }

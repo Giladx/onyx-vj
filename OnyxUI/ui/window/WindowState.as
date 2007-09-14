@@ -48,7 +48,8 @@ package ui.window {
 					new WindowStateReg('DISPLAY',		659,	580),
 					new WindowStateReg('KEY MAPPING',	615,	319, 	false),
 					new WindowStateReg('SETTINGS',		200,	561),
-					new WindowStateReg('CROSSFADER',	411,	561)
+					new WindowStateReg('CROSSFADER',	411,	561),
+					new WindowStateReg('MACROS',		411,	618)
 				])
 			)
 		}

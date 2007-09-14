@@ -33,20 +33,24 @@ package ui.core {
 	import flash.display.*;
 	import flash.events.*;
 	import flash.geom.*;
+	import flash.text.TextFieldAutoSize;
 	import flash.utils.*;
 	
 	import onyx.core.IDisposable;
-	import onyx.tween.easing.Back;
 	
 	import ui.assets.AssetBitmap;
 	import ui.styles.*;
 	import ui.text.*;
-	import ui.layer.UILayer;
 
 	/**
 	 * 	Base UIObject Class
 	 */
 	public class UIObject extends Sprite {
+		
+		/**
+		 * 	@private
+		 */
+		private static const REUSE:MouseEvent = new MouseEvent(MouseEvent.DOUBLE_CLICK);
 		
 		/**
 		 * 	The overall selection for the app
@@ -65,12 +69,11 @@ package ui.core {
 				if (getTimer() - _doubleTime < 300) {
 					event.stopPropagation();
 					
-					var e:MouseEvent = new MouseEvent(MouseEvent.DOUBLE_CLICK);
-					e.ctrlKey	= event.ctrlKey;
-					e.altKey	= event.altKey;
-					e.shiftKey	= event.shiftKey;
+					REUSE.ctrlKey	= event.ctrlKey,
+					REUSE.altKey	= event.altKey,
+					REUSE.shiftKey	= event.shiftKey;
 					
-					dispatcher.dispatchEvent(e);
+					dispatcher.dispatchEvent(REUSE);
 				}
 			}
 			
@@ -202,14 +205,26 @@ package ui.core {
 		/**
 		 * 	Adds a label to the control
 		 */
-		final protected function addLabel(name:String, width:int, height:int, offsetY:int = -8, offsetX:int = 0):void {
+		final protected function addLabel(name:String, width:int, height:int, offsetY:int = -8, offsetX:int = 0, align:String = null):void {
 			
-			var label:TextFieldCenter	= new TextFieldCenter(width + 3, height, offsetX, offsetY);
-			label.textColor				= TEXT_LABEL;
-			label.text					= name.toUpperCase();
-			label.mouseEnabled			= false;
-
-			super.addChild(label);
+			if (align === 'left') {
+				
+				var left:TextField			= new TextField(0, 12);
+				left.autoSize				= TextFieldAutoSize.LEFT,		
+				left.text					= name.toUpperCase(),
+				left.mouseEnabled			= false;
+				left.x = -left.width - 2
+				
+				super.addChild(left);
+				
+			} else {
+				var label:TextFieldCenter	= new TextFieldCenter(width + 3, height, offsetX, offsetY);
+				label.textColor				= TEXT_LABEL,
+				label.text					= name.toUpperCase(),
+				label.mouseEnabled			= false;
+	
+				super.addChild(label);				
+			}
 		}
 	}
 }

@@ -39,7 +39,7 @@ package onyx.controls {
 		 * 	@constructor
 		 */
 		public function ControlColor(property:String, display:String, options:Object = null):void {
-			super(property, display, options);
+			super(property, display, 0, options);
 		}
 		
 		/**
@@ -53,8 +53,8 @@ package onyx.controls {
 		 * 	toXML
 		 */
 		override public function toXML():XML {
-			var xml:XML = <{name} />;
-			xml.appendChild( '0x' + (value as Number).toString(16));
+			var xml:XML = <{name}/>;
+			xml.appendChild(value);
 			
 			return xml;
 		}

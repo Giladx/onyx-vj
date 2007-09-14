@@ -44,7 +44,7 @@ package onyx.controls {
 		 * 	@constructor
 		 */
 		public function ControlBlend(name:String, displayName:String):void {
-			super(name, displayName, BLEND_MODES[0], BLEND_MODES);
+			super(name, displayName, BLEND_MODES, BLEND_MODES[0]);
 		}
 	}
 }

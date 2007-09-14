@@ -44,9 +44,7 @@ package onyx.controls {
 		public var alpha:Control		=	new ControlNumber(
 												'alpha',				'alpha',	0,	1,	1
 											);
-		public var blendMode:Control	=	new ControlRange(
-												'blendMode',			'blendmode',	BLEND_MODES,	0
-											);
+		public var blendMode:Control	=	new ControlBlend('blendMode', 'blendmode');
 		public var brightness:Control	=	new ControlNumber(
 												'brightness',			'bright',		-1,		1,		0
 											);
@@ -146,6 +144,13 @@ package onyx.controls {
 				visible,
 				anchor
 			);
+		}
+		
+		/**
+		 * 
+		 */
+		override public function toXML(nodeName:String='controls', ...excludeControls):XML {
+			return super.toXML('properties');
 		}
 
 	}

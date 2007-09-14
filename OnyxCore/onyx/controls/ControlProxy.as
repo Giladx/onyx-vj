@@ -99,11 +99,17 @@ package onyx.controls {
 		 * 
 		 */
 		override public function toXML():XML {
-			var xml:XML = <{name}/>;
-			xml.appendChild(controlX.toXML());
-			xml.appendChild(controlY.toXML());
-
-			return xml;
+			
+			var valueY:* = controlY.value;
+			var valueX:* = controlX.value;
+			
+			if (controlY.defaultValue != valueY || controlX.defaultValue != valueX) {
+				var xml:XML = <{name}/>;
+				xml.appendChild(controlX.toXML());
+				xml.appendChild(controlY.toXML());
+				return xml
+			}
+			return null;
 		}
 		
 		/**

@@ -85,12 +85,6 @@ package onyx.plugin {
 		}
 		
 		/**
-		 * 	Initializes the macro
-		 */
-		public function initialize():void {
-		}
-		
-		/**
 		 * 	Terminates the macro
 		 */
 		public function terminate():void {

@@ -108,13 +108,20 @@ package onyx.tween {
 				_definition[target] = dict;
 			}
 			
+			_props = args;
 			_target = target;
 			_ms = ms;
-			_props = args;
+			
+			restart();
+		}
+		
+		/**
+		 * 
+		 */
+		public function restart():void {
 			
 			// listen every frame
 			ROOT.addEventListener(Event.ENTER_FRAME, _onTimer, false, 1000);
-			
 			_startTime = getTimer();
 		}
 		
@@ -136,7 +143,7 @@ package onyx.tween {
 			
 			if (curTime >= _ms) {
 				dispatchEvent(new Event(Event.COMPLETE));
-				dispose();
+				// dispose();
 			}
 		}
 		
@@ -152,6 +159,20 @@ package onyx.tween {
 		 */
 		override public function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0.0, useWeakReference:Boolean=false):void {
 			super.addEventListener(type, listener, useCapture, priority, true);
+		}
+		
+		/**
+		 * 
+		 */
+		public function get target():Object {
+			return _target;
+		}
+		
+		/**
+		 * 
+		 */
+		public function get props():Array {
+			return _props;
 		}
 
 		/**

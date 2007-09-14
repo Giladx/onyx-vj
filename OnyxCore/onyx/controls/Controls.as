@@ -228,17 +228,20 @@ package onyx.controls {
 		 * 	Returns the control array as an xml object
 		 * 	@param	An array of control names to exclude from the xml 
 		 */
-		final public function toXML(... excludeControls:Array):XML {
+		public function toXML(nodeName:String = 'controls', ... excludeControls:Array):XML {
 			
 			var exclude:Array = excludeControls || [];
-			var xml:XML = <controls />;
+			var xml:XML = <{nodeName} />;
 			var propXML:XML;
 			
 			for each (var control:Control in this) {
 				
 				// if it's not excluded
-				if (exclude.indexOf(control.name) === -1) {
-					xml.appendChild(control.toXML());
+				if (exclude.indexOf(control.name) === -1 && control.value != control._defaultValue) {
+					var value:XML = control.toXML();
+					if (value) {
+						xml.appendChild(value);
+					}
 				}
 				
 			}

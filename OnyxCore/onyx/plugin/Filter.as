@@ -172,12 +172,6 @@ package onyx.plugin {
 		onyx_ns final function getContent():IContent {
 			return content;
 		}
-		
-		/**
-		 * 	Initialized when the filter is added to the object
-		 */
-		public function initialize():void {
-		}
 				
 		/**
 		 * 	Moves the filter up

@@ -135,9 +135,18 @@ package onyx.controls {
 				data.unshift(null);
 			}
 			
-			_item = defaultValue;
+			if (defaultValue) {
+				_item = defaultValue;
+			}
 
 			super(name, display, data, defaultValue, 'name');
+		}
+		
+		/**
+		 * 
+		 */
+		override public function reset():void {
+			
 		}
 		
 		/**
@@ -196,6 +205,7 @@ package onyx.controls {
 				
 				// _item a new plugin
 				_item = plugin.getDefinition();
+				_item.initialize();
 				
 				var obj:IControlObject = _item as IControlObject;
 				

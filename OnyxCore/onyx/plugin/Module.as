@@ -67,13 +67,6 @@ package onyx.plugin {
 		}
 		
 		/**
-		 * 
-		 */
-		public function initialize():void {
-			
-		}
-		
-		/**
 		 * 	Disposes the module
 		 */
 		override public function dispose():void {

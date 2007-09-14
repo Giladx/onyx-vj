@@ -45,33 +45,62 @@ package onyx.display {
 	 */
 	public class LayerSettings extends EventDispatcher {
 
-		public var x:int				= 0;
-		public var y:int				= 0;
-		public var anchorX:int			= 0;
-		public var anchorY:int			= 0;
-		public var scaleX:Number		= 1;
-		public var scaleY:Number		= 1;
-		public var rotation:int			= 0;
+		public var x:int;
+		public var y:int;
+		public var anchorX:int;
+		public var anchorY:int;
+		public var scaleX:Number;
+		public var scaleY:Number;
+		public var rotation:int;
 
-		public var alpha:Number			= 1;
-		public var brightness:Number	= 0;
-		public var contrast:Number		= 0;
-		public var saturation:Number	= 1;
-		public var tint:Number			= 0;
-		public var color:uint			= 0;
-		public var threshold:Number		= 0;
-		public var blendMode:String		= 'normal';
-		public var visible:Boolean		= true;
+		public var alpha:Number;
+		public var brightness:Number;
+		public var contrast:Number;
+		public var saturation:Number;
+		public var tint:Number;
+		public var color:uint;
+		public var threshold:Number;
+		public var blendMode:String;
+		public var visible:Boolean;
 		
-		public var time:Number			= 0;
-		public var framerate:Number		= 1;
+		public var time:Number;
+		public var framerate:Number;
 
 		public var filters:Array;
 		public var controls:Object;
+		public var properties:XML;
 
-		public var loopStart:Number		= 0;
-		public var loopEnd:Number		= 1;
+		public var loopStart:Number;
+		public var loopEnd:Number;
 		public var path:String;
+		
+		/**
+		 * 
+		 */
+		public function LayerSettings():void {
+
+			x				= 0,
+			y				= 0,
+			anchorX			= 0,
+			anchorY			= 0,
+			rotation		= 0,
+			scaleX			= 1,
+			scaleY			= 1,
+			alpha			= 1,
+			brightness		= 0,
+			contrast		= 0
+			saturation		= 1,
+			tint			= 0,
+			color			= 0,
+			threshold		= 0,
+			blendMode		= 'normal',
+			visible			= true,
+			time			= 0,
+			framerate		= 1,
+			loopStart		= 0,
+			loopEnd			= 1;
+
+		}
 		
 		/**
 		 * 	Gets variables from a layer
@@ -116,23 +145,26 @@ package onyx.display {
 			
 			var propXML:XMLList = xml.properties;
 			
-			x			= propXML.x;
-			y			= propXML.x;
-			alpha		= propXML.alpha;
-			scaleX		= propXML.scaleX;
-			scaleY		= propXML.scaleY;
-			rotation	= propXML.rotation;
-			brightness	= propXML.brightness;
-			contrast	= propXML.contrast;
-			saturation	= propXML.saturation;
-			tint		= propXML.tint;
-			color		= propXML.color;
-			threshold	= propXML.threshold;
-			blendMode	= propXML.blendMode;
-			time		= propXML.time;
-			framerate	= propXML.framerate;
-			loopStart	= propXML.loopStart;
-			loopEnd		= propXML.loopEnd;
+			for each (var list:XML in propXML.*) {
+				if (!list.hasComplexContent()) {
+					try { 
+						var name:String = list.name();
+						this[name]	= String(list);
+					} catch (e:Error) {
+						trace(e);
+					}
+				} else {
+					for each (var child:XML in list.*) {
+						try { 
+							name = child.name();
+							this[name] = String(child);
+						} catch (e:Error) {
+							trace(e);
+						}
+					}
+				}
+			}
+			
 			path		= xml.@path;
 			
 			if (xml.controls) {

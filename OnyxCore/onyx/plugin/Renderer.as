@@ -129,12 +129,6 @@ package onyx.plugin {
 		}
 		
 		/**
-		 * 	Initializes the macro
-		 */
-		public function initialize():void {
-		}
-		
-		/**
 		 * 
 		 */
 		override public function toString():String {

@@ -59,7 +59,7 @@ package onyx.display {
 		 * 	@private
 		 * 	Stores the saturation, tint, etc, as well as colortransform
 		 */
-		private var _filter:ColorFilter			= new ColorFilter();
+		private var _filter:ColorFilter;
 		
 		/**
 		 * 	@private
@@ -70,27 +70,27 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private var __x:Control						= new ControlInt('displayX', 'x', 0, 2000, STAGE.stageWidth - 320);
+		private var __x:Control;
 		
 		/**
 		 * 	@private
 		 */
-		private var __y:Control						= new ControlInt('displayY', 'y', 0, 2000, 0);
+		private var __y:Control;
 		
 		/**
 		 * 	@private
 		 */
-		private var __visible:Control				= new ControlBoolean('visible', 'visible');
+		private var __visible:Control;
 		
 		/**
 		 * 	@private
 		 */
-		private var __alpha:Control					= new ControlNumber('alpha','alpha', 0, 1, 1);
+		private var __alpha:Control;
 
 		/**
 		 * 	@private
 		 */
-		private var	_size:DisplaySize				= DISPLAY_SIZES[2];
+		private var	_size:DisplaySize;
 		
 		/**
 		 * 	@private
@@ -110,10 +110,15 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private var _renderer:Renderer;
+		private var _renderer:Plugin;
 		
 		/**
-		 * 
+		 * 	@private
+		 */
+		private var __renderer:ControlPlugin;
+		
+		/**
+		 * 	@private
 		 */
 		private var _backgroundColor:uint;
 		
@@ -122,7 +127,18 @@ package onyx.display {
 		 */
 		public function Display():void {
 			
-			_renderer	= (Renderer.renderers[0] as Plugin).getDefinition() as Renderer,
+			var plugin:Plugin = Renderer.renderers[0]; 
+			
+			
+			__x 		= new ControlInt('displayX', 'x', 0, 2000, STAGE.stageWidth - 320),
+			__y 		= new ControlInt('displayY', 'y', 0, 2000, 0),
+			__visible	= new ControlBoolean('visible', 'visible'),
+			__alpha		= new ControlNumber('alpha','alpha', 0, 1, 1),
+			__renderer	= new ControlPlugin('renderer',	'renderer',	ControlPlugin.RENDERERS, false, true, plugin.getDefinition());
+			_size		= DISPLAY_SIZES[2],
+			_filter		= new ColorFilter();
+			
+			_renderer	= Renderer.renderers[0],
 			_filters	= new FilterArray(this),
 			_controls	= new Controls(this,
 				new ControlNumber(
@@ -154,9 +170,7 @@ package onyx.display {
 				),
 				__alpha,
 				__visible,
-				new ControlPlugin(
-					'renderer',				'renderer',	ControlPlugin.RENDERERS
-				)
+				__renderer
 			);
 			
 			// init the bitmap
@@ -638,7 +652,7 @@ package onyx.display {
 			if (length >= 0) {
 				
 				// render the display using the renderer
-				_renderer.render(data, _valid);
+				(__renderer.item as Renderer).render(data, _valid);
 				
 				// render filters onto the bitmap
 				_filters.render(data);
@@ -858,28 +872,22 @@ package onyx.display {
 		/**
 		 * 	Sets the renderer
 		 */
-		public function set renderer(value:Renderer):void {
-			if (_renderer) {
-				_renderer.dispose();
-				_renderer.clean();
-			}
+		public function set renderer(value:Plugin):void {
 			_renderer = value;
-			value.initialize();
 		}
-		
+
+		/**
+		 * 	Gets the renderer
+		 */
+		public function get renderer():Plugin {
+			return _renderer;
+		}
+				
 		/**
 		 * 	Applies a filter to the rendered output
 		 */
 		public function applyFilter(filter:IBitmapFilter):void {
 			filter.applyFilter(super.bitmapData);
 		}
-		
-		/**
-		 * 	Gets the renderer
-		 */
-		public function get renderer():Renderer {
-			return _renderer;
-		}
-		
 	}
 }

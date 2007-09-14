@@ -63,6 +63,13 @@ package onyx.core {
 		/**
 		 * 
 		 */
+		public function initialize():void {
+			
+		}
+		
+		/**
+		 * 
+		 */
 		final public function get name():String {
 			return _plugin ? _plugin.name : '';
 		}

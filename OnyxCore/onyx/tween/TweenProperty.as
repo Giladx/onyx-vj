@@ -31,6 +31,8 @@
 
 package onyx.tween {
 	
+	import onyx.tween.easing.*;
+	
 	/**
 	 * 	Tween property
 	 */
@@ -60,10 +62,10 @@ package onyx.tween {
 		 * 	@constructor
 		 */
 		public function TweenProperty(property:String, start:Number, end:Number, easing:Function = null):void {
-			this.property = property;
-			this.start = start;
-			this.end = end;
-			this.easing = easing;
+			this.property	= property,
+			this.start		= start,
+			this.end		= end,
+			this.easing		= easing || Linear.easeIn;
 		}
 	}
 }

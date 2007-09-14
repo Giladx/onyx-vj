@@ -708,30 +708,13 @@ package onyx.display {
 		 * 	Returns xml representation of the layer
 		 */
 		public function toXML():XML {
+			
 			var xml:XML = 
 				<layer path={path}>
-					<properties>
-						<x>{x}</x>
-						<y>{y}</y>
-						<scaleX>{scaleX.toFixed(3)}</scaleX>
-						<scaleY>{scaleY.toFixed(3)}</scaleY>
-						<anchorX>{anchorX}</anchorX>
-						<anchorY>{anchorY}</anchorY>
-						<rotation>{rotation.toFixed(3)}</rotation>
-						<alpha>{alpha.toFixed(3)}</alpha>
-						<brightness>{brightness.toFixed(3)}</brightness>
-						<contrast>{contrast.toFixed(3)}</contrast>
-						<saturation>{saturation.toFixed(3)}</saturation>
-						<tint>{tint.toFixed(3)}</tint>
-						<color>{color}</color>
-						<threshold>{threshold.toFixed(3)}</threshold>
-						<blendMode>{blendMode}</blendMode>
-						<time>{time.toFixed(3)}</time>
-						<framerate>{framerate.toFixed(3)}</framerate>
-						<loopStart>{loopStart.toFixed(3)}</loopStart>
-						<loopEnd>{loopEnd.toFixed(3)}</loopEnd>
-					</properties>
 				</layer>;
+
+			// create properties
+			xml.appendChild(_properties.toXML());
 
 			// add filters xml
 			xml.appendChild(_content.filters.toXML());

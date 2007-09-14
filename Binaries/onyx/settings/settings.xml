@@ -66,7 +66,23 @@
 			<color>0xffffff</color>
 		</swatch>
 		
-		<!-- KEY MAPPING -->
+		<!-- MACROS -->
+		<macro>
+			<action_1>ECHO DISPLAY</action_1>
+			<action_2>SLOW DOWN LAYERS</action_2>
+			<action_3>BUFFER DISPLAY</action_3>
+			<action_4></action_4>
+			<action_5></action_5>
+			<action_6></action_6>
+			<action_7></action_7>
+			<action_8></action_8>
+			<action_9></action_9>
+			<action_10></action_10>
+			<action_11>FRAMERATE DECREASE</action_11>
+			<action_12>FRAMERATE INCREASE</action_12>
+		</macro>
+		
+		<!-- KEY MAPPING
 		<keys>
 			<SELECT_PAGE_0>81</SELECT_PAGE_0>
 			<SELECT_PAGE_1>87</SELECT_PAGE_1>
@@ -84,6 +100,7 @@
 			<SELECT_LAYER_3>52</SELECT_LAYER_3>
 			<SELECT_LAYER_4>53</SELECT_LAYER_4>
 		</keys>
+		 -->
 		
 		<!-- THE DIFFERENT INTERFACE STATES -->
 		<states startup-state="DEFAULT">

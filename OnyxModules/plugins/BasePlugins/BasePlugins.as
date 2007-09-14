@@ -36,6 +36,8 @@ package {
 	
 	import flash.display.Sprite;
 	
+	import macros.*;
+	
 	import modules.*;
 	import modules.VLC.*;
 	import modules.stopmotion.*;
@@ -69,7 +71,7 @@ package {
 						'Frame Delay: # of frames to skip'
 				),
 				new Plugin('VLC',					VLCModule,		'VLC'),
-				new Plugin('Scroller',				Scroller,	'Scroller'),
+				new Plugin('Scroller',				Scroller,		'Scroller'),
 				new Plugin('Keying Filter',			KeyingFilter,	'Keys a color out'),
 				new Plugin('Super Trigger',			SuperTrigger,	'Super Trigger'),
 				new Plugin('Generic Tempo',			GenericTempo,	'Generic Tempo'),
@@ -102,6 +104,14 @@ package {
 //				new Plugin('Loop Scroll',			LoopScroll,		'Loop Scroll Filter'),
 //				new Plugin('Displace',				DisplaceFilter,	'Displace Filter')
 //				new Plugin('Convolve Filter', 		ConvolveFilter,	'Convolve')
+
+				// Macros
+				new Plugin('Framerate Increase',	FrameRateIncrease,	''),
+				new Plugin('Framerate Decrease',	FrameRateDecrease,	''),
+				new Plugin('Echo Display',			EchoDisplay,		''),
+				new Plugin('Slow Down Layers',		SlowDown,			''),
+				new Plugin('Buffer Display',		BufferDisplay,		''),
+
 			];
 		}
 	}

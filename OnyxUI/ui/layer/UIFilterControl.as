@@ -43,6 +43,9 @@ package ui.layer {
 	import ui.core.UIObject;
 	import ui.window.*;
 
+	/**
+	 * 
+	 */
 	public class UIFilterControl extends UIObject {
 		
 		/**
@@ -73,7 +76,7 @@ package ui.layer {
 		/**
 		 * 	@private
 		 */
-		protected var tabContainer:Sprite						= new Sprite();
+		protected var tabContainer:Sprite					= new Sprite();
 		
 		/**
 		 * 
@@ -144,6 +147,7 @@ package ui.layer {
 				controlTabs.x		= index * 35;
 				
 				selectedPage = index;
+				
 			}
 		}
 		
@@ -188,7 +192,6 @@ package ui.layer {
 				if (filter && !filter.filter.muted) {
 					filterPane.selectFilter(filter);
 				}
-				
 			} else {
 				
 				filterPane.selectFilter(null);
@@ -247,6 +250,20 @@ package ui.layer {
 		 */
 		public function get target():IFilterObject {
 			return _target;
+		}
+		
+		/**
+		 * 	Selects a filter based on it's plugin
+		 */
+		public function selectFilter(type:Plugin):void {
+			
+			var filters:Array = _target.filters;
+			for each (var filter:Filter in filters) {
+				if (filter.plugin === type) {
+					filterPane.selectFilter(filterPane.getFilter(filter), true);
+					break;
+				}
+			}			
 		}
 		
 		/**

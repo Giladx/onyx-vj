@@ -35,15 +35,28 @@ package ui.layer {
 	 */
 	public final class LayerPage {
 		
+		/**
+		 * 
+		 */
 		public var name:String;
+
+		/**
+		 * 
+		 */
 		public var controls:Array;
+		
+		/**
+		 * 
+		 */
+		public var pageHandler:LayerPageHandler;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function LayerPage(name:String,... args:Array):void {
-			this.name		= name,
-			this.controls	= args || [];
+		public function LayerPage(name:String, pageHandler:LayerPageHandler = null, ... args:Array):void {
+			this.name			= name,
+			this.controls		= args || [],
+			this.pageHandler	= pageHandler;
 		}
 	}
 }

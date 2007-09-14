@@ -53,11 +53,23 @@ package ui.layer {
 	import ui.styles.*;
 	import ui.text.*;
 	import ui.window.*;
+	import onyx.core.Plugin;
 
 	/**
 	 * 	Controls layers
 	 */	
 	public class UILayer extends UIFilterControl implements IFilterDrop, ILayerDrop {
+		
+		/**
+		 * 
+		 */
+		public static function selectFilterPlugin(plugin:Plugin):void {
+			
+			// pass in a plugin to select the filter
+			for each (var layer:UILayer in layers) {
+				layer.selectFilter(plugin);
+			}
+		}
 		
 		/**
 		 * 	@private
@@ -170,7 +182,8 @@ package ui.layer {
 				layer,
 				0,
 				169,
-				new LayerPage('BASIC',	props.position,
+				new LayerPage('BASIC',	null,
+										props.position,
 										props.alpha,
 										props.scale,
 										props.brightness,
@@ -183,7 +196,7 @@ package ui.layer {
 										props.color,
 										props.framerate
 				),
-				new LayerPage('FILTER'),
+				new LayerPage('FILTER', null),
 				new LayerPage('CUSTOM')
 			);
 			

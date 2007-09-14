@@ -93,6 +93,7 @@ package ui.layer {
 				88,
 				0,
 				new LayerPage('DISPLAY',
+					null,
 					controls.getControl('backgroundColor'),
 					controls.getControl('alpha'),
 					controls.getControl('saturation'),
@@ -102,6 +103,7 @@ package ui.layer {
 				),
 				new LayerPage('FILTER'),
 				new LayerPage('POSITION',
+					null,
 					controls.getControl('visible'),
 					controls.getControl('smoothing'),
 					controls.getControl('position'),
@@ -111,6 +113,7 @@ package ui.layer {
 					_localControls.getControl('framerate')
 				),
 				new LayerPage('RENDER',
+					null,
 					controls.getControl('renderer')
 				)
 			);

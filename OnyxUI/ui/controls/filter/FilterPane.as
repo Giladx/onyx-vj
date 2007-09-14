@@ -40,7 +40,7 @@ package ui.controls.filter {
 	import ui.layer.UIFilterControl;
 	import ui.states.FilterMoveState;
 	import ui.styles.*;
-//	import ui.window.PatchWindow;
+	import ui.layer.UILayer;
 
 	/**
 	 * 
@@ -152,15 +152,22 @@ package ui.controls.filter {
 		 */
 		private function _filterMouseHandler(event:MouseEvent):void {
 
-			var filter:LayerFilter = event.currentTarget as LayerFilter;
+			var filter:LayerFilter	= event.currentTarget as LayerFilter;
+			var muted:Boolean		= filter.filter.muted;
 			
+			// alt mutes
 			if (event.altKey) {
 				
-				filter.filter.muted = !filter.filter.muted;
+				filter.filter.muted = !muted;
+			
+			// ctrl selects all
+			} else if (event.ctrlKey && !muted) {
 				
+				UILayer.selectFilterPlugin(filter.filter.plugin);
+			
 			} else {
 				
-				if (!filter.filter.muted) {
+				if (!muted) {
 	
 					selectFilter(filter);
 					
@@ -174,7 +181,7 @@ package ui.controls.filter {
 		/**
 		 * 	Selects a filter
 		 */
-		public function selectFilter(control:LayerFilter):void {
+		public function selectFilter(control:LayerFilter, forceSelection:Boolean = false):void {
 
 			var uilayer:UIFilterControl = parent as UIFilterControl;
 			
@@ -182,7 +189,7 @@ package ui.controls.filter {
 				selectedFilter.transform.colorTransform = DEFAULT;
 				
 				// unselect if it's selected
-				if (control === selectedFilter) {
+				if (control === selectedFilter && !forceSelection) {
 					control = null;
 				}
 			}
@@ -195,14 +202,11 @@ package ui.controls.filter {
 					control.transform.colorTransform = FILTER_HIGHLIGHT;
 				}
 				uilayer.selectPage(1, control.filter.controls);
-				
-//				PatchWindow.display(control, control.filter);
 			
 			// select nothing
 			} else {
 				
 				uilayer.selectPage(0);
-//				PatchWindow.display(uilayer, uilayer.target);
 			}
 		}
 		

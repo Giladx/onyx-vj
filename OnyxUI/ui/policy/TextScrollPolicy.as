@@ -106,6 +106,5 @@ package ui.policy {
 		override public function terminate(target:IEventDispatcher):void {
 			target.removeEventListener(Event.SCROLL, _onScroll);
 		}
-		
 	}
 }

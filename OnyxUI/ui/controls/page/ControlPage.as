@@ -36,9 +36,7 @@ package ui.controls.page {
 	import onyx.controls.*;
 	
 	import ui.controls.*;
-	import ui.core.UIObject;
 	import ui.styles.CONTROL_MAP;
-	import ui.text.TextField;
 
 	/**
 	 * 	The pages
@@ -61,6 +59,11 @@ package ui.controls.page {
 		 * 	If the controls passed in is a control array, listen for updates
 		 */
 		private var _target:Controls;
+		
+		/**
+		 * 
+		 */
+		private var applysGlobal:Boolean;
 		
 		/**
 		 * 	@constructor
@@ -121,7 +124,7 @@ package ui.controls.page {
 			removeControls();
 			
 			// create first layer of controls to display
-			creationArray = controls.concat();
+			creationArray = (controls) ? controls.concat() : null;
 			
 			// if it's a Controls array, listen for changes
 			if (target) {

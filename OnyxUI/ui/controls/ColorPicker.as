@@ -212,6 +212,9 @@ package ui.controls {
 			_preview.transform.colorTransform = transform;
 		}
 		
+		/**
+		 * 	Dispose
+		 */
 		override public function dispose():void {
 			removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 			

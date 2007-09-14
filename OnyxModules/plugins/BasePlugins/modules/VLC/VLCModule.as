@@ -68,10 +68,7 @@ package modules.VLC{
 		private function _onConnect(event:Event):void {
 			
 			client.sendCommand("admin");
-			Console.output('VLCModule: blah blah');
-			
-			// output
-			// Console.stateVlc(vlc.status+' TO VLC @ '+vlc.serverURL+':'+vlc.portNumber.toString());
+			Console.output('VLCModule: ' + client.status + ' @ ' + client.serverURL + ':' + client.portNumber);
 									
 			client.show();
 		}
@@ -111,18 +108,16 @@ package modules.VLC{
 			var command:String = args.shift();
 			
 			switch (command) {
-				/*
-				case 'connect'		: if (args.length != 3) {
-											HELP('vlc');	
-										  } else {
-										  	Console.getInstance().vlc.connect(args[1], args[2]);
-										  }
-									  	  break;
-				case 'disconnect'	: Console.getInstance().vlc.disconnect();
-									  Console.getInstance().vlc.status = 'Disconnected by the client';
-									  Console.stateVlc(Console.getInstance().vlc.status);
-									  break;
-				*/
+				case 'connect': 
+					if (args.length === 3) {
+						client.connect(args[1], args[2]);
+						break;
+					}
+				case 'disconnect':
+					client.disconnect();
+					client.status = 'Disconnected by the client';
+					return client.status;
+					break;
 				default:
 					return	'USAGE:<br>' + 'vlc connect server port<br>' +
 							'vlc disconnect <br>';
@@ -133,55 +128,3 @@ package modules.VLC{
 		
 	}
 }
-
-/**
-		public var vlc:Vlc = new Vlc();		
-		private static const REUSABLE_VLC_STATE:VlcEvent	= new VlcEvent('state','');
-		private static const REUSABLE_VLC_DATA:VlcEvent		= new VlcEvent('data','');
-
-		// add VLC listeners
-		vlc.addEventListener(Event.CONNECT, _onConnect);
-		vlc.addEventListener(Event.CLOSE, _onClose);
-		vlc.addEventListener(ErrorEvent.ERROR, _onError);
-		vlc.addEventListener(Event.COMPLETE, _onComplete);
-
-		private function _onClose(event:Event):void {
-			
-			Console.stateVlc(vlc.status);
-			
-		}
-		
-		private function _onError(event:ErrorEvent):void {
-			
-			Console.stateVlc(vlc.status);
-
-		}
-		
-		private function _onComplete(event:Event):void {
-			
-			Console.dataVlc(vlc.data);
-		
-		}
-		
-		public static function stateVlc(... args:Array):void {
-			
-			REUSABLE_VLC_STATE.message	= args.join(' ');
-			
-			dispatcher.dispatchEvent(REUSABLE_VLC_STATE);
-		}
-		
-		public static function dataVlc(... args:Array):void {
-			
-			REUSABLE_VLC_DATA.message	= args.join(' ');
-			
-			dispatcher.dispatchEvent(REUSABLE_VLC_DATA);
-		}
-		
-		public function get remote():Boolean {
-			return _remote;
-		}
-		
-		public function set remote(value:Boolean):void {
-			_remote = value;
-		}
-**/

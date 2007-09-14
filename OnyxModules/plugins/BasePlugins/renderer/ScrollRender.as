@@ -44,10 +44,24 @@ package renderer {
 	public final class ScrollRender extends Renderer {
 		
 		/**
+		 * 	@private
+		 */
+		private var canvas:BitmapData;
+		
+		/**
+		 * 	@private
+		 */
+		private var scrollX:int;
+		
+		/**
+		 * 	@private
+		 */
+		private var scrollY:int;
+		
+		/**
 		 * 
 		 */
 		override public function initialize():void {
-			
 		}
 		
 		/**

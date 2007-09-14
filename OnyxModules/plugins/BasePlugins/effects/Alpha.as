@@ -38,12 +38,16 @@ package effects {
 	import onyx.controls.*;
 	import onyx.core.Tempo;
 	import onyx.plugin.TempoFilter;
+	import onyx.tween.Tween;
+	import onyx.tween.TweenProperty;
 
 
 	public final class Alpha extends TempoFilter {
 		
 		public var min:Number		= 0;
 		public var max:Number		= 1;
+		public var seed:Number		= 1;
+		public var smooth:Boolean	= true;
 		
 		/**
 		 * 	@constructor
@@ -53,8 +57,10 @@ package effects {
 			super(	
 				true,
 				null,
-				new ControlNumber('min',	'min alpha',	0,	1,	1),
-				new ControlNumber('max',	'max alpha',	0,	1,	1)
+				new ControlNumber('min',	'min alpha',	0,	1,	0),
+				new ControlNumber('max',	'max alpha',	0,	1,	1),
+				new ControlNumber('seed',	'seed',			0,	1,	1),
+				new ControlBoolean('smooth', 'smooth')
 			)
 		}
 		
@@ -62,7 +68,15 @@ package effects {
 		 * 
 		 */
 		override protected function onTrigger(beat:int, event:Event):void {
-			content.alpha = ((max - min) * Math.random()) + min;
+			if (Math.random() <= seed) {
+				if (smooth) {
+					new Tween(content, nextDelay,
+						new TweenProperty('alpha', content.alpha, (max - min) * Math.random() + min)
+					); 
+				} else {
+					content.alpha = ((max - min) * Math.random()) + min;
+				}
+			}
 		}
 	}
 }

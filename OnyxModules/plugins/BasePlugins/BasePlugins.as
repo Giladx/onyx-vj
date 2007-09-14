@@ -68,7 +68,7 @@ package {
 						'Scroll: Scrolls the bitmap\n' +
 						'Frame Delay: # of frames to skip'
 				),
-//				new Plugin('VLC',					VLCModule,		'VLC'),
+				new Plugin('VLC',					VLCModule,		'VLC'),
 				new Plugin('Scroller',				Scroller,	'Scroller'),
 				new Plugin('Keying Filter',			KeyingFilter,	'Keys a color out'),
 				new Plugin('Super Trigger',			SuperTrigger,	'Super Trigger'),

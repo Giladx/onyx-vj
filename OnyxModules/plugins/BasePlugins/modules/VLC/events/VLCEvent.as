@@ -28,10 +28,38 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package modules.events {
+package modules.VLC.events {
 	
 	import flash.events.Event;
+	
+	import onyx.events.TelnetEvent;
 
-	public final class VLCEvent extends Event {
+	public final class VLCEvent extends TelnetEvent {
+		
+		/**
+		 * 	@private
+		 */
+		public static const STATE:String 	= 'state';		// same as telnet	
+		public static const DATA:String 	= 'data';		// raw data
+		public static const LENGTH:String 	= 'length';		// on length request 
+		public static const TIME:String 	= 'time';		// on time request
+		public static const RATE:String		= 'rate';		// on rate request
+				
+		/**
+		 * 	@constructor
+		 */
+		public function VLCEvent(type:String, message:String):void {
+			
+			super(type, message);
+
+		}
+
+		/**
+		 * 	Clones the event
+		 */		
+		//override public function clone():VLCEvent {
+		//	return new VLCEvent(super.type);
+		//}
+		
 	}
 }

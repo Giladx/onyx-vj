@@ -36,31 +36,30 @@ package onyx.net {
     import flash.utils.ByteArray;
     import flash.utils.setTimeout;
     
-    // not sure about these...
-    [Event(name='complete', type='flash.events.Event')]
-    [Event(name='connect', type='flash.events.Event')]
-    [Event(name='close', type='flash.events.Event')]
-    [Event(name='io_error', type='flash.events.ErrorEvent')]
+    import onyx.events.TelnetEvent;
+    
+    [Event(name='state', 	type='onyx.events.TelnetEvent')]
+	[Event(name='data', 	type='onyx.events.TelnetEvent')]
 	
 	/**
 	 * 	Telnet Client
 	 */
     public class TelnetClient extends EventDispatcher {
     	
-        private static const CR:int 	= 13; 		// Carriage Return (CR)
-        private static const WILL:int 	= 0xFB; 	// 251 - WILL (option code)
-        private static const WONT:int 	= 0xFC; 	// 252 - WON'T (option code)
-        private static const DO:int   	= 0xFD; 	// 253 - DO (option code)
-        private static const DONT:int 	= 0xFE; 	// 254 - DON'T (option code)
-        private static const IAC:int  	= 0xFF; 	// 255 - Interpret as Command (IAC)
+        protected static const CR:int 		= 13; 		// Carriage Return (CR)
+        protected static const WILL:int 	= 0xFB; 	// 251 - WILL (option code)
+        protected static const WONT:int 	= 0xFC; 	// 252 - WON'T (option code)
+        protected static const DO:int   	= 0xFD; 	// 253 - DO (option code)
+        protected static const DONT:int 	= 0xFE; 	// 254 - DON'T (option code)
+        protected static const IAC:int  	= 0xFF; 	// 255 - Interpret as Command (IAC)
 
-        private var _serverURL:String;
-        private var _portNumber:Number;
-        private var _socket:Socket;
+        protected var _serverURL:String;
+        protected var _portNumber:Number;
+        protected var _socket:Socket;
         
-        private var _status:String;			// socket status (connected, unconnected, error)
-        private var _code:int;				// output data code
-		private var _data:String;			// output text from telnet server
+        protected var _status:String;			// socket status (connected, unconnected, error)
+        protected var _code:int;				// output data code
+		protected var _data:String;				// output text from telnet server
         
 		/**
 		 * 	@constructor
@@ -105,7 +104,7 @@ package onyx.net {
          * */
         private function _ioErrorHandler(event:IOErrorEvent):void {
             _status = "Unable to connect: socket error";
-            dispatchEvent(new ErrorEvent(ErrorEvent.ERROR));
+            dispatchEvent(new TelnetEvent(TelnetEvent.STATE, _status));
         }
 
 		/**
@@ -115,9 +114,9 @@ package onyx.net {
             if (_socket.connected) {
                 _status = "connected";
             } else {
-                _status = "not Connected";
+                _status = "not connected";
             }
-            dispatchEvent(new Event(Event.CONNECT));
+            dispatchEvent(new TelnetEvent(TelnetEvent.STATE, _status));
         }
         
 		/**
@@ -126,7 +125,7 @@ package onyx.net {
         private function _closeHandler(event:Event):void {
         	        	
             _status = "Disconnected by the server";
-            dispatchEvent(new Event(Event.CLOSE));
+            dispatchEvent(new TelnetEvent(TelnetEvent.STATE, _status));
         }
         
 		/**
@@ -134,13 +133,13 @@ package onyx.net {
 		 */                
         private function _errorHandler(event:ErrorEvent):void {
             _status = event.text;
-            dispatchEvent(new ErrorEvent(ErrorEvent.ERROR));
+            dispatchEvent(new TelnetEvent(TelnetEvent.STATE, _status));
         }
         
 		/**
 		 * 	@private
 		 */                
-        private function _dataHandler(event:ProgressEvent):void {
+        protected function _dataHandler(event:ProgressEvent):void {
             
             var n:int = _socket.bytesAvailable;
             _data = '';
@@ -183,7 +182,7 @@ package onyx.net {
                 }
             }
             // dispatch an event complete
-            dispatchEvent(new Event(Event.COMPLETE));
+            dispatchEvent(new TelnetEvent(TelnetEvent.DATA, _data));
         }
                 
         /**
@@ -207,14 +206,6 @@ package onyx.net {
         	return _portNumber;
         }
         
-        public function get data():String {
-        	return _data;
-        }
-        
-        public function set data(value:String):void {
-        	_data = value;
-        }
-        
         public function get status():String {
         	return _status;
         }
@@ -222,5 +213,6 @@ package onyx.net {
         public function set status(value:String):void {
         	_status = value;
         }
+                
     }
 }

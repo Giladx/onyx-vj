@@ -32,8 +32,16 @@ package modules.VLC {
 	
 	import flash.events.*;
 	
-    import onyx.net.TelnetClient;
-
+	import onyx.net.TelnetClient;
+	
+	import modules.VLC.events.VLCEvent;
+    
+    //[Event(name='state', 	type='modules.VLC.events.VLCEvent')]
+	//[Event(name='data', 	type='modules.VLC.events.VLCEvent')]
+	//[Event(name='length', 	type='modules.VLC.events.VLCEvent')]
+	//[Event(name='time', 	type='modules.VLC.events.VLCEvent')]
+	//[Event(name='rate', 	type='modules.VLC.events.VLCEvent')]
+	
 	/**
 	 * Telnet subclass that implements specific VLC commands
 	 **/
@@ -45,7 +53,75 @@ package modules.VLC {
 		private var _access:String;
 		private var _mux:String;
 		private var _dst:String;
-       		
+		
+		// this will be used to identify the 
+		// request to the server (length, time, etc..)
+		public var request:String = '';
+       	
+       	override protected function _dataHandler(event:ProgressEvent):void {
+            
+            var n:int = _socket.bytesAvailable;
+            _data = '';
+            
+            // Loop through each available byte returned from the socket connection.
+            while (--n >= 0) {
+                // Read next available byte.
+                var b:int = _socket.readUnsignedByte();
+                switch (_code) {
+                    case 0:
+                        // If the current byte is the "Interpret as Command" code, set the state to 1.
+                        if (b == IAC) {
+                            _code = 1;
+                        // Else, if the byte is not a carriage return, store character to _data.
+                        } else if (b != CR) {
+                            _data = _data.concat(String.fromCharCode(b));
+                        }
+                        break;
+                    case 1:
+                        // If the current byte is the "DO" code, set the state to 2.
+                        if (b == DO) {
+                            _code = 2;
+                        } else {
+                            _code = 0;
+                        }
+                        break;
+                    // Blindly reject the option.
+                    case 2:
+                        /*
+                            Write the "Interpret as Command" code, "WONT" code, 
+                            and current byte to the socket and send the contents 
+                            to the server by calling the flush() method.
+                        */
+                        _socket.writeByte(IAC);
+                        _socket.writeByte(WONT);
+                        _socket.writeByte(b);
+                        _socket.flush();
+                        _code = 0;
+                        break;
+                }
+            }
+            
+            //control for the information asked to server: length, time or other
+           	switch(request) {
+           		
+           		case 'length'	: _data = _data.split('rate :')[1].split('title :')[0] ;
+           							dispatchEvent(new VLCEvent(VLCEvent.LENGTH, _data));
+           						  	break;
+           						  	
+           		case 'time'		: _data = _data.split('rate :')[1].split('title :')[0] ;
+           							dispatchEvent(new VLCEvent(VLCEvent.TIME, _data));
+           							break;
+           							
+           		case 'rate'		: _data = _data.split('rate :')[1].split('title :')[0] ;
+           							dispatchEvent(new VLCEvent(VLCEvent.RATE, _data));
+           							break;
+           							
+           		default		 	:   dispatchEvent(new VLCEvent(VLCEvent.DATA, _data));
+           		
+           	} 
+        
+        }
+        
         /**
         *  show VLC telnet specific commands help.
         **/   

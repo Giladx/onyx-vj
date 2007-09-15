@@ -32,12 +32,16 @@ package modules.VLC{
 	
 	import flash.events.*;
 	
+	import modules.VLC.events.VLCEvent;
+	
+	import onyx.events.TelnetEvent;
+		
 	import onyx.core.Console;
 	import onyx.plugin.Module;
 	
 	/**
 	 * 	VLC Module
-	 * 	Written by Stefano Coffati
+	 * 	Written by Stefano Cottafavi
 	 */
 	public final class VLCModule extends Module {
 		
@@ -53,11 +57,11 @@ package modules.VLC{
 		override public function initialize():void {
 			
 			client = new VLCClient();
-			client.addEventListener(Event.CONNECT, _onConnect);
-			client.addEventListener(Event.CLOSE, _onClose);
-			client.addEventListener(ErrorEvent.ERROR, _onError);
-			client.addEventListener(Event.COMPLETE, _onComplete);
+			client.addEventListener(TelnetEvent.STATE, 	_onState);
 			
+			//remove if you don't want to print everything out
+			client.addEventListener(VLCEvent.DATA, _onData);
+						
 			client.connect('localhost', 4212);
 		}
 		
@@ -65,38 +69,25 @@ package modules.VLC{
 		 * 	@private
 		 * 	Connection handler
 		 */
-		private function _onConnect(event:Event):void {
+		private function _onState(event:TelnetEvent):void {
 			
-			client.sendCommand("admin");
-			Console.output('VLCModule: ' + client.status + ' @ ' + client.serverURL + ':' + client.portNumber);
-									
-			client.show();
-		}
-		
-		/**
-		 * 	@private
-		 */
-		private function _onClose(event:Event):void {
-			
-			Console.output(client.status);
+			switch(event.message) {
+				
+				case 'connected' 	: client.sendCommand("admin");
+				case 'not connected': Console.output('\n  VLCModule: '+client.status+' TO VLC @ '+client.serverURL+':'+client.portNumber.toString()+'\n');
+										break;
+				default				: Console.output(event.message);
+					
+			}
 			
 		}
 		
 		/**
 		 * 	@private
 		 */
-		private function _onError(event:ErrorEvent):void {
+		private function _onData(event:VLCEvent):void {
 			
-			Console.output(client.status);
-
-		}
-		
-		/**
-		 * 	@private
-		 */
-		private function _onComplete(event:Event):void {
-			
-			Console.output(client.data);
+			Console.output(event.message);
 		
 		}
 		
@@ -105,25 +96,30 @@ package modules.VLC{
 		 */
 		override public function command(... args:Array):String {
 			
-			var command:String = args.shift();
-			
-			switch (command) {
-				case 'connect': 
-					if (args.length === 3) {
-						client.connect(args[1], args[2]);
-						break;
-					}
-				case 'disconnect':
-					client.disconnect();
-					client.status = 'Disconnected by the client';
-					return client.status;
-					break;
-				default:
-					return	'USAGE:<br>' + 'vlc connect server port<br>' +
-							'vlc disconnect <br>';
+			switch (args[0].toString()) {
+				
+				case 'STATE'		: return client.status+' TO VLC @ '+client.serverURL+':'+client.portNumber.toString();
+								
+				case 'CONNECT'		: if (args.length != 3) {
+											Console.executeCommand('vlc');	
+										  } else {
+										  	client.connect(args[1], args[2]);
+										  }
+									  return '';
+		  	  
+				case 'DISCONNECT'	: client.disconnect();
+									  client.status = 'Disconnected by the client';
+									  return client.status;
+				
+				case 'SHOW'			: client.show();
+									  return null;
+									  
+				default				: return 'USAGE:<br>' + 'vlc state<br>' +
+											 'vlc connect server port<br>' +
+											 'vlc disconnect <br>';
+							
 			}
-			
-			return '';
+
 		}
 		
 	}

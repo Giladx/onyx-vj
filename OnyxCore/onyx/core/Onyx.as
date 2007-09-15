@@ -93,6 +93,9 @@ package onyx.core {
 			ROOT	= root;
 			STAGE	= root.stage;
 			
+			// mmmm...
+			ROOT_PATH = STAGE.loaderInfo.loaderURL.substring(STAGE.loaderInfo.loaderURL.lastIndexOf(':///')+4, STAGE.loaderInfo.loaderURL.lastIndexOf('/')+1);	
+			
 			// initialize adapter
 			FileBrowser.initialize(adapter);
 		}

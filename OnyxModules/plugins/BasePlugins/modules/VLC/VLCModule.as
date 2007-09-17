@@ -32,12 +32,11 @@ package modules.VLC{
 	
 	import flash.events.*;
 	
-	import modules.VLC.events.VLCEvent;
-	
-	import onyx.events.TelnetEvent;
-		
 	import onyx.core.Console;
 	import onyx.plugin.Module;
+	import onyx.events.TelnetEvent;
+	
+	import modules.VLC.events.VLCEvent;
 	
 	/**
 	 * 	VLC Module
@@ -61,8 +60,10 @@ package modules.VLC{
 			
 			//remove if you don't want to print everything out
 			client.addEventListener(VLCEvent.DATA, _onData);
-						
+			
+			// default connection
 			client.connect('localhost', 4212);
+			
 		}
 		
 		/**
@@ -73,9 +74,10 @@ package modules.VLC{
 			
 			switch(event.message) {
 				
+				// default login pwd "admin" 
 				case 'connected' 	: client.sendCommand("admin");
 				case 'not connected': Console.output('\n  VLCModule: '+client.status+' TO VLC @ '+client.serverURL+':'+client.portNumber.toString()+'\n');
-										break;
+									  break;
 				default				: Console.output(event.message);
 					
 			}
@@ -96,24 +98,43 @@ package modules.VLC{
 		 */
 		override public function command(... args:Array):String {
 			
-			switch (args[0].toString()) {
+			var com:Array = args[0];
+			
+			switch (com[0].toString()) {
 				
 				case 'STATE'		: return client.status+' TO VLC @ '+client.serverURL+':'+client.portNumber.toString();
 								
-				case 'CONNECT'		: if (args.length != 3) {
-											Console.executeCommand('vlc');	
+				case 'CONNECT'		: if (com.length != 3) {
+											Console.executeCommand('VLC');	
 										  } else {
-										  	client.connect(args[1], args[2]);
+										  	client.connect(com[1], com[2]);
 										  }
-									  return '';
+									  return ' ';
 		  	  
 				case 'DISCONNECT'	: client.disconnect();
 									  client.status = 'Disconnected by the client';
 									  return client.status;
 				
 				case 'SHOW'			: client.show();
-									  return null;
-									  
+									  return ' ';
+				
+				case 'NEW'          : client.newCh(com[1], com[2], com[3], com[4], com[5]);
+				                      //client.load();
+				                      //client.show();
+				                      return ' ';
+				                      
+				case 'PLAY'         : client.play(com[1]);
+				                      return ' ';
+				
+				case 'DEL'          : client.del();
+                                      return ' ';
+                                      
+				/// add all the commands 
+				
+				///
+				
+				///
+				                  
 				default				: return 'USAGE:<br>' + 'vlc state<br>' +
 											 'vlc connect server port<br>' +
 											 'vlc disconnect <br>';

@@ -242,8 +242,8 @@ package ui.states {
 					case MACRO_12:
 						execMacro(MacroManager.ACTION_12, event.keyCode);
 						break;
-					default:
-						trace(event.keyCode);
+					//default:
+						//trace(event.keyCode);
 						// break;
 				}
 			}

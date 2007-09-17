@@ -37,10 +37,9 @@ package ui.controls.filter {
 	import onyx.states.StateManager;
 	
 	import ui.controls.ScrollPane;
-	import ui.layer.UIFilterControl;
+	import ui.layer.*;
 	import ui.states.FilterMoveState;
 	import ui.styles.*;
-	import ui.layer.UILayer;
 
 	/**
 	 * 

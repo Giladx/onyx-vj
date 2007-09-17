@@ -148,8 +148,8 @@ package ui.controls {
 		private function _draw(width:int, height:int, drawBG:Boolean = false):void {
 
 			_button		= new ButtonClear(width, height),
-			_label		= new TextField(width, 9),
-			_label.x	= 2,
+			_label		= new TextField(width - 2, 9),
+			_label.x	= 1,
 			_label.y	= 1;
 
 			addChild(_label);

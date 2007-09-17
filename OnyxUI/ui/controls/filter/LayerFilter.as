@@ -98,32 +98,11 @@ package ui.controls.filter {
 		 */
 		private function _onDeleteDown(event:MouseEvent):void {
 			
-			/*
 			if (event.ctrlKey) {
-				
-				var plugin:Plugin		= Filter.getDefinition(filter.name);
-				var filterClass:Class	= plugin._definition;
-				var layers:Array		= UILayer.layers;
-				
-				for each (var layer:UILayer in layers) {
-					
-					if (layer.layer !== _layer) {
-						var filters:Array = layer.layer.filters;
-						
-						for each (var filter:Filter in filters) {
-							if (filter is filterClass) {
-								filter.removeFilter();
-								break;
-							}
-						}
-					}
-				}
-			
+				UILayer.deleteFilterPlugin(filter.plugin);
 			} else {
+				this.filter.removeFilter();
 			}
-			*/
-			
-			this.filter.removeFilter();
 		}
 		
 		/**

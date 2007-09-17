@@ -43,8 +43,10 @@ package ui.controls.browser {
 		 */
 		public function BrowserFiles(options:UIOptions, name:String):void {
 			
-			var width:int	= options.width;
-			var height:int	= options.height;
+			var width:int, height:int;
+			
+			width	= options.width,
+			height	= options.height;
 
 			// create a background color			
 			displayBackground(width, height);

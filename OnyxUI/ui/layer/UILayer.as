@@ -69,6 +69,19 @@ package ui.layer {
 			for each (var layer:UILayer in layers) {
 				layer.selectFilter(plugin);
 			}
+			
+		}
+		
+		/**
+		 * 
+		 */
+		public static function deleteFilterPlugin(plugin:Plugin):void {
+			
+			// pass in a plugin to select the filter
+			for each (var layer:UILayer in layers) {
+				layer.deleteFilter(plugin);
+			}
+
 		}
 		
 		/**

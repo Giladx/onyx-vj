@@ -255,12 +255,27 @@ package ui.layer {
 		/**
 		 * 	Selects a filter based on it's plugin
 		 */
-		public function selectFilter(type:Plugin):void {
+		final public function selectFilter(type:Plugin):void {
 			
 			var filters:Array = _target.filters;
 			for each (var filter:Filter in filters) {
 				if (filter.plugin === type) {
 					filterPane.selectFilter(filterPane.getFilter(filter), true);
+					break;
+				}
+			}			
+		}
+		
+		
+		/**
+		 * 	Selects a filter based on it's plugin
+		 */
+		final public function deleteFilter(type:Plugin):void {
+			
+			var filters:Array = _target.filters;
+			for each (var filter:Filter in filters) {
+				if (filter.plugin === type) {
+					removeFilter(filter);
 					break;
 				}
 			}			

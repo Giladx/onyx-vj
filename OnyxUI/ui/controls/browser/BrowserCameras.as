@@ -44,8 +44,10 @@ package ui.controls.browser {
 		 */
 		public function BrowserCameras(options:UIOptions, name:String):void {
 			
-			var width:int	= options.width;
-			var height:int	= options.height;
+			var width:int, height:int;
+			
+			width	= options.width,
+			height	= options.height;
 
 			// create a background color			
 			displayBackground(width, height);
@@ -55,7 +57,7 @@ package ui.controls.browser {
 
 			// add a button
 			var sprite:DisplayObject = addChild(new AssetIconCamera());
-			sprite.x = 3;
+			sprite.x = 3,
 			sprite.y = 2;
 
 			addChild(new ButtonClear(width, height));

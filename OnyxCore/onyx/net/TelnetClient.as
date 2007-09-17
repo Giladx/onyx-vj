@@ -110,7 +110,7 @@ package onyx.net {
 		/**
 		 * 	@private
 		 */                
-        private function _connectHandler(event:Event):void {
+        protected function _connectHandler(event:Event):void {
             if (_socket.connected) {
                 _status = "connected";
             } else {

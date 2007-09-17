@@ -98,16 +98,16 @@ package modules.VLC{
 		 */
 		override public function command(... args:Array):String {
 			
-			var com:Array = args[0];
+			var command:String = args[0];
 			
-			switch (com[0].toString()) {
+			switch (command) {
 				
 				case 'STATE'		: return client.status+' TO VLC @ '+client.serverURL+':'+client.portNumber.toString();
 								
-				case 'CONNECT'		: if (com.length != 3) {
+				case 'CONNECT'		: if (args.length != 3) {
 											Console.executeCommand('VLC');	
 										  } else {
-										  	client.connect(com[1], com[2]);
+										  	client.connect(args[1], args[2]);
 										  }
 									  return ' ';
 		  	  
@@ -118,12 +118,12 @@ package modules.VLC{
 				case 'SHOW'			: client.show();
 									  return ' ';
 				
-				case 'NEW'          : client.newCh(com[1], com[2], com[3], com[4], com[5]);
+				case 'NEW'          : client.newCh(args[1], args[2], args[3], args[4], args[5]);
 				                      //client.load();
 				                      //client.show();
 				                      return ' ';
 				                      
-				case 'PLAY'         : client.play(com[1]);
+				case 'PLAY'         : client.play(args[1]);
 				                      return ' ';
 				
 				case 'DEL'          : client.del();

@@ -68,7 +68,7 @@ package onyx.core {
 				if (method !== null) {
 					var message:String = method.apply(null, args);
 				} else if (module !== null) {
-					message = ((args.length > 0) ? '' : _createHeader(name)) + module.command(args);
+					message = ((args.length > 0) ? '' : _createHeader(name)) + module.command.apply(module, args);
 				}
 			} catch (e:Error) {
 				return e;

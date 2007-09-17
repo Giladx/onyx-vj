@@ -199,7 +199,7 @@ package onyx.core {
 			Command.registerModule(plugin.name, module);
 			
 			// register with the console, etc
-			Console.output(plugin.name + ' module loaded.<br>');
+			Console.output(plugin.name + ' module loaded.');
 		}
 
 		/**

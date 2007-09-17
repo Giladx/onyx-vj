@@ -70,7 +70,7 @@ package onyx.core {
 		/**
 		 * 	@constructor
 		 */
-		public function Plugin(name:String, definition:Class, description:String):void {
+		public function Plugin(name:String, definition:Class, description:String = null):void {
 
 			this.name			= name,
 			this.description	= description,

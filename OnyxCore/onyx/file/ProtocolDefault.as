@@ -62,7 +62,7 @@ package onyx.file {
 		override public function resolve():void {
 			
 			var extension:String = getExtension(path);
-		
+			
 			switch (extension) {
 				case 'mp4':
 				case 'm4v':

@@ -79,6 +79,14 @@ package onyx.plugin {
 		}
 		
 		/**
+		 * 
+		 */
+		public static function getFilter(name:String):Filter {
+			var plugin:Plugin = _definition[name];
+			return plugin ? plugin.getDefinition() as Filter : null;
+		}
+		
+		/**
 		 * 	Returns a list of plugins of all filters registered
 		 */
 		public static function get filters():Array {

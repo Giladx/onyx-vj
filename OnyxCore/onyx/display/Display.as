@@ -549,8 +549,11 @@ package onyx.display {
 		 * 
 		 */
 		public function pause(value:Boolean = true):void {
-			for each (var layer:Layer in _valid) {
-				layer.pause(value);
+			
+			if (value) {
+				StateManager.pauseStates(DisplayRenderState);
+			} else {
+				StateManager.resumeStates(DisplayRenderState);
 			}
 		}
 				

@@ -38,7 +38,7 @@ package modules.VLC {
     
     //[Event(name='state', 	type='modules.VLC.events.VLCEvent')]
 	//[Event(name='data', 	type='modules.VLC.events.VLCEvent')]
-	//[Event(name='length', 	type='modules.VLC.events.VLCEvent')]
+	//[Event(name='length', type='modules.VLC.events.VLCEvent')]
 	//[Event(name='time', 	type='modules.VLC.events.VLCEvent')]
 	//[Event(name='rate', 	type='modules.VLC.events.VLCEvent')]
 	
@@ -57,7 +57,7 @@ package modules.VLC {
 		// this will be used to identify the 
 		// request to the server (length, time, etc..)
 		public var request:String = '';
-       	
+       	        
        	override protected function _dataHandler(event:ProgressEvent):void {
             
             var n:int = _socket.bytesAvailable;
@@ -101,7 +101,7 @@ package modules.VLC {
                 }
             }
             
-            //control for the information asked to server: length, time or other
+            // identify the information asked to server: length, time or other
            	switch(request) {
            		
            		case 'length'	: _data = _data.split('rate :')[1].split('title :')[0] ;
@@ -136,8 +136,12 @@ package modules.VLC {
         * 		- input		: source file to stream
         * 		- output	: output stream format
         **/
-        public function newCh(ch:String = null, type:String = 'broadcast', input:String = null, output:Array = null):void {
-            sendCommand("new " + ch + " " + type + " " + input);
+        public function newCh(ch:String, type:String, input:String, output:String, enabled:String):void {
+            sendCommand('new ' + ch + ' ' + type.toLowerCase() + ' input ' + input + ' output ' + output + ' ' + enabled.toLowerCase());
+        }
+        
+        public function del(ch:String = 'all'):void {
+            sendCommand('del ' + ch);
         }
         
         /**

@@ -93,7 +93,7 @@ package onyx.core {
 		 */
 		public static function executeCommand(command:String):void {
 			
-			var args:Array = command.toUpperCase().split(' ');
+			var args:Array = command.split(' ');
 			
 			if (args.length) {
 				

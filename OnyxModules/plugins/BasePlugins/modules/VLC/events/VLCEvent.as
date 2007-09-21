@@ -41,6 +41,7 @@ package modules.VLC.events {
 		 */
 		public static const STATE:String 	= 'state';		// same as telnet	
 		public static const DATA:String 	= 'data';		// raw data
+		public static const POSITION:String = 'position';   // on length request
 		public static const LENGTH:String 	= 'length';		// on length request 
 		public static const TIME:String 	= 'time';		// on time request
 		public static const RATE:String		= 'rate';		// on rate request

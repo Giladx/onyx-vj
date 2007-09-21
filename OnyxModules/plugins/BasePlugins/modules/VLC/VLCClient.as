@@ -33,15 +33,10 @@ package modules.VLC {
 	import flash.events.*;
 	
 	import onyx.net.TelnetClient;
+	import onyx.events.TelnetEvent;
 	
 	import modules.VLC.events.VLCEvent;
     
-    //[Event(name='state', 	type='modules.VLC.events.VLCEvent')]
-	//[Event(name='data', 	type='modules.VLC.events.VLCEvent')]
-	//[Event(name='length', type='modules.VLC.events.VLCEvent')]
-	//[Event(name='time', 	type='modules.VLC.events.VLCEvent')]
-	//[Event(name='rate', 	type='modules.VLC.events.VLCEvent')]
-	
 	/**
 	 * Telnet subclass that implements specific VLC commands
 	 **/
@@ -104,22 +99,23 @@ package modules.VLC {
             // identify the information asked to server: length, time or other
            	switch(request) {
            		
-           		case 'length'	: _data = _data.split('rate :')[1].split('title :')[0] ;
-           							dispatchEvent(new VLCEvent(VLCEvent.LENGTH, _data));
-           						  	break;
-           						  	
-           		case 'time'		: _data = _data.split('rate :')[1].split('title :')[0] ;
-           							dispatchEvent(new VLCEvent(VLCEvent.TIME, _data));
+           		case 'position' :  _data = _data.split('position : ')[1].split('time')[0] ;
+                                    break;
+                                    
+           		case 'time'     :  _data = _data.split('time : ')[1].split('length')[0] ;
+                                    break;
+                                    
+           		case 'length'	:  _data = _data.split('length : ')[1].split('rate')[0] ;
            							break;
-           							
-           		case 'rate'		: _data = _data.split('rate :')[1].split('title :')[0] ;
-           							dispatchEvent(new VLCEvent(VLCEvent.RATE, _data));
+           						  					
+           		case 'rate'		:  _data = _data.split('rate : ')[1].split('title')[0] ;
            							break;
-           							
-           		default		 	:   dispatchEvent(new VLCEvent(VLCEvent.DATA, _data));
-           		
+           			
            	} 
-        
+            
+            request = '';
+            dispatchEvent(new TelnetEvent(TelnetEvent.DATA, _data));
+            
         }
         
         /**
@@ -131,13 +127,9 @@ package modules.VLC {
         
         /**
         *	new channel (default type is broadcast)
-        * 		- ch		: channel name
-        * 		- type		: broadcast|VoD
-        * 		- input		: source file to stream
-        * 		- output	: output stream format
         **/
         public function newCh(ch:String, type:String, input:String, output:String, enabled:String):void {
-            sendCommand('new ' + ch + ' ' + type.toLowerCase() + ' input ' + input + ' output ' + output + ' ' + enabled.toLowerCase());
+            sendCommand('new ' + ch + ' ' + type + ' input ' + input + ' output ' + output + ' ' + enabled);
         }
         
         public function del(ch:String = 'all'):void {
@@ -194,13 +186,6 @@ package modules.VLC {
             sendCommand("control " + ch + " seek " + percentage);
             
         }
-        
-        
-        // this is for test purposes only
-        public function load():void {
-        	sendCommand("new ch1 broadcast input C:\\chasta.mpg output #transcode{vcodec=FLV1,acodec=mp3,samplerate=44100}:std{access=http,dst=localhost:8081/stream.flv} enabled");
-        }
-        
         
         /**
         *  close VLC telnet server

@@ -41,6 +41,11 @@ package onyx.net {
 	public final class Stream extends NetStream {
 
 		/**
+		 * 	@private
+		 */
+		private static const REUSABLE:NetStatusEvent = new NetStatusEvent(NetStatusEvent.NET_STATUS, false, false);
+
+		/**
 		 * 	Stores metadata for the stream
 		 */
 		public var metadata:Object;
@@ -51,9 +56,9 @@ package onyx.net {
 		private var _path:String;
 		
 		/**
-		 * 
+		 * 	@public
 		 */
-		private static const REUSABLE:NetStatusEvent = new NetStatusEvent(NetStatusEvent.NET_STATUS, false, false);
+		public var connection:Connection;
 
 		/**
 		 * 	@constructor
@@ -61,7 +66,9 @@ package onyx.net {
 		public function Stream(path:String, connection:Connection = null):void {
 			_path = path;
 			
-			super(connection || Connection.DEFAULT_CONNECTION);
+			this.connection = connection || Connection.DEFAULT_CONNECTION
+			
+			super(this.connection);
 
 			play(path);
 		}

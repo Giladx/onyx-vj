@@ -72,16 +72,20 @@ package onyx.file.http {
 			
 			removeStatusListeners(info, _onComplete);
 			
-			var content:Bitmap = loader.content as Bitmap;
-			
-			if (content) {
-				var thumbnail:Bitmap	= loader.file.thumbnail;
+			if (!(event is ErrorEvent)) {
 				
-				thumbnail.bitmapData	= content.bitmapData,
-				thumbnail.width			= 46,
-				thumbnail.height		= 35,
-				thumbnail.smoothing		= false,
-				thumbnail.pixelSnapping	= PixelSnapping.ALWAYS;
+				var content:Bitmap = loader.content as Bitmap;
+				
+				if (content) {
+					var thumbnail:Bitmap	= loader.file.thumbnail;
+					
+					thumbnail.bitmapData	= content.bitmapData,
+					thumbnail.width			= 46,
+					thumbnail.height		= 35,
+					thumbnail.smoothing		= false,
+					thumbnail.pixelSnapping	= PixelSnapping.ALWAYS;
+				}
+				
 			}
 			
 			loader.unload();

@@ -34,6 +34,6 @@ package onyx.constants {
 	
 	[ExcludeClass]
 
-	public const VERSION:String = '3.0.5 r0';
+	public const VERSION:String = '3.0.6 r0';
 	
 }

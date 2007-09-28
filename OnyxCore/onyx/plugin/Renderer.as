@@ -31,6 +31,7 @@
 package onyx.plugin {
 	
 	import flash.display.BitmapData;
+	import flash.utils.*;
 	
 	import onyx.constants.*;
 	import onyx.core.*;
@@ -100,17 +101,15 @@ package onyx.plugin {
 		 */
 		public function render(source:BitmapData, layers:Array):void {
 			
-			var length:int = layers.length - 1;
+			var length:int		= layers.length - 1;
 
 			// loop through layers and render			
 			for (var count:int = length; count >= 0; count--) {
 				
-				var layer:ILayer = layers[count];
-
-				// render the layer
-				layer.render();
-
+				var layer:ILayer	= layers[count];
+				
 				if (layer.visible && layer.rendered) {
+					layer.render();
 					
 					var transform:TransitionTransform = DISPLAY_TRANSITIONS[layer];
 					

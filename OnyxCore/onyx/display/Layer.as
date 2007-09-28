@@ -150,7 +150,7 @@ package onyx.display {
 
 				// create the new content object based on the type				
 				var loadedContent:IContent = loader.content;
-
+				
 				// if a transition was loaded, load the transition with the layer
 				if (loader.transition && !(_content === NULL_LAYER)) {
 					

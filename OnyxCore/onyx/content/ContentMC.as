@@ -33,6 +33,7 @@ package onyx.content {
 	import flash.display.*;
 	import flash.events.*;
 	import flash.geom.*;
+	import flash.system.*;
 	import flash.utils.*;
 	
 	import onyx.constants.*;
@@ -41,7 +42,7 @@ package onyx.content {
 	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.plugin.*;
-	import onyx.settings.*;
+	import onyx.settings.*
 			
 	use namespace onyx_ns;
 	
@@ -83,7 +84,9 @@ package onyx.content {
 		 * 	Unregisters from shared
 		 */
 		public static function unregister(path:String):Boolean {
+			
 			var reg:ContentRegistration = _dict[path];
+			
 			if (reg) {
 				reg.refCount--;
 				
@@ -197,12 +200,14 @@ package onyx.content {
 
 			var mc:MovieClip = super._content as MovieClip;
 			
+			var lastTime:int = getTimer();
+			
 			if (!_paused) {
 				
 				var time:int, frame:Number, totalFrames:int, loopEnd:int, loopStart:int;
 
 				// get framerate
-				time		= 1000 / ((getTimer() - _lastTime)) || STAGE.frameRate;
+				time		= 1000 / ((lastTime - _lastTime)) || STAGE.frameRate;
 				
 				frame		= _frame + ((STAGE.frameRate / time) * _framerate),
 				totalFrames	= mc.totalFrames;
@@ -219,7 +224,7 @@ package onyx.content {
 			}
 
 			// store last time
-			_lastTime = getTimer();
+			_lastTime = lastTime;
 
 			// go to the right frame
 			mc.gotoAndStop(_frame << 0);

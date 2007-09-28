@@ -62,7 +62,6 @@ package onyx.jobs {
 			
 			var time:Number = args[0];
 			
-			Console.output('STARTING STAT JOB FOR ' + (time).toFixed(2) + ' SECONDS');
 			ROOT.addEventListener(Event.ENTER_FRAME, _onEnterFrame);
 			
 			super.initialize((time * 1000) >> 0);

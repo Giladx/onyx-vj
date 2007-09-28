@@ -60,7 +60,7 @@ package onyx.controls {
 			controlY.metadata = metadata;
 			controlX.metadata = metadata;
 			
-			super(property, displayName, null, metadata);
+			super(property, displayName, null, metadata || ControlNumber.FACTOR);
 		}
 		
 		/**

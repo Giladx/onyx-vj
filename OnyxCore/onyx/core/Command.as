@@ -148,13 +148,15 @@ package onyx.core {
 		/**
 		 * 	Finds out
 		 */
-		private static function STAT(... args:Array):void {
+		private static function STAT(... args:Array):String {
 			
 			// does a stat job for a specified amount of time
 			var time:int = args[0] || 2;
 			
 			var job:StatJob = new StatJob();
 			job.initialize(time);
+			
+			return 'STARTING STAT JOB FOR ' + time.toFixed(2) + ' SECONDS';
 		}
 		
 		/**

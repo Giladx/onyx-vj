@@ -102,7 +102,8 @@ package ui.window {
 		public function CrossFaderWindow(reg:WindowRegistration):void {
 			
 			// create a new dissolve transition
-			var transition:Transition = Transition.getDefinition('DISSOLVE').getDefinition() as Transition;
+			var plugin:Plugin			= Transition.getDefinition('DISSOLVE');
+			var transition:Transition	= plugin.getDefinition() as Transition;
 			
 			// create the transformations
 			_leftChannel	= new TransitionTransform(transition, 0);
@@ -112,7 +113,8 @@ package ui.window {
 			options.width			= 100;
 			options.label			= false;
 			
-			control = new ControlPlugin('transition', 'transition', ControlPlugin.TRANSITIONS, false, true);
+			control = new ControlPlugin('transition', 'transition', ControlPlugin.TRANSITIONS, false, true, plugin);
+			control.addEventListener(ControlEvent.CHANGE, _transitionChange);
 			
 			// create the window
 			super(reg, true, 192, 53);
@@ -124,7 +126,7 @@ package ui.window {
 			_display				= AVAILABLE_DISPLAYS[0];
 
 			// add the control
-			_transitionDrop		= new DropDown(options, _controls.getControl('transition'));
+			_transitionDrop		= new DropDown(options, control);
 
 			// draw
 			_btn.x				= 3,
@@ -151,17 +153,10 @@ package ui.window {
 		}
 		
 		/**
-		 * 
+		 * 	@private
 		 */
-		public function set transition(value:Plugin):void {
+		private function _transitionChange(event:ControlEvent):void {
 			_leftChannel.transition = _rightChannel.transition = control.item as Transition;
-		}
-		
-		/**
-		 * 
-		 */
-		public function get transition():Plugin {
-			return _leftChannel.transition.plugin;
 		}
 		
 		/**
@@ -235,6 +230,10 @@ package ui.window {
 		 * 	Dispose
 		 */
 		override public function dispose():void {
+			
+			control.removeEventListener(ControlEvent.CHANGE, _transitionChange);
+			control = null;
+			
 			super.dispose();
 			
 			STAGE.removeEventListener(MouseEvent.MOUSE_MOVE, moveHandler);

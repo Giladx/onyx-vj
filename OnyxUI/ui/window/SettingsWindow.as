@@ -33,7 +33,6 @@ package ui.window {
 	import flash.display.*;
 	import flash.events.*;
 	import flash.geom.*;
-	import flash.system.System;
 	import flash.utils.*;
 	
 	import onyx.constants.*;
@@ -44,12 +43,11 @@ package ui.window {
 	import onyx.file.*;
 	import onyx.jobs.*;
 	import onyx.plugin.*;
-	import onyx.states.StateManager;
 	
 	import ui.assets.*;
 	import ui.controls.*;
 	import ui.core.*;
-	import ui.states.MidiLearnState;
+	import ui.layer.*;
 	import ui.styles.*;
 	import ui.text.*;
 
@@ -126,6 +124,7 @@ package ui.window {
 			super(reg, true, 202, 161);
 			
 			_transition = new ControlPlugin('transition', 'Layer Transition', ControlPlugin.TRANSITIONS, true, false);
+			_transition.addEventListener(ControlEvent.CHANGE, _onTransition);
 			
 			// create transition controls
 			_controls = new Controls(this,
@@ -209,29 +208,18 @@ package ui.window {
 		}
 		
 		/**
-		 * 	Sets the transition
-		 */
-		public function set transition(value:Plugin):void {
-			
-			var transition:Transition = value ? value.getDefinition() as Transition : null;
-			
-			// valid
-			if (transition)  {
-
-				transition.duration		= duration * 1000,
-				UIManager.transition	= transition;
-
-			} else {
-				UIManager.transition	= null;
-			}
-
-		}
-		
-		/**
 		 * 
 		 */
-		public function get transition():Plugin {
-			return UIManager.transition ? UIManager.transition.plugin : null;
+		private function _onTransition(event:ControlEvent):void {
+
+			var plugin:Plugin				= event.value;
+			
+			if (plugin) {
+				var transition:Transition	= plugin.getDefinition() as Transition;
+				transition.duration			= duration * 1000;
+			}
+			
+			UILayer.useTransition 			= transition;
 		}
 
 		/**

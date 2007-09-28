@@ -52,11 +52,6 @@ package ui.core {
 	 * 	Class that handles top-level management of all ui objects
 	 */
 	public class UIManager {
-		
-		/**
-		 * 	Stores our transition we'll pass in with files
-		 */
-		public static var transition:Transition;
 
 		/**
 		 * 	@private

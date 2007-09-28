@@ -47,7 +47,7 @@ package {
 	import ui.core.*;
 	import ui.states.*;
 	
-	[SWF(width="1024", height="740", backgroundColor="#141515", frameRate='26')]
+	[SWF(width="1024", height="740", backgroundColor="#141515", frameRate='24')]
 	public class OnyxUI extends Sprite {
 		
 		/**

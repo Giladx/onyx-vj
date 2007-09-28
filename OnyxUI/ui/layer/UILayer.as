@@ -61,7 +61,7 @@ package ui.layer {
 	public class UILayer extends UIFilterControl implements IFilterDrop, ILayerDrop {
 		
 		/**
-		 * 
+		 * 	
 		 */
 		public static function selectFilterPlugin(plugin:Plugin):void {
 			
@@ -83,6 +83,11 @@ package ui.layer {
 			}
 
 		}
+		
+		/**
+		 * 
+		 */
+		public static var useTransition:Transition;
 		
 		/**
 		 * 	@private
@@ -413,8 +418,8 @@ package ui.layer {
 		public function load(path:String, settings:LayerSettings = null):void {
 			
 			// see if we're passing a transition
-			if (UIManager.transition) {
-				var transition:Transition = UIManager.transition.clone() as Transition;
+			if (useTransition) {
+				var transition:Transition = useTransition.clone() as Transition;
 			}
 			
 			_layer.load(path, settings, transition);

@@ -70,10 +70,10 @@
 		<macro>
 			<action_1>ECHO DISPLAY</action_1>
 			<action_2>SLOW DOWN LAYERS</action_2>
-			<action_3>BUFFER DISPLAY</action_3>
-			<action_4></action_4>
-			<action_5></action_5>
-			<action_6></action_6>
+			<action_3>SPEED UP LAYERS</action_3>
+			<action_4>BUFFER DISPLAY</action_4>
+			<action_5>RANDOM BLEND</action_5>
+			<action_6>DISPLAY CONTRAST</action_6>
 			<action_7></action_7>
 			<action_8></action_8>
 			<action_9></action_9>

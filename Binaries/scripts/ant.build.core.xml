@@ -28,6 +28,8 @@
 		<copy todir="${tempdir.core}">
 			<fileset dir="${source.OnyxCore}" />
 		</copy>
+		
+		<echo>${source.OnyxCore}</echo>
 	
 		<!-- CHANGE THE REVISION NUMBER -->
 		<attrib file="${tempdir.core}/constants/VERSION.as" readonly="false" />

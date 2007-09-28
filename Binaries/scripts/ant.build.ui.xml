@@ -33,7 +33,7 @@
 		
 		<!-- REMOVE DEBUG METADATA -->
 		<replaceregexp match="//*.debug::start.*?//*.debug::end" replace="" flags="gmi">
-		    <fileset dir="${tempdir.core}" includes="**/*.as"/>
+		    <fileset dir="${tempdir.ui}" includes="**/*.as"/>
 		</replaceregexp>
 
 		<!-- BUILD -->

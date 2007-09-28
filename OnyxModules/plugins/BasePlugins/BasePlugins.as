@@ -58,24 +58,15 @@ package {
 		 */
 		public function get plugins():Array {
 			return [
-				new Plugin('Mirror Filter', MirrorFilter, 'Mirror Filter'),
-				new Plugin(
-						'Echo Filter',
-						EchoFilter,
-						'Echo Filter\nSimple Feedback Echo Filter\n' +
-						'Echo Alpha: Alpha of the feedback\n' +
-						'Echo Blend: BlendMode of the feedback\n' +
-						'Mix Alpha:  Alpha or original mix\n' +
-						'Mix Blend: BlendMode of original mix\n' +
-						'Scroll: Scrolls the bitmap\n' +
-						'Frame Delay: # of frames to skip'
-				),
-				new Plugin('VLC',					VLCModule,		'VLC'),
-				new Plugin('Scroller',				Scroller,		'Scroller'),
+			
+				// bitmap filters
+				new Plugin('Ray Of Light',			RayOfLight,		'Ray Of Light'),
+				new Plugin('Mirror Filter',			MirrorFilter,	'Mirror Filter'),
+				new Plugin('Echo Filter',			EchoFilter,		'Echo Filter'),
+				// new Plugin('Scroller',				Scroller,		'Scroller'),
 				new Plugin('Keying Filter',			KeyingFilter,	'Keys a color out'),
 				new Plugin('Super Trigger',			SuperTrigger,	'Super Trigger'),
-				new Plugin('Generic Tempo',			GenericTempo,	'Generic Tempo'),
-				new Plugin('Debugger',				Debugger,		'Debugger'),
+				// new Plugin('Generic Tempo',			GenericTempo,	'Generic Tempo'),
 				new Plugin('Scroll Render',			ScrollRender,	'Scroll Render'),
 				new Plugin('Tempo Blur',			TempoBlur,		'Tempo Blur'),
 				new Plugin('Kaliedoscope', 			Kaliedoscope,	'Kaliedoscope'),
@@ -91,26 +82,31 @@ package {
 				new Plugin('Threshold Gate', 		ThreshGate,		'Randomly Threshold'),
 				new Plugin('Displace Filter',		DisplacementMap,'Displacement Map'),
 				new Plugin('Slit Scan',				SlitScan,		'Slit Scan'),
-//				new Plugin('Matrix Effect',			MatrixEffect,	'Matrix Effect'),
-//				new Plugin('Bleed Filter',			PasteFilter,	'Bleed Filter'),
+				new Plugin('Invert',				InvertFilter,	'Invert'),
+				new Plugin('Edge Bleed',			EdgeBlend,		'Frame Blend'),
+				new Plugin('Pass Through',			PassThrough,	'Pass Through'),
+
+				// transitions
 				new Plugin('Repeater Transition',	RepeaterTransition, 'Repeater Transition'),
 				new Plugin('Pixel Transition',		PixelTransition, 'Pixel Transition'),
 				new Plugin('Blur Transition',		BlurTransition, 'Blurs the loaded layer'),
 				new Plugin('Basic',					BasicVisualizer, 'Visualizer'),
 				new Plugin('Circles',				CircleVisualizer, 'CircleVisualizer'),
 				new Plugin('SpectrumVisualizer',	SpectrumVisualizer, 'SpectrumVisualizer'),
-//				new Plugin('Burst Echo',			BurstEcho,		'Burst Echo'),
-				new Plugin('Invert',				InvertFilter,	'Invert'),
-//				new Plugin('Loop Scroll',			LoopScroll,		'Loop Scroll Filter'),
-//				new Plugin('Displace',				DisplaceFilter,	'Displace Filter')
-//				new Plugin('Convolve Filter', 		ConvolveFilter,	'Convolve')
+				
+				// Modules
+				//new Plugin('VLC',					VLCModule,		'VLC'),
+				new Plugin('Debugger',				Debugger,			'Debugger'),
 
 				// Macros
-				new Plugin('Framerate Increase',	FrameRateIncrease,	''),
-				new Plugin('Framerate Decrease',	FrameRateDecrease,	''),
-				new Plugin('Echo Display',			EchoDisplay,		''),
-				new Plugin('Slow Down Layers',		SlowDown,			''),
-				new Plugin('Buffer Display',		BufferDisplay,		''),
+				new Plugin('Framerate Increase',	FrameRateIncrease),
+				new Plugin('Framerate Decrease',	FrameRateDecrease),
+				new Plugin('Echo Display',			EchoDisplay),
+				new Plugin('Slow Down Layers',		SlowDown),
+				new Plugin('Speed Up Layers',		SpeedUp),
+				new Plugin('Buffer Display',		BufferDisplay),
+				new Plugin('Random Blend',			RandomBlend),
+				new Plugin('Display Contrast',		DisplayContrast)
 
 			];
 		}

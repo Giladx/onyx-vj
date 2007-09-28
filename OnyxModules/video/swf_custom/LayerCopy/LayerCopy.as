@@ -55,8 +55,7 @@ package {
 		 */
 		public function LayerCopy():void {
 			 _controls = new Controls(this,
-			 	new ControlLayer('layer', 'layer'),
-			 	new ControlDisplay('layer', 'display')
+			 	new ControlLayer('layer', 'layer')
 			 );
 		}
 		

@@ -30,26 +30,38 @@
  */
 package macros {
 	
+	import flash.utils.Dictionary;
+	
 	import onyx.constants.*;
 	import onyx.display.IDisplay;
+	import onyx.display.Layer;
 	import onyx.plugin.*;
 
-	public final class EchoDisplay extends Macro {
+	public final class SpeedUp extends Macro {
 		
-		private var filter:Filter;
+		private var hash:Dictionary;
 		
 		override public function keyDown():void {
 			
 			var display:IDisplay = AVAILABLE_DISPLAYS[0];
-			filter = Filter.getFilter('ECHO FILTER');
-			display.addFilter(filter);
 			
+			hash = new Dictionary(true);
+			
+			for each (var layer:Layer in display.layers) {
+				hash[layer]		= layer.framerate;
+				layer.framerate *= 3;
+			}
 		}
 		
 		override public function keyUp():void {
+			
 			var display:IDisplay = AVAILABLE_DISPLAYS[0];
-			display.removeFilter(filter);
-			filter = null;
+			
+			for each (var layer:Layer in display.layers) {
+				layer.framerate = hash[layer] || 1;
+				delete hash[layer];
+			}
+			hash = null;
 		}
 	}
 }

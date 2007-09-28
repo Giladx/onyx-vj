@@ -41,7 +41,6 @@ package filters {
 	import onyx.core.*;
 	import onyx.plugin.*;
 
-
 	/**
 	 * 	Noise filter
 	 */
@@ -49,14 +48,16 @@ package filters {
 		
 		private var _amount:Number		= .25;
 		private var _greyscale:Boolean	= true;
-		private var _noise:BitmapData	= new BitmapData(BITMAP_WIDTH,BITMAP_HEIGHT,false,0x000000);
+		private var _noise:BitmapData;
+		public var mode:String			= 'overlay';
 		
 		public function NoiseFilter():void {
 			
 			super(
 				false,
 				new ControlInt('amount','Amount', 0, 100, 4),
-				new ControlRange('greyscale', 'GreyScale', [false, true], 0)
+				new ControlBoolean('greyscale', 'GreyScale', 0),
+				new ControlBlend('mode', 'mode')
 			);
 		}
 		
@@ -64,7 +65,7 @@ package filters {
 			
 			_noise.noise(Math.random() * 100, 0, _amount * 255, 7, _greyscale);
 			
-			bmp.draw(_noise, new Matrix(), null, 'overlay');
+			bmp.draw(_noise, null, null, 'overlay');
 			
 		}
 		
@@ -85,13 +86,15 @@ package filters {
 		}
 		
 		override public function dispose():void {
-			_noise.dispose();
-			_noise = null;
+			if (_noise) {
+				_noise.dispose();
+				_noise = null;
+			}
 		}
 		
 		override public function initialize():void {
+			_noise	= BASE_BITMAP();
 		}
-		
 
 	}
 }

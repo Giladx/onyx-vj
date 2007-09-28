@@ -28,28 +28,53 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package macros {
+package filters {
+	
+	import flash.display.*;
+	import flash.filters.BlurFilter;
+	import flash.geom.*;
 	
 	import onyx.constants.*;
-	import onyx.display.IDisplay;
+	import onyx.controls.*;
 	import onyx.plugin.*;
 
-	public final class EchoDisplay extends Macro {
+	public final class PassThrough extends Filter implements IBitmapFilter {
 		
-		private var filter:Filter;
+		public var amount:int;
+		public var mode:String;
+		public var blur:BlurFilter;
 		
-		override public function keyDown():void {
+		public function PassThrough():void {
 			
-			var display:IDisplay = AVAILABLE_DISPLAYS[0];
-			filter = Filter.getFilter('ECHO FILTER');
-			display.addFilter(filter);
+			blur	= new BlurFilter(2, 2),
+			amount		= 255,
+			mode		= 'low pass';
 			
+			super(
+				false,
+				new ControlRange('mode', 'mode', ['low pass', 'high pass'], mode), 
+				new ControlInt('amount', 'amount', 0, 255, 0),
+				new ControlInt('postBlur', 'postBlur', 0, 10, 2)
+			);
 		}
 		
-		override public function keyUp():void {
-			var display:IDisplay = AVAILABLE_DISPLAYS[0];
-			display.removeFilter(filter);
-			filter = null;
+		public function set postBlur(value:int):void {
+			blur.blurX = blur.blurY = value;
+		}
+		
+		public function get postBlur():int {
+			return blur.blurX;
+		}
+		
+		public function applyFilter(source:BitmapData):void {
+			
+			var thresh:uint = (amount << 16 | amount << 8 | amount);
+			
+			source.threshold(source, BITMAP_RECT, POINT, mode === 'high pass' ? '<=' : '>=', thresh, 0x00FFFFFF, 0x00FFFFFF);
+			
+			if (blur.blurX) {
+				source.applyFilter(source, BITMAP_RECT, POINT, blur);
+			}
 		}
 	}
 }

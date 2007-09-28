@@ -30,26 +30,50 @@
  */
 package macros {
 	
+	import flash.events.Event;
+	import flash.utils.Dictionary;
+	
 	import onyx.constants.*;
 	import onyx.display.IDisplay;
+	import onyx.display.Layer;
 	import onyx.plugin.*;
 
-	public final class EchoDisplay extends Macro {
+	public final class RandomBlend extends Macro {
 		
-		private var filter:Filter;
+		private var hash:Dictionary;
 		
 		override public function keyDown():void {
 			
 			var display:IDisplay = AVAILABLE_DISPLAYS[0];
-			filter = Filter.getFilter('ECHO FILTER');
-			display.addFilter(filter);
+			display.addEventListener(Event.ENTER_FRAME, _render);
 			
+			hash = new Dictionary(true);
+			
+			for each (var layer:Layer in display.layers) {
+				hash[layer]		= layer.blendMode;
+			}
+		}
+		
+		private function _render(event:Event):void {
+			var display:IDisplay = AVAILABLE_DISPLAYS[0];
+			
+			for each (var layer:Layer in display.layers) {
+				layer.blendMode = BLEND_MODES[Math.floor(Math.random() * BLEND_MODES.length)];
+				layer.alpha		= .8;
+			}
 		}
 		
 		override public function keyUp():void {
+			
 			var display:IDisplay = AVAILABLE_DISPLAYS[0];
-			display.removeFilter(filter);
-			filter = null;
+			display.removeEventListener(Event.ENTER_FRAME, _render);
+			
+			for each (var layer:Layer in display.layers) {
+				layer.blendMode = hash[layer] || 'normal';
+				layer.alpha		= 1;
+				delete hash[layer];
+			}
+			hash = null;
 		}
 	}
 }

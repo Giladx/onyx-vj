@@ -28,28 +28,71 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package macros {
+package filters {
+	
+	import flash.display.BitmapData;
+	import flash.events.Event;
+	import flash.geom.*;
 	
 	import onyx.constants.*;
-	import onyx.display.IDisplay;
+	import onyx.controls.*;
+	import onyx.core.Tempo;
 	import onyx.plugin.*;
+	import onyx.plugin.IBitmapFilter;
+	import onyx.plugin.TempoFilter;
+	import onyx.tween.*;
 
-	public final class EchoDisplay extends Macro {
+	public final class RayOfLight extends Filter implements IBitmapFilter {
 		
-		private var filter:Filter;
+		private var _alpha:ColorTransform	= new ColorTransform();	
+		private var matrix:Matrix			= new Matrix(1.02, 0,0, 1.02);
+		public var blend:String				= 'lighten';
 		
-		override public function keyDown():void {
+		/**
+		 * 	@constructor
+		 */
+		public function RayOfLight():void {
 			
-			var display:IDisplay = AVAILABLE_DISPLAYS[0];
-			filter = Filter.getFilter('ECHO FILTER');
-			display.addFilter(filter);
-			
+			super(
+				false,
+				new ControlProxy('scale', 'scale', 
+					new ControlNumber('scaleX', 'scaleX', 0, 3, 1.02),
+					new ControlNumber('scaleY', 'scaleY', 0, 3, 1.02)
+				),
+				new ControlNumber('alpha', 'alpha', 0, 1, 1),
+				new ControlBlend('blend', 'blend')
+			);
 		}
 		
-		override public function keyUp():void {
-			var display:IDisplay = AVAILABLE_DISPLAYS[0];
-			display.removeFilter(filter);
-			filter = null;
+		public function get alpha():Number {
+			return _alpha.alphaMultiplier;
+		}
+		
+		public function set alpha(value:Number):void {
+			_alpha.alphaMultiplier = value;
+		}
+		
+		public function get scaleX():Number {
+			return matrix.a;
+		}
+		
+		public function get scaleY():Number {
+			return matrix.d;
+		}
+		
+		public function set scaleX(value:Number):void {
+			matrix.a = value;
+		}
+
+		public function set scaleY(value:Number):void {
+			matrix.d = value;
+		}
+		
+		override public function initialize():void {
+		}
+		
+		public function applyFilter(source:BitmapData):void {
+			source.draw(source, matrix, _alpha, blend);
 		}
 	}
 }

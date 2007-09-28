@@ -142,8 +142,9 @@ package onyx.tween {
 			}
 			
 			if (curTime >= _ms) {
+				
 				dispatchEvent(new Event(Event.COMPLETE));
-				// dispose();
+				ROOT.removeEventListener(Event.ENTER_FRAME, _onTimer);
 			}
 		}
 		
@@ -179,7 +180,7 @@ package onyx.tween {
 		 * 	@private
 		 * 	Disposes the tween
 		 */		
-		private function dispose():void {
+		public function dispose():void {
 			
 			var existing:Dictionary = _definition[_target];
 			

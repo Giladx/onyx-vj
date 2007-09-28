@@ -38,7 +38,7 @@ package onyx.content {
 	import onyx.controls.*;
 	import onyx.core.*;
 	import onyx.display.*;
-	import onyx.net.Stream;
+	import onyx.net.*;
 
 
 	[ExcludeClass]
@@ -154,7 +154,9 @@ package onyx.content {
 			}
 			
 			// remove
-			_video.attachNetStream(null);
+			if (_stream.connection.uri !== 'null') {
+				_video.attachNetStream(null);
+			}
 	
 			// get the transformation
 			var transform:RenderTransform		= getTransform();
@@ -166,7 +168,9 @@ package onyx.content {
 			renderFilters(_source, _rendered, _filters);
 
 			// attach
-			_video.attachNetStream(_stream);
+			if (_stream.connection.uri !== 'null') {
+				_video.attachNetStream(_stream);
+			}
 	
 			// return transformation
 			return transform;

@@ -57,19 +57,19 @@ package onyx.controls {
 		/**
 		 * 	@constructor
 		 */
-		public function ControlRange(name:String, display:String, data:Array, defaultValue:Object, binding:String = null, options:Object = null):void {
+		public function ControlRange(name:String, display:String, data:Array, defaultValue:Object, binding:String = null):void {
 			
 			this.binding  		= binding,
 			this._data			= data;
 			
-			super(name, display, defaultValue, options);
+			super(name, display, defaultValue);
 		}
 		
 		/**
 		 * 
 		 */
 		override public function reset():void {
-			_target[name] = defaultValue;
+			_target[name] = dispatch(defaultValue);
 		}
 
 		/**

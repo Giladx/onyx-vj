@@ -4,7 +4,7 @@
  * 
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * 
+ *
  * -  Redistributions of source code must retain the above copyright notice, this 
  *    list of conditions and the following disclaimer.
  * 
@@ -38,8 +38,8 @@ package onyx.controls {
 		/**
 		 * 	@constructor
 		 */
-		public function ControlColor(property:String, display:String, options:Object = null):void {
-			super(property, display, 0, options);
+		public function ControlColor(property:String, display:String):void {
+			super(property, display, 0);
 		}
 		
 		/**

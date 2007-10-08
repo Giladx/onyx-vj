@@ -131,17 +131,10 @@ package onyx.plugin {
 		}
 		
 		/**
-		 * 	Destroys
-		 */
-		override public function dispose():void {
-			super.dispose();
-		}
-
-		/**
 		 * 
 		 */
-		override public function toString():String {
-			return ONYX_QUERYSTRING + 'transition://' + _plugin.name;
+		final override public function toString():String {
+			return 'onyx-transition://' + _plugin.name;
 		}
 	}
 }

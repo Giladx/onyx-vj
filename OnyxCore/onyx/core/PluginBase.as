@@ -95,14 +95,16 @@ package onyx.core {
 			var base:PluginBase = _plugin.getDefinition();
 			for each (var control:Control in controls) {
 				var newControl:Control = base.controls.getControl(control.name);
-				newControl.value = control.value;
+				if (!(newControl is ControlExecute)) {
+					newControl.value = control.value;
+				}
 			}
 			
 			return base;
 		}
 		
 		/**
-		 * 
+		 * 	Returns the related plugin (classfactory)
 		 */
 		public function get plugin():Plugin {
 			return _plugin;
@@ -112,12 +114,6 @@ package onyx.core {
 		 * 	Cleans the content
 		 */
 		onyx_ns function clean():void {
-	
-//			removed 9.13.07
-//			everything should be weak referenced
-//			if (_controls) {
-//				_controls.dispose();
-//			}
 			_controls	= null,
 			_plugin		= null;
 		}

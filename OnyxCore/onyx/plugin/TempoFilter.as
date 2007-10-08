@@ -56,15 +56,6 @@ package onyx.plugin {
 		protected static const GLOBAL_TEMPO_CONTROL:Control	= TEMPO.controls.getControl('snapTempo');
 		
 		/**
-		 * 	Store multiplier
-		 */
-		public static const DEFAULT_FACTOR:Object	= { 
-			multiplier: .001,
-			factor:		25,
-			toFixed:	2
-		};
-		
-		/**
 		 * 	@private
 		 */
 		protected var timer:Timer;
@@ -114,7 +105,7 @@ package onyx.plugin {
 		public function TempoFilter(unique:Boolean, defaultBeat:TempoBeat = null, ... controls:Array):void {
 			
 			_snapControl	= new ControlTempo('snapTempo', 'Snap Tempo'),
-			_delayControl	= new ControlInt('delay', 'delay', 1, 5000, 0, DEFAULT_FACTOR);
+			_delayControl	= new ControlInt('delay', 'delay', 1, 5000, 0, .001, 25);
 			
 			super(unique);
 			
@@ -141,7 +132,7 @@ package onyx.plugin {
 		/**
 		 * 	listen
 		 */
-		override final public function initialize():void {
+		override public function initialize():void {
 			
 			// remove handlers, start from scratch
 			_cleanHandlers();
@@ -337,6 +328,7 @@ package onyx.plugin {
 			// remove listener
 			GLOBAL_TEMPO_CONTROL.removeEventListener(ControlEvent.CHANGE, _globalTempoHandler);
 
+			// clean the main
 			super.clean();
 		}
 	}

@@ -31,9 +31,16 @@
 package onyx.file {
 	
 	import flash.display.*;
+	import flash.events.*;
+	import flash.utils.ByteArray;
 	
+	import onyx.constants.*;
+	import onyx.core.*;
+	import onyx.plugin.*;
 	import onyx.utils.*;
 	import onyx.utils.string.*;
+	
+	use namespace onyx_ns;
 	
 	/**
 	 * 	Core File Class
@@ -43,7 +50,199 @@ package onyx.file {
 		/**
 		 * 	The default thumbnail
 		 */
-		public static const DEFAULT_BITMAP:BitmapData	= new BitmapData(1,1, false, 0x000000);
+		public static const DEFAULT_BITMAP:BitmapData	= new BitmapData(46,35, false, 0x000000);
+		
+		/** @private **/
+		public static var CAMERA_ICON:BitmapData;
+		
+		/** @private **/
+		public static var VISUALIZER_ICON:BitmapData;
+		
+		/**
+		 * 
+		 */
+		public static var startupFolder:String;
+		
+		/**
+		 * 	@private
+		 * 	Cache for the paths
+		 */
+		private static var _cache:Object		= {};
+		
+		/**
+		 * 	@private
+		 * 	Store the file adapter
+		 */
+		onyx_ns static var _adapter:FileAdapter;
+		
+		/**
+		 * 	Gets file name from a path
+		 */
+		public static function getFileName(path:String):String {
+			return _adapter.getFileName(path);
+		}
+
+		/**
+		 * 	Queries the filesystem
+		 */
+		public static function query(folder:String, callback:Function, filter:FileFilter = null, refresh:Boolean = false, thumbnail:Boolean = false):void {
+			
+			// check for cache
+			if (refresh || !_cache[folder]) {
+				
+				if (folder.substr(0,13) === 'onyx-query://') {
+					
+					// query default objects (such as visualizers, cameras, etc)
+					_queryPlugins(folder);
+					
+				} else {
+					var query:FileQuery = _adapter.query(folder, callback);
+					query.addEventListener(Event.COMPLETE,						_onLoadHandler);
+					query.addEventListener(IOErrorEvent.IO_ERROR,				_onLoadHandler);
+					query.addEventListener(SecurityErrorEvent.SECURITY_ERROR,	_onLoadHandler);
+					
+					return query.load(filter, thumbnail);
+				}
+			}
+
+			// execute callback
+			doCallBack(callback, _cache[folder], filter);
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private static function _queryPlugins(lookup:String):void {
+			
+			var list:FolderList = new FolderList(lookup);
+			var files:Array		= list.files;
+			var type:String		= lookup.substr(13, lookup.length);
+			
+			var file:File, plugin:Plugin;
+			
+			switch (type) {
+				
+				// return cameras
+				case 'cameras':
+
+					var plugins:Array = AVAILABLE_CAMERAS;
+
+					for each (var name:String in plugins) {
+						
+						file = new File('onyx-camera://' + name);
+						file.thumbnail.bitmapData = CAMERA_ICON;
+						files.push(file);
+					}
+					
+					break;
+				
+				// return visualizers
+				case 'visualizers':
+				
+					plugins = Visualizer.visualizers;
+					
+					for each (plugin in plugins) {
+						file = new File('onyx-visualizer://' + plugin.name);
+						file.thumbnail.bitmapData = VISUALIZER_ICON;
+						files.push(file);
+					}
+				
+					break;
+					
+				case 'renderer':
+				
+					plugins = Renderer.renderers;
+					
+					for each (plugin in plugins) {
+						file = new File('onyx-renderer://' + plugin.name);
+						files.push(file);
+					}
+			}
+
+			// save the cache
+			_cache[lookup] = list;
+		}
+		
+		/**
+		 * 	Saves a bytearray to the filesystem
+		 */
+		public static function save(path:String, bytes:ByteArray, callback:Function):void {
+			
+			var query:FileQuery = _adapter.save(path, callback);
+			
+			// listen for a save
+			query.addEventListener(Event.COMPLETE, _onSaveHandler);
+			
+			// save
+			query.save(bytes);
+			
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private static function _onSaveHandler(event:Event):void {
+			
+			// get query
+			var query:FileQuery = event.currentTarget as FileQuery;
+			
+			// remove listener
+			query.removeEventListener(Event.COMPLETE, _onSaveHandler);
+
+			// execute the callback			
+			query.callback(query);
+			
+			// destroy the query
+			query.dispose();
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private static function _onLoadHandler(event:Event):void {
+			
+			var query:FileQuery = event.currentTarget as FileQuery;
+			
+			// remove handlers
+			query.removeEventListener(Event.COMPLETE,						_onLoadHandler);
+			query.removeEventListener(IOErrorEvent.IO_ERROR,				_onLoadHandler);
+			query.removeEventListener(SecurityErrorEvent.SECURITY_ERROR,	_onLoadHandler);
+			
+			// check for error
+			if (!(event is ErrorEvent)) {
+				
+				// save the path
+				_cache[query.path] = query.folderList;
+				
+				// do the callback
+				doCallBack(query.callback, query.folderList, query.filter);
+				
+			} else {
+				
+				var error:ErrorEvent = event as ErrorEvent;
+				Console.error(new Error(error.text));
+				
+				// do the callback
+				doCallBack(query.callback);
+				
+			}
+
+			// clear reference
+			query.dispose();
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private static function doCallBack(callback:Function, list:FolderList = null, filter:FileFilter = null):void {
+			
+			if (filter && list) {
+				var list:FolderList = list.clone(filter);
+			}
+			
+			// call the callback
+			callback(list);
+		}
 		
 		/**
 		 * 	Saves the path

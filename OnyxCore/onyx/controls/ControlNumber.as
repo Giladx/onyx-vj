@@ -40,11 +40,6 @@ package onyx.controls {
 	 * 	Number Control that stores and constrains numeric values.
 	 */
 	public class ControlNumber extends Control {
-
-		/**
-		 * 	Default Factor
-		 */
-		public static const FACTOR:Object		= { multiplier: int(100) };
 		
 		/**
 		 * 	@private
@@ -58,26 +53,34 @@ package onyx.controls {
 		
 		/**
 		 * 	Multiplier
+		 * 	100 will make 0.1 appear as 100 in the ui
 		 */
 		public var multiplier:Number;
 		
 		/**
+		 * 	The sensitivity of the mouse
+		 */
+		public var factor:Number;
+		
+		/**
 		 * 	@constructor
 		 */
-		public function ControlNumber(name:String, display:String, min:Number, max:Number, defaultvalue:Number, options:Object = null):void {
+		public function ControlNumber(name:String, display:String, min:Number, max:Number, defaultvalue:Number, multiplier:Number = 100, factor:Number = 1):void {
 			
-			_min = min;
-			_max = max;
+			_min			= min,
+			_max			= max,
+			this.multiplier = multiplier,
+			this.factor		= factor;
 			
-			super(name, display, defaultvalue, options || FACTOR);
+			super(name, display, defaultvalue);
 		}
 				
 		/**
 		 * 	Resets
 		 */
 		override public function reset():void {
-			_target[name] = defaultValue;
-			dispatchEvent(new ControlEvent(_defaultValue));
+			_target[name] = REUSABLE_EVENT.value = defaultValue;
+			dispatchEvent(REUSABLE_EVENT);
 		}
 		
 		/**
@@ -86,7 +89,8 @@ package onyx.controls {
 		override public function dispatch(v:*):* {
 
 			var value:Number = Math.min(Math.max(v, _min), _max);
-			dispatchEvent(new ControlEvent(value));
+			REUSABLE_EVENT.value = value;
+			dispatchEvent(REUSABLE_EVENT);
 			
 			return value;
 		}

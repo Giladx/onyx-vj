@@ -32,15 +32,12 @@ package onyx.plugin {
 	
 	import flash.display.*;
 	import flash.events.*;
-	import flash.net.FileFilter;
 	import flash.utils.*;
 	
 	import onyx.constants.*;
 	import onyx.content.IContent;
 	import onyx.controls.*;
 	import onyx.core.*;
-	import onyx.events.FilterEvent;
-	import onyx.utils.GCTester;
 	
 	use namespace onyx_ns;
 	
@@ -150,7 +147,6 @@ package onyx.plugin {
 			content.muteFilter(this, value);
 		}
 		
-		
 		/**
 		 * 
 		 */
@@ -198,20 +194,12 @@ package onyx.plugin {
 		/**
 		 * 	Returns xml
 		 */
-		public function toXML():XML {
+		final public function toXML():XML {
 			var xml:XML = <filter id={name} />;
 			xml.appendChild(controls.toXML());
 			return xml;
 		}
 		
-		/**
-		 * 
-		 */
-		override public function toString():String {
-			return ONYX_QUERYSTRING + 'filter://' + (_plugin ? _plugin.name : getQualifiedClassName(this));
-		}
-
-
 		/**
 		 * 	@private
 		 * 	Clean gets called after dispose
@@ -222,5 +210,13 @@ package onyx.plugin {
 			content	= null;
 
 		}
+		
+		/**
+		 * 
+		 */
+		final override public function toString():String {
+			return 'onyx-filter://' + (_plugin ? _plugin.name : getQualifiedClassName(this));
+		}
+
 	}
 }

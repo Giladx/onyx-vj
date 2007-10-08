@@ -28,16 +28,63 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.file {
+package onyx.file.filters {
 
-	import flash.utils.ByteArray;
-	
+	import onyx.file.*;
+
+	[ExcludeClass]
 	/**
-	 * 	Base class for file formats
+	 * 
 	 */
-	public interface IFileFormat {
-		
-		function get bytes():ByteArray;
-		
+	public final class SWFFilter extends FileFilter {
+
+		override public function validate(file:File):Boolean {
+			
+			var extension:String = file.extension;
+
+			switch (extension) {
+				case 'swf':
+					if (file.path.indexOf('-debug') >= 0 || file.path.indexOf('-profile') >= 0) {
+						break;
+					}
+				case 'onx':
+				case 'mix':
+				case 'flv':
+				case 'jpg':
+				case 'jpeg':
+				case 'png':
+				case 'mp3':
+				case 'xml':
+
+				// VLC formats
+				// TBD: Need to determine what formats come from VLC, and what don't --
+				// This should probably be done via some protocol handler --
+				// vlc://etc etc
+				//
+				// MovieStar (Flash 9.0.60.184) currently supports mp4, mov, m4v, 3gp, etc
+				case 'asf':
+				case 'avi':
+				case 'divx':
+				case 'dv':
+				case 'm1v':
+				case 'm2v':
+				case 'm4v':
+				case 'mov':
+				case 'mp4':
+				case 'mpg':
+				case 'mpeg':
+ 				case 'ogg':
+				case 'ogm':
+				case 'ps':
+				case 'ts':
+				case 'vob':
+				case 'wmv':
+				case '3gp':	
+					return true;
+			}
+
+			return false;
+		}
 	}
+
 }

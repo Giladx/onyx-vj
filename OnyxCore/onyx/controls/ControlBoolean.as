@@ -33,7 +33,6 @@ package onyx.controls {
 	import onyx.constants.*;
 	import onyx.core.onyx_ns;
 	import onyx.events.ControlEvent;
-	import onyx.utils.string.parseBoolean;
 	
 	use namespace onyx_ns;
 
@@ -45,9 +44,9 @@ package onyx.controls {
 		/**
 		 * 	@constructor
 		 */
-		public function ControlBoolean(name:String, display:String, defaultvalue:uint = 0, binding:String = null, options:Object = null):void {
+		public function ControlBoolean(name:String, display:String, defaultvalue:uint = 0, binding:String = null):void {
 
-			super(name, display, BOOLEAN, defaultvalue, binding, options);
+			super(name, display, BOOLEAN, defaultvalue, binding);
 
 		}
 		
@@ -55,7 +54,7 @@ package onyx.controls {
 		 * 
 		 */
 		override public function loadXML(xml:XML):void {
-			value = parseBoolean(xml);
+			value = new Boolean(xml);
 		}
 
 		/**

@@ -104,8 +104,8 @@ package onyx.plugin {
 		/**
 		 * 
 		 */
-		override public function toString():String {
-			return ONYX_QUERYSTRING + 'visualizer://' + _plugin.name;
+		final override public function toString():String {
+			return 'onyx-visualizer://' + _plugin.name;
 		}
 	}
 }

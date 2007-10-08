@@ -40,6 +40,7 @@ package onyx.display{
 	import onyx.core.*;
 	import onyx.events.*;
 	import onyx.file.*;
+	import onyx.system.*;
 	import onyx.net.*;
 	import onyx.plugin.*;
 	import onyx.settings.*;
@@ -67,11 +68,6 @@ package onyx.display{
 		public var transition:Transition;
 		
 		/**
-		 * 	@private
-		 */
-		private var _protocol:Protocol;
-		
-		/**
 		 * 	The stored content to use
 		 */
 		public var content:IContent;
@@ -83,10 +79,8 @@ package onyx.display{
 			
 			this.settings	= settings || new LayerSettings(),
 			this.transition = (transition && transition.duration > 0) ? transition : null,
-			_protocol		= FileBrowser.resolve(path, handler, layer);
 
-			// create a content object			
-			_protocol.resolve();
+			Onyx.resolve(path, handler, layer);
 		}
 		
 		/**
@@ -107,7 +101,6 @@ package onyx.display{
 			// dispose
 			this.settings	= null,
 			this.transition = null,
-			this._protocol	= null,
 			this.content	= null;
 
 		}

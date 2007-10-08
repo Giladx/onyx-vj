@@ -40,7 +40,7 @@ package onyx.display {
 	import onyx.controls.*;
 	import onyx.core.*;
 	import onyx.events.*;
-	import onyx.file.FileBrowser;
+	import onyx.file.File;
 	import onyx.net.Stream;
 	import onyx.plugin.*;
 	import onyx.utils.string.*;
@@ -57,7 +57,7 @@ package onyx.display {
 	/**
 	 * 	Layer is the base media for all video objects
 	 */
-	public class Layer extends EventDispatcher implements ILayer {
+	final public class Layer extends EventDispatcher implements ILayer {
 		
 		/**
 		 * 	@private
@@ -731,7 +731,7 @@ package onyx.display {
 		 * 	String representation of the layer
 		 */
 		override public function toString():String {
-			return (_content.path) ? FileBrowser.getFileName(_content.path) : '';
+			return (_content.path) ? File.getFileName(_content.path) : '';
 		}
 
 		/**

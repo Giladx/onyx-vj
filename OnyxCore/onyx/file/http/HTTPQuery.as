@@ -118,11 +118,11 @@ package onyx.file.http {
 						
 					// check to see if it's a relative path directoive
 					} else if (name.substr(0,1) === '/') {
-						name = FileBrowser.startupFolder + INITIAL_APP_DIRECTORY + name;
+						name = File.startupFolder + name;
 						
 					// default, append the file name
 					} else {
-						name = FileBrowser.startupFolder + pathUpOneLevel(rootpath + name);
+						name = File.startupFolder + pathUpOneLevel(rootpath + name);
 					}
 					
 					list.folders.push(new Folder(name));
@@ -144,7 +144,7 @@ package onyx.file.http {
 					
 					// default, append the directory / path
 					} else {
-						name = FileBrowser.startupFolder + pathUpOneLevel(rootpath + name);
+						name = File.startupFolder + pathUpOneLevel(rootpath + name);
 					}
 					
 					var file:File			= new File(name);

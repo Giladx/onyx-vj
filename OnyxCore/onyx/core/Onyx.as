@@ -45,6 +45,8 @@ package onyx.core {
 	import onyx.midi.*;
 	import onyx.plugin.*;
 	import onyx.states.*;
+	import onyx.system.*;
+	import onyx.utils.string.getProtocol;
 	
 	use namespace onyx_ns;
 	
@@ -55,49 +57,95 @@ package onyx.core {
 		
 		/**
 		 * 	@private
+		 */
+		private static var system:SystemAdapter;
+		
+		/**
+		 * 	@private
 		 * 	Dispatcher
 		 */
-		onyx_ns static const instance:Onyx		= new Onyx();
+		public static const instance:Onyx			= new Onyx();
 		
 		/**
 		 * 	@private
 		 * 	Returns a list of fonts
 		 */
-		public static const fonts:Array			= [];
+		public static const fonts:Array				= [];
 		
 		/**
-		 * 
+		 * 	@private
 		 */
-		private static const _fontDef:Object	= {};
+		private static const _fontDef:Object		= {};
 		
 		/**
-		 * 
+		 * 	@private
+		 */
+		private static const _protocolDef:Object	= {};
+		
+		// set up default protocols for onyx plugins, and rtmp		
+		{	_protocolDef['onyx-filter']		= ProtocolPlugin,
+			_protocolDef['onyx-macro']		= ProtocolPlugin,
+			_protocolDef['onyx-renderer']	= ProtocolPlugin,
+			_protocolDef['onyx-transition']	= ProtocolPlugin,
+			_protocolDef['onyx-visualizer']	= ProtocolPlugin;
+			_protocolDef['onyx-camera']		= ProtocolPlugin;
+			_protocolDef['rtmp']			= ProtocolRTMP;
+		}
+		
+		/**
+		 * 	Gets a font definition
 		 */
 		public static function getFont(name:String):Font {
 			return _fontDef[name];
 		}
 		
 		/**
-		 * 	
+		 * 	Initializes the Onyx engine
 		 */
-		public static function getInstance():IEventDispatcher {
-			return instance;
+		public static function initialize(root:DisplayObjectContainer, fileAdapter:FileAdapter, systemAdapter:SystemAdapter = null, midiAdapter:MidiAdapter = null):void {
+			
+			// store the flash root / stage objects
+			ROOT	= root,
+			STAGE	= root.stage;
+			
+			// mmmm... root path
+			ROOT_PATH = STAGE.loaderInfo.loaderURL.substring(STAGE.loaderInfo.loaderURL.lastIndexOf(':///')+4, STAGE.loaderInfo.loaderURL.lastIndexOf('/')+1);
+			
+			// store adapters;
+			File._adapter		= fileAdapter;
+			File.startupFolder	= '';
+			
+			// store system adapter
+			if (systemAdapter) {
+				SystemAdapter.adapter = systemAdapter;
+			}
 		}
 		
 		/**
-		 * 	Initializes the Onyx engine
+		 * 
 		 */
-		public static function initialize(root:DisplayObjectContainer, adapter:FileAdapter = null):void {
+		public static function registerProtocol(name:String, protocol:Protocol):void {
+			_protocolDef[name] = protocol;
+		}
+		
+
+		/**
+		 * 	Returns a protocol query for a content type
+		 * 	Use this method when determining what kind of content type should be returned
+		 * 	based on a path
+		 */
+		public static function resolve(path:String, callback:Function, layer:ILayer):void {
 			
-			// store the flash root / stage objects
-			ROOT	= root;
-			STAGE	= root.stage;
+			var index:int = path.indexOf('://', 1);
 			
-			// mmmm...
-			ROOT_PATH = STAGE.loaderInfo.loaderURL.substring(STAGE.loaderInfo.loaderURL.lastIndexOf(':///')+4, STAGE.loaderInfo.loaderURL.lastIndexOf('/')+1);	
+			if (index > 0) {
+				var type:String = path.substr(0, index);
+			}
 			
-			// initialize adapter
-			FileBrowser.initialize(adapter);
+			var protocolClass:Class	= _protocolDef[type] || ProtocolDefault;
+			var protocol:Protocol = new protocolClass(path, callback, layer);
+			
+			protocol.resolve();
 		}
 		
 		/**

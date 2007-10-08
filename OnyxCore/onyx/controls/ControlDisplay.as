@@ -57,7 +57,8 @@ package onyx.controls {
 		 */
 		override public function set value(v:*):void {
 			_target[name] = v;
-			dispatchEvent(new ControlEvent(v));
+			REUSABLE_EVENT.value = v
+			dispatchEvent(REUSABLE_EVENT);
 		}
 		
  		

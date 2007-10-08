@@ -31,7 +31,6 @@
 package onyx.file {
 	
 	import flash.events.EventDispatcher;
-	import flash.utils.ByteArray;
 	
 	/**
 	 * 	Base class for file-access

@@ -112,7 +112,7 @@ package onyx.jobs {
 				var bmp:BitmapData = _frames[count];
 
 				// save
-				FileBrowser.save(count + '.jpg', encoder.encode(bmp), _onSave);
+				File.save(count + '.jpg', encoder.encode(bmp), _onSave);
 
 				// destroy the bitmap
 				bmp.dispose();

@@ -38,8 +38,8 @@ package onyx.controls {
 		/**
 		 * 	@constructor
 		 */
-		public function ControlUInt(property:String, display:String, defaultValue:uint = 0, options:Object = null):void {
-			super(property, display, defaultValue, options);
+		public function ControlUInt(property:String, display:String, defaultValue:uint = 0):void {
+			super(property, display, defaultValue);
 		}
 		
 		/**

@@ -28,48 +28,38 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.file.http {
+package onyx.system {
 	
-	import flash.display.Loader;
-	import flash.net.*;
+	import flash.system.fscommand;
+	import onyx.core.onyx_ns;
 	
-	import onyx.file.FileRequest;
+	use namespace onyx_ns;
 	
-	/**
-	 * 	An HTTP Request (similar to URLLoader)
-	 */
-	public final class HTTPRequest extends FileRequest {
+	public class SystemAdapter {
 		
-		/**
-		 * 	@private
-		 */
-		private var loader:URLLoader;
+		onyx_ns static var adapter:SystemAdapter = new SystemAdapter(); 
 		
-		/**
-		 * 
-		 */
-		private var _data:Object;
-		
-		/**
-		 * 	@constructor
-		 */
-		public function HTTPRequest():void {
-			loader = new URLLoader();
-			loader.dataFormat = URLLoaderDataFormat.BINARY;
+		public static function quit():void {
+			adapter.quit();
 		}
 		
-		/**
-		 * 	Loads a file
-		 */
-		override public function load(path:String):void {
-			loader.load(new URLRequest(path));
+		public static function fullScreen():void {
+			adapter.fullScreen();
 		}
 		
 		/**
 		 * 
 		 */
-		public function get data():Object {
-			return loader.data;
-		}				
+		protected function quit():void {
+			fscommand('quit');
+		}
+		
+		/**
+		 * 
+		 */
+		protected function fullScreen():void {
+			adapter.fullScreen();
+		}
+		
 	}
 }

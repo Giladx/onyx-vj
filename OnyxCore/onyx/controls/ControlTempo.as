@@ -55,9 +55,9 @@ package onyx.controls {
 		/**
 		 * 	@constructor
 		 */
-		public function ControlTempo(name:String, display:String, showGlobal:Boolean = true, options:Object = null):void {
+		public function ControlTempo(name:String, display:String, showGlobal:Boolean = true):void {
 			
-			super(name, display, showGlobal ? TEMPO_BEATS_GLOBAL : TEMPO_BEATS, 0, null, options);
+			super(name, display, showGlobal ? TEMPO_BEATS_GLOBAL : TEMPO_BEATS, 0, null);
 			
 		}
 
@@ -65,7 +65,8 @@ package onyx.controls {
 		 * 
 		 */
 		override public function dispatch(v:*):* {
-			dispatchEvent(new ControlEvent(v));
+			REUSABLE_EVENT.value = v;
+			dispatchEvent(REUSABLE_EVENT);
 			return v;
 		}
 		
@@ -73,7 +74,8 @@ package onyx.controls {
 		 * 
 		 */
 		override public function set value(v:*):void {
-			dispatchEvent(new ControlEvent(v));
+			REUSABLE_EVENT.value = v; 
+			dispatchEvent(REUSABLE_EVENT);
 			_target[name] = v;
 		}
 		

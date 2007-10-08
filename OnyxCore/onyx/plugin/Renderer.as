@@ -101,25 +101,29 @@ package onyx.plugin {
 		 */
 		public function render(source:BitmapData, layers:Array):void {
 			
-			var length:int		= layers.length - 1;
-
+			var layer:ILayer, visible:Boolean, transform:TransitionTransform;
+			
 			// loop through layers and render			
-			for (var count:int = length; count >= 0; count--) {
+			for (var count:int = layers.length - 1; count >= 0; count--) {
 				
-				var layer:ILayer	= layers[count];
+				layer	= layers[count];
+				visible = layer.visible;
 				
-				if (layer.visible && layer.rendered) {
+				if (layer.rendered) {
+					
+					// render
 					layer.render();
 					
-					var transform:TransitionTransform = DISPLAY_TRANSITIONS[layer];
+					// transition?
+					transform = DISPLAY_TRANSITIONS[layer];
 					
 					// transition exists, and transition wants the layer to be rendered?
 					if (transform) {
 						
-						if (transform.transition.render(layer, transform.ratio)) {
+						if (visible && transform.transition.render(layer, transform.ratio)) {
 							source.draw(layer.rendered, null, null, layer.blendMode);
 						}
-					} else {
+					} else if (visible) {
 						source.draw(layer.rendered, null, null, layer.blendMode);
 					}
 					
@@ -131,7 +135,7 @@ package onyx.plugin {
 		 * 
 		 */
 		override public function toString():String {
-			return ONYX_QUERYSTRING + 'renderer://' + _plugin.name;
+			return 'onyx-renderer://' + _plugin.name;
 		}
 	}
 }

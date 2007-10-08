@@ -62,7 +62,7 @@ package onyx.file.http {
 				addStatusListeners(loader.contentLoaderInfo, _onComplete);
 				
 				// load
-				loader.load(new URLRequest(FileBrowser.startupFolder + path));
+				loader.load(new URLRequest(File.startupFolder + path));
 			}
 		}
 		

@@ -28,8 +28,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.settings {
-
-	public const PLUGINS_DIRECTORY:String			= 'plugins/';
+package onyx.file.filters {
 	
+	import onyx.file.*;
+	
+	[ExcludeClass]
+	/**
+	 * 
+	 */
+	public final class PluginFilter extends FileFilter {
+		
+		override public function validate(file:File):Boolean {
+			
+			var extension:String = file.extension;
+
+			switch (extension) {
+				case 'swf':
+					if (file.path.indexOf('-debug') < 0 && file.path.indexOf('-profile') < 0) {
+						return true;
+					}
+					break;
+			}
+
+			return false;
+		}
+	}
 }

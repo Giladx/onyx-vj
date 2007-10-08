@@ -32,14 +32,15 @@ package onyx.file {
 	
 	import flash.events.*;
 	
-	import onyx.core.IDisposable;
+	import onyx.constants.*;
 	import onyx.content.IContent;
+	import onyx.file.Protocol;
 	import onyx.display.ILayer;
 	
 	/**
 	 * 
 	 */
-	public class Protocol extends Object implements IDisposable {
+	public class Protocol extends Object {
 		
 		/**
 		 * 	@protected
@@ -75,7 +76,7 @@ package onyx.file {
 		/**
 		 * 
 		 */
-		public function dispatchContent(event:Event, content:IContent = null):void {
+		final protected function dispatchContent(event:Event, content:IContent = null):void {
 			
 			// send the content back over to the layer
 			callback(event, content);
@@ -88,7 +89,7 @@ package onyx.file {
 		/**
 		 * 	Pass the event to the content loader object
 		 */
-		protected function dispatchEvent(event:Event):void {
+		final protected function dispatchEvent(event:Event):void {
 			callback(event);
 		}
 		

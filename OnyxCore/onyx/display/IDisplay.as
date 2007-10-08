@@ -33,6 +33,7 @@ package onyx.display {
 	import onyx.content.IContent;
 	import onyx.core.*;
 	import onyx.plugin.Transition;
+	import flash.events.MouseEvent;
 	
 	public interface IDisplay extends IContent, ISerializable {
 

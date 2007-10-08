@@ -42,6 +42,7 @@ package onyx.states {
 	import onyx.file.*;
 	import onyx.plugin.*;
 	import onyx.settings.*;
+	import onyx.file.filters.*;
 	
 	use namespace onyx_ns;
 
@@ -49,6 +50,11 @@ package onyx.states {
 	 * 	State that loads external plugins and registers them
 	 */	
 	public final class InitializationState extends ApplicationState {
+		
+		/**
+		 * 	@private
+		 */
+		private static const PLUGINS_DIRECTORY:String	= 'plugins/';
 		
 		/**
 		 * 	@private
@@ -76,11 +82,11 @@ package onyx.states {
 			Onyx.instance.dispatchEvent(new ApplicationEvent(ApplicationEvent.ONYX_STARTUP_START));
 			
 			// output to console
-			Console.output('LOADING PLUG-INS: ' + FileBrowser.startupFolder + PLUGINS_DIRECTORY + '... \n');
+			Console.output('LOADING PLUG-INS: ' + File.startupFolder + PLUGINS_DIRECTORY + '... \n');
 			
 			// query directory
-			FileBrowser.query(
-				FileBrowser.startupFolder + PLUGINS_DIRECTORY,
+			File.query(
+				File.startupFolder + PLUGINS_DIRECTORY,
 				_loadExternalPlugins,
 				new PluginFilter()
 			);

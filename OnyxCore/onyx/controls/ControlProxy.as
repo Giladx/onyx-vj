@@ -42,25 +42,28 @@ package onyx.controls {
 		/**
 		 * 	ControlY
 		 */
-		public var controlY:Control;
+		public var controlY:ControlNumber;
 		
 		/**
 		 * 	ControlX
 		 */
-		public var controlX:Control;
+		public var controlX:ControlNumber;
+		
+		/**
+		 * 	
+		 */
+		public var invert:Boolean;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function ControlProxy(property:String, displayName:String, controlX:Control, controlY:Control, metadata:Object = null):void {
+		public function ControlProxy(property:String, displayName:String, controlX:ControlNumber, controlY:ControlNumber, invert:Boolean = false):void {
 			
-			this.controlY = controlY;
-			this.controlX = controlX;
+			this.controlY	= controlY,
+			this.controlX	= controlX,
+			this.invert		= invert;
 			
-			controlY.metadata = metadata;
-			controlX.metadata = metadata;
-			
-			super(property, displayName, null, metadata || ControlNumber.FACTOR);
+			super(property, displayName, null);
 		}
 		
 		/**

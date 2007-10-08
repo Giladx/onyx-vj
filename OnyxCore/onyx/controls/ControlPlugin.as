@@ -204,9 +204,9 @@ package onyx.controls {
 			} 
 
 			// see if it has the property, it's ok if it doesn't
-			_value = plugin;
-						
-			dispatchEvent(new ControlEvent(v));
+			_value = REUSABLE_EVENT.value = plugin;
+
+			dispatchEvent(REUSABLE_EVENT);
 		}
 		
 		/**
@@ -214,8 +214,8 @@ package onyx.controls {
 		 */
 		override public function dispatch(v:*):* {
 			
-			var plugin:Plugin = v as Plugin;
-			dispatchEvent(new ControlEvent(v));
+			var plugin:Plugin = REUSABLE_EVENT.value = v as Plugin;
+			dispatchEvent(REUSABLE_EVENT);
 			
 			return plugin;
 		}

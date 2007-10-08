@@ -28,7 +28,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.file {
+package onyx.core {
 	
 	import flash.events.*;
 	import flash.media.*;
@@ -38,21 +38,18 @@ package onyx.file {
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.events.*;
-	import onyx.net.*;
 	import onyx.plugin.*;
-	import onyx.utils.string.*;
+	import onyx.file.Protocol;
 	
 	/**
 	 * 	Protocol for default onyx types
 	 */
-	public final class ProtocolRTMP extends Protocol {
-		
-		public var file:String;
+	internal final class ProtocolPlugin extends Protocol {
 		
 		/**
 		 *	@constructor 
 		 */
-		public function ProtocolRTMP(path:String, callback:Function, layer:ILayer):void {
+		public function ProtocolPlugin(path:String, callback:Function, layer:ILayer):void {
 			super(path, callback, layer);
 		}
 		
@@ -60,43 +57,43 @@ package onyx.file {
 		 * 
 		 */
 		override public function resolve():void {
+
+			var len:int, index:int, type:String, name:String;
 			
-			var match:Array		= path.match('rtmp://(.*/.*/)');
-			var server:String	= match[0];
-			file				= removeExtension(path.replace(match[1], ''));
+			// onyx-
+			len		= 10,
+			index	= path.indexOf('://');
 			
-			var conn:Connection	= Connection.getConnection(server);
+			type	= path.substr(len, index - len),
+			name	= path.substr(index + 3);
 			
-			if (!conn.connected) {
-				conn.addEventListener(NetStatusEvent.NET_STATUS, connectHandler);
-			} else {
-				connectHandler(null, conn);
-			}
-		}
-		
-		/**
-		 * 	@private
-		 */
-		private function connectHandler(event:NetStatusEvent = null, conn:Connection = null):void {
-			
-			var conn:Connection = conn || event.currentTarget as Connection;
-			
-			if (event) {
+			switch (type) {
+				case 'camera':
+					return dispatchContent(
+						new Event(Event.COMPLETE), 
+						new ContentCamera(layer, path, Camera.getCamera(
+							String(AVAILABLE_CAMERAS.indexOf(name))
+						)
+					));
+				case 'visualizer':
 				
-				if (!(event.info.code == 'NetConnection.Connect.Success')) {
-					return dispatchContent(new IOErrorEvent(IOErrorEvent.IO_ERROR));
-				}
+					var plugin:Plugin = Visualizer.getDefinition(name);
+						
+					// is it a valid plugin?
+					if (plugin) {
+						
+						// is it a renderable object?
+						var render:IRenderObject	= plugin.getDefinition() as IRenderObject;
+						
+						if (render) {
+							// dispatch
+							return dispatchContent(new Event(Event.COMPLETE), new ContentPlugin(layer, path, render));
+						}
+					}
+					break;
 			}
-			
-			var stream:Stream = new Stream(file, conn);
-			stream.addEventListener(Event.COMPLETE, streamHandler);
-		}
-		
-		private function streamHandler(event:Event):void {
-			var stream:Stream = event.currentTarget as Stream;
-			stream.removeEventListener(Event.COMPLETE, streamHandler);
-			
-			dispatchContent(new Event(Event.COMPLETE), new ContentFLV(layer, path, stream))
+				
+			dispatchContent(new IOErrorEvent(IOErrorEvent.IO_ERROR, false, false, ''));
 		}
 	}
 }

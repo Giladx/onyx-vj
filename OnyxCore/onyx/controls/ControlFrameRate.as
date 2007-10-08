@@ -36,16 +36,11 @@ package onyx.controls {
 	public final class ControlFrameRate extends ControlNumber {
 		
 		/**
-		 * 	@private
-		 */
-		private static const META_DATA:Object	= { factor: 6, multiplier: 10 };
-		
-		/**
 		 * 	@constructor
 		 */
 		public function ControlFrameRate(name:String, display:String):void {
 			
-			super(name, display, -20, 20, 1, META_DATA);
+			super(name, display, -20, 20, 1, 10, 6);
 
 		}
 		

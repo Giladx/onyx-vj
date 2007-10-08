@@ -42,11 +42,6 @@ package onyx.controls {
 	public final class ControlInt extends ControlNumber {
 		
 		/**
-		 * 	Stores default mouse factor
-		 */
-		public static const DEFAULT_FACTOR:Object		= { multiplier: 1 };
-		
-		/**
 		 * 	@private
 		 */
 		private var _min:int;
@@ -64,19 +59,21 @@ package onyx.controls {
 									min:int,
 									max:int,
 									defaultvalue:int,
-									options:Object = null
+									multiplier:Number = 1,
+									factor:Number = 1
 		):void {
 			
-			_min = min;
+			_min = min,
 			_max = max;
 			
-			super(property, display, min, max, defaultvalue, options || DEFAULT_FACTOR);
+			super(property, display, min, max, defaultvalue, multiplier, factor);
 			
 		}
 		
 		override public function dispatch(v:*):* {
 			var value:int = Math.min(Math.max(v, _min), _max);
-			dispatchEvent(new ControlEvent(value));
+			REUSABLE_EVENT.value = value;
+			dispatchEvent(REUSABLE_EVENT);
 			
 			return value;
 		}

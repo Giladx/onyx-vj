@@ -109,7 +109,7 @@ package onyx.core {
 		/**
 		 * 	Traces an stack trace
 		 */
-		public static function outputStack():void {
+		public static function getStackTrace():void {
 			
 			//debug::start
 			

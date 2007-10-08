@@ -63,7 +63,7 @@ package onyx.core {
 		/**
 		 * 	Removes a filter
 		 */
-		public function addFilter(filter:Filter):void {
+		public function addFilter(filter:Filter):Boolean {
 
 			// check for unique filters
 			if (filter._unique) {
@@ -72,7 +72,7 @@ package onyx.core {
 				
 				for each (var otherFilter:Filter in this) {
 					if (otherFilter is plugin._definition) {
-						return;
+						return false;
 					}
 				}
 			}
@@ -86,28 +86,21 @@ package onyx.core {
 			// tell the filter it has started
 			filter.initialize();
 			
-			// dispatch
-			var event:FilterEvent = new FilterEvent(FilterEvent.FILTER_APPLIED, filter)
-			_parent.dispatchEvent(event);
-
+			return true;
 		}
 		
 		/**
 		 * 	Moves a filter
 		 */
-		public function moveFilter(filter:Filter, index:int, content:IContent):void {
-			
-			// swaps a filter
-			if (swap(this, filter, index)) {
-				content.dispatchEvent(new FilterEvent(FilterEvent.FILTER_MOVED, filter));
-			}
+		public function moveFilter(filter:Filter, index:int):Boolean {
+			return swap(super, filter, index);
 		}
 		
 		/**
 		 * 	Removes a filter
 		 * 	@returns	true if the removed filter existed in the array
 		 */
-		public function removeFilter(filter:Filter):void {
+		public function removeFilter(filter:Filter):Boolean {
 
 			// now remove it
 			var index:int = super.indexOf(filter);
@@ -126,20 +119,10 @@ package onyx.core {
 				// clean up our references
 				filter.clean();
 				
-				// dispatch
-				var event:FilterEvent = new FilterEvent(FilterEvent.FILTER_REMOVED, filter)
-				_parent.dispatchEvent(event);
-
+				return true;
 			}
-		}
-		
-		/**
-		 * 	Clear filters
-		 */
-		public function clear():void {
-			while (super.length) {
-				removeFilter(this[0]);
-			}
+			
+			return false;
 		}
 		
 		/**
@@ -148,10 +131,6 @@ package onyx.core {
 		public function muteFilter(filter:Filter, toggle:Boolean = true):void {
 			
 			filter._muted = toggle;
-			
-			// dispatch
-			var event:FilterEvent = new FilterEvent(FilterEvent.FILTER_MUTED, filter)
-			_parent.dispatchEvent(event);
 			
 		}
 		

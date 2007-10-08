@@ -288,16 +288,5 @@ package onyx.controls {
 				}
 			}
 		}
-		
-		//debug::start
-		/**
-		 * 	Concatenate the controls and return this control array
-
-		AS3 override function concat(...args):Array {
-			throw new Error('Do not use concat.  Use addChild()');
-			return this;
-		}
-		 */
-		 //debug::end
 	}
 }

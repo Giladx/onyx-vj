@@ -51,10 +51,7 @@ package onyx.events {
 		/**
 		 * 	Dispatched when a control has changed
 		 */
-		public function ControlEvent(v:*):void {
-			
-			value = v;
-			
+		public function ControlEvent():void {
 			super(CHANGE);
 		}
 		
@@ -62,7 +59,7 @@ package onyx.events {
 		 * 	Control Event
 		 */
 		override public function clone():Event {
-			var event:ControlEvent = new ControlEvent(super.type);
+			var event:ControlEvent = new ControlEvent();
 			event.value = value;
 			return event;
 		}

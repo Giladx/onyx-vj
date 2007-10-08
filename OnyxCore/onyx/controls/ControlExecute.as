@@ -55,7 +55,7 @@ package onyx.controls {
 				var fn:Function = super._target[name];
 				fn.apply(super._target);
 			} else {
-				throw "ControlExecute error - the value of '"+name+"' in '"+_target+"' needs to be a Function!";
+				// throw "ControlExecute error - the value of '"+name+"' in '"+_target+"' needs to be a Function!";
 			}
 		}
 		
@@ -64,6 +64,13 @@ package onyx.controls {
 		 */
 		override public function get value():* {
 			return '';
+		}
+		
+		/**
+		 * 
+		 */
+		override public function toXML():XML {
+			return new XML();
 		}
 		
 		/**

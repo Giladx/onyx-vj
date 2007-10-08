@@ -53,7 +53,7 @@ package onyx.display {
 	/**
 	 * 	Base Display class
 	 */
-	public class Display extends Bitmap implements IDisplay {
+	final public class Display extends Bitmap implements IDisplay {
 
 		/**
 		 * 	@private
@@ -70,12 +70,12 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private var __x:Control;
+		private var __x:ControlNumber;
 		
 		/**
 		 * 	@private
 		 */
-		private var __y:Control;
+		private var __y:ControlNumber;
 		
 		/**
 		 * 	@private
@@ -223,7 +223,7 @@ package onyx.display {
 				layer.addEventListener(LayerEvent.LAYER_UNLOADED,	_onLayerUnLoad);
 				
 				// dispatch
-				dispatchEvent(
+				super.dispatchEvent(
 					new DisplayEvent(DisplayEvent.LAYER_CREATED, layer)
 				);
 			}
@@ -249,13 +249,14 @@ package onyx.display {
 		 */
 		private function _onLayerLoad(event:LayerEvent):void {
 			
+			var layer:Layer, index:int, currentIndex:int, len:int;
 			var currentLayer:ILayer	= event.currentTarget as ILayer;
-			var currentIndex:int	= currentLayer.index;
 			
-			var len:int = _valid.length;
+			currentIndex	= currentLayer.index,
+			len				= _valid.length;
 
-			for (var index:int = 0; index < len; index++) {
-				var layer:Layer = _valid[index];
+			for (index = 0; index < len; index++) {
+				layer = _valid[index];
 				if (currentLayer.index < layer.index) {
 					break;
 				}
@@ -297,7 +298,6 @@ package onyx.display {
 			if (toLayer) {
 				
 				var numLayers:int = _layers.length;
-				
 				var fromChildIndex:int = _layers.indexOf(layer);
 				
 				swap(_layers, layer, index);
@@ -402,14 +402,30 @@ package onyx.display {
 		 * 	Adds a filter
 		 */
 		public function addFilter(filter:Filter):void {
-			_filters.addFilter(filter);
+
+			if (_filters.addFilter(filter)) {
+
+				// dispatch
+				var event:FilterEvent = new FilterEvent(FilterEvent.FILTER_APPLIED, filter)
+				super.dispatchEvent(event);
+			
+			}
 		}
 
 		/**
 		 * 	Removes a filter
 		 */		
 		public function removeFilter(filter:Filter):void {
-			_filters.removeFilter(filter);
+			
+			if (_filters.removeFilter(filter)) {
+				
+				// dispatch
+				var event:FilterEvent = new FilterEvent(FilterEvent.FILTER_REMOVED, filter)
+				super.dispatchEvent(event);
+			}
+
+			trace('remove', filter, event);
+			
 		}
 		
 		/**
@@ -615,7 +631,7 @@ package onyx.display {
 		 */
 		public function moveFilter(filter:Filter, index:int):void {
 			
-			if (swap(_filters, filter, index)) {
+			if (_filters.moveFilter(filter, index)) {
 				super.dispatchEvent(new FilterEvent(FilterEvent.FILTER_MOVED, filter));
 			}
 		}
@@ -755,6 +771,10 @@ package onyx.display {
 		 */
 		public function muteFilter(filter:Filter, toggle:Boolean = true):void {
 			_filters.muteFilter(filter, toggle);
+			
+			// dispatch
+			var event:FilterEvent = new FilterEvent(FilterEvent.FILTER_MUTED, filter)
+			super.dispatchEvent(event);
 		}
 		
 		/**
@@ -830,7 +850,9 @@ package onyx.display {
 			controls.loadXML(xml.controls);
 
 			// remove filters
-			_filters.clear();
+			for each (var filter:Filter in _filters) {
+				removeFilter(filter);
+			}
 			
 			// load xml
 			_filters.loadXML(xml.filters);
@@ -869,6 +891,16 @@ package onyx.display {
 		 */
 		public function applyFilter(filter:IBitmapFilter):void {
 			filter.applyFilter(super.bitmapData);
+		}
+		
+		/**
+		 * 
+		 */
+		override public function dispatchEvent(event:Event):Boolean {
+			for each (var layer:ILayer in _valid) {
+				layer.dispatchEvent(event);
+			}
+			return true;
 		}
 	}
 }

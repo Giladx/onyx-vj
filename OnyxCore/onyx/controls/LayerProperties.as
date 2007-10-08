@@ -63,22 +63,22 @@ package onyx.controls {
 		public var tint:Control			= 	new ControlNumber(
 												'tint',					'tint',			0,		1,		0
 											);
-		public var scaleX:Control		= 	new ControlNumber(
+		public var scaleX:ControlNumber	= 	new ControlNumber(
 												'scaleX',				'scaleX',		-5,		5,		1
 											);
-		public var scaleY:Control		= 	new ControlNumber(
+		public var scaleY:ControlNumber	= 	new ControlNumber(
 												'scaleY',				'scaleY',		-5,		5,		1
 											);
-		public var x:Control			= 	new ControlInt (
+		public var x:ControlInt			= 	new ControlInt (
 												'x',					'x',	-5000,	5000,	0
 											);
-		public var y:Control			=	new ControlInt(
+		public var y:ControlInt			=	new ControlInt(
 												'y',					'y',	-5000,	5000,	0
 											);
-		public var anchorX:Control		= 	new ControlInt(
+		public var anchorX:ControlNumber= 	new ControlInt(
 												'anchorX',				'anchorX',	-640,	640,	0
 											);
-		public var anchorY:Control		=	new ControlInt(
+		public var anchorY:ControlNumber=	new ControlInt(
 												'anchorY',				'anchorY',	-480,	480,	0
 											);
 		public var framerate:Control	=	new ControlFrameRate(

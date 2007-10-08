@@ -101,7 +101,7 @@ package onyx.plugin {
 		 * 
 		 */
 		final override public function toString():String {
-			return ONYX_QUERYSTRING + 'macro://' + _plugin.name;
+			return 'onyx-macro://' + _plugin.name;
 		}
 	}
 }

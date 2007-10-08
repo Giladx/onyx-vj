@@ -28,7 +28,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.file {
+package onyx.core {
 	
 	import flash.display.*;
 	import flash.events.*;
@@ -37,9 +37,9 @@ package onyx.file {
 	import flash.utils.*;
 	
 	import onyx.content.*;
-	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.events.*;
+	import onyx.file.Protocol;
 	import onyx.net.*;
 	import onyx.plugin.*;
 	import onyx.utils.string.*;
@@ -47,7 +47,7 @@ package onyx.file {
 	/**
 	 * 
 	 */
-	public final class ProtocolDefault extends Protocol {
+	internal final class ProtocolDefault extends Protocol {
 		
 		/**
 		 * 	@constructor

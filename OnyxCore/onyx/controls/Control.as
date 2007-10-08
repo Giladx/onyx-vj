@@ -72,6 +72,11 @@ package onyx.controls {
 	 * 	</code>
 	 */
 	public class Control extends EventDispatcher {
+		
+		/**
+		 * 
+		 */
+		protected static const REUSABLE_EVENT:ControlEvent	= new ControlEvent();
 
 		/**
 		 * 	@private
@@ -96,11 +101,6 @@ package onyx.controls {
 		public var name:String;
 		
 		/**
-		 * 	Stores options that will be implemented by the UI
-		 */
-		public var metadata:Object;
-		
-		/**
 		 * 	Stores the default value for the control
 		 */
 		onyx_ns var _defaultValue:*;
@@ -108,11 +108,10 @@ package onyx.controls {
 		/**
 		 * @constructor
 		 */
-		public function Control(name:String, display:String, defaultValue:*, metadata:Object = null):void {
+		public function Control(name:String, display:String, defaultValue:*):void {
 			
 			this.name			= name,
 			this.display		= display || name,
-			this.metadata		= metadata,
 			this._defaultValue	= defaultValue;
 			
 		}
@@ -147,7 +146,10 @@ package onyx.controls {
 		 * 	
 		 */
 		public function dispatch(v:*):* {
-			dispatchEvent(new ControlEvent(v));
+			
+			REUSABLE_EVENT.value = v;
+			super.dispatchEvent(REUSABLE_EVENT);
+			
 			return v;
 		}
 		
@@ -156,21 +158,6 @@ package onyx.controls {
 		 */
 		public function set value(v:*):void {
 			_target[name] = dispatch(v);
-		}
-		
-		/**
-		 * 	Override this control with another control
-		 */
-		public function override(target:IControlObject, value:*):ControlOverride {
-			
-			var j:ControlOverride	= new ControlOverride();
-
-			j.target				= _target,
-			j.value					= _target[name],
-			_target[name]			= value,
-			_target					= target;
-			
-			return j;
 		}
 		
 		/**
@@ -184,8 +171,8 @@ package onyx.controls {
 		 * 	Resets the control
 		 */
 		public function reset():void {
-			_target[name] = defaultValue;
-			dispatchEvent(new ControlEvent(defaultValue));
+			_target[name] = REUSABLE_EVENT.value = defaultValue;
+			dispatchEvent(REUSABLE_EVENT);
 		}
 
 		/**

@@ -539,7 +539,9 @@ package onyx.content {
 		 */		
 		public function removeFilter(filter:Filter):void {
 			
-			_filters.removeFilter(filter);
+			if (_filters.removeFilter(filter)) {
+				super.dispatchEvent(new FilterEvent(FilterEvent.FILTER_REMOVED, filter));
+			}
 		}
 		
 		/**
@@ -566,7 +568,9 @@ package onyx.content {
 		 * 	Moves a filter to an index
 		 */
 		public function moveFilter(filter:Filter, index:int):void {
-			_filters.moveFilter(filter, index, this);
+			if (_filters.moveFilter(filter, index)) {
+				super.dispatchEvent(new FilterEvent(FilterEvent.FILTER_MOVED, filter));
+			};
 		}
 				
 		/**
@@ -850,7 +854,9 @@ package onyx.content {
 			__anchorY		= null;
 			
 			// kill all filters
-			_filters.clear();
+			for each (var filter:Filter in _filters) {
+				removeFilter(filter);
+			}
 
 			// dispose
 			_source.dispose();

@@ -60,7 +60,7 @@ package ui.states {
 		/**
 		 * 	@private
 		 */
-		private var _label:TextField		= new TextField(400,125);
+		private var _label:TextField		= new TextField(400,425);
 		
 		/**
 		 * 	@private
@@ -108,7 +108,7 @@ package ui.states {
 			// set the label type
 			_label.selectable		= false;
 			_label.x				= 683;
-			_label.y				= 437;
+			_label.y				= 137;
 		}
 		
 		/**

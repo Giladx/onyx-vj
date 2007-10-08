@@ -38,14 +38,15 @@ package {
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
-	import onyx.file.FileBrowser;
-	import onyx.file.http.HTTPAdapter;
+	import onyx.file.*;
+	import onyx.file.http.*;
 	import onyx.utils.array.*;
 	
 	import ui.assets.AssetCamera;
 	import ui.assets.AssetVisualizer;
 	import ui.core.*;
 	import ui.states.*;
+	import onyx.system.*;
 	
 	[SWF(width="1024", height="740", backgroundColor="#141515", frameRate='24')]
 	public class OnyxUI extends Sprite {
@@ -56,6 +57,8 @@ package {
 		public function OnyxUI():void {
 			
 			addEventListener(Event.ADDED_TO_STAGE, _onAdded);
+			
+			var a:Protocol = new Protocol(null, null, null);
 			
 		}
 		
@@ -75,8 +78,8 @@ package {
 			stage.quality	= StageQuality.MEDIUM;
 			
 			// store default icons
-			FileBrowser.CAMERA_ICON		= new AssetCamera();
-			FileBrowser.VISUALIZER_ICON	= new AssetVisualizer();
+			File.CAMERA_ICON		= new AssetCamera();
+			File.VISUALIZER_ICON	= new AssetVisualizer();
 			
 			// init
 			UIManager.initialize(

@@ -36,7 +36,7 @@ package ui.assets {
 	[Embed(
 			source='/ui/assets/font/Pixel.ttf',
 			fontName='Pixel',
-			advancedAntiAliasing='false',
+			advancedAntiAliasing='true',
 			mimeType='application/x-font',
 			unicodeRange='U+0020-U+0040,U+0041-U+005A,U+005B-U+0060,U+0061-U+007A,U+007B-U+007F')
 	]

@@ -81,22 +81,17 @@ package ui.controls {
 		/**
 		 * 	@constructor
 		 */
-		public function SliderV(options:UIOptions, control:Control):void {
+		public function SliderV(options:UIOptions, input:Control):void {
+
+			var control:ControlNumber	= input as ControlNumber;
 
 			super(options, control, true, control.display);
 			
-			var width:int			= options.width;
-			var height:int			= options.height;
-			var multiplier:Number	= 1;
-			var factor:Number		= 1;
-			var toFixed:Number		= 0;
-			
-			if (control.metadata) {
-				var metadata:Object = control.metadata;
-				multiplier			= (metadata.multiplier is Number) ? metadata.multiplier : multiplier;
-				factor				= (metadata.factor is Number) ? metadata.factor : factor;
-				toFixed				= (metadata.toFixed is Number) ? metadata.toFixed : toFixed;
-			}
+			var width:int				= options.width;
+			var height:int				= options.height;
+			var multiplier:Number		= control.multiplier;
+			var factor:Number			= control.factor;
+			var toFixed:Number			= 0;
 
 			_button = new ButtonClear(width,	height);
 			_value	= new TextFieldCenter(width + 3,	height, 0, 1);

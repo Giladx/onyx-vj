@@ -195,7 +195,7 @@ package ui.window {
 			var bytes:ByteArray = new ByteArray();
 			bytes.writeUTFBytes(text);
 			
-			FileBrowser.save('test.mix', bytes, _onFileSaved);
+			File.save('test.mix', bytes, _onFileSaved);
 			
 			event.stopPropagation();
 		}

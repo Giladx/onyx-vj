@@ -87,7 +87,7 @@ package ui.controls.browser {
 			
 			// add label
 			_label.wordWrap		= true,
-			_label.text			= FileBrowser.getFileName(path),
+			_label.text			= File.getFileName(path),
 			_label.filters		= DROP_SHADOW,
 			_label.x			= 1,
 			_label.y			= 1,

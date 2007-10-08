@@ -110,7 +110,7 @@ package ui.controls {
 		/**
 		 * 	@see DisplayObject.addChild
 		 */
-		override public function addChild(child:DisplayObject):DisplayObject {
+		final override public function addChild(child:DisplayObject):DisplayObject {
 			var child:DisplayObject = _holder.addChild(child);
 			_calculateAdd();
 
@@ -120,7 +120,7 @@ package ui.controls {
 		/**
 		 * 	@see DisplayObjectContainer.addChildAt
 		 */
-		override public function addChildAt(child:DisplayObject, index:int):DisplayObject {
+		final override public function addChildAt(child:DisplayObject, index:int):DisplayObject {
 			var child:DisplayObject = _holder.addChildAt(child, index);
 			_calculateAdd();
 			return child;
@@ -129,21 +129,21 @@ package ui.controls {
 		/**
 		 * 	Gets the child at index
 		 */
-		override public function getChildAt(index:int):DisplayObject {
+		final override public function getChildAt(index:int):DisplayObject {
 			return _holder.getChildAt(index);		
 		}
 		
 		/**
 		 * 	@see DisplayObjectContainer.addChildAt
 		 */
-		override public function getChildIndex(child:DisplayObject):int {
+		final override public function getChildIndex(child:DisplayObject):int {
 			return _holder.getChildIndex(child);;
 		}
 		
 		/**
 		 * 	@see DisplayObjectContainer.removeChild
 		 */
-		override public function removeChild(child:DisplayObject):DisplayObject {
+		final override public function removeChild(child:DisplayObject):DisplayObject {
 			
 			var child:DisplayObject = _holder.removeChild(child);
 			_calculateRemove();
@@ -154,7 +154,7 @@ package ui.controls {
 		/**
 		 * 	@see DisplayObjectContainer.removeChildAt
 		 */
-		override public function removeChildAt(index:int):DisplayObject {
+		final override public function removeChildAt(index:int):DisplayObject {
 			var child:DisplayObject = _holder.removeChildAt(index);
 			_calculateRemove();
 			return child;
@@ -163,14 +163,14 @@ package ui.controls {
 		/**
 		 * 	@see DisplayObjectContainer.removeChildAt
 		 */
-		override public function contains(child:DisplayObject):Boolean {
+		final override public function contains(child:DisplayObject):Boolean {
 			return _holder.contains(child);
 		}
 		
 		/**
 		 * 	@see DisplayObjectContainer.numChildren
 		 */
-		override public function get numChildren():int {
+		final override public function get numChildren():int {
 			return _holder.numChildren;
 		}
 		
@@ -178,7 +178,7 @@ package ui.controls {
 		 * 	@private
 		 * 	Calculates the rectangle when an item is added
 		 */
-		private function _calculateAdd():void {
+		final private function _calculateAdd():void {
 			
 			if (_holder.height > _height) {
 				_displayScrollBar();
@@ -189,7 +189,7 @@ package ui.controls {
 		 * 	@private
 		 * 	Calculates the rectangle when an item is removed
 		 */
-		private function _calculateRemove():void {
+		final private function _calculateRemove():void {
 
 			if (_scrollY) {
 				if (_holder.height < _height) {
@@ -203,7 +203,7 @@ package ui.controls {
 		 * 	@private
 		 * 	Listens for the mouse wheel
 		 */
-		private function _onMouseOver(event:MouseEvent):void {
+		final private function _onMouseOver(event:MouseEvent):void {
 			addEventListener(MouseEvent.MOUSE_OUT, _onMouseOut);
 			addEventListener(MouseEvent.MOUSE_WHEEL, _onMouseWheel);
 		}
@@ -212,7 +212,7 @@ package ui.controls {
 		 * 	@private
 		 * 	Listens for mouse out
 		 */
-		private function _onMouseOut(event:MouseEvent):void {
+		final private function _onMouseOut(event:MouseEvent):void {
 			removeEventListener(MouseEvent.MOUSE_OUT, _onMouseOut);
 			removeEventListener(MouseEvent.MOUSE_WHEEL, _onMouseWheel);
 		}
@@ -220,7 +220,7 @@ package ui.controls {
 		/**
 		 * 	Handles mousewheel events
 		 */
-		private function _onMouseWheel(event:MouseEvent):void {
+		final private function _onMouseWheel(event:MouseEvent):void {
 			if (_scrollY) {
 				_scroll(_scrollY.y - (event.delta * 3));
 				event.updateAfterEvent();
@@ -230,7 +230,7 @@ package ui.controls {
 		/**
 		 * 	Displays scroll bar
 		 */
-		private function _displayScrollBar():void {
+		final private function _displayScrollBar():void {
 			
 			if (!_scrollY) {
 				
@@ -247,7 +247,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private function _destroyScrollBar():void {
+		final private function _destroyScrollBar():void {
 			
 			// remove listener
 			_scrollY.removeEventListener(MouseEvent.MOUSE_DOWN, _onScrollPress);
@@ -267,7 +267,7 @@ package ui.controls {
 		 * 	@private
 		 * 	Handler when a scroll bar is pressed
 		 */
-		private function _onScrollPress(event:MouseEvent):void {
+		final private function _onScrollPress(event:MouseEvent):void {
 			var scrollbar:ScrollBar = event.currentTarget as ScrollBar;
 			
 			STAGE.addEventListener(MouseEvent.MOUSE_MOVE, _onScrollMove);
@@ -282,7 +282,7 @@ package ui.controls {
 		 * 	@private
 		 * 	Handler when a scroll bar is moved
 		 */
-		private function _onScrollMove(event:MouseEvent):void {
+		final private function _onScrollMove(event:MouseEvent):void {
 			_scroll(mouseY - _clickY);
 			event.updateAfterEvent();
 		}
@@ -291,19 +291,19 @@ package ui.controls {
 		/**
 		 * 	Scrolls
 		 */
-		private function _scroll(y:int):void {
+		final private function _scroll(y:int):void {
 
 			_scrollY.y = Math.min(Math.max(y, 0), _height - _scrollY.height);
 			
 			var ratio:Number = (_scrollY.y / (_height - _scrollY.height));
-			_holder.y = -ratio * (_holder.height - _height);
+			_holder.y = (-ratio * (_holder.height - _height)) >> 0;
 		}
 		
 		/**
 		 * 	@private
 		 * 	Handler when a scroll bar is moved
 		 */
-		private function _onScrollUp(event:MouseEvent):void {
+		final private function _onScrollUp(event:MouseEvent):void {
 			STAGE.removeEventListener(MouseEvent.MOUSE_MOVE, _onScrollMove);
 			STAGE.removeEventListener(MouseEvent.MOUSE_UP, _onScrollUp);
 		}
@@ -311,7 +311,7 @@ package ui.controls {
 		/**
 		 * 	Resets
 		 */
-		public function reset():void {
+		final public function reset():void {
 			_holder.y = 0;
 		}
 		

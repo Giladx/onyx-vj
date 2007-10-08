@@ -106,15 +106,17 @@ package ui.window {
 		 */
 		private function _createControls():void {
 			
-			var filters:Array = Filter.filters;
-			var len:int = filters.length;
+			var lib:LibraryFilter, plugin:Plugin;
+			
+			var filters:Array	= Filter.filters;
+			var len:int			= filters.length;
 			
 			for (var index:int = 0; index < len; index++) {
 				
-				var plugin:Plugin = filters[index];
+				plugin	= filters[index];
 				
 				// create library ui item
-				var lib:LibraryFilter = new LibraryFilter(plugin);
+				lib		= new LibraryFilter(plugin);
 				
 				if (plugin.getData('effect')) {
 					_normalPane.addChild(lib);

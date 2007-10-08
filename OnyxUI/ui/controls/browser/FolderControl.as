@@ -83,7 +83,7 @@ package ui.controls.browser {
 				_label.text = 'up one level';
 			} else {
 				_img = new AssetFolder();
-				_label.text = FileBrowser.getFileName(folder.path);
+				_label.text = File.getFileName(folder.path);
 			}
 			
 			_btn.x = -2;

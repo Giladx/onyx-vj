@@ -37,8 +37,8 @@ package ui.window {
 	import onyx.constants.*;
 	import onyx.display.LayerSettings;
 	import onyx.file.*;
+	import onyx.file.filters.*;
 	import onyx.plugin.*;
-	import onyx.settings.*;
 	
 	import ui.controls.*;
 	import ui.controls.browser.*;
@@ -65,6 +65,11 @@ package ui.window {
 		public static function registerTarget(obj:UIObject, enable:Boolean):void {
 			(enable) ? targets[obj] = obj : delete targets[obj];
 		}
+		
+		/**
+		 * 	
+		 */
+		public static const ROOT_DIR:String				= 'video/';
 
 		/** @private **/
 		private static const FILES_PER_ROW:int			= 6;
@@ -149,8 +154,8 @@ package ui.window {
 			addChild(_buttonVisualizers);
 			
 			// query default folder
-			FileBrowser.query(
-				FileBrowser.startupFolder + INITIAL_APP_DIRECTORY, _updateList, new SWFFilter()
+			File.query(
+				File.startupFolder + ROOT_DIR, _updateList, new SWFFilter()
 			);
 		}
 		
@@ -162,19 +167,19 @@ package ui.window {
 			switch (event.currentTarget) {
 				case _buttonFiles:
 				
-					if (_path !== FileBrowser.startupFolder + INITIAL_APP_DIRECTORY) {
-						FileBrowser.query(FileBrowser.startupFolder + INITIAL_APP_DIRECTORY, _updateList, new SWFFilter());
+					if (_path !== File.startupFolder + ROOT_DIR) {
+						File.query(File.startupFolder + ROOT_DIR, _updateList, new SWFFilter());
 					}
 					
 					break;
 				case _buttonCameras:
 				
-					FileBrowser.query(ONYX_QUERYSTRING + 'query://cameras', _updateCamera);
+					File.query('onyx-query://cameras', _updateCamera);
 					
 					break;
 				case _buttonVisualizers:
 				
-					FileBrowser.query(ONYX_QUERYSTRING + 'query://visualizers', _updateVisualizer);
+					File.query('onyx-query://visualizers', _updateVisualizer);
 				
 					break;
 			}
@@ -239,14 +244,16 @@ package ui.window {
 				_folders.reset();
 				
 				var folders:Array	= list.folders;
-				var len:int			= folders.length
+				var len:int			= folders.length;
+				var folder:Folder, foldercontrol:FolderControl;
 				
 				for (var index:int = 0; index < len; index++) {
 	
-					var folder:Folder = folders[index];
+					folder			= folders[index];
 					
-					var foldercontrol:FolderControl = new FolderControl(folder);
+					foldercontrol	= new FolderControl(folder);
 					foldercontrol.addEventListener(MouseEvent.MOUSE_DOWN, _onFolderDown);
+					
 					_folders.addChild(foldercontrol);
 					
 					index = _folders.getChildIndex(foldercontrol) - 1;
@@ -320,7 +327,7 @@ package ui.window {
 		private function _onFolderDown(event:MouseEvent):void {
 			var control:FolderControl = event.currentTarget as FolderControl;
 
-			FileBrowser.query(control.path, _updateList, new SWFFilter(), false, true);
+			File.query(control.path, _updateList, new SWFFilter(), false, true);
 		}
 		
 		/**

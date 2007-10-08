@@ -60,31 +60,22 @@ package ui.controls {
 		 * 	@constructor
 		 */
 		public function SliderV2(options:UIOptions, control:Control):void {
-
-			var proxy:ControlProxy = control as ControlProxy;
-			var width:int	= options.width;
-			var height:int	= options.height;
-			var multiplier:Number	= 1;
-			var factor:Number		= 1;
-			var invert:Boolean		= false;
 			
-			if (proxy.metadata) {
-				var metadata:Object = proxy.metadata;
-				multiplier	= (metadata.multiplier is Number) ? metadata.multiplier : multiplier;
-				factor		= (metadata.factor is Number) ? metadata.factor : factor;
-				invert		= (metadata.invert is Boolean) ? metadata.invert : invert;
-			}
+			var proxy:ControlProxy			= control as ControlProxy;
+			var controlY:ControlNumber		= proxy.controlY;
+			var width:int					= options.width;
+			var height:int					= options.height;
+			var invert:Boolean				= proxy.invert;
 			
 			super(options, control, true, proxy.display);
 
 			_button = new ButtonClear(width,	height);
 			_value	= new TextFieldCenter(width + 3,	height,	0, 1);
 
-			_controlY = proxy.controlY;
-			_controlX = proxy.controlX;
-			
-			_multiplier = multiplier;
-			_factor = factor;
+			_controlY	= proxy.controlY,
+			_controlX	= proxy.controlX,
+			_multiplier = controlY.multiplier,
+			_factor		= controlY.factor;
 
 			_value.text		= ((_controlY.value * _multiplier) >> 0) + ':' + ((_controlX.value * _multiplier) >> 0);	
 			

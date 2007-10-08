@@ -32,10 +32,12 @@ package ui.window {
 	
 	import onyx.controls.*;
 	import onyx.errors.*;
+	import onyx.system.*;
 	
 	import ui.controls.*;
 	import ui.core.*;
 	import ui.styles.*;
+	import flash.events.MouseEvent;
 	
 	/**
 	 * 	Menu Window
@@ -46,6 +48,11 @@ package ui.window {
 		 * 	@private
 		 */
 		private var _stateDropDown:DropDown;
+		
+		/**
+		 * 	@private
+		 */
+		private var _quitButton:TextButton;
 		
 		/**
 		 *	@private
@@ -61,13 +68,17 @@ package ui.window {
 				new ControlRange('state', 'state', WindowState.states, null, 'name')
 			);
 			
-			_stateDropDown = new DropDown(UI_OPTIONS_NOLABEL, _controls.getControl('state'));
+			_stateDropDown		= new DropDown(UI_OPTIONS_NOLABEL, _controls.getControl('state'));
+			_stateDropDown.x	= UI_OPTIONS_NOLABEL.width + 2;
+			_quitButton			= new TextButton(UI_OPTIONS_NOLABEL, 'QUIT');
+			_quitButton.addEventListener(MouseEvent.CLICK, buttonHandler);
 			
 			// position and create window
 			super(reg, false, 100, 100);
 			
 			// add the drop down
 			addChild(_stateDropDown);
+			addChild(_quitButton);
 		}
 		
 		/**
@@ -108,7 +119,7 @@ package ui.window {
 				
 				// create control
 				var control:MenuButton = new MenuButton(reg, MENU_OPTIONS);
-				control.x = index * (MENU_OPTIONS.width + 2) + 50;
+				control.x = index * (MENU_OPTIONS.width + 2) + 94;
 
 				// add child
 				addChild(control);
@@ -117,10 +128,25 @@ package ui.window {
 		}
 		
 		/**
+		 * 
+		 */
+		private function buttonHandler(event:MouseEvent):void {
+			switch (event.currentTarget) {
+				case _quitButton:
+				
+					SystemAdapter.quit();
+				
+					break;
+			}
+		}
+		
+		/**
 		 * 	
 		 */
 		override public function dispose():void {
-			
+			_quitButton.removeEventListener(MouseEvent.CLICK, buttonHandler);
+			_quitButton = null;
+			super.dispose();
 		}
 	}
 }

@@ -34,7 +34,7 @@ package ui.layer {
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
-	import onyx.display.Display;
+	import onyx.display.IDisplay;
 	
 	import ui.assets.AssetDisplay;
 	import ui.controls.*;
@@ -43,7 +43,7 @@ package ui.layer {
 	import ui.settings.*;
 	import ui.styles.*;
 	import ui.window.*;
-	import onyx.display.IDisplay;
+	import flash.events.MouseEvent;
 
 	/**
 	 * 	Display Control
@@ -68,7 +68,7 @@ package ui.layer {
 		/**
 		 * 	@private
 		 */
-		private var _preview:Bitmap;
+		private var _preview:Preview;
 		
 		/**
 		 * 	@constructor
@@ -185,19 +185,26 @@ package ui.layer {
 			
 			if (value) {
 				
-				_preview			= new Bitmap(_display.rendered, PixelSnapping.ALWAYS, false);
+				_preview			= new Preview(_display.rendered);
 				
 				_preview.x			= PREVIEW_X,
 				_preview.y			= PREVIEW_Y,
 				_preview.width		= 320,
 				_preview.height		= 240;
 				
+				_preview.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+				
 				STAGE.addChildAt(_preview, 0);
 				
 			} else if (_preview) {
+				
+				_preview.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+				_preview.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
+				STAGE.removeEventListener(MouseEvent.MOUSE_UP, mouseUp);
+
 				STAGE.removeChild(_preview);
 				
-				_preview.bitmapData = null;
+				_preview.dispose();
 				_preview = null;
 			}
 			
@@ -205,6 +212,33 @@ package ui.layer {
 			_localControls.getControl('preview').dispatch(value);
 			
 		}
+		
+		/**
+		 * 	@private
+		 */
+		private function mouseDown(event:MouseEvent):void {
+			_preview.addEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
+			STAGE.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
+			
+			_display.dispatchEvent(event);
+		}
+		
+		/**
+		 *	@private 
+		 */
+		private function mouseMove(event:MouseEvent):void {
+			_display.dispatchEvent(event);
+		}
+		
+		/**
+		 * 
+		 */
+		private function mouseUp(event:MouseEvent):void {
+			STAGE.removeEventListener(MouseEvent.MOUSE_UP, mouseUp);
+			_preview.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
+			
+			_display.dispatchEvent(event);
+		} 
 		
 		/**
 		 * 
@@ -231,10 +265,21 @@ package ui.layer {
 		 * 
 		 */
 		override public function dispose():void {
-			if (_preview) {
-				_preview.parent.removeChild(_preview);
-			}
+			preview = false;
 			super.dispose();
 		}
 	}
 }
+
+import flash.display.*;
+	
+final class Preview extends Sprite {
+	
+	public function Preview(bmp:BitmapData):void {
+		addChild(new Bitmap(bmp, PixelSnapping.ALWAYS, false));
+	}
+	
+	public function dispose():void {
+		removeChildAt(0);
+	}
+} 

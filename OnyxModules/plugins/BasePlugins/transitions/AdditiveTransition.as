@@ -28,79 +28,45 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package filters {
+package transitions {
 	
-	import flash.display.BitmapData;
-	import flash.events.TimerEvent;
+	import flash.display.*;
 	import flash.filters.BlurFilter;
 	import flash.geom.*;
-	import flash.utils.Timer;
 	
 	import onyx.constants.*;
-	import onyx.controls.*;
-	import onyx.core.*;
+	import onyx.content.IContent;
 	import onyx.plugin.*;
-	import onyx.tween.*;
-
 	
-	use namespace onyx_ns;
-
-	public final class Blur extends Filter implements IBitmapFilter {
+	/**
+	 * 
+	 */
+	public final class BlurTransition extends Transition {
 		
-		public var mindelay:Number						= .4;
-		public var maxdelay:Number						= 1;
-
-		private var _tween:Boolean;
-		private var _timer:Timer;
-		private var _blurX:int							= 4;
-		private var _blurY:int							= 4;
+		/**
+		 * 	@private
+		 */
+		private var _blur:BlurFilter	= new BlurFilter(0,0);
 		
-		private var __blurX:ControlNumber;
-		private var __blurY:ControlNumber;
-		private var _filter:BlurFilter					= new BlurFilter(_blurX, _blurY)
+		/**
+		 * 
+		 */
+		public function BlurTransition():void {
+			super();
+		}
 		
-		public function Blur():void {
-
-			__blurX = new ControlInt('blurX', 'blurX', 0, 42, 4);
-			__blurY = new ControlInt('blurY', 'blurY', 0, 42, 4);
+		override public function render(content:IContent, ratio:Number):Boolean {
 			
-			super(
-				false,
-				__blurX,
-				__blurY
-			);
-		}
-		
-		public function applyFilter(bitmapData:BitmapData):void {
-			bitmapData.applyFilter(bitmapData, BITMAP_RECT, POINT, _filter);
-		}
-		
-		public function terminate():void {
-			_filter = null;
-		}
-		
-		public function set blurX(x:int):void {
-			_filter.blurX = _blurX = __blurX.dispatch(x);
-		}
-		
-		public function get blurX():int {
-			return _filter.blurX;
-		}
-		
-		public function set blurY(y:int):void {
-			_filter.blurY = _blurY = __blurY.dispatch(y);
-		}
-		
-		public function get blurY():int {
-			return _filter.blurY;
-		}
-		
-		public function get quality():int {
-			return _filter.quality;
-		}
-		
-		override public function dispose():void {
-			_filter = null;
+			if (ratio <= .5) {
+				
+				var bitmap:BitmapData = content.rendered;
+				_blur.blurX = _blur.blurY = (ratio * 40) << 0;
+				bitmap.applyFilter(bitmap, BITMAP_RECT, POINT, _blur);
+				
+				return true;
+			}
+			
+			return false;
 		}
 	}
 }

@@ -40,6 +40,7 @@ package {
 	
 	import modules.*;
 	import modules.VLC.*;
+	import modules.render.*;
 	import modules.stopmotion.*;
 	
 	import onyx.core.*;
@@ -60,6 +61,8 @@ package {
 			return [
 			
 				// bitmap filters
+				// new Plugin('AutoCompose',		AutoCompose,	'AutoCompose'),
+				new Plugin('Scroller',				ConstantScroll,	'Scroll'),
 				new Plugin('Ray Of Light',			RayOfLight,		'Ray Of Light'),
 				new Plugin('Mirror Filter',			MirrorFilter,	'Mirror Filter'),
 				new Plugin('Echo Filter',			EchoFilter,		'Echo Filter'),
@@ -95,7 +98,8 @@ package {
 				new Plugin('SpectrumVisualizer',	SpectrumVisualizer, 'SpectrumVisualizer'),
 				
 				// Modules
-				//new Plugin('VLC',					VLCModule,		'VLC'),
+				// new Plugin('VLC',					VLCModule,		'VLC'),
+				// new Plugin('Render',				RenderClient,		'RenderClient'),
 				new Plugin('Debugger',				Debugger,			'Debugger'),
 
 				// Macros

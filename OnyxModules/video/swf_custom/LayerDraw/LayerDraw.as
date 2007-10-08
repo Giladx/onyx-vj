@@ -3,11 +3,11 @@ package {
 	import flash.display.*;
 	import flash.events.*;
 	import flash.filters.*;
+	import flash.geom.*;
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
-	import onyx.display.Layer;
-	import flash.geom.ColorTransform;
+	import onyx.display.*;
 
 	[SWF(width='320', height='240', frameRate='24')]
 	public class LayerDraw extends Sprite implements IControlObject {
@@ -15,22 +15,25 @@ package {
 		private var _controls:Controls;
 		private var bitmap:Bitmap;
 		private var shape:Shape;
-		private var filter:BlurFilter;
 		private var color:ColorTransform;
 		
-		public var mode:String;
-		public var layer:Layer;
-		public var size:int				= 30;
+		public var mode:String			= 'lighten';
+		public var layer:ILayer;
+		public var size:int				= 50;
+		public var followMouse:Boolean;
+		
+		private var _blur:BlurFilter;
 		
 		public function LayerDraw():void {
 			color	= new ColorTransform();
 			shape	= new Shape();
 			bitmap	= new Bitmap(BASE_BITMAP());
-			filter	= new BlurFilter(4,4);
 			
 			_controls = new Controls(this,
 				new ControlLayer('layer', 'layer'),
-				new ControlInt('size', 'size', 0, 100, 30),
+				new ControlBoolean('followMouse', 'followMouse'),
+				new ControlInt('preblur', 'preblur', 0, 30, 0),
+				new ControlInt('size', 'size', 0, 100, 50),
 				new ControlInt('alph', 'alpha', 0, 100, 100),
 				new ControlBlend('mode', 'blend'),
 				new ControlExecute('clear', 'clear')
@@ -40,6 +43,18 @@ package {
 			addEventListener(Event.ENTER_FRAME, enterFrame);
 			
 			addChild(bitmap);
+		}
+		
+		public function set preblur(value:int):void {
+			if (value > 0) {
+				_blur = new BlurFilter(value, value);
+			} else {
+				_blur = null;
+			}
+		}
+		
+		public function get preblur():int {
+			return _blur ? _blur.blurX : 0; 
 		}
 		
 		public function clear():void {
@@ -63,18 +78,30 @@ package {
 			if (layer) {
 				var graphics:Graphics	= shape.graphics;
 				var bitmap:BitmapData	= this.bitmap.bitmapData;
+				var matrix:Matrix		= new Matrix();
+				
+				var x:Number				= event.localX;
+				var y:Number				= event.localY;
+				
+				if (followMouse) {
+					matrix.translate(-event.localX,-event.localY);
+				}
+				
 				graphics.clear();
-				graphics.beginBitmapFill(layer.rendered);
+				graphics.beginBitmapFill(layer.rendered, matrix);
 				graphics.drawCircle(event.localX, event.localY, size);
 				graphics.endFill();
 			}
 		}
 		
 		private function enterFrame(event:Event):void {
-			var bitmap:BitmapData	= this.bitmap.bitmapData;
-			// bitmap.applyFilter(bitmap, BITMAP_RECT, POINT, filter);
+			var source:BitmapData	= this.bitmap.bitmapData;
 			
-			bitmap.draw(shape, null, color, mode);
+			if (_blur) {
+				source.applyFilter(source, BITMAP_RECT, POINT, _blur);
+			}
+			
+			source.draw(shape, null, color, mode);
 		}
 		
 		private function mouseUp(event:MouseEvent):void {

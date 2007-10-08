@@ -50,6 +50,8 @@ package effects {
 		public var scaleMin:Number	= 1;
 		public var scaleMax:Number	= 1.8;
 		
+		private var tween:Tween;
+		
 		public function MoverScaler():void {
 
 			super(
@@ -77,7 +79,7 @@ package effects {
 			var x:int			= ratio * (-BITMAP_WIDTH) * Math.random();
 			var y:int			= ratio * (-BITMAP_HEIGHT) * Math.random();
 			
-			new Tween(
+			tween = new Tween(
 				content, 
 				Math.max(delay * Math.random(), 32),
 				new TweenProperty('x', content.x, x),
@@ -85,13 +87,18 @@ package effects {
 				new TweenProperty('scaleX', content.scaleX, scale),
 				new TweenProperty('scaleY', content.scaleY, scale)
 			);
-			
+
 		}
 		
 		/**
 		 * 	Dispose
 		 */
 		override public function dispose():void {
+			
+			if (tween) {
+				tween.dispose();
+			}
+
 			super.dispose();
 		}
 	}

@@ -31,76 +31,50 @@
 package filters {
 	
 	import flash.display.BitmapData;
-	import flash.events.TimerEvent;
-	import flash.filters.BlurFilter;
-	import flash.geom.*;
-	import flash.utils.Timer;
+	import flash.filters.*;
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
-	import onyx.core.*;
-	import onyx.plugin.*;
-	import onyx.tween.*;
+	import onyx.plugin.Filter;
+	import onyx.plugin.IBitmapFilter;
 
-	
-	use namespace onyx_ns;
-
-	public final class Blur extends Filter implements IBitmapFilter {
+	public final class ConstantScroll extends Filter implements IBitmapFilter {
 		
-		public var mindelay:Number						= .4;
-		public var maxdelay:Number						= 1;
-
-		private var _tween:Boolean;
-		private var _timer:Timer;
-		private var _blurX:int							= 4;
-		private var _blurY:int							= 4;
+		private var scrollX:int = 0;
+		private var scrollY:int = 0;
+		public var scrollXSpeed:int = 0;
+		public var scrollYSpeed:int = 0;
+		private var bitmap:BitmapData;
 		
-		private var __blurX:ControlNumber;
-		private var __blurY:ControlNumber;
-		private var _filter:BlurFilter					= new BlurFilter(_blurX, _blurY)
-		
-		public function Blur():void {
-
-			__blurX = new ControlInt('blurX', 'blurX', 0, 42, 4);
-			__blurY = new ControlInt('blurY', 'blurY', 0, 42, 4);
-			
-			super(
-				false,
-				__blurX,
-				__blurY
+		public function ConstantScroll():void {
+			super(true,
+				new ControlProxy('speed', 'speed', 
+					new ControlInt('scrollXSpeed', 'x speed', -100, 100, 0),
+					new ControlInt('scrollYSpeed', 'y speed', -100, 100, 0),
+					true
+				),
+				new ControlExecute('reset', 'reset')
 			);
 		}
 		
-		public function applyFilter(bitmapData:BitmapData):void {
-			bitmapData.applyFilter(bitmapData, BITMAP_RECT, POINT, _filter);
+		public function reset():void {
+			scrollX = scrollY = 0;
 		}
 		
-		public function terminate():void {
-			_filter = null;
+		override public function initialize():void {
+			bitmap = BASE_BITMAP();
 		}
 		
-		public function set blurX(x:int):void {
-			_filter.blurX = _blurX = __blurX.dispatch(x);
-		}
-		
-		public function get blurX():int {
-			return _filter.blurX;
-		}
-		
-		public function set blurY(y:int):void {
-			_filter.blurY = _blurY = __blurY.dispatch(y);
-		}
-		
-		public function get blurY():int {
-			return _filter.blurY;
-		}
-		
-		public function get quality():int {
-			return _filter.quality;
+		public function applyFilter(source:BitmapData):void {
+			scrollX = (scrollX + scrollXSpeed) % (BITMAP_WIDTH * 2),
+			scrollY = (scrollY + scrollYSpeed) % (BITMAP_HEIGHT * 2);
+			source.applyFilter(source, BITMAP_RECT, POINT, new DisplacementMapFilter(bitmap, POINT, 4, 4, scrollX, scrollY));
 		}
 		
 		override public function dispose():void {
-			_filter = null;
+			bitmap.dispose();
+			bitmap = null;
+			super.dispose();
 		}
 	}
 }

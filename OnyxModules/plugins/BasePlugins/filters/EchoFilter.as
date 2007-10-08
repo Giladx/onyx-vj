@@ -40,6 +40,7 @@ package filters {
 	import onyx.controls.*;
 	import onyx.core.*;
 	import onyx.plugin.*;
+	import flash.filters.BlurFilter;
 
 	/**
 	 * 	Echo Filter
@@ -57,11 +58,13 @@ package filters {
 		public var scrollY:int					= 0;
 		public var delay:int					= 1;
 		private var _count:int					= 0;
+		private var _blur:BlurFilter;
 		
 		public function EchoFilter():void {
 
 			super(
 				false,
+				new ControlInt('preblur',	'preblur', 0, 20, 0),
 				new ControlNumber('feedAlpha', 'Echo Alpha', 0, 1, .09),
 				new ControlRange('feedBlend', 'Echo Blend', BLEND_MODES, 9),
 				new ControlNumber('mixAlpha', 'Mix Alpha', 0, 1, .02),
@@ -73,6 +76,18 @@ package filters {
 				),
 				new ControlInt('delay', 'Frame Delay', 1, 10, 2)
 			);
+		}
+		
+		public function set preblur(value:int):void {
+			if (value > 0) {
+				_blur = new BlurFilter(value, value);
+			} else {
+				_blur = null;
+			}
+		} 
+		
+		public function get preblur():int {
+			return _blur ? _blur.blurX : 0;
 		}
 		
 		override public function initialize():void {
@@ -114,6 +129,11 @@ package filters {
 					_source.draw(bitmapData, null, _mixAlpha, mixBlend);
 				}
 				
+			}
+			
+			// check for pre-blur
+			if (_blur) {
+				_source.applyFilter(_source, BITMAP_RECT, POINT, _blur);
 			}
 
 			// check for scroll

@@ -55,7 +55,7 @@ package filters {
 			
 			super(
 				true,
-				new ControlInt('amount', 'amount', 2, 15, 2, { factor: 5 })
+				new ControlInt('amount', 'amount', 2, 15, 2, 1, 5)
 			)
 		}
 		

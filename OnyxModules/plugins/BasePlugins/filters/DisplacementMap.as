@@ -109,9 +109,9 @@ package filters {
 			var filter:DisplacementMapFilter;
 			
 			if (_layer) {
-				filter = new DisplacementMapFilter(_layer.rendered, POINT, 4, 4, scaleX, scaleY, DisplacementMapFilterMode.WRAP);
+				filter = new DisplacementMapFilter(_layer.rendered, POINT, 4, 4, scaleX, scaleY);
 			} else {
-				filter = new DisplacementMapFilter(_bmp, POINT, 2, 4, scaleX, scaleY, DisplacementMapFilterMode.WRAP);
+				filter = new DisplacementMapFilter(_bmp, POINT, 2, 4, scaleX, scaleY);
 			}
 			
 			source.applyFilter(

@@ -58,9 +58,9 @@ package filters {
 				new ControlBoolean('rotate3', 'rotate3'),
 				new ControlBoolean('flip', 'flip'),
 				new ControlBoolean('singleview', 'singleview'),
-				new ControlNumber('rotspeed1', 'rotspd1', -1, 1, 0.007, { multiplier: 1000}),
-				new ControlNumber('rotspeed2', 'rotspd2', -1, 1, 0.007, { multiplier: 1000}),
-				new ControlNumber('rotspeed3', 'rotspd3', -1, 1, 0.007, { multiplier: 1000})
+				new ControlNumber('rotspeed1', 'rotspd1', -1, 1, 0.007, 1000),
+				new ControlNumber('rotspeed2', 'rotspd2', -1, 1, 0.007, 1000),
+				new ControlNumber('rotspeed3', 'rotspd3', -1, 1, 0.007, 1000)
 			);
 		}
 		

@@ -47,8 +47,8 @@ package filters {
 
 	public final class Halo extends Filter implements IBitmapFilter {
 		
-		private var __blurX:Control;
-		private var __blurY:Control;
+		private var __blurX:ControlInt;
+		private var __blurY:ControlInt;
 		private var _filter:BlurFilter					= new BlurFilter(20, 20);
 		private var _bmp:BitmapData						= BASE_BITMAP();
 		public var blendMode:String						= 'overlay';

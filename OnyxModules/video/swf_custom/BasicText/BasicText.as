@@ -203,11 +203,14 @@
 		public function set font(value:Font):void {
 			_font = value;
 			
-			var format:TextFormat = _label.defaultTextFormat;
-			format.font = value.fontName;
-			
-			_label.defaultTextFormat = format;
-			_label.setTextFormat(format);
+			if (value) {
+				
+				var format:TextFormat = _label.defaultTextFormat;
+				format.font = value.fontName;
+				
+				_label.defaultTextFormat = format;
+				_label.setTextFormat(format);
+			}
 		}
 		
 		/**

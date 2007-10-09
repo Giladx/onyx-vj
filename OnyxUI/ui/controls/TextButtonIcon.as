@@ -28,24 +28,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package ui.controls.browser {
-
-	import flash.display.DisplayObject;
+package ui.controls {
 	
-	import ui.assets.*;
-	import ui.controls.*;
+	import flash.display.*;
+	
 	import ui.core.UIObject;
-	import flash.display.BitmapData;
 
-	/**
-	 * 
-	 */
-	public final class BrowserVisualizers extends UIObject {
-
+	public final class TextButtonIcon extends UIObject {
+		
 		/**
-		 * 	@constsructor
+		 * 	@constructor
 		 */
-		public function BrowserVisualizers(options:UIOptions, name:String):void {
+		public function TextButtonIcon(options:UIOptions, name:String, icon:Bitmap):void {
 			
 			var width:int, height:int;
 			
@@ -56,15 +50,13 @@ package ui.controls.browser {
 			displayBackground(width, height);
 			
 			// add a label
-			addLabel(name.toUpperCase(), width + 3, height, 1);
+			addLabel(name.toUpperCase(), width + 3, height, 1, 14, 'left');
 
 			// add a button
-			var sprite:DisplayObject = addChild(new AssetIconVisualizer());
-			sprite.x = 3,
+			var sprite:DisplayObject = addChild(icon);
+			sprite.x = 3;
 			sprite.y = 2;
-
 			addChild(new ButtonClear(width, height));
 		}
-		
 	}
 }

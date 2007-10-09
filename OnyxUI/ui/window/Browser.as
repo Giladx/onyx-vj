@@ -40,6 +40,7 @@ package ui.window {
 	import onyx.file.filters.*;
 	import onyx.plugin.*;
 	
+	import ui.assets.*;
 	import ui.controls.*;
 	import ui.controls.browser.*;
 	import ui.core.*;
@@ -99,18 +100,18 @@ package ui.window {
 		 * 	@private
 		 * 	The browser files button
 		 */
-		private var _buttonFiles:BrowserFiles;
+		private var _buttonFiles:TextButtonIcon;
 		
 		/**
 		 * 	@private
 		 * 	The browser files button
 		 */
-		private var _buttonCameras:BrowserCameras;
+		private var _buttonCameras:TextButtonIcon;
 		
 		/**
 		 * 	@private
 		 */
-		private var _buttonVisualizers:BrowserVisualizers;
+		private var _buttonVisualizers:TextButtonIcon;
 		
 		/**
 		 * 	@private
@@ -127,9 +128,9 @@ package ui.window {
 			var options:UIOptions		= new UIOptions();
 			options.width				= 90;
 			
-			_buttonFiles				= new BrowserFiles(options, 'FILES'),
-			_buttonCameras				= new BrowserCameras(options, 'CAMERAS'),
-			_buttonVisualizers			= new BrowserVisualizers(options, 'VISUALIZERS');
+			_buttonFiles				= new TextButtonIcon(options, 'FILES', new AssetFolder()),
+			_buttonCameras				= new TextButtonIcon(options, 'CAMERAS', new AssetIconCamera()),
+			_buttonVisualizers			= new TextButtonIcon(options, 'VISUALIZERS', new AssetIconVisualizer());
 			
 			_files.x				= 2,
 			_files.y				= 12,

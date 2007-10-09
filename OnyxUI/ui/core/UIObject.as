@@ -207,23 +207,25 @@ package ui.core {
 		 */
 		final protected function addLabel(name:String, width:int, height:int, offsetY:int = -8, offsetX:int = 0, align:String = null):void {
 			
-			if (align === 'left') {
-				
-				var left:TextField			= new TextField(0, 12);
-				left.autoSize				= TextFieldAutoSize.LEFT,		
-				left.text					= name.toUpperCase(),
-				left.mouseEnabled			= false;
-				left.x = -left.width - 2
-				
-				super.addChild(left);
-				
-			} else {
-				var label:TextFieldCenter	= new TextFieldCenter(width + 3, height, offsetX, offsetY);
-				label.textColor				= TEXT_LABEL,
-				label.text					= name.toUpperCase(),
-				label.mouseEnabled			= false;
-	
-				super.addChild(label);				
+			switch (align) {
+				case 'left':
+					var left:TextField			= new TextField(width, 12);
+					left.textColor				= TEXT_LABEL,
+					left.text					= name.toUpperCase(),
+					left.mouseEnabled			= false,
+					left.y						= offsetY,
+					left.x						= offsetX;
+					
+					super.addChild(left);
+					break;
+				default:
+					var label:TextFieldCenter	= new TextFieldCenter(width + 3, height, offsetX, offsetY);
+					label.textColor				= TEXT_LABEL,
+					label.text					= name.toUpperCase(),
+					label.mouseEnabled			= false;
+		
+					super.addChild(label);
+					break;
 			}
 		}
 	}

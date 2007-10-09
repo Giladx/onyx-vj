@@ -30,17 +30,23 @@
  */
 package ui.controls.filter {
 
-	import onyx.core.Plugin;
-	import onyx.plugin.Filter;
+	import flash.display.Bitmap;
+	import flash.display.Graphics;
+	import flash.filters.*;
 	
-	import ui.assets.AssetLayerFilterInactive;
+	import onyx.core.Plugin;
+	
 	import ui.controls.ButtonClear;
-	import ui.controls.UIControl;
 	import ui.core.ToolTipManager;
 	import ui.core.UIObject;
 	import ui.text.TextField;
 	
 	public final class LibraryFilter extends UIObject {
+		
+		/**
+		 * 	@private
+		 */
+		private static const DROP_SHADOW:Array	= [new DropShadowFilter(1, 45, 0x000000,1,0,0,1)];
 		
 		/**
 		 * 	@private
@@ -51,17 +57,12 @@ package ui.controls.filter {
 		/**
 		 * 	@private
 		 */
-		private var _label:TextField = new TextField(70,12);
+		private var _label:TextField = new TextField(47,35);
 
 		/**
 		 * 	@private
 		 */
-		private var _btn:ButtonClear = new ButtonClear(87,12);
-
-		/**
-		 * 	@private
-		 */
-		private var _bg:AssetLayerFilterInactive = new AssetLayerFilterInactive();
+		private var _btn:ButtonClear = new ButtonClear(47,35);
 		
 		/**
 		 * 	@constructor
@@ -69,24 +70,30 @@ package ui.controls.filter {
 		public function LibraryFilter(plugin:Plugin):void {
 			
 			_plugin = plugin;
-			_draw();
+
+			var bmp:Bitmap	= new Bitmap(_plugin.thumbnail);
+			bmp.x = bmp.y	= 1;
+			
+			// draw shit
+			addChild(bmp);
+			
+			_label.wordWrap		= true,
+			_label.text			= _plugin.name,
+			_label.y			= 2,
+			_label.x			= 2,
+			_label.filters		= DROP_SHADOW;
+
+			
+			addChild(_label);
+			addChild(_btn);
+			
+			var graphics:Graphics = this.graphics;
+			graphics.beginFill(0x45525c);
+			graphics.drawRect(0,0,48,37);
+			graphics.endFill();
 			
 			ToolTipManager.registerToolTip(this, plugin.description);
 
-		}
-		
-		/**
-		 * 	@private
-		 */
-		private function _draw():void {
-			
-			_label.text			= _plugin.name;
-			_label.y			= 2;
-			_label.x			= 2;
-			
-			addChild(_bg);
-			addChild(_label);
-			addChild(_btn);
 		}
 		
 		/**

@@ -102,19 +102,17 @@ package ui.layer {
 					controls.getControl('contrast')
 				),
 				new LayerPage('FILTER'),
-				new LayerPage('POSITION',
+				new LayerPage('OUTPUT',
 					null,
 					controls.getControl('visible'),
-					controls.getControl('smoothing'),
 					controls.getControl('position'),
 					controls.getControl('size'),
-					_localControls.getControl('preview'),
-					_localControls.getControl('previewLocation'),
-					_localControls.getControl('framerate')
+					controls.getControl('smoothing')
 				),
-				new LayerPage('RENDER',
+				new LayerPage('PREVIEW', 
 					null,
-					controls.getControl('renderer')
+					_localControls.getControl('preview'),
+					_localControls.getControl('previewLocation')
 				)
 			);
 
@@ -122,9 +120,9 @@ package ui.layer {
 			_display = display;
 			
 			// order
-			controlPage.x = 91;
-			controlPage.y = 25;
-			filterPane.x = 4;
+			controlPage.x = 91,
+			controlPage.y = 25,
+			filterPane.x = 4,
 			filterPane.y = 4;
 
 			// change tab color
@@ -185,7 +183,7 @@ package ui.layer {
 			
 			if (value) {
 				
-				_preview			= new Preview(_display.rendered);
+				_preview			= new Preview(_display.source);
 				
 				_preview.x			= PREVIEW_X,
 				_preview.y			= PREVIEW_Y,

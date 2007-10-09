@@ -37,25 +37,10 @@ package ui.controls.layer {
 	import ui.controls.ButtonClear;
 	import ui.core.UIObject;
 	import ui.text.TextField;
-	import ui.window.CrossFaderWindow;
+	import ui.styles.*;
 
 	public final class CrossFaderToggle extends UIObject {
 
-		/**
-		 * 
-		 */
-		public static const A:String	= 'A';
-		
-		/**
-		 * 
-		 */
-		public static const B:String	= 'B';
-
-		/**
-		 * 	@private
-		 */
-		public static var window:CrossFaderWindow;
-		
 		/**
 		 * 	@private
 		 */
@@ -65,11 +50,6 @@ package ui.controls.layer {
 		 * 	@private
 		 */
 		private var _toggleB:ButtonClear;
-		
-		/**
-		 * 	@private
-		 */
-		private var _toggleOff:ButtonClear;
 		
 		/**
 		 * 	@private
@@ -89,14 +69,13 @@ package ui.controls.layer {
 			_current	= new TextField(11,11),
 			_layer		= layer,
 			_toggleA	= new ButtonClear(11,11),
-			_toggleB	= new ButtonClear(11,11),
-			_toggleOff	= new ButtonClear(11,11);
+			_toggleB	= new ButtonClear(11,11);
 			
-			_current.y			= 1;
+			_current.y			= 1,
+			_current.textColor	= 0xCCCCCC;
 			
 			_toggleA.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 			_toggleB.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
-			_toggleOff.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 			
 			_toggleA.x	= 12;
 			_toggleB.x	= 24;
@@ -104,58 +83,37 @@ package ui.controls.layer {
 			addChild(_toggleA);
 			addChild(_toggleB);
 			
+			select();
 		}
 		
 		/**
 		 * 	@private
 		 */
 		private function _mouseDown(event:MouseEvent):void {
-			
-			if (window) {
+			_layer.channel = event.currentTarget === _toggleB; 
+			select();
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function select():void {
+			if (_layer.channel) {
+				_current.text	= 'B',
+				_current.x		= 25;
+
+				addChild(_current);
+				addChild(_toggleA);
 				
-				switch (event.currentTarget) {
-					case _toggleA:
-					
-						window.registerLayer(_layer, A);
-					
-						_current.text	= A;
-						_current.x		= 14;
-	
-						addChild(_current);
-						addChild(_toggleOff);
-						addChild(_toggleB);
-						
-						removeChild(_toggleA);
-						
-						break;
-					case _toggleB:
-	
-						window.registerLayer(_layer, B);
-					
-						_current.text	= B;
-						_current.x		= 25;
-	
-						addChild(_current);
-						addChild(_toggleOff);
-						addChild(_toggleA);
-						
-						removeChild(_toggleB);
-	
-						break;
-	
-					case _toggleOff:
-					
-						window.registerLayer(_layer, null);
-					
-						removeChild(_toggleOff);
-						removeChild(_current);
-	
-						addChild(_toggleA);
-						addChild(_toggleB);
-	
-						break;
-				}
+				removeChild(_toggleB);
+			} else {
+				_current.text	= 'A',
+				_current.x		= 14;
+
+				addChild(_current);
+				addChild(_toggleB);
 				
+				removeChild(_toggleA);
 			}
 		}
 		
@@ -167,7 +125,6 @@ package ui.controls.layer {
 			
 			_toggleA.removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 			_toggleB.removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
-			_toggleOff.removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 		}	
 	}
 }

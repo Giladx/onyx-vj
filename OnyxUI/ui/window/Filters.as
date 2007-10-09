@@ -38,7 +38,8 @@ package ui.window {
 	import onyx.plugin.Filter;
 	import onyx.utils.*;
 	
-	import ui.controls.ScrollPane;
+	import ui.assets.AssetFolder;
+	import ui.controls.*;
 	import ui.controls.filter.LibraryFilter;
 	import ui.core.*;
 	import ui.events.DragEvent;
@@ -58,22 +59,51 @@ package ui.window {
 		private static const targets:Dictionary	= new Dictionary(true);
 
 		/**
-		 * 	
+		 * 	Registers
 		 */
 		public static function registerTarget(obj:UIObject, enable:Boolean):void {
 			(enable) ? targets[obj] = obj : delete targets[obj];
-			var test:GCTester = new GCTester(obj);
 		}
 		
 		/**
 		 * 	@private
 		 */
-		private var _normalPane:ScrollPane		= new ScrollPane(89, 225, 'EFFECT FILTERS');
+		private var pane:ScrollPane;
 		
 		/**
 		 * 	@private
 		 */
-		private var _bitmapPane:ScrollPane		= new ScrollPane(89, 225, 'BITMAP FILTERS');
+		private var bitmapFilters:Array;
+		
+		/**
+		 * 	@private
+		 */
+		private var tempoFilters:Array;
+		
+		/**
+		 * 	@private
+		 */
+		private var allFilters:Array;
+		
+		/**
+		 * 	@private
+		 */
+		private var current:Array;
+		
+		/**
+		 * 	@private
+		 */
+		private var allButton:TextButton;
+		
+		/**
+		 * 	@private
+		 */
+		private var bitmapButton:TextButton;
+		
+		/**
+		 * 	@private
+		 */
+		private var tempoButton:TextButton;
 		
 		/**
 		 * 	@constructor
@@ -81,24 +111,93 @@ package ui.window {
 		public function Filters(reg:WindowRegistration):void {
 			
 			// set title, etc
-			super(reg, true, 192, 240);
+			super(reg, true, 260, 240);
 			
-			// add panes
-			addChild(_normalPane);
-			addChild(_bitmapPane);
+			pane			= new ScrollPane(240, 225, 'EFFECT FILTERS'),
+			bitmapFilters	= [],
+			tempoFilters	= [],
+			allFilters		= [];			
 			
-			// add vertical ordering policy
-			Policy.addPolicy(_normalPane, new VOrderPolicy());
-			Policy.addPolicy(_bitmapPane, new VOrderPolicy());
+			draw();
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function draw():void {
 			
-			_normalPane.x = 99,
-			_normalPane.y = 13,
-			_bitmapPane.x = 4,
-			_bitmapPane.y = 13;
+			var sprite:DisplayObject;
+			
+			// draw stuff
+			var options:UIOptions		= new UIOptions();
+			options.height				= 12,
+			options.width				= 81;
+			
+			allButton		= new TextButton(options, 'ALL EFFECTS');
+			bitmapButton	= new TextButton(options, 'BITMAP EFFECTS');
+			tempoButton		= new TextButton(options, 'TEMPO EFFECTS');
+			
+			allButton.addEventListener(MouseEvent.MOUSE_DOWN, handler);
+			bitmapButton.addEventListener(MouseEvent.MOUSE_DOWN, handler);
+			tempoButton.addEventListener(MouseEvent.MOUSE_DOWN, handler);
+			
+			allButton.x		= 2,
+			allButton.y		= 12,
+			bitmapButton.x	= 84,
+			bitmapButton.y	= 12,
+			tempoButton.x	= 166,
+			tempoButton.y	= 12,
+			pane.x			= 2,
+			pane.y			= 25;
+
+			// add
+			addChild(allButton);
+			addChild(bitmapButton);
+			addChild(tempoButton);
+			addChild(pane);
+
+			// register filters
+			var filters:Array = Filter.filters;
+			for each (var plugin:Plugin in filters) {
+				if (plugin.getData('bitmap')) {
+					bitmapFilters.push(plugin);
+				}
+				
+				if (plugin.getData('tempo')) {
+					tempoFilters.push(plugin);
+				}
+				
+				allFilters.push(plugin);
+			}
+			
+			bitmapFilters.sortOn('name');
+			tempoFilters.sortOn('name');
+			allFilters.sortOn('name');
+
+			current = allFilters;
 
 			// create filter controls
 			_createControls();
-
+			
+		}
+		
+		/**
+		 * 
+		 */
+		private function handler(event:MouseEvent):void {
+			switch (event.currentTarget) {
+				case allButton:
+					current = allFilters;
+					break;
+				case bitmapButton:
+					current = bitmapFilters;
+					break;
+				case tempoButton:
+					current = tempoFilters;
+					break;
+			}
+			
+			_createControls();
 		}
 		
 		/**
@@ -106,23 +205,16 @@ package ui.window {
 		 */
 		private function _createControls():void {
 			
-			var lib:LibraryFilter, plugin:Plugin;
+			var index:int = 0;
 			
-			var filters:Array	= Filter.filters;
-			var len:int			= filters.length;
+			_clearControls();
 			
-			for (var index:int = 0; index < len; index++) {
+			for each (var plugin:Plugin in current) {
 				
-				plugin	= filters[index];
+				var lib:LibraryFilter = new LibraryFilter(plugin);
 				
-				// create library ui item
-				lib		= new LibraryFilter(plugin);
-				
-				if (plugin.getData('effect')) {
-					_normalPane.addChild(lib);
-				} else {
-					_bitmapPane.addChild(lib);
-				}
+				lib.x	= (index % 5) * 49,
+				lib.y	= Math.floor(index / 5) * 38;
 				
 				// set it to listen for double clicks
 				lib.doubleClickEnabled = true;
@@ -130,6 +222,11 @@ package ui.window {
 				// add listeners
 				lib.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 				lib.addEventListener(MouseEvent.DOUBLE_CLICK, _doubleClick);
+				
+				// add
+				pane.addChild(lib);
+				
+				index++;
 			}
 		}
 
@@ -139,9 +236,9 @@ package ui.window {
 		 */
 		private function _clearControls():void {
 			
-			while (_bitmapPane.numChildren) {
+			while (pane.numChildren) {
 				
-				var lib:LibraryFilter = _bitmapPane.removeChildAt(0) as LibraryFilter;
+				var lib:LibraryFilter = pane.removeChildAt(0) as LibraryFilter;
 				lib.removeEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 				lib.removeEventListener(MouseEvent.DOUBLE_CLICK, _doubleClick);
 				
@@ -237,15 +334,19 @@ package ui.window {
 		 */
 		override public function dispose():void {
 
-			// remove policites
-			Policy.removePolicies(_normalPane);
-			Policy.removePolicies(_bitmapPane);
-
 			// remove controls
 			_clearControls();
+			
+			// remove listeners
+			allButton.removeEventListener(MouseEvent.MOUSE_DOWN, handler);
+			bitmapButton.removeEventListener(MouseEvent.MOUSE_DOWN, handler);
+			tempoButton.removeEventListener(MouseEvent.MOUSE_DOWN, handler);
 
+			allButton		= null,
+			bitmapButton	= null,
+			tempoButton		= null;
+			
 			super.dispose();
-
 		}
 	}
 }

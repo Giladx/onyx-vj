@@ -93,8 +93,6 @@ package ui.window {
 			
 			// get the start-up motd
 			Console.executeCommand('help');
-			// Console.executeCommand('help plugins');
-			// Console.executeCommand('help version');
 			Console.executeCommand('help modules');
 			
 		}

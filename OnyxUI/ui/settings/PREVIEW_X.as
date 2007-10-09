@@ -30,6 +30,6 @@
  */
 package ui.settings {
 
-	public var PREVIEW_X:int = 654;
+	public var PREVIEW_X:int = 680;
 	
 }

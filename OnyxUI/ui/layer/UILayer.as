@@ -498,7 +498,7 @@ package ui.layer {
 
 			// updates the playhead marker
 			_assetScrub.x = _layer.time * LAYER_WIDTH + SCRUB_LEFT;
-			_preview.bitmapData = _layer.rendered;
+			_preview.bitmapData = _layer.source;
 
 		}
 

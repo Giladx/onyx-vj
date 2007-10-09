@@ -45,7 +45,7 @@ package ui.window {
 					new WindowStateReg('CONSOLE',		6,		561),
 					new WindowStateReg('FILTERS',		412,	318),
 					new WindowStateReg('LAYERS',		0,		0),
-					new WindowStateReg('DISPLAY',		659,	580),
+					new WindowStateReg('DISPLAY',		680,	580),
 					new WindowStateReg('KEY MAPPING',	615,	319, 	false),
 					new WindowStateReg('SETTINGS',		200,	561),
 					new WindowStateReg('CROSSFADER',	411,	561),

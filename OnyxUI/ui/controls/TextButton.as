@@ -30,11 +30,8 @@
  */
 package ui.controls {
 	
-	import flash.display.BitmapData;
-	
 	import ui.core.UIObject;
 	import ui.styles.UI_OPTIONS;
-	import onyx.utils.GCTester;
 	
 	/**
 	 * 	Text Button

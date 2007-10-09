@@ -53,7 +53,7 @@ package ui.controls.browser {
 		/**
 		 * 	@private
 		 */
-		private static const DROP_SHADOW:Array	= [new DropShadowFilter(1,45, 0x000000,1,0,0,1)];
+		private static const DROP_SHADOW:Array	= [new DropShadowFilter(1, 45, 0x000000,1,0,0,1)];
 		
 		/**
 		 * 	@private
@@ -96,21 +96,7 @@ package ui.controls.browser {
 			addChild(_label);
 			addChild(_button);
 			
-			// draw border: choose different color for VLC files
-			var graphics:Graphics = this.graphics;
-			switch(_file.extension) {
-				case 'swf':
-				case 'onx':
-				case 'mix':
-				case 'flv':
-				case 'jpg':
-				case 'jpeg':
-				case 'png':
-				case 'mp3':
-				case 'xml':	graphics.beginFill(0x647789);
-							break;
-				default	  : graphics.beginFill(0xf0e68c);		
-			}
+			graphics.beginFill(0x45525c);
 			graphics.drawRect(0,0,48,37);
 			graphics.endFill();
 		}

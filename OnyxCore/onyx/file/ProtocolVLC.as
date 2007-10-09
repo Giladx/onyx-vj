@@ -50,10 +50,20 @@ package onyx.file {
 		public var file:String;
 		
 		/**
+         *  @private 
+         */
+		private var _client:Object;
+		
+		/**
 		 *	@constructor 
 		 */
 		public function ProtocolVLC(path:String, callback:Function, layer:ILayer):void {
+			
+			// direct access to VLC client from VLCModule
+			_client = Module.modules['VLC'].client;
+			
 			super(path, callback, layer);
+			
 		}
 		
 		/**
@@ -61,25 +71,33 @@ package onyx.file {
 		 */
 		override public function resolve():void {
 			
-			path = ROOT_PATH + path.split('vlc://')[1];
-			// VLC does not like spaces
-			path = path.split(' ').join('%20');  //verify this?????
+			// verify if VLC is connected 
+			if (!_client.isConnected) {
+				
+				Console.output('VLC is not connected');
+				dispatchContent(new Event(Event.COMPLETE), new ContentNull());
+			
+			}
+			
+			path = path.split('vlc://')[1];
+			
+			// VLC does not like spaces... (maybe better to avoid file names with spaces)
 			file = removeExtension(path).split(' ').join('_');
 			
-			var server:String	= 'localhost';
-			
+			var server:String	= _client.serverURL;
 			// broadcast/vod ...with vod cannot retrieve totaltime
             var media:String    = 'broadcast';
             			
-			// verify multiple names !!!!!!!!!!
-			var pathVLC:String = new String('http://'+ server + ':8081/' + file + '.flv');
+			// TODO: verify multiple names !!!!!!!!!!
+			var pathVLC:String = 'http://'+ server + ':8081/' + file + '.flv';
                                                             
-			//TESTING --- !!!absolutely specify the acodec or put --no-audio option in vlc         acodec=mp3,samplerate=44100
-			Console.executeCommand('VLC new ' + file + ' ' + media + ' ' + path + ' #transcode{vcodec=FLV1}:std{access=http,dst=localhost:8081/' + file + '.flv} enabled');
+			// !!! absolutely specify the acodec or put --no-audio option in vlc         acodec=mp3,samplerate=44100
+			Console.executeCommand('VLC new ' + file + ' ' + media + ' \"' + path + '\" #transcode{vcodec=FLV1}:std{access=http,dst=localhost:8081/' + file + '.flv} enabled');
 			Console.executeCommand('VLC play ' + file);
 						
 			var stream:Stream = new Stream(pathVLC);
 			stream.addEventListener(Event.COMPLETE, streamHandler);
+			stream.addEventListener(NetStatusEvent.NET_STATUS, streamHandler);
 			
 		}
 		
@@ -87,11 +105,28 @@ package onyx.file {
          *  @private
          */		
 		private function streamHandler(event:Event):void {
-			var stream:Stream = event.currentTarget as Stream;
-			stream.removeEventListener(Event.COMPLETE, streamHandler);
 			
-			dispatchContent(new Event(Event.COMPLETE), new ContentVLC(layer, path, stream));
+			if (event is NetStatusEvent) {
+				
+                var status:NetStatusEvent = event as NetStatusEvent;
+                //////
+                //Console.output(status.info.code);
+                               
+            } else if (event is Event) {
+                
+                //Console.output(event.type);
+                
+                if(event.type === Event.COMPLETE) {
+            	            	
+            	   var stream:Stream = event.currentTarget as Stream;
+                   stream.removeEventListener(Event.COMPLETE, streamHandler);
             
+                   dispatchContent(new Event(Event.COMPLETE), new ContentVLC(layer, path, stream));
+                
+                }
+            }
+                
+			
 		}
 	}
 }

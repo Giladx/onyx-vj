@@ -41,11 +41,26 @@ package onyx.content {
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.net.*;
-
-
+	import onyx.utils.string.*;
+	import onyx.plugin.Module;
+	
+	import onyx.events.TelnetEvent;
+		
+    
 	[ExcludeClass]
 	public class ContentVLC extends Content {
 		
+		/**
+         *  @private
+         *  Will contain the reference to the VLC client.
+         */
+        private var _client:Object;
+        
+		/**
+         *  @private
+         */
+        private var _file:String;
+        
 		/**
 		 * 	@private
 		 */
@@ -70,54 +85,126 @@ package onyx.content {
 		 * 	@private
 		 */
 		private var _video:Video;
-	
+		
+		/**
+		 * 	@private
+		 */
+		private var _time:Number;
+		
+		/**
+		 * 	@private
+		 */
+		private var _rate:Number;
+		
+		/**
+		 * 	@private
+		 */
+		private var _counter:Number;
+		
+		/**
+         *  @private
+         */
+        private var _request:String;
+		
 		/**
 		 * 	@constructor
 		 */
-		public function ContentVLC(layer:Layer, path:String, stream:Stream):void {
+		public function ContentVLC(layer:ILayer, path:String, stream:Stream):void {
+			
+			// direct access to VLC client from VLCModule
+            _client = Module.modules['VLC'].client;
+            _client.addEventListener(TelnetEvent.DATA, _onData);
+            
+			// VLC does not like spaces
+			_file = removeExtension(path).split(' ').join('_');
+						
+			_loopStart = 0;
+			_loopEnd = 1;
 			
 			_stream = stream;
 			_stream.addEventListener(NetStatusEvent.NET_STATUS, _onStatus);
 			
-			//Console.getInstance().vlc.getLength('ch1');
+			_video = new Video(BITMAP_WIDTH,BITMAP_HEIGHT);
+			_video.attachNetStream(_stream);
 			
-			// put this in a handler
-			//_totalTime	= Console.getInstance().vlc.length;
+			_counter = 0;
+			_request = '';
 						
-			_video		= new Video(BITMAP_WIDTH,BITMAP_HEIGHT);
-			
-			_video.attachNetStream(stream);
-			
 			super(layer, path, _video);
 			
-			
-		}
+		} 
 		
+		private function _onData(event:TelnetEvent):void {
+            
+            switch(_request) {
+                
+                case 'length'   :   _totalTime = Number(event.message);
+                                    break;
+                case 'time'     :   //_time = Number(event.message);
+                                    break;
+                case 'position' :   _time = Number(event.message);
+                                    break;
+                
+            }
+            
+            //Console.output(event.message);
+                    
+            _request = '';
+            
+        }
+        
 		/**
 		 * 
 		 */
 		private function _onStatus(event:NetStatusEvent):void {
+			
 			switch (event.info.code) {
-				case 'NetStream.Play.Complete':
 				
-					//Console.getInstance().vlc.sendCommand("control ch1 seek 0");
-					//_stream.seek(_loopStart);
-					break;
+				case 'NetStream.Seek.Notify':
+                    // get total time (length)
+                    _request = 'length';
+                    Console.executeCommand('VLC ' + _request + ' ' + _file);
+                    break;
+                    
+				case 'NetStream.Play.Start':
+					// get total time (length)
+					//Console.executeCommand('VLC length ' + _file);
+				    break;
+					
+				case 'NetStream.Play.Stop':
+					// go to 0
+					//Console.output(event.info.code);
+					
 			}
 		}
-		
+										
 		/**
 		 * 	@private
-		 * 	Updates the bimap source
+		 * 	Updates the bitmap source
 		 */
 		override public function render():RenderTransform {
 			
-			/*var time:Number = _stream.time;
-			
+			_counter++;
+
+			// il time del cursore  è tra 0 e 1
+			if(_counter/30 == 1) {
+				
+				_counter = 0;
+				
+				_request = 'position';
+	       		Console.executeCommand('VLC ' + _request + ' ' + _file);
+				
+			}
+						
 			// test loop points
-			if (time >= _loopEnd || time < _loopStart) {
+			if (_time >= _loopEnd || _time < _loopStart) {
+				
+				// set the VLC time
+	            // Console.getInstance().vlc.seek(_path, 100 * _loopStart);
+				// set the stream object time
 				_stream.seek(_loopStart);
-			}*/
+				
+			}
 			
 			return super.render();
 		}
@@ -126,7 +213,7 @@ package onyx.content {
 		 * 
 		 */
 		override public function get time():Number {
-			return _stream.time / _totalTime;
+			return _time;
 		}
 		
 		/**
@@ -134,7 +221,10 @@ package onyx.content {
 		 * 	Goes to particular time
 		 */		
 		override public function set time(value:Number):void {
+			
+			Console.executeCommand('VLC ' + ' ' + _file + ' seek ' + 100 * value);
 			_stream.seek(value * _totalTime);
+						
 		}
 		
 		/**
@@ -142,6 +232,7 @@ package onyx.content {
 		 */
 		override public function get loopStart():Number {
 			return _loopStart / _totalTime;
+			
 		}
 		
 		/**
@@ -149,7 +240,7 @@ package onyx.content {
 		 * 	Sets Loop Start
 		 */		
 		override public function set loopStart(value:Number):void {
-			_loopStart = __loopStart.dispatch(value) * _totalTime;
+			_loopStart = __loopStart.dispatch(value);// * (100 * Math.pow(_rate,2) / _totalTime); // _totalTime;
 		}
 
 		/**
@@ -164,7 +255,7 @@ package onyx.content {
 		 * 	Sets Loop Start
 		 */		
 		override public function set loopEnd(value:Number):void {
-			_loopEnd = __loopEnd.dispatch(value) * _totalTime;
+			_loopEnd = __loopEnd.dispatch(value);// * (100 * Math.pow(_rate,2) / _totalTime); // _totalTime;
 		}
 		
 		/**
@@ -172,9 +263,9 @@ package onyx.content {
 		 */
 		override public function pause(value:Boolean = false):void {
 			if (value) {
-				_stream.pause();
+	//			Console.getInstance().vlc.pause(_path);
 			} else {
-				_stream.resume();
+	//			Console.getInstance().vlc.play(_path);
 			}
 		}
 
@@ -182,7 +273,10 @@ package onyx.content {
 		 * 
 		 */
 		override public function dispose():void {
-		
+			
+			Console.executeCommand("VLC del " + _path);
+			_client.removeEventListener(TelnetEvent.DATA, _onData);
+			
 			super.dispose();
 			
 			_video.attachNetStream(null);
@@ -190,6 +284,9 @@ package onyx.content {
 			
 			_video		= null,
 			_stream		= null;
+			
+			_time		= 0;
 		}
+
 	}
 }

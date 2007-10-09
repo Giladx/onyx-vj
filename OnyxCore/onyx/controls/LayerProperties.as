@@ -76,10 +76,10 @@ package onyx.controls {
 												'y',					'y',	-5000,	5000,	0
 											);
 		public var anchorX:ControlNumber= 	new ControlInt(
-												'anchorX',				'anchorX',	-640,	640,	0
+												'anchorX',				'anchorX',	-640,	640,	BITMAP_WIDTH / 2
 											);
 		public var anchorY:ControlNumber=	new ControlInt(
-												'anchorY',				'anchorY',	-480,	480,	0
+												'anchorY',				'anchorY',	-480,	480,	BITMAP_HEIGHT / 2
 											);
 		public var framerate:Control	=	new ControlFrameRate(
 												'framerate',			'play rate'
@@ -114,7 +114,9 @@ package onyx.controls {
 												anchorX, anchorY,
 												{ invert: true }
 											);											
-		public var visible:ControlBoolean	=	new ControlBoolean('visible', 'visible', 1);
+		public var visible:ControlBoolean	= new ControlBoolean('visible', 'visible', 1);
+		
+		public var channel:ControlBoolean	= new ControlBoolean('channel', 'channel');
 													
 		/**
 		 * 	@constructor

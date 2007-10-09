@@ -81,8 +81,8 @@ package onyx.display {
 
 			x				= 0,
 			y				= 0,
-			anchorX			= 0,
-			anchorY			= 0,
+			anchorX			= BITMAP_WIDTH / 2,
+			anchorY			= BITMAP_HEIGHT / 2,
 			rotation		= 0,
 			scaleX			= 1,
 			scaleY			= 1,
@@ -151,7 +151,7 @@ package onyx.display {
 						var name:String = list.name();
 						this[name]	= String(list);
 					} catch (e:Error) {
-						trace(e);
+						Console.error(e);
 					}
 				} else {
 					for each (var child:XML in list.*) {
@@ -159,7 +159,7 @@ package onyx.display {
 							name = child.name();
 							this[name] = String(child);
 						} catch (e:Error) {
-							trace(e);
+							Console.error(e);
 						}
 					}
 				}

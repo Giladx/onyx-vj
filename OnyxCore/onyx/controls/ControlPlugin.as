@@ -50,14 +50,13 @@ package onyx.controls {
 		 * 	@private
 		 * 	This is used for serialization of the plugin
 		 */
-		private static const LOOKUP:Array	= ['filter', 'macro', 'transition', 'visualizer', 'renderer'];
+		private static const LOOKUP:Array	= ['filter', 'macro', 'transition', 'visualizer'];
 		
 		public static const FILTERS_BITMAP:int	= 0;
 		public static const FILTERS_TEMPO:int	= 5;
 		public static const MACROS:int			= 1;
 		public static const TRANSITIONS:int		= 2;
 		public static const VISUALIZERS:int		= 3;
-		public static const RENDERERS:int		= 4;
 		
 		/**
 		 * 	@private
@@ -105,10 +104,6 @@ package onyx.controls {
 					break;
 				case VISUALIZERS:
 					data = Visualizer.visualizers;
-					break;
-				case RENDERERS:
-					data = Renderer.renderers;
-					showEmpty = false;
 					break;
 			}
 			
@@ -242,9 +237,6 @@ package onyx.controls {
 					break;
 				case 'transition':
 					def = Transition.getDefinition(name);
-					break;
-				case 'renderer':
-					def = Renderer.getDefinition(name);
 					break;
 			}
 			

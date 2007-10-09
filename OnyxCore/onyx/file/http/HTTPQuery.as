@@ -39,7 +39,6 @@ package onyx.file.http {
 	
 	import onyx.file.*;
 	import onyx.jobs.*;
-	import onyx.settings.*;
 	import onyx.utils.string.*;
 
 	/**

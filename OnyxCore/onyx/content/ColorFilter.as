@@ -310,13 +310,13 @@ package onyx.content {
 		 */
 		private function matrixAdd(mat:Array):Array {
 			
-			var orig:Number, newm:Number, newMatrix:Array, matrixlength:int;
+			var newMatrix:Array, matrixlength:int, i:int, orig:Number, newm:Number;
 			
 			newMatrix		= [],
 			matrixlength	= mat.length;
 			
-			for (var i:int = 0;i < matrixlength;i++) {
-				orig = filter.matrix[i],
+			for (i = 0;i < matrixlength;i++) {
+				orig = filter.matrix[i];
 				newm = mat[i]
 				newMatrix.push(orig + newm);
 			}
@@ -328,12 +328,13 @@ package onyx.content {
 		 * 	@private
 		 */
 		private function matrixBlend(mat:Array, old:Array):Array {
-		
-			var temp:Array = [];
-			var i:int, x:int, y:int;
 			
-			for (y; y < 4; y++ ) {
-				for (x; x < 5; x++ ) {
+			var temp:Array, i:int, y:int, x:int;
+		
+			temp	= [];
+			
+			for (y = 0; y < 4; y++ ) {
+				for (x = 0; x < 5; x++ ) {
 					
 					temp[i + x] =	mat[i    ] * old[x     ] + 
 								mat[i+1] * old[x +  5] + 

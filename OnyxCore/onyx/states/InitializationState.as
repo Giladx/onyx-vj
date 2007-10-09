@@ -41,7 +41,6 @@ package onyx.states {
 	import onyx.events.*;
 	import onyx.file.*;
 	import onyx.plugin.*;
-	import onyx.settings.*;
 	import onyx.file.filters.*;
 	
 	use namespace onyx_ns;
@@ -175,7 +174,6 @@ package onyx.states {
 			Filter._filters.sortOn(field);
 			Transition._transitions.sortOn(field);
 			Macro._macros.sortOn(field);
-			Renderer._renderers.sortOn(field);
 			Visualizer._visualizers.sortOn(field);
 
 			// pause for a bit

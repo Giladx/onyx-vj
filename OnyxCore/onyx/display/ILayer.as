@@ -47,6 +47,8 @@ package onyx.display {
 
 	public interface ILayer extends IContent {
 
+		function set channel(value:Boolean):void;
+		function get channel():Boolean;
 		function get index():int;
 		function get properties():Controls;
 		function get display():IDisplay;
@@ -55,6 +57,8 @@ package onyx.display {
 		function moveLayer(index:int):void;
 
 		function load(path:String, settings:LayerSettings = null, transition:Transition = null):void;
+		
+		function get content():IContent;
 
 	}
 }

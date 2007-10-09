@@ -30,10 +30,11 @@
  */
 package onyx.display {
 	
+	import flash.display.BitmapData;
+	
 	import onyx.content.IContent;
 	import onyx.core.*;
 	import onyx.plugin.Transition;
-	import flash.events.MouseEvent;
 	
 	public interface IDisplay extends IContent, ISerializable {
 
@@ -48,15 +49,19 @@ package onyx.display {
 		function set backgroundColor(value:uint):void;
 		function get backgroundColor():uint;
 		
-		function setLayerTransition(layer:ILayer, transform:TransitionTransform):void;
-		
 		function load(path:String, layer:ILayer, transition:Transition):void;
 		
 		function moveLayer(... args:Array):void;
 		function copyLayer(layer:ILayer, index:int):void;
-		function indexOf(layer:ILayer):int;
+		function getLayerIndex(layer:ILayer):int;
 
 		function createLayers(num:int):void;
-
+		
+		function set channelMix(value:Number):void;
+		function get channelMix():Number;
+		
+		function get channelA():BitmapData;
+		function get channelB():BitmapData;
+		
 	}
 }

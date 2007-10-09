@@ -30,7 +30,7 @@
  */
 package onyx.core {
 
-	import onyx.utils.array.swap;
+	import flash.display.BitmapData;
 	
 	use namespace onyx_ns;
 	
@@ -39,10 +39,17 @@ package onyx.core {
 	 */
 	public final class Plugin {
 		
+		public static const DEFAULT:BitmapData	= new BitmapData(46,35,false,0);
+		
 		/**
 		 * 	Stores the name for the plug-in
 		 */
 		public var name:String;
+		
+		/**
+		 * 
+		 */
+		public var thumbnail:BitmapData;
 		
 		/**
 		 * 	@private
@@ -70,11 +77,12 @@ package onyx.core {
 		/**
 		 * 	@constructor
 		 */
-		public function Plugin(name:String, definition:Class, description:String = null):void {
+		public function Plugin(name:String, definition:Class, description:String, thumbnail:BitmapData = null):void {
 
 			this.name			= name,
 			this.description	= description,
-			_definition			= definition;
+			_definition			= definition,
+			this.thumbnail		= thumbnail || DEFAULT;
 
 		}
 		

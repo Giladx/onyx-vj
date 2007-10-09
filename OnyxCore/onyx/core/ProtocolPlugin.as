@@ -61,21 +61,20 @@ package onyx.core {
 			var len:int, index:int, type:String, name:String;
 			
 			// onyx-
-			len		= 10,
 			index	= path.indexOf('://');
 			
-			type	= path.substr(len, index - len),
+			type	= path.substr(0, index),
 			name	= path.substr(index + 3);
 			
 			switch (type) {
-				case 'camera':
+				case 'onyx-camera':
 					return dispatchContent(
 						new Event(Event.COMPLETE), 
 						new ContentCamera(layer, path, Camera.getCamera(
 							String(AVAILABLE_CAMERAS.indexOf(name))
 						)
 					));
-				case 'visualizer':
+				case 'onyx-visualizer':
 				
 					var plugin:Plugin = Visualizer.getDefinition(name);
 						

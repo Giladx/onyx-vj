@@ -50,7 +50,7 @@ package onyx.core {
 		rect		= transform.rect;
 		
 		// fill our source with nothing
-		source.fillRect(BITMAP_RECT, 0x00000000);
+		source.fillRect(BITMAP_RECT, 0);
 		
 		// draw our content
 		source.draw(content, matrix, filter, null, rect, true);

@@ -81,13 +81,13 @@ package onyx.core {
 		 * 	@private
 		 * 	Help information
 		 */
-		private static function HELP(... args:Array):String {
+		private static function help(... args:Array):String {
 			
 			var text:String;
 			
 			switch (args[0]) {
-				case 'COMMAND':
-				case 'COMMANDS':
+				case 'command':
+				case 'commands':
 				
 					text =	_createHeader('commands') + 'PLUGINS: SHOWS # OF PLUGINS<br>' +
 							'CLEAR: CLEARS THE TEXT<br>' +
@@ -96,18 +96,18 @@ package onyx.core {
 							'RESOLUTION: OUTPUTS THE SIZE OF THE FLASH STAGE'
 				
 					break;
-				case 'CONTRIBUTORS':
+				case 'contributors':
 					text =	'CONTRIBUTORS<br>-------------<br>DANIEL HAI: <A HREF="HTTP://WWW.DANIELHAI.COM">HTTP://WWW.DANIELHAI.COM</A>'
 					break;
-				case 'PLUGINS':
+				case 'plugins':
 					text =	Filter.filters.length + ' FILTERS, ' +
 							Transition.transitions.length + ' TRANSITIONS, ' +
 							Visualizer.visualizers.length + ' VISUALIZERS LOADED.';
 					break;
-				case 'VERSION':
+				case 'version':
 					text =	'FLASH PLUG-IN VERSION: ' + Capabilities.version;
 					break;
-				case 'MODULES':
+				case 'modules':
 					text =	'';
 					for each (var module:Module in Module.modules) {
 						text +=	module.name + ' loaded.  type ' + module.name + ' for options.<br>'
@@ -136,19 +136,19 @@ package onyx.core {
 		/**
 		 * 	Gets resolution
 		 */		
-		private static const RESOLUTION:Function = RES;
+		private static const resolution:Function = res;
 
 		/**
 		 * 	Gets resolution
 		 */		
-		private static function RES():String {
+		private static function res():String {
 			return 'RESOLUTION: ' + STAGE.stageWidth + 'x' + STAGE.stageHeight;
 		}
 		
 		/**
 		 * 	Finds out
 		 */
-		private static function STAT(... args:Array):String {
+		private static function stat(... args:Array):String {
 			
 			// does a stat job for a specified amount of time
 			var time:int = args[0] || 2;
@@ -162,7 +162,7 @@ package onyx.core {
 		/**
 		 * 
 		 */
-		private static function LAYER(... args:Array):String {
+		private static function layer(... args:Array):String {
 			
 			try {
 				

@@ -210,7 +210,8 @@ package onyx.core {
 					if (object is Filter) {
 						
 						Filter.registerPlugin(plugin);
-						plugin.registerData('effect', object is TempoFilter);
+						plugin.registerData('bitmap', object is IBitmapFilter);
+						plugin.registerData('tempo', object is TempoFilter);
 						
 					// register transition
 					} else if (object is Transition) {
@@ -220,8 +221,6 @@ package onyx.core {
 						Visualizer.registerPlugin(plugin);
 					} else if (object is Macro) {
 						Macro.registerPlugin(plugin);
-					} else if (object is Renderer) {
-						Renderer.registerPlugin(plugin);
 					} else if (object is Module) {
 						registerModule(plugin);
 					}

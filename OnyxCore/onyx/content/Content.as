@@ -42,10 +42,8 @@ package onyx.content {
 	import onyx.errors.*;
 	import onyx.events.FilterEvent;
 	import onyx.plugin.*;
-	import onyx.settings.*;
 	import onyx.tween.*;
 	import onyx.utils.array.*;
-
 	
 	[Event(name="filter_applied",	type="onyx.events.FilterEvent")]
 	[Event(name="filter_removed",	type="onyx.events.FilterEvent")]
@@ -55,6 +53,11 @@ package onyx.content {
 	use namespace onyx_ns;
 	
 	public class Content extends EventDispatcher implements IContent {
+		
+		/**
+		 * 	@private
+		 */
+		private static var CLIP_RECT:Rectangle = new Rectangle();
 		
 		/**
 		 * 	@private
@@ -136,12 +139,6 @@ package onyx.content {
 		 * 	The source
 		 */
 		protected var _source:BitmapData;
-		
-		/**
-		 * 	@private
-		 * 	Stores the rendered
-		 */
-		protected var _rendered:BitmapData;
 		
 		/**
 		 * 	@private
@@ -276,7 +273,6 @@ package onyx.content {
 			_filter			= new ColorFilter(),
 			_path  			= path,
 			_source			= BASE_BITMAP(),
-			_rendered		= BASE_BITMAP(),
 			__color			= props.color,
 			__alpha 		= props.alpha,
 			__brightness	= props.brightness,
@@ -607,22 +603,30 @@ package onyx.content {
 		 */
 		public function getTransform():RenderTransform {
 			
-			var transform:RenderTransform = new RenderTransform();
+			var transform:RenderTransform, rect:Rectangle, anchorX:Number, anchorY:Number;
+			
+			transform = new RenderTransform();
 
 			// if rotation is 0, send a clipRect, otherwise, don't clip
-			var rect:Rectangle = (_rotation === 0) ? new Rectangle(0, 0, Math.max(BITMAP_WIDTH / _scaleX, BITMAP_WIDTH), Math.max(BITMAP_HEIGHT / _scaleY, BITMAP_HEIGHT)) : null;
+			
+			if (_rotation === 0) {
+				
+				CLIP_RECT.width		= Math.max(BITMAP_WIDTH / _scaleX, BITMAP_WIDTH), 
+				CLIP_RECT.height	= Math.max(BITMAP_HEIGHT / _scaleY, BITMAP_HEIGHT);
+				rect = CLIP_RECT;
+				
+			}
 			
 			// build a matrix
 			if (!_renderMatrix) {
 				
-				// performance math functions used
-				var ANCHORX:Number = _anchorX * Math.abs(_scaleX);
-				var ANCHORY:Number = _anchorY * Math.abs(_scaleY);
+				anchorX = _anchorX * Math.abs(_scaleX),
+				anchorY = _anchorY * Math.abs(_scaleY);
 				
-				var H:Number			= Math.sqrt(Math.pow(ANCHORX,2) + Math.pow(ANCHORY,2));
-				var OFFANG:Number		= Math.atan(ANCHORY/ANCHORX);
-				var OFFROTX:Number		= ((H * Math.cos((_rotation+OFFANG))) - ANCHORX);
-				var OFFROTY:Number		= ((H * Math.sin((_rotation+OFFANG))) - ANCHORY);
+				var H:Number			= Math.sqrt(Math.pow(anchorX,2) + Math.pow(anchorY,2));
+				var OFFANG:Number		= Math.atan(anchorY/anchorX);
+				var OFFROTX:Number		= ((H * Math.cos((_rotation+OFFANG))) - anchorX);
+				var OFFROTY:Number		= ((H * Math.sin((_rotation+OFFANG))) - anchorY);
 				var OFFSCALEX:Number	= (_anchorX * (1 - _scaleX));
 				var OFFSCALEY:Number	= (_anchorY * (1 - _scaleY));
 				
@@ -663,7 +667,7 @@ package onyx.content {
 				renderContent(_source, _content, transform, _filter);
 				
 				// render filters
-				renderFilters(_source, _rendered, _filters);
+				_filters.render(_source);
 				
 			}
 
@@ -755,12 +759,6 @@ package onyx.content {
 		public function get matrix():Matrix {
 			return _matrix;
 		}
-		/**
-		 * 
-		 */
-		public function get rendered():BitmapData {
-			return _rendered;
-		}
 		
 		/**
 		 * 
@@ -809,7 +807,7 @@ package onyx.content {
 		 * 
 		 */
 		final public function applyFilter(filter:IBitmapFilter):void {
-			filter.applyFilter(_rendered);
+			filter.applyFilter(_source);
 		}
 			
 		/**
@@ -860,11 +858,9 @@ package onyx.content {
 
 			// dispose
 			_source.dispose();
-			_rendered.dispose();
 			
 			// clear references
 			_source			= null,
-			_rendered		= null,
 			_content		= null,
 			_filter			= null,
 			_filters		= null,

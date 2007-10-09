@@ -107,13 +107,14 @@ package onyx.plugin {
 		
 		/**
 		 * 	Renders content onto the source bitmap
-		 * 	@returns	Return true if Onyx should render the content, false if not
 		 */
-		public function render(content:IContent, ratio:Number):Boolean {
+		public function render(source:BitmapData, channelA:BitmapData, channelB:BitmapData, ratio:Number):void {
 			
-			content.alpha	= 1 - ratio;
+			var transform:ColorTransform = new ColorTransform(1,1,1, 1 - ratio);
+			source.draw(channelA, null, transform);
+			transform.alphaMultiplier = ratio;
+			source.draw(channelB, null, transform)
 
-			return true;
 		}
 		
 		/**

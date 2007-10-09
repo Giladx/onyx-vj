@@ -47,7 +47,6 @@ package onyx.content {
 	public interface IContent extends ITimeObject, IFilterObject, IControlObject, IColorObject, IRenderObject, IEventDispatcher {
 
 		function get source():BitmapData;
-		function get rendered():BitmapData;
 		function set matrix(value:Matrix):void;
 		function get matrix():Matrix;
 		function get path():String;

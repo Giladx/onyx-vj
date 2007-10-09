@@ -34,13 +34,14 @@ package onyx.controls {
 	import onyx.constants.*;
 	import onyx.display.*;
 	import onyx.events.ControlEvent;
+	import onyx.content.IContent;
 	
 	use namespace onyx_ns;
 	
 	/**
 	 * 	This class will display available layers and their path names.  Use this control if you'd like
 	 * 	your filter or plug-in to use another layer as its' source.  For example, once you have a layer, you can
-	 * 	read the layer.rendered (bitmapdata) or layer.source (bitmapdata before rendering filters)
+	 * 	read the layer.source (bitmapdata) or layer.source (bitmapdata before rendering filters)
 	 * 
 	 * 	@see onyx.core.IControlObject
 	 */

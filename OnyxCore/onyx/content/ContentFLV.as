@@ -165,7 +165,7 @@ package onyx.content {
 			renderContent(_source, _content, transform, _filter);
 			
 			// render filters
-			renderFilters(_source, _rendered, _filters);
+			_filters.render(_source);
 
 			// attach
 			if (_stream.connection.uri !== 'null') {

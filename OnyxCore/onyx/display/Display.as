@@ -80,12 +80,17 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private var __visible:Control;
+		private var __visible:ControlBoolean;
 		
 		/**
 		 * 	@private
 		 */
-		private var __alpha:Control;
+		private var __alpha:ControlNumber;
+		
+		/**
+		 * 	@private
+		 */
+		private var __transition:ControlPlugin;
 
 		/**
 		 * 	@private
@@ -110,65 +115,60 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private var __renderer:ControlPlugin;
+		private var _backgroundColor:uint;
 		
 		/**
 		 * 	@private
+		 * 	Channel A Bitmap
 		 */
-		private var _backgroundColor:uint;
+		private var _channelA:BitmapData;
+		
+		/**
+		 * 	@private
+		 * 	Channel B Bitmap
+		 */
+		private var _channelB:BitmapData;
+		
+		/**
+		 * 	@private
+		 * 	Channel Mix ratio
+		 */
+		private var _channelMix:Number;
 		
 		/**
 		 * 	@constructor
 		 */
 		public function Display():void {
 			
-			var plugin:Plugin = Renderer.renderers[0]; 
+			_channelMix	= 0,
+			_channelA	= new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT, false, 0),
+			_channelB	= new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT, false, 0);
 			
-			__x 		= new ControlInt('displayX', 'x', 0, 2000, STAGE.stageWidth - 320),
-			__y 		= new ControlInt('displayY', 'y', 0, 2000, 0),
-			__visible	= new ControlBoolean('visible', 'visible'),
-			__alpha		= new ControlNumber('alpha','alpha', 0, 1, 1),
-			__renderer	= new ControlPlugin('renderer',	'renderer',	ControlPlugin.RENDERERS, false, true, plugin);
-			_size		= DISPLAY_SIZES[2],
-			_filter		= new ColorFilter();
+			__x 			= new ControlInt('displayX', 'x', 0, 2000, STAGE.stageWidth - 320),
+			__y 			= new ControlInt('displayY', 'y', 0, 2000, 0),
+			__transition	= new ControlPlugin('transition', 'transition', ControlPlugin.TRANSITIONS, false, true, Transition.getDefinition('DISSOLVE')),
+			__visible		= new ControlBoolean('visible', 'show output'),
+			__alpha			= new ControlNumber('alpha','alpha', 0, 1, 1),
+			_size			= DISPLAY_SIZES[2],
+			_filter			= new ColorFilter();
 			
 			_filters	= new FilterArray(this),
 			_controls	= new Controls(this,
-				new ControlNumber(
-					'brightness',			'BRIGHT',		-1,		1,		0
-				),
-				new ControlNumber(
-					'contrast',				'CONTRAST',		-1,		2,		0
-				),
-				new ControlNumber(
-					'saturation',			'SATURATION',	0,		2,		1
-				),
-				new ControlInt(
-					'threshold',			'THRESHOLD',	0,		100,	0
-				),
-				new ControlProxy(
-					'position',				'POSITION',
-					__x,
-					__y,
-					{ invert:true }
-				),
-				new ControlColor(
-					'backgroundColor',		'BACKGROUND'
-				),
-				new ControlRange(
-					'size', 'size', DISPLAY_SIZES, DISPLAY_SIZES[0]
-				),
-				new ControlBoolean(
-					'smoothing',			'SMOOTHING',	0
-				),
+				new ControlNumber('brightness', 'BRIGHT', -1, 1, 0),
+				new ControlNumber('contrast', 'CONTRAST', -1, 2, 0),
+				new ControlNumber('saturation', 'SATURATION', 0, 2, 1),
+				new ControlInt('threshold', 'THRESHOLD', 0, 100, 0),
+				new ControlProxy('position', 'POSITION', __x, __y, true),
+				new ControlColor('backgroundColor', 'BACKGROUND'),
+				new ControlRange('size', 'size', DISPLAY_SIZES, DISPLAY_SIZES[0]),
+				new ControlBoolean('smoothing', 'SMOOTHING',	0),
+				__transition,
 				__alpha,
-				__visible,
-				__renderer
+				__visible
 			);
 			
 			// init the bitmap
-			super(
-				new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT, false, _backgroundColor), PixelSnapping.ALWAYS, true);
+			super(new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT, false, _backgroundColor), PixelSnapping.ALWAYS, true);
 			
 			// add it to the displays index
 			AVAILABLE_DISPLAYS.push(this);
@@ -227,13 +227,6 @@ package onyx.display {
 					new DisplayEvent(DisplayEvent.LAYER_CREATED, layer)
 				);
 			}
-		}
-		
-		/**
-		 * 	Call this function to apply a transition to the layer before it is rendered to the display
-		 */
-		public function setLayerTransition(layer:ILayer, transform:TransitionTransform):void {
-			DISPLAY_TRANSITIONS[layer] = transform;
 		}
 		
 		/**
@@ -352,7 +345,7 @@ package onyx.display {
 		/**
 		 * 
 		 */
-		public function indexOf(layer:ILayer):int {
+		public function getLayerIndex(layer:ILayer):int {
 			return _layers.indexOf(layer);
 		}
 		
@@ -424,8 +417,6 @@ package onyx.display {
 				super.dispatchEvent(event);
 			}
 
-			trace('remove', filter, event);
-			
 		}
 		
 		/**
@@ -648,27 +639,48 @@ package onyx.display {
 		 */
 		public function render():RenderTransform {
 			
-			var data:BitmapData = super.bitmapData;
+			var data:BitmapData, count:int, len:int, blend:String, stackA:Array, stackB:Array, layer:ILayer;
+			
+			data	= super.bitmapData,
+			stackA	= [],
+			stackB	= [];
 			
 			// lock the bitmaps so nothing updates
 			data.lock();
-		
-			// fill the display
-			data.fillRect(BITMAP_RECT, _backgroundColor);
 			
-			// loop and render
-			// TBD: raise the framerate of the root movie, and do 
-			// calculation to render different content on different frames
-			var length:int = _valid.length - 1;
+			// fill rects
+			_channelA.fillRect(BITMAP_RECT, _backgroundColor);
+			_channelB.fillRect(BITMAP_RECT, _backgroundColor);
 			
-			if (length >= 0) {
+			// loop through layers and render			
+			for (count = _valid.length - 1; count >= 0; count--) {
 				
-				// render the display using the renderer
-				(__renderer.item as Renderer).render(data, _valid);
+				layer	= _valid[count];
+				layer.render();
 				
-				// render filters onto the bitmap
-				_filters.render(data);
+				if (layer.visible) {
+					if (layer.channel) {
+						_channelB.draw(layer.source, null, null, layer.blendMode);
+					} else {
+						_channelA.draw(layer.source, null, null, layer.blendMode);
+					}
+				}
 			}
+			
+			if (_channelMix === 0) {
+				data.copyPixels(_channelA, BITMAP_RECT, POINT);
+			} else if (_channelMix === 1) {
+				data.copyPixels(_channelB, BITMAP_RECT, POINT);
+			} else {
+				
+				data.fillRect(BITMAP_RECT, _backgroundColor);
+				
+				var transition:Transition = __transition.item as Transition;
+				transition.render(data, _channelA, _channelB, _channelMix);
+			}
+			
+			// render filters onto the bitmap
+			_filters.render(data);
 			
 			// apply threshold, etc
 			data.applyFilter(data, BITMAP_RECT, POINT, _filter.filter);
@@ -676,10 +688,31 @@ package onyx.display {
 			// unlock
 			data.unlock();
 			
-			// dispatch a render event
-			// dispatchEvent(new RenderEvent());
-			
 			return null;
+		}
+		
+		/**
+		 * 	@private
+		 * 	Merges the layers into the channel, and returns the bottom most blend mode
+		 */
+		private function merge(source:BitmapData, layers:Array, data:BitmapData):void {
+			
+			var count:int, blend:String, layer:ILayer;
+			
+			data.fillRect(BITMAP_RECT, 0);
+			
+			// render stacks
+			for (count = layers.length - 1; count >= 0; count--) {
+				
+				layer = layers[count];
+				 
+				if (count === layers.length - 1) {
+					data.draw(layer.source, null, null, 'normal');
+				} else {
+					data.draw(layer.source, null, null, layer.blendMode);
+				}
+			}
+			
 		}
 
 		/**
@@ -819,7 +852,7 @@ package onyx.display {
 			var display:XML = <display />;
 			
 			// add display controls
-			display.appendChild(_controls.toXML('position', 'size', 'visible','renderer'));
+			display.appendChild(_controls.toXML('position', 'size', 'visible', 'transition'));
 			
 			// add filters
 			display.appendChild(_filters.toXML());
@@ -874,12 +907,6 @@ package onyx.display {
 		}
 
 		/**
-		 * 	Disposes the display
-		 */
-		public function dispose():void {
-		}
-
-		/**
 		 * 
 		 */
 		public function get path():String {
@@ -901,6 +928,41 @@ package onyx.display {
 				layer.dispatchEvent(event);
 			}
 			return true;
+		}
+		
+		/**
+		 * 
+		 */
+		public function set channelMix(value:Number):void {
+			_channelMix = value;
+		}
+		
+		/**
+		 * 
+		 */
+		public function get channelMix():Number {
+			return _channelMix;
+		}
+		
+		/**
+		 * 
+		 */
+		public function get channelA():BitmapData {
+			return _channelA;
+		}
+
+
+		/**
+		 * 
+		 */
+		public function get channelB():BitmapData {
+			return _channelB;
+		}
+
+		/**
+		 * 	Disposes the display
+		 */
+		public function dispose():void {
 		}
 	}
 }

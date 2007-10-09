@@ -148,15 +148,6 @@ package onyx.file {
 					}
 				
 					break;
-					
-				case 'renderer':
-				
-					plugins = Renderer.renderers;
-					
-					for each (plugin in plugins) {
-						file = new File('onyx-renderer://' + plugin.name);
-						files.push(file);
-					}
 			}
 
 			// save the cache

@@ -126,25 +126,16 @@ package onyx.content {
 								
 				return null;
 			}
-
+			
 			// render both content files
 			oldContent.render();
 			newContent.render();
 			
-			// now render the transition against both of them
-			var render_old:Boolean = _transition.render(oldContent, ratio);
-			var render_new:Boolean = _transition.render(newContent, 1 - ratio);
+			// fill, and render transition
+			_source.fillRect(BITMAP_RECT, 0);
 			
-			if (render_old) {
-				_source.copyPixels(oldContent.rendered, BITMAP_RECT, POINT);
-				
-				if (render_new) {
-					_source.draw(newContent.rendered);
-				}
-				
-			} else {
-				_source.copyPixels(newContent.rendered, BITMAP_RECT, POINT);
-			}
+			// render transition
+			_transition.render(_source, oldContent.source, newContent.source, ratio);
 			
 			return null;
 		}
@@ -409,7 +400,7 @@ package onyx.content {
 		 * 	Returns the bitmap source
 		 */
 		override public function get source():BitmapData {
-			return newContent.source;
+			return _source;
 		}
 		
 		/**
@@ -458,13 +449,6 @@ package onyx.content {
 			_transition	= null,
 			oldContent	= null,
 			newContent	= null;
-		}
-		
-		/**
-		 * 	Get the rendered
-		 */
-		override public function get rendered():BitmapData {
-			return _source;
 		}
 		
 		/**

@@ -43,7 +43,6 @@ package onyx.display{
 	import onyx.system.*;
 	import onyx.net.*;
 	import onyx.plugin.*;
-	import onyx.settings.*;
 	import onyx.utils.string.*;
 
 	[Event(name='complete',			type='flash.events.Event')]

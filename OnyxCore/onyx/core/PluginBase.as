@@ -33,7 +33,6 @@ package onyx.core {
 	import flash.events.EventDispatcher;
 	
 	import onyx.controls.*;
-	import onyx.utils.GCTester;
 	
 	use namespace onyx_ns;
 

@@ -89,7 +89,7 @@ package onyx.jobs {
 				return;
 			}
 			
-			_frames.push(_display.rendered.clone());
+			_frames.push(_display.source.clone());
 
 			_currentFrame++;
 		}

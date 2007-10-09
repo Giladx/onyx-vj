@@ -42,7 +42,6 @@ package onyx.content {
 	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.plugin.*;
-	import onyx.settings.*
 			
 	use namespace onyx_ns;
 	

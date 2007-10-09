@@ -85,6 +85,11 @@ package onyx.display {
 		private var			_properties:Controls;
 		
 		/**
+		 * 	@private
+		 */
+		private var			_channel:Boolean;
+		
+		/**
 		 * 	@constructor
 		 */
 		public function Layer():void {
@@ -601,7 +606,7 @@ package onyx.display {
 		 * 	Returns the index of the layer within the display
 		 **/
 		public function get index():int {
-			return _display.indexOf(this);
+			return _display.getLayerIndex(this);
 		}
 		
 		/**
@@ -655,13 +660,6 @@ package onyx.display {
 			return _content.render();
 		}
 		
-		/**
-		 *	Gets the bitmap after filters are rendered
-		 */
-		public function get rendered():BitmapData {
-			return _content.rendered;
-		}
-
 		/**
 		 *	Gets the source before filters are rendered
 		 */
@@ -752,7 +750,27 @@ package onyx.display {
 				_content			= NULL_LAYER;
 
 			}
-			
+		}
+		
+		/**
+		 * 	Sets whether the channel is A or B
+		 */
+		public function set channel(value:Boolean):void {
+			_channel = value;
+		}
+		
+		/**
+		 * 	Returns whether the channel is on channel A or B 
+		 */
+		public function get channel():Boolean {
+			return _channel;
+		}
+		
+		/**
+		 * 	Returns related content
+		 */
+		public function get content():IContent {
+			return _content;
 		}
 		
 		/**

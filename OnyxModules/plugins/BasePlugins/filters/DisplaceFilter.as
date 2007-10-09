@@ -32,7 +32,7 @@ package filters
 		
 		public function set layer(value:ILayer):void {
 			_layer = value;
-			_filter = new DisplacementMapFilter(value.rendered, POINT, 1, 1, 1, 1, 'wrap', 0xFF0000, 1);
+			_filter = new DisplacementMapFilter(value.source, POINT, 1, 1, 1, 1, 'wrap', 0xFF0000, 1);
 		}
 		
 		public function get layer():ILayer {

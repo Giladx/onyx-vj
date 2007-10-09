@@ -83,9 +83,9 @@ package filters {
 		
 		override public function initialize():void {
 			
-			_source		= content.source.clone();
-			_transform  = content.source.clone();
-			_mask		= content.source.clone();
+			_source		= BASE_BITMAP();
+			_transform  = BASE_BITMAP();
+			_mask		= BASE_BITMAP();
 			
 			//init controls
 			_maskIn				= .3;

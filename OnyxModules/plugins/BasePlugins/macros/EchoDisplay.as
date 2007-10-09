@@ -41,7 +41,7 @@ package macros {
 		override public function keyDown():void {
 			
 			var display:IDisplay = AVAILABLE_DISPLAYS[0];
-			filter = Filter.getFilter('ECHO FILTER');
+			filter = Filter.getFilter('ECHO');
 			display.addFilter(filter);
 			
 		}

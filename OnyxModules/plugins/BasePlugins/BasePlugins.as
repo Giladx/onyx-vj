@@ -30,6 +30,8 @@
  */
 package {
 	
+	import assets.*;
+	
 	import effects.*;
 	
 	import filters.*;
@@ -46,8 +48,6 @@ package {
 	import onyx.core.*;
 	import onyx.plugin.*;
 	
-	import renderer.*;
-	
 	import transitions.*;
 	
 	import visualizer.*;
@@ -62,31 +62,29 @@ package {
 			
 				// bitmap filters
 				// new Plugin('AutoCompose',		AutoCompose,	'AutoCompose'),
-				new Plugin('Scroller',				ConstantScroll,	'Scroll'),
-				new Plugin('Ray Of Light',			RayOfLight,		'Ray Of Light'),
-				new Plugin('Mirror Filter',			MirrorFilter,	'Mirror Filter'),
-				new Plugin('Echo Filter',			EchoFilter,		'Echo Filter'),
-				// new Plugin('Scroller',				Scroller,		'Scroller'),
-				new Plugin('Keying Filter',			KeyingFilter,	'Keys a color out'),
+				new Plugin('Scroller',				ConstantScroll,	'Scroll', new AssetScroll().bitmapData),
+				new Plugin('Ray Of Light',			RayOfLight,		'Ray Of Light', new AssetRay().bitmapData),
+				new Plugin('Mirror',				MirrorFilter,	'Mirror Filter', new AssetMirror().bitmapData),
+				new Plugin('Echo',					EchoFilter,		'Echo Filter', new AssetEcho().bitmapData),
+				new Plugin('Keying',				KeyingFilter,	'Keys a color out'),
 				new Plugin('Super Trigger',			SuperTrigger,	'Super Trigger'),
-				// new Plugin('Generic Tempo',			GenericTempo,	'Generic Tempo'),
-				new Plugin('Scroll Render',			ScrollRender,	'Scroll Render'),
+				// new Plugin('Generic Tempo',		GenericTempo,	'Generic Tempo'),
 				new Plugin('Tempo Blur',			TempoBlur,		'Tempo Blur'),
-				new Plugin('Kaliedoscope', 			Kaliedoscope,	'Kaliedoscope'),
-				new Plugin('Pixelate',				Pixelate,		'Pixelate'),
-				new Plugin('Blur Filter', 			Blur,			'Blur Filter'),
-				new Plugin('Halo Filter', 			Halo,			'Halo Filter'),
-				new Plugin('Noise Filter',			NoiseFilter,	'Noise Filter'),
-				new Plugin('Repeater Filter',		Repeater,		'Repeater Filter'),
+				new Plugin('Kaliedoscope', 			Kaliedoscope,	'Kaliedoscope', new AssetKalied().bitmapData),
+				new Plugin('Pixelate',				Pixelate,		'Pixelate', new AssetPixelate().bitmapData),
+				new Plugin('Blur', 					Blur,			'Blur Filter', new AssetBlur().bitmapData),
+				new Plugin('Halo', 					Halo,			'Halo Filter', new AssetHalo().bitmapData),
+				new Plugin('Noise',					NoiseFilter,	'Noise Filter', new AssetNoise().bitmapData),
+				new Plugin('Repeater',				Repeater,		'Repeater Filter', new AssetRepeat().bitmapData),
 				new Plugin('Alpha Effect', 			Alpha,			'Randomizes the alpha'),
 				new Plugin('Blink Effect', 			Blink,			'Randomizes the visibility'),
 				new Plugin('Frame Random', 			FrameRND,		'Randomizes Frame Rates'),
 				new Plugin('MoveScale Effect', 		MoverScaler,	'Moves and Scales Object'),
 				new Plugin('Threshold Gate', 		ThreshGate,		'Randomly Threshold'),
-				new Plugin('Displace Filter',		DisplacementMap,'Displacement Map'),
-				new Plugin('Slit Scan',				SlitScan,		'Slit Scan'),
-				new Plugin('Invert',				InvertFilter,	'Invert'),
-				new Plugin('Edge Bleed',			EdgeBlend,		'Frame Blend'),
+				new Plugin('Displace',				DisplacementMap,'Displacement Map', new AssetDisplace().bitmapData),
+				new Plugin('Slit Scan',				SlitScan,		'Slit Scan', new AssetSlit().bitmapData),
+				new Plugin('Invert',				InvertFilter,	'Invert', new AssetInvert().bitmapData),
+				new Plugin('Edge Bleed',			EdgeBlend,		'Frame Blend', new AssetEdge().bitmapData),
 				new Plugin('Pass Through',			PassThrough,	'Pass Through'),
 
 				// transitions
@@ -103,14 +101,14 @@ package {
 				new Plugin('Debugger',				Debugger,			'Debugger'),
 
 				// Macros
-				new Plugin('Framerate Increase',	FrameRateIncrease),
-				new Plugin('Framerate Decrease',	FrameRateDecrease),
-				new Plugin('Echo Display',			EchoDisplay),
-				new Plugin('Slow Down Layers',		SlowDown),
-				new Plugin('Speed Up Layers',		SpeedUp),
-				new Plugin('Buffer Display',		BufferDisplay),
-				new Plugin('Random Blend',			RandomBlend),
-				new Plugin('Display Contrast',		DisplayContrast)
+				new Plugin('Framerate Increase',	FrameRateIncrease, ''),
+				new Plugin('Framerate Decrease',	FrameRateDecrease, ''),
+				new Plugin('Echo Display',			EchoDisplay, ''),
+				new Plugin('Slow Down Layers',		SlowDown, ''),
+				new Plugin('Speed Up Layers',		SpeedUp, ''),
+				new Plugin('Buffer Display',		BufferDisplay, ''),
+				new Plugin('Random Blend',			RandomBlend, ''),
+				new Plugin('Display Contrast',		DisplayContrast, '')
 
 			];
 		}

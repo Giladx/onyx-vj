@@ -86,7 +86,7 @@ package {
 		public function render():RenderTransform {
 			
 			var transform:RenderTransform = new RenderTransform();
-			transform.content = _layer ? _layer.rendered : null;
+			transform.content = _layer ? _layer.source : null;
 			
 			return transform;
 		}

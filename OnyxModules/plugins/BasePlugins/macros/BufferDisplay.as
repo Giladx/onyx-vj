@@ -61,12 +61,12 @@ package macros {
 			if (len > 2) {
 				display.pause(true);
 				var bitmap:BitmapData = bitmaps[current++ % len] 
-				display.rendered.copyPixels(bitmap, BITMAP_RECT, POINT);
+				display.source.copyPixels(bitmap, BITMAP_RECT, POINT);
 				
 			// save every other 
 			} else {
 				if (save) {
-					bitmaps.push(display.rendered.clone());
+					bitmaps.push(display.source.clone());
 				}
 				save = !save;
 			}

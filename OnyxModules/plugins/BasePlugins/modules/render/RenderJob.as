@@ -38,7 +38,7 @@ package modules.render {
 		 * 	@private
 		 */
 		private function frame(event:Event):void {
-			var bmp:BitmapData	= display.rendered;
+			var bmp:BitmapData	= display.source;
 			var imgData:ByteArray	= bmp.getPixels(BITMAP_RECT);
 			var header:ByteArray	= new ByteArray();
 			

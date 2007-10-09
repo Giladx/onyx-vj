@@ -86,7 +86,7 @@ final class MotionModuleUI extends Sprite implements IDisposable, IControlObject
 		);
 		
 		display	= AVAILABLE_DISPLAYS[0];
-		bitmap = new Bitmap(display.rendered);
+		bitmap = new Bitmap(display.source);
 		
 		bitmap.width	= 160,
 		bitmap.height	= 120,

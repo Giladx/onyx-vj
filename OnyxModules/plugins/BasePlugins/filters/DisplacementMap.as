@@ -6,10 +6,10 @@ package filters {
 	import flash.geom.*;
 	
 	import onyx.constants.*;
+	import onyx.content.*;
 	import onyx.controls.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
-
 
 	public final class DisplacementMap extends Filter implements IBitmapFilter {
 		
@@ -46,7 +46,7 @@ package filters {
 		/**
 		 * 	@private
 		 */
-		private var _layer:ILayer;
+		private var _layer:IContent;
 		
 		/**
 		 * 	@private
@@ -81,7 +81,7 @@ package filters {
 		/**
 		 * 
 		 */
-		public function set layer(value:ILayer):void {
+		public function set layer(value:IContent):void {
 			_layer = value;
 			
 			if (value) {
@@ -97,7 +97,7 @@ package filters {
 		/**
 		 * 	@public
 		 */
-		public function get layer():ILayer {
+		public function get layer():IContent {
 			return _layer;
 		}
 		
@@ -109,7 +109,7 @@ package filters {
 			var filter:DisplacementMapFilter;
 			
 			if (_layer) {
-				filter = new DisplacementMapFilter(_layer.rendered, POINT, 4, 4, scaleX, scaleY);
+				filter = new DisplacementMapFilter(_layer.source, POINT, 4, 4, scaleX, scaleY);
 			} else {
 				filter = new DisplacementMapFilter(_bmp, POINT, 2, 4, scaleX, scaleY);
 			}

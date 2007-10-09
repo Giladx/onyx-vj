@@ -50,20 +50,18 @@ package transitions {
 		 */
 		private var _filter:Repeater = new Repeater();
 		
-		override public function render(content:IContent, ratio:Number):Boolean {
+		
+		override public function render(source:BitmapData, channelA:BitmapData, channelB:BitmapData, ratio:Number):void {
 			
-			if (ratio <= .5) {
-				
-				var amount:int = ratio * 20;
-				if (amount > 0) {
-					_filter.amount = amount;
-					content.applyFilter(_filter);
-				}
-				
-				return true;
+			// what to draw?
+			source.draw((ratio <= .5) ? channelA : channelB);
+			
+			var amount:int = ratio * 40;
+			if (amount >= 2) {
+				_filter.amount = amount;
+				_filter.applyFilter(source);
 			}
-			
-			return false;
+
 		}
 		
 	}

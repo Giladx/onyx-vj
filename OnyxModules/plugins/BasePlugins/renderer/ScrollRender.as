@@ -90,9 +90,9 @@ package renderer {
 				// render the layer
 				layer.render();
 
-				if (layer.visible && layer.rendered) {
+				if (layer.visible && layer.source) {
 					
-					source.draw(layer.rendered, matrix, null, layer.blendMode);
+					source.draw(layer.source, matrix, null, layer.blendMode);
 					
 				}
 			}

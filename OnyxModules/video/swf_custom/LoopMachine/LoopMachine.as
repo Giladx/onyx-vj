@@ -90,7 +90,7 @@ package {
 				_controls.getControl('record').value = false;
 			}
 
-			_frames[_currentFrame++] = _layer.rendered.clone();
+			_frames[_currentFrame++] = _layer.source.clone();
 		}
 
 		/**

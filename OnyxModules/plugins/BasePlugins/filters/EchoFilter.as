@@ -91,7 +91,7 @@ package filters {
 		}
 		
 		override public function initialize():void {
-			_source		= content.source.clone();
+			_source		= BASE_BITMAP();
 		}
 		
 		public function set feedAlpha(value:Number):void {

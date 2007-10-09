@@ -41,32 +41,20 @@ package transitions {
 	/**
 	 * 
 	 */
-	public final class BlurTransition extends Transition {
-		
-		/**
-		 * 	@private
-		 */
-		private var _blur:BlurFilter	= new BlurFilter(0,0);
+	public final class AdditiveTransition extends Transition {
 		
 		/**
 		 * 
 		 */
-		public function BlurTransition():void {
+		public function AdditiveTransition():void {
 			super();
 		}
 		
-		override public function render(content:IContent, ratio:Number):Boolean {
+		override public function render(source:BitmapData, channelA:BitmapData, channelB:BitmapData, ratio:Number):void {
 			
-			if (ratio <= .5) {
-				
-				var bitmap:BitmapData = content.rendered;
-				_blur.blurX = _blur.blurY = (ratio * 40) << 0;
-				bitmap.applyFilter(bitmap, BITMAP_RECT, POINT, _blur);
-				
-				return true;
-			}
-			
-			return false;
+			source.draw((ratio <= .5) ? channelA : channelB);
+			_blur.blurX = _blur.blurY = (ratio * 40) << 0;
+			source.applyFilter(source, BITMAP_RECT, POINT, _blur);
 		}
 	}
 }

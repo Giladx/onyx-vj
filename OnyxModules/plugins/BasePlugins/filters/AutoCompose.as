@@ -201,7 +201,7 @@ package {
 				}
 				
 				graphics.clear();
-				graphics.beginBitmapFill(layer.rendered, matrix);
+				graphics.beginBitmapFill(layer.source, matrix);
 				graphics.drawCircle(event.localX, event.localY, size);
 				graphics.endFill();
 			}

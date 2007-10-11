@@ -62,8 +62,9 @@ package {
 			
 				// bitmap filters
 				// new Plugin('AutoCompose',		AutoCompose,	'AutoCompose'),
-				new Plugin('Scroller',				ConstantScroll,	'Scroll', new AssetScroll().bitmapData),
-				new Plugin('Ray Of Light',			RayOfLight,		'Ray Of Light', new AssetRay().bitmapData),
+				new Plugin('Bounce',				BounceFilter,	'Bounce'),
+				new Plugin('Scroller',              ConstantScroll, 'Scroll', new AssetScroll().bitmapData),
+                new Plugin('Ray Of Light',			RayOfLight,		'Ray Of Light', new AssetRay().bitmapData),
 				new Plugin('Mirror',				MirrorFilter,	'Mirror Filter', new AssetMirror().bitmapData),
 				new Plugin('Echo',					EchoFilter,		'Echo Filter', new AssetEcho().bitmapData),
 				new Plugin('Keying',				KeyingFilter,	'Keys a color out'),
@@ -96,7 +97,7 @@ package {
 				new Plugin('SpectrumVisualizer',	SpectrumVisualizer, 'SpectrumVisualizer'),
 				
 				// Modules
-				// new Plugin('VLC',					VLCModule,		'VLC'),
+				new Plugin('VLC',					VLCModule,		'VLC'),
 				// new Plugin('Render',				RenderClient,		'RenderClient'),
 				new Plugin('Debugger',				Debugger,			'Debugger'),
 

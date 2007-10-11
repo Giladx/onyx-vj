@@ -57,12 +57,12 @@ package filters {
 		
 		public function applyFilter(bitmapData:BitmapData):void {
 			
-			if(_fwd && content.time >= content.loopEnd-0.01) {
+			if(_fwd && content.time >= content.loopEnd-0.015) {
 				
 				content.framerate = -content.framerate;
 				_fwd = false;
 			
-			} else if(!_fwd && content.time <= content.loopStart+0.01) {
+			} else if(!_fwd && content.time <= content.loopStart+0.015) {
 				
 				content.framerate = -content.framerate;
 				_fwd = true;

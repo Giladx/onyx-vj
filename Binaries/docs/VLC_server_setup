@@ -1,0 +1,78 @@
+VLC Server Setup
+
+VLC nightly build page  
+http://nightlies.videolan.org
+
+VLC release version page
+http://www.videolan.org
+
+
+0 Introduction
+Why we need VLC? Because Flash Player does not let us open/read/play video files except flv, swf
+and from the latest beta mp4,etc...   
+VLC help us because it can read almost every type of video file with generic compression/encapsulation
+and can stream as FLV in a way like FMS does; better, can do that reading local file system. 
+
+Then it's FREE and open-source ;-) 
+
+   
+1 Install VLC
+Download and install the latest VLC "nightly build" for your OS, from the link at the top of the page (we need the nightly, because the official release 
+version does not implement stream as FLV, that is in fact what we use).
+
+
+2 Run VLC
+VLC could run from command line or from desktop; for our purpose the command line version is better because let us specify
+as many option as we need.
+
+On Windows OS create a .bat file with the following line, insert the correct path to VLC
+(on other OS put the line in a script)
+
+"C:\path\to\VLC\vlc.exe" --no-mmx --no-mmxext --no-audio --extraintf telnet
+
+This way we tell VLC :
+    --no-mmx --no-mmxext    not to use mmx instructions (due to a bug, newer pc crash without it) 
+    --no-audio              save bandwidth (mandatory, actually VLCmodule does not handle audio)
+    --extraintf telnet      allow us to control VLC via telnet commands (sent out from onyx)
+
+To load VLC without the standard graphic interface put --intf telnet instead of --extraintf telnet 
+Run the .bat file                          
+
+For more VLC commands:
+http://wiki.videolan.org/index.php/VLC_command-line_help
+
+
+3 Modify files.xml
+3.1 Manually
+Insert an entry with the full path to the file, like 
+
+    <file name="vlc://C:\path\to\your/file/video.avi" thumb="thumbs/video.png" />
+  
+where the field "name" must contain the full path to the video file (\/ in the path doesn't mind)
+and "thumb" is as usual.
+
+NB: not sure at all, but is better to avoid white spaces in the path.
+
+3.2 Automatic
+Run OnyxLibrary.jar and click create: will do the job, building the xml files for your video 
+folder automatically 
+
+NB: backup xml files is useful to go back!!!!
+
+
+4 Run Onyx
+With VLC loaded run Onyx and look in the console window for the line "VLC loaded"  
+Drag your avi/mpg/etc from the browser to a layer and after a bit of delay you should have the
+movie playing in Onyx.
+
+
+5 Bugs
+Actually this is a quite buggy feature I'm trying to improve step by step. Some fine tuning 
+could be taken into account at VLC command line, some inside the Onyx module.
+
+Most of the issue is due to the fact that the stream coming out from VLC does not contain
+metadata (as happen in a normal FLV) so all the info about current video position must be
+calculated real time. At the state of the art this mean that the clip could be played only once,
+making the stuff useful only for long videos (dvd vobs too).
+Also moving the marker back and forth will result in unwanted behaviors :(
+

@@ -35,7 +35,7 @@ package modules.render {
 			switch (event.type) {
 				case Event.CONNECT:
 					if (!job) {
-						this.job = new RenderJob(socket, AVAILABLE_DISPLAYS[0]);
+						this.job = new RenderJob(socket, DISPLAY);
 					}
 					break;
 			}

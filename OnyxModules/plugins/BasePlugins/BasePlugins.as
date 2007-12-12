@@ -52,6 +52,9 @@ package {
 	
 	import visualizer.*;
 	
+	/**
+	 * 
+	 */
 	public class BasePlugins extends Sprite implements IPluginLoader {
 
 		/**
@@ -62,6 +65,7 @@ package {
 			
 				// bitmap filters
 				// new Plugin('AutoCompose',		AutoCompose,	'AutoCompose'),
+				new Plugin('Erode',					Erode,			'Erode'),
 				new Plugin('Bounce',				BounceFilter,	'Bounce'),
 				new Plugin('Scroller',              ConstantScroll, 'Scroll', new AssetScroll().bitmapData),
                 new Plugin('Ray Of Light',			RayOfLight,		'Ray Of Light', new AssetRay().bitmapData),
@@ -97,20 +101,23 @@ package {
 				new Plugin('SpectrumVisualizer',	SpectrumVisualizer, 'SpectrumVisualizer'),
 				
 				// Modules
-				new Plugin('VLC',					VLCModule,		'VLC'),
+				// new Plugin('VLC',					VLCModule,		'VLC'),
 				// new Plugin('Render',				RenderClient,		'RenderClient'),
 				new Plugin('Debugger',				Debugger,			'Debugger'),
+				// new Plugin('Midi',					LocalConnMidi,		'Midi'),
 
 				// Macros
-				new Plugin('Framerate Increase',	FrameRateIncrease, ''),
-				new Plugin('Framerate Decrease',	FrameRateDecrease, ''),
-				new Plugin('Echo Display',			EchoDisplay, ''),
-				new Plugin('Slow Down Layers',		SlowDown, ''),
-				new Plugin('Speed Up Layers',		SpeedUp, ''),
-				new Plugin('Buffer Display',		BufferDisplay, ''),
-				new Plugin('Random Blend',			RandomBlend, ''),
-				new Plugin('Display Contrast',		DisplayContrast, '')
-
+				new Plugin('Framerate Increase',	FrameRateIncrease, 'Framerate Increase'),
+				new Plugin('Framerate Decrease',	FrameRateDecrease, 'Framerate Decrease'),
+				new Plugin('Echo Display',			EchoDisplay, 'Echo Display'),
+				new Plugin('Slow Down Layers',		SlowDown, 'Slow Down Layers'),
+				new Plugin('Speed Up Layers',		SpeedUp, 'Speed Up Layers'),
+				new Plugin('Buffer Display',		BufferDisplay, 'Buffer Display'),
+				new Plugin('Random Blend',			RandomBlend, 'Random Blend'),
+				new Plugin('Display Contrast',		DisplayContrast, 'Display Contrast'),
+				new Plugin('Random MoveScale',		RandomScaleLoc, 'Random Move/Scale'),
+				new Plugin('Random FrameMacro',		RandomFrameMacro, 'Random FrameMacro'),
+				new Plugin('ResetAll',				ResetAll, 'ResetAll')
 			];
 		}
 	}

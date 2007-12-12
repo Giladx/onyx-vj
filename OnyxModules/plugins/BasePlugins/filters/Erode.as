@@ -28,74 +28,64 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package effects {
+package filters {
 	
-	import flash.events.*;
+	import flash.display.BitmapData;
+	import flash.filters.BlurFilter;
+	import flash.geom.ColorTransform;
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
-	import onyx.plugin.TempoFilter;
-	import onyx.tween.*;
-	import onyx.tween.easing.*;
+	import onyx.plugin.*;
+	import onyx.events.ControlEvent;
 
+	public final class Erode extends Filter implements IBitmapFilter {
 
-	public final class MoverScaler extends TempoFilter {
-		
-		public var mindelay:Number	= .4;
-		public var maxdelay:Number	= 1;
-		public var scaleMin:Number	= 1;
-		public var scaleMax:Number	= 1.8;
-		
-		private var tween:Tween;
-		
-		public function MoverScaler():void {
+		private var buffer:BitmapData;
+		public var preblur:Number			= 4;
 
-			super(
-				true,
-				null,
-				new ControlNumber('mindelay',	'Min Delay', .1, 50, .4),
-				new ControlNumber('maxdelay',	'Min Delay', .1, 50, 1),
-				new ControlNumber('scaleMin', 'scale min', 1, 4, 1),
-				new ControlNumber('scaleMax', 'scale max', 1, 4, 1.8)
+		/**
+		 * 	@private
+		 */
+		private var _currentBlur:Number		= 0;
+
+		/**
+		 * 	@constructor
+		 */
+		public function Erode():void {
+			
+			super(true,
+				new ControlInt('preblur', 'preblur', 0, 30, 0)
 			);
 			
 		}
 		
-		/**
-		 * 
-		 */
-		override protected function onTrigger(beat:int, event:Event):void {
+		override public function initialize():void {
+			buffer = BASE_BITMAP();
+		}
+		
+		public function applyFilter(source:BitmapData):void {
 			
-			if (event is TimerEvent) {
-				delay = (((maxdelay - mindelay) * Math.random()) + mindelay) * 1000;
+			_currentBlur	+= preblur;
+			
+			if (_currentBlur >= 2) {
+				var factor:int = _currentBlur - 2;
+				
+				_currentBlur = 0;
+				buffer.applyFilter(source, BITMAP_RECT, POINT, new BlurFilter(factor + 2,factor + 2));
 			}
 			
-			var scale:Number	= ((scaleMax - scaleMin) * Math.random()) + scaleMin;
-			var ratio:Number	= (scale - 1);
-			var x:int			= ratio * (-BITMAP_WIDTH) * Math.random();
-			var y:int			= ratio * (-BITMAP_HEIGHT) * Math.random();
+			buffer.draw(source);
+			source.fillRect(BITMAP_RECT, 0);
 			
-			tween = new Tween(
-				content, 
-				Math.max(delay * Math.random(), 32),
-				new TweenProperty('x', content.x, x),
-				new TweenProperty('y', content.y, y),
-				new TweenProperty('scaleX', content.scaleX, scale),
-				new TweenProperty('scaleY', content.scaleY, scale)
-			);
+			source.draw(buffer);
+//			source.copyPixels(buffer, BITMAP_RECT, POINT);
 
 		}
 		
-		/**
-		 * 	Dispose
-		 */
 		override public function dispose():void {
-			
-			if (tween) {
-				tween.dispose();
-			}
-
-			super.dispose();
+			buffer.dispose();
+			buffer = null;
 		}
 	}
 }

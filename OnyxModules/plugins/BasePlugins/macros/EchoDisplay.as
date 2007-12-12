@@ -34,21 +34,22 @@ package macros {
 	import onyx.display.IDisplay;
 	import onyx.plugin.*;
 
+	/**
+	 * 
+	 */
 	public final class EchoDisplay extends Macro {
 		
 		private var filter:Filter;
 		
 		override public function keyDown():void {
 			
-			var display:IDisplay = AVAILABLE_DISPLAYS[0];
 			filter = Filter.getFilter('ECHO');
-			display.addFilter(filter);
+			DISPLAY.addFilter(filter);
 			
 		}
 		
 		override public function keyUp():void {
-			var display:IDisplay = AVAILABLE_DISPLAYS[0];
-			display.removeFilter(filter);
+			DISPLAY.removeFilter(filter);
 			filter = null;
 		}
 	}

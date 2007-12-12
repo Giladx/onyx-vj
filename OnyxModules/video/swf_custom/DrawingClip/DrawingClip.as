@@ -41,6 +41,7 @@ package {
 	import onyx.core.*;
 	import onyx.plugin.*;
 	import onyx.display.*;
+	import onyx.utils.bitmap.Distortion;
 
 	/**
 	 * 	Drawing clip
@@ -49,16 +50,26 @@ package {
 	[SWF(width='320', height='240', frameRate='24')]
 	public class DrawingClip extends Sprite implements IRenderObject, IControlObject {
 		
-		public var color:uint	= 0xFFFFFF;
-		
+		public var color:uint				= 0xFFFFFF;
 		private var _source:BitmapData		= new BitmapData(BITMAP_WIDTH,BITMAP_HEIGHT,true, 0x00000000);
 		private var _controls:Controls;
+
+		public var preblur:Number			= 0;
+		private var _currentBlur:Number		= 0;
+		
+		private var _blur:BlurFilter;
+		private var _begin:Boolean			= false;
+		
+		private var lastX:int;
+		private var lastY:int;
 		
 		/**
 		 * 	@constructor
 		 */
 		public function DrawingClip():void {
+			
 			_controls = new Controls(this, 
+				new ControlNumber('preblur',	'preblur', 0, 30, 0, 10),
 				new ControlColor('color', 'color')
 			);
 			addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
@@ -70,27 +81,22 @@ package {
 		private function _mouseDown(event:MouseEvent):void {
 			addEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
 			addEventListener(MouseEvent.MOUSE_UP, _mouseUp);
-
-			_draw(event.localX, event.localY);
+			
+			lastX = event.localX;
+			lastY = event.localY;
+			
+			_mouseMove(event);
 		}
 
 		/**
 		 * 	@private
 		 */
 		private function _mouseMove(event:MouseEvent):void {
-			_draw(event.localX, event.localY);
-		}
-		
-		/**
-		 * 	@private
-		 */
-		private function _draw(x:int, y:int):void {
 			
-			var graphics:Graphics = this.graphics;
-			
-			graphics.beginFill(color);
-			graphics.drawCircle(x, y, 3);
-			graphics.endFill();
+			graphics.moveTo(lastX,lastY);
+			graphics.lineTo(event.localX,event.localY);
+			lastX = event.localX;
+			lastY = event.localY;
 		}
 
 		/**
@@ -98,14 +104,23 @@ package {
 		 */
 		public function render():RenderTransform {
 			
-			var transform:RenderTransform = RenderTransform.getTransform(this);
-			transform.content = _source;
+			_currentBlur	+= preblur;
+			
+			if (_currentBlur >= 2) {
+				var factor:int = _currentBlur - 2;
+				
+				_currentBlur = 0;
+				_source.applyFilter(_source, BITMAP_RECT, POINT, new BlurFilter(factor + 2,factor + 2));
+			}
 
-			_source.scroll(2,1);
 			_source.draw(this);
 
+			// clear
 			graphics.clear();
+			graphics.lineStyle(0, color);
 			
+			var transform:RenderTransform = RenderTransform.getTransform(this);
+			transform.content = _source;
 			return transform;
 		}
 		

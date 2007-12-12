@@ -28,74 +28,34 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package effects {
-	
-	import flash.events.*;
+package macros {
 	
 	import onyx.constants.*;
-	import onyx.controls.*;
-	import onyx.plugin.TempoFilter;
+	import onyx.display.*;
+	import onyx.plugin.*;
 	import onyx.tween.*;
-	import onyx.tween.easing.*;
 
-
-	public final class MoverScaler extends TempoFilter {
-		
-		public var mindelay:Number	= .4;
-		public var maxdelay:Number	= 1;
-		public var scaleMin:Number	= 1;
-		public var scaleMax:Number	= 1.8;
-		
-		private var tween:Tween;
-		
-		public function MoverScaler():void {
-
-			super(
-				true,
-				null,
-				new ControlNumber('mindelay',	'Min Delay', .1, 50, .4),
-				new ControlNumber('maxdelay',	'Min Delay', .1, 50, 1),
-				new ControlNumber('scaleMin', 'scale min', 1, 4, 1),
-				new ControlNumber('scaleMax', 'scale max', 1, 4, 1.8)
-			);
-			
-		}
+	public final class ResetAll extends Macro {
 		
 		/**
 		 * 
 		 */
-		override protected function onTrigger(beat:int, event:Event):void {
-			
-			if (event is TimerEvent) {
-				delay = (((maxdelay - mindelay) * Math.random()) + mindelay) * 1000;
-			}
-			
-			var scale:Number	= ((scaleMax - scaleMin) * Math.random()) + scaleMin;
-			var ratio:Number	= (scale - 1);
-			var x:int			= ratio * (-BITMAP_WIDTH) * Math.random();
-			var y:int			= ratio * (-BITMAP_HEIGHT) * Math.random();
-			
-			tween = new Tween(
-				content, 
-				Math.max(delay * Math.random(), 32),
-				new TweenProperty('x', content.x, x),
-				new TweenProperty('y', content.y, y),
-				new TweenProperty('scaleX', content.scaleX, scale),
-				new TweenProperty('scaleY', content.scaleY, scale)
-			);
-
+		override public function keyDown():void {
+			for each (var layer:ILayer in DISPLAY.layers) {
+				new Tween(
+					layer,
+					600,
+					new TweenProperty('x', layer.x, 0),
+					new TweenProperty('y', layer.y, 0),
+					new TweenProperty('scaleX', layer.scaleX, 1),
+					new TweenProperty('scaleY', layer.scaleY, 1),
+					new TweenProperty('framerate', layer.framerate, 1),
+					new TweenProperty('alpha', layer.alpha, 1)
+				)
+			}	
 		}
 		
-		/**
-		 * 	Dispose
-		 */
-		override public function dispose():void {
-			
-			if (tween) {
-				tween.dispose();
-			}
-
-			super.dispose();
+		override public function keyUp():void {
 		}
 	}
 }

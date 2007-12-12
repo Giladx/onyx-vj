@@ -31,7 +31,6 @@
 package filters {
 	
 	import flash.display.BitmapData;
-	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.filters.BlurFilter;
 	import flash.geom.Point;
@@ -46,7 +45,7 @@ package filters {
 	
 	use namespace onyx_ns;
 
-	public final class BounceFilter extends TempoFilter implements IBitmapFilter {
+	public final class BounceFilter extends Filter implements IBitmapFilter {
 		
 		private var _fwd:Boolean = true;
 		
@@ -56,32 +55,20 @@ package filters {
 				
 		}
 		
-		/**
-         * 
-         */
-        override protected function onTrigger(beat:int, event:Event):void {
-        	//content.framerate = -content.framerate;
-            //_fwd != _fwd;
-        }
-        
 		public function applyFilter(bitmapData:BitmapData):void {
 			
-            // check playhead consistency
-			if( (content.framerate<0 && _fwd) || (content.framerate>0 && !_fwd) ) {
-			     content.framerate = -content.framerate;
-			}
-			     
-			if( _fwd && content.time >= content.loopEnd-(0.018*(1+content.framerate/2)) ) {
+			if(_fwd && content.time >= content.loopEnd-0.01) {
 				
 				content.framerate = -content.framerate;
 				_fwd = false;
 			
-			} else if( !_fwd && content.time <= content.loopStart+(0.018*(1-content.framerate/2)) ) {
+			} else if(!_fwd && content.time <= content.loopStart+0.01) {
 				
 				content.framerate = -content.framerate;
 				_fwd = true;
-
-			} 
+			
+			}
+				
 		}
 		
 		override public function dispose():void {

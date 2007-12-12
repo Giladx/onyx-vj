@@ -43,12 +43,12 @@ package macros {
 		
 		override public function keyDown():void {
 			
-			var display:IDisplay	= AVAILABLE_DISPLAYS[0];
+			var display:IDisplay	= DISPLAY;
 			display.contrast		= 2;
 		}
 		override public function keyUp():void {
 			
-			var display:IDisplay	= AVAILABLE_DISPLAYS[0];
+			var display:IDisplay	= DISPLAY;
 			display.contrast		= 0;
 		}
 		

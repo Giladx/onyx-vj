@@ -118,14 +118,6 @@ package modules.VLC {
             
         }
         
-        public function isConnected():Boolean {
-            if(_status == 'connected') {
-            	return true;
-            } else {
-            	return false;
-            }
-        }
-        
         /**
         *  show VLC telnet specific commands help.
         **/   

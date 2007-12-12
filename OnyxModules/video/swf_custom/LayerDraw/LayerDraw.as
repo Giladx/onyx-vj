@@ -22,7 +22,8 @@ package {
 		public var size:int				= 50;
 		public var followMouse:Boolean;
 		
-		private var _blur:BlurFilter;
+		public var preblur:Number			= 0;
+		private var _currentBlur:Number		= 0;
 		
 		public function LayerDraw():void {
 			color	= new ColorTransform();
@@ -43,18 +44,6 @@ package {
 			addEventListener(Event.ENTER_FRAME, enterFrame);
 			
 			addChild(bitmap);
-		}
-		
-		public function set preblur(value:int):void {
-			if (value > 0) {
-				_blur = new BlurFilter(value, value);
-			} else {
-				_blur = null;
-			}
-		}
-		
-		public function get preblur():int {
-			return _blur ? _blur.blurX : 0; 
 		}
 		
 		public function clear():void {
@@ -96,9 +85,14 @@ package {
 		
 		private function enterFrame(event:Event):void {
 			var source:BitmapData	= this.bitmap.bitmapData;
+
+			_currentBlur	+= preblur;
 			
-			if (_blur) {
-				source.applyFilter(source, BITMAP_RECT, POINT, _blur);
+			if (_currentBlur >= 2) {
+				var factor:int = _currentBlur - 2;
+				
+				_currentBlur = 0;
+				source.applyFilter(source, BITMAP_RECT, POINT, new BlurFilter(factor + 2,factor + 2));
 			}
 			
 			source.draw(shape, null, color, mode);

@@ -33,8 +33,7 @@ package macros {
 	import flash.utils.Dictionary;
 	
 	import onyx.constants.*;
-	import onyx.display.IDisplay;
-	import onyx.display.Layer;
+	import onyx.display.*;
 	import onyx.plugin.*;
 
 	public final class SpeedUp extends Macro {
@@ -43,11 +42,11 @@ package macros {
 		
 		override public function keyDown():void {
 			
-			var display:IDisplay = AVAILABLE_DISPLAYS[0];
+			var display:IDisplay = DISPLAY;
 			
 			hash = new Dictionary(true);
 			
-			for each (var layer:Layer in display.layers) {
+			for each (var layer:ILayer in display.layers) {
 				hash[layer]		= layer.framerate;
 				layer.framerate *= 3;
 			}
@@ -55,9 +54,9 @@ package macros {
 		
 		override public function keyUp():void {
 			
-			var display:IDisplay = AVAILABLE_DISPLAYS[0];
+			var display:IDisplay = DISPLAY;
 			
-			for each (var layer:Layer in display.layers) {
+			for each (var layer:ILayer in display.layers) {
 				layer.framerate = hash[layer] || 1;
 				delete hash[layer];
 			}

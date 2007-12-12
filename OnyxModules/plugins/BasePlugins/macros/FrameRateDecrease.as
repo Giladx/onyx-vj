@@ -39,7 +39,7 @@ package macros {
 		
 		override public function keyDown():void {
 			
-			var display:IDisplay = AVAILABLE_DISPLAYS[0];
+			var display:IDisplay = DISPLAY;
 			for each (var layer:ILayer in display.layers) {
 				layer.framerate -= .5;
 			}

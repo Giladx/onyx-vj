@@ -66,41 +66,44 @@
 			<color>0xffffff</color>
 		</swatch>
 		
-		<!-- MACROS -->
-		<macro>
-			<action_1>ECHO DISPLAY</action_1>
-			<action_2>SLOW DOWN LAYERS</action_2>
-			<action_3>SPEED UP LAYERS</action_3>
-			<action_4>BUFFER DISPLAY</action_4>
-			<action_5>RANDOM BLEND</action_5>
-			<action_6>DISPLAY CONTRAST</action_6>
-			<action_7></action_7>
-			<action_8></action_8>
-			<action_9></action_9>
-			<action_10></action_10>
-			<action_11>FRAMERATE DECREASE</action_11>
-			<action_12>FRAMERATE INCREASE</action_12>
-		</macro>
-		
-		<!-- KEY MAPPING
 		<keys>
-			<SELECT_PAGE_0>81</SELECT_PAGE_0>
-			<SELECT_PAGE_1>87</SELECT_PAGE_1>
-			<SELECT_PAGE_2>69</SELECT_PAGE_2>
-			<SELECT_FILTER_UP>38</SELECT_FILTER_UP>
-			<SELECT_FILTER_DOWN>40</SELECT_FILTER_DOWN>
-			<SELECT_LAYER_PREV>37</SELECT_LAYER_PREV>
-			<SELECT_LAYER_NEXT>39</SELECT_LAYER_NEXT>
-			<SELECT_PAGE_0>81</SELECT_PAGE_0>
-			<SELECT_PAGE_1>87</SELECT_PAGE_1>
-			<SELECT_PAGE_2>69</SELECT_PAGE_2>
-			<SELECT_LAYER_0>49</SELECT_LAYER_0>
-			<SELECT_LAYER_1>50</SELECT_LAYER_1>
-			<SELECT_LAYER_2>51</SELECT_LAYER_2>
-			<SELECT_LAYER_3>52</SELECT_LAYER_3>
-			<SELECT_LAYER_4>53</SELECT_LAYER_4>
+			<!-- BASE UI MACROS -->
+			<key code="37">SELECTLAYERPREVIOUS</key>
+			<key code="39">SELECTLAYERNEXT</key>
+			<key code="49">SELECTLAYER0</key>
+			<key code="50">SELECTLAYER1</key>
+			<key code="51">SELECTLAYER2</key>
+			<key code="52">SELECTLAYER3</key>
+			<key code="53">SELECTLAYER4</key>
+			<key code="81">SELECTPAGE0</key>
+			<key code="87">SELECTPAGE1</key>
+			<key code="69">SELECTPAGE2</key>
+			<key code="38">SELECTFILTERUP</key>
+			<key code="40">SELECTFILTERDOWN</key>
+			
+			<key code="90">MUTELAYER0</key>
+			<key code="88">MUTELAYER1</key>
+			<key code="67">MUTELAYER2</key>
+			<key code="86">MUTELAYER3</key>
+			<key code="66">MUTELAYER4</key>
+
+			<key code="188">CYCLEBLENDUP</key>
+			<key code="190">CYCLEBLENDDOWN</key>
+			<key code="191">RESETLAYER</key>
+
+			<!-- CUSTOM MACROS -->
+			<key code="112">ECHO DISPLAY</key>
+			<key code="113">SLOW DOWN LAYERS</key>
+			<key code="114">SPEED UP LAYERS</key>
+			<key code="115">BUFFER DISPLAY</key>
+			<key code="116">RANDOM BLEND</key>
+			<key code="117">DISPLAY CONTRAST</key>
+			<key code="118">RANDOM MOVESCALE</key>
+			<key code="119">RANDOM FRAMEMACRO</key>
+			<key code="120">RESETALL</key>
+			<key code="122">FRAMERATE DECREASE</key>
+			<key code="123">FRAMERATE INCREASE</key>
 		</keys>
-		 -->
 		
 		<!-- THE DIFFERENT INTERFACE STATES -->
 		<states startup-state="DEFAULT">

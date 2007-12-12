@@ -62,11 +62,11 @@ package onyx.core {
 		internal static function execute(name:String, args:Array):Object {
 			
 			var method:Function = Command[name];
-			var module:Module	= _modules[name];
+			var module:Module	= _modules[name.toUpperCase()];
 			
 			try {
 				if (method !== null) {
-					var message:String = method.apply(null, args);
+					var message:String = method.apply(Command, args);
 				} else if (module !== null) {
 					message = ((args.length > 0) ? '' : _createHeader(name)) + module.command.apply(module, args);
 				}
@@ -160,13 +160,13 @@ package onyx.core {
 		}
 		
 		/**
-		 * 
+		 * 	@private
 		 */
 		private static function layer(... args:Array):String {
 			
 			try {
 				
-				var display:IDisplay	= AVAILABLE_DISPLAYS[0];
+				var display:IDisplay	= DISPLAY;
 				var layer:ILayer		= display.layers[args[0]];
 				
 				layer[args[1]] = args[2];

@@ -36,12 +36,11 @@ package onyx.file.http {
 	 * 	Adapter for http / local-without-networking
 	 */
 	public final class HTTPAdapter extends FileAdapter {
-
+		
 		/**
 		 * 	@constructor
 		 */		
-		public function HTTPAdapter(initial_dir:String = ''):void {
-			super(initial_dir);
+		public function HTTPAdapter():void {
 		}
 		
 		/**

@@ -30,24 +30,12 @@
  */
 package onyx.file {
 	
-	import flash.events.EventDispatcher;
+	
 	
 	/**
 	 * 	Base class for file-access
 	 */
-	public class FileAdapter extends EventDispatcher {
-		
-		/**
-		 * 	Initial directory that application starts in
-		 */
-		public var INITIAL_DIR:String;
-		
-		/**
-		 * 	@constructor
-		 */
-		public function FileAdapter(dir:String):void {
-			INITIAL_DIR = dir;
-		}
+	public class FileAdapter {
 		
 		/**
 		 * 	Queries a directory

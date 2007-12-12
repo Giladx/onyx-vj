@@ -53,6 +53,8 @@ package onyx.display {
 	[Event(name="layer_loaded",		type="onyx.events.LayerEvent")]
 	[Event(name="layer_moved",		type="onyx.events.LayerEvent")]
 	[Event(name="progress",			type="flash.events.Event")]
+	
+	[ExcludeClass]
 
 	/**
 	 * 	Layer is the base media for all video objects
@@ -122,7 +124,7 @@ package onyx.display {
 				loader.addEventListener(Event.COMPLETE,						_onContentStatus);
 				loader.addEventListener(IOErrorEvent.IO_ERROR,				_onContentStatus);
 				loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR,	_onContentStatus);
-				loader.addEventListener(ProgressEvent.PROGRESS,				_forwardEvents);
+				loader.addEventListener(ProgressEvent.PROGRESS,				super.dispatchEvent);
 				
 				// load
 				loader.load(path, settings, transition, this);
@@ -144,7 +146,7 @@ package onyx.display {
 			loader.removeEventListener(Event.COMPLETE,						_onContentStatus);
 			loader.removeEventListener(IOErrorEvent.IO_ERROR,				_onContentStatus);
 			loader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR,	_onContentStatus);
-			loader.removeEventListener(ProgressEvent.PROGRESS,				_forwardEvents);
+			loader.removeEventListener(ProgressEvent.PROGRESS,				super.dispatchEvent);
 			
 			// check for error
 			if (error) {
@@ -198,10 +200,10 @@ package onyx.display {
 			_content = content;
 			
 			// listen for events to forward			
-			_content.addEventListener(FilterEvent.FILTER_APPLIED,		_forwardEvents);
-			_content.addEventListener(FilterEvent.FILTER_MUTED,			_forwardEvents);
-			_content.addEventListener(FilterEvent.FILTER_MOVED,			_forwardEvents);
-			_content.addEventListener(FilterEvent.FILTER_REMOVED,		_forwardEvents);
+			_content.addEventListener(FilterEvent.FILTER_APPLIED,		super.dispatchEvent);
+			_content.addEventListener(FilterEvent.FILTER_MUTED,			super.dispatchEvent);
+			_content.addEventListener(FilterEvent.FILTER_MOVED,			super.dispatchEvent);
+			_content.addEventListener(FilterEvent.FILTER_REMOVED,		super.dispatchEvent);
 			_content.addEventListener(TransitionEvent.TRANSITION_END,	_endTransition);
 
 			// apply settings
@@ -241,10 +243,10 @@ package onyx.display {
 				_content.dispose();
 	
 				// removes listener forwarding
-				_content.removeEventListener(FilterEvent.FILTER_APPLIED,	_forwardEvents);
-				_content.removeEventListener(FilterEvent.FILTER_MOVED,		_forwardEvents);
-				_content.removeEventListener(FilterEvent.FILTER_REMOVED,	_forwardEvents);
-				_content.removeEventListener(FilterEvent.FILTER_MUTED,		_forwardEvents);
+				_content.removeEventListener(FilterEvent.FILTER_APPLIED,	super.dispatchEvent);
+				_content.removeEventListener(FilterEvent.FILTER_MOVED,		super.dispatchEvent);
+				_content.removeEventListener(FilterEvent.FILTER_REMOVED,	super.dispatchEvent);
+				_content.removeEventListener(FilterEvent.FILTER_MUTED,		super.dispatchEvent);
 				
 			}
 		}
@@ -260,15 +262,6 @@ package onyx.display {
 			// create the content
 			_createContent(event.content, null);
 
-		}
-		
-		
-		/**
-		 * 	@private
-		 * 	Listens for events and forwards them
-		 */
-		private function _forwardEvents(event:Event):void {
-			super.dispatchEvent(event);
 		}
 		
 		/**
@@ -529,26 +522,28 @@ package onyx.display {
 		 * 
 		 */
 		public function get anchorX():int {
-			return 0;
+			return _content.anchorX;
 		}
 		
 		/**
 		 * 
 		 */
 		public function set anchorX(value:int):void {
+			_content.anchorX = value;
 		}
 		
 		/**
 		 * 
 		 */
 		public function get anchorY():int {
-			return 0;
+			return _content.anchorY;
 		}
 		
 		/**
 		 * 
 		 */
 		public function set anchorY(value:int):void {
+			_content.anchorY = value;
 		}
 
 		/**

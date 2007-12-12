@@ -99,14 +99,14 @@ package onyx.controls {
 		 * 	Returns min value
 		 */
  		public function get min():* {
- 			return _min
+ 			return _min;
  		}
  		
 		/**
 		 * 	Returns max value
 		 */
  		public function get max():* {
- 			return _max
+ 			return _max;
  		}
  		
  		/**

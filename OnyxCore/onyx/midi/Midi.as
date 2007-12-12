@@ -30,276 +30,127 @@
  */
 package onyx.midi {
 	
-	import flash.events.*;
-	import flash.utils.*;
+	import flash.events.EventDispatcher;
+	import flash.utils.Dictionary;
 	
-	import onyx.constants.*;
-	import onyx.content.*;
 	import onyx.controls.*;
-	import onyx.display.Display;
-	import onyx.errors.*;
-	import onyx.events.*;
-	import onyx.display.*;
-	import onyx.net.*;
-
-
- 	/**
- 	 * 	Base Midi Class
- 	 */
-	public class Midi {
+	import onyx.events.MidiEvent;
+	
+	/**
+	 * 
+	 */
+	final public class Midi extends EventDispatcher {
 		
-		/*
-		extends EventDispatcher implements IControlObject
-
-		private var _controls:Controls;
-
-		private var _client:IMidiDispatcher;
+		/**
+		 * 	Instance
+		 */
+		public static const instance:Midi		= new Midi();
 		
-		private var _map:Array = new Array();
-
+		/**
+		 * 	@private
+		 */
+		private static const REUSABLE:MidiEvent	= new MidiEvent();
+		
+		/**
+		 * 	@private
+		 */
+		private static var _map:Dictionary;
+		
+		/**
+		 * 	@constructor
+		 */
 		public function Midi():void {
-			
-			// DEBUG::START (these lines get removed by the ant build)
-			if (MIDI) {
-				throw INVALID_CLASS_CREATION;
+			if (instance) {
+				throw new Error('');
 			}
-			// DEBUG::END
 			
-			/*
-			_controls = new Controls(this,
-				new ControlRange('listen', 'midi control', BOOLEAN)
-			);
-			_controls = new Controls(this);
+			_map = new Dictionary(false);
 		}
 		
-		/**
-		 * 	Register layers to listen for
-		public function registerLayers(layers:Array):void {
-			for each (var layer:ILayer in layers) {
-				layer.addEventListener(LayerEvent.LAYER_UNLOADED,_layerUnloaded);
-			}
-		}
-		
-		/**
-		 * 	@private
-		private function _layerUnloaded(event:LayerEvent):void {
-			
-			/*
-			
-			var target:Layer = event.currentTarget as Layer;
-			var disp:Display = AVAILABLE_DISPLAYS[0];
-			
-			target.removeEventListener(LayerEvent.LAYER_UNLOADED,_layerUnloaded);
-			
-			var layers:Array = disp.layers;
-			for (var i:int=0; i<layers.length; i++){
-				if (target == layers[i])
-					break;
-			}
-			if (i == layers.length){
-				trace("Couldn't find layer in _layerUnloaded!?");
-				return;
-			}
-			// Remove maps for any constrols whose name begin
-			// with this layer name.
-			var layerName:String = i.toString();
-			var lookfor:String = layerName + ".";
-			for each (var m:MidiMap in _map) {
-				var nm:String = disp.getNameOfControl(m.control);
-				if ( nm.indexOf(lookfor) >= 0 ) {
-					_removeMapForControl(m.control);
-				}
-			}
-		}
-		
-		/**
-		 * 	Starts listening for midi events
-		public function start():void {
-			_client.addEventListener(MidiMsg.NOTEON, _onNoteonoff);
-			_client.addEventListener(MidiMsg.NOTEOFF, _onNoteonoff);
-			_client.addEventListener(MidiMsg.CONTROLLER, _onController);
-//			_client.connect();
-		}
-		
-		/**
-		 * 	Stops listening for midi events
-		public function stop():void {
-			_client.removeEventListener(MidiMsg.NOTEON, _onNoteonoff);
-			_client.removeEventListener(MidiMsg.NOTEOFF, _onNoteonoff);
-			_client.removeEventListener(MidiMsg.CONTROLLER, _onController);
-		}
-		
-		/**
-		 * 	@private
-		 * 	Remove map (need documentation)
-		private function _removeMapForControl(c:Control):void {
-			for ( var i:int = 0; i<_map.length; i++ ) {
-				if ((_map[i] as MidiMap).control == c) {
-						break;
-				}
-			}
-			if ( i < _map.length) {
-				_map.splice(i,1);
-			}
-		}
+		// RAW_DATA,0,1391,176,51,50
+		// byte 1: device index
+		// byte 2-3
 		
 		/**
 		 * 
-		private function _onController(e:MidiEvent):void {
-			for each (var m:MidiMap in _map) {
-				if ( m is MidiMapController ) {
-					if ( ! m.matchesEvent(e) || m.control == null ) {
-						continue;
-					}
-					var mc:MidiController = e.midimsg as MidiController;
-					var f:Number = mc.value / 127.0;
-					var c:Control = m.control;
-					if ( c is ControlNumber ) {
-						var cn:ControlNumber = c as ControlNumber;
-						cn.value = cn.min + (cn.max - cn.min) * f;
-					} else if ( c is ControlInt ) {
-						var ci:ControlInt = c as ControlInt;
-						ci.value = ci.min + (ci.max - ci.min) * f;
-					} else if ( c is ControlRange ) {
-						// TBD: DH: I removed control range min and mix
-						// this should use the DropDown.index;
-						// midi should actually live in the UI
-						
-						// var cd:ControlRange = c as ControlRange;
-						// var i:int = int(round(cd.min + (cd.max - cd.min) * f));
-						// cd.value = cd.data[i];
-					} else if ( c is ControlExecute ) {
-						// For MIDI controllers attached to an execute control (i.e. 
-						// a pushbutton), it will only fire if the controller matches
-						// the exact control value that was learned.
-						var ce:ControlExecute = c as ControlExecute;
-						ce.execute();
-					} else {
-						throw "MidiMapController doesn't know how to handle that type of control";
-					}
-				}
+		 */
+		public static function receiveMessage(deviceIndex:int, command:int, midiControl:int, value:int):void {
+			
+			var hash:uint, behavior:IMidiControlBehavior;
+			
+			// create the hash
+			hash		= deviceIndex << 16 | command << 8 | midiControl;
+			behavior	= _map[hash]; 
+
+			if (behavior) {
+				behavior.setValue(value);
 			}
-		}
-		
-		public function _onNoteonoff(e:MidiEvent):void {
-			var noteoff:MidiNoteOff = e.midimsg as MidiNoteOff;
-			for each (var m:MidiMap in _map) {
-				if ( m is MidiMapNoteOff ) {
-					if ( ! m.matchesEvent(e) || m.control == null ) {
-						continue;
-					}
-					var c:Control = m.control;
-					if ( c is ControlExecute ) {
-						var ce:ControlExecute = c as ControlExecute;
-						ce.execute();
-					} else {
-						throw "MidiMapNote doesn't know how to handle that type of control";
-					}
-				}
+			
+			if (instance.hasEventListener(MidiEvent.DATA)) {
+			
+				REUSABLE.deviceIndex	= deviceIndex,
+				REUSABLE.command		= command,
+				REUSABLE.control		= midiControl,
+				REUSABLE.value			= value;
+				
+				instance.dispatchEvent(REUSABLE);
+				
 			}
-		}
+		}	
 		
 		/**
-		 *  public
-		public function registerController(c:Control, e:MidiEvent):void {
-			var any:Boolean = true;
-			// If we're registering something that is triggered,
-			// we don't want to match *any* controller messages, we
-			// just want to match the exact value of this one.
-			if ( c is ControlExecute ) {
-				any = false;
-			}
-			var m:MidiMapController = new MidiMapController(
-				e.deviceIndex, any, e.midimsg as MidiController);
-			_registerMap(c,m);
-		}
-		
-		public function registerNoteOn(c:Control, di:uint, n:MidiNoteOn):void {
-			_registerMap(c,new MidiMapNoteOn(di, n));
-		}
-		
-		public function registerNoteOff(c:Control, di:uint, n:MidiNoteOff):void {
-			_registerMap(c,new MidiMapNoteOff(di, n));
-		}
-		
-		public function dispose():void {
-			stop();
-		}
-		
-		public function get controls():Controls {
-			return _controls;
-		}
-		
-		public function toXML():XML {
+		 * 
+		 */
+		public static function registerControl(control:Control, deviceIndex:int, command:int, midiControl:int):void {
 			
-			/*
-			var disp:Display = AVAILABLE_DISPLAYS[0];
-			var x:XML = <midi/>;
-			for each (var m:MidiMap in _map) {
-				var fullControlname:String = disp.getNameOfControl(m.control);
-				if (fullControlname == null) {
-					trace("Unable to find name of control!? ",m.control);
-					continue;
-				}
-				if ( m is MidiMapController ) {
-					var mc:MidiMapController = m as MidiMapController;
-					x.appendChild( <mapcontroller>
-								<control>{fullControlname}</control>
-								<deviceIndex>{mc.deviceIndex}</deviceIndex>
-								<channel>{mc.channel}</channel>
-								<controller>{mc.controller}</controller>
-								<value>{mc.value}</value>
-								<anyvalue>{mc.anyvalue}</anyvalue>
-								</mapcontroller> );
-				} else if ( m is MidiMapNoteOn ) {
-					var mon:MidiMapNoteOn = m as MidiMapNoteOn;
-					x.appendChild( <mapnoteon>
-								<control>{fullControlname}</control>
-								<deviceIndex>{mon.deviceIndex}</deviceIndex>
-								<channel>{mon.note.channel}</channel>
-								<pitch>{mon.note.pitch}</pitch>
-								</mapnoteon> );
-				} else if ( m is MidiMapNoteOff) {
-					var moff:MidiMapNoteOff = m as MidiMapNoteOff;
-					x.appendChild( <mapnoteoff>
-								<deviceIndex>{moff.deviceIndex}</deviceIndex>
-								<channel>{moff.note.channel}</channel>
-								<pitch>{moff.note.pitch}</pitch>
-								<control>{fullControlname}</control>
-								</mapnoteoff> );
-				}
+			// based on the control and the command type, create behaviors
+			var behavior:IMidiControlBehavior;
+
+			// create the hash
+			var hash:uint = deviceIndex << 16 | command << 8 | midiControl;
+			
+			/*	0x80: Note Off
+				0x90: Note On
+				0xa0: Polyphonic key pressure
+				0xb0: control change
+				0xc0: program change
+				0xd0: key pressure
+				0xe0: pitch wheel
+				0xf0: System message
+			*/
+			switch (command) {
+				
+				// toggle messages -- need to add note on, note off behavior
+				case 0x80:
+				case 0x90:
+				
+					if (control is ControlExecute) {
+						behavior = new ExecuteBehavior(control as ControlExecute);
+					}
+
+					_map[hash] = behavior;
+
+					break;
+					
+				// slider value messages
+				case 0xb0: // control change
+				case 0xe0: // pitch wheel
+
+					if (control is ControlNumber) {
+						behavior = new NumericBehavior(control as ControlNumber);
+					} else if (control is ControlRange) {
+						behavior = new NumericRange(control as ControlRange);
+					}
+				
+					_map[hash] = behavior;
+			
+					return;
+					
+				// system message -- what to do?
+				case 0xf0:
+					break;
 			}
-			return x;
-			return null;
+			
 		}
-		
-		public function loadXML(xml:XMLList):void {
-			var x:XML;
-			for each (x in xml.mapcontroller) {
-				_registerMapByName(x.control,MidiMapController.fromXML(x));
-			}
-			for each (x in xml.mapnoteon) {
-				_registerMapByName(x.control,MidiMapNoteOn.fromXML(x));
-			}
-			for each (x in xml.mapnoteoff) {
-				_registerMapByName(x.control,MidiMapNoteOff.fromXML(x));
-			}
-		}
-		
-		private function _registerMap(c:Control, m:MidiMap):void {
-			_removeMapForControl(c);
-			m.control = c;
-			_map.push(m);
-		}
-		
-		private function _registerMapByName(controlName: String, m:MidiMap):void {
-			/* var display:Display = AVAILABLE_DISPLAYS[0];
-			var c:Control = display.getControlByName(controlName);
-			if ( c == null ) {
-				throw "Unable to find control="+controlName;
-			}
-			_registerMap(c,m);
-		}
-		*/
 	}
 }

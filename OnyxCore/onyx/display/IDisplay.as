@@ -63,5 +63,6 @@ package onyx.display {
 		function get channelA():BitmapData;
 		function get channelB():BitmapData;
 		
+		function getLayer(index:int):ILayer;
 	}
 }

@@ -44,11 +44,17 @@ package onyx.file.http {
 		private var paths:Array;
 		private var files:Array;
 		
+		/**
+		 * 	@constructor
+		 */
 		public function HTTPThumbnailJob(paths:Array, files:Array):void {
 			this.paths = paths;
 			this.files = files;
 		}
 		
+		/**
+		 * 
+		 */
 		override public function initialize(...args):void {
 			
 			while (paths.length) {
@@ -66,6 +72,9 @@ package onyx.file.http {
 			}
 		}
 		
+		/**
+		 * 
+		 */
 		private function _onComplete(event:Event):void {
 			var info:LoaderInfo		= event.currentTarget as LoaderInfo;
 			var loader:ThumbLoader	= info.loader as ThumbLoader;

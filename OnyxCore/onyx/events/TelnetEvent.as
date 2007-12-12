@@ -32,7 +32,7 @@ package onyx.events {
 	
 	import flash.events.Event;
 
-	public class TelnetEvent extends Event {
+	final public class TelnetEvent extends Event {
 		
 		/**
 		 * 	@private

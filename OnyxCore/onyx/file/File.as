@@ -61,7 +61,7 @@ package onyx.file {
 		/**
 		 * 
 		 */
-		public static var startupFolder:String;
+		public static var startupFolder:String = '';
 		
 		/**
 		 * 	@private

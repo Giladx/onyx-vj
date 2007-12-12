@@ -49,6 +49,7 @@ package onyx.display {
 	use namespace onyx_ns;
 	
 	[Event(name='render', type='onyx.events.RenderEvent')]
+	[ExcludeClass]
 	
 	/**
 	 * 	Base Display class
@@ -171,11 +172,17 @@ package onyx.display {
 			super(new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT, false, _backgroundColor), PixelSnapping.ALWAYS, true);
 			
 			// add it to the displays index
-			AVAILABLE_DISPLAYS.push(this);
+			DISPLAY = this;
 			
 			// hide/show mouse when over the display
 			addEventListener(MouseEvent.MOUSE_OVER, _onMouseOver, true);
 			addEventListener(MouseEvent.MOUSE_OUT, _onMouseOut, true);
+
+			// add filter methods
+			_filters.addEventListener(FilterEvent.FILTER_APPLIED,	super.dispatchEvent);
+			_filters.addEventListener(FilterEvent.FILTER_MOVED,		super.dispatchEvent);
+			_filters.addEventListener(FilterEvent.FILTER_MUTED,		super.dispatchEvent);
+			_filters.addEventListener(FilterEvent.FILTER_REMOVED,	super.dispatchEvent);
 
 			// load the rendering state
 			StateManager.loadState(new DisplayRenderState(this));
@@ -311,13 +318,6 @@ package onyx.display {
 		}
 		
 		/**
-		 * 	Gets the display index
-		 */
-		public function get index():int {
-			return AVAILABLE_DISPLAYS.indexOf(this);
-		}
-		
-		/**
 		 * 	Gets the controls related to the display
 		 */
 		public function get controls():Controls {
@@ -395,28 +395,14 @@ package onyx.display {
 		 * 	Adds a filter
 		 */
 		public function addFilter(filter:Filter):void {
-
-			if (_filters.addFilter(filter)) {
-
-				// dispatch
-				var event:FilterEvent = new FilterEvent(FilterEvent.FILTER_APPLIED, filter)
-				super.dispatchEvent(event);
-			
-			}
+			_filters.addFilter(filter);
 		}
 
 		/**
 		 * 	Removes a filter
 		 */		
 		public function removeFilter(filter:Filter):void {
-			
-			if (_filters.removeFilter(filter)) {
-				
-				// dispatch
-				var event:FilterEvent = new FilterEvent(FilterEvent.FILTER_REMOVED, filter)
-				super.dispatchEvent(event);
-			}
-
+			_filters.removeFilter(filter);
 		}
 		
 		/**
@@ -621,10 +607,7 @@ package onyx.display {
 		 * 	Moves a filter to an index
 		 */
 		public function moveFilter(filter:Filter, index:int):void {
-			
-			if (_filters.moveFilter(filter, index)) {
-				super.dispatchEvent(new FilterEvent(FilterEvent.FILTER_MOVED, filter));
-			}
+			_filters.moveFilter(filter, index);
 		}
 		
 		/**
@@ -804,10 +787,6 @@ package onyx.display {
 		 */
 		public function muteFilter(filter:Filter, toggle:Boolean = true):void {
 			_filters.muteFilter(filter, toggle);
-			
-			// dispatch
-			var event:FilterEvent = new FilterEvent(FilterEvent.FILTER_MUTED, filter)
-			super.dispatchEvent(event);
 		}
 		
 		/**
@@ -963,6 +942,10 @@ package onyx.display {
 		 * 	Disposes the display
 		 */
 		public function dispose():void {
+			_filters.removeEventListener(FilterEvent.FILTER_APPLIED,	super.dispatchEvent);
+			_filters.removeEventListener(FilterEvent.FILTER_MOVED,		super.dispatchEvent);
+			_filters.removeEventListener(FilterEvent.FILTER_MUTED,		super.dispatchEvent);
+			_filters.removeEventListener(FilterEvent.FILTER_REMOVED,	super.dispatchEvent);
 		}
 	}
 }

@@ -31,7 +31,6 @@
 package onyx.content {
 	
 	import flash.display.BitmapData;
-	import flash.display.Sprite;
 	import flash.events.*;
 	import flash.geom.*;
 	import flash.utils.getTimer;
@@ -88,12 +87,12 @@ package onyx.content {
 			newContent	= loaded;
 			
 			// add listeners for filter events
-			newContent.addEventListener(FilterEvent.FILTER_APPLIED,		_forwardEvents);
-			newContent.addEventListener(FilterEvent.FILTER_MOVED,		_forwardEvents);
-			newContent.addEventListener(FilterEvent.FILTER_REMOVED,		_forwardEvents);
-			oldContent.addEventListener(FilterEvent.FILTER_APPLIED,		_forwardEvents);
-			oldContent.addEventListener(FilterEvent.FILTER_MOVED,		_forwardEvents);
-			oldContent.addEventListener(FilterEvent.FILTER_REMOVED,		_forwardEvents);
+			newContent.addEventListener(FilterEvent.FILTER_APPLIED,		super.dispatchEvent);
+			newContent.addEventListener(FilterEvent.FILTER_MOVED,		super.dispatchEvent);
+			newContent.addEventListener(FilterEvent.FILTER_REMOVED,		super.dispatchEvent);
+			oldContent.addEventListener(FilterEvent.FILTER_APPLIED,		super.dispatchEvent);
+			oldContent.addEventListener(FilterEvent.FILTER_MOVED,		super.dispatchEvent);
+			oldContent.addEventListener(FilterEvent.FILTER_REMOVED,		super.dispatchEvent);
 			
 			// change the target properties to the new content
 			layer.properties.setNewTarget(newContent);
@@ -101,14 +100,6 @@ package onyx.content {
 			// set time			
 			_startTime = getTimer();
 
-		}
-		
-		/**
-		 * 	@private
-		 * 	Forward events from the new content
-		 */
-		private function _forwardEvents(event:Event):void {
-			super.dispatchEvent(event);
 		}
 		
 		/**
@@ -435,12 +426,12 @@ package onyx.content {
 			_transition.clean();
 		
 			// remove listeners
-			newContent.removeEventListener(FilterEvent.FILTER_APPLIED,		_forwardEvents);
-			newContent.removeEventListener(FilterEvent.FILTER_MOVED,		_forwardEvents);
-			newContent.removeEventListener(FilterEvent.FILTER_REMOVED,		_forwardEvents);
-			oldContent.removeEventListener(FilterEvent.FILTER_APPLIED,		_forwardEvents);
-			oldContent.removeEventListener(FilterEvent.FILTER_MOVED,		_forwardEvents);
-			oldContent.removeEventListener(FilterEvent.FILTER_REMOVED,		_forwardEvents);
+			newContent.removeEventListener(FilterEvent.FILTER_APPLIED,		super.dispatchEvent);
+			newContent.removeEventListener(FilterEvent.FILTER_MOVED,		super.dispatchEvent);
+			newContent.removeEventListener(FilterEvent.FILTER_REMOVED,		super.dispatchEvent);
+			oldContent.removeEventListener(FilterEvent.FILTER_APPLIED,		super.dispatchEvent);
+			oldContent.removeEventListener(FilterEvent.FILTER_MOVED,		super.dispatchEvent);
+			oldContent.removeEventListener(FilterEvent.FILTER_REMOVED,		super.dispatchEvent);
 
 			// destroy the old content
 			oldContent.dispose();

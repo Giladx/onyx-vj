@@ -247,7 +247,6 @@ package onyx.content {
 		 */
 		protected var __anchorX:Control;
 		
-		
 		/**
 		 * 	@private
 		 */
@@ -263,6 +262,17 @@ package onyx.content {
 		 */		
 		public function Content(layer:ILayer, path:String, content:IBitmapDrawable):void {
 			
+			// remove intensive logic to a method, so it can get JIT.
+			// Constructors are not JIT'd
+			_init(layer, path, content);
+			
+		}
+		
+		/**
+		 * 
+		 */
+		private function _init(layer:ILayer, path:String, content:IBitmapDrawable):void {
+						
 			var props:LayerProperties	= layer.properties as LayerProperties;
 			_properties					= props;
 			
@@ -296,6 +306,11 @@ package onyx.content {
 			_scaleY			= 1,							// scale normally
 			_content		= content;						// store content
 			
+			_filters.addEventListener(FilterEvent.FILTER_APPLIED, super.dispatchEvent);
+			_filters.addEventListener(FilterEvent.FILTER_MOVED, super.dispatchEvent);
+			_filters.addEventListener(FilterEvent.FILTER_MUTED, super.dispatchEvent);
+			_filters.addEventListener(FilterEvent.FILTER_REMOVED, super.dispatchEvent);
+			
 			// change target to this (performance)
 			layer.properties.setNewTarget(this);
 			
@@ -306,9 +321,12 @@ package onyx.content {
 			
 			// if it takes events, pass em on
 			if (_content is IEventDispatcher) {
-				addEventListener(MouseEvent.MOUSE_DOWN,	_forwardEvents);
-				addEventListener(MouseEvent.MOUSE_UP,	_forwardEvents);
-				addEventListener(MouseEvent.MOUSE_MOVE,	_forwardEvents);
+				
+				var method:Function = (_content as IEventDispatcher).dispatchEvent;
+				
+				addEventListener(MouseEvent.MOUSE_DOWN,	method);
+				addEventListener(MouseEvent.MOUSE_UP,	method);
+				addEventListener(MouseEvent.MOUSE_MOVE,	method);
 			}
 		}
 		
@@ -521,13 +539,8 @@ package onyx.content {
 		 */
 		public function addFilter(filter:Filter):void {
 			
-			if (_filters.addFilter(filter)) {
-			
-				// dispatch
-				var event:FilterEvent = new FilterEvent(FilterEvent.FILTER_APPLIED, filter);
-				super.dispatchEvent(event);
-				
-			}
+			_filters.addFilter(filter);
+
 		}
 
 		/**
@@ -535,9 +548,8 @@ package onyx.content {
 		 */		
 		public function removeFilter(filter:Filter):void {
 			
-			if (_filters.removeFilter(filter)) {
-				super.dispatchEvent(new FilterEvent(FilterEvent.FILTER_REMOVED, filter));
-			}
+			_filters.removeFilter(filter);
+			
 		}
 		
 		/**
@@ -564,9 +576,7 @@ package onyx.content {
 		 * 	Moves a filter to an index
 		 */
 		public function moveFilter(filter:Filter, index:int):void {
-			if (_filters.moveFilter(filter, index)) {
-				super.dispatchEvent(new FilterEvent(FilterEvent.FILTER_MOVED, filter));
-			};
+			_filters.moveFilter(filter, index);
 		}
 				
 		/**
@@ -737,15 +747,6 @@ package onyx.content {
 		}
 		
 		/**
-		 * 	@private
-		 * 	Forwards events
-		 */
-		final private function _forwardEvents(event:MouseEvent):void {
-			var content:IEventDispatcher = _content as IEventDispatcher;
-			content.dispatchEvent(event);
-		}
-		
-		/**
 		 * 	Sets matrix
 		 */
 		public function set matrix(value:Matrix):void {
@@ -820,9 +821,11 @@ package onyx.content {
 			
 			// if it takes events, pass em on
 			if (_content is IEventDispatcher) {
-				removeEventListener(MouseEvent.MOUSE_DOWN,	_forwardEvents);
-				removeEventListener(MouseEvent.MOUSE_UP,	_forwardEvents);
-				removeEventListener(MouseEvent.MOUSE_MOVE,	_forwardEvents);
+				var method:Function = (_content as IEventDispatcher).dispatchEvent;
+				
+				removeEventListener(MouseEvent.MOUSE_DOWN,	method);
+				removeEventListener(MouseEvent.MOUSE_UP,	method);
+				removeEventListener(MouseEvent.MOUSE_MOVE,	method);
 			}
 			
 			// check to see if it's disposable, but only if it's not a movieclip
@@ -830,6 +833,14 @@ package onyx.content {
 			if (_content is IDisposable && !(this is ContentMC)) {
 				(_content as IDisposable).dispose();
 			}
+			
+			// kill all filters
+			_filters.clear();
+			
+			_filters.removeEventListener(FilterEvent.FILTER_APPLIED, super.dispatchEvent);
+			_filters.removeEventListener(FilterEvent.FILTER_MOVED, super.dispatchEvent);
+			_filters.removeEventListener(FilterEvent.FILTER_MUTED, super.dispatchEvent);
+			_filters.removeEventListener(FilterEvent.FILTER_REMOVED, super.dispatchEvent);
 			
 			// remove control references
 			__color			= null,
@@ -851,11 +862,6 @@ package onyx.content {
 			__anchorX		= null,
 			__anchorY		= null;
 			
-			// kill all filters
-			for each (var filter:Filter in _filters) {
-				removeFilter(filter);
-			}
-
 			// dispose
 			_source.dispose();
 			

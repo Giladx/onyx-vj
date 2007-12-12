@@ -86,6 +86,13 @@ package onyx.plugin {
 		/**
 		 * 
 		 */
+		override final public function initialize():void {
+			
+		}
+		
+		/**
+		 * 
+		 */
 		public function keyUp():void {
 			
 		}

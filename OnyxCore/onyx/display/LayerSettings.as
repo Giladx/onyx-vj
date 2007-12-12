@@ -81,8 +81,8 @@ package onyx.display {
 
 			x				= 0,
 			y				= 0,
-			anchorX			= BITMAP_WIDTH / 2,
-			anchorY			= BITMAP_HEIGHT / 2,
+			anchorX			= 0,
+			anchorY			= 0,
 			rotation		= 0,
 			scaleX			= 1,
 			scaleY			= 1,
@@ -144,20 +144,32 @@ package onyx.display {
 		public function loadFromXML(xml:XML):void {
 			
 			var propXML:XMLList = xml.properties;
+			var value:String;
 			
 			for each (var list:XML in propXML.*) {
 				if (!list.hasComplexContent()) {
 					try { 
 						var name:String = list.name();
-						this[name]	= String(list);
+						value			= list.toString();
+						
+						switch (name) {
+							case 'visible':
+								visible = (value === 'true')
+								break;
+							default:
+								this[name]	= value;
+								break;
+						}
 					} catch (e:Error) {
 						Console.error(e);
 					}
 				} else {
 					for each (var child:XML in list.*) {
-						try { 
-							name = child.name();
-							this[name] = String(child);
+						try {
+							 
+							name		= child.name();
+							this[name]	= String(child);
+							
 						} catch (e:Error) {
 							Console.error(e);
 						}

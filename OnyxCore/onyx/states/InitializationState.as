@@ -53,7 +53,7 @@ package onyx.states {
 		/**
 		 * 	@private
 		 */
-		private static const PLUGINS_DIRECTORY:String	= 'plugins/';
+		private static const PLUGINS_DIRECTORY:String	= 'plugins';
 		
 		/**
 		 * 	@private

@@ -46,7 +46,6 @@ package onyx.core {
 	import onyx.plugin.*;
 	import onyx.states.*;
 	import onyx.system.*;
-	import onyx.utils.string.getProtocol;
 	
 	use namespace onyx_ns;
 	
@@ -102,7 +101,7 @@ package onyx.core {
 		/**
 		 * 	Initializes the Onyx engine
 		 */
-		public static function initialize(root:DisplayObjectContainer, fileAdapter:FileAdapter, systemAdapter:SystemAdapter = null, midiAdapter:MidiAdapter = null):void {
+		public static function initialize(root:DisplayObjectContainer, fileAdapter:FileAdapter, systemAdapter:SystemAdapter = null):void {
 			
 			// store the flash root / stage objects
 			ROOT	= root,
@@ -113,9 +112,8 @@ package onyx.core {
 			
 			// store adapters;
 			File._adapter		= fileAdapter;
-			File.startupFolder	= '';
 			
-			// store system adapter
+			// store system adapter if one is passed in
 			if (systemAdapter) {
 				SystemAdapter.adapter = systemAdapter;
 			}
@@ -180,53 +178,56 @@ package onyx.core {
 		/**
 		 * 	Registers plug-ins
 		 */
-		public static function registerPlugin(registration:Object):void {
+		public static function registerPlugin(... registrations:Array):void {
 			
-			var definition:Class = registration as Class;
-
-			if (definition) {
+			for each (var registration:Object in registrations) {
 				
-				var instance:Font = new definition() as Font;
-				
-				if (instance) {
-					Font.registerFont(definition);
-					fonts.push(instance);
-					
-					_fontDef[instance.fontName] = instance;
-				}
-				
-			} else if (registration is Plugin) {
-				
-				var plugin:Plugin = registration as Plugin;
-				
-				if (plugin._definition) {
-					
-					// make sure it's uppercase
-					plugin.name = plugin.name.toUpperCase();
+				var definition:Class = registration as Class;
 	
-					var object:IDisposable = plugin.getDefinition() as IDisposable;
+				if (definition) {
 					
-					// test the type of object
-					if (object is Filter) {
+					var instance:Font = new definition() as Font;
+					
+					if (instance) {
+						Font.registerFont(definition);
+						fonts.push(instance);
 						
-						Filter.registerPlugin(plugin);
-						plugin.registerData('bitmap', object is IBitmapFilter);
-						plugin.registerData('tempo', object is TempoFilter);
-						
-					// register transition
-					} else if (object is Transition) {
-						Transition.registerPlugin(plugin);
-					// register visualizer
-					} else if (object is Visualizer) {
-						Visualizer.registerPlugin(plugin);
-					} else if (object is Macro) {
-						Macro.registerPlugin(plugin);
-					} else if (object is Module) {
-						registerModule(plugin);
+						_fontDef[instance.fontName] = instance;
 					}
 					
-					// output a message
-					Console.output('REGISTERING ' + plugin.name);
+				} else if (registration is Plugin) {
+					
+					var plugin:Plugin = registration as Plugin;
+					
+					if (plugin._definition) {
+						
+						// make sure it's uppercase
+						plugin.name = plugin.name.toUpperCase();
+		
+						var object:IDisposable = plugin.getDefinition() as IDisposable;
+						
+						// test the type of object
+						if (object is Filter) {
+							
+							Filter.registerPlugin(plugin);
+							plugin.registerData('bitmap', object is IBitmapFilter);
+							plugin.registerData('tempo', object is TempoFilter);
+							
+						// register transition
+						} else if (object is Transition) {
+							Transition.registerPlugin(plugin);
+						// register visualizer
+						} else if (object is Visualizer) {
+							Visualizer.registerPlugin(plugin);
+						} else if (object is Macro) {
+							Macro.registerPlugin(plugin);
+						} else if (object is Module) {
+							registerModule(plugin);
+						}
+						
+						// output a message
+						Console.output('REGISTERING ' + plugin.name);
+					}
 				}
 			}
 		}

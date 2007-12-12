@@ -274,10 +274,10 @@ package onyx.controls {
 						}
 						
 					} else {
-
+						
 						name			= controlXML.name();
 						control			= getControl(name);
-					
+
 						control.loadXML(controlXML);
 
 					}

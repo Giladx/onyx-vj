@@ -54,8 +54,6 @@ package onyx.file.filters {
 				case 'jpeg':
 				case 'png':
 				case 'mp3':
-				case 'xml':
-
 				// VLC formats
 				// TBD: Need to determine what formats come from VLC, and what don't --
 				// This should probably be done via some protocol handler --
@@ -80,6 +78,7 @@ package onyx.file.filters {
 				case 'vob':
 				case 'wmv':
 				case '3gp':	
+				case 'xml':
 					return true;
 			}
 

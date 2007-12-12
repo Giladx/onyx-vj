@@ -30,7 +30,6 @@
  */
 package onyx.file.http {
 	
-	import flash.display.BitmapData;
 	import flash.events.*;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
@@ -99,6 +98,7 @@ package onyx.file.http {
 				// create the Folder
 				var rootpath:String = pathUpOneLevel(xml.query.@path.toString());
 				var list:FolderList = new FolderList(pathUpOneLevel(rootpath));
+				var folders:Array	= [];
 	
 				// get the children
 				files	= xml.query.file,
@@ -124,9 +124,12 @@ package onyx.file.http {
 						name = File.startupFolder + pathUpOneLevel(rootpath + name);
 					}
 					
-					list.folders.push(new Folder(name));
+					folders.push(new Folder(name));
 				}
 				
+				list.folders = folders;
+
+				var filesArr:Array = [];				
 				thumbs = [],
 				thumbfiles = [];
 				
@@ -135,18 +138,8 @@ package onyx.file.http {
 					
 					// get name of the node
 					var name:String = String(node.@name);
-					
 					var thumbpath:String	= node.@thumb;
-					
-					// check for full protocol
-					if (name.indexOf('://') > 0) {
-					
-					// default, append the directory / path
-					} else {
-						name = File.startupFolder + pathUpOneLevel(rootpath + name);
-					}
-					
-					var file:File			= new File(name);
+					var file:File			= new File(File.startupFolder + pathUpOneLevel(rootpath + name));
 					
 					// call a job to update these bitmaps
 					if (thumbpath) {
@@ -154,9 +147,10 @@ package onyx.file.http {
 						thumbs.push(rootpath + thumbpath);
 					}
 					
-					list.files.push(file);
-					
+					filesArr.push(file);
 				}
+				
+				list.files = filesArr;
 				
 				// if we need to call to get thumbnails updated, call the job to do that
 				if (thumbs.length) {

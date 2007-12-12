@@ -32,7 +32,6 @@ package onyx.controls {
 
 	import onyx.constants.*;
 	import onyx.core.onyx_ns;
-	import onyx.events.ControlEvent;
 	
 	use namespace onyx_ns;
 

@@ -32,6 +32,7 @@
 package onyx.plugin {
 	
 	import flash.display.*;
+	
 	import onyx.core.*;
 	
 	use namespace onyx_ns;

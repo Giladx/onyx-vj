@@ -37,7 +37,7 @@ package onyx.events {
 	/**
 	 * 	Events dispatched by the onyx console
 	 */
-	public class ConsoleEvent extends Event {
+	final public class ConsoleEvent extends Event {
 
 		/**
 		 * 	@private

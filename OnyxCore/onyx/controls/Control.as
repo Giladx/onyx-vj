@@ -38,8 +38,6 @@ package onyx.controls {
 	use namespace onyx_ns;
 	
 	[Event(name='change', type='onyx.events.ControlEvent')]
-	
-	
 	/**
 	 *	Base control class.  This class is used in all objects that have user-defined parameters.
 	 * 	For each control, a user editable control will display on-screen.  These controls will also
@@ -85,7 +83,7 @@ package onyx.controls {
 		onyx_ns var _target:IControlObject;
 		
 		/**
-		 * 	@private
+		 * 	@internal
 		 * 	The parent control object
 		 */
 		internal var parent:Controls;
@@ -119,7 +117,7 @@ package onyx.controls {
 		/**
 		 * 
 		 */
-		public function get defaultValue():* {
+		final public function get defaultValue():* {
 			return _defaultValue;
 		}
 		

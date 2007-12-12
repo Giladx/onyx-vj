@@ -47,6 +47,9 @@ package onyx.file {
 	 */
 	public final class ProtocolVLC extends Protocol {
 		
+		/**
+		 * 
+		 */
 		public var file:String;
 		
 		/**

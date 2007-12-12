@@ -31,11 +31,14 @@
 package onyx.core {
 
 	import flash.display.BitmapData;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	import flash.geom.*;
 	
 	import onyx.constants.*;
 	import onyx.content.IContent;
+	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.plugin.*;
 	import onyx.tween.*;
@@ -46,7 +49,15 @@ package onyx.core {
 	/**
 	 * 	Filter array
 	 */
-	dynamic public final class FilterArray extends Array {
+	dynamic public final class FilterArray extends Array implements IEventDispatcher {
+		
+		/**
+		 * 	@private
+		 */
+		private static const REUSABLE_APPLY:FilterEvent		= new FilterEvent(FilterEvent.FILTER_APPLIED, null);
+		private static const REUSABLE_MOVE:FilterEvent		= new FilterEvent(FilterEvent.FILTER_MOVED, null);
+		private static const REUSABLE_MUTED:FilterEvent		= new FilterEvent(FilterEvent.FILTER_MUTED, null);
+		private static const REUSABLE_REMOVE:FilterEvent	= new FilterEvent(FilterEvent.FILTER_REMOVED, null);
 		
 		/**
 		 * 	@private
@@ -54,16 +65,57 @@ package onyx.core {
 		private var _parent:IContent;
 		
 		/**
+		 * 	@private
+		 */
+		private var dispatcher:EventDispatcher;
+		
+		/**
 		 * 	@constructor
 		 */
 		public function FilterArray(parent:IContent):void {
-			_parent = parent;
+			_parent		= parent;
+			dispatcher	= new EventDispatcher();
+		}
+		
+		/**
+		 * 	Add listener
+		 */
+		public function addEventListener(type:String, method:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void {
+			dispatcher.addEventListener(type, method, useCapture, priority, useWeakReference);
+		}
+		
+		/**
+		 * 
+		 */
+		public function removeEventListener(type:String, method:Function, useCapture:Boolean = false):void {
+			dispatcher.removeEventListener(type, method, useCapture);
+		}
+		
+		/**
+		 * 
+		 */
+		public function willTrigger(type:String):Boolean {
+			return dispatcher.willTrigger(type);
+		}
+		
+		/**
+		 * 
+		 */
+		public function dispatchEvent(event:Event):Boolean {
+			return dispatcher.dispatchEvent(event);
+		}
+		
+		/**
+		 * 
+		 */
+		public function hasEventListener(type:String):Boolean {
+			return dispatcher.hasEventListener(type);
 		}
 		
 		/**
 		 * 	Removes a filter
 		 */
-		public function addFilter(filter:Filter):Boolean {
+		public function addFilter(filter:Filter):void {
 
 			// check for unique filters
 			if (filter._unique) {
@@ -72,7 +124,7 @@ package onyx.core {
 				
 				for each (var otherFilter:Filter in this) {
 					if (otherFilter is plugin._definition) {
-						return false;
+						return;
 					}
 				}
 			}
@@ -85,22 +137,27 @@ package onyx.core {
 			
 			// tell the filter it has started
 			filter.initialize();
-			
-			return true;
+
+			// dispatch event
+			REUSABLE_APPLY.filter = filter;
+			dispatcher.dispatchEvent(REUSABLE_APPLY);
 		}
 		
 		/**
 		 * 	Moves a filter
 		 */
-		public function moveFilter(filter:Filter, index:int):Boolean {
-			return swap(super, filter, index);
+		public function moveFilter(filter:Filter, index:int):void {
+			if (swap(super, filter, index)) {
+				REUSABLE_MOVE.filter = filter;
+				dispatcher.dispatchEvent(REUSABLE_MOVE);
+			}
 		}
 		
 		/**
 		 * 	Removes a filter
 		 * 	@returns	true if the removed filter existed in the array
 		 */
-		public function removeFilter(filter:Filter):Boolean {
+		public function removeFilter(filter:Filter):void {
 
 			// now remove it
 			var index:int = super.indexOf(filter);
@@ -119,19 +176,21 @@ package onyx.core {
 				// clean up our references
 				filter.clean();
 				
-				return true;
+				// dispatch event
+				REUSABLE_REMOVE.filter = filter;
+				dispatcher.dispatchEvent(REUSABLE_REMOVE);
 			}
-			
-			return false;
 		}
 		
 		/**
 		 * 	Mutes a filter
 		 */
 		public function muteFilter(filter:Filter, toggle:Boolean = true):void {
-			
 			filter._muted = toggle;
-			
+
+			// dispatch
+			REUSABLE_MUTED.filter = filter;
+			dispatcher.dispatchEvent(REUSABLE_MUTED);
 		}
 		
 		/**
@@ -163,12 +222,20 @@ package onyx.core {
 				if (plugin) {
 					
 					var filter:Filter = plugin.getDefinition() as Filter;
-					
 					filter.controls.loadXML(filterXML.controls);
-					
-					// if we have a parent, add it, otherwise, just add it to the array and don't dispatch events
-					(_parent) ? addFilter(filter) : push(filter);
+
+					// add the filter					
+					addFilter(filter);
 				}
+			}
+		}
+		
+		/**
+		 * 
+		 */
+		public function clear():void {
+			while (super.length) {
+				removeFilter(this[0] as Filter);
 			}
 		}
 		

@@ -51,11 +51,9 @@ package onyx.controls {
 		 * 	Execute
 		 */
 		public function execute():void {
-			if (super._target[name] is Function) {
-				var fn:Function = super._target[name];
+			var fn:Function = super._target[name];
+			if (fn !== null) {
 				fn.apply(super._target);
-			} else {
-				// throw "ControlExecute error - the value of '"+name+"' in '"+_target+"' needs to be a Function!";
 			}
 		}
 		

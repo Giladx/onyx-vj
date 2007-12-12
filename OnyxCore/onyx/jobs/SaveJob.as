@@ -34,7 +34,6 @@ package onyx.jobs {
 	import flash.events.Event;
 	
 	import onyx.display.IDisplay;
-	import onyx.events.RenderEvent;
 	import onyx.file.*;
 	import onyx.utils.bitmap.*;
 	
@@ -70,10 +69,10 @@ package onyx.jobs {
 		 */
 		public function SaveJob(display:IDisplay, frames:int):void {
 			
-			_display	= display;
+			_display	= display,
 			_maxFrames	= frames;
 			
-			_display.addEventListener(RenderEvent.RENDER, _onRender);
+			_display.addEventListener(Event.ENTER_FRAME, _onRender);
 		}
 		
 		/**
@@ -83,7 +82,7 @@ package onyx.jobs {
 			
 			if (_currentFrame >= _maxFrames) {
 				
-				_display.removeEventListener(RenderEvent.RENDER, _onRender);
+				_display.removeEventListener(Event.ENTER_FRAME, _onRender);
 				save();
 				
 				return;
@@ -132,7 +131,7 @@ package onyx.jobs {
 		 */
 		override public function terminate():void {
 			
-			_display.removeEventListener(RenderEvent.RENDER, _onRender);
+			_display.removeEventListener(Event.ENTER_FRAME, _onRender);
 			_display = null;
 			
 			super.terminate();

@@ -76,10 +76,10 @@ package onyx.controls {
 												'y',					'y',	-5000,	5000,	0
 											);
 		public var anchorX:ControlNumber= 	new ControlInt(
-												'anchorX',				'anchorX',	-640,	640,	BITMAP_WIDTH / 2
+												'anchorX',				'anchorX',	-640,	640,	160
 											);
 		public var anchorY:ControlNumber=	new ControlInt(
-												'anchorY',				'anchorY',	-480,	480,	BITMAP_HEIGHT / 2
+												'anchorY',				'anchorY',	-480,	480,	120
 											);
 		public var framerate:Control	=	new ControlFrameRate(
 												'framerate',			'play rate'

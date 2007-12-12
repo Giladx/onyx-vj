@@ -43,11 +43,13 @@ package ui.window {
 	import onyx.file.*;
 	import onyx.jobs.*;
 	import onyx.plugin.*;
+	import onyx.states.*;
 	
 	import ui.assets.*;
 	import ui.controls.*;
 	import ui.core.*;
 	import ui.layer.*;
+	import ui.states.MidiLearnState;
 	import ui.styles.*;
 	import ui.text.*;
 
@@ -57,6 +59,11 @@ package ui.window {
 		 * 	@private
 		 */
 		private var _buttonXML:TextButton;
+		
+		/**
+		 * 	@private
+		 */
+		private var _buttonMidiLearn:TextButton;
 		
 		/**
 		 * 	@private
@@ -119,9 +126,17 @@ package ui.window {
 		 */
 		public function SettingsWindow(reg:WindowRegistration):void {
 			
-			var control:Control;
-
 			super(reg, true, 202, 161);
+
+			init();
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function init():void {
+			
+			var control:Control;
 			
 			_transition = new ControlPlugin('transition', 'Layer Transition', ControlPlugin.TRANSITIONS, true, false);
 			_transition.addEventListener(ControlEvent.CHANGE, _onTransition);
@@ -135,7 +150,8 @@ package ui.window {
 			var options:UIOptions	= new UIOptions(true, true, null, 60, 10);
 
 			// controls for display
-			_buttonXML				= new TextButton(options, 'save mix file');
+			_buttonXML				= new TextButton(options, 'save mix file'),
+			_buttonMidiLearn		= new TextButton(options, 'midi learn');
 			
 			// transition controls
 			_durationSlider			= new SliderV(options, _controls.getControl('duration'));
@@ -157,18 +173,19 @@ package ui.window {
 				_durationSlider,					75,		90,
 				new StaticText('MIX FILE'),			4,		110,
 				new AssetLine(),					4,		118,
-				_buttonXML,							8,		124
+				_buttonXML,							8,		124,
+				_buttonMidiLearn,					75,		124
 			);
 
 			// xml
 			_buttonXML.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
+			_buttonMidiLearn.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 
 			// start the timer
 			TEMPO.addEventListener(TempoEvent.CLICK, _onTempo);
 			
 			// tap tempo click
 			_tapTempo.addEventListener(MouseEvent.MOUSE_DOWN, _onTempoDown);
-
 		}
 		
 		/**
@@ -182,8 +199,30 @@ package ui.window {
 		 * 	@private
 		 */
 		private function _mouseDown(event:MouseEvent):void {
+			switch (event.currentTarget) {
+				case _buttonXML:
+					saveMix();
+					break;
+				case _buttonMidiLearn:
+					learnState();
+					break;
+			}
+			event.stopPropagation();
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function learnState():void {
+			StateManager.loadState(new MidiLearnState());
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function saveMix():void {
 			
-			var display:IDisplay	= AVAILABLE_DISPLAYS[0];
+			var display:IDisplay	= DISPLAY;
 			var text:String			= display.toXML().normalize();
 			
 			var popup:TextControlPopUp = new TextControlPopUp(this, null, 200, 200, 'Copied to clipboard\n\n' + text);
@@ -197,7 +236,6 @@ package ui.window {
 			
 			File.save('test.mix', bytes, _onFileSaved);
 			
-			event.stopPropagation();
 		}
 		
 		/**

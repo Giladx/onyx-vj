@@ -159,34 +159,15 @@ package ui.states {
 				
 				// map keys
 				for each (var key:XML in list.*) {
+					
+					
+					
 					try {
-						KeyListenerState[key.name()] = key;
+						KeyListenerState.registerKey(key.@code, Macro.getDefinition(key.toString()));
 					} catch (e:Error) {
 						Console.error(e);
 					}
-				}
-			}
-			
-			// macros
-			if (uiXML.hasOwnProperty('macro')) {
-				
-				list = uiXML.macro;
-				
-				// map keys
-				for each (var macro:XML in list.*) {
-					try {
-						var name:String = macro.name();
-						var value:String = macro.toString();
-						var plugin:Plugin = Macro.getDefinition(value.toUpperCase());
-						
-						if (plugin) {
-							MacroManager[name.toUpperCase()] = plugin;
-						}
-						
-						// KeyListenerState[key.name()] = key;
-					} catch (e:Error) {
-						Console.error(e);
-					}
+
 				}
 			}
 			

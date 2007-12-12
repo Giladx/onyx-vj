@@ -37,7 +37,6 @@ package ui.states {
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.events.*;
-	import onyx.midi.Midi;
 	import onyx.states.*;
 	
 	import ui.assets.*;

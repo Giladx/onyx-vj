@@ -258,9 +258,11 @@ package ui.core {
 			var dragEvent:DragEvent = new DragEvent(DragEvent.DRAG_OUT);
 			dragEvent.ctrlKey = event.ctrlKey;
 			dragEvent.shiftKey = event.shiftKey;
-
-			_currentTarget.dispatchEvent(dragEvent);
-			_currentTarget = null;
+			
+			if (_currentTarget) {
+				_currentTarget.dispatchEvent(dragEvent);
+				_currentTarget = null;
+			}
 		}
 
 	}

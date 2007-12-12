@@ -70,7 +70,7 @@ package ui.window {
 		/**
 		 * 	
 		 */
-		public static const ROOT_DIR:String				= 'video/';
+		public static const ROOT_DIR:String				= 'video';
 
 		/** @private **/
 		private static const FILES_PER_ROW:int			= 6;
@@ -158,6 +158,8 @@ package ui.window {
 			File.query(
 				File.startupFolder + ROOT_DIR, _updateList, new SWFFilter()
 			);
+			
+			// _folders.addChild();
 		}
 		
 		/**
@@ -165,6 +167,7 @@ package ui.window {
 		 * 	Handlers for Camera/File Button
 		 */
 		private function _onFileDown(event:MouseEvent):void {
+			
 			switch (event.currentTarget) {
 				case _buttonFiles:
 				

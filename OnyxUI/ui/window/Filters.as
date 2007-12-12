@@ -113,7 +113,7 @@ package ui.window {
 			// set title, etc
 			super(reg, true, 260, 240);
 			
-			pane			= new ScrollPane(240, 225, 'EFFECT FILTERS'),
+			pane			= new ScrollPane(250, 213, 'EFFECT FILTERS'),
 			bitmapFilters	= [],
 			tempoFilters	= [],
 			allFilters		= [];			

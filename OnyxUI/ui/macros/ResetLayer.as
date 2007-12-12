@@ -28,29 +28,41 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package ui.styles {
+package ui.macros {
 	
-	import flash.utils.*;
+	import onyx.constants.*;
+	import onyx.core.*;
+	import onyx.display.*;
+	import onyx.plugin.*;
+	import onyx.tween.*;
 	
-	import onyx.controls.*;
-	
-	import ui.controls.*;
+	import ui.core.*;
+	import ui.layer.*;
 
-	public const CONTROL_MAP:Object = {};
-	
-	CONTROL_MAP[ControlBoolean]		= DropDown;
-	CONTROL_MAP[ControlColor]		= ColorPicker;
-	CONTROL_MAP[ControlDirectory]	= DropDown;
-	CONTROL_MAP[ControlExecute]		= ButtonControl;
-	CONTROL_MAP[ControlFrameRate]	= SliderVFrameRate;
-	CONTROL_MAP[ControlInt]			= SliderV;
-	CONTROL_MAP[ControlLayer]		= DropDown;
-	CONTROL_MAP[ControlNumber]		= SliderV;
-	CONTROL_MAP[ControlPlugin]		= DropDown;
-	CONTROL_MAP[ControlProxy]		= SliderV2;
-	CONTROL_MAP[ControlRange]		= DropDown;
-	CONTROL_MAP[ControlString]		= TextControl;
-	CONTROL_MAP[ControlTempo]		= DropDown;
-	CONTROL_MAP[ControlUInt]		= SliderV;
-
+	/**
+	 * 
+	 */
+	public final class ResetLayer extends Macro {
+		
+		/**
+		 * 
+		 */
+		override public function keyDown():void {
+			var layer:ILayer	= (UIObject.selection as UILayer).layer;
+			layer.alpha			= 1;
+			layer.x				= 0;
+			layer.y				= 0;
+			layer.scaleX		= 1;
+			layer.scaleY		= 1;
+			layer.brightness	= 0;
+			layer.contrast		= 0;
+			layer.saturation	= 1;
+			layer.rotation		= 0;
+			layer.tint			= 0;
+			layer.framerate		= 1;
+			layer.threshold		= 0;
+			
+			Tween.stopTweens(layer);
+		}
+	}
 }

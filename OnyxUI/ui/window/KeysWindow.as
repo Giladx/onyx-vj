@@ -71,7 +71,7 @@ package ui.window {
 			super(reg, true, 192, 200);
 			
 			// set draggable
-			DragManager.setDraggable(this);
+			// DragManager.setDraggable(this);
 			
 			// add the textfield
 			_text.x				= 4,
@@ -122,7 +122,7 @@ package ui.window {
 		 * 	@private
 		 */
 		private function _initText():void {
-			
+			/*
 			var htmlText:String = '';
 			
 			for each (var def:KeyDefinition in _state.definitions) {
@@ -136,6 +136,7 @@ package ui.window {
 			}
 			
 			_text.htmlText = htmlText;
+			*/
 		}
 		
 		/**

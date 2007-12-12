@@ -28,24 +28,38 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package ui.core {
+package ui.macros {
 	
-	import onyx.core.Plugin;
-	
-	public final class MacroManager {
+	import onyx.constants.*;
+	import onyx.core.*;
+	import onyx.display.*;
+	import onyx.plugin.*;
+
+	/**
+	 * 
+	 */
+	public final class MuteLayer0 extends Macro {
 		
-		public static var ACTION_1:Plugin;
-		public static var ACTION_2:Plugin;
-		public static var ACTION_3:Plugin;
-		public static var ACTION_4:Plugin;
-		public static var ACTION_5:Plugin;
-		public static var ACTION_6:Plugin;
-		public static var ACTION_7:Plugin;
-		public static var ACTION_8:Plugin;
-		public static var ACTION_9:Plugin;
-		public static var ACTION_10:Plugin;
-		public static var ACTION_11:Plugin;
-		public static var ACTION_12:Plugin;
+		/**
+		 * 
+		 */
+		private var layer:ILayer;
 		
+		/**
+		 * 
+		 */
+		override public function keyDown():void {
+			layer = DISPLAY.getLayer(0);
+			layer.visible = false;
+		}
+		
+		/**
+		 * 
+		 */
+		override public function keyUp():void {
+			layer.visible = true;
+			layer = null;
+		}
+
 	}
 }

@@ -28,29 +28,38 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package ui.styles {
+package ui.macros {
 	
-	import flash.utils.*;
-	
-	import onyx.controls.*;
-	
-	import ui.controls.*;
+	import onyx.constants.*;
+	import onyx.core.*;
+	import onyx.display.*;
+	import onyx.plugin.*;
 
-	public const CONTROL_MAP:Object = {};
-	
-	CONTROL_MAP[ControlBoolean]		= DropDown;
-	CONTROL_MAP[ControlColor]		= ColorPicker;
-	CONTROL_MAP[ControlDirectory]	= DropDown;
-	CONTROL_MAP[ControlExecute]		= ButtonControl;
-	CONTROL_MAP[ControlFrameRate]	= SliderVFrameRate;
-	CONTROL_MAP[ControlInt]			= SliderV;
-	CONTROL_MAP[ControlLayer]		= DropDown;
-	CONTROL_MAP[ControlNumber]		= SliderV;
-	CONTROL_MAP[ControlPlugin]		= DropDown;
-	CONTROL_MAP[ControlProxy]		= SliderV2;
-	CONTROL_MAP[ControlRange]		= DropDown;
-	CONTROL_MAP[ControlString]		= TextControl;
-	CONTROL_MAP[ControlTempo]		= DropDown;
-	CONTROL_MAP[ControlUInt]		= SliderV;
+	/**
+	 * 
+	 */
+	public final class MuteLayer2 extends Macro {
+		
+		/**
+		 * 
+		 */
+		private var layer:ILayer;
+		
+		/**
+		 * 
+		 */
+		override public function keyDown():void {
+			layer = DISPLAY.getLayer(2);
+			layer.visible = false;
+		}
+		
+		/**
+		 * 
+		 */
+		override public function keyUp():void {
+			layer.visible = true;
+			layer = null;
+		}
 
+	}
 }

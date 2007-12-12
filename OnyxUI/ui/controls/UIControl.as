@@ -81,7 +81,15 @@ package ui.controls {
 				}
 				
 				if (options.label && label) {
-					addLabel(label, options.width, options.height, -8, 0, options.labelAlign);
+					
+					switch (options.labelAlign) {
+						case 'left':
+							addLabel(label, options.width + 3, options.height, 1, -15, 'left');
+							break;
+						default:
+							addLabel(label, options.width, options.height, -8, 0, options.labelAlign);
+							break;						
+					}
 				}
 			}
 			

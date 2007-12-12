@@ -54,14 +54,25 @@ package ui.states {
 		private var _control:UIControl;
 		
 		/**
+		 * 	@private
+		 * 	Store the transformations for all UIControls
+		 */
+		private var _storeTransform:Dictionary;
+		
+		/**
 		 * 	initialize
 		 */
 		override public function initialize():void {
+			
+			var controls:Dictionary = UIControl.controls;
+			_storeTransform = new Dictionary(true);
+			
 			// Highlight all the controls
-			for (var i:Object in UIControl.controls) {
-				var control:UIControl = i as UIControl;
-				UIControl.controls[control] = control.transform.colorTransform;
-				control.transform.colorTransform = MIDI_HIGHLIGHT;
+			for (var i:Object in controls) {
+				var control:UIControl		= i as UIControl;
+				var transform:Transform		= control.transform;
+				_storeTransform[control]	= transform.colorTransform;
+				transform.colorTransform	= MIDI_HIGHLIGHT;
 			}
 			
 			STAGE.addEventListener(MouseEvent.MOUSE_DOWN, _onControlSelect, true, 9999);
@@ -72,98 +83,84 @@ package ui.states {
 		 */
 		private function _onControlSelect(event:MouseEvent):void {
 			
-			var objects:Array		= STAGE.getObjectsUnderPoint(new Point(STAGE.mouseX, STAGE.mouseY));
-			
-			// look for UIControls
+			var clicked:DisplayObject = event.target as DisplayObject;
+
 			_control = null;
-			
-			for each (var object:DisplayObject in objects) {
-				_control = object.parent as UIControl;
-				if (_control) {
+			Midi.instance.removeEventListener(MidiEvent.DATA, _onMidi);
+
+			while (clicked !== STAGE) {
+				
+				if (clicked is UIControl) {
+					_control = clicked as UIControl;
 					break;
 				}
+				
+				clicked = clicked.parent;
+			}
+			
+			// success, start the next process
+			if (_control) {
+				
+				Midi.instance.addEventListener(MidiEvent.DATA, _onMidi);
+				
+				// un-highlight everything except selected control
+				_unHighlight();
+				
+				// re-highlight the selected control
+				var transform:Transform		= _control.transform;
+				_storeTransform[_control]	= transform.colorTransform;
+				transform.colorTransform	= MIDI_HIGHLIGHT;
+							
+			} else {
+
+				// Clicked outside any control - abort learning
+				StateManager.removeState(this);
+				
 			}
 			
 			// stop propagation
 			event.stopPropagation();
-			
-			// Unhighlight everything except selected control
-			_unHighlight(_control);
-			
-			if ( _control === null ) {
+		}
 				
-				// Clicked outside any control - abort learning
-				StateManager.removeState(this);
-			} else {
-
-				// Wait for a MIDI noteon or controller event
-	    		MIDI.addEventListener(MidiMsg.NOTEON,_onNoteOn);
-	    		MIDI.addEventListener(MidiMsg.NOTEOFF,_onNoteOff);
-	    		MIDI.addEventListener(MidiMsg.CONTROLLER,_onController);
-	  		}
-		}
-		
-		/**
-		 * 	@private
-		 */
-		private function _onNoteOn(e:MidiEvent):void {
-			if ( _control is ButtonControl ) {
-				MIDI.registerNoteOn(_control.control,e.deviceIndex,e.midimsg as MidiNoteOn);
-			} else {
-				Console.output("You need to map a MIDI controller to that control!");
-			}
-			StateManager.removeState(this);
-		}
-		
-		/**
-		 * 	@private
-		 */
-		private function _onNoteOff(e:MidiEvent):void {
-			if ( _control is ButtonControl ) {
-				MIDI.registerNoteOff(_control.control,e.deviceIndex,e.midimsg as MidiNoteOff);
-			} else {
-				Console.output("You need to map a MIDI controller to that control!");
-			}
-			StateManager.removeState(this);
-		}
-		
-		/**
-		 * 	@private
-		 */
-		private function _onController(e:MidiEvent):void {
-			if ( _control is SliderV || _control is DropDown || _control is ButtonControl ) {
-				MIDI.registerController(_control.control,e);
-			} else {
-				Console.output("That control can't be mapped!");
-			}
-			StateManager.removeState(this);
-		}
-		
 		/**
 		 * 	Remove state
 		 */
 		override public function terminate():void {
 			
 			STAGE.removeEventListener(MouseEvent.MOUSE_DOWN, _onControlSelect, true);
-			
-			MIDI.removeEventListener(MidiMsg.NOTEON,_onNoteOn);
-			MIDI.removeEventListener(MidiMsg.NOTEOFF,_onNoteOff);
-   			MIDI.removeEventListener(MidiMsg.CONTROLLER,_onController);
-
+			Midi.instance.removeEventListener(MidiEvent.DATA, _onMidi);
 	   		_unHighlight();
+	   		
+	   		_storeTransform = null;
+	   		
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function _onMidi(event:MidiEvent):void {
+			
+			Midi.registerControl(_control.control, event.deviceIndex, event.command, event.control);
+			StateManager.removeState(this);
+
 		}
 
     	/**
     	 * 	@private
     	 */
-		private function _unHighlight(exclude:Object = null):void {
-			for (var i:Object in UIControl.controls) {
-				if ( i != exclude ) {
-					var control:UIControl = i as UIControl;
-					control.transform.colorTransform = UIControl.controls[control] || new ColorTransform();
-					UIControl.controls[control] = null;
+		private function _unHighlight():void {
+			
+			var controls:Dictionary = UIControl.controls;
+			
+			for (var i:Object in controls) {
+				var control:UIControl	= i as UIControl;
+				var color:ColorTransform	= _storeTransform[control];
+				if (color) {
+					var transform:Transform		= control.transform;
+					transform.colorTransform	= color;
+					delete _storeTransform[control];
 				}
-			}
+			} 
 		}
 		
 	}

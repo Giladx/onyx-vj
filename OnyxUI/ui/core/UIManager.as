@@ -42,6 +42,7 @@ package ui.core {
 	import onyx.states.StateManager;
 	
 	import ui.assets.*;
+	import ui.macros.*;
 	import ui.settings.*;
 	import ui.states.*;
 	import ui.window.*;
@@ -68,7 +69,31 @@ package ui.core {
 		/**
 		 * 	initialize
 		 */
-		public static function initialize(root:DisplayObjectContainer, adapter:FileAdapter, ... states:Array):void {
+		public static function initialize(root:DisplayObjectContainer, startupFolder:String, adapter:FileAdapter, ... states:Array):void {
+			
+			File.startupFolder = startupFolder;
+			
+			// initialize key actions
+			Onyx.registerPlugin(
+				new Plugin('SelectLayer0',			SelectLayer0, 'Selects Layer 0'),
+				new Plugin('SelectLayer1',			SelectLayer1, 'Selects Layer 1'),
+				new Plugin('SelectLayer2',			SelectLayer2, 'Selects Layer 2'),
+				new Plugin('SelectLayer3',			SelectLayer3, 'Selects Layer 3'),
+				new Plugin('SelectLayer4',			SelectLayer4, 'Selects Layer 4'),
+				new Plugin('SelectLayerNext',		SelectLayerNext, 'Selects Next Layer'),
+				new Plugin('SelectLayerPrevious',	SelectLayerPrevious, 'Selects Previous Layer'),
+				new Plugin('SelectPage0',			SelectPage0, 'Selects Layer 0'),
+				new Plugin('SelectPage1',			SelectPage1, 'Selects Layer 1'),
+				new Plugin('SelectPage2',			SelectPage2, 'Selects Layer 2'),
+				new Plugin('MuteLayer0',			MuteLayer0, 'Mutes Layer 1'),
+				new Plugin('MuteLayer1',			MuteLayer1, 'Mutes Layer 2'),
+				new Plugin('MuteLayer2',			MuteLayer2, 'Mutes Layer 3'),
+				new Plugin('MuteLayer3',			MuteLayer3, 'Mutes Layer 4'),
+				new Plugin('MuteLayer4',			MuteLayer4, 'Mutes Layer 5'),
+				new Plugin('CycleBlendUp',			CycleBlendModeUp,	''),
+				new Plugin('CycleBlendDown',		CycleBlendModeDown,	''),
+				new Plugin('ResetLayer',			ResetLayer,	'')
+			);
 			
 			// initializes onyx
 			Onyx.initialize(root, adapter);

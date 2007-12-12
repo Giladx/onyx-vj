@@ -57,7 +57,7 @@ package ui.window {
 			super(reg, false, 286, BITMAP_HEIGHT);
 
 			// set our display
-			_display	= new UIDisplay(AVAILABLE_DISPLAYS[0]);
+			_display	= new UIDisplay(DISPLAY);
 
 			addChild(_display);
 		}

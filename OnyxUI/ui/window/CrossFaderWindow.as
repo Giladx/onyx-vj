@@ -101,7 +101,7 @@ package ui.window {
 			_btn					= new ButtonClear(187, 20),
 			_fader					= new AssetCrossFader(),
 			_faderBG				= new AssetCrossFaderBG(),
-			_display				= AVAILABLE_DISPLAYS[0];
+			_display				= DISPLAY;
 			
 			control = _display.controls.getControl('transition') as ControlPlugin;
 			_controls				= new Controls(this, control);

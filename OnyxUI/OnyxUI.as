@@ -40,13 +40,14 @@ package {
 	import onyx.controls.*;
 	import onyx.file.*;
 	import onyx.file.http.*;
+	import onyx.system.*;
 	import onyx.utils.array.*;
 	
 	import ui.assets.AssetCamera;
 	import ui.assets.AssetVisualizer;
 	import ui.core.*;
+	import ui.macros.*;
 	import ui.states.*;
-	import onyx.system.*;
 	
 	[SWF(width="1024", height="740", backgroundColor="#141515", frameRate='24')]
 	public class OnyxUI extends Sprite {
@@ -57,8 +58,6 @@ package {
 		public function OnyxUI():void {
 			
 			addEventListener(Event.ADDED_TO_STAGE, _onAdded);
-			
-			var a:Protocol = new Protocol(null, null, null);
 			
 		}
 		
@@ -81,10 +80,13 @@ package {
 			File.CAMERA_ICON		= new AssetCamera();
 			File.VISUALIZER_ICON	= new AssetVisualizer();
 			
+			var rootpath:String = stage.loaderInfo.url;
+			
 			// init
 			UIManager.initialize(
 				stage,
-				new HTTPAdapter(stage.loaderInfo.parameters.initial_dir || ''),
+				rootpath.substr(0, rootpath.lastIndexOf('/')) + '/',
+				new HTTPAdapter(),
 				new KeyListenerState()
 			);
 			
@@ -92,7 +94,7 @@ package {
 			var menu:ContextMenu = new ContextMenu();
 			menu.hideBuiltInItems();
 			contextMenu	= menu;
-		}
-		
+			
+		}		
 	}
 }

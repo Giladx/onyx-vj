@@ -32,6 +32,7 @@ package ui.window {
 	
 	import flash.display.*;
 	import flash.events.*;
+	import flash.system.System;
 	
 	import onyx.core.*;
 	import onyx.events.*;
@@ -40,8 +41,8 @@ package ui.window {
 	
 	import ui.core.DragManager;
 	import ui.policy.*;
-	import ui.text.*;
 	import ui.states.KeyListenerState;
+	import ui.text.*;
 	
 	use namespace onyx_ns;
 	
@@ -182,15 +183,19 @@ package ui.window {
 			var command:String = command.toLowerCase();
 			
 			switch (command) {
+				case 'copy':
+					System.setClipboard(_text.text);
+				
+					break;
+					
 				case 'clear':
 				case 'cls':
-				case 'motd':
 					_text.text = '';
 				
 					break;
 				default:
 					Console.executeCommand(command);
-					_input.text = '';
+					_input.setSelection(0, _input.length);
 					break;
 			}
 		}

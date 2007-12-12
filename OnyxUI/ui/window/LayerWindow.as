@@ -50,7 +50,7 @@ package ui.window {
 			super(reg, false, 0, 0);
 
 			// listen and create layer controls
-			var display:IDisplay = AVAILABLE_DISPLAYS[0];
+			var display:IDisplay = DISPLAY;
 			display.addEventListener(DisplayEvent.LAYER_CREATED, _onLayerCreate);
 			
 			// create already created layers
@@ -79,7 +79,7 @@ package ui.window {
 		override public function dispose():void {
 
 			// listen and create layer controls
-			var display:IDisplay = AVAILABLE_DISPLAYS[0];
+			var display:IDisplay = DISPLAY;
 			display.removeEventListener(DisplayEvent.LAYER_CREATED, _onLayerCreate);
 			
 			super.dispose();

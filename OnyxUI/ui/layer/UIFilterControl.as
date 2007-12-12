@@ -32,7 +32,6 @@ package ui.layer {
 	
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
-	import flash.geom.ColorTransform;
 	
 	import onyx.core.*;
 	import onyx.events.FilterEvent;
@@ -266,6 +265,22 @@ package ui.layer {
 			}			
 		}
 		
+		/**
+		 * 	Selects a filter based on it's plugin
+		 */
+		final public function setFilterValue(type:Plugin, value:*):void {
+			
+			/*
+			var filters:Array = _target.filters;
+			for each (var filter:Filter in filters) {
+				if (filter.plugin === type) {
+					filter.controls
+					filterPane.selectFilter(filterPane.getFilter(filter), true);
+					break;
+				}
+			}
+			*/			
+		}
 		
 		/**
 		 * 	Selects a filter based on it's plugin

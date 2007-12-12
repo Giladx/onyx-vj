@@ -38,7 +38,7 @@ package ui.window {
 	import onyx.plugin.*;
 	
 	import ui.controls.*;
-	import ui.core.MacroManager;
+	import ui.states.*;
 	
 	/**
 	 * 	Macro window
@@ -56,18 +56,18 @@ package ui.window {
 		public function MacroWindow(reg:WindowRegistration):void {
 			
 			_controls = new Controls(this,
-				new ControlPlugin('f1', 'f1', ControlPlugin.MACROS, true, true, MacroManager.ACTION_1),
-				new ControlPlugin('f2', 'f2', ControlPlugin.MACROS, true, true, MacroManager.ACTION_2),
-				new ControlPlugin('f3', 'f3', ControlPlugin.MACROS, true, true, MacroManager.ACTION_3),
-				new ControlPlugin('f4', 'f4', ControlPlugin.MACROS, true, true, MacroManager.ACTION_4),
-				new ControlPlugin('f5', 'f5', ControlPlugin.MACROS, true, true, MacroManager.ACTION_5),
-				new ControlPlugin('f6', 'f6', ControlPlugin.MACROS, true, true, MacroManager.ACTION_6),
-				new ControlPlugin('f7', 'f7', ControlPlugin.MACROS, true, true, MacroManager.ACTION_7),
-				new ControlPlugin('f8', 'f8', ControlPlugin.MACROS, true, true, MacroManager.ACTION_8),
-				new ControlPlugin('f9', 'f9', ControlPlugin.MACROS, true, true, MacroManager.ACTION_9),
-				new ControlPlugin('f10', 'f10', ControlPlugin.MACROS, true, true, MacroManager.ACTION_10),
-				new ControlPlugin('f11', 'f11', ControlPlugin.MACROS, true, true, MacroManager.ACTION_11),
-				new ControlPlugin('f12', 'f12', ControlPlugin.MACROS, true, true, MacroManager.ACTION_12)
+				new ControlPlugin('f1', 'f1', ControlPlugin.MACROS, true, true, KeyListenerState.getKeyDefinition(112)),
+				new ControlPlugin('f2', 'f2', ControlPlugin.MACROS, true, true, KeyListenerState.getKeyDefinition(113)),
+				new ControlPlugin('f3', 'f3', ControlPlugin.MACROS, true, true, KeyListenerState.getKeyDefinition(114)),
+				new ControlPlugin('f4', 'f4', ControlPlugin.MACROS, true, true, KeyListenerState.getKeyDefinition(115)),
+				new ControlPlugin('f5', 'f5', ControlPlugin.MACROS, true, true, KeyListenerState.getKeyDefinition(116)),
+				new ControlPlugin('f6', 'f6', ControlPlugin.MACROS, true, true, KeyListenerState.getKeyDefinition(117)),
+				new ControlPlugin('f7', 'f7', ControlPlugin.MACROS, true, true, KeyListenerState.getKeyDefinition(118)),
+				new ControlPlugin('f8', 'f8', ControlPlugin.MACROS, true, true, KeyListenerState.getKeyDefinition(119)),
+				new ControlPlugin('f9', 'f9', ControlPlugin.MACROS, true, true, KeyListenerState.getKeyDefinition(120)),
+				new ControlPlugin('f10', 'f10', ControlPlugin.MACROS, true, true, KeyListenerState.getKeyDefinition(121)),
+				new ControlPlugin('f11', 'f11', ControlPlugin.MACROS, true, true, KeyListenerState.getKeyDefinition(122)),
+				new ControlPlugin('f12', 'f12', ControlPlugin.MACROS, true, true, KeyListenerState.getKeyDefinition(123))
 			);
 			
 			super(reg, true, 192, 104);
@@ -93,7 +93,7 @@ package ui.window {
 			var control:ControlPlugin		= event.currentTarget as ControlPlugin;
 			var num:int						= int(control.name.substr(1));
 			
-			MacroManager['ACTION_' + num]	= event.value;
+			KeyListenerState.registerKey(num, event.value);
 		}
 
 		/**

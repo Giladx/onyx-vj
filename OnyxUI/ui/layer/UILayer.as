@@ -37,6 +37,7 @@ package ui.layer {
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
+	import onyx.core.Plugin;
 	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.plugin.*;
@@ -53,12 +54,11 @@ package ui.layer {
 	import ui.styles.*;
 	import ui.text.*;
 	import ui.window.*;
-	import onyx.core.Plugin;
 
 	/**
 	 * 	Controls layers
 	 */	
-	public class UILayer extends UIFilterControl implements IFilterDrop, ILayerDrop {
+	public final class UILayer extends UIFilterControl implements IFilterDrop, ILayerDrop {
 		
 		/**
 		 * 	
@@ -82,6 +82,17 @@ package ui.layer {
 				layer.deleteFilter(plugin);
 			}
 
+		}
+		
+		/**
+		 * 
+		 */
+		public static function setFilterValue(plugin:Plugin, value:*):void {
+			
+			// pass in a plugin to select the filter
+			for each (var layer:UILayer in layers) {
+				layer.setFilterValue(plugin, value);
+			}
 		}
 		
 		/**
@@ -118,6 +129,13 @@ package ui.layer {
 		 * 	@private
 		 */
 		public static const layers:Array				= [];
+		
+		/**
+		 * 	Selects a layer
+		 */
+		public static function selectLayer(index:int):void {
+			UIObject.select(layers[index]);
+		}
 		
 		/**
 		 * 	@private
@@ -475,6 +493,7 @@ package ui.layer {
 			if (page.controls) {
 				page.controls = null;
 			}
+			// default controls
 			selectPage(0);
 			
 			_filename.text = '';
@@ -508,6 +527,7 @@ package ui.layer {
 		 */		
 		private function _onScrubPress(event:MouseEvent):void {
 			
+			// remove listeners
 			STAGE.addEventListener(MouseEvent.MOUSE_MOVE, _onScrubMove);
 			STAGE.addEventListener(MouseEvent.MOUSE_UP, _onScrubUp);
 			

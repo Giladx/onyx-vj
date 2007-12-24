@@ -54,7 +54,7 @@ package ui.window {
 	import ui.text.*;
 
 	public final class SettingsWindow extends Window implements IControlObject {
-
+        
 		/**
 		 * 	@private
 		 */
@@ -176,7 +176,7 @@ package ui.window {
 				_buttonXML,							8,		124,
 				_buttonMidiLearn,					75,		124
 			);
-
+                        
 			// xml
 			_buttonXML.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
 			_buttonMidiLearn.addEventListener(MouseEvent.MOUSE_DOWN, _mouseDown);
@@ -194,7 +194,7 @@ package ui.window {
 		public function get controls():Controls {
 			return _controls
 		}
-
+                
 		/**
 		 * 	@private
 		 */
@@ -237,7 +237,7 @@ package ui.window {
 			File.save('test.mix', bytes, _onFileSaved);
 			
 		}
-		
+		        
 		/**
 		 * 	@private
 		 */

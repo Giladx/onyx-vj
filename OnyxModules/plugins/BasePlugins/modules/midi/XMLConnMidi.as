@@ -44,7 +44,7 @@ package modules.midi {
 	import onyx.plugin.Module;
 	
 	/**
-	 * 	This is a debugger class for using a localconnection-based midi adapter
+	 * 	This is a debugger class for using a XMLsocket-based midi adapter
 	 */
 	public final class XMLConnMidi extends Module {
 		
@@ -71,9 +71,9 @@ package modules.midi {
             conn.addEventListener(SecurityErrorEvent.SECURITY_ERROR, handleSocketSecurityError);
             try{
                 conn.connect("127.0.0.1", 10000);
-                Console.output('MIDI Module Connected');
+                Console.output('MIDI Module : connected');
             } catch (e : SecurityError) {
-                Console.output('MIDI Module Security Error');
+                Console.output('MIDI Module : security error');
             }
         }
 	
@@ -81,15 +81,15 @@ package modules.midi {
 		 * 
 		 */
 		private function handleSocketConnected(e : Event) : void {
-            //dispatchEvent(new Event(Event.CONNECT));
+            Console.output('MIDI Module : connected');
         }
         
         private function handleSocketIOError(e : IOErrorEvent) : void {
-            //trace("MidiManager > Socket > IO Error > " + e.text);
+        	Console.output("MIDI Module : unable to connect, socket error");
         }
         
         private function handleSocketSecurityError(e : SecurityErrorEvent) : void {
-            //trace("MidiManager > Socket > Security Error > " + e.text);
+            Console.output('MIDI Module : security error');
         }
         
 		private function handleSocketData(e : DataEvent) : void {
@@ -98,16 +98,19 @@ package modules.midi {
             
             switch(data.name().toString()){
                 case "c":
+                    // 0xB0 is a "control change"
                     // Receives a n attr
                     // Receives a d attr
                     //                 //devindex  //0xb0 
-                    Midi.receiveMessage(1, 0xb0, uint(parseInt(data.@n)), data.@d);
+                    Midi.receiveMessage(1, 0xB0, uint(parseInt(data.@n)), data.@d);
                 break;
                 
                 case "n1":
+                    // 0x90 is a "note on" ?????
                     // Receives a p attr
                     // Receives a v attr
                     var p : int = int(parseInt(data.@p));
+                    Midi.receiveMessage(1, 0x90, int(parseInt(data.@p)), data.@v);
                     //var noteEvent : NoteEvent = new NoteEvent(NoteEvent.NOTE_ON, p);
                     //noteEvent.velocity = MidiManager.$midiValueHashTable[data.@v];
                     //this.dispatchEvent(noteEvent);

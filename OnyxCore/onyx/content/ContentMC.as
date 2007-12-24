@@ -169,9 +169,8 @@ package onyx.content {
 		 */
 		override public function set time(value:Number):void {
 			
-			var mc:MovieClip;
+			var mc:MovieClip = super._content as MovieClip;
 			
-			mc		= super._content as MovieClip;
 			_frame	= mc.totalFrames * value;
 			
 		}
@@ -198,7 +197,6 @@ package onyx.content {
 		override public function render():RenderTransform {
 
 			var mc:MovieClip = super._content as MovieClip;
-			
 			var lastTime:int = getTimer();
 			
 			if (!_paused) {

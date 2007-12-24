@@ -34,8 +34,9 @@ package onyx.midi {
 	import flash.utils.Dictionary;
 	
 	import onyx.controls.*;
+	import onyx.core.Console;
 	import onyx.events.MidiEvent;
-	
+		
 	/**
 	 * 
 	 */
@@ -54,6 +55,7 @@ package onyx.midi {
 		/**
 		 * 	@private
 		 */
+		 // make this public???
 		private static var _map:Dictionary;
 		
 		/**
@@ -101,14 +103,44 @@ package onyx.midi {
 		/**
 		 * 
 		 */
-		public static function registerControl(control:Control, deviceIndex:int, command:int, midiControl:int):void {
+		public static function registerControl(control:Control, ... midiData:Array):void {
 			
+			// midiData could be: array[3] deviceIndex,command,midiControl
+            //                  : array[1] hash
+            //
+            // hashed is used when loaded from XML
+		    var midi:Array = midiData || [];
+			var hash:uint;
+			var deviceIndex:int;
+			var command:int;
+			var midiControl:int;
+					
+			//is hash
+			if(midi.length==1) {
+				
+				 hash = midi[0];
+				 // split the hash
+				 midiControl    = hash & 0xFF ;
+				 command        = (hash >> 8) & 0xFF ;
+				 deviceIndex    = (hash >> 16) & 0xFF ;
+			
+			// is Array[3] 	 
+			} else {
+				
+			     deviceIndex = midi[0];
+			     command     = midi[1];
+			     midiControl = midi[2]; 
+			     // create the hash
+                 hash = deviceIndex << 16 | command << 8 | midiControl;	
+                 
+			}
+			         
 			// based on the control and the command type, create behaviors
 			var behavior:IMidiControlBehavior;
-
-			// create the hash
-			var hash:uint = deviceIndex << 16 | command << 8 | midiControl;
-			
+            
+            // store the hash in the control
+            control.hash = hash;
+                                                       
 			/*	0x80: Note Off
 				0x90: Note On
 				0xa0: Polyphonic key pressure

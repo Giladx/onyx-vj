@@ -359,6 +359,7 @@ package onyx.display {
 			
 			var job:LoadONXJob = new LoadONXJob(origin, transition);
 			JobManager.register(this, job, path);
+			
 		}
 		
 		/**
@@ -845,9 +846,7 @@ package onyx.display {
 			
 			// create xml for all the layers
 			for each (var layer:Layer in _layers) {
-				if (layer.path) {
-					layers.appendChild(layer.toXML());
-				}
+			     layers.appendChild(layer.toXML());
 			}
 			
 			return xml;

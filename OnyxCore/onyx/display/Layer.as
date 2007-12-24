@@ -210,7 +210,10 @@ package onyx.display {
 			if (settings) {
 				settings.apply(content);
 			}
-
+			
+			// apply midi
+			settings.applyMidi(_properties);
+                        
 			// render first frame
 			content.render();
 			
@@ -702,17 +705,25 @@ package onyx.display {
 		 */
 		public function toXML():XML {
 			
-			var xml:XML = 
-				<layer path={path}>
-				</layer>;
+			var xml:XML;
+			 
+			if(path){
+			     xml = <layer path={path}>
+                       </layer>;
+			} else {
+				xml = <layer path="null">
+				      </layer>;
+			}
 
 			// create properties
 			xml.appendChild(_properties.toXML());
-
+            
 			// add filters xml
-			xml.appendChild(_content.filters.toXML());
+			if(path) {
+			     xml.appendChild(_content.filters.toXML());
+			}
 			
-			// add control xml
+			// add controls xml
 			if ( _content.controls ) {
 				xml.appendChild(_content.controls.toXML());
 			}

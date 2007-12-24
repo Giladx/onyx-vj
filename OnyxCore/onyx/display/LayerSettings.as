@@ -31,6 +31,7 @@
 package onyx.display {
 	
 	import flash.events.EventDispatcher;
+	import flash.utils.Dictionary;
 	
 	import onyx.constants.*;
 	import onyx.content.*;
@@ -73,6 +74,11 @@ package onyx.display {
 		public var loopStart:Number;
 		public var loopEnd:Number;
 		public var path:String;
+		
+		// midi hash map 
+		public var hashMap:Dictionary = new Dictionary(false);
+		
+		private var _propList:XMLList;
 		
 		/**
 		 * 
@@ -144,6 +150,9 @@ package onyx.display {
 		public function loadFromXML(xml:XML):void {
 			
 			var propXML:XMLList = xml.properties;
+			//store properties
+			_propList = propXML;
+			
 			var value:String;
 			
 			for each (var list:XML in propXML.*) {
@@ -158,6 +167,8 @@ package onyx.display {
 								break;
 							default:
 								this[name]	= value;
+								// midi hash map build
+                                hashMap[name] = list.@hash;            
 								break;
 						}
 					} catch (e:Error) {
@@ -169,7 +180,7 @@ package onyx.display {
 							 
 							name		= child.name();
 							this[name]	= String(child);
-							
+																								
 						} catch (e:Error) {
 							Console.error(e);
 						}
@@ -179,10 +190,10 @@ package onyx.display {
 			
 			path		= xml.@path;
 			
-			if (xml.controls) {
+			if (xml.controls) { 
 				controls = xml.controls;
 			}
-			
+			            
 			// TBD: needs to be cleaned up
 			if (xml.filters) {
 				
@@ -196,6 +207,8 @@ package onyx.display {
 		 */
 		public function apply(content:IContent):void {
 			
+			var targetControl:Control;
+			
 			content.x			= x;
 			content.y			= y;
 			content.scaleX		= scaleX;
@@ -204,7 +217,7 @@ package onyx.display {
 			content.anchorX		= anchorX;
 			content.anchorY		= anchorY;
 			
-			content.alpha		= alpha;
+		    content.alpha		= alpha;
 			
 			content.brightness	= brightness;
 			content.contrast	= contrast;
@@ -219,26 +232,24 @@ package onyx.display {
 			content.loopEnd		= loopEnd;
 			content.time		= time;
 			content.visible		= visible;
-			
+						
 			// clone filters
 			for each (var filter:Filter in this.filters) {
 				content.addFilter(filter);
 			}
-			
+			            
 			// apply controls
 			if (controls && content.controls) {
-				
+								
 				// check what type of object "controls" is
 				// type: Controls, set value to value
 				// type: XML, parse the xml values
 				
 				// it's a control object
 				if (controls is Controls) {
-					
 					for each (var control:Control in controls) {
-						
 						try {
-							var targetControl:Control = content.controls.getControl(control.name);
+							targetControl = content.controls.getControl(control.name);
 							if ( ! (targetControl is ControlExecute) ) {
 								targetControl.value = control.value;
 							}
@@ -249,14 +260,10 @@ package onyx.display {
 					
 				// it's xml
 				} else {
-					
 					var xml:XMLList = controls as XMLList;
-					
 					for each (var node:XML in xml.*) {
-						
 						try {
 							var name:String = node.name();
-
 							targetControl = content.controls.getControl(name);
 							targetControl.loadXML(node);
 							
@@ -265,7 +272,37 @@ package onyx.display {
 						}
 					}
 				}
+				            
 			}
 		}
+		
+		/**
+         *  Applies midi to a layer
+         */
+        public function applyMidi(properties:Controls):void {
+            
+            var targetControl:Control;
+            var xml:XML;
+            
+            // apply midi hash to control 
+            for (var key:String in hashMap) {
+               try {
+                        targetControl = properties.getControl(key);
+                        
+                        // set midi hash
+                        targetControl.hash = hashMap[key];
+                        
+                        xml = <{key} hash={hashMap[key]}/>
+                        var value:Object = this[key];
+                        xml.appendChild((value) ? value.toString() : value);
+                        targetControl.loadXML(xml);
+                                
+               } catch (e:Error) {
+                        Console.output('error setting property', key);
+               }
+  
+            }
+        }
+        
 	}
 }

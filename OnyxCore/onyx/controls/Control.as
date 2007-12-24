@@ -35,6 +35,8 @@ package onyx.controls {
 	import onyx.core.*;
 	import onyx.events.ControlEvent;
 	
+	import onyx.midi.Midi;
+	
 	use namespace onyx_ns;
 	
 	[Event(name='change', type='onyx.events.ControlEvent')]
@@ -99,6 +101,11 @@ package onyx.controls {
 		public var name:String;
 		
 		/**
+         *  midi hash value
+         */
+		public var hash:uint;
+		
+		/**
 		 * 	Stores the default value for the control
 		 */
 		onyx_ns var _defaultValue:*;
@@ -110,7 +117,7 @@ package onyx.controls {
 			
 			this.name			= name,
 			this.display		= display || name,
-			this._defaultValue	= defaultValue;
+			this._defaultValue	= defaultValue;      
 			
 		}
 		
@@ -184,13 +191,23 @@ package onyx.controls {
 		 * 	Loads the value from xml
 		 */
 		public function loadXML(xml:XML):void {
+			
 			value = xml;
+			
+			// load midi hash
+			var hashXML:String = xml.@hash;
+			if(hashXML) {
+				Midi.registerControl(this,uint(parseInt(hashXML)));
+			}
+			
 		}
 		
 		/**
 		 * 
 		 */
 		public function initialize():void {
+			//init midi hash
+			hash = 0;
 			
 		}
 		
@@ -198,11 +215,12 @@ package onyx.controls {
 		 * 	Returns xml representation of the control
 		 */
 		public function toXML():XML {
-			var xml:XML = <{name}/>;
+			var xml:XML = <{name} hash={hash}/>;
 			var value:Object = _target[name];
 			xml.appendChild((value) ? value.toString() : value);
-			
+						
 			return xml;
 		}
+		
 	}
 }

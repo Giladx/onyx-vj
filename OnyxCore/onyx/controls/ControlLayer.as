@@ -63,7 +63,7 @@ package onyx.controls {
 		 * 
 		 */
 		override public function toXML():XML {
-			var xml:XML			= <{name} />;
+			var xml:XML			= <{name}/>;
 			var layer:ILayer	= this.value;
 			
 			if (value) {

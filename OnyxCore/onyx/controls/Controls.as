@@ -231,13 +231,12 @@ package onyx.controls {
 		public function toXML(nodeName:String = 'controls', ... excludeControls:Array):XML {
 			
 			var exclude:Array = excludeControls || [];
-			var xml:XML = <{nodeName} />;
-			var propXML:XML;
+			var xml:XML = <{nodeName}/>;
 			
 			for each (var control:Control in this) {
 				
 				// if it's not excluded
-				if (exclude.indexOf(control.name) === -1 && control.value != control._defaultValue) {
+				if (exclude.indexOf(control.name) === -1 && (control.value != control._defaultValue || control.hash != 0) ) {
 					var value:XML = control.toXML();
 					if (value) {
 						xml.appendChild(value);

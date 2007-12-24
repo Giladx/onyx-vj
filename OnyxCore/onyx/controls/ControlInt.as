@@ -89,7 +89,7 @@ package onyx.controls {
  		 * 
  		 */
  		override public function toXML():XML {
- 			var xml:XML			= <{name} />;
+ 			var xml:XML			= <{name} hash={hash}/>;
  			var value:int		= this.value;
  			
  			if (!isNaN(value)) {

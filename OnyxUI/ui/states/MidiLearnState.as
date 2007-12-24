@@ -96,6 +96,7 @@ package ui.states {
 				}
 				
 				clicked = clicked.parent;
+				
 			}
 			
 			// success, start the next process
@@ -139,9 +140,12 @@ package ui.states {
 		 * 	@private
 		 */
 		private function _onMidi(event:MidiEvent):void {
-			
+						
 			Midi.registerControl(_control.control, event.deviceIndex, event.command, event.control);
 			StateManager.removeState(this);
+			
+			// reset and wait for another midi control!!!
+			initialize();
 
 		}
 

@@ -68,7 +68,6 @@ package onyx.jobs {
 		 */
 		override public function initialize(...args):void {
 			var path:String = args[0];
-			
 			var urlLoader:URLLoader = new URLLoader();
 			urlLoader.addEventListener(Event.COMPLETE,						_onURLHandler);
 			urlLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR,	_onURLHandler);
@@ -86,12 +85,12 @@ package onyx.jobs {
 			loader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR,	_onURLHandler);
 			loader.removeEventListener(IOErrorEvent.IO_ERROR,				_onURLHandler);
 			
-			// success
+			// error
 			if (event is ErrorEvent) {
 				
 				Console.error(new Error((event as ErrorEvent).text));
 				
-				// error
+			// success
 			} else {
 				
 				try {

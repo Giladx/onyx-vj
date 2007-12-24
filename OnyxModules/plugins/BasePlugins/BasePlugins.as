@@ -42,6 +42,7 @@ package {
 	
 	import modules.*;
 	import modules.VLC.*;
+	import modules.midi.*;
 	import modules.render.*;
 	import modules.stopmotion.*;
 	
@@ -104,7 +105,7 @@ package {
 				// new Plugin('VLC',					VLCModule,		'VLC'),
 				// new Plugin('Render',				RenderClient,		'RenderClient'),
 				new Plugin('Debugger',				Debugger,			'Debugger'),
-				// new Plugin('Midi',					LocalConnMidi,		'Midi'),
+				new Plugin('Midi',					XMLConnMidi,		'Midi'),
 
 				// Macros
 				new Plugin('Framerate Increase',	FrameRateIncrease, 'Framerate Increase'),

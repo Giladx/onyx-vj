@@ -65,9 +65,10 @@ package {
 			return [
 			
 				// bitmap filters
-				// new Plugin('AutoCompose',		AutoCompose,	'AutoCompose'),
+			    new Plugin('AutoCompose',		    AutoCompose,	'AutoCompose'),
+				new Plugin('Chess',                 ChessFilter,    'Alpha chesstable effect'),
 				new Plugin('Erode',					Erode,			'Erode'),
-				new Plugin('Bounce',				BounceFilter,	'Bounce'),
+				new Plugin('Bounce',				BounceFilter,	'Bounce fwd/rev playhead'),
 				new Plugin('Scroller',              ConstantScroll, 'Scroll', new AssetScroll().bitmapData),
                 new Plugin('Ray Of Light',			RayOfLight,		'Ray Of Light', new AssetRay().bitmapData),
 				new Plugin('Mirror',				MirrorFilter,	'Mirror Filter', new AssetMirror().bitmapData),

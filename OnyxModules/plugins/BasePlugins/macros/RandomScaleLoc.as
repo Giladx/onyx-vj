@@ -46,7 +46,7 @@ package macros {
 			
 			for each (var layer:ILayer in DISPLAY.layers) {
 
-				scale	= 1 + (Math.random() * 2);
+				scale	= 1 + (Math.random() * 1.8);
 				ratio	= scale - 1;
 				x		= ratio * (-BITMAP_WIDTH) * Math.random();
 				y		= ratio * (-BITMAP_HEIGHT) * Math.random();

@@ -42,7 +42,6 @@ package {
 	
 	import modules.*;
 	import modules.VLC.*;
-	import modules.midi.*;
 	import modules.render.*;
 	import modules.stopmotion.*;
 	
@@ -65,18 +64,16 @@ package {
 			return [
 			
 				// bitmap filters
-			    new Plugin('AutoCompose',		    AutoCompose,	'AutoCompose'),
+				// new Plugin('AutoCompose',		AutoCompose,	'AutoCompose'),
 				new Plugin('Chess',                 ChessFilter,    'Alpha chesstable effect'),
 				new Plugin('Erode',					Erode,			'Erode'),
-				new Plugin('Bounce',				BounceFilter,	'Bounce fwd/rev playhead'),
+				new Plugin('Bounce',				BounceFilter,	'Bounce'),
 				new Plugin('Scroller',              ConstantScroll, 'Scroll', new AssetScroll().bitmapData),
                 new Plugin('Ray Of Light',			RayOfLight,		'Ray Of Light', new AssetRay().bitmapData),
 				new Plugin('Mirror',				MirrorFilter,	'Mirror Filter', new AssetMirror().bitmapData),
 				new Plugin('Echo',					EchoFilter,		'Echo Filter', new AssetEcho().bitmapData),
 				new Plugin('Keying',				KeyingFilter,	'Keys a color out'),
 				new Plugin('Super Trigger',			SuperTrigger,	'Super Trigger'),
-				// new Plugin('Generic Tempo',		GenericTempo,	'Generic Tempo'),
-				new Plugin('Tempo Blur',			TempoBlur,		'Tempo Blur'),
 				new Plugin('Kaliedoscope', 			Kaliedoscope,	'Kaliedoscope', new AssetKalied().bitmapData),
 				new Plugin('Pixelate',				Pixelate,		'Pixelate', new AssetPixelate().bitmapData),
 				new Plugin('Blur', 					Blur,			'Blur Filter', new AssetBlur().bitmapData),
@@ -87,17 +84,19 @@ package {
 				new Plugin('Blink Effect', 			Blink,			'Randomizes the visibility'),
 				new Plugin('Frame Random', 			FrameRND,		'Randomizes Frame Rates'),
 				new Plugin('MoveScale Effect', 		MoverScaler,	'Moves and Scales Object'),
-				new Plugin('Threshold Gate', 		ThreshGate,		'Randomly Threshold'),
 				new Plugin('Displace',				DisplacementMap,'Displacement Map', new AssetDisplace().bitmapData),
 				new Plugin('Slit Scan',				SlitScan,		'Slit Scan', new AssetSlit().bitmapData),
 				new Plugin('Invert',				InvertFilter,	'Invert', new AssetInvert().bitmapData),
 				new Plugin('Edge Bleed',			EdgeBlend,		'Frame Blend', new AssetEdge().bitmapData),
 				new Plugin('Pass Through',			PassThrough,	'Pass Through'),
+				new Plugin('Color Filter',			ColorFilter,	'Color Filter'),
 
 				// transitions
 				new Plugin('Repeater Transition',	RepeaterTransition, 'Repeater Transition'),
 				new Plugin('Pixel Transition',		PixelTransition, 'Pixel Transition'),
 				new Plugin('Blur Transition',		BlurTransition, 'Blurs the loaded layer'),
+				
+				// visualizers
 				new Plugin('Basic',					BasicVisualizer, 'Visualizer'),
 				new Plugin('Circles',				CircleVisualizer, 'CircleVisualizer'),
 				new Plugin('SpectrumVisualizer',	SpectrumVisualizer, 'SpectrumVisualizer'),
@@ -106,7 +105,7 @@ package {
 				// new Plugin('VLC',					VLCModule,		'VLC'),
 				// new Plugin('Render',				RenderClient,		'RenderClient'),
 				new Plugin('Debugger',				Debugger,			'Debugger'),
-				new Plugin('Midi',					XMLConnMidi,		'Midi'),
+				// new Plugin('Midi',					LocalConnMidi,		'Midi'),
 
 				// Macros
 				new Plugin('Framerate Increase',	FrameRateIncrease, 'Framerate Increase'),

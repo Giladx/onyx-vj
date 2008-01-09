@@ -43,7 +43,7 @@ package filters {
 			this.slices	= _numSlices;
 			
 			super(true, 
-				new ControlInt('slices', 'slices', 2, 50, 12),
+				new ControlInt('slices', 'slices', 2, 125, 12),
 				new ControlNumber('alpha', 'alpha', 0, 1, 1),
 				new ControlInt('delay', 'frame delay', 1, 15, 2)
 			);

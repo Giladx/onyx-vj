@@ -30,7 +30,8 @@
  */
 package {
 	
-	import flash.display.Sprite;
+	import flash.display.*;
+	import flash.geom.*;
 	
 	import onyx.controls.*;
 	import onyx.display.ILayer;
@@ -51,11 +52,22 @@ package {
 		private var _layer:IContent;
 		
 		/**
+		 * 
+		 */
+		public var delay:int		= 0;
+		
+		/**
+		 * 
+		 */
+		private var frames:Array	= [];
+		
+		/**
 		 * 	@constructor
 		 */
 		public function LayerCopy():void {
 			 _controls = new Controls(this,
-			 	new ControlLayer('layer', 'layer')
+			 	new ControlLayer('layer', 'layer'),
+			 	new ControlInt('delay', 'frame delay', 0, 100, 0)
 			 );
 		}
 		
@@ -85,8 +97,27 @@ package {
 		 */
 		public function render():RenderTransform {
 			
-			var transform:RenderTransform = new RenderTransform();
-			transform.content = _layer ? _layer.source : null;
+			var transform:RenderTransform	= new RenderTransform();
+			
+			if (_layer && _layer.source) {
+				
+				if (delay === 0) {
+					transform.content				= _layer ? _layer.source : null;
+				} else {
+					
+					var frame:BitmapData = _layer.source.clone(); 
+					frames.push(frame);
+					
+					if (frames.length >= delay) {
+						while (frames.length >= delay) {
+							var data:BitmapData = frames.shift() as BitmapData;
+							data.dispose();
+						}
+
+						transform.content = frames[0];
+					}
+				}
+			}
 			
 			return transform;
 		}

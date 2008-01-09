@@ -21,29 +21,75 @@ package {
 		public var layer:ILayer;
 		public var size:int				= 50;
 		public var followMouse:Boolean;
+		private var _type:String			= 'mouse';
 		
 		public var preblur:Number			= 0;
+		
+		/**
+		 * 	@private
+		 */
 		private var _currentBlur:Number		= 0;
+		
+		/**
+		 * 	@private
+		 */
+		private var _last:BitmapData;
 		
 		public function LayerDraw():void {
 			color	= new ColorTransform();
 			shape	= new Shape();
 			bitmap	= new Bitmap(BASE_BITMAP());
+			_last	= BASE_BITMAP();
 			
 			_controls = new Controls(this,
 				new ControlLayer('layer', 'layer'),
 				new ControlBoolean('followMouse', 'followMouse'),
 				new ControlInt('preblur', 'preblur', 0, 30, 0),
-				new ControlInt('size', 'size', 0, 100, 50),
+				new ControlInt('size', 'size', 0, 250, 50),
 				new ControlInt('alph', 'alpha', 0, 100, 100),
 				new ControlBlend('mode', 'blend'),
+				new ControlRange('type', 'type', ['mouse','lock'], _type),
 				new ControlExecute('clear', 'clear')
 			)
 			
-			addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-			addEventListener(Event.ENTER_FRAME, enterFrame);
+			type = 'mouse';
 			
 			addChild(bitmap);
+		}
+		
+		/**
+		 * 
+		 */
+		public function set type(value:String):void {
+
+			removeEventListener(Event.ENTER_FRAME, enterFrame);
+			removeEventListener(Event.ENTER_FRAME, lockFrame);
+			
+			removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+
+			switch (value) {
+				case 'mouse':
+				
+					addEventListener(Event.ENTER_FRAME, enterFrame);
+					addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+
+					break;
+				case 'lock':
+				
+					addEventListener(Event.ENTER_FRAME, lockFrame);
+					if (layer) {
+						_last.copyPixels(layer.source, BITMAP_RECT, POINT);
+					}
+					
+					break;
+			}
+		}
+		
+		/**
+		 * 
+		 */
+		public function get type():String {
+			return _type;
 		}
 		
 		public function clear():void {
@@ -61,6 +107,28 @@ package {
 		private function mouseDown(event:MouseEvent):void {
 			addEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
 			addEventListener(MouseEvent.MOUSE_UP, mouseUp);
+		}
+		
+		private function lockFrame(event:Event):void {
+			
+			var source:BitmapData	= this.bitmap.bitmapData;
+			
+			_currentBlur	+= preblur;
+			
+			if (_currentBlur >= 2) {
+				var factor:int = _currentBlur - 2;
+				
+				_currentBlur = 0;
+				source.applyFilter(source, BITMAP_RECT, POINT, new BlurFilter(factor + 2,factor + 2));
+			}
+			
+			
+			// check for difference
+			if (layer && layer.source) {
+				source.draw(_last, null, color, mode);
+				_last.copyPixels(layer.source, BITMAP_RECT, POINT);
+			}
+
 		}
 		
 		private function mouseMove(event:MouseEvent):void {
@@ -83,6 +151,9 @@ package {
 			}
 		}
 		
+		/**
+		 * 	@private
+		 */
 		private function enterFrame(event:Event):void {
 			var source:BitmapData	= this.bitmap.bitmapData;
 
@@ -98,6 +169,9 @@ package {
 			source.draw(shape, null, color, mode);
 		}
 		
+		/**
+		 * 	@private
+		 */
 		private function mouseUp(event:MouseEvent):void {
 			removeEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
 			removeEventListener(MouseEvent.MOUSE_UP, mouseUp);
@@ -105,15 +179,22 @@ package {
 			shape.graphics.clear();
 		}
 		
+		/**
+		 * 
+		 */
 		public function get controls():Controls {
 			return _controls;
 		}
 		
+		/**
+		 * 
+		 */
 		public function dispose():void {
 			removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			removeEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
 			removeEventListener(MouseEvent.MOUSE_UP, mouseUp);
 			removeEventListener(Event.ENTER_FRAME, enterFrame);
+			removeEventListener(Event.ENTER_FRAME, lockFrame);
 		}
 	}
 }

@@ -40,11 +40,6 @@ package {
 		/**
 		 * 	@private
 		 */
-		private var _layer:IDisplay		= DISPLAY;
-		
-		/**
-		 * 	@private
-		 */
 		private var _frames:Array		= [];
 		
 		/**
@@ -52,7 +47,7 @@ package {
 		 */
 		public function LoopMachine():void {
 			_controls = new Controls(this,
-				new ControlDisplay('layer', 'layer'),
+				new ControlExecute('start', 'start'),
 				new ControlBoolean('record', 'record', 1),
 				new ControlInt('maxframes', 'frames', 120, 640, BITMAP_HEIGHT)
 			);
@@ -62,8 +57,15 @@ package {
 		/**
 		 * 
 		 */
+		public function start():void {
+			record = true;
+		}
+		
+		/**
+		 * 
+		 */
 		public function set record(value:Boolean):void {
-			if (value && _layer) {
+			if (value) {
 				
 				for each (var bitmapData:BitmapData in _frames) {
 					bitmapData.dispose();
@@ -90,7 +92,7 @@ package {
 				_controls.getControl('record').value = false;
 			}
 
-			_frames[_currentFrame++] = _layer.source.clone();
+			_frames[_currentFrame++] = DISPLAY.source.clone();
 		}
 
 		/**
@@ -105,20 +107,6 @@ package {
 		 */
 		override public function get totalFrames():int {
 			return _frames.length + 1;
-		}
-		
-		/**
-		 * 
-		 */
-		public function get layer():IDisplay {
-			return _layer;
-		}
-		
-		/**
-		 * 
-		 */
-		public function set layer(value:IDisplay):void {
-			_layer = value;
 		}
 		
 		/**
@@ -148,7 +136,6 @@ package {
 			}
 
 			_frames = null;
-			_layer = null;
 		}
 		
 		public function render():RenderTransform {

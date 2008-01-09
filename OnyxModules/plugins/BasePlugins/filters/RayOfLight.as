@@ -44,7 +44,7 @@ package filters {
 
 	public final class RayOfLight extends Filter implements IBitmapFilter {
 		
-		private var _alpha:ColorTransform	= new ColorTransform();	
+		private var _alpha:ColorTransform	= new ColorTransform(1,1,1,.4);	
 		private var matrix:Matrix			= new Matrix(1.02, 0,0, 1.02);
 		public var blend:String				= 'lighten';
 		
@@ -59,7 +59,7 @@ package filters {
 					new ControlNumber('scaleX', 'scaleX', 0, 3, 1.02),
 					new ControlNumber('scaleY', 'scaleY', 0, 3, 1.02)
 				),
-				new ControlNumber('alpha', 'alpha', 0, 1, 1),
+				new ControlNumber('alpha', 'alpha', 0, 1, .4),
 				new ControlBlend('blend', 'blend')
 			);
 		}

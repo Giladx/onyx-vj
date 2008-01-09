@@ -48,9 +48,7 @@ package macros {
 					new TweenProperty('x', layer.x, 0),
 					new TweenProperty('y', layer.y, 0),
 					new TweenProperty('scaleX', layer.scaleX, 1),
-					new TweenProperty('scaleY', layer.scaleY, 1),
-					new TweenProperty('framerate', layer.framerate, 1),
-					new TweenProperty('alpha', layer.alpha, 1)
+					new TweenProperty('scaleY', layer.scaleY, 1)
 				)
 			}	
 		}

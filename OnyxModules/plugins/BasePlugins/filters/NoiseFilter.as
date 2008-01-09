@@ -49,7 +49,7 @@ package filters {
 		private var _amount:Number		= .25;
 		private var _greyscale:Boolean	= true;
 		private var _noise:BitmapData;
-		public var mode:String			= 'overlay';
+		public var mode:String			= 'lighten';
 		
 		public function NoiseFilter():void {
 			
@@ -65,7 +65,7 @@ package filters {
 			
 			_noise.noise(Math.random() * 100, 0, _amount * 255, 7, _greyscale);
 			
-			bmp.draw(_noise, null, null, 'overlay');
+			bmp.draw(_noise, null, null, mode);
 			
 		}
 		

@@ -64,6 +64,9 @@ package onyx.events {
 			super(type);
 		}
 		
+		/**
+		 * 
+		 */
 		override public function clone():Event {
 			return new LayerEvent(super.type);
 		}

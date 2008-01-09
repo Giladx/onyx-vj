@@ -121,7 +121,7 @@ package onyx.file.http {
 						
 					// default, append the file name
 					} else {
-						name = File.startupFolder + pathUpOneLevel(rootpath + name);
+						name = File.startupFolder + pathUpOneLevel(rootpath + '/' + name);
 					}
 					
 					folders.push(new Folder(name));
@@ -139,12 +139,12 @@ package onyx.file.http {
 					// get name of the node
 					var name:String = String(node.@name);
 					var thumbpath:String	= node.@thumb;
-					var file:File			= new File(File.startupFolder + pathUpOneLevel(rootpath + name));
+					var file:File			= new File(File.startupFolder + pathUpOneLevel(rootpath + '/' + name));
 					
 					// call a job to update these bitmaps
 					if (thumbpath) {
 						thumbfiles.push(file);
-						thumbs.push(rootpath + thumbpath);
+						thumbs.push(rootpath + '/' + thumbpath);
 					}
 					
 					filesArr.push(file);

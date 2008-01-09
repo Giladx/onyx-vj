@@ -145,17 +145,24 @@ package onyx.content {
 		 * 	Stores last time the draw was executed
 		 */
 		private var _lastTime:uint;
+		
+		/**
+		 * 	@private
+		 */
+		private var _info:LoaderInfo;
 
 		/**
 		 * 	@constructor
 		 */		
 		public function ContentMC(layer:ILayer, path:String, loader:Loader):void {
 
+			_info			= loader.contentLoaderInfo;
+			
 			_loader			= loader,
-			_framerate		= loader.contentLoaderInfo.frameRate / STAGE.frameRate, // sets the framerate based on the swf framerate
+			_framerate		= _info.frameRate / STAGE.frameRate, // sets the framerate based on the swf framerate
 			_frame			= 0,
-			_ratioX			= BITMAP_WIDTH / loader.contentLoaderInfo.width, // set the ratio (so all movies look like scale = 1 at 320x240)
-			_ratioY			= BITMAP_HEIGHT / loader.contentLoaderInfo.height,
+			_ratioX			= BITMAP_WIDTH / _info.width, // set the ratio (so all movies look like scale = 1 at 320x240)
+			_ratioY			= BITMAP_HEIGHT / _info.height,
 			_loopStart		= 0,
 			_loopEnd		= 1,
 			_lastTime		= getTimer() - STAGE.frameRate;	// sets the last time we executed
@@ -188,7 +195,7 @@ package onyx.content {
 		 */
 		override public function get totalTime():int {
 			var mc:MovieClip = super._content as MovieClip;
-			return (mc.totalFrames / _loader.contentLoaderInfo.frameRate) * 1000;
+			return (mc.totalFrames / _info.frameRate) * 1000;
 		}
 		
 		/**
@@ -232,11 +239,11 @@ package onyx.content {
 		
 		/**
 		 * 	Gets the framerate
+		 * 	get the ratio of the original framerate and the actual framerate
 		 */
 		override public function get framerate():Number {
-			// get the ratio of the original framerate and the actual framerate
-			var ratio:Number = _loader.contentLoaderInfo.frameRate / STAGE.frameRate;
-			
+
+			var ratio:Number = _info.frameRate / STAGE.frameRate;
 			return (_framerate / ratio);
 		}
 
@@ -244,7 +251,7 @@ package onyx.content {
 		 * 	Sets framerate
 		 */
 		override public function set framerate(value:Number):void {
-			var ratio:Number = _loader.contentLoaderInfo.frameRate / STAGE.frameRate;
+			var ratio:Number = _info.frameRate / STAGE.frameRate;
 			_framerate = super.__framerate.dispatch(value) * ratio;
 		}
 
@@ -284,6 +291,7 @@ package onyx.content {
 		 * 
 		 */
 		override public function get scaleX():Number {
+			trace('x', this, super._scaleX, _ratioX);
 			return super._scaleX / _ratioX;
 		}
 				
@@ -298,7 +306,7 @@ package onyx.content {
 		 * 
 		 */
 		override public function get scaleY():Number {
-			return super._scaleY / _ratioY;
+			return super.scaleY / _ratioY;
 		}
 		
 		/**
@@ -307,22 +315,6 @@ package onyx.content {
 		override public function set scaleY(value:Number):void {
 			super.scaleY = value * _ratioY;
 		}
-		
-		
-		/**
-		 * 
-		 */
-		override public function set anchorX(value:int):void {
-			super._anchorX = super.__anchorX.dispatch(value * _ratioX);
-		}
-		
-		/**
-		 * 
-		 */
-		override public function set anchorY(value:int):void {
-			super._anchorY = super.__anchorY.dispatch(value * _ratioY);
-		}
-		
 		
 		/**
 		 * 	Destroys the content

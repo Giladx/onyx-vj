@@ -212,62 +212,6 @@ package onyx.content {
 		}
 		
 		/**
-		 * 	Gets saturation
-		 */
-		override public function get saturation():Number {
-			return newContent.saturation;
-		}
-		
-		/**
-		 * 	Sets saturation
-		 */
-		override public function set saturation(value:Number):void {
-			newContent.saturation = value;
-		}
-
-		/**
-		 * 	Gets contrast
-		 */
-		override public function get contrast():Number {
-			return newContent.contrast;
-		}
-
-		/**
-		 * 	Sets contrast
-		 */
-		override public function set contrast(value:Number):void {
-			newContent.contrast = value
-		}
-
-		/**
-		 * 	Gets brightness
-		 */
-		override public function get brightness():Number {
-			return newContent.brightness;
-		}
-		
-		/**
-		 * 	Sets brightness
-		 */
-		override public function set brightness(value:Number):void {
-			newContent.brightness = value;
-		}
-
-		/**
-		 * 	Gets threshold
-		 */
-		override public function get threshold():int {
-			return newContent.threshold;
-		}
-		
-		/**
-		 * 	Sets threshold
-		 */
-		override public function set threshold(value:int):void {
-			newContent.threshold = value;
-		}
-		
-		/**
 		 *	Returns rotation
 		 */
 		override public function get rotation():Number {

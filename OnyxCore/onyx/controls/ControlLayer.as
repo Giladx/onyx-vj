@@ -30,11 +30,9 @@
  */
 package onyx.controls {
 	
-	import onyx.core.*;
 	import onyx.constants.*;
+	import onyx.core.*;
 	import onyx.display.*;
-	import onyx.events.ControlEvent;
-	import onyx.content.IContent;
 	
 	use namespace onyx_ns;
 	
@@ -77,7 +75,11 @@ package onyx.controls {
 		 * 
 		 */
 		override public function loadXML(xml:XML):void {
-			
+			var num:int = int(xml.toString());
+			var layer:ILayer = DISPLAY.layers[num];
+			if (layer) {
+				value = layer;
+			} 
 		}
 
 		/**

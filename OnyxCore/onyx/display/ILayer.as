@@ -31,7 +31,6 @@
 package onyx.display {
 	
 	import flash.display.BitmapData;
-	import flash.events.IEventDispatcher;
 	
 	import onyx.content.IContent;
 	import onyx.controls.*;
@@ -55,9 +54,7 @@ package onyx.display {
 
 		function copyLayer():void;
 		function moveLayer(index:int):void;
-
 		function load(path:String, settings:LayerSettings = null, transition:Transition = null):void;
-		
 		function get content():IContent;
 
 	}

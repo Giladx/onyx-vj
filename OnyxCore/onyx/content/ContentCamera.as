@@ -79,7 +79,7 @@ package onyx.content {
 			
 			_camera	= camera;
 			_camera.setMotionLevel(0,0);
-			_camera.setMode(BITMAP_WIDTH,BITMAP_HEIGHT, 30);
+			_camera.setMode(320, 240, 60);
 
 			_video	= new Video(BITMAP_WIDTH, BITMAP_HEIGHT);
 			_video.attachCamera(camera);

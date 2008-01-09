@@ -42,7 +42,7 @@ package onyx.core {
 	 * 	@see onyx.content.Content
 	 * 	@see onyx.display.Layer
 	 */
-	public function renderContent(source:BitmapData, content:IBitmapDrawable, transform:RenderTransform, filter:ColorFilter):void {
+	public function renderContent(source:BitmapData, content:IBitmapDrawable, transform:RenderTransform, tint:ColorTransform):void {
 		
 		var matrix:Matrix, rect:Rectangle, clone:ColorTransform;
 		
@@ -53,10 +53,10 @@ package onyx.core {
 		source.fillRect(BITMAP_RECT, 0);
 		
 		// draw our content
-		source.draw(content, matrix, filter, null, rect, true);
+		source.draw(content, matrix, tint, null, rect, true);
 
 		// apply the color filter to the source
-		source.applyFilter(source, BITMAP_RECT, POINT, filter.filter);
+		// source.applyFilter(source, BITMAP_RECT, POINT, filter.filter);
 		
 	}
 

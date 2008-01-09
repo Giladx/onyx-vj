@@ -41,23 +41,17 @@ package onyx.core {
 	 */
 	public interface IColorObject extends IEventDispatcher {
 		
-		function set anchorX(value:int):void;
-		function get anchorX():int;
+		function set anchorX(value:Number):void;
+		function get anchorX():Number;
 		
-		function set anchorY(value:int):void;
-		function get anchorY():int;
+		function set anchorY(value:Number):void;
+		function get anchorY():Number;
 		
 		function set color(value:uint):void;
 		function get color():uint;
 
 		function get alpha():Number;
 		function set alpha(value:Number):void;
-
-		function get brightness():Number;
-		function set brightness(value:Number):void;
-
-		function get contrast():Number;
-		function set contrast(value:Number):void;
 
 		function get scaleX():Number;
 		function set scaleX(value:Number):void;
@@ -67,12 +61,6 @@ package onyx.core {
 
 		function get rotation():Number;
 		function set rotation(value:Number):void;
-
-		function get saturation():Number;
-		function set saturation(value:Number):void;
-
-		function get threshold():int;
-		function set threshold(value:int):void;
 
 		function get tint():Number;
 		function set tint(value:Number):void;

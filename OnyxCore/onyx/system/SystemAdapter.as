@@ -37,12 +37,21 @@ package onyx.system {
 	
 	public class SystemAdapter {
 		
-		onyx_ns static var adapter:SystemAdapter = new SystemAdapter(); 
+		/**
+		 * 	Store the system Adapter
+		 */
+		onyx_ns static var adapter:SystemAdapter; 
 		
+		/**
+		 * 	Quits the application
+		 */
 		public static function quit():void {
 			adapter.quit();
 		}
 		
+		/**
+		 * 	Full screen
+		 */
 		public static function fullScreen():void {
 			adapter.fullScreen();
 		}

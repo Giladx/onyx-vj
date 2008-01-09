@@ -100,7 +100,7 @@ package onyx.file {
 				}
 				
 			} catch (e:Error) {
-				// trace(e);
+				Console.output(e);
 			}
 				
 		}

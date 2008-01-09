@@ -41,11 +41,17 @@ package onyx.file {
 		public var path:String;
 		
 		/**
+		 * 
+		 */
+		public var isParent:Boolean;
+		
+		/**
 		 * 	@constructor
 		 */
-		public function Folder(path:String):void {
+		public function Folder(path:String, isParent:Boolean = false):void {
 			
-			this.path = path;
+			this.path		= path;
+			this.isParent	= isParent;
 			
 		}
 		

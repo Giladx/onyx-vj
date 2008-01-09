@@ -91,7 +91,7 @@ package onyx.content {
 		 * 	@private
 		 * 	The concatenated matrix
 		 */
-		private var _matrix:Matrix;
+		protected var _matrix:Matrix;
 		
 		/**
 		 * 	@private
@@ -117,12 +117,12 @@ package onyx.content {
 		/**
 		 * 	@private
 		 */
-		private var _x:int;
+		protected var _x:int;
 
 		/**
 		 * 	@private
 		 */
-		private var _y:int;
+		protected var _y:int;
 
 		/**
 		 * 	@private
@@ -170,16 +170,6 @@ package onyx.content {
 		/**
 		 * 	@private
 		 */
-		private var __brightness:Control;
-
-		/**
-		 * 	@private
-		 */
-		private var __contrast:Control;
-
-		/**
-		 * 	@private
-		 */
 		protected var __scaleX:Control;
 
 		/**
@@ -191,17 +181,7 @@ package onyx.content {
 		 * 	@private
 		 */
 		private var __rotation:Control;
-
-		/**
-		 * 	@private
-		 */
-		private var __saturation:Control;
-
-		/**
-		 * 	@private
-		 */
-		private var __threshold:Control;
-
+		
 		/**
 		 * 	@private
 		 */
@@ -258,6 +238,16 @@ package onyx.content {
 		protected var _properties:LayerProperties;
 		
 		/**
+		 * 	@private
+		 */
+		private var _alphaTransform:ColorTransform;
+		
+		/**
+		 * 	@private
+		 */
+		private var _transform:Matrix
+		
+		/**
 		 * 	@constructor
 		 */		
 		public function Content(layer:ILayer, path:String, content:IBitmapDrawable):void {
@@ -277,6 +267,8 @@ package onyx.content {
 			_properties					= props;
 			
 			// store layer, controls (for performance)
+			_transform		= new Matrix(),
+			_alphaTransform	= new ColorTransform(),
 			_filters		= new FilterArray(this),
 			_blendMode		= 'normal',
 			_visible		= true,
@@ -285,13 +277,9 @@ package onyx.content {
 			_source			= BASE_BITMAP(),
 			__color			= props.color,
 			__alpha 		= props.alpha,
-			__brightness	= props.brightness,
-			__contrast		= props.contrast,
 			__scaleX		= props.scaleX,
 			__scaleY		= props.scaleY,
 			__rotation		= props.rotation,
-			__saturation	= props.saturation,
-			__threshold		= props.threshold,
 			__tint			= props.tint,
 			__x				= props.x,
 			__y				= props.y,
@@ -334,14 +322,14 @@ package onyx.content {
 		 * 	Gets alpha
 		 */
 		public function get alpha():Number {
-			return _filter.alphaMultiplier;
+			return _alphaTransform.alphaMultiplier;
 		}
 
 		/**
 		 * 	Sets alpha
 		 */
 		public function set alpha(value:Number):void {
-			_filter.alphaMultiplier = __alpha.dispatch(value);
+			_alphaTransform.alphaMultiplier = __alpha.dispatch(value);
 		}
 		
 		/**
@@ -421,30 +409,30 @@ package onyx.content {
 		/**
 		 * 
 		 */
-		public function get anchorX():int {
-			return _anchorX;
+		public function get anchorX():Number {
+			return _anchorX / BITMAP_WIDTH;
 		}
 		
 		/**
 		 * 
 		 */
-		public function set anchorX(value:int):void {
-			_anchorX = __anchorX.dispatch(value),
+		public function set anchorX(value:Number):void {
+			_anchorX = __anchorX.dispatch(value) * BITMAP_WIDTH,
 			_renderMatrix	= null;
 		}
 		
 		/**
 		 * 
 		 */
-		public function get anchorY():int {
-			return _anchorY;
+		public function get anchorY():Number {
+			return _anchorY / BITMAP_HEIGHT;
 		}
 		
 		/**
 		 * 
 		 */
-		public function set anchorY(value:int):void {
-			_anchorY = __anchorY.dispatch(value),
+		public function set anchorY(value:Number):void {
+			_anchorY = __anchorY.dispatch(value) * BITMAP_HEIGHT,
 			_renderMatrix	= null;
 		}
 
@@ -460,62 +448,6 @@ package onyx.content {
 		 */
 		public function get y():Number {
 			return _y;
-		}
-		
-		/**
-		 * 	Gets saturation
-		 */
-		public function get saturation():Number {
-			return _filter._saturation;
-		}
-		
-		/**
-		 * 	Sets saturation
-		 */
-		public function set saturation(value:Number):void {
-			_filter.saturation = __saturation.dispatch(value);
-		}
-
-		/**
-		 * 	Gets contrast
-		 */
-		public function get contrast():Number {
-			return _filter._contrast;
-		}
-
-		/**
-		 * 	Sets contrast
-		 */
-		public function set contrast(value:Number):void {
-			_filter.contrast = __contrast.dispatch(value);
-		}
-
-		/**
-		 * 	Gets brightness
-		 */
-		public function get brightness():Number {
-			return _filter._brightness;
-		}
-		
-		/**
-		 * 	Sets brightness
-		 */
-		public function set brightness(value:Number):void {
-			_filter.brightness = __brightness.dispatch(value);
-		}
-
-		/**
-		 * 	Gets threshold
-		 */
-		public function get threshold():int {
-			return _filter._threshold;
-		}
-		
-		/**
-		 * 	Sets threshold
-		 */
-		public function set threshold(value:int):void {
-			_filter.threshold = __threshold.dispatch(value);
 		}
 		
 		/**
@@ -611,9 +543,9 @@ package onyx.content {
 		/**
 		 * 	Gets the transform
 		 */
-		public function getTransform():RenderTransform {
+		final public function getTransform():RenderTransform {
 			
-			var transform:RenderTransform, rect:Rectangle, anchorX:Number, anchorY:Number;
+			var transform:RenderTransform, rect:Rectangle;
 			
 			transform = new RenderTransform();
 
@@ -630,25 +562,9 @@ package onyx.content {
 			// build a matrix
 			if (!_renderMatrix) {
 				
-				anchorX = _anchorX * Math.abs(_scaleX),
-				anchorY = _anchorY * Math.abs(_scaleY);
-				
-				var H:Number			= Math.sqrt(Math.pow(anchorX,2) + Math.pow(anchorY,2));
-				var OFFANG:Number		= Math.atan(anchorY/anchorX);
-				var OFFROTX:Number		= ((H * Math.cos((_rotation+OFFANG))) - anchorX);
-				var OFFROTY:Number		= ((H * Math.sin((_rotation+OFFANG))) - anchorY);
-				var OFFSCALEX:Number	= (_anchorX * (1 - _scaleX));
-				var OFFSCALEY:Number	= (_anchorY * (1 - _scaleY));
-				
-				_renderMatrix = new Matrix();
-				_renderMatrix.scale(_scaleX, _scaleY);		
+				_renderMatrix = new Matrix(1, 0, 0, 1, -_anchorX, -_anchorY);
 				_renderMatrix.rotate(_rotation);
-				
-				if (_anchorX === 0 || _anchorY === 0){
-					_renderMatrix.translate(_x, _y);
-				} else {
-					_renderMatrix.translate(_x + OFFSCALEX - OFFROTX, _y + OFFSCALEY - OFFROTY);	
-				}
+				_renderMatrix.concat(new Matrix(_scaleX, 0, 0, _scaleY, _anchorX + _x, _anchorY + _y));
 				
 				if (_matrix) {
 					_renderMatrix.concat(_matrix);
@@ -757,7 +673,7 @@ package onyx.content {
 		/**
 		 * 	Sets matrix
 		 */
-		public function get matrix():Matrix {
+		final public function get matrix():Matrix {
 			return _matrix;
 		}
 		
@@ -778,7 +694,7 @@ package onyx.content {
 		/**
 		 * 	Mutes a filter
 		 */
-		public function muteFilter(filter:Filter, toggle:Boolean = true):void {
+		final public function muteFilter(filter:Filter, toggle:Boolean = true):void {
 			_filters.muteFilter(filter, toggle);
 		}
 		
@@ -786,7 +702,7 @@ package onyx.content {
 		/**
 		 * 	Get Properties
 		 */
-		public function get properties():Controls {
+		final public function get properties():Controls {
 			return _properties;
 		}
 		
@@ -809,6 +725,13 @@ package onyx.content {
 		 */
 		final public function applyFilter(filter:IBitmapFilter):void {
 			filter.applyFilter(_source);
+		}
+		
+		/**
+		 * 
+		 */
+		final public function getColorTransform():ColorTransform {
+			return _alphaTransform;
 		}
 			
 		/**
@@ -845,13 +768,9 @@ package onyx.content {
 			// remove control references
 			__color			= null,
 			__alpha 		= null,
-			__brightness	= null,
-			__contrast		= null,
 			__scaleX		= null,
 			__scaleY		= null,
 			__rotation		= null,
-			__saturation	= null,
-			__threshold		= null,
 			__tint			= null,
 			__x				= null,
 			__y				= null,

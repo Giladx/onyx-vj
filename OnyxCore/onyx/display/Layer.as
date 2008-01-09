@@ -33,7 +33,6 @@ package onyx.display {
 	import flash.display.*;
 	import flash.events.*;
 	import flash.geom.*;
-	import flash.utils.getTimer;
 	
 	import onyx.constants.*;
 	import onyx.content.*;
@@ -41,7 +40,6 @@ package onyx.display {
 	import onyx.core.*;
 	import onyx.events.*;
 	import onyx.file.File;
-	import onyx.net.Stream;
 	import onyx.plugin.*;
 	import onyx.utils.string.*;
 	
@@ -368,62 +366,6 @@ package onyx.display {
 		}
 
 		/**
-		 * 	Returns the threshold
-		 */
-		public function get threshold():int {
-			return _content.threshold;
-		}
-
-		/**
-		 * 	Sets the threshold
-		 */
-		public function set threshold(value:int):void {
-			_content.threshold = value;
-		}
-	
-		/**
-		 * 	Returns contrast
-		 */
-		public function get contrast():Number {
-			return _content.contrast;
-		}
-		
-		/**
-		 * 	Sets contrast
-		 */
-		public function set contrast(value:Number):void {
-			_content.contrast = value;
-		}
-
-		/**
-		 * 	Gets brightness
-		 */
-		public function get brightness():Number {
-			return _content.brightness;
-		}
-		
-		/**
-		 * 	Sets brightness
-		 */
-		public function set brightness(value:Number):void {
-			_content.brightness = value;
-		}
-
-		/**
-		 * 	Sets saturation
-		 */
-		public function get saturation():Number {
-			return _content.saturation;
-		}
-
-		/**
-		 * 	Gets saturation
-		 */
-		public function set saturation(value:Number):void {
-			_content.saturation = value;
-		}
-
-		/**
 		 * 	Returns tint
 		 */
 		public function get tint():Number {
@@ -524,28 +466,28 @@ package onyx.display {
 		/**
 		 * 
 		 */
-		public function get anchorX():int {
+		public function get anchorX():Number {
 			return _content.anchorX;
 		}
 		
 		/**
 		 * 
 		 */
-		public function set anchorX(value:int):void {
+		public function set anchorX(value:Number):void {
 			_content.anchorX = value;
 		}
 		
 		/**
 		 * 
 		 */
-		public function get anchorY():int {
+		public function get anchorY():Number {
 			return _content.anchorY;
 		}
 		
 		/**
 		 * 
 		 */
-		public function set anchorY(value:int):void {
+		public function set anchorY(value:Number):void {
 			_content.anchorY = value;
 		}
 
@@ -784,6 +726,13 @@ package onyx.display {
 		 */
 		public function applyFilter(filter:IBitmapFilter):void {
 			_content.applyFilter(filter);
+		}
+		
+		/**
+		 * 
+		 */
+		public function getColorTransform():ColorTransform {
+			return _content.getColorTransform();
 		}
 	}
 }

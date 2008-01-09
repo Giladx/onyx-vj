@@ -50,6 +50,7 @@ package onyx.content {
 		function set matrix(value:Matrix):void;
 		function get matrix():Matrix;
 		function get path():String;
+		function getColorTransform():ColorTransform;
 
 	}
 }

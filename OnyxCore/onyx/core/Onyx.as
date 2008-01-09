@@ -79,6 +79,11 @@ package onyx.core {
 		/**
 		 * 	@private
 		 */
+		private static var initState:InitializationState;
+		
+		/**
+		 * 	@private
+		 */
 		private static const _protocolDef:Object	= {};
 		
 		// set up default protocols for onyx plugins, and rtmp		
@@ -101,22 +106,17 @@ package onyx.core {
 		/**
 		 * 	Initializes the Onyx engine
 		 */
-		public static function initialize(root:DisplayObjectContainer, fileAdapter:FileAdapter, systemAdapter:SystemAdapter = null):void {
+		public static function initialize(root:DisplayObjectContainer, fileAdapter:FileAdapter, pluginPath:String):void {
 			
 			// store the flash root / stage objects
 			ROOT	= root,
 			STAGE	= root.stage;
 			
-			// mmmm... root path
-			ROOT_PATH = STAGE.loaderInfo.loaderURL.substring(STAGE.loaderInfo.loaderURL.lastIndexOf(':///')+4, STAGE.loaderInfo.loaderURL.lastIndexOf('/')+1);
-			
 			// store adapters;
 			File._adapter		= fileAdapter;
 			
-			// store system adapter if one is passed in
-			if (systemAdapter) {
-				SystemAdapter.adapter = systemAdapter;
-			}
+			// store init state
+			initState = new InitializationState(pluginPath); 
 		}
 		
 		/**
@@ -171,7 +171,7 @@ package onyx.core {
 			timer.stop();
 
 			// start initialization
-			StateManager.loadState(new InitializationState());
+			StateManager.loadState(initState);
 			
 		}
 		
@@ -248,24 +248,6 @@ package onyx.core {
 			
 			// register with the console, etc
 			Console.output(plugin.name + ' module loaded.');
-		}
-
-		/**
-		 * 	Creates a display
-		 * 	@param		The number of layers to create in the display
-		 * 	@returns	Display
-		 */
-		public static function createDisplay(x:int = 0, y:int = 0, scaleX:Number = 1, scaleY:Number = 1):IDisplay {
-			
-			var display:Display = new Display();
-			display.displayX = x;
-			display.displayY = y;
-			display.scaleX = scaleX;
-			display.scaleY = scaleY;
-			
-			ROOT.addChild(display);
-			
-			return display;
 		}
 	}
 }

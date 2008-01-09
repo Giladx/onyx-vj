@@ -48,7 +48,6 @@ package onyx.display {
 	
 	use namespace onyx_ns;
 	
-	[Event(name='render', type='onyx.events.RenderEvent')]
 	[ExcludeClass]
 	
 	/**
@@ -135,15 +134,15 @@ package onyx.display {
 		 * 	Channel Mix ratio
 		 */
 		private var _channelMix:Number;
-		
+
 		/**
 		 * 	@constructor
 		 */
 		public function Display():void {
 			
 			_channelMix	= 0,
-			_channelA	= new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT, false, 0),
-			_channelB	= new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT, false, 0);
+			_channelA		= new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT, false, 0),
+			_channelB		= new BitmapData(BITMAP_WIDTH, BITMAP_HEIGHT, false, 0);
 			
 			__x 			= new ControlInt('displayX', 'x', 0, 2000, STAGE.stageWidth - 320),
 			__y 			= new ControlInt('displayY', 'y', 0, 2000, 0),
@@ -155,17 +154,14 @@ package onyx.display {
 			
 			_filters	= new FilterArray(this),
 			_controls	= new Controls(this,
-				new ControlNumber('brightness', 'BRIGHT', -1, 1, 0),
-				new ControlNumber('contrast', 'CONTRAST', -1, 2, 0),
-				new ControlNumber('saturation', 'SATURATION', 0, 2, 1),
-				new ControlInt('threshold', 'THRESHOLD', 0, 100, 0),
 				new ControlProxy('position', 'POSITION', __x, __y, true),
 				new ControlColor('backgroundColor', 'BACKGROUND'),
 				new ControlRange('size', 'size', DISPLAY_SIZES, DISPLAY_SIZES[0]),
 				new ControlBoolean('smoothing', 'SMOOTHING',	0),
 				__transition,
 				__alpha,
-				__visible
+				__visible,
+				__x
 			);
 			
 			// init the bitmap
@@ -300,6 +296,7 @@ package onyx.display {
 				var numLayers:int = _layers.length;
 				var fromChildIndex:int = _layers.indexOf(layer);
 				
+				// swap the layers
 				swap(_layers, layer, index);
 
 				// dispatch events to the layers				
@@ -338,7 +335,6 @@ package onyx.display {
 				settings.load(layer);
 				
 				copylayer.load(layer.path, settings);
-				
 			}
 		}
 		
@@ -435,62 +431,6 @@ package onyx.display {
 			return _filter._tint;
 		}
 
-		/**
-		 * 	Gets saturation
-		 */
-		public function get saturation():Number {
-			return _filter._saturation;
-		}
-		
-		/**
-		 * 	Sets saturation
-		 */
-		public function set saturation(value:Number):void {
-			_filter.saturation = value;
-		}
-
-		/**
-		 * 	Gets contrast
-		 */
-		public function get contrast():Number {
-			return _filter._contrast;
-		}
-
-		/**
-		 * 	Sets contrast
-		 */
-		public function set contrast(value:Number):void {
-			_filter.contrast = value;
-		}
-
-		/**
-		 * 	Gets brightness
-		 */
-		public function get brightness():Number {
-			return _filter._brightness;
-		}
-		
-		/**
-		 * 	Sets brightness
-		 */
-		public function set brightness(value:Number):void {
-			_filter.brightness = value;
-		}
-
-		/**
-		 * 	Gets threshold
-		 */
-		public function get threshold():int {
-			return _filter._threshold;
-		}
-		
-		/**
-		 * 	Sets threshold
-		 */
-		public function set threshold(value:int):void {
-			_filter.threshold = value;
-		}
-		
 		/**
 		 * 	Gets a filter's index
 		 */
@@ -623,12 +563,10 @@ package onyx.display {
 		 */
 		public function render():RenderTransform {
 			
-			var data:BitmapData, count:int, len:int, blend:String, stackA:Array, stackB:Array, layer:ILayer;
+			var data:BitmapData, count:int, len:int, blend:String, layer:ILayer;
 			
-			data	= super.bitmapData,
-			stackA	= [],
-			stackB	= [];
-			
+			data	= super.bitmapData;
+						
 			// lock the bitmaps so nothing updates
 			data.lock();
 			
@@ -644,17 +582,20 @@ package onyx.display {
 				
 				if (layer.visible) {
 					if (layer.channel) {
-						_channelB.draw(layer.source, null, null, layer.blendMode);
+						_channelB.draw(layer.source, null, layer.getColorTransform(), layer.blendMode);
 					} else {
-						_channelA.draw(layer.source, null, null, layer.blendMode);
+						_channelA.draw(layer.source, null, layer.getColorTransform(), layer.blendMode);
 					}
 				}
 			}
 			
+			// check for absolute channels
 			if (_channelMix === 0) {
 				data.copyPixels(_channelA, BITMAP_RECT, POINT);
 			} else if (_channelMix === 1) {
 				data.copyPixels(_channelB, BITMAP_RECT, POINT);
+				
+			// otherwise we need to render the transition (slower)
 			} else {
 				
 				data.fillRect(BITMAP_RECT, _backgroundColor);
@@ -667,7 +608,7 @@ package onyx.display {
 			_filters.render(data);
 			
 			// apply threshold, etc
-			data.applyFilter(data, BITMAP_RECT, POINT, _filter.filter);
+			// data.applyFilter(data, BITMAP_RECT, POINT, _filter.filter);
 			
 			// unlock
 			data.unlock();
@@ -758,28 +699,28 @@ package onyx.display {
 		/**
 		 * 	Returns the anchor
 		 */
-		public function get anchorX():int {
+		public function get anchorX():Number {
 			return 0;
 		}
 		
 		/**
 		 * 	Sets the anchor
 		 */
-		public function set anchorX(value:int):void {
+		public function set anchorX(value:Number):void {
 			// do nothing, use no anchor
 		}
 		
 		/**
 		 * 	Returns the anchor
 		 */
-		public function get anchorY():int {
+		public function get anchorY():Number {
 			return 0;
 		}
 		
 		/**
 		 * 
 		 */
-		public function set anchorY(value:int):void {
+		public function set anchorY(value:Number):void {
 			// do nothing, use no anchor
 		}
 		
@@ -794,24 +735,7 @@ package onyx.display {
 		 * 	Sets visibility
 		 */
 		override public function set visible(value:Boolean):void {
-			__visible.dispatch(value);
-			
-			if (value && !parent) {
-				
-				x = STAGE.stageWidth - width;
-				y = 0;
-				
-				STAGE.addChildAt(this, 0);
-			} else if (!value && parent) {
-				STAGE.removeChild(this);
-			}
-		}
-		
-		/**
-		 * 	Visibility
-		 */
-		override public function get visible():Boolean {
-			return parent !== null;
+			super.visible = __visible.dispatch(value);
 		}
 		 		
 		/**
@@ -899,7 +823,7 @@ package onyx.display {
 		}
 		
 		/**
-		 * 
+		 * 	Dispatching an event here forward onto all layers
 		 */
 		override public function dispatchEvent(event:Event):Boolean {
 			for each (var layer:ILayer in _valid) {
@@ -923,18 +847,24 @@ package onyx.display {
 		}
 		
 		/**
-		 * 
+		 * 	Returns the A channel
 		 */
 		public function get channelA():BitmapData {
 			return _channelA;
 		}
 
-
 		/**
-		 * 
+		 * 	Returns the B channel bitmapdata
 		 */
 		public function get channelB():BitmapData {
 			return _channelB;
+		}
+		
+		/**
+		 * 
+		 */
+		public function getColorTransform():ColorTransform {
+			return null;
 		}
 
 		/**

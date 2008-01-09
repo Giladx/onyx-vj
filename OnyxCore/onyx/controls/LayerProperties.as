@@ -45,20 +45,9 @@ package onyx.controls {
 												'alpha',				'alpha',	0,	1,	1
 											);
 		public var blendMode:Control	=	new ControlBlend('blendMode', 'blendmode');
-		public var brightness:Control	=	new ControlNumber(
-												'brightness',			'bright',		-1,		1,		0
-											);
-		public var contrast:Control		= 	new ControlNumber(
-												'contrast',				'contrast',		-1,		2,		0
-											);
+
 		public var rotation:Control		= 	new ControlNumber(
 												'rotation',				'rotation',		-3.6,	3.6,	0
-											);
-		public var saturation:Control	= 	new ControlNumber(
-												'saturation',			'saturation',	0,		2,		1
-											);
-		public var threshold:Control	= 	new ControlInt(
-												'threshold',			'threshold',	0,		100,	0
 											);
 		public var tint:Control			= 	new ControlNumber(
 												'tint',					'tint',			0,		1,		0
@@ -75,11 +64,11 @@ package onyx.controls {
 		public var y:ControlInt			=	new ControlInt(
 												'y',					'y',	-5000,	5000,	0
 											);
-		public var anchorX:ControlNumber= 	new ControlInt(
-												'anchorX',				'anchorX',	-640,	640,	160
+		public var anchorX:ControlNumber= 	new ControlNumber(
+												'anchorX',				'anchorX',	-1,	1, 0
 											);
-		public var anchorY:ControlNumber=	new ControlInt(
-												'anchorY',				'anchorY',	-480,	480,	120
+		public var anchorY:ControlNumber=	new ControlNumber(
+												'anchorY',				'anchorY',	-1,	1, 0
 											);
 		public var framerate:Control	=	new ControlFrameRate(
 												'framerate',			'play rate'
@@ -130,11 +119,7 @@ package onyx.controls {
 				// add controls
 				alpha,
 				blendMode,
-				brightness,
-				contrast,
 				rotation,
-				saturation,
-				threshold,
 				scale,
 				position,
 				framerate,

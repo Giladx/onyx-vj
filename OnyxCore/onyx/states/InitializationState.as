@@ -33,15 +33,13 @@ package onyx.states {
 	import flash.display.*;
 	import flash.events.*;
 	import flash.net.*;
-	import flash.system.ApplicationDomain;
-	import flash.text.TextField;
 	import flash.utils.Timer;
 	
 	import onyx.core.*;
 	import onyx.events.*;
 	import onyx.file.*;
-	import onyx.plugin.*;
 	import onyx.file.filters.*;
+	import onyx.plugin.*;
 	
 	use namespace onyx_ns;
 
@@ -53,7 +51,7 @@ package onyx.states {
 		/**
 		 * 	@private
 		 */
-		private static const PLUGINS_DIRECTORY:String	= 'plugins';
+		private var path:String;
 		
 		/**
 		 * 	@private
@@ -68,7 +66,8 @@ package onyx.states {
 		/**
 		 * 
 		 */
-		public function InitializationState():void {
+		public function InitializationState(path:String):void {
+			this.path = path;
 			super();
 		}
 		
@@ -81,11 +80,11 @@ package onyx.states {
 			Onyx.instance.dispatchEvent(new ApplicationEvent(ApplicationEvent.ONYX_STARTUP_START));
 			
 			// output to console
-			Console.output('LOADING PLUG-INS: ' + File.startupFolder + PLUGINS_DIRECTORY + '... \n');
+			Console.output('LOADING PLUG-INS: ' + path + '... \n');
 			
 			// query directory
 			File.query(
-				File.startupFolder + PLUGINS_DIRECTORY,
+				path,
 				_loadExternalPlugins,
 				new PluginFilter()
 			);
@@ -102,10 +101,11 @@ package onyx.states {
 				
 				for each (var file:File in list.files) {
 					
-					var swfloader:Loader = new Loader();
-					swfloader.contentLoaderInfo.addEventListener(Event.COMPLETE,					_onFilterLoaded);
-					swfloader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,				_onFilterLoaded);
-					swfloader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR, _onFilterLoaded);
+					var swfloader:Loader	= new Loader();
+					var info:LoaderInfo		= swfloader.contentLoaderInfo;
+					info.addEventListener(Event.COMPLETE,						_onFilterLoaded);
+					info.addEventListener(IOErrorEvent.IO_ERROR,				_onFilterLoaded);
+					info.addEventListener(SecurityErrorEvent.SECURITY_ERROR,	_onFilterLoaded);
 					
 					swfloader.load(new URLRequest(file.path));
 

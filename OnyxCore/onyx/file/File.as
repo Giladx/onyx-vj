@@ -59,7 +59,7 @@ package onyx.file {
 		public static var VISUALIZER_ICON:BitmapData;
 		
 		/**
-		 * 
+		 * 	Startup folder
 		 */
 		public static var startupFolder:String = '';
 		
@@ -79,7 +79,9 @@ package onyx.file {
 		 * 	Gets file name from a path
 		 */
 		public static function getFileName(path:String):String {
-			return _adapter.getFileName(path);
+			var index:int = Math.max(path.lastIndexOf('/', path.length - 2), path.lastIndexOf('\\', path.length - 2));
+			
+			return path.substr(index+1);
 		}
 
 		/**

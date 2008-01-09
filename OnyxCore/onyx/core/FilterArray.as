@@ -212,8 +212,6 @@ package onyx.core {
 		 */
 		public function loadXML(xml:XMLList):void {
 			
-			// trace('filterarray, loadXML()', xml);
-			
 			for each (var filterXML:XML in xml.*) {
 				
 				var name:String			= filterXML.@id;

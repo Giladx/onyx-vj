@@ -42,6 +42,13 @@ package onyx.content {
 	[ExcludeClass]
 	public final class ContentNull implements IContent {
 		
+		/**
+		 * 
+		 */
+		final public function getColorTransform():ColorTransform {
+			return null;
+		}
+		
 		public function get source():BitmapData
 		{
 			return null;
@@ -167,24 +174,6 @@ package onyx.content {
 			return 0;
 		}
 		
-		public function set threshold(value:int):void
-		{
-		}
-		
-		public function get threshold():int
-		{
-			return 0;
-		}
-		
-		public function get saturation():Number
-		{
-			return 0;
-		}
-		
-		public function set saturation(value:Number):void
-		{
-		}
-		
 		public function set y(value:Number):void
 		{
 		}
@@ -192,15 +181,6 @@ package onyx.content {
 		public function get y():Number
 		{
 			return 0;
-		}
-		
-		public function get brightness():Number
-		{
-			return 0;
-		}
-		
-		public function set brightness(value:Number):void
-		{
 		}
 		
 		public function get blendMode():String
@@ -309,27 +289,27 @@ package onyx.content {
 		/**
 		 * 
 		 */
-		public function get anchorX():int {
+		public function get anchorX():Number {
 			return 0;
 		}
 		
 		/**
 		 * 
 		 */
-		public function set anchorX(value:int):void {
+		public function set anchorX(value:Number):void {
 		}
 		
 		/**
 		 * 
 		 */
-		public function get anchorY():int {
+		public function get anchorY():Number {
 			return 0;
 		}
 		
 		/**
 		 * 
 		 */
-		public function set anchorY(value:int):void {
+		public function set anchorY(value:Number):void {
 		}
 
 		/**

@@ -31,13 +31,9 @@
 package onyx.content {
 	
 	import flash.display.*;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.filters.BitmapFilter;
 	import flash.geom.*;
 	
 	import onyx.constants.*;
-	import onyx.controls.Controls;
 	import onyx.core.*;
 	import onyx.display.*;
 	
@@ -49,18 +45,6 @@ package onyx.content {
 		 * 	Stores the loader object where the content was loaded into
 		 */
 		private var _loader:Loader;
-				
-		/**
-		 * 	@private
-		 * 	The ratio to store the content
-		 */
-		private var _ratioX:Number							= 1;
-		
-		/**
-		 * 	@private
-		 * 	The ratio to store the content
-		 */
-		private var _ratioY:Number							= 1;
 
 		/**
 		 * 	@constructor
@@ -68,10 +52,6 @@ package onyx.content {
 		public function ContentCustom(layer:ILayer, path:String, loader:Loader):void {
 			
 			_loader		= loader;
-
-			// store ratio
-			_ratioX = BITMAP_WIDTH / loader.contentLoaderInfo.width;
-			_ratioY = BITMAP_HEIGHT / loader.contentLoaderInfo.height;
 			
 			// pass controls
 			super(layer, path, loader.content);
@@ -86,6 +66,12 @@ package onyx.content {
 			var content:IRenderObject			= _content as IRenderObject;
 			var transform:RenderTransform		= content.render() || new RenderTransform();
 			var drawContent:IBitmapDrawable		= transform.content || _content;
+			
+			if (!transform.matrix) {
+				transform.matrix				= new Matrix();
+			}
+			
+			transform.matrix.concat(new Matrix(_scaleX, 0, 0, _scaleY, _x, _y));
 			
 			// render content
 			renderContent(_source, drawContent, transform, _filter);
@@ -106,34 +92,6 @@ package onyx.content {
 			// destroy content
 			_loader.unload();
 			_loader	= null;
-		}
-
-		/**
-		 * 
-		 */		
-		override public function get scaleX():Number {
-			return super.scaleX / _ratioX;
-		}
-		
-		/**
-		 * 
-		 */		
-		override public function set scaleX(value:Number):void {
-			super.scaleX = value * _ratioX;
-		}
-		
-		/**
-		 * 
-		 */		
-		override public function get scaleY():Number {
-			return super.scaleY / _ratioY;
-		}
-		
-		/**
-		 * 
-		 */		
-		override public function set scaleY(value:Number):void {
-			super.scaleY = value * _ratioY;
 		}
 	}
 }

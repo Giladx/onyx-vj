@@ -48,19 +48,15 @@ package onyx.display {
 
 		public var x:int;
 		public var y:int;
-		public var anchorX:int;
-		public var anchorY:int;
+		public var anchorX:Number;
+		public var anchorY:Number;
 		public var scaleX:Number;
 		public var scaleY:Number;
 		public var rotation:int;
 
 		public var alpha:Number;
-		public var brightness:Number;
-		public var contrast:Number;
-		public var saturation:Number;
 		public var tint:Number;
 		public var color:uint;
-		public var threshold:Number;
 		public var blendMode:String;
 		public var visible:Boolean;
 		
@@ -75,10 +71,10 @@ package onyx.display {
 		public var loopEnd:Number;
 		public var path:String;
 		
-		// midi hash map 
+		/**
+		 * 	Stores midi hash values
+		 */ 
 		public var hashMap:Dictionary = new Dictionary(false);
-		
-		private var _propList:XMLList;
 		
 		/**
 		 * 
@@ -93,12 +89,8 @@ package onyx.display {
 			scaleX			= 1,
 			scaleY			= 1,
 			alpha			= 1,
-			brightness		= 0,
-			contrast		= 0
-			saturation		= 1,
 			tint			= 0,
 			color			= 0,
-			threshold		= 0,
 			blendMode		= 'normal',
 			visible			= true,
 			time			= 0,
@@ -119,12 +111,8 @@ package onyx.display {
 			scaleY		= content.scaleY,
 			rotation	= content.rotation,
 			alpha		= content.alpha,
-			brightness	= content.brightness,
-			contrast	= content.contrast,
-			saturation	= content.saturation,
 			color		= content.color,
 			tint		= content.tint,
-			threshold	= content.threshold,
 			blendMode	= content.blendMode,
 			time		= content.time,
 			framerate	= content.framerate,
@@ -150,8 +138,6 @@ package onyx.display {
 		public function loadFromXML(xml:XML):void {
 			
 			var propXML:XMLList = xml.properties;
-			//store properties
-			_propList = propXML;
 			
 			var value:String;
 			
@@ -218,13 +204,8 @@ package onyx.display {
 			content.anchorY		= anchorY;
 			
 		    content.alpha		= alpha;
-			
-			content.brightness	= brightness;
-			content.contrast	= contrast;
-			content.saturation	= saturation;
 			content.color		= color;
 			content.tint		= tint;
-			content.threshold	= threshold;
 			content.blendMode	= blendMode;
 			
 			content.framerate	= framerate;

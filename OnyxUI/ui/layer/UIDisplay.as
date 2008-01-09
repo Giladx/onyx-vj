@@ -31,6 +31,7 @@
 package ui.layer {
 	
 	import flash.display.*;
+	import flash.events.MouseEvent;
 	
 	import onyx.constants.*;
 	import onyx.controls.*;
@@ -43,7 +44,6 @@ package ui.layer {
 	import ui.settings.*;
 	import ui.styles.*;
 	import ui.window.*;
-	import flash.events.MouseEvent;
 
 	/**
 	 * 	Display Control
@@ -95,11 +95,7 @@ package ui.layer {
 				new LayerPage('DISPLAY',
 					null,
 					controls.getControl('backgroundColor'),
-					controls.getControl('alpha'),
-					controls.getControl('saturation'),
-					controls.getControl('threshold'),
-					controls.getControl('brightness'),
-					controls.getControl('contrast')
+					controls.getControl('alpha')
 				),
 				new LayerPage('FILTER'),
 				new LayerPage('OUTPUT',
@@ -198,8 +194,9 @@ package ui.layer {
 				
 				_preview.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 				_preview.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
-				STAGE.removeEventListener(MouseEvent.MOUSE_UP, mouseUp);
 
+				// remove listeners				
+				STAGE.removeEventListener(MouseEvent.MOUSE_UP, mouseUp);
 				STAGE.removeChild(_preview);
 				
 				_preview.dispose();
@@ -225,6 +222,7 @@ package ui.layer {
 		 *	@private 
 		 */
 		private function mouseMove(event:MouseEvent):void {
+			
 			_display.dispatchEvent(event);
 		}
 		
@@ -234,7 +232,6 @@ package ui.layer {
 		private function mouseUp(event:MouseEvent):void {
 			STAGE.removeEventListener(MouseEvent.MOUSE_UP, mouseUp);
 			_preview.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
-			
 			_display.dispatchEvent(event);
 		} 
 		
@@ -273,8 +270,11 @@ import flash.display.*;
 	
 final class Preview extends Sprite {
 	
+	/**
+	 * 
+	 */
 	public function Preview(bmp:BitmapData):void {
-		addChild(new Bitmap(bmp, PixelSnapping.ALWAYS, false));
+		addChild(new Bitmap(bmp, PixelSnapping.ALWAYS, true));
 	}
 	
 	public function dispose():void {

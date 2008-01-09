@@ -93,7 +93,13 @@ package ui.controls.layer {
 		 * 	@private
 		 */
 		private function _controlHandler(event:ControlEvent):void {
-			_icon.bitmapData = event.value ? LAYER_VISIBLE : LAYER_DISABLED;
+			if (event.value) {
+				_icon.bitmapData	= LAYER_VISIBLE;
+				parent.alpha		= 1;
+			} else {
+				_icon.bitmapData	= LAYER_DISABLED;
+				parent.alpha		= .6;
+			}
 		}
 		
 		/**

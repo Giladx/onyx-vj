@@ -78,7 +78,7 @@ package ui.controls.browser {
 			
 			_folder = folder;
 			
-			if (useArrowFolder) {
+			if (useArrowFolder || folder.isParent) {
 				_img = new AssetFolderUp();
 				_label.text = 'up one level';
 			} else {

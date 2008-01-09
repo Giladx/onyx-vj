@@ -31,8 +31,10 @@
 package {
 	
 	import flash.display.*;
-	import flash.events.Event;
+	import flash.events.*;
 	import flash.geom.*;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
 	import flash.system.*;
 	import flash.ui.*;
 	
@@ -43,11 +45,11 @@ package {
 	import onyx.system.*;
 	import onyx.utils.array.*;
 	
-	import ui.assets.AssetCamera;
-	import ui.assets.AssetVisualizer;
+	import ui.assets.*;
 	import ui.core.*;
 	import ui.macros.*;
 	import ui.states.*;
+	import ui.window.*;
 	
 	[SWF(width="1024", height="740", backgroundColor="#141515", frameRate='24')]
 	public class OnyxUI extends Sprite {
@@ -57,18 +59,27 @@ package {
 		 */
 		public function OnyxUI():void {
 			
-			addEventListener(Event.ADDED_TO_STAGE, _onAdded);
-			
+			// load settings
+			var loader:URLLoader = new URLLoader();
+			loader.addEventListener(Event.COMPLETE, settingsHandler);
+			loader.addEventListener(IOErrorEvent.IO_ERROR, settingsHandler);
+			loader.load(new URLRequest('settings/settings.xml'));
+
 		}
 		
-		/**
-		 * 	@private
-		 */
-		private function _onAdded(event:Event):void {
+		private function settingsHandler(event:Event):void {
 			
-			// remove listener
-			removeEventListener(Event.ADDED_TO_STAGE, _onAdded);
-
+			var loader:URLLoader = event.currentTarget as URLLoader;
+			loader.removeEventListener(Event.COMPLETE, settingsHandler);
+			loader.removeEventListener(IOErrorEvent.IO_ERROR, settingsHandler);
+			
+			if (!(event is ErrorEvent)) {
+				try {
+					Settings.xml = new XML(loader.data);
+				} catch (e:Error) {
+				}
+			}
+			
 			var stage:Stage = this.stage;
 			
 			// no scale please thanks
@@ -81,20 +92,23 @@ package {
 			File.VISUALIZER_ICON	= new AssetVisualizer();
 			
 			var rootpath:String = stage.loaderInfo.url;
+			Browser.ROOT_DIR = rootpath.substr(0, rootpath.lastIndexOf('/')) + '/video/';
 			
 			// init
-			UIManager.initialize(
+			var manager:UIManager = new UIManager();
+			manager.initialize(
 				stage,
-				rootpath.substr(0, rootpath.lastIndexOf('/')) + '/',
+				stage,
 				new HTTPAdapter(),
-				new KeyListenerState()
+				new SystemAdapter(),
+				'plugins/'
 			);
+			
 			
 			// hide items
 			var menu:ContextMenu = new ContextMenu();
 			menu.hideBuiltInItems();
 			contextMenu	= menu;
-			
 		}		
 	}
 }

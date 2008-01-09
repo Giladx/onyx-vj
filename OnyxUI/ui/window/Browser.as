@@ -68,9 +68,9 @@ package ui.window {
 		}
 		
 		/**
-		 * 	
+		 * 	The root directory the browser should look in
 		 */
-		public static const ROOT_DIR:String				= 'video';
+		public static var ROOT_DIR:String;
 
 		/** @private **/
 		private static const FILES_PER_ROW:int			= 6;
@@ -156,9 +156,8 @@ package ui.window {
 			
 			// query default folder
 			File.query(
-				File.startupFolder + ROOT_DIR, _updateList, new SWFFilter()
+				ROOT_DIR, _updateList, new SWFFilter()
 			);
-			
 			// _folders.addChild();
 		}
 		

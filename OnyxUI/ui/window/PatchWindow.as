@@ -49,7 +49,6 @@ package ui.window {
 		 * 
 		 */
 		public function display(origin:DisplayObject, obj:IControlObject):void {
-			trace(origin, obj.controls);
 		}
 	}
 }

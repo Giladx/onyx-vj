@@ -59,6 +59,7 @@ package ui.window {
 			// set our display
 			_display	= new UIDisplay(DISPLAY);
 
+			//
 			addChild(_display);
 		}
 	}

@@ -222,13 +222,9 @@ package ui.layer {
 										props.position,
 										props.alpha,
 										props.scale,
-										props.brightness,
 										props.anchor,
-										props.contrast,
 										props.rotation,
-										props.saturation,
 										props.tint,
-										props.threshold,
 										props.color,
 										props.framerate
 				),

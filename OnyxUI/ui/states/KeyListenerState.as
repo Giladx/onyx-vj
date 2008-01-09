@@ -133,7 +133,7 @@ package ui.states {
 		}
 		
 		/**
-		 * 
+		 * 	@private
 		 */
 		private function keyUp(event:KeyboardEvent):void {
 			

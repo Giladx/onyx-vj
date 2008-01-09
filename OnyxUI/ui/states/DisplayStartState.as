@@ -41,7 +41,6 @@ package ui.states {
 	
 	import ui.assets.*;
 	import ui.core.*;
-	import ui.layer.UILayer;
 	import ui.settings.*;
 	import ui.text.*;
 	import ui.window.*;
@@ -62,23 +61,11 @@ package ui.states {
 		private var _label:TextField		= new TextField(400,425);
 		
 		/**
-		 * 	@private
+		 * 	@constructor
 		 */
-		private var _states:Array;
-		
-		/**
-		 * 	The window state to start up
-		 */
-		public var startupWindowState:String	= 'DEFAULT';
-		
-		/**
-		 * 
-		 */
-		public function DisplayStartState(states:Array):void {
+		public function DisplayStartState():void {
 			
-			// save states to run
-			_states = states;
-			
+			// super!
 			super(DisplayStartState);
 		}
 
@@ -161,25 +148,14 @@ package ui.states {
 			_image = null;
 			_label = null;
 			
-			// loop through and load states			
-			if (_states) {
-				for each (var state:ApplicationState in _states) {
-					StateManager.loadState(state);
-				}
-			}
-			
-			// add a display, but only make it visible if the stagewidth is greater than > 1024
-			var display:IDisplay = Onyx.createDisplay(STAGE.stageWidth - 640, 0, 640 / BITMAP_WIDTH, 480 / BITMAP_HEIGHT);
-			display.createLayers(5);
-			display.visible = STAGE.stageWidth >= 1664;
+			// create a key listener			
+			StateManager.loadState(new KeyListenerState());
 			
 			// add menu buttons to modules that have interface states
-			UIManager.registerModuleWindows();
+			// UIManager.registerModuleWindows();
 
 			// register the default state
-			WindowState.load(
-				WindowState.getState(startupWindowState)
-			);
+			WindowState.load(WindowState.getState('DEFAULT'));
 			
 			// create the bottom buttons
 			var window:MenuWindow = new MenuWindow(null);
@@ -190,9 +166,6 @@ package ui.states {
 			
 			// TBD -- midi should automatically listen to layer creations / deletions?
 			// MIDI.registerLayers(display.layers);
-
-			// remove references
-			_states = null;
 		}
 	}
 }

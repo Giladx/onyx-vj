@@ -30,17 +30,14 @@
  */
 package ui.controls.layer {
 	
-	import onyx.controls.Control;
-	import onyx.controls.ControlProxy;
+	import flash.display.DisplayObject;
+	
+	import onyx.constants.*;
+	import onyx.controls.*;
 	import onyx.events.ControlEvent;
 	
 	import ui.assets.AssetLayerRegPoint;
-	import ui.controls.ButtonClear;
 	import ui.controls.UIControl;
-	import ui.controls.page.ControlPage;
-	import flash.events.Event;
-	import onyx.controls.ControlInt;
-	import flash.display.DisplayObject;
 
 	public final class LayerRegPoint extends UIControl {
 		
@@ -57,17 +54,17 @@ package ui.controls.layer {
 		/**
 		 * 	
 		 */
-		public static const SCALE:Number	= .6;
+		private static const SCALE:Number	= 192 / BITMAP_WIDTH;
 		
 		/**
 		 * 
 		 */
-		public var controlX:ControlInt;
+		public var controlX:ControlNumber;
 		
 		/**
 		 * 
 		 */
-		public var controlY:ControlInt;
+		public var controlY:ControlNumber;
 		
 		/**
 		 * 	@constructor
@@ -78,8 +75,8 @@ package ui.controls.layer {
 			addChild(new AssetLayerRegPoint());
 			
 			// store controls
-			controlX = control.controlX as ControlInt,
-			controlY = control.controlY as ControlInt;
+			controlX = control.controlX as ControlNumber,
+			controlY = control.controlY as ControlNumber;
 			
 			// add listeners
 			controlX.addEventListener(ControlEvent.CHANGE, _onControlXChange);
@@ -92,14 +89,14 @@ package ui.controls.layer {
 		 * 	@private
 		 */
 		private function _onControlXChange(event:ControlEvent):void {
-			x = event.value * SCALE + OFFSET_X;
+			x = event.value * BITMAP_WIDTH * SCALE + OFFSET_X;
 		}
 		
 		/**
 		 * 	@private
 		 */
 		private function _onControlYChange(event:ControlEvent):void {
-			y = event.value * SCALE + OFFSET_Y;
+			y = event.value * BITMAP_HEIGHT * SCALE + OFFSET_Y;
 		}
 		
 		/**

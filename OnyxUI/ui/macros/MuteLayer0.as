@@ -50,15 +50,14 @@ package ui.macros {
 		 */
 		override public function keyDown():void {
 			layer = DISPLAY.getLayer(0);
-			layer.visible = false;
+			layer.visible = !layer.visible;
 		}
 		
 		/**
 		 * 
 		 */
 		override public function keyUp():void {
-			layer.visible = true;
-			layer = null;
+			layer = null			
 		}
 
 	}

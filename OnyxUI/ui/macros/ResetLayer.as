@@ -54,13 +54,9 @@ package ui.macros {
 			layer.y				= 0;
 			layer.scaleX		= 1;
 			layer.scaleY		= 1;
-			layer.brightness	= 0;
-			layer.contrast		= 0;
-			layer.saturation	= 1;
 			layer.rotation		= 0;
 			layer.tint			= 0;
 			layer.framerate		= 1;
-			layer.threshold		= 0;
 			
 			Tween.stopTweens(layer);
 		}

@@ -32,6 +32,7 @@ package ui.core {
 	
 	import flash.display.*;
 	import flash.events.*;
+	import flash.geom.*;
 	
 	import onyx.constants.*;
 	import onyx.core.*;
@@ -39,9 +40,11 @@ package ui.core {
 	import onyx.events.*;
 	import onyx.file.*;
 	import onyx.plugin.*;
-	import onyx.states.StateManager;
+	import onyx.states.*;
+	import onyx.system.*;
 	
 	import ui.assets.*;
+	import ui.controls.*;
 	import ui.macros.*;
 	import ui.settings.*;
 	import ui.states.*;
@@ -58,20 +61,24 @@ package ui.core {
 		 * 	@private
 		 * 	The displaystart state
 		 */
-		private static var displayState:DisplayStartState;
-		
-		/**
-		 * 	@private
-		 * 	The states to load when starting up
-		 */
-		private static var states:Array;
+		private var displayState:DisplayStartState;
 		
 		/**
 		 * 	initialize
 		 */
-		public static function initialize(root:DisplayObjectContainer, startupFolder:String, adapter:FileAdapter, ... states:Array):void {
+		public function initialize(stage:Stage, displayRoot:DisplayObjectContainer, adapter:FileAdapter, systemAdapter:SystemAdapter, pluginPath:String):void {
+
+			// store stage
+			STAGE = stage;
+
+			// create the system adapter			
+			SystemAdapter.adapter			= systemAdapter;
+
+			// create the loading window
+			displayState					= new DisplayStartState();
 			
-			File.startupFolder = startupFolder;
+			// store the displayRoot
+			ROOT							= displayRoot;
 			
 			// initialize key actions
 			Onyx.registerPlugin(
@@ -96,7 +103,7 @@ package ui.core {
 			);
 			
 			// initializes onyx
-			Onyx.initialize(root, adapter);
+			Onyx.initialize(stage, adapter, pluginPath);
 			
 			// load plugins
 			var engine:EventDispatcher = Onyx.loadPlugins();
@@ -106,19 +113,17 @@ package ui.core {
 			
 			// wait til we're done initializing
 			engine.addEventListener(ApplicationEvent.ONYX_STARTUP_END, _onInitializeEnd);
-			
-			// store states
-			UIManager.states = states;
 		}
 		
 		/**
 		 * 
 		 */
-		public static function registerModuleWindows():void {
+		public function registerModuleWindows():void {
 			
 			// get the default state
 			var windows:Array = WindowState.getState('DEFAULT').windows;
 			
+			// initialize modules
 			for each (var module:Module in Module.modules) {
 				
 				// if it has a ui definition
@@ -143,22 +148,16 @@ package ui.core {
 		/**
 		 * 	@private
 		 */
-		private static function _onInitializeStart(event:ApplicationEvent):void {
-			
-			// create the loading window
-			displayState = new DisplayStartState(states);
+		private function _onInitializeStart(event:ApplicationEvent):void {
 			
 			// load state
 			StateManager.loadState(displayState);
-			
-			// remove the states
-			states = null;
 		}
 		
 		/**
 		 * 	@private
 		 */
-		private static function _onInitializeEnd(event:ApplicationEvent):void {
+		private function _onInitializeEnd(event:ApplicationEvent):void {
 			
 			// start-up
 			var engine:EventDispatcher = event.currentTarget as EventDispatcher;
@@ -166,25 +165,17 @@ package ui.core {
 			// listen for windows created
 			engine.removeEventListener(ApplicationEvent.ONYX_STARTUP_START, _onInitializeStart);
 			engine.removeEventListener(ApplicationEvent.ONYX_STARTUP_END, _onInitializeEnd);
-		
-			// load settings
-			var state:SettingsLoadState = new SettingsLoadState();
-			state.addEventListener(Event.COMPLETE, _onSettingsComplete);
-			StateManager.loadState(state);
-		}
-		
-		/**
-		 * 
-		 */
-		private static function _onSettingsComplete(event:Event):void {
-			var state:SettingsLoadState = event.currentTarget as SettingsLoadState;
-			state.removeEventListener(Event.COMPLETE, _onSettingsComplete);
 			
-			// set the startup state value from the settings startup value;
-			displayState.startupWindowState = state.startupWindowState;
+			// parse the xml
+			Settings.apply();
+
+			// create
+			DISPLAY = new Display();
+			DISPLAY.createLayers(5);
+			ROOT.addChild(DISPLAY as DisplayObject);
 			
+			// kill the display state
 			StateManager.removeState(displayState);
-			displayState = null;
 		}
 	}
 }

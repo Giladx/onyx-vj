@@ -242,7 +242,7 @@ package ui.window {
 		 * 	@private
 		 */
 		private function _onFileSaved(query:FileQuery):void {
-			trace('saved');
+			Console.output(query.path + ' saved.');
 		}
 		
 		/**

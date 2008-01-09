@@ -2,14 +2,13 @@
 	
 	<buildnumber file="build.number" />
 
+	<property file="properties.ini" />
 	<property name="revision.number" value="${build.number}" />
-
-	<property name="compiler.root" location="." />
-	<property name="compiler.compc" value="C:\Program Files\Adobe\Flex Builder 3 Plug-in\sdks\moxie\bin\compc.exe" />
 	
 	<property name="build.destination" location="../swc" />
 	
-	<property name="source.OnyxCore" value="../../OnyxCore/onyx/" />
+	<property name="source.OnyxCore"	location="${path.core}\onyx" />
+	<property name="source.OnyxUI"		location="${path.ui}" />
 	
 	<property name="tempdir.root" location="temp" />
 	<property name="tempdir.core" location="${tempdir.root}\onyx" />
@@ -28,8 +27,6 @@
 		<copy todir="${tempdir.core}">
 			<fileset dir="${source.OnyxCore}" />
 		</copy>
-		
-		<echo>${source.OnyxCore}</echo>
 	
 		<!-- CHANGE THE REVISION NUMBER -->
 		<attrib file="${tempdir.core}/constants/VERSION.as" readonly="false" />

@@ -5,19 +5,19 @@
 		<version>3.0.5</version>
 	</metadata>
 
+	<init>
+		<firstrun>true</firstrun>
+	</init>
+	
 	<!-- CORE SETTINGS FOR RENDERING -->
 	<core>
-	
+
 		<render>
 			<!-- the width / height of bitmaps -->
 			<bitmapData>
 				<width>320</width>
 				<height>240</height>
 			</bitmapData>
-			
-			<!-- the start-up quality of flash, recommended: omit for medium
-				<quality>high</quality>
-			-->
 		</render>
 		
 		<!-- midi settings -->
@@ -44,7 +44,7 @@
 	
 	<!-- UI STATES -->
 	<ui>
-		
+	
 		<!-- LOCATION OF THE PREVIEW WINDOW -->
 		<preview>
 			<display>auto</display>

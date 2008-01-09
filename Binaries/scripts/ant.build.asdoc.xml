@@ -1,12 +1,12 @@
 <project name="OnyxDocs" default="buildDocs">
 
+	<property file="properties.ini" />
 	<property name="compiler.root" location="." />
-	<property name="compiler.asdoc" value="C:\Program Files\Adobe\Flex Builder 3 Plug-in\sdks\moxie\bin\asdoc.exe" />
 	
-	<property name="build.destination" location="../docs/" />
+	<property name="build.destination"	location="../docs/" />
 	
-	<property name="source.OnyxCore" location="../../OnyxCore/" />
-	<property name="source.OnyxUI" location="../../OnyxUI/" />
+	<property name="source.OnyxCore"	location="${path.core}" />
+	<property name="source.OnyxUI"		location="${path.ui}" />
 		
 	<!-- BUILD THE CORE SWC -->
 	<target name="buildDocs">

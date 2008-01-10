@@ -6,7 +6,7 @@
 	</metadata>
 
 	<init>
-		<firstrun>true</firstrun>
+		<startupFolder>c:\projects\onyx\binaries\onyx\video</startupFolder>
 	</init>
 	
 	<!-- CORE SETTINGS FOR RENDERING -->
@@ -99,10 +99,14 @@
 			<key code="116">RANDOM BLEND</key>
 			<key code="117">DISPLAY CONTRAST</key>
 			<key code="118">RANDOM MOVESCALE</key>
-			<key code="119">RANDOM FRAMEMACRO</key>
-			<key code="120">RESETALL</key>
+			<key code="119">RANDOM 3DDISTORT</key>
+			<key code="120">RANDOM FRAMEMACRO</key>
+			<key code="123">RESETALL</key>
+			
+			<!--
 			<key code="122">FRAMERATE DECREASE</key>
 			<key code="123">FRAMERATE INCREASE</key>
+			-->
 		</keys>
 		
 		<!-- THE DIFFERENT INTERFACE STATES -->

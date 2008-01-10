@@ -90,6 +90,7 @@ package {
 				new Plugin('Edge Bleed',			EdgeBlend,		'Frame Blend', new AssetEdge().bitmapData),
 				new Plugin('Pass Through',			PassThrough,	'Pass Through'),
 				new Plugin('Color Filter',			ColorFilter,	'Color Filter'),
+				new Plugin('Distort',				Distort,		'Distort'),
 
 				// transitions
 				new Plugin('Repeater Transition',	RepeaterTransition, 'Repeater Transition'),
@@ -118,6 +119,7 @@ package {
 				new Plugin('Display Contrast',		DisplayContrast, 'Display Contrast'),
 				new Plugin('Random MoveScale',		RandomScaleLoc, 'Random Move/Scale'),
 				new Plugin('Random FrameMacro',		RandomFrameMacro, 'Random FrameMacro'),
+				new Plugin('Random 3DDistort',		Random3DDistort, 'Random 3DDistort'),
 				new Plugin('ResetAll',				ResetAll, 'ResetAll')
 			];
 		}

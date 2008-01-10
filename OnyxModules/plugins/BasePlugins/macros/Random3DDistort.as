@@ -32,54 +32,60 @@ package macros {
 	
 	import filters.Distort;
 	
+	import flash.events.Event;
+	
 	import onyx.constants.*;
+	import onyx.core.Plugin;
 	import onyx.display.*;
 	import onyx.plugin.*;
 	import onyx.tween.*;
+	import onyx.utils.GCTester;
 
-	public final class ResetAll extends Macro {
+	public final class Random3DDistort extends Macro {
+		
+		private const _plugin:Plugin = Filter.getDefinition('DISTORT');
+		
+		private const amountW:int = BITMAP_WIDTH / 3;
+		private const amountH:int = BITMAP_HEIGHT / 3;
 		
 		/**
 		 * 
 		 */
 		override public function keyDown():void {
 			
-			var filter:Distort, test:Filter, filters:Array;
+			var scale:Number, ratio:Number, x:int, y:int, filters:Array, filter:Distort;
 			
-			for each (var layer:ILayer in DISPLAY.layers) {
-				new Tween(
-					layer,
-					600,
-					new TweenProperty('x', layer.x, 0),
-					new TweenProperty('y', layer.y, 0),
-					new TweenProperty('scaleX', layer.scaleX, 1),
-					new TweenProperty('scaleY', layer.scaleY, 1)
-				)
+			for each (var layer:ILayer in DISPLAY.loadedLayers) {
 				
-				filter	= null;
-				filters = layer.filters;
-				
-				for each (test in filters) {
-					if (test is Distort) {
-						filter = test as Distort;
-						break;
-					}
-				}
-				
-				if (filter) {
+				if (layer.path) {
+					filter	= null;
+					filters = layer.filters;
 					
-					new Tween(
+					for each (var test:Filter in filters) {
+						if (test is Distort) {
+							filter = test as Distort;
+							break;
+						}
+					}
+					
+					if (!filter) {
+						filter = _plugin.getDefinition() as Distort;
+						layer.addFilter(filter);
+					}
+					
+					var tween:Tween = new Tween(
 						filter,
-						600,
-						new TweenProperty('bottomLeftX', filter.bottomLeftX, 0),
-						new TweenProperty('topLeftX', filter.topLeftX, 0),
-						new TweenProperty('bottomRightX', filter.bottomRightX, BITMAP_WIDTH),
-						new TweenProperty('topRightX', filter.topRightX, BITMAP_WIDTH),
-						new TweenProperty('bottomLeftY', filter.bottomLeftY, BITMAP_HEIGHT),
-						new TweenProperty('topLeftY', filter.topLeftY, 0),
-						new TweenProperty('bottomRightY', filter.bottomRightY, BITMAP_HEIGHT),
-						new TweenProperty('topRightY', filter.topRightY, 0)
+						300,
+						new TweenProperty('bottomLeftX', filter.bottomLeftX, (Math.random() * amountW * 2) - amountW),
+						new TweenProperty('topLeftX', filter.topLeftX, (Math.random() * amountW * 2) - amountW),
+						new TweenProperty('bottomRightX', filter.bottomRightX, BITMAP_WIDTH + (Math.random() * amountW * 2) - amountW),
+						new TweenProperty('topRightX', filter.topRightX, BITMAP_WIDTH + (Math.random() * amountW * 2) - amountW),
+						new TweenProperty('bottomLeftY', filter.bottomLeftY, BITMAP_HEIGHT + (Math.random() * amountH * 2) - amountH),
+						new TweenProperty('topLeftY', filter.topLeftY, (Math.random() * amountH * 2) - amountH),
+						new TweenProperty('bottomRightY', filter.bottomRightY, BITMAP_HEIGHT + (Math.random() * amountH * 2) - amountH),
+						new TweenProperty('topRightY', filter.topRightY, (Math.random() * amountH * 2) - amountH)
 					)
+					
 				}
 			}	
 		}

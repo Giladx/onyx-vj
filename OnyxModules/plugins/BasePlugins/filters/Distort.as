@@ -38,66 +38,82 @@ package filters {
 	import onyx.plugin.*;
 	import onyx.utils.bitmap.Distortion;
 
+	/**
+	 * 
+	 */
 	public final class Distort extends Filter implements IBitmapFilter {
 		
+		/**
+		 * 	@private
+		 */
 		private var distortion:Distortion = new Distortion();
+		
+		private const _tlX:ControlInt = new ControlInt('topLeftX', 'topX', -BITMAP_WIDTH * 2, BITMAP_WIDTH *  3, 0);
+		private const _tlY:ControlInt = new ControlInt('topLeftX', 'topX', -BITMAP_WIDTH * 2, BITMAP_WIDTH *  3, 0);
+
+		private const _trX:ControlInt = new ControlInt('topRightX', 'topX', -BITMAP_WIDTH * 2, BITMAP_WIDTH *  3, BITMAP_WIDTH);
+		private const _trY:ControlInt = new ControlInt('topRightY', 'topY', -BITMAP_HEIGHT * 2, BITMAP_HEIGHT * 3, 0);
+		private const _blX:ControlInt = new ControlInt('bottomLeftX', 'bottomX', -BITMAP_WIDTH * 2, BITMAP_WIDTH *  3, 0);
+		private const _blY:ControlInt = new ControlInt('bottomLeftY', 'bottomY', -BITMAP_HEIGHT * 2, BITMAP_HEIGHT * 3, BITMAP_HEIGHT);
+		private const _brX:ControlInt = new ControlInt('bottomRightX', 'bottomX', -BITMAP_WIDTH * 2, BITMAP_WIDTH *  3, BITMAP_WIDTH);
+		private const _brY:ControlInt = new ControlInt('bottomRightY', 'bottomY', -BITMAP_HEIGHT * 2, BITMAP_HEIGHT * 3, BITMAP_HEIGHT);
 		
 		public function Distort():void {
 			
 			super(true,
 				new ControlProxy('topLeft', 'topLeft',
-					new ControlInt('topLeftX', 'topX', -BITMAP_WIDTH * 2, BITMAP_WIDTH *  3, 0),
-					new ControlInt('topLeftY', 'topY', -BITMAP_HEIGHT * 2, BITMAP_HEIGHT * 3, 0),
+					_tlX,
+					_tlY,
 					true
 				),
 				new ControlProxy('topRight', 'topRight',
-					new ControlInt('topRightX', 'topX', -BITMAP_WIDTH * 2, BITMAP_WIDTH *  3, BITMAP_WIDTH),
-					new ControlInt('topRightY', 'topY', -BITMAP_HEIGHT * 2, BITMAP_HEIGHT * 3, 0),
+					_trX,
+					_trY,
 					true
 				),
 				new ControlProxy('bottomLeft', 'bottomLeft',
-					new ControlInt('bottomLeftX', 'bottomX', -BITMAP_WIDTH * 2, BITMAP_WIDTH *  3, 0),
-					new ControlInt('bottomLeftY', 'bottomY', -BITMAP_HEIGHT * 2, BITMAP_HEIGHT * 3, BITMAP_HEIGHT),
+					_blX,
+					_blY,
 					true
 				),
 				new ControlProxy('bottomRight', 'bottomRight',
-					new ControlInt('bottomRightX', 'bottomX', -BITMAP_WIDTH * 2, BITMAP_WIDTH *  3, BITMAP_WIDTH),
-					new ControlInt('bottomRightY', 'bottomY', -BITMAP_HEIGHT * 2, BITMAP_HEIGHT * 3, BITMAP_HEIGHT),
+					_brX,
+					_brY,
 					true
 				)
 			);
-
 		}
-				public function set topLeftX(value:Number):void {
-			distortion.topLeft.x = value;
+		
+		public function set topLeftX(value:Number):void {
+			distortion.topLeft.x = _tlX.dispatch(value);
 		}
 		
 		public function set topRightX(value:Number):void {
-			distortion.topRight.x = value;
+			distortion.topRight.x = _trX.dispatch(value);
 		}
 		
 		public function set bottomLeftX(value:Number):void {
-			distortion.bottomLeft.x = value;
+			distortion.bottomLeft.x = _blX.dispatch(value);
 		}
 		
 		public function set bottomRightX(value:Number):void {
-			distortion.bottomRight.x = value;
+			distortion.bottomRight.x = _brX.dispatch(value);;
 		}
 		
 		public function set topLeftY(value:Number):void {
-			distortion.topLeft.y = value;
+			distortion.topLeft.y = _tlY.dispatch(value);;
 		}
 		
 		public function set topRightY(value:Number):void {
-			distortion.topRight.y = value;
+			distortion.topRight.y = _trY.dispatch(value);;
 		}
 		
 		public function set bottomLeftY(value:Number):void {
-			distortion.bottomLeft.y = value;
+			distortion.bottomLeft.y = _blY.dispatch(value);;;
 		}
 		
 		public function set bottomRightY(value:Number):void {
-			distortion.bottomRight.y = value;
+			distortion.bottomRight.y = _brY.dispatch(value);;;
 		}
 		
 		public function get topLeftX():Number {
@@ -133,7 +149,7 @@ package filters {
 		}
 		
 		public function applyFilter(source:BitmapData):void {
-			Distortion.render(source, distortion, null, null, 'overlay');
+			Distortion.render(source, distortion);
 		}
 		
 	}

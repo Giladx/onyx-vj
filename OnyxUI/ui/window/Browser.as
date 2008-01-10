@@ -170,9 +170,9 @@ package ui.window {
 			switch (event.currentTarget) {
 				case _buttonFiles:
 				
-					if (_path !== File.startupFolder + ROOT_DIR) {
-						File.query(File.startupFolder + ROOT_DIR, _updateList, new SWFFilter());
-					}
+					File.query(
+						ROOT_DIR, _updateList, new SWFFilter()
+					);
 					
 					break;
 				case _buttonCameras:

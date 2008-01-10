@@ -4,6 +4,7 @@ package ui.core {
 	
 	import onyx.constants.*;
 	import onyx.core.*;
+	import onyx.file.*;
 	import onyx.plugin.*;
 	
 	import ui.controls.*;
@@ -24,9 +25,9 @@ package ui.core {
 			
 			// check for startup folder
 			if (init.hasOwnProperty('startupFolder')) {
-				Browser.ROOT_DIR = init.startupFolder;
+				STARTUP_PATH		= init.startupFolder;
+				Browser.ROOT_DIR	= STARTUP_PATH + init.videoFolder;
 			}
-			
 			
 			// set default core settings
 			if (core.hasOwnProperty('render')) {
@@ -130,7 +131,8 @@ package ui.core {
 				</metadata>
 				
 				<!-- INITIALIZATION SETTINGS -->
-				<init></init>
+				<init>
+				</init>
 				
 				<!-- CORE SETTINGS FOR RENDERING -->
 				<core>

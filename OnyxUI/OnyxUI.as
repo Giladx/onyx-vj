@@ -91,12 +91,13 @@ package {
 			File.CAMERA_ICON		= new AssetCamera();
 			File.VISUALIZER_ICON	= new AssetVisualizer();
 			
-			var rootpath:String = stage.loaderInfo.url;
-			Browser.ROOT_DIR = rootpath.substr(0, rootpath.lastIndexOf('/')) + '/video/';
+			var rootpath:String = this.loaderInfo.url;
+			rootpath			= rootpath.substr(0, rootpath.lastIndexOf('/'));
 			
 			// init
 			var manager:UIManager = new UIManager();
 			manager.initialize(
+				rootpath,
 				stage,
 				stage,
 				new HTTPAdapter(),

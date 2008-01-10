@@ -66,7 +66,10 @@ package ui.core {
 		/**
 		 * 	initialize
 		 */
-		public function initialize(stage:Stage, displayRoot:DisplayObjectContainer, adapter:FileAdapter, systemAdapter:SystemAdapter, pluginPath:String):void {
+		public function initialize(rootpath:String, stage:Stage, displayRoot:DisplayObjectContainer, adapter:FileAdapter, systemAdapter:SystemAdapter, pluginPath:String):void {
+
+			// store rootpath
+			STARTUP_PATH = rootpath;
 
 			// store stage
 			STAGE = stage;

@@ -36,6 +36,7 @@ package onyx.file.http {
 	import flash.system.System;
 	import flash.utils.ByteArray;
 	
+	import onyx.constants.*;
 	import onyx.file.*;
 	import onyx.jobs.*;
 	import onyx.utils.string.*;
@@ -84,7 +85,6 @@ package onyx.file.http {
 			var loader:URLLoader = event.currentTarget as URLLoader;
 			loader.removeEventListener(Event.COMPLETE, _onLoadHandler);
 			loader.removeEventListener(IOErrorEvent.IO_ERROR, _onLoadHandler);
-			loader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, _onLoadHandler);
 			
 			// error			
 			if (!(event is ErrorEvent)) {
@@ -96,7 +96,7 @@ package onyx.file.http {
 				xml = new XML(loader.data);
 				
 				// create the Folder
-				var rootpath:String = pathUpOneLevel(xml.query.@path.toString());
+				var rootpath:String = path;
 				var list:FolderList = new FolderList(pathUpOneLevel(rootpath));
 				var folders:Array	= [];
 	
@@ -113,15 +113,17 @@ package onyx.file.http {
 						
 					// check for parent folder directive
 					} else if (name === '..') {
-						name = rootpath.substr(0, rootpath.lastIndexOf('/', rootpath.length - 2));
 						
-					// check to see if it's a relative path directoive
+						var index:int = Math.max(rootpath.lastIndexOf('\\', rootpath.length - 2), rootpath.lastIndexOf('/', rootpath.length - 2));
+						name = rootpath.substr(0, index);
+						
+					// check to see if it's a relative path directive
 					} else if (name.substr(0,1) === '/') {
-						name = File.startupFolder + name;
+						name = STARTUP_PATH + name;
 						
 					// default, append the file name
 					} else {
-						name = File.startupFolder + pathUpOneLevel(rootpath + '/' + name);
+						name = pathUpOneLevel(rootpath + '/' + name);
 					}
 					
 					folders.push(new Folder(name));
@@ -139,7 +141,7 @@ package onyx.file.http {
 					// get name of the node
 					var name:String = String(node.@name);
 					var thumbpath:String	= node.@thumb;
-					var file:File			= new File(File.startupFolder + pathUpOneLevel(rootpath + '/' + name));
+					var file:File			= new File(pathUpOneLevel(rootpath + '/' + name));
 					
 					// call a job to update these bitmaps
 					if (thumbpath) {

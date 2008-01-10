@@ -28,42 +28,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package onyx.display {
-	
-	import flash.display.BitmapData;
-	
-	import onyx.content.IContent;
-	import onyx.core.*;
-	import onyx.plugin.Transition;
-	
-	public interface IDisplay extends IContent, ISerializable {
+package onyx.constants {
 
-		function get loadedLayers():Array;
-		function get layers():Array;
+	public var STARTUP_PATH:String = '';
 
-		function set displayX(value:int):void;
-		function get displayX():int;
-
-		function set displayY(value:int):void;
-		function get displayY():int;
-		
-		function set backgroundColor(value:uint):void;
-		function get backgroundColor():uint;
-		
-		function load(path:String, layer:ILayer, transition:Transition):void;
-		
-		function moveLayer(... args:Array):void;
-		function copyLayer(layer:ILayer, index:int):void;
-		function getLayerIndex(layer:ILayer):int;
-
-		function createLayers(num:int):void;
-		
-		function set channelMix(value:Number):void;
-		function get channelMix():Number;
-		
-		function get channelA():BitmapData;
-		function get channelB():BitmapData;
-		
-		function getLayer(index:int):ILayer;
-	}
 }

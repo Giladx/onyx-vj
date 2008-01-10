@@ -866,6 +866,13 @@ package onyx.display {
 		public function getColorTransform():ColorTransform {
 			return null;
 		}
+		
+		/**
+		 * 
+		 */
+		public function get loadedLayers():Array {
+			return _valid;
+		}
 
 		/**
 		 * 	Disposes the display

@@ -31,8 +31,8 @@ package onyx.utils.bitmap {
 		public function Distortion(topLeft:Point = null, topRight:Point = null, bottomLeft:Point = null, bottomRight:Point = null):void {
 			this.topLeft		= topLeft || new Point(0,0);
 			this.topRight		= topRight || new Point(BITMAP_WIDTH, 0);
-			this.bottomLeft		= bottomLeft || new Point(0, BITMAP_WIDTH);
-			this.bottomRight 	= bottomRight || new Point(BITMAP_WIDTH, BITMAP_WIDTH);
+			this.bottomLeft		= bottomLeft || new Point(0, BITMAP_HEIGHT);
+			this.bottomRight 	= bottomRight || new Point(BITMAP_WIDTH, BITMAP_HEIGHT);
 		}
 		
 		public function toString():String {

@@ -59,11 +59,6 @@ package onyx.file {
 		public static var VISUALIZER_ICON:BitmapData;
 		
 		/**
-		 * 	Startup folder
-		 */
-		public static var startupFolder:String = '';
-		
-		/**
 		 * 	@private
 		 * 	Cache for the paths
 		 */

@@ -291,7 +291,6 @@ package onyx.content {
 		 * 
 		 */
 		override public function get scaleX():Number {
-			trace('x', this, super._scaleX, _ratioX);
 			return super._scaleX / _ratioX;
 		}
 				

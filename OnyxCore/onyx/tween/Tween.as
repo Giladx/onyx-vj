@@ -36,6 +36,7 @@ package onyx.tween {
 	import onyx.constants.*;
 	import onyx.core.*;
 	import onyx.tween.easing.*;
+	import onyx.utils.*;
 
 	
 	use namespace onyx_ns;
@@ -61,7 +62,7 @@ package onyx.tween {
 			
 			if (existing) {
 				for each (var tween:Tween in existing) {
-					tween.dispose();
+					tween.stop();
 				}
 				
 				delete _definition[target];
@@ -121,7 +122,7 @@ package onyx.tween {
 		public function restart():void {
 			
 			// listen every frame
-			ROOT.addEventListener(Event.ENTER_FRAME, _onTimer, false, 1000);
+			STAGE.addEventListener(Event.ENTER_FRAME, _onTimer, false, 1000);
 			_startTime = getTimer();
 		}
 		
@@ -143,8 +144,8 @@ package onyx.tween {
 			
 			if (curTime >= _ms) {
 				
+				stop();
 				dispatchEvent(new Event(Event.COMPLETE));
-				ROOT.removeEventListener(Event.ENTER_FRAME, _onTimer);
 			}
 		}
 		
@@ -152,7 +153,14 @@ package onyx.tween {
 		 * 	Stops the tween
 		 */
 		public function stop():void {
-			dispose();
+
+			var existing:Dictionary = _definition[_target];
+			
+			if (existing) {
+				delete existing[this];
+			}
+			
+			STAGE.removeEventListener(Event.ENTER_FRAME, _onTimer);
 		}
 		
 		/**
@@ -174,24 +182,6 @@ package onyx.tween {
 		 */
 		public function get props():Array {
 			return _props;
-		}
-
-		/**
-		 * 	@private
-		 * 	Disposes the tween
-		 */		
-		public function dispose():void {
-			
-			var existing:Dictionary = _definition[_target];
-			
-			if (existing) {
-				delete existing[this];
-			}
-			
-			ROOT.removeEventListener(Event.ENTER_FRAME, _onTimer);
-
-			_props = null;			
-			_target = null;
 		}
 	}
 }

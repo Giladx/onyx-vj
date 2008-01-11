@@ -97,9 +97,9 @@
 			<key code="114">SPEED UP LAYERS</key>
 			<key code="115">BUFFER DISPLAY</key>
 			<key code="116">RANDOM BLEND</key>
-			<key code="117">DISPLAY CONTRAST</key>
-			<key code="118">RANDOM MOVESCALE</key>
-			<key code="119">RANDOM 3DDISTORT</key>
+			<key code="117">RANDOM MOVESCALE</key>
+			<key code="118">RANDOM 3DDISTORT</key>
+			<key code="119">RANDOM 3DDISTORT2</key>
 			<key code="120">RANDOM FRAMEMACRO</key>
 			<key code="123">RESETALL</key>
 			

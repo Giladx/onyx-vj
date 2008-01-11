@@ -105,6 +105,15 @@ package {
 				'plugins/'
 			);
 			
+			// change width
+			DISPLAY.displayX	= stage.stageWidth - 640;
+			DISPLAY.scaleX		= 2;
+			DISPLAY.scaleY		= 2;
+
+			// test stage width
+			if (stage.stageWidth <= 1024) {
+				DISPLAY.visible		= false;
+			}
 			
 			// hide items
 			var menu:ContextMenu = new ContextMenu();

@@ -30,35 +30,61 @@
  */
 package ui.macros {
 	
+	import flash.events.*;
+	
 	import onyx.constants.*;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
+	import onyx.tween.*;
 
 	/**
 	 * 
 	 */
 	public final class MuteLayer2 extends Macro {
 		
+		private static var index:int		= 2;
+
 		/**
 		 * 
 		 */
 		private var layer:ILayer;
+		private var tween:Tween;
 		
 		/**
 		 * 
 		 */
 		override public function keyDown():void {
-			layer = DISPLAY.getLayer(2);
-			layer.visible = !layer.visible;
+			layer = DISPLAY.getLayer(index);
+			
+			if (layer.visible) {
+				tween = new Tween(
+					layer,
+					250,
+					new TweenProperty('alpha', layer.alpha, 0)
+				);
+				tween.addEventListener(Event.COMPLETE, tweenFinish);
+			} else {
+				layer.visible = true;
+				tween = new Tween(
+					layer,
+					250,
+					new TweenProperty('alpha', 0, 1)
+				);
+			}
+		}
+		
+		private function tweenFinish(event:Event):void {
+			tween.removeEventListener(Event.COMPLETE, tweenFinish);
+			layer = DISPLAY.getLayer(index);
+			layer.visible = false;
 		}
 		
 		/**
 		 * 
 		 */
 		override public function keyUp():void {
-			layer = null;
+			layer = null			
 		}
-
 	}
 }

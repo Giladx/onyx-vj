@@ -82,7 +82,10 @@ package ui.core {
 			
 			// store the displayRoot
 			ROOT							= displayRoot;
-			
+
+			// create a new display
+			DISPLAY							= new Display();
+
 			// initialize key actions
 			Onyx.registerPlugin(
 				new Plugin('SelectLayer0',			SelectLayer0, 'Selects Layer 0'),
@@ -173,7 +176,6 @@ package ui.core {
 			Settings.apply();
 
 			// create
-			DISPLAY = new Display();
 			DISPLAY.createLayers(5);
 			ROOT.addChild(DISPLAY as DisplayObject);
 			

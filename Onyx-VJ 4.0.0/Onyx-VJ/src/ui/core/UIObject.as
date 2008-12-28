@@ -1,0 +1,243 @@
+/**
+ * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ *
+ * Daniel Hai
+ * Stefano Cottafavi
+ *
+ * All rights reserved.
+ *
+ * Licensed under the CREATIVE COMMONS Attribution-Noncommercial-Share Alike 3.0
+ * You may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at: http://creativecommons.org/licenses/by-nc-sa/3.0/us/
+ *
+ * Please visit http://www.onyx-vj.com for more information
+ * 
+ */
+package ui.core {
+	
+	import flash.display.*;
+	import flash.events.*;
+	import flash.geom.*;
+	import flash.text.TextField;
+	import flash.utils.*;
+	
+	import onyx.core.*;
+	
+	import ui.assets.AssetBitmap;
+	import ui.assets.AssetWindow;
+	import ui.styles.*;
+	import ui.text.*;
+
+	/**
+	 * 	Base UIObject Class
+	 */
+	public class UIObject extends Sprite {
+		
+		/**
+		 * 	@private
+		 */
+		private static const REUSE:MouseEvent = new MouseEvent(MouseEvent.DOUBLE_CLICK);
+		
+		/**
+		 * 	The overall selection for the app
+		 */
+		public static var selection:UIObject;
+		
+		/**
+		 * 	@private
+		 */
+		private var label:flash.text.TextField;
+		
+		/**
+		 * 	@constructor
+		 */
+		public function UIObject():void {
+			tabEnabled = false;
+		}
+		
+		/**
+		 * 	@private
+		 * 	When mouse is clicked
+		 */
+		private static function mouseDown(event:MouseEvent):void {
+			
+			var dispatcher:IEventDispatcher = event.currentTarget as IEventDispatcher;
+			
+			if (_doubleObject === dispatcher) {
+				if (getTimer() - _doubleTime < 300) {
+					event.stopPropagation();
+					
+					REUSE.ctrlKey	= event.ctrlKey,
+					REUSE.altKey	= event.altKey,
+					REUSE.shiftKey	= event.shiftKey;
+					
+					dispatcher.dispatchEvent(REUSE);
+				}
+			}
+			
+			_doubleObject = dispatcher;
+			_doubleTime = getTimer();
+			
+		}
+		
+		/**
+		 * 
+		 */
+		final public function setMovesToTop(value:Boolean):void {
+			
+			if (value) {
+				this.addEventListener(MouseEvent.MOUSE_DOWN, moveToTop, false, 0, true);
+			} else {
+				this.removeEventListener(MouseEvent.MOUSE_DOWN, moveToTop);
+			}
+		}
+		
+		/**
+		 * 
+		 */
+		public static function select(layer:UIObject):void {
+			
+			// select
+			if (selection) {
+				selection.setColor(DEFAULT);
+			}
+			
+			// set
+			if (layer) {
+				layer.setColor(LAYER_HIGHLIGHT);
+			}
+			
+			// select layer
+			selection = layer;
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private static var _doubleObject:IEventDispatcher;
+		
+		/**
+		 * 	@private
+		 */
+		private static var _doubleTime:int;
+		
+		/**
+		 * 	Sets doubleClickEnabled
+		 */
+		final public override function set doubleClickEnabled(s:Boolean):void {
+			if (s) {
+				addEventListener(MouseEvent.MOUSE_DOWN, mouseDown, true, 0, true);
+			} else {
+				removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown, true);
+			}
+		}
+		
+		/**
+		 * 
+		 */
+		public function setColor(transform:ColorTransform):void {
+			this.transform.colorTransform = transform;
+		}
+		
+		/**
+		 * 	Moves to the top
+		 */
+		final private function moveToTop(event:MouseEvent = null):void {
+			
+			parent.setChildIndex(this, parent.numChildren - 1);
+			
+		}	
+		
+		/**
+		 * 	Creates a background
+		 */
+		final protected function displayBackground(width:int, height:int):void {
+			addChildAt(new AssetBitmap(width, height), 0);
+		}
+		
+		/**
+		 * 
+		 */
+		final public function getBackground():DisplayObject {
+			return getChildAt(0) as AssetBitmap || getChildAt(0) as AssetWindow;
+		}
+		
+		/**
+		 * 	Adds Children
+		 */
+		final public function addChildren(... args:Array):void {
+			
+			var len:int = args.length;
+			for (var count:int = 0; count < len; count+=3) {
+				
+				args[count].x = args[count+1],
+				args[count].y = args[count+2];
+
+				addChild(args[count]);
+			}
+		}
+
+		/**
+		 * 	Disposes the UIObject
+		 */
+		public function dispose():void {
+			
+			if (parent) {
+				parent.removeChild(this);
+			}
+			
+			// clear children
+			var numChildren:int = this.numChildren;
+			for (var count:int = 0; count < numChildren; count++) {
+				var child:DisplayObject = removeChildAt(0);
+				
+				if (child is IDisposable) {
+					(child as IDisposable).dispose();
+				}
+			}
+			
+			// removes listener
+			removeEventListener(MouseEvent.MOUSE_DOWN, moveToTop, true);
+		}
+
+		
+		/**
+		 * 	Adds a label to the control
+		 */
+		final protected function addLabel(name:String, width:int, height:int, offsetY:int = -8, offsetX:int = 0, align:String = null, color:uint = TEXT_LABEL):void {
+			
+			if (label && contains(label)) {
+				removeChild(label);
+			}
+			
+			switch (align) {
+				case 'left':
+					label						= Factory.getNewInstance(ui.text.TextField);
+					label.x						= offsetX,
+					label.y						= offsetY,
+					label.width					= width,
+					label.height				= 12;
+					label.textColor				= color,
+					label.text					= name.toUpperCase(),
+					label.mouseEnabled			= false,
+					
+					super.addChild(label);
+					break;
+				default:
+				
+					label						= Factory.getNewInstance(ui.text.TextFieldCenter);
+					label.x						= offsetX,
+					label.y						= offsetY,
+					label.width					= width + 3,
+					label.height				= height,
+					label.textColor				= color,
+					label.text					= name.toUpperCase(),
+					label.mouseEnabled			= false;
+		
+					super.addChild(label);
+
+					break;
+			}
+		}
+	}
+}

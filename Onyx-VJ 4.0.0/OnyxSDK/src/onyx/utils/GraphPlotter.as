@@ -1,0 +1,164 @@
+/**
+ * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ *
+ * Daniel Hai
+ * Stefano Cottafavi
+ *
+ * All rights reserved.
+ *
+ * Licensed under the CREATIVE COMMONS Attribution-Noncommercial-Share Alike 3.0
+ * You may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at: http://creativecommons.org/licenses/by-nc-sa/3.0/us/
+ *
+ * Please visit http://www.onyx-vj.com for more information
+ * 
+ */
+package onyx.utils {
+	
+	import flash.display.*;
+	import flash.events.*;
+	import flash.text.*;
+	import flash.utils.*;
+	
+	import onyx.core.*;
+	import onyx.plugin.*;
+	
+	/**
+	 * 	Displays a graph over time
+	 */
+	public final class GraphPlotter extends Sprite implements IDisposable {
+		
+		/**
+		 * 	@private
+		 */
+		public var maxY:Number;
+
+		/**
+		 * 	@private
+		 */
+		public var minY:Number;
+
+		/**
+		 * 	@private
+		 */
+		private var maxX:Number	= 0;
+
+		/**
+		 * 	@private
+		 */
+		private var minX:Number	= 0;
+		
+		/**
+		 * 	@private
+		 */
+		private var _width:int;
+
+		/**
+		 * 	@private
+		 */
+		private var _height:int;
+		
+		/**
+		 * 	@private
+		 */
+		private var _graph:Shape		= new Shape();
+		
+		/**
+		 * 	@private
+		 */
+		private var _minText:TextField	= new TextField();
+
+		/**
+		 * 	@private
+		 */
+		private var _maxText:TextField	= new TextField();
+		
+		/**
+		 * 	@private
+		 */
+		private var _init:Boolean		= false;
+		
+		/**
+		 * 	@private
+		 */
+		private var _firstVal:int		= getTimer();
+		
+		/**
+		 * 	@constructor
+		 */
+		public function GraphPlotter(initValue:Number = 0, color:uint = 0xFFFF00, labelOffsetX:int = 0, width:int = 194, height:int = 182):void {
+
+			_width	= width;
+			_height = height;
+			
+			maxY = minY = initValue;
+
+			_minText.width 		= width;
+			_maxText.width 		= width;
+			_minText.height		= _maxText.height = 20;
+			_minText.y			= height - 20;
+			_minText.selectable = _maxText.selectable = false;
+			_minText.textColor	= _maxText.textColor = color;
+			_minText.x			= _maxText.x = labelOffsetX;
+
+			var x:Number = 0;
+			var y:Number = initValue;
+			
+			_calc(x, y);
+			
+			_graph.graphics.clear();
+			_graph.graphics.lineStyle(0, color);
+			_graph.graphics.moveTo(x, y);
+			
+			addChild(_graph);
+			addChild(_minText);
+			addChild(_maxText);
+		}
+		
+		/**
+		 * 	@private
+		 * 	Calculates minimum and maximum values
+		 */
+		private function _calc(x:Number, y:Number):void {
+			maxY = Math.max(y, maxY);
+			minY = Math.min(y, minY);
+			maxX = Math.max(x, maxX);
+			minX = Math.min(x, minX);
+			
+			_minText.text = minY.toFixed(2);
+			_maxText.text = maxY.toFixed(2);
+		}
+		
+		/**
+		 * 	Registers a value to plot
+		 */
+		public function register(value:Number):void {
+			
+			var x:Number = (getTimer() - _firstVal) / DISPLAY_STAGE.frameRate;
+			var y:Number = value;
+			
+			// calculate the x / y
+			_calc(x, y);
+
+			// draw
+			_graph.graphics.lineTo(x, y);
+			
+			// get ratio
+			var ratioY:Number			= _height / (maxY - minY);
+			_graph.y					= (maxY * ratioY);
+
+			_graph.scaleY				= -ratioY;
+			_graph.scaleX				= _width / maxX;
+			
+		}
+		
+		/**
+		 * 	Dispose
+		 */
+		public function dispose():void {
+			_graph.graphics.clear();
+			_minText = null;
+			_maxText = null;
+		}
+	}
+}

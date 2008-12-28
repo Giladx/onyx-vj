@@ -1,0 +1,26 @@
+<project name="build.module" default="build">
+
+	<property file="../Onyx-VJ/properties.ini" />
+
+	<path id="currentDirectory">
+		<fileset dir=".">
+			<include name="*.as"/>
+		</fileset>
+	</path>
+
+	<property name="output.path"	location="../../../${module.rootpath}\plugins\BasePlugins.swf" />
+	<property name="onyx.corepath"	location="../../../${module.swcpath}" />
+	<property name="plugin.main"	refid="currentDirectory" />
+	
+	<target name="build">
+		<echo message="building ${plugin.main}" />
+		
+		<!-- compile -->
+		<exec executable="${compiler.mxmlc}" failonerror="true">
+			<arg line="-output ${output.path}"/>
+			<arg line="-compiler.library-path+=${onyx.corepath}"/>
+			<arg line="${plugin.main}"/>
+		</exec>
+	</target>
+	
+</project>

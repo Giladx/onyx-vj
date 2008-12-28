@@ -1,0 +1,58 @@
+/*****************************************************************************
+ *
+ * Copyright (C) 2008 Adobe Systems Incorporated
+ * All Rights Reserved.
+ *
+ * NOTICE:  All information contained  herein is,  and remains the property of
+ * Adobe Systems Incorporated and its suppliers, if any.  The intellectual and
+ * technical  concepts  contained  herein  are  proprietary  to  Adobe Systems
+ * Incorporated  and  its suppliers  and may  be covered  by U.S.  and Foreign
+ * Patents, patents in process, and are protected by trade secret or copyright
+ * law.  Dissemination of this information or reproduction of this material is
+ * strictly forbidden  unless prior  written permission is obtained from Adobe
+ * Systems Incorporated.
+ *
+ *****************************************************************************/
+
+<languageVersion: 1.0;> 
+ 
+// twirl: A simple example to demonstrate the use of the hydra sampling 
+//           function to yield an interesting effect.  The filter performs 
+//           some math based on the parameter values to change the sampling 
+//           location.
+kernel twirl
+<   namespace : "onyx-vj";
+    vendor : "www.onyx-vj.com";
+    version : 1;
+    description : "BlendMode"; >
+{
+
+    input image4 input1;
+    input image4 input2;
+    output pixel4 result;
+    
+    void evaluatePixel()
+    {
+        pixel4 a = sampleNearest(input1, outCoord());
+        pixel4 b = sampleNearest(input2, outCoord());
+        result = b;
+        
+        if (b.r < 0.5){
+            result.r = (2.0 * a.r * b.r) + (a.r * 2.0)*(1.0 - 2.0 * b.r);
+        } else {
+            result.r = sqrt(a.r) * (2.0 * b.r - 1.0) + (2.0 * a.r) * (1.0 - b.r);
+        }
+
+        if (b.g < 0.5){
+            result.g = (2.0 * a.g * b.g) + (a.g * 2.0)*(1.0 - 2.0 * b.g);
+        } else {
+            result.g = sqrt(a.g) * (2.0 * b.g - 1.0) + (2.0 * a.g) * (1.0 - b.g);
+        }
+
+        if(b.b < 0.5){
+            result.b = (2.0 * a.b * b.b) + (a.b * 2.0)*(1.0 - 2.0 * b.b);
+        } else {
+            result.b = sqrt(a.b) * (2.0 * b.b - 1.0) + (2.0 * a.b) * (1.0 - b.b);
+        }
+    }
+}

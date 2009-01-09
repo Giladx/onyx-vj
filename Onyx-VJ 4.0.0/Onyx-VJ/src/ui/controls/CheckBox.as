@@ -106,7 +106,6 @@ package ui.controls {
 			getParameter.removeEventListener(ParameterEvent.CHANGE, _onChanged);
 			_button.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			
-			_label	= null;
 			_button = null;
 			
 			removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);

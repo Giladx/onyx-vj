@@ -34,6 +34,13 @@ package onyx.events {
 		public static const MOUSE_DOWN:String			= MouseEvent.MOUSE_DOWN;
 		public static const MOUSE_UP:String				= MouseEvent.MOUSE_UP;
 		public static const MOUSE_MOVE:String			= MouseEvent.MOUSE_MOVE;
+		
+		/**
+		 * 	@param
+		 * 	How hard the item is being pressed -- defaults to 1 if it's a mouse interaction
+		 * 	0-1 if coming from a wacome event
+		 */
+		public var amount:Number	= 1;
 
 		/**
 		 * 	@constructor

@@ -32,6 +32,7 @@ package ui.states {
 	import onyx.utils.*;
 	import onyx.utils.file.*;
 	
+	import ui.core.ModuleInterfaceAPI;
 	import ui.macros.*;
 	import ui.window.*;
 	
@@ -68,6 +69,10 @@ package ui.states {
 		 */
 		override public function initialize():void {
 			
+			// initialize the module api
+			Module.registerInterfaceAPI(new ModuleInterfaceAPI());
+			
+			// output
 			Console.output('\n*  INITIALIZING PLUGINS  *\n');
 			
 			// register default plugins that are UI related

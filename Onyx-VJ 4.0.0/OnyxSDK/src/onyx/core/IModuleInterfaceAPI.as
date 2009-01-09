@@ -13,24 +13,16 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package onyx.plugin {
+package onyx.core {
 	
 	import flash.display.*;
 	
-	import onyx.core.*;
+	import onyx.parameter.*;
 	
-	use namespace onyx_ns;
-
-	/**
-	 * 	Blends 2 layers together
-	 */
-	public class BlendFilter extends PluginBase {
-
-		/**
-		 * 
-		 */
-		public function render(source:BitmapData, layer:Layer):void {
-		}
+	public interface IModuleInterfaceAPI {
+		
+		function createControl(param:Parameter, options:Object = null):DisplayObject;
 		
 	}
+	
 }

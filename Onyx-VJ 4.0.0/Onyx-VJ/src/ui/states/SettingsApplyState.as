@@ -132,7 +132,7 @@ package ui.states {
 				if (module.interfaceOptions) {
 					
 					var options:ModuleInterfaceOptions	= module.interfaceOptions;
-					var name:String						= module.name;
+					var name:String							= module.name;
 					
 					// register a new window registration
 					WindowRegistration.register(

@@ -21,6 +21,8 @@ package onyx.parameter {
 	
 	use namespace onyx_ns;
 	
+	[ExcludeClass]
+	
 	/**
 	 * 	Number Control that stores and constrains numeric values.
 	 */

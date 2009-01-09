@@ -13,20 +13,39 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
- 
 package onyx.plugin {
 	
 	import flash.display.*;
-	import flash.events.Event;
+	import flash.events.*;
 	
 	import onyx.core.*;
+	import onyx.parameter.Parameter;
 	
-	use namespace onyx_ns;
+	[Event(name="close", type="flash.events.Event")]
 	
 	/**
 	 * 
 	 */
 	public class Module extends PluginBase {
+		
+		/**
+		 * 	@private
+		 */
+		private static var api:IModuleInterfaceAPI;
+		
+		/**
+		 * 	Registers an api for c reating interface controls
+		 */
+		onyx_ns static function registerInterfaceAPI(api:IModuleInterfaceAPI):void {
+			Module.api = api;
+		}
+		
+		/**
+		 * 
+		 */
+		public static function createControl(param:Parameter, options:Object):DisplayObject {
+			return api.createControl(param, options);
+		}
 		
 		/**
 		 * 	Does it have interface options?
@@ -51,14 +70,10 @@ package onyx.plugin {
 		 * 
 		 */
 		public function close():void {
+			
+			// dispatches a close event
 			super.dispatchEvent(new Event(Event.CLOSE));
-		}		
-		
-		/**
-		 * 	Disposes the module
-		 */
-		override public function dispose():void {
-			super.dispose();
+			
 		}
 	}
 }

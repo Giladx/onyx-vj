@@ -24,6 +24,8 @@ package onyx.plugin {
 	
 	use namespace onyx_ns;
 	
+	[ExcludeClass]
+	
 	/**
 	 * 
 	 */
@@ -32,7 +34,7 @@ package onyx.plugin {
 		/**
 		 * 	@private
 		 */
-		private var filter:ShaderFilter;
+		private const filter:ShaderFilter	= new ShaderFilter();
 		
 		/**
 		 * 
@@ -91,7 +93,7 @@ package onyx.plugin {
 
 			}
 			
-			filter = new ShaderFilter(shader);
+			filter.shader = shader;
 
 		}
 		
@@ -109,7 +111,7 @@ package onyx.plugin {
 		 */
 		override public function dispose():void {
 			
-			filter = null;
+			filter.shader = null;
 			
 		}
 	}

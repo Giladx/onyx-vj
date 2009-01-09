@@ -57,9 +57,6 @@ package {
 		 */
 		public function Main():void {
 			
-			// initialize api
-			// UserInterface.initializeAPI(new AIRUserInterfaceAPI());
-			
 			// register classes for re-use
 			Factory.registerClass(ButtonControl);
 			Factory.registerClass(ColorPicker);

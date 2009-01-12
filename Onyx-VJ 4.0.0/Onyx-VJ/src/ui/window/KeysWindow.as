@@ -201,7 +201,7 @@ final class KeyItem extends Sprite implements IDisposable {
 	private var key:TextField;
 	private var label:TextField;
 	private var plugin:Plugin;
-	private var button:ButtonClear;
+	private const button:ButtonClear		= new ButtonClear();
 	private var clear:TextButton;
 	
 	/**
@@ -260,7 +260,7 @@ final class KeyItem extends Sprite implements IDisposable {
 		key.height		= 10;
 		key.x			= 150;
 		
-		button			= new ButtonClear(190, 10);
+		button.initialize(190, 10);
 		clear.x			= 190;
 
 		addChild(clear);

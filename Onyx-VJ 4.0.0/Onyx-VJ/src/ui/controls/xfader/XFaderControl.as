@@ -39,7 +39,7 @@ package ui.controls.xfader {
 		/**
 		 * 	@private
 		 */
-		private const button:ButtonClear		= new ButtonClear(210, 22);
+		private const button:ButtonClear		= new ButtonClear();
 		
 		/**
 		 * 
@@ -48,6 +48,8 @@ package ui.controls.xfader {
 			
 			// super
 			super.initialize(param);
+
+			button.initialize(210, 22);
 
 			addChild(fader);
 			addChild(button);

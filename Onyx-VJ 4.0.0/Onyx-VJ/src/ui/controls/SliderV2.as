@@ -38,8 +38,8 @@ package ui.controls {
 		private var _multiplier:Number;
 		private var _factor:Number;
 
-		private var _button:ButtonClear;
-		private var _value:TextFieldCenter;
+		private const button:ButtonClear		= new ButtonClear();
+		private const label:TextFieldCenter		= Factory.getNewInstance(TextFieldCenter);
 		
 		/**
 		 * 
@@ -51,7 +51,7 @@ package ui.controls {
 		/**
 		 * 
 		 */
-		override public function initialize(control:Parameter, options:UIOptions = null, label:String=null):void {
+		override public function initialize(control:Parameter, options:UIOptions = null, labelText:String=null):void {
 			
 			var proxy:ParameterProxy			= control as ParameterProxy;
 			var controlY:ParameterNumber		= proxy.controlY;
@@ -60,23 +60,23 @@ package ui.controls {
 			var invert:Boolean				= proxy.invert;
 			
 			super.initialize(control, options, proxy.display);
-			
-			_button = new ButtonClear(width,	height);
-			_value	= Factory.getNewInstance(TextFieldCenter);
-			_value.width	= width + 3,
-			_value.height	= height,
-			_value.x		= 0,
-			_value.y		= 2;
 
-			_controlY	= proxy.controlY,
-			_controlX	= proxy.controlX,
-			_multiplier = controlY.multiplier,
-			_factor		= controlY.factor;
+			button.initialize(width,	height);
 
-			_value.text		= ((_controlY.value * _multiplier) >> 0) + ':' + ((_controlX.value * _multiplier) >> 0);	
+			label.width		= width + 3,
+			label.height	= height,
+			label.x			= 0,
+			label.y			= 2;
+
+			_controlY		= proxy.controlY,
+			_controlX		= proxy.controlX,
+			_multiplier 	= controlY.multiplier,
+			_factor			= controlY.factor;
+
+			label.text		= ((_controlY.value * _multiplier) >> 0) + ':' + ((_controlX.value * _multiplier) >> 0);	
 			
-			addChild(_value);
-			addChild(_button);
+			addChild(label);
+			addChild(button);
 
 			doubleClickEnabled = true;
 			addEventListener(MouseEvent.DOUBLE_CLICK, _doubleClick);
@@ -186,7 +186,7 @@ package ui.controls {
 				y = _controlY.value;
 			}
 			
-			_value.text = String((x * _multiplier) >> 0) + ':' + String((y * _multiplier) >> 0);
+			label.text = String((x * _multiplier) >> 0) + ':' + String((y * _multiplier) >> 0);
 		}
 		
 		/**

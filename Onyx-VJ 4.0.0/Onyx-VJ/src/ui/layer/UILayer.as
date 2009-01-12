@@ -104,10 +104,10 @@ package ui.layer {
 		private var _layer:LayerImplementor;
 
 		/** @private **/
-		private const btnCopy:ButtonClear					= new ButtonClear(10, 10);
+		private const btnCopy:ButtonClear					= new ButtonClear();
 
 		/** @private **/
-		private const btnDelete:ButtonClear					= new ButtonClear(10, 10);
+		private const btnDelete:ButtonClear					= new ButtonClear();
 		
 		/** @private **/
 		private var btnVisible:LayerVisible;
@@ -125,7 +125,7 @@ package ui.layer {
 		private const assetScrub:ScrubArrow 				= new ScrubArrow();
 
 		/** @private **/
-		private const btnScrub:ButtonClear					= new ButtonClear(192, 12, false);
+		private const btnScrub:ButtonClear					= new ButtonClear();
 
 		/** @private **/
 		public const preview:Bitmap							= new Bitmap();
@@ -149,8 +149,8 @@ package ui.layer {
 			// register for file drops
 			Browser.registerTarget(this, true);
 			
-			//
-			var props:Parameters	= layer.getProperties();
+			// get properties
+			const props:Parameters	= layer.getProperties();
 			
 			// register for filter drops
 			super(
@@ -312,7 +312,7 @@ package ui.layer {
 			preview.scaleX			= (241 / DISPLAY_WIDTH);
 			preview.scaleY			= (181 / DISPLAY_HEIGHT);
 			
-			var props:Parameters = _layer.getProperties();
+			const props:Parameters = _layer.getProperties();
 			
 			loopStart.initialize(props.getParameter('loopStart'));
 			loopEnd.initialize(props.getParameter('loopEnd'));
@@ -322,10 +322,14 @@ package ui.layer {
 			
 			crossFaderToggle			= new CrossFaderToggle(_layer);
 			
+			btnDelete.initialize(10, 10);
+			btnCopy.initialize(10, 10);
+			btnScrub.initialize(192, 12, false);
+			
 			blendDrop					= Factory.getNewInstance(DropDown) as DropDown;
 			blendDrop.initialize(props.getParameter('blendMode'), new UIOptions(false, false, null, 80, 11));
 			
-			var options:UIOptions		= new UIOptions();
+			const options:UIOptions		= new UIOptions();
 						
 			addChildren(
 			

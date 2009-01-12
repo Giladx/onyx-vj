@@ -18,6 +18,7 @@ package ui.controls.filter {
 	import flash.events.*;
 	import flash.utils.*;
 	
+	import onyx.core.*;
 	import onyx.plugin.*;
 	
 	import ui.controls.*;

@@ -88,7 +88,7 @@ package ui.states {
 			DISPLAY_STAGE.addChild(image);
 			DISPLAY_STAGE.addChild(label);
 			
-			var screenBounds:Rectangle	= Screen.mainScreen.bounds;
+			const screenBounds:Rectangle	= Screen.mainScreen.bounds;
 			image.x						= (DISPLAY_STAGE.stageWidth - screenBounds.width) / 2;
 			image.y						= (DISPLAY_STAGE.stageHeight - screenBounds.height) / 2;
 			image.width					= screenBounds.width;
@@ -102,7 +102,7 @@ package ui.states {
 			DISPLAY_STAGE.addEventListener(Event.ADDED,				onItemAdded);
 			
 			// listen for updates
-			var console:Console	= Console.getInstance();
+			const console:Console	= Console.getInstance();
 			console.addEventListener(ConsoleEvent.OUTPUT, onOutput);
 			
 			// set the label type
@@ -123,7 +123,7 @@ package ui.states {
 		 */
 		private function onItemAdded(event:Event):void {
 			
-			var stage:DisplayObjectContainer = DISPLAY_STAGE;
+			const stage:DisplayObjectContainer = DISPLAY_STAGE;
 			DISPLAY_STAGE.setChildIndex(image, DISPLAY_STAGE.numChildren - 2);
 			DISPLAY_STAGE.setChildIndex(label, DISPLAY_STAGE.numChildren - 1);
 			
@@ -142,7 +142,7 @@ package ui.states {
 		 */
 		override public function terminate():void {
 			
-			var console:Console = Console.getInstance();
+			const console:Console = Console.getInstance();
 			console.removeEventListener(ConsoleEvent.OUTPUT,	onOutput);
 			
 			// remove listener to the stage

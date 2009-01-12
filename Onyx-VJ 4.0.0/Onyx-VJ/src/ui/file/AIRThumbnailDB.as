@@ -13,7 +13,7 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package onyx.asset {
+package ui.file {
 	
 	import flash.display.*;
 	import flash.filters.*;
@@ -24,6 +24,7 @@ package onyx.asset {
 	import onyx.utils.string.*;
 	
 	import ui.text.*;
+	import ui.styles.*;
 	
 	/**
 	 * 	Stores bytearray of files, and their associated thumbnails

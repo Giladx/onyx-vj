@@ -35,7 +35,7 @@ package ui.assets {
 		public function AssetWindow(width:int, height:int):void {
 			
 			// super
-			super(new BitmapData(width, height, true, 0), PixelSnapping.ALWAYS, false);
+			super(new BitmapData(width || 1, height || 1, true, 0), PixelSnapping.ALWAYS, false);
 		}
 		
 		/**

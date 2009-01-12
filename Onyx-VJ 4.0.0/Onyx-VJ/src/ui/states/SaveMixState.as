@@ -20,11 +20,13 @@ package ui.states {
 	import flash.filesystem.File;
 	
 	import onyx.asset.*;
+	import onyx.asset.air.*;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
 	import onyx.utils.file.*;
 	
+	import ui.file.*;
 	import ui.window.*;
 	
 	/**
@@ -57,7 +59,7 @@ package ui.states {
 			StateManager.pauseStates(ApplicationState.KEYBOARD);
 			
 			// choose a directory
-			var file:File = AIR_ROOT.resolvePath(ONYX_LIBRARY_PATH);
+			const file:File = new File(AssetFile.resolvePath(ONYX_LIBRARY_PATH));
 			file.browseForSave('Select the name and location of the mix file to save.');
 			file.addEventListener(Event.SELECT, action);
 			file.addEventListener(Event.CANCEL, action);
@@ -88,19 +90,24 @@ package ui.states {
 				}
 				
 				writeTextFile(file, xml);
-							
+
 				//
-				var cache:AIRDirectoryQuery = AIRAdapter.getDirectoryCache(getRelativePath(AIR_ROOT, file.parent));
-				if (cache) {
-					var db:AIRThumbnailDB = cache.db;
+				// var cache:AIRDirectoryQuery = AIRAdapter.getDirectoryCache(getRelativePath(AIR_ROOT, file.parent));
+				
+				// trace(cache);
+				
+				// if (cache) {
+				//	var db:AIRThumbnailDB = cache.db;
 					
 					// add the mix, and save
-					if (db) {
-						db.addFile(getRelativePath(AIR_ROOT, file), Display.source)
-						writeBinaryFile(AIR_ROOT.resolvePath(cache.path + '/.ONXThumbnails'), db.bytes);
-					}
-				}
-				OnyxFile.queryDirectory(getRelativePath(AIR_ROOT, file.parent), onSave, true);
+				//	if (db) {
+				//		db.addFile(getRelativePath(AIR_ROOT, file), Display.source)
+				//		writeBinaryFile(AIR_ROOT.resolvePath(cache.path + '/.ONXThumbnails'), db.bytes);
+				//	}
+				// }
+				// AssetFile.queryDirectory(getRelativePath(AIR_ROOT, file.parent), onSave, true);
+				
+				StateManager.removeState(this);
 			} else {
 				StateManager.removeState(this);
 			}

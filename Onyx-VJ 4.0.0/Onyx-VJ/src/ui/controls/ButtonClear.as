@@ -23,21 +23,6 @@ package ui.controls {
 	public final class ButtonClear extends SimpleButton {
 		
 		/**
-		 * 	@constructor
-		 */
-		final public function ButtonClear(width:int = 0, height:int = 0, show:Boolean = true):void {
-			
-			if (width && height) {
-
-				if (show) {
-					overState = new OverState(width, height);
-				}
-				hitTestState = new HitState(width, height);
-				
-			}
-		}
-		
-		/**
 		 * 
 		 */
 		public function initialize(width:int, height:int, show:Boolean = true):void {

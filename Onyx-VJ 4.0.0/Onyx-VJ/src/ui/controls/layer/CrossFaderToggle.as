@@ -30,12 +30,12 @@ package ui.controls.layer {
 		/**
 		 * 	@private
 		 */
-		private var _toggleA:ButtonClear;
+		private const toggleA:ButtonClear	= new ButtonClear();
 		
 		/**
 		 * 	@private
 		 */
-		private var _toggleB:ButtonClear;
+		private const toggleB:ButtonClear	= new ButtonClear();
 		
 		/**
 		 * 	@private
@@ -54,22 +54,23 @@ package ui.controls.layer {
 			
 			_current	= Factory.getNewInstance(ui.text.TextField),
 			_layer		= layer,
-			_toggleA	= new ButtonClear(11,11),
-			_toggleB	= new ButtonClear(11,11);
+			
+			toggleA.initialize(11, 11);
+			toggleB.initialize(11, 11);
 			
 			_current.width		= 11,
 			_current.height		= 11,
 			_current.y			= 1,
 			_current.textColor	= 0xCCCCCC;
 			
-			_toggleA.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-			_toggleB.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			toggleA.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			toggleB.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			
-			_toggleA.x	= 12;
-			_toggleB.x	= 24;
+			toggleA.x	= 12;
+			toggleB.x	= 24;
 			
-			addChild(_toggleA);
-			addChild(_toggleB);
+			addChild(toggleA);
+			addChild(toggleB);
 			
 			select();
 		}
@@ -78,7 +79,7 @@ package ui.controls.layer {
 		 * 	@private
 		 */
 		private function mouseDown(event:MouseEvent):void {
-			_layer.channel = event.currentTarget === _toggleB; 
+			_layer.channel = event.currentTarget === toggleB; 
 			select();
 		}
 		
@@ -91,17 +92,17 @@ package ui.controls.layer {
 				_current.x		= 25;
 
 				addChild(_current);
-				addChild(_toggleA);
+				addChild(toggleA);
 				
-				removeChild(_toggleB);
+				removeChild(toggleB);
 			} else {
 				_current.text	= 'A',
 				_current.x		= 14;
 
 				addChild(_current);
-				addChild(_toggleB);
+				addChild(toggleB);
 				
-				removeChild(_toggleA);
+				removeChild(toggleA);
 			}
 		}
 		
@@ -109,10 +110,12 @@ package ui.controls.layer {
 		 * 
 		 */
 		override public function dispose():void {
+
 			super.dispose();
 			
-			_toggleA.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-			_toggleB.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			toggleA.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			toggleB.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			
 		}	
 	}
 }

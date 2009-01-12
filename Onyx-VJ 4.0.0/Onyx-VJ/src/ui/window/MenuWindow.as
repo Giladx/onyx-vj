@@ -112,7 +112,7 @@ package ui.window {
 			switch (event.currentTarget) {
 				case quitButton:
 				
-					StateManager.quit();
+					StateManager.loadState(new QuitState());
 				
 					break;
 			}

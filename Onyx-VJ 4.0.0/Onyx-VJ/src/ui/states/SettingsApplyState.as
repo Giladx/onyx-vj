@@ -52,9 +52,10 @@ package ui.states {
 		 */
 		private function applySettings():void {
 			
-			var xml:XML			= SettingsLoadState.SETTINGS_XML;
+			const xml:XML			= SettingsLoadState.SETTINGS_XML;
+			const uiXML:XMLList	= xml.ui;
+
 			var list:XMLList;
-			var uiXML:XMLList	= xml.ui;
 			
 			if (uiXML.hasOwnProperty('swatch')) {
 				list = uiXML.swatch;
@@ -123,7 +124,7 @@ package ui.states {
 		public function registerModuleWindows():void {
 			
 			// get the default state
-			var windows:Array = WindowState.getState().windows;
+			const windows:Array = WindowState.getState().windows;
 			
 			// initialize modules
 			for each (var module:Module in PluginManager.modules) {

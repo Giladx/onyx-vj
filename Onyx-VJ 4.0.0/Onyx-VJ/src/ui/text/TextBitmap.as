@@ -29,7 +29,7 @@ package ui.text {
 		/**
 		 * 	@private
 		 */
-		private static var _text:TextField = new TextField();
+		private static const _text:TextField = new TextField();
 		text.autoSize = TextFieldAutoSize.LEFT;
 		
 		/**

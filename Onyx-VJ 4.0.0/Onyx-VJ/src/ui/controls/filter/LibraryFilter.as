@@ -44,12 +44,12 @@ package ui.controls.filter {
 		/**
 		 * 	@private
 		 */
-		private var label:TextField;
+		private const label:TextField = Factory.getNewInstance(ui.text.TextField)
 
 		/**
 		 * 	@private
 		 */
-		private const btn:ButtonClear = new ButtonClear(42,32);
+		private const btn:ButtonClear = new ButtonClear();
 		
 		/**
 		 * 	@constructor
@@ -58,13 +58,12 @@ package ui.controls.filter {
 			
 			_plugin = plugin;
 
-			var bmp:Bitmap	= new Bitmap(_plugin.thumbnail);
+			const bmp:Bitmap	= new Bitmap(_plugin.thumbnail);
 			bmp.x = bmp.y	= 1;
 			
 			// draw shit
 			addChild(bmp);
 			
-			label				= Factory.getNewInstance(ui.text.TextField);
 			label.width			= 41,
 			label.height		= 31,
 			label.wordWrap		= true,
@@ -73,10 +72,12 @@ package ui.controls.filter {
 			label.x				= 2,
 			label.filters		= DROP_SHADOW;
 			
+			btn.initialize(42,32);
+			
 			addChild(label);
 			addChild(btn);
 			
-			var graphics:Graphics = this.graphics;
+			const graphics:Graphics = this.graphics;
 			graphics.beginFill(0x45525c);
 			graphics.drawRect(0,0,42,32);
 			graphics.endFill();

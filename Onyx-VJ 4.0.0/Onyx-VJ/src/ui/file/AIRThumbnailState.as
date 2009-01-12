@@ -13,7 +13,7 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package onyx.asset {
+package ui.file {
 	
 	import flash.display.*;
 	import flash.events.*;
@@ -23,6 +23,8 @@ package onyx.asset {
 	import flash.net.*;
 	import flash.utils.*;
 	
+	import onyx.asset.*;
+	import onyx.asset.air.*;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.events.*;
@@ -31,7 +33,7 @@ package onyx.asset {
 	import onyx.utils.file.*;
 	import onyx.utils.string.*;
 	
-	import ui.states.*;
+	import ui.styles.*;
 
 	/**
 	 * 
@@ -56,17 +58,12 @@ package onyx.asset {
 		/**
 		 * 	@private
 		 */
-		private var root:File;
+		private var path:File;
 		
 		/**
 		 * 	@private
 		 */
-		private var display:OutputDisplay;
-		
-		/**
-		 * 	@private
-		 */
-		private var current:AIRAsset;
+		private var current:AssetFile;
 		
 		/**
 		 * 	@private
@@ -74,10 +71,15 @@ package onyx.asset {
 		private var startTime:int;
 		
 		/**
+		 * 	@private
+		 */
+		private const display:OutputDisplay	= new OutputDisplay();
+		
+		/**
 		 * 	@constructor
 		 */
-		public function AIRThumbnailState(file:File, db:AIRThumbnailDB, jobs:Array):void {
-			this.root	= file,
+		public function AIRThumbnailState(path:String, db:AIRThumbnailDB, jobs:Array):void {
+			this.path	= new File(path),
 			this.db		= db,
 			this.files	= files,
 			this.jobs	= jobs;
@@ -92,7 +94,6 @@ package onyx.asset {
 			Display.pause(true);
 			
 			// test creating a new display
-			display = new OutputDisplay();
 			display.createLayers(5);
 			
 			// load next
@@ -104,7 +105,7 @@ package onyx.asset {
 		 */
 		private function _nextQueue():void {
 			
-			current = jobs.shift() as AIRAsset;
+			current = jobs.shift() as AssetFile;
 			
 			if (current) {
 				
@@ -131,16 +132,12 @@ package onyx.asset {
 				}
 				
 			} else {
-
-				if (display) {
 					
-					// remove
-					display.removeEventListener(DisplayEvent.MIX_LOADED, mixHandler);
+				// remove
+				display.removeEventListener(DisplayEvent.MIX_LOADED, mixHandler);
 				
-					// write the db
-					writeBinaryFile(root.resolvePath('.ONXThumbnails'), db.bytes);
-				
-				}
+				// write the db
+				writeBinaryFile(path.resolvePath('onyx-cache'), db.bytes);
 				
 				// terminate
 				StateManager.removeState(this);
@@ -235,7 +232,6 @@ package onyx.asset {
 			
 			// dispose
 			display.dispose();
-			display = null;
 		}
 	}
 }

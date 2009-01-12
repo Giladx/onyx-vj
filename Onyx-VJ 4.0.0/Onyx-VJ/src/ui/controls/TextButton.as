@@ -28,9 +28,9 @@ package ui.controls {
 		 */
 		public function TextButton(options:UIOptions, name:String, textColor:uint = TEXT_LABEL):void {
 			
-			var options:UIOptions = options || UI_OPTIONS;
-			var width:int	= options.width;
-			var height:int	= options.height;
+			const options:UIOptions = options || UI_OPTIONS;
+			const width:int	= options.width;
+			const height:int	= options.height;
 
 			// create a background color			
 			displayBackground(width, height);
@@ -38,8 +38,11 @@ package ui.controls {
 			// add a label
 			addLabel(name.toUpperCase(), width, height, ((height / 2) - 4) >> 0, 0, null, 0xFFFFFF);
 
+			const btn:ButtonClear	= new ButtonClear();
+			btn.initialize(width, height);
+
 			// add a button
-			addChild(new ButtonClear(width, height));
+			addChild(btn);
 		}
 	}
 }

@@ -22,6 +22,7 @@ package ui.states {
 	import flash.utils.*;
 	
 	import onyx.asset.*;
+	import onyx.asset.air.*;
 	import onyx.core.*;
 	import onyx.events.*;
 	import onyx.plugin.*;
@@ -32,6 +33,8 @@ package ui.states {
 	import ui.controls.*;
 	import ui.core.*;
 	import ui.text.*;
+	
+	use namespace onyx_ns;
 	
 	/**
 	 * 
@@ -156,7 +159,7 @@ package ui.states {
 			
 			// save
 			var xml:XML		= Settings.toXML();
-			var file:File	= AIR_ROOT.resolvePath('settings/settings.xml');
+			var file:File	= new File(AssetFile.resolvePath('settings/settings.xml'));
 			writeTextFile(file, xml.toString());
 			
 			// create a new window to put the output window

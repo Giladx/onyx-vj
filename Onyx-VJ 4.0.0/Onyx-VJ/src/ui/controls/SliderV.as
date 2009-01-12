@@ -54,12 +54,12 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		protected var _button:ButtonClear;
+		protected const button:ButtonClear		= new ButtonClear();
 		
 		/**
 		 * 	@private
 		 */
-		protected var _value:TextFieldCenter;
+		protected const label:TextFieldCenter	= Factory.getNewInstance(TextFieldCenter);
 		
 		/**
 		 * 	@private
@@ -69,7 +69,7 @@ package ui.controls {
 		/**
 		 * 
 		 */
-		override public function initialize(input:Parameter, options:UIOptions = null, label:String=null):void {
+		override public function initialize(input:Parameter, options:UIOptions = null, labelText:String=null):void {
 			
 			super.initialize(input, options, input.display);
 			
@@ -80,20 +80,20 @@ package ui.controls {
 			var factor:Number			= control.factor;
 			var toFixed:Number			= 0;
 
-			_button 				= new ButtonClear(width,	height);
-			_value					= Factory.getNewInstance(TextFieldCenter);
-			_value.defaultTextFormat= TEXT_DEFAULT;
-			_value.width			= width + 3,
-			_value.height			= height,
-			_value.x				= 0,
-			_value.y				= 2;
+			button.initialize(width, height);
+			
+			label.defaultTextFormat	= TEXT_DEFAULT;
+			label.width				= width + 3,
+			label.height			= height,
+			label.x					= 0,
+			label.y					= 2;
 
 			_multiplier			= multiplier;
 			_factor				= factor;
 			_toFixed			= toFixed;
 			
-			addChild(_value);
-			addChild(_button);
+			addChild(label);
+			addChild(button);
 			
 			doubleClickEnabled	= true;
 
@@ -178,7 +178,7 @@ package ui.controls {
 		 * 	Value
 		 */
 		protected function set value(value:String):void {
-			_value.text = value;
+			label.text = value;
 		}
 		
 		/**
@@ -204,8 +204,8 @@ package ui.controls {
 
 			// remove display objects
 
-			removeChild(_value);
-			removeChild(_button);
+			removeChild(label);
+			removeChild(button);
 			
 			// dispose, release
 			super.dispose();

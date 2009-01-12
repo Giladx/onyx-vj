@@ -41,7 +41,7 @@ package ui.window {
 		 * 
 		 */
 		public static function save(name:String = 'DEFAULT'):void {
-			var state:WindowState = lookup[name];
+			const state:WindowState = lookup[name];
 			if (state) {
 				for each (var window:WindowStateReg in state.windows) {
 					var reg:WindowRegistration	= WindowRegistration.getRegistration(window.name);

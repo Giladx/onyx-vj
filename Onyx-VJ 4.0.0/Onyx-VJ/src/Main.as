@@ -23,8 +23,8 @@ package {
 	import flash.html.*;
 	import flash.utils.*;
 	
-	import onyx.api.*;
 	import onyx.asset.*;
+	import onyx.asset.air.*;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.parameter.*;
@@ -135,7 +135,7 @@ package {
 			var setup:ShowOnyxState = StateManager.getStates('startup')[0];
 			
 			// write to the startup.log file
-			writeTextFile(AIR_ROOT.resolvePath('logs/start.log'), setup.getLogText());
+			writeTextFile(new File(AssetFile.resolvePath('logs/start.log')), setup.getLogText());
 			
 			// remove the startup state
 			StateManager.removeState(setup);			
@@ -150,7 +150,7 @@ package {
 		 * 	@private
 		 */
 		private function closeChildren(event:Event):void {
-			StateManager.quit();
+			StateManager.loadState(new QuitState());
 		}
 	}
 }

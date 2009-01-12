@@ -17,10 +17,13 @@ package ui.window {
 	
 	import flash.display.*;
 	import flash.events.*;
-	import flash.geom.Rectangle;
-	import flash.utils.Dictionary;
+	import flash.filesystem.*;
+	import flash.geom.*;
+	import flash.utils.*;
 	
 	import onyx.asset.*;
+	import onyx.asset.air.*;
+	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
 	
@@ -29,6 +32,7 @@ package ui.window {
 	import ui.controls.browser.*;
 	import ui.core.*;
 	import ui.events.*;
+	import ui.file.*;
 	import ui.layer.*;
 	import ui.styles.*;
 	import ui.text.*;
@@ -55,11 +59,6 @@ package ui.window {
 		public static function registerTarget(obj:UIObject, enable:Boolean):void {
 			(enable) ? targets[obj] = obj : delete targets[obj];
 		}
-		
-		/**
-		 * 	The root directory the browser should look in
-		 */
-		public static var ROOT_DIR:String;
 
 		/** @private **/
 		private static const FILES_PER_ROW:int			= 6;
@@ -100,7 +99,17 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
-		private var _path:String;
+		private const db:AIRThumbnailDB			= new AIRThumbnailDB();
+		
+		/**
+		 * 	@private
+		 */
+		private var query:AssetQuery;
+		
+		/**
+		 * 	@private
+		 */
+		private var list:Array;
 		
 		/**
 		 * 	@constructor
@@ -148,9 +157,7 @@ package ui.window {
 			addChild(buttonCameras);
 			
 			// query default folder
-			OnyxFile.queryDirectory(
-				ONYX_LIBRARY_PATH, updateList
-			);
+			AssetFile.queryDirectory(ONYX_LIBRARY_PATH, updateList);
 		}
 		
 		/**
@@ -158,53 +165,112 @@ package ui.window {
 		 */
 		private function updateList(query:AssetQuery, list:Array):void {
 			
-			// check for valid path first
+			// valid query?
 			if (query) {
 				
-				_path = query.path;
-	
-				// kill all previous objects here
-				_clearChildren();
-	
-				// Now we add all the new stuff for this folder;
-	
-				folders.reset();
+				// store the query
+				this.query	= query;
+				this.list	= list;
 				
-				var control:DisplayObject, index:int;
+				const dbFile:File = new File(AssetFile.resolvePath(query.path + '/onyx-cache'));
 				
-				// reset location
-				files.reset();
-				folders.reset();
-				
-				for each (var asset:OnyxFile in list) {
-				
-					if (asset.isDirectory) {
-						
-						// add and position
-						control		= folders.addChild(new FolderControl(asset, asset.path.length < _path.length));
-
-						index		= folders.getChildIndex(control);
-
-						control.x	= 0,
-						control.y	= FOLDER_HEIGHT * index;
-
-						control.addEventListener(MouseEvent.MOUSE_DOWN, folderDown);
-						
-					} else {
-						
-						control 	= files.addChild(new FileControl(asset, asset.thumbnail));
-						index		= files.getChildIndex(control);
-		
-						// position it
-						control.x	= (index % FILES_PER_ROW) * FILE_WIDTH,
-						control.y	= ((index++ / FILES_PER_ROW) >> 0) * FILE_HEIGHT;
-						
-						// start listening to start dragging
-						control.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-						control.addEventListener(MouseEvent.DOUBLE_CLICK, doubleClick);
-					}
+				if (dbFile.exists) {
+					
+	                const stream:FileStream = new FileStream();
+	                stream.addEventListener(Event.COMPLETE, dbHandler);
+	                stream.openAsync(dbFile, FileMode.READ);
+	                
+				} else {
+					
+					createUserObjects();
 					
 				}
+			}
+		}
+		        
+        /**
+         * 	@private
+         */
+        private function dbHandler(event:Event):void {
+            var stream:FileStream = event.currentTarget as FileStream;
+            stream.removeEventListener(Event.COMPLETE, dbHandler);
+            
+            var bytes:ByteArray = new ByteArray();
+            stream.readBytes(bytes);
+            stream.close();
+            
+            db.load(bytes);
+
+			// create objects
+			createUserObjects();
+        }
+		
+		/**
+		 * 	@private
+		 */
+		private function createUserObjects():void {
+			
+			var control:DisplayObject, index:int;
+			
+			// store an array of items we need to thumbnail
+			const needToThumbnail:Array	= [];
+
+			// kill all previous objects here
+			_clearChildren();
+			
+			// reset location
+			files.reset();
+			folders.reset();
+			
+			const path:String	= query.path;
+			
+			for each (var asset:AssetFile in list) {
+			
+				if (asset.isDirectory) {
+					
+					// add and position
+					control		= folders.addChild(new FolderControl(asset, asset.path.length < path.length));
+
+					index		= folders.getChildIndex(control);
+
+					control.x	= 0,
+					control.y	= FOLDER_HEIGHT * index;
+
+					control.addEventListener(MouseEvent.MOUSE_DOWN, folderDown);
+					
+				} else {
+					
+					// var data:BitmapData = db.getThumbnail(AssetFile.getRelativePath(AIR_ROOT, file));
+					
+					control 	= files.addChild(new FileControl(asset, asset.thumbnail));
+					index		= files.getChildIndex(control);
+	
+					// position it
+					control.x	= (index % FILES_PER_ROW) * FILE_WIDTH,
+					control.y	= ((index++ / FILES_PER_ROW) >> 0) * FILE_HEIGHT;
+					
+					// start listening to start dragging
+					control.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+					control.addEventListener(MouseEvent.DOUBLE_CLICK, doubleClick);
+
+					// if there is a valid bitmap, that means there is a thumbnail
+					// if no bitmap, add it to our job queue
+					if (!asset.thumbnail.bitmapData) {
+						asset.thumbnail.bitmapData	= db.getThumbnail(asset.path);
+						
+						if (!asset.thumbnail.bitmapData) {
+							needToThumbnail.push(asset);
+						}
+					}
+				}
+			}
+			
+			// if we need to thumbnail, start
+			if (needToThumbnail.length) {
+				
+				StateManager.loadState(
+					new AIRThumbnailState(AssetFile.resolvePath(query.path), db, needToThumbnail)
+				);
 			}
 		}
 		
@@ -217,12 +283,12 @@ package ui.window {
 			switch (event.currentTarget) {
 				case buttonFiles:
 
-					OnyxFile.queryDirectory(ONYX_LIBRARY_PATH, updateList);
+					AssetFile.queryDirectory(ONYX_LIBRARY_PATH, updateList);
 					
 					break;
 				case buttonCameras:
 				
-					OnyxFile.queryDirectory('onyx-query://cameras', updateList);
+					AssetFile.queryDirectory('onyx-query://cameras', updateList);
 					
 					break;
 			}
@@ -260,7 +326,7 @@ package ui.window {
 		public function updateFolders():void {
 			
 			// query default folder
-			OnyxFile.queryDirectory(_path, updateList);
+			AssetFile.queryDirectory(query.path, updateList);
 			
 		}
 		
@@ -304,7 +370,7 @@ package ui.window {
 		 */
 		private function folderDown(event:MouseEvent):void {
 			var control:FolderControl = event.currentTarget as FolderControl;
-			OnyxFile.queryDirectory(control.asset.path, updateList);
+			AssetFile.queryDirectory(control.asset.path, updateList);
 		}
 		
 		/**
@@ -347,7 +413,7 @@ package ui.window {
 		 * 	@private
 		 * 	Load
 		 */
-		private function _loadFile(layer:ILayerDrop, asset:OnyxFile, settings:LayerSettings):void {
+		private function _loadFile(layer:ILayerDrop, asset:AssetFile, settings:LayerSettings):void {
 			
 			switch (asset.extension) {
 				case 'xml':

@@ -34,7 +34,7 @@ package ui.controls {
 		 * 
 		 */
 		override protected function set value(value:String):void {
-			_value.text = value + 'x';
+			label.text = value + 'x';
 		}
 		
 		/**

@@ -25,6 +25,7 @@ package ui.states {
 	import flash.utils.*;
 	
 	import onyx.asset.*;
+	import onyx.asset.air.*;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.events.*;
@@ -76,7 +77,7 @@ package ui.states {
 			Console.output('\n*  INITIALIZING PLUGINS  *\n');
 			
 			// register default plugins that are UI related
-			registerPlugin([
+			Onyx.registerPlugin([
 				new Plugin('SelectLayer0',			SelectLayer0, 'Selects Layer 0'),
 				new Plugin('SelectLayer1',			SelectLayer1, 'Selects Layer 1'),
 				new Plugin('SelectLayer2',			SelectLayer2, 'Selects Layer 2'),
@@ -99,7 +100,7 @@ package ui.states {
 			);
 
 			// store the plugin path
-			pluginPath	= AIR_ROOT.resolvePath('plugins');
+			pluginPath	= new File(AssetFile.resolvePath('plugins'));
 			
 			// get all the plugins
 			filters = getDirectoryTree(pluginPath, filter);
@@ -114,73 +115,6 @@ package ui.states {
 
 				StateManager.removeState(this);
 				
-			}
-		}
-		
-		/**
-		 * 	@private
-		 */
-		private function registerPlugin(registrations:Array, info:LoaderInfo = null):void {
-			
-			var registration:Object = registrations.shift();
-			
-			while (registration) {
-				
-				if (registration is Font) {
-					
-					var c:Class	= (info ? info.applicationDomain.getDefinition(getQualifiedClassName(registration)) : getDefinitionByName(getQualifiedClassName(registration))) as Class;
-					if (c) {
-						Font.registerFont(c);
-						PluginManager.registerFont(registration as Font);
-					}
-				
-				// if it's a plugin
-				} else if (registration is Plugin) {
-					
-					var plugin:Plugin = registration as Plugin;
-					
-					if (plugin.definition) {
-						
-						// make sure it's uppercase
-						plugin.name = plugin.name.toUpperCase();
-		
-						var object:IDisposable = plugin.createNewInstance() as IDisposable;
-						if (object) {
-							
-							// test the type of object
-							if (object is Filter) {
-								
-								plugin.registerData('bitmap', object is IBitmapFilter);
-								plugin.registerData('tempo', object is TempoFilter);
-
-								PluginManager.registerFilter(plugin);
-																
-							// register transition
-							} else if (object is Transition) {
-								
-								PluginManager.registerTransition(plugin);
-								
-							// register visualizer
-							} else if (object is Visualizer) {
-								
-								PluginManager.registerVisualizer(plugin);
-								
-							// register macro
-							} else if (object is Macro) {
-								
-								PluginManager.registerMacro(plugin);
-								
-							// register module
-							} else if (object is Module) {
-								
-								PluginManager.registerModule(plugin);
-								
-							}
-						}						
-					}
-				}
-				
-				registration = registrations.shift();
 			}
 		}
 		
@@ -280,12 +214,11 @@ package ui.states {
 			// initialize the plugin
 			if (!(event is ErrorEvent)) {
 				
-				var loader:PluginLoader = info.content as PluginLoader;
+				const loader:PluginLoader = info.content as PluginLoader;
 				
 				if (loader) {
 					
-					var plugins:Array = loader.getPlugins();
-					registerPlugin(plugins, info);
+					Onyx.registerPlugin(loader.getPlugins(), info);
 					
 				}
 			}

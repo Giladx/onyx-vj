@@ -47,7 +47,7 @@ package ui.controls.filter {
 		/**
 		 * 	@private
 		 */
-		private const btnDelete:ButtonClear		= new ButtonClear(11,11);
+		private const btnDelete:ButtonClear		= new ButtonClear();
 
 		/**
 		 * 	@private
@@ -65,6 +65,7 @@ package ui.controls.filter {
 			
 			doubleClickEnabled = true;
 
+			btnDelete.initialize(11, 11);
 			btnDelete.addEventListener(MouseEvent.MOUSE_DOWN, deleteFn, false, -1);
 			
 			muted = filter.muted;

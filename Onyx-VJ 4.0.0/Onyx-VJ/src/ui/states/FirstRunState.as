@@ -23,6 +23,7 @@ package ui.states {
 	import flash.system.*;
 	
 	import onyx.asset.*;
+	import onyx.asset.air.*;
 	import onyx.core.*;
 	import onyx.plugin.*;
 	import onyx.utils.file.*;
@@ -106,7 +107,7 @@ package ui.states {
 			// it was cancelled, quit
 			if (event.type === Event.CANCEL) {
 				
-				StateManager.quit();
+				StateManager.loadState(new QuitState());
 				
 			} else {
 				
@@ -133,11 +134,8 @@ package ui.states {
 				
 			}
 			
-			// set default
-			AIR_ROOT			= folder;
-			
 			// set up the query
-			OnyxFile.initialize(new AIRAdapter());
+			AssetFile.initialize(new AIRAdapter(folder.nativePath));
 			
 			// need to verify all the files exist
 			var appDirectory:File	= new File('app:/root/');

@@ -45,7 +45,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private var label:TextField;
+		private const label:TextField			= Factory.getNewInstance(TextField);
 
 		/**
 		 * 	@private
@@ -55,7 +55,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private var _button:ButtonClear;
+		private const button:ButtonClear		= new ButtonClear();
 
 		/**
 		 * 	@private
@@ -94,8 +94,8 @@ package ui.controls {
 			_draw(options.width, options.height);
 
 			// add listeners			
-			_button.addEventListener(MouseEvent.MOUSE_DOWN, _onPress);
-			_button.addEventListener(MouseEvent.MOUSE_WHEEL, _onWheel);
+			button.addEventListener(MouseEvent.MOUSE_DOWN, _onPress);
+			button.addEventListener(MouseEvent.MOUSE_WHEEL, _onWheel);
 
 			// get value
 			var value:* = param.value;
@@ -135,15 +135,15 @@ package ui.controls {
 		 */
 		private function _draw(width:int, height:int, drawBG:Boolean = false):void {
 
-			label			= Factory.getNewInstance(TextField);
-			_button			= new ButtonClear(width, height),
 			label.width		= width - 2,
 			label.height	= height,
 			label.x			= 1,
 			label.y			= 2;
+			
+			button.initialize(width, height);
 
 			addChild(label);
-			addChild(_button);
+			addChild(button);
 		}
 		
 		/**
@@ -268,8 +268,8 @@ package ui.controls {
 			parameter.removeEventListener(ParameterEvent.CHANGE, _onChange);
 			
 			// add listeners			
-			_button.removeEventListener(MouseEvent.MOUSE_DOWN, _onPress);
-			_button.removeEventListener(MouseEvent.MOUSE_WHEEL, _onWheel);
+			button.removeEventListener(MouseEvent.MOUSE_DOWN, _onPress);
+			button.removeEventListener(MouseEvent.MOUSE_WHEEL, _onWheel);
 			
 			// dispose
 			super.dispose();

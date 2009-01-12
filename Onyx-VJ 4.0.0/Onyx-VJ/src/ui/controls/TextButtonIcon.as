@@ -26,19 +26,21 @@ package ui.controls {
 		 */
 		public function TextButtonIcon(options:UIOptions, name:String, icon:Bitmap):void {
 			
-			var width:int, height:int;
-			
-			width	= options.width,
-			height	= options.height;
+			const width:int 	= options.width;
+			const height:int	= options.height;
 			
 			// add a label
 			addLabel(name.toUpperCase(), width + 3, height, 1, 14, 'left');
 
 			// add a button
-			var sprite:DisplayObject = addChild(icon);
+			const sprite:DisplayObject = addChild(icon);
 			sprite.x = 3;
 			sprite.y = 2;
-			addChild(new ButtonClear(width, height));
+			
+			const btn:ButtonClear	= new ButtonClear();
+			btn.initialize(width, height);
+			
+			addChild(btn);
 		}
 	}
 }

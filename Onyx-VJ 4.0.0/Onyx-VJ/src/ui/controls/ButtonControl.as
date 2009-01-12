@@ -17,9 +17,9 @@ package ui.controls {
 	
 	import flash.events.MouseEvent;
 	
-	import onyx.parameter.*;
 	import onyx.core.*;
 	import onyx.events.*;
+	import onyx.parameter.*;
 	
 	import ui.styles.*;
 	import ui.text.*;
@@ -37,7 +37,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private var _button:ButtonClear;
+		private const _button:ButtonClear		= new ButtonClear();
 		
 		/**
 		 * 
@@ -46,7 +46,7 @@ package ui.controls {
 			
 			super.initialize(control, options, label);
 			
-			_button			= new ButtonClear(options.width, options.height);
+			_button.initialize(options.width, options.height);
 			
 			_label.width	= options.width;
 			_label.height	= options.height;

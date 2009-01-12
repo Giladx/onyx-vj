@@ -13,25 +13,10 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package onyx.utils.file {
+package ui.styles {
 	
-	import flash.filesystem.*;
-	import flash.utils.*;
+	public const THUMB_WIDTH:int = 64;
 	
-	/**
-	 * 	Simple utility to read a text file synchronously
-	 */
-	public function writeBinaryFile(file:File, contents:ByteArray):void {
-		
-		// create connection
-		var stream:FileStream = new FileStream();
-		stream.open(file, FileMode.WRITE);
-		
-		// write
-		stream.writeBytes(contents);
-		
-		// close the file
-		stream.close();
-
-	}
+	[ExcludeSDK]
+	
 }

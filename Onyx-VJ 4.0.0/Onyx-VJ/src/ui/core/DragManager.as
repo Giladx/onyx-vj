@@ -138,7 +138,7 @@ package ui.core {
 		private static function _onObjectFirstMove(event:MouseEvent):void {
 
 			// add a mirrored bitmap to the stage
-			var bmp:BitmapData = new BitmapData(_origin.width, _origin.height, true, 0x00000000);
+			var bmp:BitmapData = new BitmapData(_origin.width || 1, _origin.height || 1, true, 0x00000000);
 			bmp.draw(_origin, null, DRAG_DRAW);
 			_dragTarget = new Bitmap(bmp,PixelSnapping.ALWAYS,false);
 			

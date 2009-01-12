@@ -45,12 +45,10 @@ package ui.controls {
 		 */
 		final public function MenuButton(reg:WindowRegistration, options:UIOptions, textColor:uint = TEXT_LABEL):void {
 			
-			var options:UIOptions	= options || UI_OPTIONS;
-			var width:int			= options.width;
-			var height:int			= options.height;
-
-			// add a label
-			var label:TextFieldCenter	= Factory.getNewInstance(TextFieldCenter);
+			const options:UIOptions		= options || UI_OPTIONS;
+			const width:int				= options.width;
+			const height:int			= options.height;
+			const label:TextFieldCenter	= Factory.getNewInstance(TextFieldCenter);
 
 			label.width		= width + 3;
 			label.height	= height;
@@ -61,10 +59,12 @@ package ui.controls {
 			label.textColor				= textColor,
 			label.mouseEnabled			= false;
 
-			addChild(label);
-
 			// add a button
-			addChild(new ButtonClear(width, height));
+			const clear:ButtonClear		= new ButtonClear();
+			clear.initialize(width, height);
+
+			addChild(label);
+			addChild(clear);
 			
 			// add background
 			addChildAt(background = new AssetBitmap(width, height), 0);

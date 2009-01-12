@@ -36,22 +36,27 @@ package ui.controls.browser {
 		/**
 		 * 	@private
 		 */
-		private static const DROP_SHADOW:Array	= [new DropShadowFilter(1, 45, 0x000000,1,0,0,1)];
+		private static const DROP_SHADOW:Array			= [new DropShadowFilter(1, 45, 0x000000,1,0,0,1)];
+		
+		/**
+		 * 	@private
+		 */
+		private static const DEFAULT_BITMAP:BitmapData	= new BitmapData(THUMB_WIDTH, THUMB_HEIGHT, true, 0);
 
 		/**
 		 * 	@private
 		 */
-		private var button:ButtonClear;
+		private const button:ButtonClear				= new ButtonClear();
 
 		/**
 		 * 	@private
 		 */		
-		public var asset:OnyxFile;
+		public var asset:AssetFile;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function FileControl(asset:OnyxFile, thumbnail:Bitmap):void {
+		public function FileControl(asset:AssetFile, thumbnail:Bitmap):void {
 			
 			// store asset
 			this.asset				= asset;
@@ -65,13 +70,10 @@ package ui.controls.browser {
 		 */
 		private function init(bmp:Bitmap):void {
 			
-			var width:int		= bmp.bitmapData.width;
-			var height:int		= bmp.bitmapData.height;
-			
 			addChild(bmp);
-			
+				
 			// set
-			button				= new ButtonClear(width, height);
+			button.initialize(THUMB_WIDTH, THUMB_HEIGHT);
 			addChild(button);
 			
 			mouseEnabled		= false;
@@ -84,9 +86,6 @@ package ui.controls.browser {
 		override public function dispose():void {
 			
 			removeChild(button);
-			
-			button	= null,
-			asset	= null;
 			
 			super.dispose();
 		}

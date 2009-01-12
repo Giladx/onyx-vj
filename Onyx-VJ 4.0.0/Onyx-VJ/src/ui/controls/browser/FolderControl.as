@@ -43,7 +43,7 @@ package ui.controls.browser {
 		/**
 		 * 	@private
 		 */
-		private const btn:ButtonClear			= new ButtonClear(FOLDERWIDTH,14);
+		private const btn:ButtonClear			= new ButtonClear();
 
 		/**
 		 * 	@private
@@ -53,12 +53,12 @@ package ui.controls.browser {
 		/**
 		 * 	@private
 		 */
-		public var asset:OnyxFile;
+		public var asset:AssetFile;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function FolderControl(asset:OnyxFile, useArrowFolder:Boolean = false):void {
+		public function FolderControl(asset:AssetFile, useArrowFolder:Boolean = false):void {
 			
 			this.asset		= asset;
 			
@@ -76,6 +76,8 @@ package ui.controls.browser {
 			label.y			= 2,
 			label.width		= FOLDERWIDTH,
 			label.height	= 14;
+			
+			btn.initialize(FOLDERWIDTH, 14);
 			
 			addChild(label);
 			addChild(img);

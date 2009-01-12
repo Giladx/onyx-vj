@@ -51,7 +51,7 @@ package ui.controls.layer {
 		/**
 		 * 	@private
 		 */
-		private var button:ButtonClear					= new ButtonClear(10,10);
+		private const button:ButtonClear			= new ButtonClear();
 		
 		/**
 		 * 
@@ -66,6 +66,8 @@ package ui.controls.layer {
 			
 			icon.x = 1;
 			icon.y = 1;
+			
+			button.initialize(10, 10);
 			
 			addChild(icon);
 			addChild(button);

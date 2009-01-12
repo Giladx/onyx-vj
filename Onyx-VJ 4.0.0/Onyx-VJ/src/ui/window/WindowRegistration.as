@@ -49,7 +49,7 @@ package ui.window {
 		 * 	Returns a window based on name
 		 */
 		public static function getWindow(name:String):Window {
-			var reg:WindowRegistration = definition[name];
+			const reg:WindowRegistration = definition[name];
 			return reg ? reg.window : null;
 		}
 		
@@ -57,7 +57,7 @@ package ui.window {
 		 * 	Returns a class based on name
 		 */
 		public static function getDefinition(name:String):Class {
-			var reg:WindowRegistration = definition[name];
+			const reg:WindowRegistration = definition[name];
 			return reg ? reg.definition : null;
 		}
 		

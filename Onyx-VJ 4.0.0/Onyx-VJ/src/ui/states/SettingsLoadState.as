@@ -23,6 +23,7 @@ package ui.states {
 	import flash.utils.*;
 	
 	import onyx.asset.*;
+	import onyx.asset.air.*;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
@@ -50,11 +51,11 @@ package ui.states {
 			Console.output('*  LOADING SETTINGS  *\n');
 			
 			try {
-				var file:File		= AIR_ROOT.resolvePath('settings/settings.xml');
+				var file:File		= new File(AssetFile.resolvePath('settings/settings.xml'));
 				
 				// load settings file
 				if (!file.exists) {
-					file = AIR_ROOT.resolvePath('settings/default.xml');
+					file = new File(AssetFile.resolvePath('settings/default.xml'));
 					if (!file.exists) {
 						throw new Error('Settings file doesn\'t exist');
 					}
@@ -76,7 +77,7 @@ package ui.states {
 			Display			= new OutputDisplay();
 			
 			// store screens
-			var screens:Array			= Screen.screens;
+			const screens:Array			= Screen.screens;
 
 			// if we have more than one screen present
 			if (screens.length > 1) {
@@ -103,7 +104,7 @@ package ui.states {
 				var screen:Screen		= screens[1];
 				displayWindow.bounds	= screen.bounds;
 				
-				displayWindow.addEventListener(Event.CLOSING, StateManager.quit, false, 0, true);
+				displayWindow.addEventListener(Event.CLOSING, quitHandler, false, 0, true);
 
 				// add the display to our new window
 				stage.addChild(Display as DisplayObject);
@@ -124,6 +125,16 @@ package ui.states {
 
 			// kill the state
 			StateManager.removeState(this);
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function quitHandler(event:Event):void {
+
+			// start quit cycle
+			StateManager.loadState(new QuitState());
+
 		}
 		
 		/**

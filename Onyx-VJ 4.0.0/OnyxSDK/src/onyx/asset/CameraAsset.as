@@ -24,7 +24,7 @@ package onyx.asset {
 	/**
 	 * 
 	 */
-	internal final class CameraAsset extends OnyxFile {
+	internal final class CameraAsset extends AssetFile {
 		
 		/**
 		 * 	@private
@@ -38,13 +38,13 @@ package onyx.asset {
 			this.camera					= name,
 			this.thumbnail.bitmapData	= new CameraThumbnail();
 			
-			var source:BitmapData		= this.thumbnail.bitmapData;
-			var label:TextField			= new TextField();
-			label.autoSize				= TextFieldAutoSize.LEFT;
-			label.wordWrap				= true;
-			label.width					= 44;
-			label.defaultTextFormat		= new TextFormat('Arial', 9, 0xFFFFFF);
-			label.text					= name;
+			const  source:BitmapData		= this.thumbnail.bitmapData;
+			const label:TextField			= new TextField();
+			label.autoSize					= TextFieldAutoSize.LEFT;
+			label.wordWrap					= true;
+			label.width						= 44;
+			label.defaultTextFormat			= new TextFormat('Arial', 9, 0xFFFFFF);
+			label.text						= name;
 			source.draw(label);
 		}
 		

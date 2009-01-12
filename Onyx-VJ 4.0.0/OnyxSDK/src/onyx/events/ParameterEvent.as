@@ -44,7 +44,7 @@ package onyx.events {
 		 * 	Control Event
 		 */
 		override public function clone():Event {
-			var event:ParameterEvent = new ParameterEvent();
+			const event:ParameterEvent = new ParameterEvent();
 			event.value = value;
 			return event;
 		}

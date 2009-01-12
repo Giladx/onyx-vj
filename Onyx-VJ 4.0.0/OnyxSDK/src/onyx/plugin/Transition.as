@@ -55,7 +55,7 @@ package onyx.plugin {
 		 */
 		public function render(source:BitmapData, channelA:BitmapData, channelB:BitmapData, ratio:Number):void {
 			
-			var transform:ColorTransform = new ColorTransform(1, 1, 1, 1 - ratio);
+			const transform:ColorTransform = new ColorTransform(1, 1, 1, 1 - ratio);
 			source.draw(channelA, null, transform);
 			transform.alphaMultiplier = ratio;
 			source.draw(channelB, null, transform)

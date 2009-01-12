@@ -268,8 +268,8 @@ package onyx.display {
 		 */
 		private function layerLoadHandler(event:LayerEvent):void {
 			
-			var layer:LayerImplementor, index:int, currentIndex:int, len:int;
-			var currentLayer:Layer	= event.currentTarget as Layer;
+			var layer:LayerImplementor, index:int, currentIndex:int;
+			const currentLayer:Layer	= event.currentTarget as Layer;
 			
 			currentIndex	= currentLayer.index;
 
@@ -290,8 +290,8 @@ package onyx.display {
 		 * 	Called when a layer is unloaded
 		 */
 		private function layerUnloadHandler(event:LayerEvent):void {
-			var layer:LayerImplementor = event.currentTarget as LayerImplementor;
-			var index:int = _valid.indexOf(layer);
+			const layer:LayerImplementor = event.currentTarget as LayerImplementor;
+			const index:int = _valid.indexOf(layer);
 			
 			_valid.splice(index, 1);
 			_validLen --;
@@ -309,25 +309,25 @@ package onyx.display {
 		 */
 		public function moveLayer(layer:Layer, index:int):void {
 			
-			var fromIndex:int	= layer.index;
-			var toLayer:LayerImplementor	= _layers[index];
+			const fromIndex:int	= layer.index;
+			const toLayer:LayerImplementor	= _layers[index];
 			
 			if (toLayer) {
 				
-				var numLayers:int = _layers.length;
-				var fromChildIndex:int = _layers.indexOf(layer);
+				const numLayers:int = _layers.length;
+				const fromChildIndex:int = _layers.indexOf(layer);
 				
 				// swap the layers
 				swap(_layers, layer, index);
 				
-				var e:LayerEvent = new LayerEvent(LayerEvent.LAYER_MOVE);
+				const e:LayerEvent = new LayerEvent(LayerEvent.LAYER_MOVE);
 
 				// dispatch events to the layers				
 				layer.dispatchEvent(e);
 				toLayer.dispatchEvent(e);
 				
 				// now we need to check if they're both valid layers, and move them
-				var toLayerValid:int = _valid.indexOf(toLayer);
+				const toLayerValid:int = _valid.indexOf(toLayer);
 				
 				// swap
 				if (toLayerValid >= 0) {
@@ -349,12 +349,12 @@ package onyx.display {
 		 */
 		public function copyLayer(layer:Layer, index:int):void {
 			
-			var layerindex:int	= layer.index;
-			var copylayer:LayerImplementor	= _layers[index];
+			const layerindex:int	= layer.index;
+			const copylayer:LayerImplementor	= _layers[index];
 			
 			if (copylayer) {
 				
-				var settings:LayerSettings = new LayerSettings();
+				const settings:LayerSettings = new LayerSettings();
 				settings.load(layer);
 
 				copylayer.load(settings.path, settings);
@@ -373,7 +373,7 @@ package onyx.display {
 			super.dispatchEvent(new DisplayEvent(DisplayEvent.MIX_LOADING));
 			
 			// start loading
-			var job:LoadONXJob = new LoadONXJob(this, origin, transition);
+			const job:LoadONXJob = new LoadONXJob(this, origin, transition);
 			job.addEventListener(Event.COMPLETE, jobComplete);
 			
 			// register
@@ -386,7 +386,7 @@ package onyx.display {
 		 */
 		private function jobComplete(event:Event):void {
 			
-			var job:LoadONXJob	= event.currentTarget as LoadONXJob;
+			const job:LoadONXJob	= event.currentTarget as LoadONXJob;
 			job.removeEventListener(Event.COMPLETE, jobComplete);
 			
 			// dispatch event
@@ -407,31 +407,54 @@ package onyx.display {
 			return _backgroundColor;
 		}
 
+		/**
+		 * 
+		 */
 		public function set brightness(value:Number):void {
 			_brightness = __brightness.dispatch(value);
 			colorDirty	= true;
 		}
+		
+		/**
+		 * 
+		 */
 		public function get brightness():Number {
 			return _brightness;
 		}
 		
+		/**
+		 * 
+		 */
 		public function set contrast(value:Number):void {
 			_contrast = __contrast.dispatch(value);
 			colorDirty	= true;
 		}
+		
+		/**
+		 * 
+		 */
 		public function get contrast():Number {
 			return _contrast;
 		}
 		
+		/**
+		 * 
+		 */
 		public function set saturation(value:Number):void {
 			_saturation = __saturation.dispatch(value);
 			colorDirty	= true;
 		}
+		
+		/**
+		 * 
+		 */
 		public function get saturation():Number {
 			return _saturation;
 		}
 		
-		
+		/**
+		 * 
+		 */
 		public function set hue(value:Number):void {
 			_hue = __hue.dispatch(value);
 			colorDirty	= true;
@@ -490,11 +513,13 @@ package onyx.display {
 		 * 
 		 */
 		public function pause(value:Boolean):void {
+			
 			if (value) {
 				DISPLAY_STAGE.removeEventListener(Event.ENTER_FRAME, _render);
 			} else {
 				DISPLAY_STAGE.addEventListener(Event.ENTER_FRAME, _render);
 			}
+
 		}
 		
 		/**
@@ -569,8 +594,6 @@ package onyx.display {
 		 */
 		public function render(info:RenderInfo):void {
 			
-			var len:int, blend:String, transition:Transition; 
-			
 			// check for absolute channels
 			if (_channelMix === 0) {
 				
@@ -587,12 +610,15 @@ package onyx.display {
 			// otherwise we need to render the transition (slower)
 			} else {
 				
+				// fill all channels with the background color
 				data.fillRect(DISPLAY_RECT, _backgroundColor);
 				_channelA.fillRect(DISPLAY_RECT, _backgroundColor);
 				_channelB.fillRect(DISPLAY_RECT, _backgroundColor);
 				
+				// render all layers
 				renderLayers();
 				
+				// mix the channels
 				channelBlend.render(data, _channelA, _channelB, _channelMix);
 			}
 			
@@ -601,6 +627,7 @@ package onyx.display {
 			
 			// re-create colormatrix
 			if (colorDirty) {
+				
 				colorMatrix.reset();
 				colorMatrix.adjustContrast(_contrast);
 				colorMatrix.adjustBrightness(_brightness);
@@ -609,8 +636,8 @@ package onyx.display {
 				
 				colorDirty = false;
 			}
-			
-		
+
+			// apply color filter only if items have changed
 			if (!(_saturation === 1 && _brightness === 0 && _contrast === 0 && _hue === 0)) {
 				// apply filter
 				data.applyFilter(data, DISPLAY_RECT, ONYX_POINT_IDENTITY, colorMatrix.filter);
@@ -722,7 +749,7 @@ package onyx.display {
 		 */
 		public function toXML():XML {
 			
-			var xml:XML = <mix/>;
+			const xml:XML = <mix/>;
 
 			// add version metadata
 			var meta:XML = <metadata />

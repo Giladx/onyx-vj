@@ -714,7 +714,7 @@ package onyx.display {
 			
 			// if it takes events, pass em on
 			if (_content is IEventDispatcher) {
-				var method:Function = (_content as IEventDispatcher).dispatchEvent;
+				const method:Function = (_content as IEventDispatcher).dispatchEvent;
 				
 				removeEventListener(MouseEvent.MOUSE_DOWN,	method);
 				removeEventListener(MouseEvent.MOUSE_UP,	method);

@@ -67,15 +67,15 @@ package onyx.core {
 		 */
 		public static function executeCommand(command:String):void {
 			
-			var args:Array = command.split(' ');
+			const args:Array = command.split(' ');
 			
 			if (args.length) {
 				
 				// we need to check the command qualifier
-				var name:String		= args.shift();
+				const name:String		= args.shift();
 				
 				// grab the output
-				var commandReturn:Object = Command.execute(name, args) || 'COMMAND "' + name + '" NOT SUPPORTED.';
+				const commandReturn:Object = Command.execute(name, args) || 'COMMAND "' + name + '" NOT SUPPORTED.';
 				
 				(commandReturn is String) ? output(commandReturn as String) : error(commandReturn as Error);
 			}

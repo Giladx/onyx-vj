@@ -183,7 +183,7 @@ package onyx.plugin {
 			_cleanHandlers();
 			
 			// set the beat
-			var tempo:TempoBeat = event.value;
+			const tempo:TempoBeat = event.value;
 			_snapBeat	= tempo ? tempo.mod : null;
 			
 			// update all effects listening for tempo

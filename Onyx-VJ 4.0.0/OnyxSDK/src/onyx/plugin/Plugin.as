@@ -69,8 +69,8 @@ package onyx.plugin {
 		 */
 		public function createNewInstance():PluginBase {
 			
-			var obj:PluginBase	= new definition();
-			obj._plugin 		= this;
+			const obj:PluginBase	= new definition();
+			obj._plugin 			= this;
 			
 			return obj;
 		}

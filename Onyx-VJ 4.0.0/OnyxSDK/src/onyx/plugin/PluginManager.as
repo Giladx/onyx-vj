@@ -23,12 +23,39 @@ package onyx.plugin {
 	
 	public final class PluginManager {
 		
+		/**
+		 * 
+		 */
 		public static const blendModes:PluginArray		= new PluginArray();
+		
+		/**
+		 * 
+		 */
 		public static const filters:PluginArray			= new PluginArray();
+		
+		/**
+		 * 
+		 */
 		public static const macros:PluginArray			= new PluginArray();
+		
+		/**
+		 * 
+		 */
 		public static const transitions:PluginArray		= new PluginArray(new Plugin('DISSOLVE', Transition, 'Dissolve'));
+		
+		/**
+		 * 
+		 */
 		public static const modules:Object				= {};
+		
+		/**
+		 * 
+		 */
 		public static const visualizers:PluginArray		= new PluginArray();
+		
+		/**
+		 * 
+		 */
 		public static const fonts:Array					= new Array();
 		
 		/**
@@ -65,7 +92,7 @@ package onyx.plugin {
 		 */
 		public static function registerModule(plugin:Plugin):void {
 
-			var module:Module = plugin.createNewInstance() as Module;
+			const module:Module = plugin.createNewInstance() as Module;
 			modules[module.name] = module;
 			
 			// start the module
@@ -121,12 +148,8 @@ package onyx.plugin {
 		 * 	Registers a font
 		 */
 		public static function createFilter(type:Object):Filter {
-			var plugin:Plugin;
-			if (type is Number) {
-				plugin = filters[int(type)];
-			} else if (type is String) {
-				plugin = filters.nameLookup[type];
-			}
+			
+			const plugin:Plugin = (type is Number) ? filters[int(type)] : filters.nameLookup[type];
 
 			return plugin ? plugin.createNewInstance() as Filter : null;
 		}
@@ -135,12 +158,8 @@ package onyx.plugin {
 		 * 	Registers a font
 		 */
 		public static function createTransition(type:Object):Transition {
-			var plugin:Plugin;
-			if (type is Number) {
-				plugin = transitions[int(type)];
-			} else if (type is String) {
-				plugin = transitions.nameLookup[type];
-			}
+
+			const plugin:Plugin = (type is Number) ? transitions[int(type)] : transitions.nameLookup[type];
 			
 			return plugin ? plugin.createNewInstance() as Transition : null;
 		}
@@ -149,12 +168,8 @@ package onyx.plugin {
 		 * 	Registers a font
 		 */
 		public static function createMacro(type:Object):Macro {
-			var plugin:Plugin;
-			if (type is Number) {
-				plugin = macros[int(type)];
-			} else if (type is String) {
-				plugin = macros.nameLookup[type];
-			}
+
+			const plugin:Plugin = (type is Number) ? macros[int(type)] : macros.nameLookup[type];
 
 			return plugin ? plugin.createNewInstance() as Macro : null;
 		}
@@ -163,12 +178,8 @@ package onyx.plugin {
 		 * 	Registers a font
 		 */
 		public static function createVisualizer(type:Object):Visualizer {
-			var plugin:Plugin;
-			if (type is Number) {
-				plugin = visualizers[int(type)];
-			} else if (type is String) {
-				plugin = visualizers.nameLookup[type];
-			}
+
+			const plugin:Plugin = (type is Number) ? visualizers[int(type)] : visualizers.nameLookup[type];
 
 			return plugin ? plugin.createNewInstance() as Visualizer : null;
 		}

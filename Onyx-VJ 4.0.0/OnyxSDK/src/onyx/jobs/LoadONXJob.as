@@ -72,7 +72,7 @@ package onyx.jobs {
 			
 			var path:String = args[0];
 			
-			OnyxFile.queryFile(args[0], onRead);
+			AssetFile.queryFile(args[0], onRead);
 
 		}
 		

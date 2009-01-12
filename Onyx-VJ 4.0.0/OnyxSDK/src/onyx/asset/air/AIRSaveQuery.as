@@ -13,23 +13,33 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package onyx.utils.array {
+package onyx.asset.air {
 	
-	/**
-	 * 	Swaps array elements
-	 */
-	public function swap(array:Array, item:Object, itemIndex2:int):Boolean {
-		
-		const itemIndex:int	= array.indexOf(item);
-		const item2:Object	= array[itemIndex2];
-		
-		if (item2 && itemIndex >= 0 && itemIndex !== itemIndex2) {
-			array[itemIndex]	= item2;
-			array[itemIndex2]	= item;
+	import flash.utils.ByteArray;
+	
+	import onyx.asset.*;
+	import onyx.utils.file.*;
+	
 
-			return true;
+	/**
+	 * 
+	 */
+	public final class AIRSaveQuery extends AssetQuery {
+		
+		/**
+		 * 
+		 */
+		public function AIRSaveQuery(path:String, callback:Function, bytes:ByteArray):void {
+			super(path, callback);
+			
+			init(bytes);
 		}
 		
-		return false;
+		/**
+		 * 	@private
+		 */
+		private function init(bytes:ByteArray):void {
+			writeBinaryFile(AIR_ROOT.resolvePath(path), bytes);
+		}
 	}
 }

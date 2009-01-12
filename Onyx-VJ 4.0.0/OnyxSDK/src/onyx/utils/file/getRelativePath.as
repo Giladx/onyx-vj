@@ -13,10 +13,18 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package onyx.asset {
+package onyx.utils.file {
 	
-	public const THUMB_HEIGHT:int = 48;
+	import flash.filesystem.*;
 	
-	[ExcludeSDK]
-	
+	/**
+	 * 	Simple utility to read a text file synchronously
+	 */
+	public function getRelativePath(directory:File, file:File):String {
+		
+		var path:String = directory.getRelativePath(file);
+		path.replace(/\//g, File.separator);
+		
+		return path;
+	}
 }

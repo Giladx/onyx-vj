@@ -213,15 +213,10 @@ package onyx.core {
 		
 		public function adjustSaturation( s:Number ):void{
             
-            var sInv:Number;
-            var irlum:Number;
-            var iglum:Number;
-            var iblum:Number;
-            
-            sInv = (1 - s);
-            irlum = (sInv * LUMA_R);
-            iglum = (sInv * LUMA_G);
-            iblum = (sInv * LUMA_B);
+            const sInv:Number = (1 - s);
+            const irlum:Number = (sInv * LUMA_R);
+            const iglum:Number = (sInv * LUMA_G);
+            const iblum:Number = (sInv * LUMA_B);
             
             concat([(irlum + s), iglum, iblum, 0, 0, 
             		irlum, (iglum + s), iblum, 0, 0, 
@@ -321,15 +316,11 @@ package onyx.core {
         
         public function colorize(rgb:int, amount:Number=1):void
         {
-            var r:Number;
-            var g:Number;
-            var b:Number;
-            var inv_amount:Number;
-            
-            r = (((rgb >> 16) & 0xFF) / 0xFF);
-            g = (((rgb >> 8) & 0xFF) / 0xFF);
-            b = ((rgb & 0xFF) / 0xFF);
-            inv_amount = (1 - amount);
+
+            const r:Number = (((rgb >> 16) & 0xFF) / 0xFF);
+            const g:Number = (((rgb >> 8) & 0xFF) / 0xFF);
+            const b:Number = ((rgb & 0xFF) / 0xFF);
+            const inv_amount:Number = (1 - amount);
             
             concat([(inv_amount + ((amount * r) * LUMA_R)), ((amount * r) * LUMA_G), ((amount * r) * LUMA_B), 0, 0, 
             		((amount * g) * LUMA_R), (inv_amount + ((amount * g) * LUMA_G)), ((amount * g) * LUMA_B), 0, 0, 
@@ -362,7 +353,7 @@ package onyx.core {
         
         public function blend(mat:ColorMatrix, amount:Number):void
         {
-            var inv_amount:Number = (1 - amount);
+            const  inv_amount:Number = (1 - amount);
             var i:int = 0;
             while (i < 20) 
             {
@@ -398,19 +389,19 @@ package onyx.core {
         
 		public function randomize(amount:Number=1):void
         {
-            var inv_amount:Number = (1 - amount);
-            var r1:Number = (inv_amount + (amount * (Math.random() - Math.random())));
-            var g1:Number = (amount * (Math.random() - Math.random()));
-            var b1:Number = (amount * (Math.random() - Math.random()));
-            var o1:Number = ((amount * 0xFF) * (Math.random() - Math.random()));
-            var r2:Number = (amount * (Math.random() - Math.random()));
-            var g2:Number = (inv_amount + (amount * (Math.random() - Math.random())));
-            var b2:Number = (amount * (Math.random() - Math.random()));
-            var o2:Number = ((amount * 0xFF) * (Math.random() - Math.random()));
-            var r3:Number = (amount * (Math.random() - Math.random()));
-            var g3:Number = (amount * (Math.random() - Math.random()));
-            var b3:Number = (inv_amount + (amount * (Math.random() - Math.random())));
-            var o3:Number = ((amount * 0xFF) * (Math.random() - Math.random()));
+            const  inv_amount:Number = (1 - amount);
+            const r1:Number = (inv_amount + (amount * (Math.random() - Math.random())));
+            const g1:Number = (amount * (Math.random() - Math.random()));
+            const b1:Number = (amount * (Math.random() - Math.random()));
+            const o1:Number = ((amount * 0xFF) * (Math.random() - Math.random()));
+            const r2:Number = (amount * (Math.random() - Math.random()));
+            const g2:Number = (inv_amount + (amount * (Math.random() - Math.random())));
+            const b2:Number = (amount * (Math.random() - Math.random()));
+            const o2:Number = ((amount * 0xFF) * (Math.random() - Math.random()));
+            const r3:Number = (amount * (Math.random() - Math.random()));
+            const g3:Number = (amount * (Math.random() - Math.random()));
+            const b3:Number = (inv_amount + (amount * (Math.random() - Math.random())));
+            const o3:Number = ((amount * 0xFF) * (Math.random() - Math.random()));
            
             concat([r1, g1, b1, 0, o1, 
             		r2, g2, b2, 0, o2, 
@@ -423,7 +414,7 @@ package onyx.core {
         
         public function setMultiplicators( red:Number = 1, green:Number = 1, blue:Number = 1, alpha:Number = 1 ):void
 		{
-			var mat:Array =  new Array ( red, 0, 0, 0, 0,
+			const mat:Array =  new Array ( red, 0, 0, 0, 0,
 									 0, green, 0, 0, 0,
 									 0, 0, blue, 0, 0,
 									 0, 0, 0, alpha, 0 );
@@ -642,7 +633,7 @@ package onyx.core {
 		{
 			
 			//var greenRotation:Number = 35.0;
-			var greenRotation:Number = 39.182655;
+			const greenRotation:Number = 39.182655;
 
 			if (!hueInitialized)
 			{
@@ -651,12 +642,12 @@ package onyx.core {
 				preHue.rotateRed( 45 );
 				preHue.rotateGreen(- greenRotation );
 	
-				var lum:Array = [ LUMA_R2, LUMA_G2, LUMA_B2, 1.0 ];
+				const lum:Array = [ LUMA_R2, LUMA_G2, LUMA_B2, 1.0 ];
 	
 				preHue.transformVector(lum);
 	
-				var red:Number = lum[0] / lum[2];
-				var green:Number = lum[1] / lum[2];
+				const red:Number = lum[0] / lum[2];
+				const green:Number = lum[1] / lum[2];
 	
 				preHue.shearBlue(red, green);
 	

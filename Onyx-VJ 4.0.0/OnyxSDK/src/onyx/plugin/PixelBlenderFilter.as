@@ -34,17 +34,17 @@ package onyx.plugin {
 		/**
 		 * 	@private
 		 */
-		private const filter:ShaderFilter	= new ShaderFilter();
+		private var filter:ShaderFilter;
 		
 		/**
 		 * 
 		 */
 		override public function initialize():void {
 			
-			var bytes:ByteArray		= super._plugin.getData('bytes');
-			var shader:Shader		= new Shader(bytes);
+			const bytes:ByteArray		= super._plugin.getData('bytes');
+			const shader:Shader			= new Shader(bytes);
 			
-			var data:ShaderData		= shader.data;
+			const data:ShaderData		= shader.data;
 			
 			for (var key:String in data) {
 				var param:ShaderParameter = data[key] as ShaderParameter;
@@ -93,7 +93,7 @@ package onyx.plugin {
 
 			}
 			
-			filter.shader = shader;
+			filter = new ShaderFilter(shader);
 
 		}
 		
@@ -111,7 +111,7 @@ package onyx.plugin {
 		 */
 		override public function dispose():void {
 			
-			filter.shader = null;
+			filter = null;
 			
 		}
 	}

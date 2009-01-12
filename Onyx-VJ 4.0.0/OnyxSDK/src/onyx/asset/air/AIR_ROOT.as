@@ -13,23 +13,10 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package onyx.utils.array {
+package onyx.asset.air {
 	
-	/**
-	 * 	Swaps array elements
-	 */
-	public function swap(array:Array, item:Object, itemIndex2:int):Boolean {
-		
-		const itemIndex:int	= array.indexOf(item);
-		const item2:Object	= array[itemIndex2];
-		
-		if (item2 && itemIndex >= 0 && itemIndex !== itemIndex2) {
-			array[itemIndex]	= item2;
-			array[itemIndex2]	= item;
-
-			return true;
-		}
-		
-		return false;
-	}
+	import flash.filesystem.File;
+	
+	internal var AIR_ROOT:File;
+	
 }

@@ -34,7 +34,6 @@ package onyx.core {
 		 * 	Constructor
 		 */
 		public function PluginArray(... args:Array):void {
-			super();
 			
 			for each (var plugin:Plugin in args) {
 				this.register(plugin);

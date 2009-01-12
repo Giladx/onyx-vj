@@ -171,9 +171,9 @@ package onyx.display {
 				// constrain the frame
 				frame = (frame < startFrame) ? endFrame : Math.max(frame % endFrame, startFrame);
 
-				// save the frame				
+				// save the frame
 				_frame = frame;
-				
+								
 			}
 
 			// store last time

@@ -53,7 +53,8 @@ package onyx.utils.bitmap {
         /**
          * @private
          */
-        protected var _sMat:Matrix, _tMat:Matrix;
+        protected const sMat:Matrix	= new Matrix();
+        protected const tMat:Matrix	= new Matrix();
         /**
          * @private
          */
@@ -189,8 +190,8 @@ package onyx.utils.bitmap {
             var vertices: Array;
             var p0:DP, p1:DP, p2:DP;
             var a:Array;
-            _sMat = new Matrix();
-            _tMat = new Matrix();
+            sMat.identity();
+            tMat.identity();
             var l:Number = _tri.length;
             while( --l> -1 ){
                 a = _tri[ l ];
@@ -209,22 +210,22 @@ package onyx.utils.bitmap {
                 var v1: Number = p1.y;
                 var u2: Number = p2.x;
                 var v2: Number = p2.y;
-                _tMat.tx = u0;
-                _tMat.ty = v0;
-                _tMat.a = ( u1 - u0 ) / _w;
-                _tMat.b = ( v1 - v0 ) / _w;
-                _tMat.c = ( u2 - u0 ) / _h;
-                _tMat.d = ( v2 - v0 ) / _h;
-                _sMat.a = ( x1 - x0 ) / _w;
-                _sMat.b = ( y1 - y0 ) / _w;
-                _sMat.c = ( x2 - x0 ) / _h;
-                _sMat.d = ( y2 - y0 ) / _h;
-                _sMat.tx = x0;
-                _sMat.ty = y0;
-                _tMat.invert();
-                _tMat.concat( _sMat );
+                tMat.tx = u0;
+                tMat.ty = v0;
+                tMat.a = ( u1 - u0 ) / _w;
+                tMat.b = ( v1 - v0 ) / _w;
+                tMat.c = ( u2 - u0 ) / _h;
+                tMat.d = ( v2 - v0 ) / _h;
+                sMat.a = ( x1 - x0 ) / _w;
+                sMat.b = ( y1 - y0 ) / _w;
+                sMat.c = ( x2 - x0 ) / _h;
+                sMat.d = ( y2 - y0 ) / _h;
+                sMat.tx = x0;
+                sMat.ty = y0;
+                tMat.invert();
+                tMat.concat( sMat );
                 // draw:
-                graphics.beginBitmapFill( bmd, _tMat, false, false);
+                graphics.beginBitmapFill( bmd, tMat, false, false);
                 graphics.moveTo( x0, y0 );
                 graphics.lineTo( x1, y1 );
                 graphics.lineTo( x2, y2 );

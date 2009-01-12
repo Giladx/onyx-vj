@@ -15,9 +15,7 @@
  */
 package onyx.display {
 	
-	import flash.filters.ColorMatrixFilter;
 	import flash.geom.ColorTransform;
-	import flash.geom.Matrix;
 	
 	import onyx.core.onyx_ns;
 	
@@ -45,13 +43,11 @@ package onyx.display {
 			
 			_tint = value;
 			
-			var r:int, g:int, b:int;
-			
-			r = ((_color & 0xFF0000) >> 16) * value,
-			g = ((_color & 0x00FF00) >> 8) * value,
-			b = (_color & 0x0000FF) * value;
+			const r:int = ((_color & 0xFF0000) >> 16) * value;
+			const g:int = ((_color & 0x00FF00) >> 8) * value;
+			const b:int = (_color & 0x0000FF) * value;
 
-			var amount:Number = 1 - value;
+			const amount:Number = 1 - value;
 			
 			super.blueMultiplier = super.redMultiplier = super.greenMultiplier = amount,
 			super.redOffset		= r,
@@ -74,13 +70,11 @@ package onyx.display {
 			
 			_color	= value;
 			
-			var r:int, g:int, b:int;
-			
-			r = ((value & 0xFF0000) >> 16) * _tint,
-			g = ((value & 0x00FF00) >> 8) * _tint,
-			b = (value & 0x0000FF) * _tint;
+			const r:int = ((value & 0xFF0000) >> 16) * _tint;
+			const g:int  = ((value & 0x00FF00) >> 8) * _tint;
+			const b:int  = (value & 0x0000FF) * _tint;
 
-			var amount:Number = 1 - _tint;
+			const amount:Number = 1 - _tint;
 			
 			super.blueMultiplier = super.redMultiplier = super.greenMultiplier = amount,
 			super.redOffset		= r,

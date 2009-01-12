@@ -48,12 +48,12 @@ package onyx.core {
 		 */
 		internal static function execute(name:String, args:Array):Object {
 			
-			var method:Function = Command[name];
-			var module:Module	= _modules[name.toUpperCase()];
+			const method:Function = Command[name];
+			const module:Module	= _modules[name.toUpperCase()];
 			
 			try {
 				if (method !== null) {
-					var message:String = method.apply(Command, args);
+					const message:String = method.apply(Command, args);
 				} else if (module !== null) {
 					message = ((args.length > 0) ? '' : _createHeader(name)) + module.command.apply(module, args);
 				}
@@ -139,7 +139,7 @@ package onyx.core {
 			
 			try {
 				
-				var layer:Layer		= Display.layers[args[0]];
+				const layer:Layer		= Display.layers[args[0]];
 				
 				layer[args[1]] = args[2];
 			} catch (e:Error) {

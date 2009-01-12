@@ -18,6 +18,7 @@ package onyx.plugin {
 	import flash.events.*;
 	
 	import onyx.events.*;
+	import onyx.display.LayerSettings;
 	
 	[Event(name="filter_added",	type="onyx.events.FilterEvent")]
 	[Event(name="filter_removed",	type="onyx.events.FilterEvent")]
@@ -31,6 +32,7 @@ package onyx.plugin {
 	 */
 	public interface Layer extends Content {
 
+		function load(path:String, settings:LayerSettings = null, transition:Transition = null):void;
 		function get index():int;
 		function forwardEvent(event:InteractionEvent):void;
 

@@ -69,7 +69,7 @@ package onyx.core {
 		 */
 		final public function clone():PluginBase {
 			
-			var base:PluginBase		= _plugin.createNewInstance();
+			const base:PluginBase		= _plugin.createNewInstance();
 
 			for each (var control:Parameter in parameters) {
 				var newControl:Parameter = base.getParameters().getParameter(control.name);

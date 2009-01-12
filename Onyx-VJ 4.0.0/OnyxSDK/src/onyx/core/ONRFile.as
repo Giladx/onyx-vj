@@ -46,12 +46,10 @@ package onyx.core {
 		 */
 		public function toByteArray():ByteArray {
 			
-			var bytes:ByteArray	= new ByteArray();
+			const bytes:ByteArray	= new ByteArray();
 			bytes.writeUnsignedInt(0);
 			bytes.writeUnsignedInt(width);
 			bytes.writeUnsignedInt(height);
-			
-			var count:int = 0;
 			
 			// write file location
 			for each (var loc:int in header) {

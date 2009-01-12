@@ -101,7 +101,7 @@ package onyx.core {
 			// check for unique filters
 			if (filter._unique) {
 				
-				var plugin:Plugin = PluginManager.getFilterDefinition(filter.name);
+				const plugin:Plugin = PluginManager.getFilterDefinition(filter.name);
 				
 				for each (var otherFilter:Filter in this) {
 					if (otherFilter is plugin.definition) {
@@ -141,7 +141,7 @@ package onyx.core {
 		public function removeFilter(filter:Filter):void {
 
 			// now remove it
-			var index:int = super.indexOf(filter);
+			const index:int = super.indexOf(filter);
 			
 			if (index >= 0) {
 				
@@ -222,7 +222,7 @@ package onyx.core {
 		 * 	Returns the filters in an xml format
 		 */
 		public function toXML():XML {
-			var xml:XML = <filters />;
+			const xml:XML = <filters />;
 			
 			for each (var filter:Filter in this) {
 				xml.appendChild(filter.toXML());

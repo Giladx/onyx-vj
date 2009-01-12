@@ -29,7 +29,7 @@ package onyx.asset {
 	/**
 	 * 
 	 */
-	public class OnyxFile {
+	public class AssetFile {
 		
 		/**
 		 * 	@private
@@ -51,7 +51,7 @@ package onyx.asset {
 		/**
 		 * 
 		 */
-		public static function queryDirectory(path:String, callback:Function, refresh:Boolean = false):void {
+		public static function queryDirectory(path:String, callback:Function):void {
 			switch (path) {
 				case 'onyx-query://cameras':
 				
@@ -62,10 +62,17 @@ package onyx.asset {
 					
 					break;
 				default:
-					adapter.queryDirectory(path, callback, refresh);
+					adapter.queryDirectory(path, callback);
 					break;
 			}
 		}
+		
+		/**
+		 * 	@private
+		 */
+		public static function resolvePath(path:String):String {
+			return adapter.resolvePath(path);
+		}  
 		
 		/**
 		 * 	@private

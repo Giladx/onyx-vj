@@ -23,66 +23,38 @@ package onyx.display {
 	
 	use namespace onyx_ns;
 	
-	[ExcludeClass]
-
 	/**
 	 * 	This class stores settings that can be applied to layers
 	 */
-	public class LayerSettings extends EventDispatcher {
+	public class LayerSettings {
 
-		public var x:int;
-		public var y:int;
-		public var anchorX:Number;
-		public var anchorY:Number;
-		public var scaleX:Number;
-		public var scaleY:Number;
-		public var rotation:int;
+		public var x:int				= 0;
+		public var y:int				= 0;
+		public var anchorX:Number		= 0.5;
+		public var anchorY:Number		= 0.5;
+		public var scaleX:Number		= 1;
+		public var scaleY:Number		= 1;
+		public var rotation:int			= 0;
 		
-		public var brightness:Number
-		public var contrast:Number;
-		public var saturation:Number;
-		public var hue:Number; 
+		public var brightness:Number	= 0;
+		public var contrast:Number		= 0;
+		public var saturation:Number	= 1;
+		public var hue:Number			= 0;
 
-		public var alpha:Number;
-		public var blendMode:String;
-		public var visible:Boolean;
+		public var alpha:Number			= 1;
+		public var blendMode:String		= 'normal';
+		public var visible:Boolean		= true;
 		
-		public var time:Number;
-		public var framerate:Number;
+		public var time:Number			= 0;
+		public var framerate:Number		= 1;
 
 		public var filters:Array;
 		public var parameters:Object;
 		public var properties:XML;
 
-		public var loopStart:Number;
-		public var loopEnd:Number;
+		public var loopStart:Number		= 0;
+		public var loopEnd:Number		= 1;
 		public var path:String;
-		
-		/**
-		 * 
-		 */
-		public function LayerSettings():void {
-
-			x				= 0,
-			y				= 0,
-			anchorX			= 0.5,
-			anchorY			= 0.5,
-			rotation		= 0,
-			scaleX			= 1,
-			scaleY			= 1,
-			alpha			= 1,
-			brightness		= 0,
-			contrast		= 0,
-			saturation		= 1,
-			hue				= 0,
-			blendMode		= 'normal',
-			visible			= true,
-			time			= 0,
-			framerate		= 1,
-			loopStart		= 0,
-			loopEnd			= 1;
-
-		}
 		
 		/**
 		 * 	Gets variables from a layer
@@ -120,7 +92,7 @@ package onyx.display {
 		 */
 		public function loadFromXML(xml:XML):void {
 			
-			var propXML:XMLList = xml.properties;
+			const propXML:XMLList = xml.properties;
 			
 			var value:String;
 			
@@ -226,7 +198,7 @@ package onyx.display {
 				} else {
 					
 					
-					var xml:XMLList = parameters as XMLList;
+					const xml:XMLList = parameters as XMLList;
 					for each (var node:XML in xml.*) {
 						try {
 							var name:String = node.name();

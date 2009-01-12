@@ -15,7 +15,7 @@
  */
 package onyx.plugin {
 	
-	import flash.display.DisplayObject;
+	import flash.display.*;
 	
 	/**
 	 * 

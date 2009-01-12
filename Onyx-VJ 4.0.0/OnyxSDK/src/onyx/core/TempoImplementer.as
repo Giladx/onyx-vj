@@ -39,7 +39,7 @@ package onyx.core {
 		 * 	@private
 		 * 	Store timer
 		 */
-		private var _timer:Timer;
+		private const timer:Timer				= new Timer(2);
 		
 		/**
 		 * 	@private
@@ -74,7 +74,6 @@ package onyx.core {
 		 */
 		public function TempoImplementer():void {
 				
-			_timer			=	new Timer(2),
 			_snapControl	=	new ParameterTempo('snapTempo', 'snap to tempo', false);
 			
 			parameters.addParameters(
@@ -82,7 +81,7 @@ package onyx.core {
 				new ParameterInteger('delay', 'tempo', 40, 1000, _delay)
 			);
 
-			_timer.addEventListener(TimerEvent.TIMER, _onTimer);
+			timer.addEventListener(TimerEvent.TIMER, _onTimer);
 								
 			snapTempo = null;
 		}
@@ -117,7 +116,7 @@ package onyx.core {
 		public function start():void {
 			_last = getTimer(),
 			_step = 0;
-			_timer.start();
+			timer.start();
 			
 			dispatchEvent(new TempoEvent(0));
 		}
@@ -126,7 +125,7 @@ package onyx.core {
 		 * 	Stops the meter
 		 */
 		public function stop():void {
-			_timer.stop();
+			timer.stop();
 		}
 		
 		/**
@@ -135,7 +134,7 @@ package onyx.core {
 		 */
 		private function _onTimer(event:TimerEvent):void {
 			
-			var time:int = getTimer() - _last;
+			const time:int = getTimer() - _last;
 			
 			if (time >= _delay) {
 				

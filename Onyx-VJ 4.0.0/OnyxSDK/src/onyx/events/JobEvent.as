@@ -30,7 +30,7 @@ package onyx.events {
 		}
 		
 		override public function clone():Event {
-			var event:JobEvent = new JobEvent(super.type);
+			const event:JobEvent = new JobEvent(super.type);
 			event.value = value;
 			return event;
 		}

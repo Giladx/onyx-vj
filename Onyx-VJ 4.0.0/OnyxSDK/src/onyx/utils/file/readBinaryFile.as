@@ -13,23 +13,28 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package onyx.utils.array {
+package onyx.utils.file {
+	
+	import flash.filesystem.*;
+	import flash.utils.ByteArray;
 	
 	/**
-	 * 	Swaps array elements
+	 * 	Simple utility to read a binary file synchronously
 	 */
-	public function swap(array:Array, item:Object, itemIndex2:int):Boolean {
+	public function readBinaryFile(file:File):ByteArray {
 		
-		const itemIndex:int	= array.indexOf(item);
-		const item2:Object	= array[itemIndex2];
+		// create new bytearray
+		var bytes:ByteArray		= new ByteArray();
 		
-		if (item2 && itemIndex >= 0 && itemIndex !== itemIndex2) {
-			array[itemIndex]	= item2;
-			array[itemIndex2]	= item;
+		// create connection
+		var stream:FileStream	= new FileStream();
+		stream.open(file, FileMode.READ);
+		stream.readBytes(bytes);
+		
+		// close the file
+		stream.close();
 
-			return true;
-		}
-		
-		return false;
+		// return		
+		return bytes;
 	}
 }

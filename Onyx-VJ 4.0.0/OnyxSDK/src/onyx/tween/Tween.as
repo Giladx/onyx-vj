@@ -37,13 +37,13 @@ package onyx.tween {
 		 * 	@private
 		 * 	Stores definitions for tweens
 		 */
-		private static var _definition:Dictionary	= new Dictionary(true);
+		private static const _definition:Dictionary	= new Dictionary(true);
 		
 		/**
 		 * 	Stops tween for a particular object
 		 */
 		public static function stopTweens(target:Object):void {
-			var existing:Dictionary = _definition[target];
+			const existing:Dictionary = _definition[target];
 			
 			if (existing) {
 				for each (var tween:Tween in existing) {
@@ -96,7 +96,7 @@ package onyx.tween {
 		public function Tween(target:Object, ms:int, ... args:Array):void {
 			
 			// register the tween to the _definitions array
-			var existing:Dictionary = _definition[target];
+			const existing:Dictionary = _definition[target];
 			
 			if (existing) {
 				existing[this]		= this;
@@ -128,7 +128,7 @@ package onyx.tween {
 		 */
 		private function _onTimer(event:Event):void {
 			
-			var curTime:int = getTimer() - _startTime;
+			const curTime:int = getTimer() - _startTime;
 			
 			// apply values
 			for each (var prop:TweenProperty in _props) {
@@ -151,7 +151,7 @@ package onyx.tween {
 		 */
 		public function stop():void {
 
-			var existing:Dictionary = _definition[_target];
+			const existing:Dictionary = _definition[_target];
 			
 			if (existing) {
 				delete existing[this];

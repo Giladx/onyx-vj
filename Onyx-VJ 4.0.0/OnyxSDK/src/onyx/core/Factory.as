@@ -15,9 +15,7 @@
  */
 package onyx.core {
 	
-	import flash.utils.Dictionary;
-	
-	import onyx.utils.GCTester;
+	import flash.utils.*;
 	
 	/**
 	 * 
@@ -35,7 +33,7 @@ package onyx.core {
 		public static function release(type:Class, object:Object):void {
 			if (type) {
 				// store object
-				var dict:Dictionary = hash[type];
+				const dict:Dictionary = hash[type];
 				dict[object] = null;
 			}
 		}
@@ -53,7 +51,7 @@ package onyx.core {
 		 * 
 		 */
 		public static function getNewInstance(type:Class):* {
-			var dict:Dictionary = hash[type];
+			const dict:Dictionary = hash[type];
 			for (var i:Object in dict) {
 				delete dict[i];
 			//	trace('reuse', type);

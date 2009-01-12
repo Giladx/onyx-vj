@@ -131,7 +131,7 @@ package onyx.display {
 			var extension:String	= path.substr(path.lastIndexOf('.') + 1);
 
 			// query
-			OnyxFile.queryContent(path, loadStatus, this, settings || new LayerSettings(), transition);
+			AssetFile.queryContent(path, loadStatus, this, settings || new LayerSettings(), transition);
 												
 		}
 		

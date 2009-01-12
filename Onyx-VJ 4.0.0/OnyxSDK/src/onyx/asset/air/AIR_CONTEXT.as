@@ -13,10 +13,11 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package onyx.asset {
+package onyx.asset.air {
 	
-	public const THUMB_WIDTH:int = 64;
+	import flash.system.LoaderContext;
 	
-	[ExcludeSDK]
+	public const AIR_CONTEXT:LoaderContext	= new LoaderContext();
+	AIR_CONTEXT.allowLoadBytesCodeExecution	= true;
 	
 }

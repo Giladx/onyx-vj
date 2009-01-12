@@ -26,7 +26,14 @@ package onyx.core {
 	 */
 	public class ApplicationState extends EventDispatcher {
 		
+		/**
+		 * 	Key for keyboard states
+		 */
 		public static const KEYBOARD:String			= 'Keyboard';
+		
+		/**
+		 * 	Key for midid states
+		 */
 		public static const MIDI:String				= 'Midi';
 		
 		/**

@@ -53,7 +53,7 @@ package onyx.core {
 			
 			try {
 				if (method !== null) {
-					const message:String = method.apply(Command, args);
+					var message:String = method.apply(Command, args);
 				} else if (module !== null) {
 					message = ((args.length > 0) ? '' : _createHeader(name)) + module.command.apply(module, args);
 				}

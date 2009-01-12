@@ -81,6 +81,8 @@ package {
 		 */
 		private function init():void {
 			
+			// Onyx.initialize(this.stage, 320, 240, OutputDisplay, new AIRAdapter(), new UserInterfaceAPI());
+			
 			// store stage
 			DISPLAY_STAGE		= this.stage;
 			Tempo				= new TempoImplementer();

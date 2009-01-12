@@ -27,6 +27,8 @@ package ui.states {
 	import onyx.core.*;
 	import onyx.plugin.*;
 	import onyx.utils.file.*;
+	
+	import ui.core.UserInterfaceAPI;
 
 	/**
 	 * 
@@ -134,8 +136,8 @@ package ui.states {
 				
 			}
 			
-			// set up the query
-			AssetFile.initialize(new AIRAdapter(folder.nativePath));
+			// initialize all the adapters
+			Onyx.initializeAdapters(new AIRAdapter(folder.nativePath), new UserInterfaceAPI());
 			
 			// need to verify all the files exist
 			var appDirectory:File	= new File('app:/root/');

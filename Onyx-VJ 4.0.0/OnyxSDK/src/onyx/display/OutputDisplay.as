@@ -69,22 +69,22 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private var __brightness:Parameter;
+		private const __brightness:Parameter	= new ParameterNumber('brightness', 'brightness', -1, 1, 0);
 		
 		/**
 		 * 	@private
 		 */
-		private var __contrast:Parameter;
+		private const __contrast:Parameter		= new ParameterNumber('contrast', 'contrast', -1, 1, 0);
 		
 		/**
 		 * 	@private
 		 */
-		private var __saturation:Parameter;
+		private const __saturation:Parameter	= new ParameterNumber('saturation', 'saturation', 0, 2, 1);
 		
 		/**
 		 * 	@private
 		 */
-		private var __hue:Parameter;
+		private const __hue:Parameter			= new ParameterNumber('hue', 'hue', -180, 180, 0, 1, 0);
 		
 		/**
 		 * 	@private
@@ -173,21 +173,20 @@ package onyx.display {
 			
 			addChild(new Bitmap(data, PixelSnapping.ALWAYS, false));
 			
-			// store defaults
-			__brightness	= new ParameterNumber('brightness', 'brightness', -1, 1, 0),
-			__contrast		= new ParameterNumber('contrast', 'contrast', -1, 1, 0),
-			__saturation	= new ParameterNumber('saturation', 'saturation', 0, 2, 1),
-			__hue			= new ParameterNumber('hue', 'hue', -180, 180, 0, 1, 0),
-			
+			// add parameters
 			parameters.addParameters(
-				new ParameterPlugin('channelBlend', 'transition', PluginManager.transitions, false, channelBlend),
+				new ParameterPlugin('channelBlend', 'transition', PluginManager.transitions, channelBlend),
 				new ParameterColor('backgroundColor', 'BACKGROUND'),
 				new ParameterNumber('channelMix', 'channelMix', 0, 1, 0),
+				new ParameterInteger('framerate', 'framerate', 12, 60, 25),
 				__brightness,
 				__contrast,
 				__saturation,
 				__hue
 			);
+			
+			// register for global use
+			parameters.registerGlobal('/ONYX/DISPLAY');
 			
 			// hide/show mouse when over the display
 			addEventListener(MouseEvent.MOUSE_OVER, onMouseEvent);
@@ -238,11 +237,7 @@ package onyx.display {
 			while (numLayers-- ) {
 				
 				// create a new layer and set it's index
-				var layer:LayerImplementor = new LayerImplementor();
-				layer._display = this;
-				
-				// add to the index
-				_layers.push(layer);
+				var layer:LayerImplementor = new LayerImplementor(this);
 				
 				// listen for load and unload (to push to the valid array);
 				layer.addEventListener(LayerEvent.LAYER_LOADED,		layerLoadHandler);
@@ -483,15 +478,6 @@ package onyx.display {
 		public function getFilterIndex(filter:Filter):int {
 			return _filters.indexOf(filter);
 		}
-		
-		/**
-		 * 
-		 */
-		public function set framerate(value:Number):void {
-			for each (var layer:LayerImplementor in _valid) {
-				layer.framerate = value;
-			}
-		}
 
 		/**
 		 * 
@@ -551,13 +537,6 @@ package onyx.display {
 		 * 
 		 */
 		public function get loopEnd():Number {
-			return 1;
-		}
-		
-		/**
-		 * 
-		 */
-		public function get framerate():Number {
 			return 1;
 		}
 		
@@ -916,5 +895,18 @@ package onyx.display {
 			return -1;
 		}
 		
+		/**
+		 * 
+		 */
+		public function set framerate(value:Number):void {
+			DISPLAY_STAGE.frameRate = value;
+		}
+		
+		/**
+		 * 
+		 */
+		public function get framerate():Number {
+			return DISPLAY_STAGE.frameRate;
+		}
 	}
 }

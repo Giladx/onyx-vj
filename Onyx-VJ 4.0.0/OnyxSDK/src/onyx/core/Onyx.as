@@ -8,6 +8,7 @@ package onyx.core {
 	import onyx.asset.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
+	import onyx.ui.*;
 	
 	use namespace onyx_ns;
 	
@@ -16,21 +17,23 @@ package onyx.core {
 		/**
 		 * 
 		 */
-		public static function initialize(stage:Stage, width:int, height:int, display:Class, adapter:IAssetAdapter):DisplayObject {
+		public static function initialize(stage:Stage):void {
 			
-			// store stage
-			DISPLAY_STAGE		= stage;
+			DISPLAY_STAGE = stage;
 			
-			// set width and height
-			setDisplayDimensions(width, height);
+		}
+		
+		/**
+		 * 
+		 */
+		public static function initializeAdapters(assetAdapter:IAssetAdapter, interfaceAdapter:IUserInterfaceAdapter):void {
 			
-			// create tempo
-			Tempo				= new TempoImplementer();
+			// store adapters
+			AssetFile.adapter		= assetAdapter;
 			
-			// create display
-			Display				= new display();
+			// store user interface
+			UserInterface.adapter	= interfaceAdapter;
 			
-			return Display as DisplayObject;
 		}
 		
 		/**

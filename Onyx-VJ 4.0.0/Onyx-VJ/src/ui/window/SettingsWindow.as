@@ -40,55 +40,55 @@ package ui.window {
 	 * 
 	 */
 	public final class SettingsWindow extends Window implements IParameterObject {
-        
-		/**
-		 * 	@private
-		 */
-		private var _buttonXML:TextButton;
-		
-		/**
-		 * 	@private
-		 */
-		private var _transitionDropDown:DropDown;
-		
-		/**
-		 * 	@private
-		 */
-		private var _durationSlider:SliderV;
-		
-		/**
-		 * 	@private
-		 */
-		private var _tempoSlider:SliderV;
-				
-		/**
-		 * 	@private
-		 */
-		private var _tempoDropDown:DropDown;
 		
 		/**
 		 * 	@private
 		 * 	returns controls
 		 */
 		private const parameters:Parameters	= new Parameters(this as IParameterObject,
-			new ParameterPlugin('transition', 'Layer Transition', PluginManager.transitions, true),
+			new ParameterPlugin('transition', 'Layer Transition', PluginManager.transitions),
 			new ParameterInteger('duration', 'Duration', 1, 20, 3)
 		);
+        
+		/**
+		 * 	@private
+		 */
+		private var buttonXML:TextButton;
 		
 		/**
 		 * 	@private
 		 */
-		private var _tapTempo:TempoShape	= new TempoShape();
+		private var transitionDropDown:DropDown;
 		
 		/**
 		 * 	@private
 		 */
-		private var _releaseTimer:Timer		= new Timer(50);
+		private var durationSlider:SliderV;
 		
 		/**
 		 * 	@private
 		 */
-		private var _samples:Array			= [0];
+		private var tempoSlider:SliderV;
+				
+		/**
+		 * 	@private
+		 */
+		private var tempoDropDown:DropDown;
+		
+		/**
+		 * 	@private
+		 */
+		private const tapTempo:TempoShape	= new TempoShape();
+		
+		/**
+		 * 	@private
+		 */
+		private const releaseTimer:Timer	= new Timer(50);
+		
+		/**
+		 * 	@private
+		 */
+		private const samples:Array			= [0];
 		
 		/**
 		 * 
@@ -113,30 +113,30 @@ package ui.window {
 			var options:UIOptions	= new UIOptions(true, true, null, 60, 12);
 
 			// controls for display
-			_buttonXML				= new TextButton(options, 'save mix file'),
+			buttonXML				= new TextButton(options, 'save mix file'),
 			
 			// transition controls
-			_durationSlider			= Factory.getNewInstance(SliderV);
-			_durationSlider.initialize(parameters.getParameter('duration'), options);
-			_transitionDropDown		= Factory.getNewInstance(DropDown) as DropDown;
-			_transitionDropDown.initialize(parameters.getParameter('transition'), options);
+			durationSlider			= Factory.getNewInstance(SliderV);
+			durationSlider.initialize(parameters.getParameter('duration'), options);
+			transitionDropDown		= Factory.getNewInstance(DropDown) as DropDown;
+			transitionDropDown.initialize(parameters.getParameter('transition'), options);
 
 			// tempo controls
-			_tempoSlider			= Factory.getNewInstance(SliderV);
-			_tempoSlider.initialize(
+			tempoSlider			= Factory.getNewInstance(SliderV);
+			tempoSlider.initialize(
 				Tempo.getParameter('delay'), options
 			);
-			_tempoDropDown			= Factory.getNewInstance(DropDown);
-			_tempoDropDown.initialize(Tempo.getParameter('snapTempo'), options);
+			tempoDropDown			= Factory.getNewInstance(DropDown);
+			tempoDropDown.initialize(Tempo.getParameter('snapTempo'), options);
 			
 			
 			// add controls
 			addChildren(
-				_tempoDropDown,						8,		40,
-				_tapTempo,							75,		33,
-				_transitionDropDown,				8,		95,
-				_durationSlider,					75,		95,
-				_buttonXML,							8,		129
+				tempoDropDown,					8,		40,
+				tapTempo,						75,		33,
+				transitionDropDown,				8,		95,
+				durationSlider,					75,		95,
+				buttonXML,						8,		129
 			);
 			
 			
@@ -162,13 +162,13 @@ package ui.window {
 			}
                         
 			// xml
-			_buttonXML.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			buttonXML.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			
 			// start the timer
 			Tempo.addEventListener(TempoEvent.CLICK, _onTempo);
 			
 			// tap tempo click
-			_tapTempo.addEventListener(MouseEvent.MOUSE_DOWN, _onTempoDown);
+			tapTempo.addEventListener(MouseEvent.MOUSE_DOWN, _onTempoDown);
 		}
 		
 		/**
@@ -183,7 +183,7 @@ package ui.window {
 		 */
 		private function mouseDown(event:MouseEvent):void {
 			switch (event.currentTarget) {
-				case _buttonXML:
+				case buttonXML:
 					saveMix();
 					break;
 			}
@@ -230,20 +230,19 @@ package ui.window {
 			
 			var time:int = getTimer();
 			
-			if (time - _samples[_samples.length - 1] > 1000) {
-				_samples = [time];
-			} else {
-				_samples.push(time);
+			if (time - samples[int(samples.length - 1)] > 1000) {
+				samples.splice(0, samples.length);
 			}
+			samples.push(time);
 			
-			var len:int = _samples.length;
+			var len:int = samples.length;
 			
 			if (len > 2) {
 
 				var total:int	= 0;
 	
 				for (var count:int = 1; count < len; count++) {
-					total += _samples[count] - _samples[count - 1];
+					total += samples[count] - samples[count - 1];
 				}
 
 				total /= (count - 1);
@@ -253,7 +252,7 @@ package ui.window {
 			}
 			
 			if (len > 8) {
-				_samples.shift();
+				samples.shift();
 			}
 
 		}
@@ -263,9 +262,9 @@ package ui.window {
 		 */
 		private function _onTempo(event:TempoEvent):void {
 			if (event.beat % 4 === 0) {
-				_tapTempo.transform.colorTransform = (event.beat % 16 == 0) ? TEMPO_BEAT : TEMPO_CLICK;
-				_releaseTimer.addEventListener(TimerEvent.TIMER, _onTempoOff);
-				_releaseTimer.start();
+				tapTempo.transform.colorTransform = (event.beat % 16 == 0) ? TEMPO_BEAT : TEMPO_CLICK;
+				releaseTimer.addEventListener(TimerEvent.TIMER, _onTempoOff);
+				releaseTimer.start();
 			}
 		}
 		
@@ -273,9 +272,9 @@ package ui.window {
 		 * 	@private
 		 */
 		private function _onTempoOff(event:TimerEvent):void {
-			_tapTempo.transform.colorTransform = DEFAULT;
-			_releaseTimer.removeEventListener(TimerEvent.TIMER, _onTempoOff);
-			_releaseTimer.stop();
+			tapTempo.transform.colorTransform = DEFAULT;
+			releaseTimer.removeEventListener(TimerEvent.TIMER, _onTempoOff);
+			releaseTimer.stop();
 		}
 	}
 }

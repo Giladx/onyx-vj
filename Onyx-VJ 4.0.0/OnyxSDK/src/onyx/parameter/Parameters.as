@@ -16,6 +16,7 @@
 package onyx.parameter {
 	
 	import flash.events.*;
+	import flash.utils.Dictionary;
 	
 	import onyx.core.*;
 	import onyx.display.*;
@@ -32,6 +33,25 @@ package onyx.parameter {
 		/**
 		 * 	@private
 		 */
+		private static const GLOBAL_LOOKUP:Dictionary = new Dictionary(true); 
+		
+		/**
+		 * 
+		 */
+		public static function getGlobalRegisteredParameters():Dictionary {
+			return GLOBAL_LOOKUP;
+		}
+		
+		/**
+		 * 
+		 */
+		public static function getRegisteredParameter(id:String):Parameters {
+			return GLOBAL_LOOKUP[id];
+		}
+
+		/**
+		 * 	@private
+		 */
 		private const nameLookup:Object				= {};
 		
 		/**
@@ -45,6 +65,11 @@ package onyx.parameter {
 		private var _target:IParameterObject;
 		
 		/**
+		 * 	@private
+		 */
+		private var _id:String;
+		
+		/**
 		 * 	@constructor
 		 */
 		public function Parameters(target:IParameterObject, ... params:Array):void {
@@ -53,6 +78,15 @@ package onyx.parameter {
 
 			// add parameters
 			addParameters.apply(this, params);
+		}
+		
+		/**
+		 * 	@public
+		 * 	This register the parameters object to be visible to any other control
+		 */
+		final public function registerGlobal(id:String):void {
+			GLOBAL_LOOKUP[id]	= this;
+			this._id			= id;
 		}
 		
 		/**
@@ -239,5 +273,13 @@ package onyx.parameter {
 				}
 			}
 		}
+		
+		/**
+		 * 
+		 */
+		final public function get id():String {
+			return _id;
+		}
+
 	}
 }

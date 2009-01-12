@@ -20,11 +20,12 @@ package onyx.asset {
 	import flash.media.*;
 	import flash.utils.ByteArray;
 	
+	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
 	import onyx.utils.event.*;
 	
-	[ExcludeSDK]
+	use namespace onyx_ns;
 	
 	/**
 	 * 
@@ -39,14 +40,7 @@ package onyx.asset {
 		/**
 		 * 	@private
 		 */
-		private static var adapter:IAssetAdapter;
-		
-		/**
-		 * 
-		 */
-		public static function initialize(plugin:IAssetAdapter):void {
-			adapter = plugin;
-		}
+		onyx_ns static var adapter:IAssetAdapter;
 
 		/**
 		 * 

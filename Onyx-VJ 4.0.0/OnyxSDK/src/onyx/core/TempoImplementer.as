@@ -174,6 +174,5 @@ package onyx.core {
 		 */
 		public function dispose():void {
 		}
-		
 	}
 }

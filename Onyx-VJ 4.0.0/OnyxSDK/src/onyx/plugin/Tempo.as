@@ -15,7 +15,7 @@
  */
 package onyx.plugin {
 	
-	import onyx.core.ITempo;
+	import onyx.core.*;
 	
 	public var Tempo:ITempo;
 	

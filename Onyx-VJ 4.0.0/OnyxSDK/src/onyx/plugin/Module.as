@@ -29,25 +29,6 @@ package onyx.plugin {
 	public class Module extends PluginBase {
 		
 		/**
-		 * 	@private
-		 */
-		private static var api:IModuleInterfaceAPI;
-		
-		/**
-		 * 	Registers an api for c reating interface controls
-		 */
-		onyx_ns static function registerInterfaceAPI(api:IModuleInterfaceAPI):void {
-			Module.api = api;
-		}
-		
-		/**
-		 * 
-		 */
-		public static function createControl(param:Parameter, options:Object):DisplayObject {
-			return api.createControl(param, options);
-		}
-		
-		/**
 		 * 	Does it have interface options?
 		 */
 		public var interfaceOptions:ModuleInterfaceOptions;

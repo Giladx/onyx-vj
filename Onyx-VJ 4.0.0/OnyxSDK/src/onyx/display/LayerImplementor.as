@@ -23,8 +23,8 @@ package onyx.display {
 	import onyx.core.*;
 	import onyx.events.*;
 	import onyx.parameter.*;
-	import onyx.utils.string.*;
 	import onyx.plugin.*;
+	import onyx.utils.string.*;
 	
 	use namespace onyx_ns;
 	
@@ -83,7 +83,10 @@ package onyx.display {
 		/**
 		 * 	@constructor
 		 */
-		public function LayerImplementor():void {
+		public function LayerImplementor(display:OutputDisplay):void {
+			
+			this._display	= display;
+			this._display._layers.push(this);
 
 			layerProperties.addParameters(
 				new ParameterNumber('alpha', 'alpha', 0, 1, 1),
@@ -116,6 +119,9 @@ package onyx.display {
 				
 				new ParameterBoolean('visible', 'visible', 1)
 			)
+			
+			// register for global use
+			layerProperties.registerGlobal('/ONYX/DISPLAY/LAYER/' + _display._layers.length);
 			
 			// lock the bitmap
 			data.lock();

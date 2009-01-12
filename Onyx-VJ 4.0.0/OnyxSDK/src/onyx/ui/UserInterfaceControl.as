@@ -13,16 +13,28 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package onyx.core {
+package onyx.ui {
 	
-	import flash.display.*;
+	import flash.events.*;
+	import flash.geom.*;
 	
-	import onyx.parameter.*;
+	import onyx.core.*;
+	import onyx.parameter.Parameter;
 	
-	public interface IModuleInterfaceAPI {
+	/**
+	 * 
+	 */
+	public interface UserInterfaceControl extends IDisposable, IEventDispatcher {
 		
-		function createControl(param:Parameter, options:Object = null):DisplayObject;
+		/**
+		 * 	Returns the transformation
+		 */
+		function get transform():Transform;
+		
+		/**
+		 * 	Returns the related parameter
+		 */
+		function getParameter():Parameter;
 		
 	}
-	
 }

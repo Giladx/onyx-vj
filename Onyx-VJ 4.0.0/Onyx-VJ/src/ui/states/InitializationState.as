@@ -21,7 +21,6 @@ package ui.states {
 	import flash.media.*;
 	import flash.net.*;
 	import flash.system.LoaderContext;
-	import flash.text.Font;
 	import flash.utils.*;
 	
 	import onyx.asset.*;
@@ -30,10 +29,11 @@ package ui.states {
 	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.plugin.*;
+	import onyx.ui.*;
 	import onyx.utils.*;
 	import onyx.utils.file.*;
 	
-	import ui.core.ModuleInterfaceAPI;
+	import ui.core.UserInterfaceAPI;
 	import ui.macros.*;
 	import ui.window.*;
 	
@@ -69,9 +69,6 @@ package ui.states {
 		 * 	Initializes
 		 */
 		override public function initialize():void {
-			
-			// initialize the module api
-			Module.registerInterfaceAPI(new ModuleInterfaceAPI());
 			
 			// output
 			Console.output('\n*  INITIALIZING PLUGINS  *\n');

@@ -4,7 +4,7 @@
  * Daniel Hai
  * Stefano Cottafavi
  *
- * All rights rescerved.
+ * All rights reserved.
  *
  * Licensed under the CREATIVE COMMONS Attribution-Noncommercial-Share Alike 3.0
  * You may not use this file except in compliance with the License.
@@ -13,26 +13,17 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package {
-		
-	import module.*;
+package onyx.ui {
 	
-	import onyx.core.*;
-	import onyx.plugin.Plugin;
-	import onyx.plugin.PluginLoader;
+	import flash.geom.ColorTransform;
+	import flash.utils.Dictionary;
 	
-	/**
-	 *  
-	 */
-	public final class MidiModuleDan extends PluginLoader {
+	import onyx.parameter.*;
+	
+	public interface IUserInterfaceAdapter {
 		
-		/**
-		 * 
-		 */
-		public function MidiModuleDan():void {
-			this.addPlugins(
-				new Plugin('Midi', MidiModuleItem, 'MidiModule')
-			)
-		}
+		function createControl(param:Parameter, options:Object = null):UserInterfaceControl;
+		function getAllControls():Dictionary;
+		
 	}
 }

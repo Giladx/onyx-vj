@@ -66,7 +66,7 @@ package onyx.display {
 			// create base parameters
 			customParameters = new Parameters(this);
 			customParameters.addParameters(
-				new ParameterPlugin('visualizer', 'visualizer', PluginManager.visualizers, true),
+				new ParameterPlugin('visualizer', 'visualizer', PluginManager.visualizers),
 				new ParameterInteger('volume', 'volume', 0, 100, 50),
 				new ParameterInteger('pan', 'pan', -100, 100, 0)
 			);

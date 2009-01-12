@@ -34,12 +34,7 @@ package onyx.parameter {
 		/**
 		 * 	@constructor
 		 */
-		public function ParameterPlugin(name:String, display:String, data:Array, showEmpty:Boolean = true, defaultValue:PluginBase = null):void {
-
-			if (showEmpty) {
-				data = data.concat();
-				data.unshift(null);
-			}
+		public function ParameterPlugin(name:String, display:String, data:PluginArray, defaultValue:PluginBase = null):void {
 
 			super(name, display, data, defaultValue ? defaultValue._plugin : data[0], 'name');
 			
@@ -89,61 +84,19 @@ package onyx.parameter {
 		 */
 		override public function loadXML(xml:XML):void {
 			
-			/*
-			var name:String, type:String, def:Plugin;
-			
-			type	= xml.@type,
-			name	= xml.@id;
-			
-			switch (type) {
-				case 'visualizer':
-					def = PluginManager.getVisualizerDefinition(name);
-					break;
-				case 'filter':
-					def = PluginManager.getFilterDefinition(name);
-					break;
-				case 'macro':
-					def = PluginManager.getMacroDefinition(name);
-					break;
-				case 'transition':
-					def = PluginManager.getTransitionDefinition(name);
-					break;
-			}
-			
-			value = def;
-			
-			var parent:IParameterObject = _item as IParameterObject; 
-			
-			if (parent) {
-				parent.getParameters().loadXML(xml.parameters);
-			}
-			*/
 		}
-		
-		
 		
 		/**
 		 * 	Returns xml representation of the control
 		 */
 		override public function toXML():XML {
 			
-			var xml:XML				= <{name}/>;
+			const xml:XML				= <{name}/>;
 			
-			/*
-			if (_item) {
-				
-				var parent:IParameterObject = _item as IParameterObject;
-				
-				// set what type we are
-				// xml.@type	= LOOKUP[_type];
-				
-				// get the registration name
-				xml.@id		= _item._plugin.id;
-				
-				if (parent) {
-					xml.appendChild(parent.getParameters().toXML());
-				}
-			}*/
+			const plugin:Plugin			= this.value;
+			if (plugin) {
+				xml.appendChild(plugin.name);
+			}
 			
 			return xml;
 		}

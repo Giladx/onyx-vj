@@ -20,6 +20,7 @@ package ui.window {
 	import flash.geom.*;
 	
 	import onyx.core.*;
+	import onyx.parameter.IParameterObject;
 	
 	import ui.assets.AssetWindow;
 	import ui.core.UIObject;
@@ -52,7 +53,15 @@ package ui.window {
 				
 			}
 			
+			// moves to top yes
 			setMovesToTop(true);
+			
+			// check to see if we have to register control
+			if (reg && this is IParameterObject) {
+				
+				(this as IParameterObject).getParameters().registerGlobal('/ONYX/WINDOW/' + reg.name);
+
+			}
 		}
 		
 		/**
@@ -76,6 +85,13 @@ package ui.window {
 			
 			// for each LOOP control copy hash to this.controls
 			
+		}
+		
+		/**
+		 * 
+		 */
+		public function get id():String {
+			return '/ONYX/WINDOW/' + registration.name;
 		}
 		
 	}

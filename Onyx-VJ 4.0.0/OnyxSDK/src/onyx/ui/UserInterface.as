@@ -13,36 +13,35 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package ui.window {
+package onyx.ui {
 	
-
-	import onyx.display.*;
-	import onyx.parameter.IParameterObject;
-	import onyx.plugin.*;
+	import flash.display.*;
+	import flash.utils.*;
 	
-	import ui.layer.UIDisplay;
-
-
-	/**
-	 * 	Display Window
-	 */
-	public final class DisplayWindow extends Window {
+	import onyx.core.*;
+	import onyx.parameter.*;
+	
+	use namespace onyx_ns;
+	
+	public final class UserInterface {
 		
 		/**
 		 * 	@private
-		 * 	The display controls
 		 */
-		private const display:UIDisplay	= new UIDisplay(Display as OutputDisplay);
+		onyx_ns static var adapter:IUserInterfaceAdapter;
 		
 		/**
-		 * 	@constructor
+		 * 
 		 */
-		public function DisplayWindow(reg:WindowRegistration):void {
-			
-			super(reg, false, 0, 0);
-
-			//
-			addChild(display);
+		public static function createControl(param:Parameter, options:Object):UserInterfaceControl {
+			return adapter.createControl(param, options);
 		}
-	}
+		
+		/**
+		 * 
+		 */
+		public static function getAllControls():Dictionary {
+			return adapter.getAllControls();
+		}
+	}	
 }

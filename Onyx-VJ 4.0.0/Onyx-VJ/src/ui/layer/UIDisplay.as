@@ -34,7 +34,7 @@ package ui.layer {
 	/**
 	 * 	Display Control
 	 */
-	public final class UIDisplay extends UIFilterControl implements IFilterDrop, IParameterObject {
+	public final class UIDisplay extends UIFilterControl implements IFilterDrop {
 		
 		/**
 		 * 	@private
@@ -52,26 +52,16 @@ package ui.layer {
 		private var _background:AssetDisplay			= new AssetDisplay();
 		
 		/**
-		 * 	@private
-		 */
-		private const parameters:Parameters				= new Parameters(this as IParameterObject);
-		
-		/**
 		 * 	@constructor
 		 */
 		public function UIDisplay(display:OutputDisplay):void {
-			
-			parameters.addParameters(
-				new ParameterInteger('framerate', 'framerate', 12, 60, 25)
-			);
-			
-			var params:Parameters = display.getParameters();
+			const params:Parameters = display.getParameters();
 
 			// super!			
 			super(
 				display,
 				new LayerPage('Display',
-					parameters.getParameter('framerate'),
+					params.getParameter('framerate'),
 					params.getParameter('backgroundColor'),
 					params.getParameter('brightness'),
 					params.getParameter('contrast'),
@@ -128,25 +118,5 @@ package ui.layer {
 
 		}
 		
-		/**
-		 * 	returns framerate
-		 */
-		public function getParameters():Parameters {
-			return parameters;
-		}
-		
-		/**
-		 * 
-		 */
-		public function set framerate(value:int):void {
-			DISPLAY_STAGE.frameRate = value;
-		}
-		
-		/**
-		 * 
-		 */
-		public function get framerate():int {
-			return DISPLAY_STAGE.frameRate;
-		}
 	}
 }

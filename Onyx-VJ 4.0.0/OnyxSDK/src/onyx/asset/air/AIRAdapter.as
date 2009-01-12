@@ -41,8 +41,6 @@ package onyx.asset.air {
 			return cache[path];
 		}
 		
-		
-		
 		/**
 		 * 
 		 */

@@ -20,6 +20,7 @@ package ui.controls {
 	
 	import onyx.core.*;
 	import onyx.parameter.*;
+	import onyx.ui.*;
 	
 	import ui.core.UIObject;
 
@@ -28,7 +29,7 @@ package ui.controls {
 	 * 
 	 * 	@see onyx.controls.Control
 	 */
-	public class UIControl extends UIObject implements IDisposable {
+	public class UIControl extends UIObject implements UserInterfaceControl {
 
 		/**
 		 * 	@private
@@ -38,7 +39,7 @@ package ui.controls {
 		/**
 		 * 	Stores all available UIControls
 		 */
-		public static const parameters:Dictionary	= new Dictionary(true);
+		public static const available:Dictionary			= new Dictionary(true);
 
 		/**
 		 * 	Stores the related core control
@@ -51,7 +52,7 @@ package ui.controls {
 		public function initialize(control:Parameter, options:UIOptions = null, label:String = null):void {
 			
 			// store the UIControl so we can toggle affectable controls
-			parameters[this] = null;
+			available[this] = null;
 
 			// store the control
 			parameter = control;
@@ -103,7 +104,7 @@ package ui.controls {
 			super.dispose();
 			
 			// delete
-			delete parameters[this];
+			delete available[this];
 		}
 	}
 }

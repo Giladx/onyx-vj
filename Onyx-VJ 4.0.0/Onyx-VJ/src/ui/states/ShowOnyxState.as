@@ -60,6 +60,7 @@ package ui.states {
 		 */
 		override public function initialize():void {
 			
+			DISPLAY_STAGE.align = StageAlign.TOP_LEFT;
 			showStartupImage();
 			
 		}
@@ -89,10 +90,28 @@ package ui.states {
 			DISPLAY_STAGE.addChild(label);
 			
 			const screenBounds:Rectangle	= Screen.mainScreen.bounds;
-			image.x						= (DISPLAY_STAGE.stageWidth - screenBounds.width) / 2;
-			image.y						= (DISPLAY_STAGE.stageHeight - screenBounds.height) / 2;
-			image.width					= screenBounds.width;
-			image.height				= screenBounds.height;
+			const width:int					= screenBounds.width;
+			const height:int				= screenBounds.height;
+			
+			// greater width-wise
+			if (width / height >= 4 / 3) {
+				
+				var videoHeight:Number	= height;
+				var videoWidth:Number	= (videoHeight / 3 * 4);
+				
+			// greater height-wise
+			} else {
+
+				videoWidth				= width;
+				videoHeight				= width / 4 * 3;
+
+			}
+			
+			// resize video and center				
+			image.width		= videoWidth;
+			image.height	= videoHeight;
+			image.x			= width / 2 - videoWidth / 2;
+			image.y			= height / 2 - videoHeight / 2;
 			
 			// listen for mouse clicks
 			DISPLAY_STAGE.addEventListener(MouseEvent.MOUSE_DOWN,	captureEvents,	true, -1);
@@ -168,6 +187,8 @@ package ui.states {
 			while (parent && parent.numChildren > 1) {
 				parent.removeChildAt(1);
 			}
+			
+			DISPLAY_STAGE.align = 'C';
 			
 		}
 		

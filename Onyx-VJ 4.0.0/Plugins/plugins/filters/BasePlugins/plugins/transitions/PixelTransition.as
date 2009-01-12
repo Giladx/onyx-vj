@@ -31,9 +31,10 @@
 package plugins.transitions {
 	
 	import flash.display.*;
-	import flash.filters.BlurFilter;
 	import flash.geom.*;
-		
+	
+	import onyx.plugin.*;
+	
 	import plugins.filters.Pixelate;
 	
 	/**
@@ -41,7 +42,10 @@ package plugins.transitions {
 	 */
 	public final class PixelTransition extends Transition {
 		
-		private var _filter:Pixelate = new Pixelate();
+		/**
+		 * 	@private
+		 */
+		private const filter:Pixelate = new Pixelate();
 		
 		override public function render(source:BitmapData, channelA:BitmapData, channelB:BitmapData, ratio:Number):void {
 			
@@ -50,8 +54,8 @@ package plugins.transitions {
 			
 			var amount:int = ratio * 40;
 			if (amount >= 2) {
-				_filter.amount = amount;
-				_filter.applyFilter(source);
+				filter.amount = amount;
+				filter.applyFilter(source);
 			}
 			
 		}

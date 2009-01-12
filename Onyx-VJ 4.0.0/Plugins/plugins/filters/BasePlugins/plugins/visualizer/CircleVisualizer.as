@@ -34,7 +34,8 @@ package plugins.visualizer {
 	
 	import onyx.core.*;
 	import onyx.parameter.*;
-
+	import onyx.plugin.*;
+	
 	/**
 	 * 
 	 */

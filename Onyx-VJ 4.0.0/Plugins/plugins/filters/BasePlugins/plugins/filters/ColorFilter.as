@@ -19,7 +19,7 @@ package plugins.filters {
 	import flash.filters.*;
 	
 	import onyx.parameter.*;
-
+	import onyx.plugin.*;
 
 	public final class ColorFilter extends Filter implements IBitmapFilter {
 		

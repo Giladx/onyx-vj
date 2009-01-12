@@ -16,8 +16,8 @@
 package macros {
 	
 	import onyx.display.*;
+	import onyx.plugin.*;
 	import onyx.tween.*;
-	import onyx.utils.GCTester;
 
 	public final class Random3DDistort extends Macro {
 		

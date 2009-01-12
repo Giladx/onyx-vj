@@ -19,7 +19,7 @@ package plugins.filters {
 	import flash.filters.*;
 	
 	import onyx.parameter.*;
-
+	import onyx.plugin.*;
 
 	public final class ConstantScroll extends Filter implements IBitmapFilter {
 		

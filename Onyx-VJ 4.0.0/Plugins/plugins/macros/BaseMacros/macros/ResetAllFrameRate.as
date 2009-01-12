@@ -16,6 +16,7 @@
 package macros {
 	
 	import onyx.display.*;
+	import onyx.plugin.*;
 	import onyx.tween.*;
 
 	public final class ResetAllFrameRate extends Macro {

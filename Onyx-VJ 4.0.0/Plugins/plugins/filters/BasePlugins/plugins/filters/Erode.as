@@ -35,7 +35,7 @@ package plugins.filters {
 	
 	import onyx.events.*;
 	import onyx.parameter.*;
-
+	import onyx.plugin.*;
 
 	public final class Erode extends Filter implements IBitmapFilter {
 

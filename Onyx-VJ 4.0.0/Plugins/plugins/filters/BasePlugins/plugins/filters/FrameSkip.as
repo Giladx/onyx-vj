@@ -3,7 +3,7 @@ package plugins.filters {
 	import flash.display.BitmapData;
 	
 	import onyx.parameter.*;
-	
+	import onyx.plugin.*;
 	
 	/**
 	 * 

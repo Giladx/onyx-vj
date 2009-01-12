@@ -33,6 +33,8 @@ package plugins.transitions {
 	import flash.display.*;
 	import flash.geom.*;
 	
+	import onyx.plugin.*;
+	
 	import plugins.filters.Repeater;
 	
 	/**

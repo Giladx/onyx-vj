@@ -31,15 +31,10 @@
 package plugins.filters {
 	
 	import flash.display.BitmapData;
-	import flash.display.Stage;
-	import flash.geom.Matrix;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
 	
-
-	import onyx.parameter.*;
 	import onyx.core.*;
-
+	import onyx.parameter.*;
+	import onyx.plugin.*;
 
 	/**
 	 * 	Noise filter

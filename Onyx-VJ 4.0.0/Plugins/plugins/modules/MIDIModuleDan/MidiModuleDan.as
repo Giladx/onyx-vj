@@ -4,7 +4,7 @@
  * Daniel Hai
  * Stefano Cottafavi
  *
- * All rights reserved.
+ * All rights rescerved.
  *
  * Licensed under the CREATIVE COMMONS Attribution-Noncommercial-Share Alike 3.0
  * You may not use this file except in compliance with the License.
@@ -13,36 +13,25 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package macros {
+package {
+		
+	import module.*;
 	
+	import onyx.core.*;
 	import onyx.plugin.*;
 	
 	/**
-	 * 
+	 *  
 	 */
-	public final class EchoDisplay extends Macro {
-		
-		/**
-		 * 	@private
-		 */
-		private var filter:Filter;
+	public final class MidiModuleDan extends PluginLoader {
 		
 		/**
 		 * 
 		 */
-		override public function keyDown():void {
-			
-			filter = PluginManager.createFilter('ECHO');
-			Display.addFilter(filter);
-		
-		}
-		
-		/**
-		 * 
-		 */
-		override public function keyUp():void {
-			Display.removeFilter(filter);
-			filter = null;
+		public function MidiModuleDan():void {
+			this.addPlugins(
+				new Plugin('Midi', MidiModuleItem, 'MidiModule')
+			)
 		}
 	}
 }

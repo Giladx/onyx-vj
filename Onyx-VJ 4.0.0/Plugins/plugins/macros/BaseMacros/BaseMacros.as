@@ -18,6 +18,7 @@ package {
 	import macros.*;
 	
 	import onyx.core.*;
+	import onyx.plugin.*;
 	
 	/**
 	 * 

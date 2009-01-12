@@ -15,11 +15,16 @@
  */
 package macros {
 	
+	import onyx.plugin.*;
+	
 	/**
 	 * 
 	 */
 	public final class DisplayFadeScreen extends Macro {
 		
+		/**
+		 * 	@private
+		 */
 		private var filter:Filter;
 		
 		override public function keyDown():void {

@@ -18,7 +18,8 @@ package plugins.effects {
 	import flash.events.Event;
 	
 	import onyx.parameter.*;
-
+	import onyx.plugin.*;
+	
 	public final class Blink extends TempoFilter {
 		
 		public var seed:int			= 50;

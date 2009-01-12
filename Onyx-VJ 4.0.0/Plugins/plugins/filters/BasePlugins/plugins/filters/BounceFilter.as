@@ -19,6 +19,7 @@ package plugins.filters {
 	
 	import onyx.core.*;
 	import onyx.parameter.*;
+	import onyx.plugin.*;
 	import onyx.tween.*;
 
 	/**

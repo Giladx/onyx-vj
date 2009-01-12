@@ -19,10 +19,9 @@ package plugins.effects {
 	import flash.events.TimerEvent;
 	
 	import onyx.parameter.*;
-
+	import onyx.plugin.*;
 	import onyx.tween.*;
 	import onyx.tween.easing.*;
-
 
 	public final class FrameRND extends TempoFilter {
 		

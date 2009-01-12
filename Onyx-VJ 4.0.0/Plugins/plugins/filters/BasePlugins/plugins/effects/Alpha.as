@@ -18,8 +18,9 @@ package plugins.effects {
 	import flash.events.Event;
 	
 	import onyx.parameter.*;
+	import onyx.plugin.*;
 	import onyx.tween.*;
-
+	
 	/**
 	 * 
 	 */

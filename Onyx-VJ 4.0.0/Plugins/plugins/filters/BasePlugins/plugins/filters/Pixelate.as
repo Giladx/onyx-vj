@@ -4,7 +4,7 @@ package plugins.filters {
 	import flash.geom.*;
 	
 	import onyx.parameter.*;
-
+	import onyx.plugin.*;
 
 	public final class Pixelate extends Filter implements IBitmapFilter {
 		

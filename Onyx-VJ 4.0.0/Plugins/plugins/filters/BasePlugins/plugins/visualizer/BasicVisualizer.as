@@ -35,7 +35,7 @@ package plugins.visualizer {
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.parameter.*;
-
+	import onyx.plugin.*;
 
 	public final class BasicVisualizer extends Visualizer {
 		

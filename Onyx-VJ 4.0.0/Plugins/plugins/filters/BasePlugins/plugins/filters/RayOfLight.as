@@ -34,9 +34,9 @@ package plugins.filters {
 	import flash.geom.*;
 	
 	import onyx.parameter.*;
-
+	import onyx.plugin.*;
 	import onyx.tween.*;
-
+	
 	public final class RayOfLight extends Filter implements IBitmapFilter {
 		
 		private var _alpha:ColorTransform	= new ColorTransform(1,1,1,.4);	

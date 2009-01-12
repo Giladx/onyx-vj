@@ -15,6 +15,8 @@
  */
 package macros {
 
+	import onyx.plugin.*;
+	
 	public final class FrameRateDecrease extends Macro {
 		
 		override public function keyDown():void {

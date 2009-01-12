@@ -35,7 +35,7 @@ package plugins.filters {
 	
 	import onyx.core.*;
 	import onyx.parameter.*;
-
+	import onyx.plugin.*;
 
 	public final class InvertFilter extends Filter implements IBitmapFilter {
 		

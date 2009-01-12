@@ -15,16 +15,18 @@
  */
 package {
 	
+	import onyx.plugin.*;
+	
+	import plugins.assets.*;
 	import plugins.effects.*;
 	import plugins.filters.*;
 	import plugins.transitions.*;
 	import plugins.visualizer.*;
-	import plugins.assets.*;
 	
 	/**
 	 * 
 	 */
-	public class BasePlugins extends PluginLoader {
+	final public class BasePlugins extends PluginLoader {
 
 		/**
 		 * 

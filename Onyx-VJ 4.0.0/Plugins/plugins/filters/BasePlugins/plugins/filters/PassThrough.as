@@ -34,9 +34,8 @@ package plugins.filters {
 	import flash.filters.BlurFilter;
 	import flash.geom.*;
 	
-
 	import onyx.parameter.*;
-
+	import onyx.plugin.*;
 
 	public final class PassThrough extends Filter implements IBitmapFilter {
 		

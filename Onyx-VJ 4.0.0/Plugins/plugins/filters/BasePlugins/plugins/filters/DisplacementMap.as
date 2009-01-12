@@ -7,7 +7,7 @@ package plugins.filters {
 	
 	import onyx.display.*;
 	import onyx.parameter.*;
-
+	import onyx.plugin.*;
 
 	public final class DisplacementMap extends Filter implements IBitmapFilter {
 		

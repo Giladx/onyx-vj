@@ -1,9 +1,9 @@
 package module {
 	
-	import flash.events.Event;
+	import flash.events.*;
 	
 	import onyx.asset.*;
-	import onyx.core.ONRFile;
+	import onyx.core.*;
 	import onyx.events.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
@@ -73,8 +73,14 @@ package module {
 				var file:ONRFile		= new ONRFile();
 				file.setFrames(frames);
 				
+				// pause states
+				Display.pause(true);
+				
+				// pause keyboard
+				StateManager.pauseStates(ApplicationState.KEYBOARD);
+				
 				// save
-				OnyxFile.browseForSave(saveHandler, 'Where do you want to save the file to?', file.toByteArray(), 'onr');
+				AssetFile.browseForSave(saveHandler, 'Where do you want to save the file to?', file.toByteArray(), 'onr');
 				
 			}
 			
@@ -87,6 +93,12 @@ package module {
 		 * 	@private
 		 */
 		private function saveHandler(... args:Array):void {
+			
+			// resume states
+			Display.pause(false);
+			
+			// resume
+			StateManager.resumeStates(ApplicationState.KEYBOARD);
 			
 		}
 		

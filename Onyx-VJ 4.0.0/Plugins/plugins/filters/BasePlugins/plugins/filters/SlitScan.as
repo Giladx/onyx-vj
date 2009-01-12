@@ -4,7 +4,7 @@ package plugins.filters {
 	import flash.geom.*;
 	
 	import onyx.parameter.*;
-
+	import onyx.plugin.*;
 	
 	/**
 	 * 

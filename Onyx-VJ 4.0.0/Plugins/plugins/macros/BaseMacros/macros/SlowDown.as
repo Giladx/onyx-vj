@@ -18,6 +18,7 @@ package macros {
 	import flash.utils.Dictionary;
 	
 	import onyx.display.*;
+	import onyx.plugin.*;
 	
 	public final class SlowDown extends Macro {
 		

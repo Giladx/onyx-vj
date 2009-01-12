@@ -18,9 +18,10 @@ package plugins.effects {
 	import flash.events.*;
 	
 	import onyx.parameter.*;
+	import onyx.plugin.*;
 	import onyx.tween.*;
 	import onyx.tween.easing.*;
-
+	
 	public final class MoverScaler extends TempoFilter {
 		
 		public var mindelay:Number	= .4;

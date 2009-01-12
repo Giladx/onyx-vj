@@ -18,6 +18,8 @@ package macros {
 	import flash.display.BitmapData;
 	import flash.events.Event;
 	
+	import onyx.plugin.*;
+	
 	/**
 	 * 
 	 */

@@ -14,6 +14,8 @@
  * 
  */
 package macros {
+	
+	import onyx.plugin.*;
 
 	public final class RandomFrameRateMacro extends Macro {
 		

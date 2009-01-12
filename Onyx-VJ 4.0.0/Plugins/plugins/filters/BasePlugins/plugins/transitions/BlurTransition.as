@@ -34,7 +34,7 @@ package plugins.transitions {
 	import flash.filters.*;
 	import flash.geom.*;
 	
-
+	import onyx.plugin.*;
 	
 	/**
 	 * 

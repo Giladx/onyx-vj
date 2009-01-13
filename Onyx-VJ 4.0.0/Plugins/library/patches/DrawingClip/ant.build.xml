@@ -16,7 +16,7 @@
 	<dirname	property="plugin.target"	file="${plugin.dir}" />
 	<basename	property="plugin.name"		file="${plugin.dir}" suffix=".as" />
 
-	<property name="output.path"	location="../../../../${onyx.patchroot}\${plugin.name}.swf" />
+	<property name="output.path"	location="../../../../${onyx.patchroot}\patches\${plugin.name}.swf" />
 	<property name="onyx.corepath"	location="../../../../${onyx.swcpath}" />
 	
 	<target name="build">

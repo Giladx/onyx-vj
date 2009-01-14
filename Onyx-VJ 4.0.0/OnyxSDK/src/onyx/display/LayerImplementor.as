@@ -85,9 +85,12 @@ package onyx.display {
 		 */
 		public function LayerImplementor(display:OutputDisplay):void {
 			
+			// store layers to display
+			// ugly, but better
 			this._display	= display;
 			this._display._layers.push(this);
 
+			// add parameters
 			layerProperties.addParameters(
 				new ParameterNumber('alpha', 'alpha', 0, 1, 1),
 				new ParameterBlendMode('blendMode', 'blendmode'),
@@ -618,26 +621,6 @@ package onyx.display {
 
 			return xml;
 		}
-
-		/**
-		 * 	Disposes the layer
-		 */
-		public function dispose():void {
-			
-			// disposes content
-			if (content) {
-
-				// change target (performance)
-				layerProperties.setNewTarget(this);
-
-				// destroy the content
-				_destroyContent();
-
-				// set content to nothing					
-				content			= NULL_LAYER;
-
-			}
-		}
 		
 		/**
 		 * 	Sets whether the channel is A or B
@@ -712,6 +695,26 @@ package onyx.display {
 		 */
 		override public function toString():String {
 			return (content.path) ? this.index + ': ' + content.path : '';
+		}
+		
+		/**
+		 * 	Disposes the layer
+		 */
+		public function dispose():void {
+			
+			// disposes content
+			if (content) {
+
+				// change target (performance)
+				layerProperties.setNewTarget(this);
+
+				// destroy the content
+				_destroyContent();
+
+				// set content to nothing					
+				content			= NULL_LAYER;
+
+			}
 		}
 	}
 }

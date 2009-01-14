@@ -42,8 +42,8 @@ package onyx.parameter {
 		 * 
 		 */
 		override public function toXML():XML {
-			var xml:XML			= <{name}/>;
-			var layer:Layer	= this.value;
+			const xml:XML			= <{name}/>;
+			const layer:Layer	= this.value;
 			
 			if (value) {
 				xml.appendChild(layer.index);
@@ -56,8 +56,8 @@ package onyx.parameter {
 		 * 
 		 */
 		override public function loadXML(xml:XML):void {
-			var num:int = int(xml.toString());
-			var layer:Layer = Display.layers[num];
+			const num:int = int(xml.toString());
+			const layer:Layer = Display.layers[num];
 			if (layer) {
 				value = layer;
 			} 

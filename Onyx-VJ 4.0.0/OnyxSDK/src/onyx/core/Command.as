@@ -84,7 +84,8 @@ package onyx.core {
 				
 					break;
 				case 'contributors':
-					text =	'CONTRIBUTORS<br>-------------<br>DANIEL HAI: <A HREF="HTTP://WWW.DANIELHAI.COM">HTTP://WWW.DANIELHAI.COM</A>'
+					text =	'CONTRIBUTORS<br>-------------<br>DANIEL HAI: <A HREF="HTTP://WWW.DANIELHAI.COM">HTTP://WWW.DANIELHAI.COM</A>' +
+							'STEFANO COTTAFAVI';
 					break;
 				case 'plugins':
 					text =	PluginManager.filters.length + ' FILTERS, ' +
@@ -103,7 +104,7 @@ package onyx.core {
 				// dispatch the start-up motd
 				default:
 					text =	_createHeader('<b>ONYX ' + VERSION + '</b>', 21) + 
-							'COPYRIGHT 2003-2007: WWW.ONYX-VJ.COM' +
+							'COPYRIGHT 2003-2009: WWW.ONYX-VJ.COM' +
 							'<br>TYPE "HELP" OR "HELP COMMANDS" FOR MORE COMMANDS.' +
 							'<br>' ;
 					break;
@@ -117,7 +118,7 @@ package onyx.core {
 		 * 	@private
 		 */
 		private static function _createHeader(command:String, size:int = 14):String {
-			return '<font size="' + size + '" color="#DCC697" face="Pixel">' + command + '</font><br>';
+			return '<font size="' + size + '" color="#DCC697" face="DefaultFont">' + command + '</font><br>';
 		}
 
 		/**

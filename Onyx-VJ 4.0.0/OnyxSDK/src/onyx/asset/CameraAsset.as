@@ -35,16 +35,21 @@ package onyx.asset {
 		 * 	@constructor
 		 */
 		public function CameraAsset(name:String) {
-			this.camera					= name,
-			this.thumbnail.bitmapData	= new CameraThumbnail();
+			this.camera						= name,
+			this.thumbnail.bitmapData		= new CameraThumbnail();
 			
 			const  source:BitmapData		= this.thumbnail.bitmapData;
 			const label:TextField			= new TextField();
+			const format:TextFormat			= new TextFormat(new AssetDefaultFont().fontName, 7, 0xFFFFFF);
+			format.leading					= 3;
 			label.autoSize					= TextFieldAutoSize.LEFT;
 			label.wordWrap					= true;
 			label.width						= 44;
-			label.defaultTextFormat			= new TextFormat('Arial', 9, 0xFFFFFF);
-			label.text						= name;
+			label.embedFonts				= true;
+			label.defaultTextFormat			= format;
+			
+			label.text						= name.toUpperCase();
+			
 			source.draw(label);
 		}
 		

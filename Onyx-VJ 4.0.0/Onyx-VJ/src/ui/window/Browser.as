@@ -70,7 +70,7 @@ package ui.window {
 		private static const FILE_HEIGHT:int			= THUMB_HEIGHT + 1;
 		
 		/** @private **/
-		private static const FOLDER_HEIGHT:int			= 10;
+		private static const FOLDER_HEIGHT:int			= 14;
 		
 		/**
 		 * 	@private
@@ -123,6 +123,16 @@ package ui.window {
 		}
 		
 		/**
+		 * 
+		 */
+		public function refresh():void {
+			
+			// query default folder
+			AssetFile.queryDirectory(query.path, updateList);
+			
+		}
+		
+		/**
 		 * 	@private
 		 */
 		private function init():void {
@@ -172,7 +182,7 @@ package ui.window {
 				this.query	= query;
 				this.list	= list;
 				
-				const dbFile:File = new File(AssetFile.resolvePath(query.path + '/onyx-cache'));
+				const dbFile:File = new File(AssetFile.resolvePath(query.path + '/.onyx-cache'));
 				
 				if (dbFile.exists) {
 					
@@ -256,7 +266,7 @@ package ui.window {
 					// if there is a valid bitmap, that means there is a thumbnail
 					// if no bitmap, add it to our job queue
 					if (!asset.thumbnail.bitmapData) {
-						asset.thumbnail.bitmapData	= db.getThumbnail(asset.path);
+						asset.thumbnail.bitmapData	= db.getThumbnail(asset.name);
 						
 						if (!asset.thumbnail.bitmapData) {
 							needToThumbnail.push(asset);

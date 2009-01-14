@@ -109,7 +109,7 @@ package ui.window {
 		 */
 		private function _onMessage(event:ConsoleEvent):void {
 			
-			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="Pixel" SIZE="7" COLOR="#e4eaef" KERNING="0">' + event.message + '</font></textformat><br/>';
+			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="7" COLOR="#e4eaef" KERNING="0">' + event.message + '</font></textformat><br/>';
 			_text.scrollV = _text.maxScrollV;
 			
 		}

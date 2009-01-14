@@ -18,8 +18,6 @@ package ui.styles {
 	import flash.text.TextFormat;
 	import ui.assets.ArialFont;
 	
-	ArialFont;
-	
 	public const TEXT_ARIAL:TextFormat = new TextFormat('Pixel2', 8, 0xe4eaef);
 	
 }

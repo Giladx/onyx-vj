@@ -17,11 +17,9 @@ package ui.styles {
 	
 	import flash.text.TextFormat;
 	
-	import ui.assets.PixelFont;
+	import onyx.asset.*;
 	
-	public const TEXT_DEFAULT:TextFormat = new TextFormat('Pixel', 7, 0xe4eaef);
-	
-	PixelFont;
+	public const TEXT_DEFAULT:TextFormat = new TextFormat(new AssetDefaultFont().fontName, 7, 0xe4eaef);
 	
 	TEXT_DEFAULT.leading		= 3;
 

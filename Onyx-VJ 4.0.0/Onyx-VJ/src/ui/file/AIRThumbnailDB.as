@@ -18,13 +18,14 @@ package ui.file {
 	import flash.display.*;
 	import flash.filters.*;
 	import flash.geom.*;
+	import flash.text.TextFieldAutoSize;
 	import flash.utils.*;
 	
 	import onyx.core.*;
 	import onyx.utils.string.*;
 	
-	import ui.text.*;
 	import ui.styles.*;
+	import ui.text.*;
 	
 	/**
 	 * 	Stores bytearray of files, and their associated thumbnails
@@ -68,15 +69,17 @@ package ui.file {
 				}
 
 				// draw the label onto the thumbnail
-				var label:TextField	= Factory.getNewInstance(TextField);
+				const label:TextField	= Factory.getNewInstance(TextField);
 				
-				label.filters		= [new DropShadowFilter(1,45,0,1,0,0)]
-				label.text			= removeExtension(path);
-				label.wordWrap		= true;
-				label.width			= data.width;
+				label.height			= 10;
+				label.autoSize			= TextFieldAutoSize.LEFT;
+				label.filters			= [new DropShadowFilter(1,45,0,1,0,0)]
+				label.text				= removeExtension(path).toUpperCase();
+				label.wordWrap			= true;
+				label.width				= data.width;
 				
 				// draw the label
-				data.draw(label, new Matrix(1,0,0,1,0, data.height - label.textHeight - 2));
+				data.draw(label, new Matrix(1,0,0,1,0, data.height - label.textHeight - 4));
 			
 				// release the label for re-use
 				label.filters		= [];

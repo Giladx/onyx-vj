@@ -77,37 +77,18 @@ package ui.states {
 					file = new File(file.nativePath + '.onx');
 				}
 
-				/// SC 
 				// write the file
-				var xml:XML = Display.toXML();
-				
-				// TODO: save all windows MIDI!
-				for each(var registration:WindowRegistration in WindowRegistration.registrations) {
-					if(	registration.name=='SETTINGS') {
-						var win:Window = WindowRegistration.getWindow(registration.name);
-						Console.output(win.toXML());
-					}
-				}
+				const xml:XML = Display.toXML();
 				
 				writeTextFile(file, xml);
-
-				//
-				// var cache:AIRDirectoryQuery = AIRAdapter.getDirectoryCache(getRelativePath(AIR_ROOT, file.parent));
-				
-				// trace(cache);
-				
-				// if (cache) {
-				//	var db:AIRThumbnailDB = cache.db;
-					
-					// add the mix, and save
-				//	if (db) {
-				//		db.addFile(getRelativePath(AIR_ROOT, file), Display.source)
-				//		writeBinaryFile(AIR_ROOT.resolvePath(cache.path + '/.ONXThumbnails'), db.bytes);
-				//	}
-				// }
-				// AssetFile.queryDirectory(getRelativePath(AIR_ROOT, file.parent), onSave, true);
 				
 				StateManager.removeState(this);
+				
+				const window:Browser = WindowRegistration.getWindow('BROWSER') as Browser;
+				if (window) {
+					window.refresh();
+				}
+				
 			} else {
 				StateManager.removeState(this);
 			}

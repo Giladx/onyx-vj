@@ -39,7 +39,7 @@ package ui.controls {
 		private var _factor:Number;
 
 		private const button:ButtonClear		= new ButtonClear();
-		private const label:TextFieldCenter		= Factory.getNewInstance(TextFieldCenter);
+		private var label:TextFieldCenter;
 		
 		/**
 		 * 
@@ -63,6 +63,7 @@ package ui.controls {
 
 			button.initialize(width,	height);
 
+			label			= Factory.getNewInstance(TextFieldCenter);
 			label.width		= width + 3,
 			label.height	= height,
 			label.x			= 0,

@@ -137,7 +137,7 @@ package ui.file {
 				display.removeEventListener(DisplayEvent.MIX_LOADED, mixHandler);
 				
 				// write the db
-				writeBinaryFile(path.resolvePath('onyx-cache'), db.bytes);
+				writeBinaryFile(path.resolvePath('.onyx-cache'), db.bytes);
 				
 				// terminate
 				StateManager.removeState(this);
@@ -171,6 +171,7 @@ package ui.file {
 			// remove listener, add render
 			display.removeEventListener(DisplayEvent.MIX_LOADED, mixHandler);
 			display.source.fillRect(DISPLAY_RECT, 0);
+			
 			DISPLAY_STAGE.addEventListener(Event.ENTER_FRAME, render);
 			
 			// save start time
@@ -207,14 +208,14 @@ package ui.file {
 				bmp.draw(display.source, matrix, null, null, null, true);
 				
 				// add the file
-				db.addFile(current.path, bmp);
+				db.addFile(current.name, bmp);
 				
 				// set data
 				current.thumbnail.bitmapData = bmp;
 			}
 
 			// kill layers
-			for each (var layer:LayerImplementor in Display.layers) {
+			for each (var layer:LayerImplementor in display.layers) {
 				layer.dispose();
 			}
 			

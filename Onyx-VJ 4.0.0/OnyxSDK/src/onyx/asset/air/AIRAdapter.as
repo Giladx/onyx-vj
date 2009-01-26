@@ -60,7 +60,7 @@ package onyx.asset.air {
 		/**
 		 * 	Resolves a path to content
 		 */
-		public function queryContent(path:String, callback:Function, layer:LayerImplementor, settings:LayerSettings, transition:Transition):void {
+		public function queryContent(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void {
 			new AIRContentQuery(path, callback, layer, settings, transition);
 		}
 		

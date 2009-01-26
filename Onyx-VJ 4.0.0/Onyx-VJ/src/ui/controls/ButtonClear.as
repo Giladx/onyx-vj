@@ -27,6 +27,8 @@ package ui.controls {
 		 */
 		public function initialize(width:int, height:int, show:Boolean = true):void {
 			
+			// upState = new OverState(width, height);
+			
 			if (show) {
 				overState = new OverState(width, height);
 			}
@@ -37,8 +39,8 @@ package ui.controls {
 }
 
 import flash.display.Shape;
-import ui.styles.*;
 import flash.display.Graphics;
+import ui.styles.*;
 
 /**
  * 	Hitstate
@@ -47,7 +49,7 @@ final class HitState extends Shape {
 	
 	final public function HitState(width:int, height:int):void {
 
-		var graphics:Graphics = this.graphics;
+		const graphics:Graphics = this.graphics;
 		
 		graphics.beginFill(0);
 		graphics.drawRect(0, 0, width, height);
@@ -62,7 +64,7 @@ final class OverState extends Shape {
 	
 	final public function OverState(width:int, height:int):void {
 
-		var graphics:Graphics = this.graphics;
+		const graphics:Graphics = this.graphics;
 		
 		graphics.beginFill(BUTTON_OVER, .2);
 		graphics.drawRect(0, 0, width, height);
@@ -78,6 +80,7 @@ final class DownState extends Shape {
 	
 	final public function DownState(width:int, height:int):void {
 
+		const graphics:Graphics	= this.graphics;
 		graphics.beginFill(BUTTON_DOWN, .1);
 		graphics.drawRect(0, 0, width, height);
 		graphics.endFill();

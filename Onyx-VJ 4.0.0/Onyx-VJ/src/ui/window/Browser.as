@@ -298,7 +298,7 @@ package ui.window {
 					break;
 				case buttonCameras:
 				
-					AssetFile.queryDirectory('onyx-query://cameras', updateList);
+					AssetFile.queryDirectory('onyx-query://camera', updateList);
 					
 					break;
 			}

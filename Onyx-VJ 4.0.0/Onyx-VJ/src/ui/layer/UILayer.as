@@ -324,7 +324,7 @@ package ui.layer {
 			
 			btnDelete.initialize(10, 10);
 			btnCopy.initialize(10, 10);
-			btnScrub.initialize(192, 12, false);
+			btnScrub.initialize(241, 9, false);
 			
 			blendDrop					= Factory.getNewInstance(DropDown) as DropDown;
 			blendDrop.initialize(props.getParameter('blendMode'), new UIOptions(false, false, null, 80, 11));
@@ -353,7 +353,7 @@ package ui.layer {
 			assetScrub.x	= SCRUB_LEFT,
 			assetScrub.y	= 174,
 			btnScrub.x		= 1,
-			btnScrub.y		= 174,
+			btnScrub.y		= 173,
 			loopStart.x		= 10,
 			loopStart.y		= 174,
 			loopEnd.x		= SCRUB_LEFT - loopEnd.width,

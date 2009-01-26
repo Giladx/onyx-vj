@@ -202,7 +202,7 @@ package onyx.display {
 		/**
 		 * 	@constructor
 		 */		
-		public function ContentBase(layer:LayerImplementor, path:String, content:IBitmapDrawable, contentWidth:Number, contentHeight:Number):void {
+		public function ContentBase(layer:Layer, path:String, content:IBitmapDrawable, contentWidth:Number, contentHeight:Number):void {
 			
 			// remove intensive logic to a method, so it can get JIT.
 			// Constructors are not JIT'd
@@ -213,14 +213,14 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private function _init(layer:LayerImplementor, path:String, content:IBitmapDrawable, width:Number, height:Number):void {
+		private function _init(layer:Layer, path:String, content:IBitmapDrawable, width:Number, height:Number):void {
 
 			this._contentWidth	= width;
 			this._contentHeight	= height;
 			this.ratioX			= DISPLAY_WIDTH / width;
 			this.ratioY			= DISPLAY_HEIGHT / height;
 
-			var props:Parameters		= layer.getProperties();
+			const props:Parameters		= layer.getProperties();
 			properties					= props;
 			// _source						= layer.source;
 			

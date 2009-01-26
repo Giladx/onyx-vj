@@ -190,9 +190,9 @@ package onyx.parameter {
 		 */
 		public function toXML():XML {
 			
-			var xml:XML = <{name}/>;
+			const xml:XML = <{name}/>;
 						
-			var value:Object = _target[name];
+			const value:Object = _target[name];
 			xml.appendChild((value) ? value.toString() : value);
 						
 			return xml;

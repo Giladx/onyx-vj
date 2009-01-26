@@ -37,7 +37,7 @@ package onyx.asset.air {
 		/**
 		 * 	@private
 		 */
-		private var layer:LayerImplementor;
+		private var layer:Layer;
 		private var settings:LayerSettings;
 		private var transition:Transition;
 		private const bytes:ByteArray			= new ByteArray();
@@ -45,7 +45,7 @@ package onyx.asset.air {
 		/**
 		 * 
 		 */
-		public function AIRContentQuery(path:String, callback:Function, layer:LayerImplementor, settings:LayerSettings, transition:Transition):void {
+		public function AIRContentQuery(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void {
 			
 			//
 			super(path, callback);

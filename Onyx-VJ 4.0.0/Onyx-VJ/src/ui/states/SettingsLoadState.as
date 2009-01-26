@@ -151,7 +151,7 @@ package ui.states {
 				list = core.render;
 
 				if (list.hasOwnProperty('bitmapData')) {
-					Onyx.setDisplayDimensions(list.bitmapData.width, list.bitmapData.height);
+					Onyx.initialize(DISPLAY_STAGE, list.bitmapData.width, list.bitmapData.height);
 				}
 				
 			}

@@ -35,30 +35,43 @@ package onyx.asset {
 		/**
 		 * 	@private
 		 */
-		private static const cache:Object	= {};
+		onyx_ns static var adapter:IAssetAdapter;
 		
 		/**
-		 * 	@private
+		 * 
 		 */
-		onyx_ns static var adapter:IAssetAdapter;
+		onyx_ns static const protocols:Object	= {
+			camera: new CameraProtocol()
+		};
 
 		/**
 		 * 
 		 */
 		public static function queryDirectory(path:String, callback:Function):void {
-			switch (path) {
-				case 'onyx-query://cameras':
+			
+			if (path.substr(0, 13).toLowerCase() === 'onyx-query://') {	
 				
+				const p:IAssetProtocol = protocols[path.substr(13)];
+				
+				// protocol registered
+				if (p) {
 					callback(
 						new AssetQuery(path, callback),
-						cache[path] || buildCameras()
+						p.getProtocolList(path)
 					);
 					
-					break;
-				default:
-					adapter.queryDirectory(path, callback);
-					break;
+					return;
+				}
 			}
+
+			adapter.queryDirectory(path, callback);
+		}
+		
+		/**
+		 * 	Adds a protocol
+		 */
+		public static function addProtocol(name:String, method:Function):void {
+			protocols[name] = method;
 		}
 		
 		/**
@@ -66,30 +79,18 @@ package onyx.asset {
 		 */
 		public static function resolvePath(path:String):String {
 			return adapter.resolvePath(path);
-		}  
-		
-		/**
-		 * 	@private
-		 */
-		private static function buildCameras():Array {
-			var list:Array = [];
-			for each (var name:String in Camera.names) {
-				list.push(new CameraAsset(name));
-			}
-			cache['onyx-query://cameras'] = list;
-			return list;
 		}
 		
 		/**
 		 * 	Callback is:
 		 */
-		public static function queryContent(path:String, callback:Function, layer:LayerImplementor, settings:LayerSettings, transition:Transition):void {
-			var index:int		= path.indexOf('://');
+		public static function queryContent(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void {
+			const index:int = path.indexOf('://');
 			if (index > 4) {
-				switch (path.substr(0, index)) {
-					case 'camera':
-						callback(EVENT_COMPLETE, new ContentCamera(layer, path, Camera.getCamera(String(Camera.names.indexOf(path.substr(index + 3))))), settings, transition);
-						return;
+				
+				const p:IAssetProtocol = protocols[path.substr(0, index)];
+				if (p) {
+					callback(EVENT_COMPLETE, p.getContent(path, layer), settings, transition);	
 				}
 			}
 			

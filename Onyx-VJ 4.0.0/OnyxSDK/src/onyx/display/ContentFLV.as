@@ -21,6 +21,7 @@ package onyx.display {
 	
 	import onyx.core.*;
 	import onyx.parameter.*;
+	import onyx.plugin.*;
 
 	/**
 	 * 
@@ -50,15 +51,15 @@ package onyx.display {
 		/**
 		 * 	@constructor
 		 */
-		public function ContentFLV(layer:LayerImplementor, path:String, stream:Stream):void {
+		public function ContentFLV(layer:Layer, path:String, stream:Stream):void {
 
 			_stream = stream;
 			_stream.addEventListener(NetStatusEvent.NET_STATUS, _onStatus);
 			
-			_totalTime	= stream.metadata.duration;
+			_totalTime			= stream.metadata.duration;
 			
-			var width:int	= stream.metadata.width;
-			var height:int	= stream.metadata.height;
+			const width:int		= stream.metadata.width;
+			const height:int	= stream.metadata.height;
 			
 			_video			= new Video(width, height);
 			_video.attachNetStream(stream);

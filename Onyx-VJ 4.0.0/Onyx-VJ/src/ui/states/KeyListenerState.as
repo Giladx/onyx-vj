@@ -78,8 +78,7 @@ package ui.states {
 		 * 
 		 */
 		public static function getKeyDefinition(id:int):Plugin {
-			var plugin:Plugin = forward[id];
-			return plugin;
+			return forward[id];
 		}
 		
 		/**
@@ -93,7 +92,7 @@ package ui.states {
 		 * 	Returns an array of xml for the key settings
 		 */
 		public static function toXML():XML {
-			var xml:XML = <keys/>;
+			const xml:XML = <keys/>;
 			
 			for each (var plugin:Plugin in forward) {
 				var id:int = reverse[plugin];
@@ -142,8 +141,8 @@ package ui.states {
 		 */
 		private function keyDown(event:KeyboardEvent):void {
 			
-			var code:int		= event.keyCode;
-			var plugin:Plugin	= forward[code];
+			const code:int		= event.keyCode;
+			const plugin:Plugin	= forward[code];
 			
 			if (plugin && !keyUpHash[code]) {
 				
@@ -164,9 +163,9 @@ package ui.states {
 		 */
 		private function keyUp(event:KeyboardEvent):void {
 			
-			var code:int	= event.keyCode;
+			const code:int	= event.keyCode;
 			
-			var macro:Macro = keyUpHash[code];
+			const macro:Macro = keyUpHash[code];
 			if (macro) {
 				macro.keyUp();
 			}

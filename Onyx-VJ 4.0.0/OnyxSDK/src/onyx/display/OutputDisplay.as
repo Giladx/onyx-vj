@@ -185,27 +185,12 @@ package onyx.display {
 				__hue
 			);
 			
-			// register for global use
-			parameters.registerGlobal('/ONYX/DISPLAY');
-			
-			// hide/show mouse when over the display
-			addEventListener(MouseEvent.MOUSE_OVER, onMouseEvent);
-			addEventListener(MouseEvent.MOUSE_OUT, onMouseEvent);
-
 			// add filter methods
 			_filters.addEventListener(FilterEvent.FILTER_ADDED,		super.dispatchEvent);
 			_filters.addEventListener(FilterEvent.FILTER_MOVED,		super.dispatchEvent);
 			_filters.addEventListener(FilterEvent.FILTER_MUTED,		super.dispatchEvent);
 			_filters.addEventListener(FilterEvent.FILTER_REMOVED,	super.dispatchEvent);
 
-		}
-		
-		/**
-		 * 	@private
-		 * 	Make sure the mouse is gone when we roll over it
-		 */
-		private function onMouseEvent(event:MouseEvent):void {
-			(event.type === MouseEvent.MOUSE_OVER) ? Mouse.hide() : Mouse.show();
 		}
 		
 		/**
@@ -263,11 +248,9 @@ package onyx.display {
 		 */
 		private function layerLoadHandler(event:LayerEvent):void {
 			
-			var layer:LayerImplementor, index:int, currentIndex:int;
+			var layer:LayerImplementor, index:int;
 			const currentLayer:Layer	= event.currentTarget as Layer;
 			
-			currentIndex	= currentLayer.index;
-
 			for (index = 0; index < _validLen; index++) {
 				layer = _valid[index];
 				if (currentLayer.index < layer.index) {
@@ -863,10 +846,6 @@ package onyx.display {
 			pause(true);
 			data.dispose();
 			
-			// hide/show mouse when over the display
-			removeEventListener(MouseEvent.MOUSE_OVER,	onMouseEvent);
-			removeEventListener(MouseEvent.MOUSE_OUT,	onMouseEvent);
-
 			_filters.removeEventListener(FilterEvent.FILTER_ADDED,		super.dispatchEvent);
 			_filters.removeEventListener(FilterEvent.FILTER_MOVED,		super.dispatchEvent);
 			_filters.removeEventListener(FilterEvent.FILTER_MUTED,		super.dispatchEvent);

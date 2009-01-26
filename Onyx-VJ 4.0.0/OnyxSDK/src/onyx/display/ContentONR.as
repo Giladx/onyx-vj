@@ -48,7 +48,7 @@ package onyx.display {
 		/**
 		 * 	@constructor
 		 */
-		public function ContentONR(layer:LayerImplementor, path:String, bytes:ByteArray):void {
+		public function ContentONR(layer:Layer, path:String, bytes:ByteArray):void {
 			
 			bytes.position = 0;
 			

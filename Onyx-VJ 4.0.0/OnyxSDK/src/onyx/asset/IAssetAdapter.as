@@ -25,7 +25,7 @@ package onyx.asset {
 	public interface IAssetAdapter {
 		
 		function queryDirectory(path:String, callback:Function):void;
-		function queryContent(path:String, callback:Function, layer:LayerImplementor, settings:LayerSettings, transition:Transition):void;
+		function queryContent(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void;
 		function queryFile(path:String, callback:Function):void;
 		function save(path:String, callback:Function, bytes:ByteArray, extension:String):void;
 		function browseForSave(callback:Function, title:String, bytes:ByteArray, extension:String):void;

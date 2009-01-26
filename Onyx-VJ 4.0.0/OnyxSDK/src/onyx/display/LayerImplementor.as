@@ -123,9 +123,6 @@ package onyx.display {
 				new ParameterBoolean('visible', 'visible', 1)
 			)
 			
-			// register for global use
-			layerProperties.registerGlobal('/ONYX/DISPLAY/LAYER/' + _display._layers.length);
-			
 			// lock the bitmap
 			data.lock();
 			

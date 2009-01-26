@@ -17,9 +17,11 @@ package onyx.core {
 		/**
 		 * 
 		 */
-		public static function initialize(stage:Stage):void {
+		public static function initialize(stage:Stage, width:int = 320, height:int = 240):void {
 			
-			DISPLAY_STAGE = stage;
+			DISPLAY_STAGE	= stage;
+			DISPLAY_WIDTH	= DISPLAY_RECT.width	= width;
+			DISPLAY_HEIGHT	= DISPLAY_RECT.height	= height;
 			
 		}
 		
@@ -102,14 +104,6 @@ package onyx.core {
 				registration = registrations.shift();
 			}
 			
-		}
-		
-		/**
-		 * 	Sets the display dimensions
-		 */
-		public static function setDisplayDimensions(width:int, height:int):void {
-			DISPLAY_RECT.width	= DISPLAY_WIDTH		= width;
-			DISPLAY_RECT.height	= DISPLAY_HEIGHT	= height
 		}
 	}
 }

@@ -61,7 +61,7 @@ package onyx.display {
 		/**
 		 * 	@constructor
 		 */
-		public function ContentMP3(layer:LayerImplementor, path:String, sound:Sound):void {
+		public function ContentMP3(layer:Layer, path:String, sound:Sound):void {
 			
 			// create base parameters
 			customParameters = new Parameters(this);

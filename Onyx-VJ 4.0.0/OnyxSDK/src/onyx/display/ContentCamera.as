@@ -35,7 +35,7 @@ package onyx.display {
 		 * 
 		 */
 		public static function toXML():XML {
-			var xml:XML	= <cameras />;
+			const xml:XML	= <cameras />;
 			for (var i:String in MODES) {
 				var mode:CameraMode = MODES[i];
 				xml.appendChild(
@@ -98,7 +98,7 @@ package onyx.display {
 		/**
 		 * 	@constructor
 		 */
-		public function ContentCamera(layer:LayerImplementor, path:String, camera:Camera):void {
+		public function ContentCamera(layer:Layer, path:String, camera:Camera):void {
 			
 			if (camera) {			
 

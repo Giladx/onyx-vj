@@ -35,7 +35,7 @@ package onyx.jobs {
 		public static function register(target:Object, job:Job, ... args:Array):void {
 			
 			// destroy current job
-			var currentJob:Job = _registration[target];
+			const currentJob:Job = _registration[target];
 			if (currentJob) {
 				currentJob.terminate();
 			}

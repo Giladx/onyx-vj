@@ -355,9 +355,9 @@ package ui.layer {
 			btnScrub.x		= 1,
 			btnScrub.y		= 173,
 			loopStart.x		= 10,
-			loopStart.y		= 174,
+			loopStart.y		= 175,
 			loopEnd.x		= SCRUB_LEFT - loopEnd.width,
-			loopEnd.y		= 174;
+			loopEnd.y		= 175;
 			
 			addChild(assetScrub);
 			addChild(btnScrub);
@@ -381,8 +381,8 @@ package ui.layer {
 				selectPage(2);
 			}
 			
-			var source:BitmapData	= filename.bitmapData;
-			var label:TextField = Factory.getNewInstance(ui.text.TextField);
+			const source:BitmapData	= filename.bitmapData;
+			const label:TextField = Factory.getNewInstance(ui.text.TextField);
 			label.text			= removeExtension(path).toUpperCase();
 			label.filters		= [new DropShadowFilter(1,45,0,1,0,0)]
 			source.fillRect(source.rect, 0);
@@ -415,14 +415,14 @@ package ui.layer {
 		 */
 		private function layerUnLoad(event:LayerEvent):void {
 			
-			var page:LayerPage = pages[2];
+			const page:LayerPage = pages[2];
 			if (page.controls) {
 				page.controls = null;
 			}
 			// default controls
 			selectPage(0);
 			
-			var source:BitmapData	= filename.bitmapData;
+			const source:BitmapData	= filename.bitmapData;
 			source.fillRect(source.rect, 0);
 			assetScrub.x	= SCRUB_LEFT;
 			
@@ -524,9 +524,9 @@ package ui.layer {
 		 * 	Forwards mouse events to the layer based on clicking the preview
 		 */
 		private function _forwardMouse(event:MouseEvent):void {
-			var e:InteractionEvent	= new InteractionEvent(event.type);
-			e.localX				= preview.mouseX;
-			e.localY				= preview.mouseY;
+			const e:InteractionEvent	= new InteractionEvent(event.type);
+			e.localX					= preview.mouseX;
+			e.localY					= preview.mouseY;
 			_layer.forwardEvent(e);
 		}
 		
@@ -568,7 +568,7 @@ package ui.layer {
 		public function selectFilterUp(up:Boolean):void {
 			
 			if (filterPane.selectedFilter) {
-				var index:int = filterPane.selectedFilter.filter.index + (up ? -1 : 1);
+				const index:int = filterPane.selectedFilter.filter.index + (up ? -1 : 1);
 				filterPane.selectFilter(filterPane.getFilter(_layer.filters[index]));
 			} else {
 				filterPane.selectFilter(filterPane.getFilter(_layer.filters[int((up) ? _layer.filters.length - 1 : 0)]));

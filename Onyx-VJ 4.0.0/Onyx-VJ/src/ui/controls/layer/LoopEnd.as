@@ -34,7 +34,7 @@ package ui.controls.layer {
 			
 			_control.addEventListener(ParameterEvent.CHANGE, _onChanged);
 
-			var sprite:DisplayObject = addChild(new AssetRightArrow());
+			addChild(new AssetRightArrow());
 			
 			addEventListener(MouseEvent.MOUSE_DOWN, _onMarkerDown);
 		}
@@ -43,7 +43,7 @@ package ui.controls.layer {
 		 * 	@private
 		 */
 		private function _onChanged(event:ParameterEvent):void {
-			x = event.value * 232 + 8;
+			x = event.value * 226 + 8;
 		}
 
 		/**
@@ -61,7 +61,7 @@ package ui.controls.layer {
 		 * 	@private
 		 */
 		private function _onMarkerMove(event:MouseEvent):void {
-			_control.value = (parent.mouseX - 8) / 232;
+			_control.value = (parent.mouseX - 8) / 226;
 		}
 
 		/**
@@ -78,10 +78,10 @@ package ui.controls.layer {
 		override public function set x(value:Number):void {
 			super.x = value;
 			
-			var graphics:Graphics = this.graphics;
+			const graphics:Graphics = this.graphics;
 			graphics.clear();
 			graphics.beginFill(0x000000, .9);
-			graphics.drawRect(0,0,243 - super.x,7);
+			graphics.drawRect(0,0,242 - super.x,7);
 			graphics.endFill();
 		}
 

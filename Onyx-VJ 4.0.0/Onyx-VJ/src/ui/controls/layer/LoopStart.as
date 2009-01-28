@@ -34,7 +34,7 @@ package ui.controls.layer {
 			
 			_control.addEventListener(ParameterEvent.CHANGE, _onChanged);
 
-			var sprite:DisplayObject = addChild(new AssetLeftArrow());
+			const sprite:DisplayObject = addChild(new AssetLeftArrow());
 			sprite.x = -sprite.width;
 
 			addEventListener(MouseEvent.MOUSE_DOWN, _onMarkerDown);
@@ -44,7 +44,7 @@ package ui.controls.layer {
 		 * 	@private
 		 */
 		private function _onChanged(event:ParameterEvent):void {
-			x = (event.value * 176) + 8;
+			x = (event.value * 226) + 8;
 		}
 
 		/**
@@ -60,7 +60,7 @@ package ui.controls.layer {
 		 * 	@private
 		 */
 		private function _onMarkerMove(event:MouseEvent):void {
-			_control.value = (parent.mouseX - 8) / 176;
+			_control.value = (parent.mouseX - 8) / 226;
 		}
 
 		/**

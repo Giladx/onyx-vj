@@ -34,8 +34,7 @@ package onyx.parameter {
 		 * 	Loads the value from xml
 		 */
 		override public function loadXML(xml:XML):void {
-			var str:String	= xml.toString().split('\r\n').join('\n');
-			target[name] = str;
+			target[name] = xml.toString().split('\r\n').join('\n');
 		}
 		
 		/**

@@ -24,6 +24,6 @@ package onyx.plugin {
 	 * 	decrease the height and width via the settings.xml -- this value should *NOT*
 	 * 	be changed at runtime.
 	 */
-	public var DISPLAY_RECT:Rectangle = new Rectangle(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+	public const DISPLAY_RECT:Rectangle = new Rectangle(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 
 }

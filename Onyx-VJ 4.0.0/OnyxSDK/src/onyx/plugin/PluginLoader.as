@@ -34,6 +34,7 @@ package onyx.plugin {
 		final protected function addPlugins(... args:Array):void {
 			
 			this.plugins.push.apply(this.plugins, args);
+			
 		}
 		
 		/**

@@ -75,7 +75,7 @@ package onyx.display {
 			// clear 
 			_source.fillRect(DISPLAY_RECT, 0);
 
-			var content:IRenderObject			= _content as IRenderObject;
+			const content:IRenderObject			= _content as IRenderObject;
 			content.render(renderInfo);
 			
 			// color adjustment

@@ -152,7 +152,7 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private var _channelBlend:Transition			= PluginManager.createTransition(0);
+		private var _channelBlend:Transition		= PluginManager.createTransition(0);
 		
 		/**
 		 * 	@constructor
@@ -161,8 +161,9 @@ package onyx.display {
 			
 			init();
 			
-			width = DISPLAY_WIDTH + .5;
-			height= DISPLAY_HEIGHT + .5;
+			this.mouseEnabled	= false;
+			this.mouseChildren	= false;
+			this.tabEnabled		= false;
 			
 		}
 		
@@ -190,6 +191,10 @@ package onyx.display {
 			_filters.addEventListener(FilterEvent.FILTER_MOVED,		super.dispatchEvent);
 			_filters.addEventListener(FilterEvent.FILTER_MUTED,		super.dispatchEvent);
 			_filters.addEventListener(FilterEvent.FILTER_REMOVED,	super.dispatchEvent);
+			
+			// lock bitmaps
+			_channelA.lock();
+			_channelB.lock();
 
 		}
 		
@@ -628,11 +633,19 @@ package onyx.display {
 				layer.render(null);
 				
 				if (layer.visible) {
+					
+					// layer.source.lock();
+					var data:BitmapData	= layer.data;
+					
+					data.lock();
+					
 					if (layer.channel) {
-						_channelB.draw(layer.data, null, layer.getColorTransform(), layer.blendMode, null, false);
+						_channelB.draw(data, null, layer.getColorTransform(), layer.blendMode, null, false);
 					} else {
-						_channelA.draw(layer.data, null, layer.getColorTransform(), layer.blendMode, null, false);
+						_channelA.draw(data, null, layer.getColorTransform(), layer.blendMode, null, false);
 					}
+					
+					data.unlock();
 				}
 			}
 		}

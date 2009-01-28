@@ -21,9 +21,9 @@ package onyx.core {
 	
 	import onyx.display.*;
 	import onyx.events.*;
+	import onyx.plugin.*;
 	import onyx.tween.*;
 	import onyx.utils.array.*;
-	import onyx.plugin.*;
 	
 	use namespace onyx_ns;
 	
@@ -48,14 +48,13 @@ package onyx.core {
 		/**
 		 * 	@private
 		 */
-		private var dispatcher:EventDispatcher;
+		private const dispatcher:EventDispatcher			= new EventDispatcher();
 		
 		/**
 		 * 	@constructor
 		 */
 		public function FilterArray(parent:Content):void {
 			_parent		= parent;
-			dispatcher	= new EventDispatcher();
 		}
 		
 		/**

@@ -51,7 +51,7 @@ package onyx.plugin {
 		 * 	@private
 		 * 	Store metadata about the plugin
 		 */
-		private var metadata:Object;
+		private const metadata:Object	= {};
 		
 		/**
 		 * 	@constructor
@@ -79,9 +79,6 @@ package onyx.plugin {
 		 * 	Registers metadata with the object
 		 */
 		public function registerData(name:String, value:*):void {
-			if (!metadata) {
-				metadata = {};
-			}
 			metadata[name] = value;
 		}
 		
@@ -89,7 +86,7 @@ package onyx.plugin {
 		 * 	Gets metadata for the object
 		 */
 		public function getData(name:String):* {
-			return (metadata) ? metadata[name] : null;
+			return metadata[name];
 		}
 		
 		/**

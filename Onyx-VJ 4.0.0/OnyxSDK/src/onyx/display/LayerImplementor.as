@@ -122,10 +122,6 @@ package onyx.display {
 				
 				new ParameterBoolean('visible', 'visible', 1)
 			)
-			
-			// lock the bitmap
-			data.lock();
-			
 		}
 		
 		/**
@@ -134,8 +130,6 @@ package onyx.display {
 		 **/
 		public function load(path:String, settings:LayerSettings = null, transition:Transition = null):void {
 			
-			var extension:String	= path.substr(path.lastIndexOf('.') + 1);
-
 			// query
 			AssetFile.queryContent(path, loadStatus, this, settings || new LayerSettings(), transition);
 												
@@ -206,7 +200,7 @@ package onyx.display {
 			content.addEventListener(TransitionEvent.TRANSITION_END,	_endTransition);
 
 			// apply settings & midi
-			if(settings) {
+			if (settings) {
 				settings.apply(content);
 			}
                         
@@ -218,8 +212,6 @@ package onyx.display {
 			
 				// dispatch a load event
 				super.dispatchEvent(new LayerEvent(LayerEvent.LAYER_LOADED));
-				
-				data.unlock();
 				
 			}
 		}
@@ -262,8 +254,6 @@ package onyx.display {
 		 *	Handler for when a transition ends (swap the content
 		 */
 		private function _endTransition(event:TransitionEvent):void {
-			
-			var transition:ContentTransition = event.currentTarget as ContentTransition;
 			
 			// create the content
 			_createContent(event.content, null);
@@ -596,12 +586,7 @@ package onyx.display {
 		 */
 		public function toXML():XML {
 			
-			var xml:XML;
-			 
-			if(path){
-				xml = <layer path={path}>
-                      </layer>;
-			}
+			const xml:XML = <layer path={path}/>;
 
 			// create properties
 			xml.appendChild(layerProperties.toXML('properties'));

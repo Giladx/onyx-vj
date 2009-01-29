@@ -34,10 +34,10 @@ package plugins.filters {
 		private var angle:Number;
 		private var stampImage:BitmapData;
 		
-		private var mat1:Matrix;
-		private var mat2:Matrix;
-		private var mat3:Matrix;
-		private var mat4:Matrix;
+		private const mat1:Matrix			= new Matrix(0.5, 0, 0, 0.5);
+		private const mat2:Matrix			= new Matrix(-0.5, 0, 0, 0.5, DISPLAY_WIDTH);
+		private const mat3:Matrix			= new Matrix(0.5, 0, 0, -0.5, 0, DISPLAY_HEIGHT);
+		private const mat4:Matrix			= new Matrix(-0.5, 0, 0, -0.5, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 		
 		/**
 		 * 	@constructor
@@ -78,10 +78,6 @@ package plugins.filters {
 			
 			stampImage = createDefaultBitmap();
 			diag = Math.sqrt(2 * DISPLAY_HEIGHT * DISPLAY_HEIGHT) * .62;
-			mat1 = new Matrix(0.5, 0, 0, 0.5);
-			mat2 = new Matrix(-0.5, 0, 0, 0.5, DISPLAY_WIDTH);
-			mat3 = new Matrix(0.5, 0, 0, -0.5, 0, DISPLAY_HEIGHT);
-			mat4 = new Matrix(-0.5, 0, 0, -0.5, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 			
 			slices = _slices;
 

@@ -55,7 +55,14 @@ package plugins.transitions {
 		
 		override public function render(source:BitmapData, channelA:BitmapData, channelB:BitmapData, ratio:Number):void {
 			
-			source.draw((ratio <= .5) ? channelA : channelB);
+			
+			if (ratio <= .5) {
+				source.draw(channelA);
+			} else {
+				source.draw(channelB);
+				ratio = 1 - ratio;
+			}
+			
 			_blur.blurX = _blur.blurY = (ratio * 40) << 0;
 			source.applyFilter(source, DISPLAY_RECT, ONYX_POINT_IDENTITY, _blur);
 		}

@@ -39,7 +39,7 @@ package plugins.filters {
 		
 		private var __blurX:ParameterNumber;
 		private var __blurY:ParameterNumber;
-		private var _filter:BlurFilter					= new BlurFilter(_blurX, _blurY)
+		private const _filter:BlurFilter					= new BlurFilter(_blurX, _blurY)
 		
 		public function Blur():void {
 
@@ -57,7 +57,7 @@ package plugins.filters {
 		}
 		
 		public function terminate():void {
-			_filter = null;
+			
 		}
 		
 		public function set blurX(x:int):void {
@@ -81,7 +81,7 @@ package plugins.filters {
 		}
 		
 		override public function dispose():void {
-			_filter = null;
+			
 		}
 	}
 }

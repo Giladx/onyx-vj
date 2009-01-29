@@ -47,18 +47,24 @@ package plugins.transitions {
 		 */
 		private const filter:Pixelate = new Pixelate();
 		
+		/**
+		 * 
+		 */
 		override public function render(source:BitmapData, channelA:BitmapData, channelB:BitmapData, ratio:Number):void {
 			
-			// what to draw?
-			source.draw((ratio <= .5) ? channelA : channelB);
+			if (ratio <= .5) {
+				source.draw(channelA);
+			} else {
+				source.draw(channelB);
+				ratio = 1 - ratio;
+			}
 			
-			var amount:int = ratio * 40;
+			const amount:int = ratio * 40;
+			
 			if (amount >= 2) {
 				filter.amount = amount;
 				filter.applyFilter(source);
 			}
-			
 		}
-		
 	}
 }

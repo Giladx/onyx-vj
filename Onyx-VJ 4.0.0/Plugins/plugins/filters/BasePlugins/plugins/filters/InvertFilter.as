@@ -39,17 +39,15 @@ package plugins.filters {
 
 	public final class InvertFilter extends Filter implements IBitmapFilter {
 		
-		private var _arr:Array = [
+		private const arr:Array = [
 			-1, 0, 0, 0, 255,
 			0 ,-1, 0, 0, 255,
 			0, 0, -1, 0, 255,
 			0, 0, 0, 1, 0
 		]
 		
-		public var test:int = 0;
-		
 		public function applyFilter(bitmapData:BitmapData):void {
-			bitmapData.applyFilter(bitmapData, DISPLAY_RECT, ONYX_POINT_IDENTITY, new ColorMatrixFilter(_arr));
+			bitmapData.applyFilter(bitmapData, DISPLAY_RECT, ONYX_POINT_IDENTITY, new ColorMatrixFilter(arr));
 		}
 		
 	}

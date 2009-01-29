@@ -31,9 +31,19 @@ package module {
 			// add parameters
 			parameters.addParameters(
 				new ParameterExecuteFunction('highlight', 'highlight'),
-				new ParameterExecuteFunction('highlight2', 'highlight2')
+				new ParameterExecuteFunction('highlight2', 'highlight2'),
+				new ParameterExecuteFunction('paramsave', 'paramsave')
 			);
 			
+		}
+		
+		/**
+		 * 
+		 */
+		public function paramsave():void {
+			for (var i:String in Parameters.getGlobalRegisteredParameters()) {
+				trace(i);
+			}
 		}
 		
 		/**
@@ -56,7 +66,7 @@ package module {
 		 * 
 		 */
 		override public function initialize():void {
-			trace('initialized');
+			// trace('initialized');
 		}
 		
 		/**

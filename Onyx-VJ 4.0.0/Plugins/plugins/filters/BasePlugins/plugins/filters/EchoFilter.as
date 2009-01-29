@@ -45,8 +45,8 @@ package plugins.filters {
 		
 		private var _source:BitmapData;
 		
-		private var _feedAlpha:ColorTransform	= new ColorTransform(1,1,1,.09);
-		private var _mixAlpha:ColorTransform	= new ColorTransform(1,1,1,0);
+		private const _feedAlpha:ColorTransform	= new ColorTransform(1,1,1,.09);
+		private const _mixAlpha:ColorTransform	= new ColorTransform(1,1,1,0);
 		
 		public var feedBlend:String				= 'normal';
 		public var mixBlend:String				= 'normal';
@@ -145,9 +145,6 @@ package plugins.filters {
 				_source.dispose();
 				_source = null;
 			}
-			
-			_feedAlpha = null;
-			_mixAlpha = null;
 			
 			super.dispose();
 		}

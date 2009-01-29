@@ -14,17 +14,17 @@ package plugins.filters {
 		/**
 		 * 
 		 */
-		private var pointA:Point	= new Point(1,1);
+		private const pointA:Point		= new Point(1,1);
 		
 		/**
 		 * 
 		 */
-		private var pointB:Point	= new Point(2,2);
+		private const pointB:Point		= new Point(2,2);
 		
 		/**
 		 * 
 		 */
-		private var pointArr:Array	= [pointA, pointB];
+		private const pointArr:Array	= [pointA, pointB];
 		
 		/**
 		 * 	SpeedX

@@ -48,11 +48,11 @@ package plugins.filters {
 		 */
 		public function applyFilter(bitmapData:BitmapData):void {
 			
-			var totalTime:int	= content.totalTime;
-			var time:int		= content.time * totalTime;
-			var start:int		= content.loopStart * totalTime;
-			var end:int			= content.loopEnd	* totalTime;
-			var frame:int		= content.framerate * DISPLAY_STAGE.frameRate * 2;
+			const totalTime:int	= content.totalTime;
+			const time:int		= content.time * totalTime;
+			const start:int		= content.loopStart * totalTime;
+			const end:int		= content.loopEnd	* totalTime;
+			const frame:int		= content.framerate * DISPLAY_STAGE.frameRate * 2;
 			
 			if (time + frame > end || time + frame < start) {
 				content.framerate	*= -1;

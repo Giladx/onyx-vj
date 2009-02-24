@@ -16,6 +16,7 @@
 package ui.states {
 	
 	import flash.events.*;
+	import flash.ui.Keyboard;
 	
 	import onyx.core.*;
 	import onyx.plugin.*;
@@ -75,14 +76,28 @@ package ui.states {
 		 */
 		private function _onKeyDown(event:KeyboardEvent):void {
 			
-			// register	
-			KeyListenerState.registerKey(event.keyCode, _plugin);
-			
-			// don't let the event through
-			event.stopPropagation();
-
-			// remove the learn state
-			StateManager.removeState(this);
+			if (event.keyCode === Keyboard.ESCAPE) {
+		
+				// remove the learn state
+				StateManager.removeState(this);
+					
+			} else {
+				
+				const modifier:int	= (event.shiftKey ? 4 : 0) + (event.altKey ? 2 : 0) + (event.ctrlKey ? 1 : 0);
+				
+				if (event.keyCode !== Keyboard.ALTERNATE && event.keyCode !== Keyboard.CONTROL && event.keyCode !== Keyboard.SHIFT) { 
+					
+					// register	
+					KeyListenerState.registerKey(modifier << 8 | event.keyCode, _plugin);
+					
+					// don't let the event through
+					event.stopPropagation();
+		
+					// remove the learn state
+					StateManager.removeState(this);
+					
+				}
+			}
 		}
 		
 		/**

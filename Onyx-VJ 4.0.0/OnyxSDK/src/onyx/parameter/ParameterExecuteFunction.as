@@ -35,7 +35,7 @@ package onyx.parameter {
 		 * 	Execute
 		 */
 		public function execute():void {
-			var fn:Function = super._target[name];
+			const fn:Function = super._target[name];
 			if (fn !== null) {
 				fn.apply(super._target);
 			}

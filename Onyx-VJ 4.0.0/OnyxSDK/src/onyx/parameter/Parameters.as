@@ -280,6 +280,5 @@ package onyx.parameter {
 		final public function get id():String {
 			return _id;
 		}
-
 	}
 }

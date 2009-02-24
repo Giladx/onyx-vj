@@ -22,7 +22,7 @@ package onyx.ui {
 	
 	public interface IUserInterfaceAdapter {
 		
-		function createControl(param:Parameter, options:Object = null):UserInterfaceControl;
+		function createControl(param:Parameter, style:Object = null):UserInterfaceControl;
 		function getAllControls():Dictionary;
 		
 	}

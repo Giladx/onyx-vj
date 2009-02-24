@@ -28,9 +28,6 @@ package onyx.display {
 		function get loadedLayers():Array;
 		function get layers():Array;
 		
-		function set backgroundColor(value:uint):void;
-		function get backgroundColor():uint;
-		
 		function moveLayer(layer:Layer, index:int):void;
 		function copyLayer(layer:Layer, index:int):void;
 		
@@ -43,10 +40,13 @@ package onyx.display {
 		function createLayers(numLayers:int):void;
 		function getLayerAt(index:int):Layer;
 		
-		function get width():Number;
-		function get height():Number;
-		
 		function set channelBlend(t:Transition):void;
 		function get channelBlend():Transition;
+		
+		function set backgroundColor(value:uint):void;
+		function get backgroundColor():uint;
+		
+		function get width():Number;
+		function get height():Number;
 	}
 }

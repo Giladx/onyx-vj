@@ -38,7 +38,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private const _label:TextFieldCenter		= Factory.getNewInstance(TextFieldCenter);
+		private var _label:TextFieldCenter;
 		
 		/**
 		 * 	@private
@@ -52,6 +52,7 @@ package ui.controls {
 			
 			super(options, control, true, control.display);
 
+			_label			= Factory.getNewInstance(TextFieldCenter);
 			_label.width	= options.width + 3;
 			_label.height	= options.height;
 			_label.x		= 0;
@@ -76,9 +77,9 @@ package ui.controls {
 		 * 	@private
 		 */
 		private function mouseDown(event:MouseEvent):void {
-			var range:ParameterArray	= super.getParameter as ParameterArray;
-			var data:Array			= range.data;
-			var index:int			= data.indexOf(_value) + 1;
+			const range:ParameterArray	= super.getParameter as ParameterArray;
+			const data:Array				= range.data;
+			const index:int				= data.indexOf(_value) + 1;
 			getParameter.value			= (index >= data.length) ? data[0] : data[index];
 		}
 		
@@ -87,7 +88,7 @@ package ui.controls {
 		 */
 		private function _onChanged(event:ParameterEvent null):void {
 			
-			var background:DisplayObject = super.getBackground();
+			const background:DisplayObject = super.getBackground();
 
 			_value		= event ? event.value : _value;
 			_label.text	= _value;

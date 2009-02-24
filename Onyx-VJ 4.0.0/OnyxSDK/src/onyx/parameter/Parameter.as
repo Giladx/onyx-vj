@@ -214,7 +214,14 @@ package onyx.parameter {
 		 * 
 		 */
 		override public function toString():String {
-			return '[' + getQualifiedClassName(this).replace('onyx.controls::', '') + ': ' + this.name + ']';
+			return '[' + getQualifiedClassName(this).replace('onyx.parameter::', '') + ': ' + this.name + ']';
+		}
+		
+		/**
+		 * 
+		 */
+		public function clone():Parameter {
+			return null;
 		}
 	}
 }

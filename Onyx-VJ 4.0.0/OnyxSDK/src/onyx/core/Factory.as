@@ -30,7 +30,7 @@ package onyx.core {
 		/**
 		 * 
 		 */
-		public static function release(type:Class, object:Object):void {
+		public static function release(type:Class, object:IDisposable):void {
 			if (type) {
 				// store object
 				const dict:Dictionary = hash[type];

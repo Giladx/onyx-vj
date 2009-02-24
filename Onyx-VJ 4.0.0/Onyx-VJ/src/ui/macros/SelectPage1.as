@@ -31,8 +31,9 @@ package ui.macros {
 		 * 
 		 */
 		override public function keyDown():void {
-			var layer:UILayer = UIObject.selection as UILayer;
-			layer.selectPage(1);
+			for each (var layer:UILayer in UILayer.layers) {
+				layer.selectPage(1);
+			}
 		}
 		
 		/**

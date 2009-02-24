@@ -13,33 +13,30 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package ui.macros {
+package {
 	
 	import onyx.plugin.*;
 	
-	import ui.core.*;
-	import ui.layer.*;
-
-	[ExcludeClass]
+	import plugins.effects.*;
 	
 	/**
 	 * 
 	 */
-	public final class SelectPage0 extends Macro {
-		
+	final public class TempoEffects extends PluginLoader {
+
 		/**
 		 * 
 		 */
-		override public function keyDown():void {
-			for each (var layer:UILayer in UILayer.layers) {
-				layer.selectPage(0);
-			}
-		}
-		
-		/**
-		 * 
-		 */
-		override public function keyUp():void {
+		public function TempoEffects():void {
+			
+			addPlugins(
+			
+				// bitmap filters
+				new Plugin('Alpha Effect', 			Alpha,			'Randomizes the alpha'),
+				new Plugin('Blink Effect', 			Blink,			'Randomizes the visibility'),
+				new Plugin('Frame Random', 			FrameRND,		'Randomizes Frame Rates'),
+				new Plugin('MoveScale Effect', 		MoverScaler,	'Moves and Scales Object')
+			);
 			
 		}
 	}

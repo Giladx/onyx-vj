@@ -32,7 +32,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private const _label:TextFieldCenter	= Factory.getNewInstance(TextFieldCenter);
+		private var _label:TextFieldCenter;
 		
 		/**
 		 * 	@private
@@ -48,10 +48,11 @@ package ui.controls {
 			
 			_button.initialize(options.width, options.height);
 			
-			_label.width	= options.width;
-			_label.height	= options.height;
-			_label.x		= 0;
-			_label.y		= 2;
+			_label				= Factory.getNewInstance(TextFieldCenter);
+			_label.width		= options.width;
+			_label.height		= options.height;
+			_label.x			= 0;
+			_label.y			= 2;
 			
 			addChild(_label);
 			addChild(_button);
@@ -80,12 +81,12 @@ package ui.controls {
 			
 			if (parameter is ParameterBoolean) {
 				
-				var bool:ParameterBoolean	= parameter as ParameterBoolean;
+				const bool:ParameterBoolean	= parameter as ParameterBoolean;
 				parameter.value				= !parameter.value;
 				
 			} else {
 				
-				var f:ParameterExecuteFunction = parameter as ParameterExecuteFunction;
+				const f:ParameterExecuteFunction = parameter as ParameterExecuteFunction;
 				f.execute();
 
 			}

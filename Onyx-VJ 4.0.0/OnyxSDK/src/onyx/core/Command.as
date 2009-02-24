@@ -132,23 +132,5 @@ package onyx.core {
 		private static function res():String {
 			return 'RESOLUTION: ' + DISPLAY_STAGE.stageWidth + 'x' + DISPLAY_STAGE.stageHeight;
 		}
-		
-		/**
-		 * 	@private
-		 */
-		private static function layer(... args:Array):String {
-			
-			try {
-				
-				const layer:Layer		= Display.layers[args[0]];
-				
-				layer[args[1]] = args[2];
-			} catch (e:Error) {
-				Console.error(e.message);
-			}
-			
-			return 'unimplemented';
-		}
-		
 	}
 }

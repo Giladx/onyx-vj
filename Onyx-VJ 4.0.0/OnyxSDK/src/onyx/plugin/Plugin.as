@@ -62,6 +62,7 @@ package onyx.plugin {
 			this.description	= description || '',
 			this.thumbnail		= thumbnail,
 			this.definition		= definition;
+			
 		}
 		
 		/**

@@ -45,7 +45,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private const label:TextField			= Factory.getNewInstance(TextField);
+		private var label:TextField;
 
 		/**
 		 * 	@private
@@ -65,7 +65,7 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private var _items:Array;
+		private const items:Array				= [];
 
 		/**
 		 * 	@private
@@ -78,13 +78,13 @@ package ui.controls {
 		override public function initialize(p:Parameter, options:UIOptions = null, label:String=null):void {
 			
 			// add control
-			var param:ParameterArray = p as ParameterArray;
+			const param:ParameterArray = p as ParameterArray;
 			
 			// initialize
 			super.initialize(param, options);
 			
 			// set width
-			_width	= options.width,
+			_width	= Math.max(options.width, 100),
 			_data	= param.data;
 
 			// listen for changes			
@@ -135,6 +135,9 @@ package ui.controls {
 		 */
 		private function _draw(width:int, height:int, drawBG:Boolean = false):void {
 
+			// get new textfield
+			label = Factory.getNewInstance(ui.text.TextField);
+			
 			label.width		= width - 2,
 			label.height	= height,
 			label.x			= 1,
@@ -151,10 +154,9 @@ package ui.controls {
 		 */
 		private function _onPress(event:MouseEvent):void {
 			
-			var param:ParameterArray, items:Array, start:int, len:int;
+			var param:ParameterArray, start:int, len:int;
 			param	= super.parameter as ParameterArray;
 
-			items	= 	[],
 			len		=	_data.length;
 			
 			_index	= 	_data.indexOf(parameter.value),			
@@ -177,7 +179,7 @@ package ui.controls {
 				items.push(item);
 				
 				// add it
-				var gr:Graphics = CONTAINER.graphics;
+				const gr:Graphics = CONTAINER.graphics;
 				
 				// draw
 				gr.lineStyle(0, LINE_DEFAULT, .5);
@@ -186,9 +188,6 @@ package ui.controls {
 				// display
 				CONTAINER.display(this, item);
 			}
-			
-			// store all the items
-			_items = items;
 			
 			// listen for a mouse release
 			DISPLAY_STAGE.addEventListener(MouseEvent.MOUSE_UP, _onRelease);
@@ -202,7 +201,7 @@ package ui.controls {
 		 */
 		private function _onRelease(event:MouseEvent):void {
 
-			var control:ParameterArray	= parameter as ParameterArray;
+			const control:ParameterArray	= parameter as ParameterArray;
 
 			// if a valid index, set the value
 			if (_selectedIndex) {
@@ -212,16 +211,15 @@ package ui.controls {
 				
 			}
 			
-			// kill all the items
-			for each (var item:Option in _items) {
+			while (items.length) {
+				var item:Object = items.shift() as Option;
 				item.removeEventListener(MouseEvent.MOUSE_OVER, _onRollOver);
 				item.removeEventListener(MouseEvent.MOUSE_OUT, _onRollOut);
 				item.dispose();
 			}
 			
 			// remove references
-			_selectedIndex	= null,
-			_items			= null;
+			_selectedIndex	= null;
 			
 			// remove the popup
 			CONTAINER.remove();
@@ -231,7 +229,7 @@ package ui.controls {
 		 * 	@private
 		 */
 		private function _onRollOver(event:MouseEvent):void {
-			var option:Option = event.currentTarget as Option;
+			const option:Option = event.currentTarget as Option;
 			_selectedIndex = option;
 			option.draw(DROPDOWN_HIGHLIGHT, _width);
 		}
@@ -240,9 +238,8 @@ package ui.controls {
 		 * 	@private
 		 */
 		private function _onRollOut(event:MouseEvent):void {
-			var option:Option = event.currentTarget as Option;
 			_selectedIndex = null;
-			option.draw(DROPDOWN_DEFAULT, _width);
+			(event.currentTarget as Option).draw(DROPDOWN_DEFAULT, _width);
 		}
 		
 		/**
@@ -250,11 +247,14 @@ package ui.controls {
 		 */
 		public function setText(value:*):void {
 			
-			var control:ParameterArray	= parameter as ParameterArray;
+			const control:ParameterArray	= parameter as ParameterArray;
 			label.text = (control.binding && value) ? value[control.binding] || 'None' : value || 'None';
 
 		}
 		
+		/**
+		 * 
+		 */
 		override public function reflect():Class {
 			return DropDown;
 		}
@@ -281,19 +281,15 @@ package ui.controls {
 import flash.display.*;
 
 import ui.text.TextField;
+import ui.core.*;
 import ui.controls.DropDown;
 import ui.styles.*;
 import onyx.core.*;
 
-final class Option extends Sprite {
+final class Option extends UIObject {
 	
 	// register
 	Factory.registerClass(Option);
-	
-	/**
-	 * 	@private
-	 */
-	private var label:TextField;
 
 	/**
 	 * 	Row index
@@ -305,16 +301,17 @@ final class Option extends Sprite {
 	 */
 	public function init(text:String, index:int, width:int, bind:String = null):void {
 
-		this.index		= index;
-		label			= Factory.getNewInstance(TextField);
-		label.width		= width;
-		label.height	= 9;
-		label.x			= 2;
-		label.y			= 2;
-		label.text		= text ? text.toUpperCase() : '';
+		this.index					= index;
+		var label:TextField			= Factory.getNewInstance(TextField);
+		label.width					= width;
+		label.height				= 9;
+		label.x						= 2;
+		label.y						= 2;
+		label.text					= text ? text.toUpperCase() : '';
+		
 		addChild(label);
 		
-		var graphics:Graphics = this.graphics;
+		const graphics:Graphics = this.graphics;
 		graphics.clear();
 		graphics.beginFill(DROPDOWN_DEFAULT);
 		graphics.drawRect(0, 0, width, DropDown.ITEM_HEIGHT);
@@ -327,8 +324,7 @@ final class Option extends Sprite {
 	 */
 	public function draw(color:int, width:int):void {
 		
-		var graphics:Graphics = this.graphics;
-		
+		const graphics:Graphics = this.graphics;
 		graphics.clear();
 		graphics.beginFill(color);
 		graphics.drawRect(0, 0, width, DropDown.ITEM_HEIGHT);
@@ -339,17 +335,14 @@ final class Option extends Sprite {
 	/**
 	 * 	Dispose
 	 */	
-	public function dispose():void {
-		
-		// release to Factory
-		Factory.release(Option, this);
-		Factory.release(TextField, label);
-		removeChild(label);
+	override public function dispose():void {
 		
 		// remove
 		if (parent) {
 			parent.removeChild(this);
 		}
+		
+		super.dispose();
 	}
 	
 }

@@ -300,7 +300,7 @@ package ui.window {
 		 */
 		private function _applyToAll(plugin:Plugin):void {
 			
-			var layers:Array = UILayer.layers;
+			const layers:Dictionary = UILayer.layers;
 			for each (var layer:UILayer in layers) {
 				layer.addFilter(plugin.createNewInstance() as Filter);
 			}

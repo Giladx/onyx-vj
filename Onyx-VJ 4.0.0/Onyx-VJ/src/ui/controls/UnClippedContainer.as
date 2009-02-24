@@ -22,6 +22,9 @@ package ui.controls {
 	
 	import ui.assets.*;
 
+	/**
+	 * 
+	 */
 	public final class UnClippedContainer extends Sprite {
 		
 		/**

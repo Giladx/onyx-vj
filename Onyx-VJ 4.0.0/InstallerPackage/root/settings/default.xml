@@ -1,7 +1,7 @@
 <settings>
 
 	<metadata>
-		<version>3.0.5</version>
+		<version>4.0.0</version>
 	</metadata>
 
 	<!-- CORE SETTINGS FOR RENDERING -->
@@ -10,8 +10,8 @@
 		<render>
 			<!-- the width / height of bitmaps -->
 			<bitmapData>
-				<width>480</width>
-				<height>360</height>
+				<width>320</width>
+				<height>240</height>
 			</bitmapData>
 		</render>
 		

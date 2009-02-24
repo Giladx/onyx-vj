@@ -167,7 +167,7 @@ package ui.core {
 		 */
 		final public function addChildren(... args:Array):void {
 			
-			var len:int = args.length;
+			const len:int = args.length;
 			for (var count:int = 0; count < len; count+=3) {
 				
 				args[count].x = args[count+1],
@@ -187,7 +187,7 @@ package ui.core {
 			}
 			
 			// clear children
-			var numChildren:int = this.numChildren;
+			const numChildren:int = this.numChildren;
 			for (var count:int = 0; count < numChildren; count++) {
 				var child:DisplayObject = removeChildAt(0);
 				

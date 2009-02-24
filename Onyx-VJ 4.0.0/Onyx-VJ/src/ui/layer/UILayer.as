@@ -19,6 +19,7 @@ package ui.layer {
 	import flash.events.*;
 	import flash.filters.DropShadowFilter;
 	import flash.geom.*;
+	import flash.utils.Dictionary;
 	
 	import onyx.core.*;
 	import onyx.display.*;
@@ -85,13 +86,13 @@ package ui.layer {
 		/**
 		 * 	@private
 		 */
-		public static const layers:Array				= [];
+		public static const layers:Dictionary			= new Dictionary(true);
 		
 		/**
 		 * 	Selects a layer
 		 */
 		public static function selectLayer(index:int):void {
-			UIObject.select(layers[index]);
+			UIObject.select(layers[Display.getLayerAt(index)]);
 		}
 
 		/********************************************************
@@ -175,7 +176,7 @@ package ui.layer {
 			_layer = layer;
 			
 			// push
-			layers.push(this);
+			layers[layer] = this;
 
 			// draw
 			_draw();

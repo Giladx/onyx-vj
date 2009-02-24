@@ -81,8 +81,6 @@ package {
 		 */
 		private function init():void {
 			
-			// Onyx.initialize(this.stage, 320, 240, OutputDisplay, new AIRAdapter(), new UserInterfaceAPI());
-			
 			// store stage
 			DISPLAY_STAGE		= this.stage;
 			Tempo				= new TempoImplementer();
@@ -134,14 +132,13 @@ package {
 		 */
 		private function start():void {
 			
-			var setup:ShowOnyxState = StateManager.getStates('startup')[0];
+			const setup:ShowOnyxState = StateManager.getStates('startup')[0];
 			
 			// write to the startup.log file
 			writeTextFile(new File(AssetFile.resolvePath('logs/start.log')), setup.getLogText());
 			
 			// remove the startup state
-			StateManager.removeState(setup);			
-			setup = null;
+			StateManager.removeState(setup);
 			
 			// load default states
 			StateManager.loadState(new KeyListenerState());		// listen for keyboard

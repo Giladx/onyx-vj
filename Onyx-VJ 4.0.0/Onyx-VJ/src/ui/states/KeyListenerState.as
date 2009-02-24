@@ -16,6 +16,7 @@
 package ui.states {
 	
 	import flash.events.KeyboardEvent;
+	import flash.ui.*;
 	import flash.utils.*;
 	
 	import onyx.core.*;
@@ -141,7 +142,9 @@ package ui.states {
 		 */
 		private function keyDown(event:KeyboardEvent):void {
 			
-			const code:int		= event.keyCode;
+			const modifier:int	= (event.shiftKey ? 4 : 0) + (event.altKey ? 2 : 0) + (event.ctrlKey ? 1 : 0);
+			
+			const code:int		= modifier << 8 | event.keyCode;
 			const plugin:Plugin	= forward[code];
 			
 			if (plugin && !keyUpHash[code]) {
@@ -163,20 +166,23 @@ package ui.states {
 		 */
 		private function keyUp(event:KeyboardEvent):void {
 			
-			const code:int	= event.keyCode;
-			
-			const macro:Macro = keyUpHash[code];
-			if (macro) {
-				macro.keyUp();
+			if (event.keyCode !== Keyboard.ALTERNATE && event.keyCode !== Keyboard.SHIFT && event.keyCode !== Keyboard.CONTROL) {
+				
+				// 4 shift
+				// 2 alt
+				// 1 ctrl
+				
+				for (var modifier:int = 0; modifier < 8; modifier++) {
+					const code:int			= modifier << 8 | event.keyCode;
+					
+					const macro:Macro = keyUpHash[code];
+					if (macro) {
+						macro.keyUp();
+					}
+					
+					delete keyUpHash[code];
+				}
 			}
-			
-			delete keyUpHash[code];
-			
-			// if no key ups left, remove listener
-			for each (var i:Macro in keyUpHash) {
-				return;
-			}
-			DISPLAY_STAGE.removeEventListener(KeyboardEvent.KEY_UP, keyUp);
 		}
 	}
 }

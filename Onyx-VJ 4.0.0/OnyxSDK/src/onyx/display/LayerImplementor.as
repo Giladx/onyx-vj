@@ -56,7 +56,7 @@ package onyx.display {
 		 * 	@private
 		 * 	The display the layer belongs to
 		 */
-		onyx_ns var			_display:OutputDisplay;
+		onyx_ns var			_display:IDisplay;
 		
 		/**
 		 * 	@private
@@ -83,12 +83,11 @@ package onyx.display {
 		/**
 		 * 	@constructor
 		 */
-		public function LayerImplementor(display:OutputDisplay):void {
+		public function LayerImplementor(display:IDisplay):void {
 			
 			// store layers to display
 			// ugly, but better
 			this._display	= display;
-			this._display._layers.push(this);
 
 			// add parameters
 			layerProperties.addParameters(
@@ -499,7 +498,7 @@ package onyx.display {
 		 * 	Returns the index of the layer within the display
 		 **/
 		public function get index():int {
-			return _display._layers.indexOf(this);
+			return _display.layers.indexOf(this);
 		}
 		
 		/**

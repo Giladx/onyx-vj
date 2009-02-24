@@ -228,6 +228,7 @@ package onyx.display {
 				
 				// create a new layer and set it's index
 				var layer:LayerImplementor = new LayerImplementor(this);
+				_layers.push(layer);
 				
 				// listen for load and unload (to push to the valid array);
 				layer.addEventListener(LayerEvent.LAYER_LOADED,		layerLoadHandler);

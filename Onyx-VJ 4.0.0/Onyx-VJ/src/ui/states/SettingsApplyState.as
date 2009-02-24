@@ -158,6 +158,8 @@ package ui.states {
 				Console.output('NO OUTPUT Display DETECTED.  PLEASE ENABLE THE SECOND SCREEN AND RESTART');
 			}
 			
+			PluginManager.macros.sortOn('description')
+			
 			// output
 			Console.output('\n*  MAKE ART  *\n');
 

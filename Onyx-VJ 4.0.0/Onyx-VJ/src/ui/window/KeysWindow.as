@@ -59,7 +59,7 @@ package ui.window {
 		}
 		
 		/**
-		 * 
+		 * 	@private
 		 */
 		private function handler(event:Event):void {
 			updateKeys();
@@ -155,17 +155,51 @@ final class KeyItem extends Sprite implements IDisposable {
 	 * 	Returns the string representation of a keyboard item
 	 */
 	private static function getKeyName(value:int):String {
+		
+		const modifier:int		= (value & 0xff00) >> 8;
+		var modString:String	= '';
+		
+		// 4 shift
+		// 2 alt
+		// 1 ctrl
+		switch (modifier) {
+			case 7:
+				modString		= 'CTRL+ALT+SHIFT+'
+				break;
+			case 6:
+				modString		= 'ALT+SHIFT+'
+				break;
+			case 5:
+				modString		= 'CTRL+SHIFT+'
+				break;
+			case 4:
+				modString		= 'SHIFT+'
+				break;
+			case 3:
+				modString		= 'CTRL+ALT+'
+				break;
+			case 2:
+				modString		= 'ALT+'
+				break;
+			case 1:
+				modString		= 'CTRL+'
+				break;
+			case 0:
+				modString		= '';
+				break;
+		}
+		
 		switch (value) {
 			case Keyboard.SPACE:
-				return 'SPACE';
+				return modString + 'SPACE';
 			case Keyboard.UP:
-				return 'UP';
+				return modString + 'UP';
 			case Keyboard.DOWN:
-				return 'DOWN';
+				return modString + 'DOWN';
 			case Keyboard.LEFT:
-				return 'LEFT';
+				return modString + 'LEFT';
 			case Keyboard.RIGHT:
-				return 'RIGHT';
+				return modString + 'RIGHT';
 			case Keyboard.F1:
 			case Keyboard.F2:
 			case Keyboard.F3:
@@ -178,23 +212,23 @@ final class KeyItem extends Sprite implements IDisposable {
 			case Keyboard.F10:
 			case Keyboard.F11:
 			case Keyboard.F12:
-				return 'F' + (value - 111);
+				return modString + 'F' + (value - 111);
 			case Keyboard.BACKSPACE:
-				return 'BACKSPACE';
+				return modString + 'BACKSPACE';
 			case Keyboard.CAPS_LOCK:
-				return 'CAPSLOCK';
+				return modString + 'CAPSLOCK';
 			case Keyboard.DELETE:
-				return 'DEL';
+				return modString + 'DEL';
 			case Keyboard.HOME:
-				return 'HOME';
+				return modString + 'HOME';
 			case Keyboard.END:
-				return 'END';
+				return modString + 'END';
 			case Keyboard.INSERT:
-				return 'INSERT';
+				return modString + 'INSERT';
 			case Keyboard.ENTER:
-				return 'ENTER';
+				return modString + 'ENTER';
 			default:
-				return String.fromCharCode(value);
+				return (value > 0) ? modString + String.fromCharCode((value & 0x00ff)) : 'NONE';
 		}
 	}
 	

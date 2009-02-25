@@ -83,34 +83,35 @@ package ui.states {
 			if (screens.length > 1) {
 
 				// create a new window to put the output window
-				var options:NativeWindowInitOptions = new NativeWindowInitOptions();
+				const options:NativeWindowInitOptions = new NativeWindowInitOptions();
 				options.systemChrome	= NativeWindowSystemChrome.NONE;
 				options.transparent		= false;
 				options.type			= NativeWindowType.LIGHTWEIGHT;
 				
 				// create the window
-				var displayWindow:NativeWindow	= new NativeWindow(options);
+				const displayWindow:NativeWindow	= new NativeWindow(options);
 				displayWindow.width				= DISPLAY_WIDTH;
 				displayWindow.height			= DISPLAY_HEIGHT;
 				displayWindow.alwaysInFront		= true;
 				
 				// no scale please thanks
-				var stage:Stage					= displayWindow.stage;
+				const stage:Stage					= displayWindow.stage;
 				stage.align						= StageAlign.TOP_LEFT;
 				stage.scaleMode 				= StageScaleMode.NO_SCALE;
-				DISPLAY_STAGE.quality = stage.quality	= StageQuality.LOW;
+				DISPLAY_STAGE.quality 			= stage.quality	= StageQuality.MEDIUM;
 				
 				// we need to put the new window onto the new screen
-				var screen:Screen		= screens[1];
+				const screen:Screen		= screens[1];
 				displayWindow.bounds	= screen.bounds;
 				
+				// listen for a close
 				displayWindow.addEventListener(Event.CLOSING, quitHandler, false, 0, true);
 
 				// add the display to our new window
 				stage.addChild(Display as DisplayObject);
 
 				// add the right display object
-				var dsp:StartupDisplay	= new StartupDisplay();
+				const dsp:StartupDisplay	= new StartupDisplay();
 				stage.addChild(dsp);
 				
 				dsp.width				= DISPLAY_WIDTH;
@@ -142,7 +143,7 @@ package ui.states {
 		 */
 		public function applyCoreSettings():void {
 			
-			var core:XMLList	= SETTINGS_XML.core;
+			const core:XMLList	= SETTINGS_XML.core;
 			var list:XMLList;
 			
 			// set default core settings

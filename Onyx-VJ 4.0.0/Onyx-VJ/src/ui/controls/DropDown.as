@@ -75,7 +75,7 @@ package ui.controls {
 		/**
 		 * 
 		 */
-		override public function initialize(p:Parameter, options:UIOptions = null, label:String=null):void {
+		override public function initialize(p:Parameter, options:UIOptions = null):void {
 			
 			// add control
 			const param:ParameterArray = p as ParameterArray;
@@ -86,7 +86,7 @@ package ui.controls {
 			// set width
 			_width	= Math.max(options.width, 100),
 			_data	= param.data;
-
+			
 			// listen for changes			
 			parameter.addEventListener(ParameterEvent.CHANGE, _onChange);
 			
@@ -96,13 +96,13 @@ package ui.controls {
 			// add listeners			
 			button.addEventListener(MouseEvent.MOUSE_DOWN, _onPress);
 			button.addEventListener(MouseEvent.MOUSE_WHEEL, _onWheel);
+			button.addEventListener(MouseEvent.RIGHT_CLICK, _onRightClick);
 
 			// get value
-			var value:* = param.value;
+			const value:* = param.value;
 			
 			// set index
 			_index		= _data.indexOf(value);
-			
 			
 			// set text
 			setText(param.value);
@@ -243,6 +243,13 @@ package ui.controls {
 		}
 		
 		/**
+		 * 	@private
+		 */
+		private function _onRightClick(event:MouseEvent):void {
+			super.parameter.reset();
+		}
+		
+		/**
 		 * 	Sets text to a value
 		 */
 		public function setText(value:*):void {
@@ -270,6 +277,7 @@ package ui.controls {
 			// add listeners			
 			button.removeEventListener(MouseEvent.MOUSE_DOWN, _onPress);
 			button.removeEventListener(MouseEvent.MOUSE_WHEEL, _onWheel);
+			button.removeEventListener(MouseEvent.RIGHT_CLICK, _onRightClick);
 			
 			// dispose
 			super.dispose();

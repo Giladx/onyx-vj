@@ -76,6 +76,11 @@ package onyx.utils {
 		/**
 		 * 	@private
 		 */
+		private var _currentText:TextField	= new TextField();
+		
+		/**
+		 * 	@private
+		 */
 		private var _init:Boolean		= false;
 		
 		/**
@@ -95,12 +100,14 @@ package onyx.utils {
 
 			_minText.width 		= width;
 			_maxText.width 		= width;
-			_minText.height		= _maxText.height = 20;
+			_currentText.width	= width;
+			_currentText.height	= _minText.height = _maxText.height = 20;
 			_minText.y			= height - 20;
-			_minText.selectable = _maxText.selectable = false;
-			_minText.textColor	= _maxText.textColor = color;
-			_minText.x			= _maxText.x = labelOffsetX;
-
+			_currentText.y		= (height / 2) - 10;
+			_currentText.selectable = _minText.selectable = _maxText.selectable = false;
+			_currentText.textColor	= _minText.textColor = _maxText.textColor = color;
+			_currentText.x = _minText.x = _maxText.x = labelOffsetX;
+			
 			var x:Number = 0;
 			var y:Number = initValue;
 			
@@ -113,6 +120,7 @@ package onyx.utils {
 			addChild(_graph);
 			addChild(_minText);
 			addChild(_maxText);
+			addChild(_currentText);
 		}
 		
 		/**
@@ -139,12 +147,14 @@ package onyx.utils {
 			
 			// calculate the x / y
 			_calc(x, y);
+			
+			_currentText.text			= value.toFixed(2);
 
 			// draw
 			_graph.graphics.lineTo(x, y);
 			
 			// get ratio
-			var ratioY:Number			= _height / (maxY - minY);
+			const ratioY:Number			= _height / (maxY - minY);
 			_graph.y					= (maxY * ratioY);
 
 			_graph.scaleY				= -ratioY;

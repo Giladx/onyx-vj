@@ -585,7 +585,7 @@ package onyx.display {
 		 */
 		public function toXML():XML {
 			
-			const xml:XML = <layer path={path}/>;
+			const xml:XML = <layer path={path} index={index}/>;
 
 			// create properties
 			xml.appendChild(layerProperties.toXML('properties'));

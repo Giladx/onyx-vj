@@ -74,7 +74,7 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private const __contrast:Parameter		= new ParameterNumber('contrast', 'contrast', -1, 1, 0);
+		private const __contrast:Parameter		= new ParameterNumber('contrast', 'contrast', -1, 2, 0);
 		
 		/**
 		 * 	@private
@@ -84,7 +84,7 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private const __hue:Parameter			= new ParameterNumber('hue', 'hue', -180, 180, 0, 1, 0);
+		private const __hue:Parameter			= new ParameterNumber('hue', 'hue', -180, 180, 0, 1, 1);
 		
 		/**
 		 * 	@private
@@ -161,9 +161,7 @@ package onyx.display {
 			
 			init();
 			
-			this.mouseEnabled	= false;
-			this.mouseChildren	= false;
-			this.tabEnabled		= false;
+			this.mouseEnabled	= this.mouseChildren = this.tabEnabled = false;
 			
 		}
 		
@@ -172,7 +170,7 @@ package onyx.display {
 		 */
 		private function init():void {
 			
-			addChild(new Bitmap(data, PixelSnapping.ALWAYS, false));
+			addChild(new Bitmap(data, PixelSnapping.ALWAYS, true));
 			
 			// add parameters
 			parameters.addParameters(
@@ -638,8 +636,6 @@ package onyx.display {
 					// layer.source.lock();
 					var data:BitmapData	= layer.data;
 					
-					data.lock();
-					
 					if (layer.channel) {
 						_channelB.draw(data, null, layer.getColorTransform(), layer.blendMode, null, false);
 					} else {
@@ -647,6 +643,7 @@ package onyx.display {
 					}
 					
 					data.unlock();
+					data.lock();
 				}
 			}
 		}
@@ -734,7 +731,7 @@ package onyx.display {
 			xml.appendChild(meta);
 		
 			// add display xml
-			var display:XML = <display />;
+			const display:XML = <display />;
 			
 			// add display parameters
 			display.appendChild(parameters.toXML('position', 'visible', 'transition'));
@@ -746,13 +743,13 @@ package onyx.display {
 			xml.appendChild(display);
 
 			// add layers
-			var layers:XML = <layers />
+			const layers:XML = <layers />;
 			display.appendChild(layers);
 			
 			// create xml for all the layers
-			for each (var layer:LayerImplementor in _layers) {
+			for each (var layer:LayerImplementor in _valid) {
 				
-				if(layer.path) {
+				if (layer.path) {
 					layers.appendChild(layer.toXML());
 				}
 				

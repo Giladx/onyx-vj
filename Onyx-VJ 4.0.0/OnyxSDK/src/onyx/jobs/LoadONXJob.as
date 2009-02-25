@@ -70,8 +70,6 @@ package onyx.jobs {
 		 */
 		override public function initialize(...args):void {
 			
-			var path:String = args[0];
-			
 			AssetFile.queryFile(args[0], onRead);
 
 		}
@@ -83,11 +81,11 @@ package onyx.jobs {
 
 			try {
 				
-				var xml:XML				= new XML(data);
+				const xml:XML				= new XML(data);
 				
-				var layers:Array		= _display.layers;
-				var index:int			= layers.indexOf(_origin);
-				var jobs:Array			= [];
+				const layers:Array		= _display.layers;
+				const index:int			= layers.indexOf(_origin);
+				const jobs:Array		= [];
 				
 				// load xml
 				_display.loadXML(xml.display);
@@ -95,7 +93,7 @@ package onyx.jobs {
 				// loop through layers and apply settings
 				for each (var layerXML:XML in xml.display.layers.*) {
 					
-					var layer:LayerImplementor				= layers[index++];
+					var layer:LayerImplementor = (String(layerXML.@index).length > 0) ? layers[int(layerXML.@index)] : layers[index++];
 					
 					// valid layer, load it
 					if (layer) {
@@ -106,6 +104,7 @@ package onyx.jobs {
 						var job:LayerLoadSettings	= new LayerLoadSettings();
 						job.layer					= layer;
 						job.settings				= settings;
+						
 						jobs.push(job);
 						
 					// break out
@@ -143,7 +142,7 @@ package onyx.jobs {
 			
 			for each (var job:LayerLoadSettings in jobs) {
 				
-				var layer:LayerImplementor			= job.layer;
+				var layer:LayerImplementor	= job.layer;
 				var settings:LayerSettings	= job.settings;
 	
 				layer.addEventListener(LayerEvent.LAYER_LOADED, loadHandler);

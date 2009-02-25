@@ -49,7 +49,7 @@ package ui.controls {
 		/**
 		 * 	Initialize
 		 */
-		public function initialize(control:Parameter, options:UIOptions = null, label:String = null):void {
+		public function initialize(control:Parameter, options:UIOptions = null):void {
 			
 			// store the UIControl so we can toggle affectable controls
 			available[this] = null;
@@ -64,14 +64,14 @@ package ui.controls {
 					displayBackground(options.width, options.height);
 				}
 				
-				if (options.label && label) {
+				if (options.label) {
 					
 					switch (options.labelAlign) {
 						case 'left':
-							addLabel(label, options.width + 3, options.height, 1, -15, 'left');
+							addLabel(control.display, options.width + 3, options.height, 1, -15, 'left');
 							break;
 						default:
-							addLabel(label, options.width, options.height, -8, 0, options.labelAlign);
+							addLabel(control.display, options.width, options.height, -8, 0, options.labelAlign);
 							break;						
 					}
 				}

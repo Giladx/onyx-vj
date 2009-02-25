@@ -44,7 +44,7 @@ package ui.controls.xfader {
 		/**
 		 * 
 		 */
-		override public function initialize(param:Parameter, options:UIOptions = null, label:String=null):void {
+		override public function initialize(param:Parameter, options:UIOptions = null):void {
 			
 			// super
 			super.initialize(param);

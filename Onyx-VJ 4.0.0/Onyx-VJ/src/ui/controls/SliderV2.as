@@ -51,7 +51,7 @@ package ui.controls {
 		/**
 		 * 
 		 */
-		override public function initialize(control:Parameter, options:UIOptions = null, labelText:String=null):void {
+		override public function initialize(control:Parameter, options:UIOptions = null):void {
 			
 			var proxy:ParameterProxy			= control as ParameterProxy;
 			var controlY:ParameterNumber		= proxy.controlY;
@@ -59,7 +59,7 @@ package ui.controls {
 			var height:int					= options.height;
 			var invert:Boolean				= proxy.invert;
 			
-			super.initialize(control, options, proxy.display);
+			super.initialize(control, options);
 
 			button.initialize(width,	height);
 
@@ -80,7 +80,9 @@ package ui.controls {
 			addChild(button);
 
 			doubleClickEnabled = true;
-			addEventListener(MouseEvent.DOUBLE_CLICK, _doubleClick);
+			
+			button.addEventListener(MouseEvent.DOUBLE_CLICK, _reset);
+			button.addEventListener(MouseEvent.RIGHT_CLICK, _reset);
 
 			_controlY.addEventListener(ParameterEvent.CHANGE, _onControlChange);
 			_controlX.addEventListener(ParameterEvent.CHANGE, _onControlChange);
@@ -91,9 +93,11 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		private function _doubleClick(event:MouseEvent):void {
+		private function _reset(event:MouseEvent):void {
 			_controlY.reset();
 			_controlX.reset();
+			
+			event.stopPropagation();
 		}
 
 		/**
@@ -201,6 +205,9 @@ package ui.controls {
 		 * 
 		 */
 		override public function dispose():void {
+
+			button.removeEventListener(MouseEvent.DOUBLE_CLICK, _reset);
+			button.removeEventListener(MouseEvent.RIGHT_CLICK, _reset);
 
 			_controlY.removeEventListener(ParameterEvent.CHANGE, _onControlChange);
 			_controlX.removeEventListener(ParameterEvent.CHANGE, _onControlChange);

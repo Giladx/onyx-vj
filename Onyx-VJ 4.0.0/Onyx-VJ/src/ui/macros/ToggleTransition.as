@@ -26,11 +26,11 @@ package ui.macros {
 		override public function keyDown():void {
 				
 			// create the position
-			var property:TweenProperty = (Display.channelMix > 0) ? new TweenProperty('channelMix', Display.channelMix, 0) : new TweenProperty('channelMix', Display.channelMix, 1);
+			const property:TweenProperty = (Display.channelMix > .5) ? new TweenProperty('channelMix', Display.channelMix, 0) : new TweenProperty('channelMix', Display.channelMix, 1);
 			
 			new Tween(
 				Display,
-				1500,
+				4000,
 				property
 			);
 		}

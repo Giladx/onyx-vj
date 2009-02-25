@@ -63,14 +63,21 @@ package ui.controls.filter {
 			
 			draw();
 			
-			doubleClickEnabled = true;
-
 			btnDelete.initialize(11, 11);
 			btnDelete.addEventListener(MouseEvent.MOUSE_DOWN, deleteFn, false, -1);
+			
+			this.addEventListener(MouseEvent.RIGHT_CLICK, mute);
 			
 			muted = filter.muted;
 			addChildAt(bg, 0);
 
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function mute(event:MouseEvent):void {
+			filter.muted = !filter.muted;
 		}
 		
 		/**
@@ -115,6 +122,7 @@ package ui.controls.filter {
 		override public function dispose():void {
 			
 			btnDelete.removeEventListener(MouseEvent.MOUSE_DOWN, deleteFn);
+			this.removeEventListener(MouseEvent.RIGHT_CLICK, mute);
 			
 			super.dispose();
 		}

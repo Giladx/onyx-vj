@@ -42,9 +42,9 @@ package ui.controls {
 		/**
 		 * 
 		 */
-		override public function initialize(control:Parameter, options:UIOptions = null, label:String = null):void {
+		override public function initialize(control:Parameter, options:UIOptions = null):void {
 			
-			super.initialize(control, options, label);
+			super.initialize(control, options);
 			
 			_button.initialize(options.width, options.height);
 			

@@ -135,7 +135,7 @@ package ui.controls.page {
 				if (uiClass) {
 
 					uicontrol			= Factory.getNewInstance(uiClass) as UIControl;
-					uicontrol.initialize(param, DEFAULT, param.name);
+					uicontrol.initialize(param, DEFAULT);
 					
 					// position the control
 					uicontrol.x = x,

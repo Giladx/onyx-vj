@@ -82,6 +82,7 @@ package onyx.display {
 		 * 	Sets the time
 		 */
 		override public function set time(value:Number):void {
+			
 			frame	= patch.totalFrames * value;
 			
 		}
@@ -170,33 +171,30 @@ package onyx.display {
 			if (!_paused) {
 				
 				// get ellapsed frame
-				var stageRate:int		= DISPLAY_STAGE.frameRate;
-				var time:int			= lastTime - this.lastTime;
-				var ratio:Number		= (time / (1000 / stageRate));
-				var startFrame:Number	= patch.totalFrames * _loopStart;
-				var endFrame:Number		= patch.totalFrames * _loopEnd;
+				const stageRate:int		= DISPLAY_STAGE.frameRate;
+				const time:int			= lastTime - this.lastTime;
+				const ratio:Number		= (time / (1000 / stageRate));
+				const startFrame:Number	= patch.totalFrames * _loopStart;
+				const endFrame:Number	= patch.totalFrames * _loopEnd;
 				
 				// set frame
-				var frame:Number	= this.frame + ((loaderInfo.frameRate / stageRate) * (_framerate * ratio));
+				this.frame = this.frame + ((loaderInfo.frameRate / stageRate) * (_framerate * ratio));
 				
 				// constrain the frame
-				frame = (frame < startFrame) ? endFrame : Math.max(frame % endFrame, startFrame);
-
-				// save the frame				
-				this.frame = frame;
+				this.frame = (frame < startFrame) ? endFrame : Math.max(frame % endFrame, startFrame);
 				
 			}
-
+			
 			// store last time
 			this.lastTime = lastTime;
 
 			// set 
-			renderInfo.currentFrame	= frame >> 0;
+			renderInfo.currentFrame	= this.frame >> 0;
 			
 			// clear 
 			_source.fillRect(DISPLAY_RECT, 0);
 
-			var content:IRenderObject			= _content as IRenderObject;
+			const content:IRenderObject			= _content as IRenderObject;
 			content.render(renderInfo);
 			
 			// color adjustment

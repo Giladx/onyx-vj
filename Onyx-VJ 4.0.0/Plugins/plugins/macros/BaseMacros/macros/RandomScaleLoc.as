@@ -30,10 +30,10 @@ package macros {
 			
 			for each (var layer:Layer in Display.layers) {
 
-				scale	= 1 + (Math.random() * 1.8);
+				scale	= 1 + (Math.random() * 1.65);
 				ratio	= scale - 1;
-				x		= ratio * (-DISPLAY_WIDTH) * Math.random();
-				y		= ratio * (-DISPLAY_HEIGHT) * Math.random();
+				x		= ratio * (-DISPLAY_WIDTH * layer.anchorX) * Math.random();
+				y		= ratio * (-DISPLAY_HEIGHT * layer.anchorY) * Math.random();
 
 				new Tween(
 					layer,

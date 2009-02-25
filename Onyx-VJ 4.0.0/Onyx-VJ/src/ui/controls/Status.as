@@ -35,7 +35,7 @@ package ui.controls {
 		/**
 		 * 
 		 */
-		override public function initialize(input:Parameter, options:UIOptions = null, label:String=null):void {
+		override public function initialize(input:Parameter, options:UIOptions = null):void {
 			
 			// set defaults
 			field.width		= options.width + 3;
@@ -47,7 +47,7 @@ package ui.controls {
 			parameter	= input as ParameterStatus;
 
 			// set label, etc
-			super.initialize(input, options, input.display);
+			super.initialize(input, options);
 			
 			// listen for changes
 			parameter.addEventListener(ParameterEvent.CHANGE, _onControlChange);

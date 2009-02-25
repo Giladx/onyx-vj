@@ -53,9 +53,9 @@ package onyx.parameter {
 		 */
 		override public function set value(v:*):void {
 
-			var currentTarget:PluginBase	= target[name];
+			const currentTarget:PluginBase	= target[name];
 			if (v) {
-				var plugin:Plugin				= v as Plugin;
+				const plugin:Plugin				= v as Plugin;
 				
 				if (!currentTarget || currentTarget._plugin !== plugin) {
 					
@@ -63,7 +63,7 @@ package onyx.parameter {
 						currentTarget.dispose();
 					}
 					
-					var newPlug:PluginBase	= plugin.createNewInstance();
+					const newPlug:PluginBase	= plugin.createNewInstance();
 					newPlug.initialize();
 					
 					target[name] = dispatch(newPlug);
@@ -77,6 +77,13 @@ package onyx.parameter {
 				
 				target[name] = dispatch(null);
 			}
+		}
+		
+		/**
+		 * 
+		 */
+		override public function reset():void {
+			value = dispatch(defaultValue);
 		}
 		
 		/**

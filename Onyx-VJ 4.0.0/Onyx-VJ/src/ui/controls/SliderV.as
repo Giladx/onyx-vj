@@ -69,9 +69,9 @@ package ui.controls {
 		/**
 		 * 
 		 */
-		override public function initialize(input:Parameter, options:UIOptions = null, labelText:String=null):void {
+		override public function initialize(input:Parameter, options:UIOptions = null):void {
 			
-			super.initialize(input, options, input.display);
+			super.initialize(input, options);
 			
 			var control:ParameterNumber	= input as ParameterNumber;
 			var width:int				= options.width;
@@ -98,7 +98,8 @@ package ui.controls {
 			doubleClickEnabled	= true;
 
 			addEventListener(MouseEvent.MOUSE_DOWN,		mouseDown);
-			addEventListener(MouseEvent.DOUBLE_CLICK,	_doubleClick);
+			addEventListener(MouseEvent.DOUBLE_CLICK,	_reset);
+			addEventListener(MouseEvent.RIGHT_CLICK,	_reset);
 			addEventListener(MouseEvent.MOUSE_WHEEL,	_onMouseWheel);
 			
 			if (_toFixed > 0) {
@@ -122,8 +123,14 @@ package ui.controls {
 		/**
 		 * 	@private
 		 */
-		protected function _doubleClick(event:MouseEvent):void {
+		protected function _reset(event:MouseEvent):void {
+			
+			// reset
 			parameter.reset();
+			
+			// stop propagation
+			event.stopPropagation();
+			
 		}
 
 		/**
@@ -195,7 +202,8 @@ package ui.controls {
 
 			// clean up event handlers
 			removeEventListener(MouseEvent.MOUSE_DOWN,		mouseDown);
-			removeEventListener(MouseEvent.DOUBLE_CLICK,	_doubleClick);
+			removeEventListener(MouseEvent.DOUBLE_CLICK,	_reset);
+			removeEventListener(MouseEvent.RIGHT_CLICK,		_reset);
 			removeEventListener(MouseEvent.MOUSE_WHEEL,		_onMouseWheel);
 			
 			// remove listeners

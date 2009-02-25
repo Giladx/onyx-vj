@@ -56,7 +56,7 @@ package ui.controls.layer {
 		/**
 		 * 
 		 */
-		override public function initialize(parameter:Parameter, options:UIOptions = null, label:String=null):void {
+		override public function initialize(parameter:Parameter, options:UIOptions = null):void {
 			
 			//
 			super.initialize(parameter);

@@ -43,9 +43,9 @@ package ui.controls {
 		/**
 		 * 
 		 */		
-		override public function initialize(control:Parameter, options:UIOptions = null, label:String=null):void {
+		override public function initialize(control:Parameter, options:UIOptions = null):void {
 			
-			super.initialize(control, options, control.display);
+			super.initialize(control, options);
 		
 			field			= Factory.getNewInstance(TextFieldCenter);
 			field.x			= 0,

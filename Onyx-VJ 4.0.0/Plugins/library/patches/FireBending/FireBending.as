@@ -14,6 +14,7 @@
  *  
  * Based on FireBending code by Edik RUZGA
  * Adapted for Onyx-VJ 4 by Bruce LANE (http://www.batchass.fr)
+ * version 4.0.503 last modified March 6th 2009
  */
 package 
 {
@@ -28,7 +29,7 @@ package
 	import onyx.plugin.*;
 
 	
-	[SWF(width='480', height='360', frameRate='24', backgroundColor='#FFFFFF')]
+	[SWF(width='320', height='240', frameRate='24', backgroundColor='#FFFFFF')]
 	public class FireBending extends Patch 
 	{
 		protected var bd : BitmapData;
@@ -59,7 +60,7 @@ package
 		 * 	@constructor
 		 */
 		public function FireBending():void {
-			Console.output('FireBending 4.0.483');
+			Console.output('FireBending 4.0.503');
 			Console.output('Credits to Edik RUZGA');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
 			_color = 0xFF4400;

@@ -13,7 +13,7 @@
  * Please visit http://www.onyx-vj.com for more information
  *  
  * plug-in for Onyx-VJ 4 by Bruce LANE (http://www.batchass.fr)
- * version 4.0.483 last modified Jan 29th 2009
+ * version 4.0.504 last modified March 6th 2009
  */
 package 
 {
@@ -26,7 +26,7 @@ package
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
-	[SWF(width='480', height='360', frameRate='24', backgroundColor='#FFFFFF')]
+	[SWF(width='320', height='240', frameRate='24', backgroundColor='#FFFFFF')]
 	public class BatchassPerlin extends Patch 
 	{
 		private var _baseX:int = 200;
@@ -47,7 +47,7 @@ package
 		 * 	@constructor
 		 */
 		public function BatchassPerlin():void {
-			Console.output('Batchass Perlin Noise 4.0.483');
+			Console.output('Batchass Perlin Noise 4.0.504');
 			Console.output('Credits to Bruce LANE (http://www.batchass.fr)');
 			parameters.addParameters(
 				new ParameterInteger( 'octaves', 'octaves', 1, 10, _octaves ),

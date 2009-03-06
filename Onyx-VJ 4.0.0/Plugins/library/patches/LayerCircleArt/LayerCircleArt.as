@@ -14,7 +14,7 @@
  *  
  * Based on CircleArt code by Lucas Swick (http://summitprojectsflashblog.wordpress.com/author/lucasswick/)
  * Adapted for Onyx-VJ 4 by Bruce LANE (http://www.batchass.fr)
- * version 4.0.501 last modified March 6th 2009
+ * version 4.0.502 last modified March 6th 2009
  * 
  */
  package {
@@ -38,7 +38,7 @@
 		private var _tolerance:uint;
 		private var _spacing:uint;
 		private var _randomizer:uint;
-		private var _spread:int;
+		private var _spread:int = 35;
 		private var _jumpRate:uint;
 		private	var _loopCount:uint;
 		private var _currentDecayIndex:uint;
@@ -65,8 +65,9 @@
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
  			parameters.addParameters(
  				new ParameterLayer('layer', 'layer'),
-				new ParameterInteger( 'spread', 'spread', 1, 100, 35 )
+				new ParameterInteger( 'spread', 'spread', 1, 300, 35 )
  			);
+			spread =_spread;
 			init();
 		}
 		/**
@@ -147,7 +148,6 @@
 			_tolerance = 0x22;
 			_spacing = 1;
 			_randomizer = 10;
-			spread =_spread;
 			_jumpRate = 1;
 			_loopCount = 4;
 			_currentDecayIndex = 0;

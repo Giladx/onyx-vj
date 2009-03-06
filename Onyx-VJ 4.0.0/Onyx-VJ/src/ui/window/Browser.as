@@ -99,7 +99,7 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
-		private const db:AIRThumbnailDB			= new AIRThumbnailDB();
+		private var db:AIRThumbnailDB;
 		
 		/**
 		 * 	@private
@@ -138,11 +138,11 @@ package ui.window {
 		private function init():void {
 			
 			// draw the pane background
-			var bmp:BitmapData			= (getChildAt(0) as Bitmap).bitmapData;
+			const bmp:BitmapData			= (getChildAt(0) as Bitmap).bitmapData;
 			bmp.fillRect(new Rectangle(417,15,81, super.height - 17), 0xFF131e28);
 			
 			// arrange everything else
-			var options:UIOptions	= new UIOptions();
+			const options:UIOptions	= new UIOptions();
 			options.width			= 82;
 			
 			buttonFiles				= new TextButtonIcon(options, 'FILES', new AssetFolder()),
@@ -183,6 +183,7 @@ package ui.window {
 				this.list	= list;
 				
 				const dbFile:File = new File(AssetFile.resolvePath(query.path + '/.onyx-cache'));
+				db = new AIRThumbnailDB();
 				
 				if (dbFile.exists) {
 					
@@ -224,6 +225,7 @@ package ui.window {
 			
 			// store an array of items we need to thumbnail
 			const needToThumbnail:Array	= [];
+			const checkForDelete:Object	= {};
 
 			// kill all previous objects here
 			_clearChildren();
@@ -247,10 +249,9 @@ package ui.window {
 					control.y	= FOLDER_HEIGHT * index;
 
 					control.addEventListener(MouseEvent.MOUSE_DOWN, folderDown);
-					
+
+				// it's a file, see if we need to thumbnail it ... also, add it to the screen
 				} else {
-					
-					// var data:BitmapData = db.getThumbnail(AssetFile.getRelativePath(AIR_ROOT, file));
 					
 					control 	= files.addChild(new FileControl(asset, asset.thumbnail));
 					index		= files.getChildIndex(control);
@@ -268,20 +269,23 @@ package ui.window {
 					if (!asset.thumbnail.bitmapData) {
 						asset.thumbnail.bitmapData	= db.getThumbnail(asset.name);
 						
+						// doesn't exist, thumbnail it
 						if (!asset.thumbnail.bitmapData) {
 							needToThumbnail.push(asset);
+							
+						// exists, don't send this for thumbnail deletion
+						} else {
+							
+							checkForDelete[asset.name] = asset;
+							
 						}
 					}
 				}
 			}
 			
-			// if we need to thumbnail, start
-			if (needToThumbnail.length) {
-				
-				StateManager.loadState(
-					new AIRThumbnailState(AssetFile.resolvePath(query.path), db, needToThumbnail)
-				);
-			}
+			StateManager.loadState(
+				new AIRThumbnailState(AssetFile.resolvePath(query.path), db, needToThumbnail, checkForDelete)
+			);
 		}
 		
 		/**

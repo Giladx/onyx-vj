@@ -276,6 +276,25 @@ package ui.window {
 			releaseTimer.removeEventListener(TimerEvent.TIMER, _onTempoOff);
 			releaseTimer.stop();
 		}
+		
+		/**
+		 * 	@public
+		 */
+		override public function dispose():void {
+			
+			// xml
+			buttonXML.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			
+			// start the timer
+			Tempo.removeEventListener(TempoEvent.CLICK, _onTempo);
+			
+			// tap tempo click
+			tapTempo.removeEventListener(MouseEvent.MOUSE_DOWN, _onTempoDown);
+			
+			// remove
+			super.dispose();
+			
+		}
 	}
 }
 
@@ -296,7 +315,8 @@ final class TempoShape extends Sprite {
 		
 		addChild(new AssetTapTempo());
 		
-		super.buttonMode = true;
+		super.buttonMode	= true;
+		super.tabEnabled	= false;
 		
 	}
 }

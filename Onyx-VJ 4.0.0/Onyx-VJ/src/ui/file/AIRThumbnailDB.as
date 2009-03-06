@@ -98,6 +98,16 @@ package ui.file {
 		}
 		
 		/**
+		 * 
+		 */
+		public function isEmpty():Boolean {
+			for (var a:Object in lookup) {
+				return false;
+			}
+			return true;
+		}
+		
+		/**
 		 * 	Loads database from bytearray
 		 */
 		public function load(bytes:IDataInput):void {
@@ -121,16 +131,34 @@ package ui.file {
 				}
 				
 			} catch (e:Error) {
-				Console.output(e);
+				Console.error(e);
 			}
-				
+		}
+		
+		/**
+		 * 
+		 */
+		internal function removeNonExistingThumbnails(directoryHash:Object):Boolean {
+			
+			var deleted:Boolean = false;
+
+			// let's look for items that don't exist			
+			for each (var def:FileDef in lookup) {
+				if (!directoryHash[def.path]) {
+					
+					delete lookup[def.path];
+					deleted = true;
+				}
+			}
+			
+			return deleted;
 		}
 		
 		/**
 		 * 
 		 */
 		public function getThumbnail(path:String):BitmapData {
-			var def:FileDef = lookup[path];
+			const def:FileDef = lookup[path];
 			return (def) ? def.thumbnail : null;
 		}
 		
@@ -138,7 +166,7 @@ package ui.file {
 		 * 
 		 */
 		public function get bytes():ByteArray {
-			var bytes:ByteArray = new ByteArray();
+			const bytes:ByteArray = new ByteArray();
 			
 			// write width / height
 			bytes.writeShort(width);
@@ -153,12 +181,6 @@ package ui.file {
 			}
 			
 			return bytes;
-		}
-		
-		/**
-		 * 
-		 */
-		public function updateFile():void {
 		}
 	}
 }

@@ -146,19 +146,24 @@ package onyx.jobs {
 				var settings:LayerSettings	= job.settings;
 	
 				layer.addEventListener(LayerEvent.LAYER_LOADED, loadHandler);
-				layer.load(settings.path, settings);
 				
 				// add it to our stack
 				layers.push(layer);
 
+				// load the layer
+				layer.load(settings.path, settings);
+
+
 			}
+	
 		}
 		
 		/**
 		 * 	@private
 		 */
 		private function loadHandler(event:LayerEvent):void {
-			var layer:Layer = event.currentTarget as Layer;
+			
+			const layer:Layer = event.currentTarget as Layer;
 			layer.removeEventListener(LayerEvent.LAYER_LOADED, loadHandler);
 			
 			var index:int = layers.indexOf(layer);

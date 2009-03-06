@@ -104,7 +104,7 @@ package onyx.plugin {
 		 * 
 		 */
 		final public function getParameterValue(name:String):* {
-			var control:Parameter = parameters.getParameter(name);
+			const control:Parameter = parameters.getParameter(name);
 			return control ? control.value : null;
 		}
 		
@@ -112,7 +112,7 @@ package onyx.plugin {
 		 * 
 		 */
 		final public function setParameterValue(name:String, value:*):void {
-			var control:Parameter = parameters.getParameter(name);
+			const control:Parameter = parameters.getParameter(name);
 			if (control) {
 				control.value = value;
 			}
@@ -152,7 +152,7 @@ package onyx.plugin {
 		 * 	Returns xml
 		 */
 		final public function toXML():XML {
-			var xml:XML = <filter id={name} />;
+			var xml:XML = <filter id={name} muted="{muted}" />;
 			xml.appendChild(super.parameters.toXML());
 			return xml;
 		}

@@ -633,8 +633,8 @@ package onyx.display {
 				
 				if (layer.visible) {
 					
-					// layer.source.lock();
 					var data:BitmapData	= layer.data;
+					data.lock();
 					
 					if (layer.channel) {
 						_channelB.draw(data, null, layer.getColorTransform(), layer.blendMode, null, false);
@@ -643,7 +643,6 @@ package onyx.display {
 					}
 					
 					data.unlock();
-					data.lock();
 				}
 			}
 		}

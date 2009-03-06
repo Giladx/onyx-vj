@@ -199,7 +199,8 @@ package onyx.core {
 				
 				if (plugin) {
 					
-					var filter:Filter = plugin.createNewInstance() as Filter;
+					var filter:Filter	= plugin.createNewInstance() as Filter;
+					filter._muted		= String(filterXML.@muted === 'true');
 					filter.getParameters().loadXML(filterXML.parameters);
 
 					// add the filter					

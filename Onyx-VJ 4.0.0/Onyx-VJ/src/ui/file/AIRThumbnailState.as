@@ -48,12 +48,12 @@ package ui.file {
 		/**
 		 * 	@private
 		 */
-		private var files:Array;
+		private var jobs:Array;
 		
 		/**
 		 * 	@private
 		 */
-		private var jobs:Array;
+		private var directoryHash:Object;
 		
 		/**
 		 * 	@private
@@ -73,16 +73,21 @@ package ui.file {
 		/**
 		 * 	@private
 		 */
+		private var needToWrite:Boolean	= false;
+		
+		/**
+		 * 	@private
+		 */
 		private const display:OutputDisplay	= new OutputDisplay();
 		
 		/**
 		 * 	@constructor
 		 */
-		public function AIRThumbnailState(path:String, db:AIRThumbnailDB, jobs:Array):void {
-			this.path	= new File(path),
-			this.db		= db,
-			this.files	= files,
-			this.jobs	= jobs;
+		public function AIRThumbnailState(path:String, db:AIRThumbnailDB, jobs:Array, directoryHash:Object):void {
+			this.path			= new File(path),
+			this.db				= db,
+			this.directoryHash	= directoryHash,
+			this.jobs			= jobs;
 		}
 		
 		/**
@@ -90,14 +95,23 @@ package ui.file {
 		 */
 		override public function initialize():void {
 			
-			// pause everything else
-			Display.pause(true);
-			
-			// test creating a new display
-			display.createLayers(5);
-			
-			// load next
-			_nextQueue();
+			// check for deletions first and if we need to write the file
+			if (db.removeNonExistingThumbnails(directoryHash) || jobs.length > 0) {
+				
+				needToWrite = true;
+				
+				if (jobs.length > 0) {
+					
+					// pause everything else
+					Display.pause(true);
+					
+					// test creating a new display
+					display.createLayers(5);
+				}
+				
+				// load next or finish
+				_nextQueue();
+			}
 		}
 		
 		/**
@@ -109,7 +123,7 @@ package ui.file {
 			
 			if (current) {
 				
-				var layer:LayerImplementor		= display.getLayerAt(0) as LayerImplementor;
+				const layer:LayerImplementor = display.getLayerAt(0) as LayerImplementor;
 
 				switch (current.extension) {
 					case 'mp3':
@@ -136,8 +150,20 @@ package ui.file {
 				// remove
 				display.removeEventListener(DisplayEvent.MIX_LOADED, mixHandler);
 				
-				// write the db
-				writeBinaryFile(path.resolvePath('.onyx-cache'), db.bytes);
+				if (needToWrite) {
+					
+					if (db.isEmpty()) {
+						
+						path.resolvePath('.onyx-cache').deleteFile();
+						
+					} else {
+						
+						// write the cache file
+						writeBinaryFile(path.resolvePath('.onyx-cache'), db.bytes);
+						
+					}
+
+				}
 				
 				// terminate
 				StateManager.removeState(this);
@@ -151,8 +177,7 @@ package ui.file {
 		private function handler(event:Event = null):void {
 			
 			if (event) {
-				var layer:Layer	= event.currentTarget as Layer;
-				layer.removeEventListener(LayerEvent.LAYER_LOADED,		handler);
+				(event.currentTarget as Layer).removeEventListener(LayerEvent.LAYER_LOADED, handler);
 			}
 			
 			// wait
@@ -194,6 +219,7 @@ package ui.file {
 			try {
 				display.render(null);
 			} catch (e:Error) {
+				Console.error(e);
 			}
 			
 			if (display && display.source) {

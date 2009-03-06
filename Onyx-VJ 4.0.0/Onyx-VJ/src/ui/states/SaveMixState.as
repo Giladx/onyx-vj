@@ -80,10 +80,13 @@ package ui.states {
 				// write the file
 				const xml:XML = Display.toXML();
 				
+				// write the text file
 				writeTextFile(file, xml);
 				
+				// remove this
 				StateManager.removeState(this);
 				
+				// refresh the browser
 				const window:Browser = WindowRegistration.getWindow('BROWSER') as Browser;
 				if (window) {
 					window.refresh();

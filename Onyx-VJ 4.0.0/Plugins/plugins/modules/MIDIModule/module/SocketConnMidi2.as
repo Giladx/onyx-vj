@@ -50,7 +50,7 @@ package module {
 			_port = '10000';
 			
 			//super( new ModuleInterfaceOptions(null,145,200) );
-			super( new ModuleInterfaceOptions(MidiWindow,145,200) );
+			super( new ModuleInterfaceOptions(null,145,200) );
 			
 			parameters.addParameters(
 				new ParameterString('host', 'host'),

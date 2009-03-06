@@ -14,7 +14,7 @@
  *  
  * Based on CircleArt code by Lucas Swick (http://summitprojectsflashblog.wordpress.com/author/lucasswick/)
  * Adapted for Onyx-VJ 4 by Bruce LANE (http://www.batchass.fr)
- * version 4.0.493 last modified Fev 21st 2009
+ * version 4.0.501 last modified March 6th 2009
  * 
  */
  package {
@@ -29,7 +29,7 @@
 	import onyx.plugin.*;
 
 	
-	[SWF(width='480', height='360', frameRate='24', backgroundColor='#FFFFFF')]
+	[SWF(width='320', height='240', frameRate='24', backgroundColor='#FFFFFF')]
 	public class LayerCircleArt extends Patch 
 	{
 		private var _canvasBD:BitmapData;
@@ -38,7 +38,7 @@
 		private var _tolerance:uint;
 		private var _spacing:uint;
 		private var _randomizer:uint;
-		private var _spread:uint;
+		private var _spread:int;
 		private var _jumpRate:uint;
 		private	var _loopCount:uint;
 		private var _currentDecayIndex:uint;
@@ -56,14 +56,16 @@
 
 		/**
 		 * 	@constructor
+		 *
 		 */
 		public function LayerCircleArt()
 		{
-			Console.output('LayerCircleArt 4.0.497');
+			Console.output('LayerCircleArt 4.0.501');
 			Console.output('Credits to Lucas SWICK');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
  			parameters.addParameters(
- 				new ParameterLayer('layer', 'layer')
+ 				new ParameterLayer('layer', 'layer'),
+				new ParameterInteger( 'spread', 'spread', 1, 100, 35 )
  			);
 			init();
 		}
@@ -145,7 +147,7 @@
 			_tolerance = 0x22;
 			_spacing = 1;
 			_randomizer = 10;
-			_spread = 35;
+			spread =_spread;
 			_jumpRate = 1;
 			_loopCount = 4;
 			_currentDecayIndex = 0;
@@ -191,6 +193,19 @@
 		}
 	
 		public function unload(evt:Event=null):void {
+		}
+		/**
+		 * 	
+		 */
+		public function set spread(value:int):void {
+			_spread = value;
+		}
+
+		/**
+		 * 	
+		 */
+		public function get spread():int{
+			return _spread;
 		}
 		
 		// ACTIONS ===================================================================================================================

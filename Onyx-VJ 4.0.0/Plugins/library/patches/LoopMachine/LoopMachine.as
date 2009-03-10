@@ -14,7 +14,7 @@ package {
 	/**
 	 * 
 	 */
-	[SWF(width='480', height='360', frameRate='24')]
+	[SWF(width='320', height='240', frameRate='24')]
 	final public class LoopMachine extends MovieClip implements IParameterObject {
 		
 		/**

@@ -29,7 +29,7 @@
 	import onyx.plugin.*;
 
 	
-	[SWF(width='480', height='360', frameRate='24', backgroundColor='#FFFFFF')]
+	[SWF(width='320', height='240', frameRate='24', backgroundColor='#FFFFFF')]
 	public class CircleArt extends Patch 
 	{
 		private var _canvasBD:BitmapData;

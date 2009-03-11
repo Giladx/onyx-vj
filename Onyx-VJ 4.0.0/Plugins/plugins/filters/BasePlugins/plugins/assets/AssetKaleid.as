@@ -17,7 +17,7 @@ package plugins.assets {
 	
 	import flash.display.Bitmap;
 
-	[Embed(source='/plugins/filters/thumbnails/kaliedoscope.png')]
-	public final class AssetKalied extends Bitmap {
+	[Embed(source='/plugins/filters/thumbnails/kaleidoscope.png')]
+	public final class AssetKaleid extends Bitmap {
 	}
 }

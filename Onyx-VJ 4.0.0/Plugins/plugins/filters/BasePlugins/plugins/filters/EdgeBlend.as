@@ -36,7 +36,7 @@ package plugins.filters {
 	
 	import onyx.core.*;
 	import onyx.parameter.*;
-//	import onyx.plugin.*;
+	import onyx.plugin.*;
 
 	public final class EdgeBlend extends Filter implements IBitmapFilter {
 		

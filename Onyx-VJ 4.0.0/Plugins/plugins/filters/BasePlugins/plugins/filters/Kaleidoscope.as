@@ -6,7 +6,7 @@ package plugins.filters {
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
-	public final class Kaliedoscope extends Filter implements IBitmapFilter {
+	public final class Kaleidoscope extends Filter implements IBitmapFilter {
 		
 		private var diag:Number;
 		private var _alpha:ColorTransform	= new ColorTransform();
@@ -42,7 +42,7 @@ package plugins.filters {
 		/**
 		 * 	@constructor
 		 */
-		public function Kaliedoscope():void {
+		public function Kaleidoscope():void {
 			parameters.addParameters(
 				new ParameterInteger('slices', 'slices', 1, 40, 15),
 				new ParameterInteger('alpha', 'alpha', 0, 100, 100),

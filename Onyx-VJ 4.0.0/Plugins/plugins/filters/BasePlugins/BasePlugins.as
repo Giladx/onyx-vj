@@ -18,7 +18,7 @@ package {
 	import onyx.plugin.*;
 	
 	import plugins.assets.*;
-	import plugins.effects.*;
+	//import plugins.effects.*;
 	import plugins.filters.*;
 	import plugins.transitions.*;
 	import plugins.visualizer.*;
@@ -43,8 +43,9 @@ package {
                 new Plugin('Ray Of Light',			RayOfLight,		'Ray Of Light', new AssetRay().bitmapData),
 				new Plugin('Mirror',				MirrorFilter,	'Mirror Filter', new AssetMirror().bitmapData),
 				new Plugin('Echo',					EchoFilter,		'Echo Filter', new AssetEcho().bitmapData),
+				new Plugin('EdgeBlend',				EdgeBlend,		'EdgeBlend', new AssetEdge().bitmapData),
 				new Plugin('Keying',				KeyingFilter,	'Keys a color out'),
-				new Plugin('Kaliedoscope', 			Kaliedoscope,	'Kaliedoscope', new AssetKalied().bitmapData),
+				new Plugin('Kaleidoscope', 			Kaleidoscope,	'Kaleidoscope', new AssetKaleid().bitmapData),
 				new Plugin('Pixelate',				Pixelate,		'Pixelate', new AssetPixelate().bitmapData),
 				new Plugin('Blur', 					Blur,			'Blur Filter', new AssetBlur().bitmapData),
 				new Plugin('Halo', 					Halo,			'Halo Filter', new AssetHalo().bitmapData),

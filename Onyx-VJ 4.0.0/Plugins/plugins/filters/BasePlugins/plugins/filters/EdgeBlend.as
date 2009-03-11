@@ -34,8 +34,9 @@ package plugins.filters {
 	import flash.filters.*;
 	import flash.geom.*;
 	
+	import onyx.core.*;
 	import onyx.parameter.*;
-
+//	import onyx.plugin.*;
 
 	public final class EdgeBlend extends Filter implements IBitmapFilter {
 		

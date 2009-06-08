@@ -89,8 +89,8 @@ package onyx.parameter {
 		 */
 		override public function toXML():XML {
 			
-			var valueY:* = controlY.value;
-			var valueX:* = controlX.value;
+			const valueY:* = controlY.value;
+			const valueX:* = controlX.value;
 			
 			if (controlY.defaultValue != valueY || controlX.defaultValue != valueX) {
 				var xml:XML = <{name}/>;
@@ -109,6 +109,14 @@ package onyx.parameter {
 			controlY.loadXML(xml.child(controlY.name)[0]);
 			controlX.loadXML(xml.child(controlX.name)[0]);
 			
+		}
+		
+		/**
+		 * 	@public
+		 */
+		override public function reset():void {
+			controlY.reset();
+			controlX.reset();
 		}
 		
 		/**

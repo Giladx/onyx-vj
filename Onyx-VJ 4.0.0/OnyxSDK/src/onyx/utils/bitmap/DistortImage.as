@@ -225,7 +225,7 @@ package onyx.utils.bitmap {
                 tMat.invert();
                 tMat.concat( sMat );
                 // draw:
-                graphics.beginBitmapFill( bmd, tMat, false, false);
+                graphics.beginBitmapFill( bmd, tMat, false, true);
                 graphics.moveTo( x0, y0 );
                 graphics.lineTo( x1, y1 );
                 graphics.lineTo( x2, y2 );

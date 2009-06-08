@@ -32,12 +32,7 @@ package ui.core {
 	 * 	Base UIObject Class
 	 */
 	public class UIObject extends Sprite {
-		
-		/**
-		 * 	@private
-		 */
-		private static const REUSE:MouseEvent = new MouseEvent(MouseEvent.DOUBLE_CLICK);
-		
+				
 		/**
 		 * 	The overall selection for the app
 		 */
@@ -53,31 +48,6 @@ package ui.core {
 		 */
 		public function UIObject():void {
 			tabEnabled = false;
-		}
-		
-		/**
-		 * 	@private
-		 * 	When mouse is clicked
-		 */
-		private static function mouseDown(event:MouseEvent):void {
-			
-			var dispatcher:IEventDispatcher = event.currentTarget as IEventDispatcher;
-			
-			if (_doubleObject === dispatcher) {
-				if (getTimer() - _doubleTime < 300) {
-					event.stopPropagation();
-					
-					REUSE.ctrlKey	= event.ctrlKey,
-					REUSE.altKey	= event.altKey,
-					REUSE.shiftKey	= event.shiftKey;
-					
-					dispatcher.dispatchEvent(REUSE);
-				}
-			}
-			
-			_doubleObject = dispatcher;
-			_doubleTime = getTimer();
-			
 		}
 		
 		/**
@@ -109,27 +79,6 @@ package ui.core {
 			
 			// select layer
 			selection = layer;
-		}
-		
-		/**
-		 * 	@private
-		 */
-		private static var _doubleObject:IEventDispatcher;
-		
-		/**
-		 * 	@private
-		 */
-		private static var _doubleTime:int;
-		
-		/**
-		 * 	Sets doubleClickEnabled
-		 */
-		final public override function set doubleClickEnabled(s:Boolean):void {
-			if (s) {
-				addEventListener(MouseEvent.MOUSE_DOWN, mouseDown, true, 0, true);
-			} else {
-				removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown, true);
-			}
 		}
 		
 		/**

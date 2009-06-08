@@ -79,21 +79,24 @@ package ui.controls {
 			addChild(label);
 			addChild(button);
 
-			doubleClickEnabled = true;
-			
+			// set double click enabled
+			button.doubleClickEnabled = true;
 			button.addEventListener(MouseEvent.DOUBLE_CLICK, _reset);
 			button.addEventListener(MouseEvent.RIGHT_CLICK, _reset);
 
+			// listen for control changes
 			_controlY.addEventListener(ParameterEvent.CHANGE, _onControlChange);
 			_controlX.addEventListener(ParameterEvent.CHANGE, _onControlChange);
 			
-			addEventListener(MouseEvent.MOUSE_DOWN, (invert) ? mouseDownInvert : mouseDownNormal);
+			// listen for mouse down?
+			button.addEventListener(MouseEvent.MOUSE_DOWN, (invert) ? mouseDownInvert : mouseDownNormal);
 		}
 		
 		/**
 		 * 	@private
 		 */
 		private function _reset(event:MouseEvent):void {
+			
 			_controlY.reset();
 			_controlX.reset();
 			
@@ -206,6 +209,8 @@ package ui.controls {
 		 */
 		override public function dispose():void {
 
+			button.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownInvert);
+			button.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownNormal);
 			button.removeEventListener(MouseEvent.DOUBLE_CLICK, _reset);
 			button.removeEventListener(MouseEvent.RIGHT_CLICK, _reset);
 

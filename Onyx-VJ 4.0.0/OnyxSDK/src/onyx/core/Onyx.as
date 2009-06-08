@@ -17,16 +17,17 @@ package onyx.core {
 		/**
 		 * 
 		 */
-		public static function initialize(stage:Stage, width:int = 320, height:int = 240):void {
+		public static function initialize(stage:Stage, width:int = 320, height:int = 240, quality:String = 'medium'):void {
 			
-			DISPLAY_STAGE	= stage;
-			DISPLAY_WIDTH	= DISPLAY_RECT.width	= width;
-			DISPLAY_HEIGHT	= DISPLAY_RECT.height	= height;
+			DISPLAY_STAGE			= stage;
+			DISPLAY_WIDTH			= DISPLAY_RECT.width	= width;
+			DISPLAY_HEIGHT			= DISPLAY_RECT.height	= height;
+			DISPLAY_STAGE.quality	= quality;
 			
 		}
 		
 		/**
-		 * 
+		 * 	@public
 		 */
 		public static function initializeAdapters(assetAdapter:IAssetAdapter, interfaceAdapter:IUserInterfaceAdapter):void {
 			

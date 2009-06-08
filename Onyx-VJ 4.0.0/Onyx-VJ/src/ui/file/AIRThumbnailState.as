@@ -81,6 +81,11 @@ package ui.file {
 		private const display:OutputDisplay	= new OutputDisplay();
 		
 		/**
+		 * 	@private
+		 */
+		private const timeoutTimer:Timer	= new Timer(3000);
+		
+		/**
 		 * 	@constructor
 		 */
 		public function AIRThumbnailState(path:String, db:AIRThumbnailDB, jobs:Array, directoryHash:Object):void {
@@ -145,11 +150,16 @@ package ui.file {
 						break;
 				}
 				
+				// now start the timer just in case it doesn't load (flvs seem to time out at times)
+				timeoutTimer.addEventListener(TimerEvent.TIMER, timerHandler);
+				timeoutTimer.start();
+				
 			} else {
 					
 				// remove
 				display.removeEventListener(DisplayEvent.MIX_LOADED, mixHandler);
 				
+				// write?
 				if (needToWrite) {
 					
 					if (db.isEmpty()) {
@@ -176,6 +186,11 @@ package ui.file {
 		 */
 		private function handler(event:Event = null):void {
 			
+			// turn off the timeout
+			timeoutTimer.removeEventListener(TimerEvent.TIMER, timerHandler);
+			timeoutTimer.stop();
+			
+			// remove listener
 			if (event) {
 				(event.currentTarget as Layer).removeEventListener(LayerEvent.LAYER_LOADED, handler);
 			}
@@ -193,6 +208,10 @@ package ui.file {
 		 */
 		private function mixHandler(event:Event):void {
 			
+			// turn off the timeout
+			timeoutTimer.removeEventListener(TimerEvent.TIMER, timerHandler);
+			timeoutTimer.stop();
+				
 			// remove listener, add render
 			display.removeEventListener(DisplayEvent.MIX_LOADED, mixHandler);
 			display.source.fillRect(DISPLAY_RECT, 0);
@@ -201,6 +220,24 @@ package ui.file {
 			
 			// save start time
 			startTime = getTimer();
+		}
+		
+		/**
+		 * 	@private
+		 */
+		private function timerHandler(event:TimerEvent):void {
+			
+			// remove
+			timeoutTimer.removeEventListener(TimerEvent.TIMER, timerHandler);
+			timeoutTimer.stop();
+			
+			// kill layers
+			for each (var layer:LayerImplementor in display.layers) {
+				layer.dispose();
+			}
+			
+			// do next
+			_nextQueue();
 		}
 		
 		/**

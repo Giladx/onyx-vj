@@ -64,15 +64,16 @@ package ui.controls.filter {
 			// draw shit
 			addChild(bmp);
 			
-			label.width			= 41,
-			label.height		= 31,
-			label.wordWrap		= true,
-			label.text			= _plugin.name,
-			label.y				= 2,
-			label.x				= 2,
-			label.filters		= DROP_SHADOW;
+			label.width				= 41,
+			label.height			= 31,
+			label.wordWrap			= true,
+			label.text				= _plugin.name,
+			label.y					= 2,
+			label.x					= 2,
+			label.filters			= DROP_SHADOW;
 			
 			btn.initialize(42,32);
+			btn.doubleClickEnabled	= true;
 			
 			addChild(label);
 			addChild(btn);

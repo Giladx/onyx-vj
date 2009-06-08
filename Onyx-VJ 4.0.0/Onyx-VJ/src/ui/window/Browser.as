@@ -262,7 +262,6 @@ package ui.window {
 					
 					// start listening to start dragging
 					control.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-					control.addEventListener(MouseEvent.DOUBLE_CLICK, doubleClick);
 
 					// if there is a valid bitmap, that means there is a thumbnail
 					// if no bitmap, add it to our job queue
@@ -321,7 +320,6 @@ package ui.window {
 
 				// stop listening to start dragging
 				control.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-				control.removeEventListener(MouseEvent.DOUBLE_CLICK, doubleClick);
 
 			}
 			
@@ -342,29 +340,6 @@ package ui.window {
 			// query default folder
 			AssetFile.queryDirectory(query.path, updateList);
 			
-		}
-		
-		/**
-		 * 	@private
-		 *  double click auto-loads
-		 */
-		private function doubleClick(event:MouseEvent):void {
-			var control:FileControl = event.target as FileControl;
-			
-			var target:ILayerDrop		= UIObject.selection as ILayerDrop;
-			
-			if (target) {
-
-				// try to preserve settings
-				if (event.ctrlKey && target.layer.path) {
-					
-					var settings:LayerSettings	= new LayerSettings();
-					settings.load(target.layer);
-				}
-				
-				// load
-				_loadFile(target, control.asset, settings);
-			}
 		}
 		
 		/**

@@ -95,12 +95,11 @@ package ui.controls {
 			addChild(label);
 			addChild(button);
 			
-			doubleClickEnabled	= true;
-
-			addEventListener(MouseEvent.MOUSE_DOWN,		mouseDown);
-			addEventListener(MouseEvent.DOUBLE_CLICK,	_reset);
-			addEventListener(MouseEvent.RIGHT_CLICK,	_reset);
-			addEventListener(MouseEvent.MOUSE_WHEEL,	_onMouseWheel);
+			button.doubleClickEnabled	= true;
+			button.addEventListener(MouseEvent.MOUSE_DOWN,		mouseDown);
+			button.addEventListener(MouseEvent.DOUBLE_CLICK,	_reset);
+			button.addEventListener(MouseEvent.RIGHT_CLICK,		_reset);
+			button.addEventListener(MouseEvent.MOUSE_WHEEL,		_onMouseWheel);
 			
 			if (_toFixed > 0) {
 				parameter.addEventListener(ParameterEvent.CHANGE, _onControlChangeFixed);
@@ -201,10 +200,10 @@ package ui.controls {
 		override public function dispose():void {
 
 			// clean up event handlers
-			removeEventListener(MouseEvent.MOUSE_DOWN,		mouseDown);
-			removeEventListener(MouseEvent.DOUBLE_CLICK,	_reset);
-			removeEventListener(MouseEvent.RIGHT_CLICK,		_reset);
-			removeEventListener(MouseEvent.MOUSE_WHEEL,		_onMouseWheel);
+			button.removeEventListener(MouseEvent.MOUSE_DOWN,		mouseDown);
+			button.removeEventListener(MouseEvent.DOUBLE_CLICK,	_reset);
+			button.removeEventListener(MouseEvent.RIGHT_CLICK,		_reset);
+			button.removeEventListener(MouseEvent.MOUSE_WHEEL,		_onMouseWheel);
 			
 			// remove listeners
 			parameter.removeEventListener(ParameterEvent.CHANGE, _onControlChange);

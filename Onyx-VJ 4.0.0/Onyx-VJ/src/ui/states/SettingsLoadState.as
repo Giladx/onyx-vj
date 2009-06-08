@@ -95,7 +95,7 @@ package ui.states {
 				displayWindow.alwaysInFront		= true;
 				
 				// no scale please thanks
-				const stage:Stage					= displayWindow.stage;
+				const stage:Stage				= displayWindow.stage;
 				stage.align						= StageAlign.TOP_LEFT;
 				stage.scaleMode 				= StageScaleMode.NO_SCALE;
 				DISPLAY_STAGE.quality 			= stage.quality	= StageQuality.MEDIUM;
@@ -114,8 +114,8 @@ package ui.states {
 				const dsp:StartupDisplay	= new StartupDisplay();
 				stage.addChild(dsp);
 				
-				dsp.width				= DISPLAY_WIDTH;
-				dsp.height				= DISPLAY_HEIGHT;
+				dsp.width					= DISPLAY_WIDTH;
+				dsp.height					= DISPLAY_HEIGHT;
 				
 				// turn on hardware accelleration for the output window
 				stage.fullScreenSourceRect	= new Rectangle(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
@@ -152,7 +152,7 @@ package ui.states {
 				list = core.render;
 
 				if (list.hasOwnProperty('bitmapData')) {
-					Onyx.initialize(DISPLAY_STAGE, list.bitmapData.width, list.bitmapData.height);
+					Onyx.initialize(DISPLAY_STAGE, list.bitmapData.width, list.bitmapData.height, list.quality || StageQuality.MEDIUM);
 				}
 				
 			}

@@ -11,7 +11,7 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
-		private const preview:Bitmap	= new Bitmap(Display.source, PixelSnapping.ALWAYS, false);
+		private const preview:Bitmap	= new Bitmap(Display.source, PixelSnapping.ALWAYS, true);
 
 		/**
 		 * 	Constructor
@@ -22,8 +22,8 @@ package ui.window {
 			
 			preview.x		= 5;
 			preview.y		= 20;
-			preview.width	= Math.min(480, DISPLAY_WIDTH);
-			preview.height	= Math.min(360, DISPLAY_HEIGHT);
+			preview.width	= 480; //Math.min(480, DISPLAY_WIDTH);
+			preview.height	= 360; //Math.min(360, DISPLAY_HEIGHT);
 			addChild(preview);
 			
 			// add listeners			

@@ -73,11 +73,12 @@ package ui.controls.browser {
 			addChild(bmp);
 				
 			// set
+			button.doubleClickEnabled	= true;
 			button.initialize(THUMB_WIDTH, THUMB_HEIGHT);
 			addChild(button);
 			
-			mouseEnabled		= false;
-			mouseChildren		= true;
+			mouseEnabled				= false;
+			mouseChildren				= true;
 		}
 		
 		/**

@@ -69,7 +69,8 @@ package {
 				
 				// visualizers
 				new Plugin('Basic',					BasicVisualizer, 'Visualizer'),
-				new Plugin('Circles',				CircleVisualizer, 'CircleVisualizer')
+				new Plugin('Circles',				CircleVisualizer, 'CircleVisualizer'),
+				new Plugin('SmoothVisualizer',		SmoothVisualizer, 'SmoothVisualizer')
 			);
 			
 		}

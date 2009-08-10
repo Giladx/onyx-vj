@@ -54,20 +54,6 @@
 			_bf = new BlurFilter(spectrumBlur, spectrumBlur, 1);
 		}
 		
-		/**
-			var step:Number					= DISPLAY_WIDTH / 127;
-			var graphics:Graphics			= shape.graphics;
-			graphics.clear();
-			var analysis:Array = SpectrumAnalyzer.getSpectrum(true);
-			for (var count:int = 0; count < analysis.length; count++) {
-				var value:Number	= analysis[count];
-				var color:uint		= 0xFFFFFF * value;
-				graphics.beginFill(color);
-				graphics.drawCircle(count * 2.5, 120, value * 100);
-				graphics.endFill();
-			}
-			
-			info.render(shape);		 */
 		override public function render(info:RenderInfo):void {
 			var graphics:Graphics			= _sprite.graphics;
 			graphics.clear();

@@ -63,7 +63,6 @@ package {
 			Factory.registerClass(DropDown);
 			Factory.registerClass(SliderVFrameRate);
 			Factory.registerClass(SliderV);
-			Factory.registerClass(DropDown);
 			Factory.registerClass(SliderV2);
 			Factory.registerClass(TextControl);
 			Factory.registerClass(Status);

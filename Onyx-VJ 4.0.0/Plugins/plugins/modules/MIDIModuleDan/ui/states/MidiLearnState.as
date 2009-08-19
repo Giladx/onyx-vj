@@ -90,10 +90,12 @@ package ui.states {
 			}		
 			// Highlight already set
 			for (i in Midi.controlsSet) {
-				control						= i as UserInterfaceControl;
-				transform					= control.transform;
-				_storeTransform[control]	= Midi.controlsSet[control];
-				transform.colorTransform	= _storeTransform[control];//MIDI_HIGHLIGHT_SET;
+				if (i!='null') {
+					control						= i as UserInterfaceControl;
+					transform					= control.transform;
+					_storeTransform[control]	= Midi.controlsSet[control];
+					transform.colorTransform	= _storeTransform[control];//MIDI_HIGHLIGHT_SET;
+				}
 			}
 						
 			DISPLAY_STAGE.addEventListener(MouseEvent.MOUSE_DOWN, _onControlSelect, true, 9999);

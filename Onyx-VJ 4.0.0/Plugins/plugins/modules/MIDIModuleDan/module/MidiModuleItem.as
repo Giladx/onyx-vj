@@ -38,7 +38,7 @@ package module {
 		public function MidiModuleItem():void {
 			
 			_host = '127.0.0.1';
-			_port = '20000';
+			_port = '10000';
 			
 			// init			
 			super(new ModuleInterfaceOptions(null, 140, 110));
@@ -190,7 +190,6 @@ package module {
             
             // SC: TODO...n==3 very restrictive due to startup errors!!
             if(n==3) Midi.receiveMessage(data);
-            
         }
         
 		public function sendData(bytes:ByteArray):void {

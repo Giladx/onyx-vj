@@ -106,6 +106,7 @@ package midi {
 			     switch(command) {
 	                case NOTE_OFF:
 	                case NOTE_ON:
+	                case PITCH_WHEEL:
 	                    behavior.setValue(data1);
 	                    break;
 	                case CONTROL_CHANGE:

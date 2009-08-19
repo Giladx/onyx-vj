@@ -15,12 +15,13 @@
  */
 package ui.states {
 	
+	
 	import flash.display.*;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.*;
 	import flash.utils.Dictionary;
-			
+	
 	import onyx.core.*;
 	import onyx.events.*;
 	import onyx.parameter.*;
@@ -53,7 +54,7 @@ package ui.states {
 		 * 	@constructor
 		 */
 		public function MidiLearnState():void {
-			
+
 			super('MidiLearnState');
 								
 		}
@@ -62,7 +63,7 @@ package ui.states {
 		 * 	initialize
 		 */
 		override public function initialize():void {
-			
+
 			// check for state registered, reload
 			if(!StateManager.getStates('MidiLearnState')) {
 				Console.output('reloaded');
@@ -78,8 +79,10 @@ package ui.states {
 			_storeTransform = new Dictionary(true);
 			
 			if(!Midi.controlsSet) {
-				Midi.controlsSet = new Dictionary(true);	
-			} 
+				Midi.controlsSet = new Dictionary(true);
+	
+			}
+
 			
 			// Highlight all the controls
 			for (i in controls) {
@@ -106,7 +109,6 @@ package ui.states {
 		 * 	@private
 		 */
 		private function _onControlSelect(event:MouseEvent):void {
-			
 			var clicked:DisplayObject = event.target as DisplayObject;
 
 			_control = null;
@@ -125,7 +127,6 @@ package ui.states {
 			
 			// success, start the next process
 			if (_control) {
-				
 				Midi.instance.addEventListener(MidiEvent.DATA, _onMidi);
 				_control.addEventListener(KeyboardEvent.KEY_DOWN, _onKey);
 				
@@ -138,12 +139,9 @@ package ui.states {
 				transform.colorTransform	= MIDI_HIGHLIGHT;
 							
 			} else {
-
 				// Clicked outside any control - abort learning
 				StateManager.removeState(this);
-				
 			}
-			
 			// stop propagation
 			event.stopPropagation();
 		}
@@ -184,14 +182,15 @@ package ui.states {
 			}
 			
 		}
+
 		/**
 		 * 	@private
 		 */
 		private function _onMidi(event:MidiEvent):void {
-			
 				// new register
 				Midi.controlsSet[_control] = 
 					Midi.registerControl(_control.getParameter(), event.midihash);
+					
 				_control.transform.colorTransform = Midi.controlsSet[_control];
 				
 				// reset and wait for another midi control
@@ -200,23 +199,22 @@ package ui.states {
 				initialize();
 						
 		}
-
     	/**
     	 * 	@private
     	 */
 		private function _unHighlight():void {
 			
 			var controls:Dictionary = UserInterface.getAllControls();
-			
 			for (var i:Object in controls) {
 				var control:UserInterfaceControl	= i as UserInterfaceControl;
 				var color:ColorTransform	= _storeTransform[control];
 				if (color) {
 					var transform:Transform		= control.transform;
-					transform.colorTransform	= DEFAULT;
+					transform.colorTransform	= new ColorTransform(.1,1,1,.3);
 					delete _storeTransform[control];
 				}
 			} 
+			
 		}
 		
 	}

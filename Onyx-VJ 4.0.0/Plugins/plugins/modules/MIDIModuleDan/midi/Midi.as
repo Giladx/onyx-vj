@@ -32,13 +32,13 @@ package midi {
 					
 	final public class Midi extends Module {
 		
-		public static const NOTE_OFF:int                  = 0x80;
-		public static const NOTE_ON:int                   = 0x90;
-        public static const POLYPHONIC_KEY_PRESSURE:int   = 0xa0;
-        public static const CONTROL_CHANGE:int            = 0xb0; 
-        public static const PROGRAM_CHANGE:int            = 0xc0; 
-        public static const KEY_PRESSURE:int              = 0xd0; 
-        public static const PITCH_WHEEL:int               = 0xe0;
+		public static const NOTE_OFF:int                  = 0x80;//128
+		public static const NOTE_ON:int                   = 0x90;//144
+        public static const POLYPHONIC_KEY_PRESSURE:int   = 0xa0;//160
+        public static const CONTROL_CHANGE:int            = 0xb0;//176
+        public static const PROGRAM_CHANGE:int            = 0xc0;//192 
+        public static const KEY_PRESSURE:int              = 0xd0;//208
+        public static const PITCH_WHEEL:int               = 0xe0;//224
         public static const SYSTEM_MESSAGE:int            = 0xe0;
                            
 		/**
@@ -66,7 +66,7 @@ package midi {
 		 * 	Behavior/midihash crossmap
 		 */
 		private static var _map:Dictionary;
-		        
+ 		        
 		/**
 		 * 	@constructor
 		 */
@@ -98,14 +98,17 @@ package midi {
 			var data1:uint       = data.readUnsignedByte();
 			var data2:uint       = data.readUnsignedByte();
 		      
-		    var midihash:uint    = ((status<<8)&0xFF00) | data1&0xFF;
+		    var midihash:uint    = ((status<<8)&0xFF00);//((status<<8)&0xFF00) | data1&0xFF;
 			
 			var behavior:IMidiControlBehavior = _map[midihash]; 
-										
+							
 			if(behavior) {
 			     switch(command) {
 	                case NOTE_OFF:
+	                    break;
 	                case NOTE_ON:
+	                    behavior.setValue(data1);
+	                    break;
 	                case PITCH_WHEEL:
 	                    behavior.setValue(data1);
 	                    break;
@@ -114,6 +117,7 @@ package midi {
 	                    break;
 	                
 	                default:
+	                    behavior.setValue(data1);
                  }
 			}
             
@@ -156,7 +160,7 @@ package midi {
             	// check if alredy have this midihash
 				for (var val:Object in _map) {
 					if(val==midihash.toString()) {
-						controlsSet[(_map[val].control as Parameter).getMetaData('ui')] = MIDI_HIGHLIGHT;
+						if (_map[val]) controlsSet[(_map[val].control as Parameter).getMetaData('ui')] = MIDI_HIGHLIGHT;
 						unregisterControl(midihash);
 					}
 				}
@@ -171,26 +175,26 @@ package midi {
 					
 					// toggle messages -- need to add note on, note off behavior
 					case NOTE_OFF:
+						break;
 					case NOTE_ON:
-					
 						if (control is ParameterExecuteFunction) {
 							behavior = new ExecuteBehavior(control as ParameterExecuteFunction);
+						} else if (control is ParameterNumber) {
+							behavior = new NumericBehavior(control as ParameterNumber);
+						} else if (control is ParameterArray) {
+							behavior = new NumericRange(control as ParameterArray);
 						}
-	
 						_map[midihash] = behavior;
-	
 						break;
 						
 					// slider value messages
 					case CONTROL_CHANGE: 
 					case PITCH_WHEEL:
-	
 						if (control is ParameterNumber) {
 							behavior = new NumericBehavior(control as ParameterNumber);
 						} else if (control is ParameterArray) {
 							behavior = new NumericRange(control as ParameterArray);
 						}
-					
 						_map[midihash] = behavior;
 				
 						break;
@@ -214,10 +218,10 @@ package midi {
 		 * 
 		 */
 		public static function unregisterControl(midihash:uint):void {
-			
-			delete _map[midihash].control.getMetaData(tag);			
-			delete _map[midihash];
-			           
+			if (_map[midihash]) {
+				delete _map[midihash].control.getMetaData(tag);			
+				delete _map[midihash];
+			}           
 		}
 			
 		/**
@@ -262,7 +266,7 @@ package midi {
         }
         
         private static function _backupControls(controls:Parameters):Dictionary {
-        	
+       	
         	var _hashes:Dictionary = new Dictionary(false);
         	for each(var control:Parameter in controls) {
         		_hashes[control.name] = control.getMetaData(tag); 

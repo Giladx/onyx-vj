@@ -36,7 +36,9 @@ package onyx.plugin {
 		 * 
 		 */
 		final override public function toString():String {
-			return 'onyx-visualizer://' + _plugin.name;
+			var rt:String;
+			if (_plugin) rt=_plugin.name;
+			return 'onyx-visualizer://' + rt;
 		}
 	}
 }

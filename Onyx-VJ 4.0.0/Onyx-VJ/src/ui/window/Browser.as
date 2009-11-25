@@ -245,7 +245,7 @@ package ui.window {
 
 					index		= folders.getChildIndex(control);
 
-					control.x	= 0,
+					control.x	= 0;
 					control.y	= FOLDER_HEIGHT * index;
 
 					control.addEventListener(MouseEvent.MOUSE_DOWN, folderDown);
@@ -257,8 +257,10 @@ package ui.window {
 					index		= files.getChildIndex(control);
 	
 					// position it
-					control.x	= (index % FILES_PER_ROW) * FILE_WIDTH,
-					control.y	= ((index++ / FILES_PER_ROW) >> 0) * FILE_HEIGHT;
+					control.x	= (index % FILES_PER_ROW) * FILE_WIDTH;
+					index++;
+					control.y	= ((index / FILES_PER_ROW) >> 0) * FILE_HEIGHT;
+					//compile error: control.y	= ((index++ / FILES_PER_ROW) >> 0) * FILE_HEIGHT;
 					
 					// start listening to start dragging
 					control.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);

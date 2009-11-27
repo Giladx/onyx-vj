@@ -15,8 +15,9 @@
  */
 package onyx.asset.air {
 	
-	import flash.filesystem.File;
+	import flash.system.LoaderContext;
 	
-	internal var AIR_ROOT:File;
+	public const VP_CONTEXT:LoaderContext	= new LoaderContext();
+	VP_CONTEXT.allowLoadBytesCodeExecution	= true;
 	
 }

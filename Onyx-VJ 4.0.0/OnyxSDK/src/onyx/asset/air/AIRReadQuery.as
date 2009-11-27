@@ -21,12 +21,12 @@
 	
 	import onyx.asset.*;
 	
-	internal final class AIRReadQuery extends AssetQuery {
+	internal final class VPReadQuery extends AssetQuery {
 		
 		/**
 		 * 
 		 */
-		public function AIRReadQuery(path:String, callback:Function):void {
+		public function VPReadQuery(path:String, callback:Function):void {
 			super(path, callback);
 		}
 		
@@ -34,7 +34,7 @@
 		 * 
 		 */
 		public function query():void {
-			var file:File			= AIR_ROOT.resolvePath(path);
+			var file:File			= VP_ROOT.resolvePath(path);
 			var stream:FileStream	= new FileStream();
 			stream.addEventListener(Event.COMPLETE, handler); 
 			stream.openAsync(file, FileMode.READ);

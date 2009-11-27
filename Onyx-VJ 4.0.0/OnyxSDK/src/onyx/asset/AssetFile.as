@@ -64,7 +64,7 @@ package onyx.asset {
 				}
 			}
 
-			adapter.queryDirectory(path, callback);
+			//adapter.queryDirectory(path, callback);
 		}
 		
 		/**

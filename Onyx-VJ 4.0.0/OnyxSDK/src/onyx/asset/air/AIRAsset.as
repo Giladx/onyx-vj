@@ -23,7 +23,7 @@ package onyx.asset.air {
 	/**
 	 * 
 	 */
-	public final class AIRAsset extends AssetFile {
+	public final class VPAsset extends AssetFile {
 		
 		/**
 		 * 	@private
@@ -33,7 +33,7 @@ package onyx.asset.air {
 		/**
 		 * 
 		 */
-		public function AIRAsset(file:File):void {
+		public function VPAsset(file:File):void {
 			this.file = file;
 		}
 		
@@ -48,7 +48,7 @@ package onyx.asset.air {
 		 * 
 		 */
 		override public function get path():String {
-			return getRelativePath(AIR_ROOT, file);	
+			return getRelativePath(VP_ROOT, file);	
 		}
 		
 		/**

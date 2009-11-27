@@ -27,7 +27,7 @@ package onyx.asset.air {
 	/**
 	 * 
 	 */
-	public final class AIRAdapter implements IAssetAdapter {
+	public final class VPAdapter implements IAssetAdapter {
 		
 		/**
 		 * 	Cache
@@ -37,15 +37,15 @@ package onyx.asset.air {
 		/**
 		 * 
 		 */
-		public static function getDirectoryCache(path:String):AIRDirectoryQuery {
+		public static function getDirectoryCache(path:String):VPDirectoryQuery {
 			return cache[path];
 		}
 		
 		/**
 		 * 
 		 */
-		public function AIRAdapter(root:String):void {
-			AIR_ROOT = new File(root);
+		public function VPAdapter(root:String):void {
+			VP_ROOT = new File(root);
 		}
 	
 		/**
@@ -53,7 +53,7 @@ package onyx.asset.air {
 		 */
 		public function queryDirectory(path:String, callback:Function):void {
 
-			cache[path] = new AIRDirectoryQuery(path, callback);
+			cache[path] = new VPDirectoryQuery(path, callback);
 			
 		}
 		
@@ -61,21 +61,21 @@ package onyx.asset.air {
 		 * 	Resolves a path to content
 		 */
 		public function queryContent(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void {
-			new AIRContentQuery(path, callback, layer, settings, transition);
+			new VPContentQuery(path, callback, layer, settings, transition);
 		}
 		
 		/**
 		 * 
 		 */
 		public function save(path:String, callback:Function, bytes:ByteArray, extension:String):void {
-			new AIRSaveQuery(path, callback, bytes);
+			new VPSaveQuery(path, callback, bytes);
 		}
 		
 		/**
 		 * 
 		 */
 		public function queryFile(path:String, callback:Function):void {
-			var query:AIRReadQuery = new AIRReadQuery(path, callback);
+			var query:VPReadQuery = new VPReadQuery(path, callback);
 			query.query();
 		}
 		
@@ -83,14 +83,14 @@ package onyx.asset.air {
 		 * 
 		 */
 		public function browseForSave(callback:Function, title:String, bytes:ByteArray, extension:String):void {
-			new AIRSaveBrowseQuery(callback, title, bytes, extension);
+			new VPSaveBrowseQuery(callback, title, bytes, extension);
 		}
 		
 		/**
 		 * 
 		 */
 		public function resolvePath(path:String):String {
-			return AIR_ROOT.resolvePath(path).nativePath;
+			return VP_ROOT.resolvePath(path).nativePath;
 		}
 		
 		/**

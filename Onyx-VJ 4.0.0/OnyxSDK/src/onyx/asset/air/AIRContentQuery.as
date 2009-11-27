@@ -32,7 +32,7 @@ package onyx.asset.air {
 	/**
 	 * 
 	 */
-	public final class AIRContentQuery extends AssetQuery {
+	public final class VPContentQuery extends AssetQuery {
 		
 		/**
 		 * 	@private
@@ -45,7 +45,7 @@ package onyx.asset.air {
 		/**
 		 * 
 		 */
-		public function AIRContentQuery(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void {
+		public function VPContentQuery(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void {
 			
 			//
 			super(path, callback);
@@ -64,7 +64,7 @@ package onyx.asset.air {
 		 * 	@private
 		 * 	Executes callback
 		 */
-		private function executeContent(query:AIRContentQuery, event:Event, content:Content = null):void {
+		private function executeContent(query:VPContentQuery, event:Event, content:Content = null):void {
 			query.callback(event, content, settings, transition);
 		}
 				
@@ -74,7 +74,7 @@ package onyx.asset.air {
 		internal function loadContent():void {
 			
 			// resolve the file path
-			var file:File = AIR_ROOT.resolvePath(path);
+			var file:File = VP_ROOT.resolvePath(path);
 			
 			// depending on the extension, do different things
 			switch (file.extension) {
@@ -87,12 +87,12 @@ package onyx.asset.air {
 				case '3gp':
 				case 'flv':
 				
-					var stream:Stream		= new Stream(AIR_ROOT.resolvePath(path).nativePath);
+					var stream:Stream		= new Stream(VP_ROOT.resolvePath(path).nativePath);
 					stream.bufferTime		= 0;
 					stream.soundTransform	= new SoundTransform(0);
 					stream.addEventListener(Event.COMPLETE,				streamComplete);
 					stream.addEventListener(NetStatusEvent.NET_STATUS,	streamComplete);
-					stream.play(AIR_ROOT.resolvePath(path).nativePath);
+					stream.play(VP_ROOT.resolvePath(path).nativePath);
 					
 					break;
 					
@@ -104,7 +104,7 @@ package onyx.asset.air {
 					
 					// load
 					sound.load(
-						new URLRequest(AIR_ROOT.resolvePath(path).nativePath)
+						new URLRequest(VP_ROOT.resolvePath(path).nativePath)
 					);
 					
 					break;
@@ -163,7 +163,7 @@ package onyx.asset.air {
 			fs.close();
 			
 			// resolve the file path
-			var file:File = AIR_ROOT.resolvePath(path);
+			var file:File = VP_ROOT.resolvePath(path);
 			
 			var c:Content	= new ContentONR(layer, path, bytes);
 			
@@ -196,7 +196,7 @@ package onyx.asset.air {
 				var loader:Loader	= new Loader();
 				var info:LoaderInfo	= loader.contentLoaderInfo;
 				info.addEventListener(Event.COMPLETE, contentHandler);
-				loader.loadBytes(bytes, AIR_CONTEXT);
+				loader.loadBytes(bytes, VP_CONTEXT);
 			}
 		}
 		

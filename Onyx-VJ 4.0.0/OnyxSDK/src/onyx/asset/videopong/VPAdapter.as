@@ -36,15 +36,16 @@ package onyx.asset.videopong {
 		/**
 		 * 
 		 */
-		public static function getDirectoryCache(path:String):AIRDirectoryQuery {
+		/*public static function getDirectoryCache(path:String):AIRDirectoryQuery {
 			return cache[path];
-		}
+		}*/
 		
 		/**
 		 * 
 		 */
-		public function VPAdapter(root:String):void {
-			AIR_ROOT = new File(root);
+		//public function VPAdapter(root:String):void {
+		public function VPAdapter():void {
+			//AIR_ROOT = new File(root);
 		}
 		
 		/**
@@ -52,7 +53,7 @@ package onyx.asset.videopong {
 		 */
 		public function queryDirectory(path:String, callback:Function):void {
 			
-			cache[path] = new AIRDirectoryQuery(path, callback);
+			//cache[path] = new AIRDirectoryQuery(path, callback);
 			
 		}
 		
@@ -60,36 +61,37 @@ package onyx.asset.videopong {
 		 * 	Resolves a path to content
 		 */
 		public function queryContent(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void {
-			new AIRContentQuery(path, callback, layer, settings, transition);
+			//new AIRContentQuery(path, callback, layer, settings, transition);
 		}
 		
 		/**
 		 * 
 		 */
 		public function save(path:String, callback:Function, bytes:ByteArray, extension:String):void {
-			new AIRSaveQuery(path, callback, bytes);
+			//new AIRSaveQuery(path, callback, bytes);
 		}
 		
 		/**
 		 * 
 		 */
 		public function queryFile(path:String, callback:Function):void {
-			var query:AIRReadQuery = new AIRReadQuery(path, callback);
-			query.query();
+			/*var query:AIRReadQuery = new AIRReadQuery(path, callback);
+			query.query();*/
 		}
 		
 		/**
 		 * 
 		 */
 		public function browseForSave(callback:Function, title:String, bytes:ByteArray, extension:String):void {
-			new AIRSaveBrowseQuery(callback, title, bytes, extension);
+			//new AIRSaveBrowseQuery(callback, title, bytes, extension);
 		}
 		
 		/**
 		 * 
 		 */
 		public function resolvePath(path:String):String {
-			return AIR_ROOT.resolvePath(path).nativePath;
+			//return AIR_ROOT.resolvePath(path).nativePath;
+			return "";
 		}
 		
 		/**

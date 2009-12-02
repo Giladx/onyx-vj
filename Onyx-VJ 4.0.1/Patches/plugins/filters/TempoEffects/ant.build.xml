@@ -1,0 +1,34 @@
+<project name="build.module" default="build">
+
+	<property file="../../../build.ini" />
+
+	<path id="currentDirectory">
+		<fileset dir=".">
+			<include name="*.as"/>
+		</fileset>
+	</path>
+
+	<property name="plugin.dir"	refid="currentDirectory" />
+	<property name="plugin.root" location="${output.root}" />
+
+	<property name="currentDir" location="." />
+
+	<dirname	property="plugin.target"	file="${plugin.dir}" />
+	<basename	property="plugin.name"		file="${plugin.dir}" suffix=".as" />
+
+	<property name="output.path"	location="../../../../${onyx.filterroot}\${plugin.name}.swf" />
+	<property name="onyx.corepath"	location="../../../../${onyx.swcpath}/OnyxSDK.swc" />
+	
+	<target name="build">
+		
+		<echo>COMPILING: ${currentDir}</echo>
+		
+		<!-- compile  -->
+		<exec executable="${compiler.mxmlc}" failonerror="true">
+			<arg line="-output ${output.path}"/>
+			<arg line="-compiler.library-path+=${onyx.corepath}"/>
+			<arg line="${plugin.name}.as"/>
+		</exec>
+	</target>
+	
+</project>

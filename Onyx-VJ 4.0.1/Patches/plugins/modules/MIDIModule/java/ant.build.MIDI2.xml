@@ -1,0 +1,60 @@
+<project name="MIDI2" default="dist" basedir=".">
+    
+    <!-- set global properties for this build -->
+    <property name="src" location="src"/>
+    <property name="bin" location="bin"/>
+    
+	<property name="onyx" location="bin"/>
+	
+    <target name="init">
+        <!-- Create the time stamp -->
+        <tstamp/>
+        <mkdir dir="${bin}"/>
+    </target>
+
+    <target name="compile" depends="init" description="compile the source " >
+		<javac srcdir="${src}" destdir="${bin}"/>
+	</target>
+
+    <target name="dist" depends="compile" description="generate the JAR" >
+        
+        <delete file="MANIFEST.MF"/>
+        <delete file="MIDI2.jar"/>
+        
+		<property name="version.num" value="1.00"/>
+        <buildnumber file="build.num"/>
+	 
+		<manifest file="MANIFEST.MF">
+            <attribute name="Built-By" value="${user.name}"/>
+            <attribute name="Main-Class" value="ui.MIDI2"/>
+			<attribute name="Implementation-Version" 
+                 value="${version.num}-b${build.number}"/> 
+        </manifest>
+        
+        <jar jarfile="MIDI2.jar" 
+            basedir="${bin}"
+			manifest="MANIFEST.MF"/>
+		
+		<copy todir="..\InstallerPackage" file="MIDI2.jar"/>
+		
+	</target>
+	
+	<target name="kickstart" depends="dist" description="generate the EXE">	
+		<taskdef name="kickstart" 
+           classname="it.sauronsoftware.kickstart.ant.KickstartTask"
+           classpath="..\kickstart\lib\kickstart.jar" /> 
+        <kickstart name="MIDI2"
+            type="gui"
+            jar="MIDI2.jar"
+            exe="..\InstallerPackage\MIDI2.exe"
+            icon="${src}\images\arrow_switch.ico"/>  			
+    </target>
+    	    
+    <target name="clean" description="clean up" >
+        	
+        <!-- Delete the ${bin} and ${dist} directory trees -->
+        <delete dir="${bin}"/>
+		
+    </target>
+	
+</project>

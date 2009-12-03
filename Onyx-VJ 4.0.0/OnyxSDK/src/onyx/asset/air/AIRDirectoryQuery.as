@@ -28,7 +28,7 @@ package onyx.asset.air {
 	/**
 	 * 
 	 */
-	public final class VPDirectoryQuery extends AssetQuery {
+	public final class AIRDirectoryQuery extends AssetQuery {
 		
 		/**
 		 * 	@internal
@@ -43,7 +43,7 @@ package onyx.asset.air {
 		/**
 		 * 
 		 */
-		public function VPDirectoryQuery(path:String, callback:Function):void {
+		public function AIRDirectoryQuery(path:String, callback:Function):void {
 			
 			// super
 			super(path, callback);
@@ -60,7 +60,7 @@ package onyx.asset.air {
 			
 			list = [];
 
-			var file:File	= VP_ROOT.resolvePath(path);
+			var file:File	= AIR_ROOT.resolvePath(path);
 			
 			// grab files
 			file.addEventListener(FileListEvent.DIRECTORY_LISTING, fileHandler);
@@ -79,7 +79,7 @@ package onyx.asset.air {
 			// up a folder?
 			if (path.length > ONYX_LIBRARY_PATH.length) {
 
-				list.push(new VPAsset(VP_ROOT.resolvePath(path).parent))
+				list.push(new AIRAsset(AIR_ROOT.resolvePath(path).parent))
 				
 			}
 
@@ -87,7 +87,7 @@ package onyx.asset.air {
             for each (file in files) {
 
                 if (file.isDirectory || valid(file)) {
-                    var asset:AssetFile = new VPAsset(file);
+                    var asset:AssetFile = new AIRAsset(file);
                     list.push(asset);
                 }
             }

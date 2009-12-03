@@ -24,12 +24,12 @@ package onyx.asset.air {
 	/**
 	 * 
 	 */
-	public final class VPSaveQuery extends AssetQuery {
+	public final class AIRSaveQuery extends AssetQuery {
 		
 		/**
 		 * 
 		 */
-		public function VPSaveQuery(path:String, callback:Function, bytes:ByteArray):void {
+		public function AIRSaveQuery(path:String, callback:Function, bytes:ByteArray):void {
 			super(path, callback);
 			
 			init(bytes);
@@ -39,7 +39,7 @@ package onyx.asset.air {
 		 * 	@private
 		 */
 		private function init(bytes:ByteArray):void {
-			writeBinaryFile(VP_ROOT.resolvePath(path), bytes);
+			writeBinaryFile(AIR_ROOT.resolvePath(path), bytes);
 		}
 	}
 }

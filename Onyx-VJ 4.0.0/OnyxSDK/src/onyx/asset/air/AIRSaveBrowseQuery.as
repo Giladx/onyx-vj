@@ -26,7 +26,7 @@ package onyx.asset.air {
 	/**
 	 * 
 	 */
-	public final class VPSaveBrowseQuery extends AssetQuery {
+	public final class AIRSaveBrowseQuery extends AssetQuery {
 		
 		/**
 		 * 	@private
@@ -41,7 +41,7 @@ package onyx.asset.air {
 		/**
 		 * 
 		 */
-		public function VPSaveBrowseQuery(callback:Function, title:String, bytes:ByteArray, extension:String) {
+		public function AIRSaveBrowseQuery(callback:Function, title:String, bytes:ByteArray, extension:String) {
 			
 			this.bytes		= bytes;
 			this.extension	= extension;

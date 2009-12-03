@@ -82,7 +82,7 @@ package ui.controls {
 
 			button.initialize(width, height);
 			
-			label.defaultTextFormat	= TEXT_DEFAULT;
+			//label.defaultTextFormat	= TEXT_DEFAULT;
 			label.width				= width + 3,
 			label.height			= height,
 			label.x					= 0,

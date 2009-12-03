@@ -18,6 +18,7 @@ package onyx.core {
 	import flash.events.*;
 	
 	import onyx.events.ConsoleEvent;
+	import onyx.utils.file.*;
 
 	[Event(name="output",	type="onyx.events.ConsoleEvent")]
 	
@@ -49,6 +50,8 @@ package onyx.core {
 		public static function output(... args:Array):void {
 			
 			REUSABLE_EVENT.message	= args.join(' ');
+			writeLogFile( REUSABLE_EVENT.message );
+
 			dispatcher.dispatchEvent(REUSABLE_EVENT);
 			
 		}

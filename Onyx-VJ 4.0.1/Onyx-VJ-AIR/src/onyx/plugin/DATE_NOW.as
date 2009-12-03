@@ -3,6 +3,7 @@
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -13,24 +14,6 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package onyx.utils.file {
-	
-	import flash.filesystem.*;
-	
-	/**
-	 * 	Simple utility to write a text file synchronously
-	 */
-	public function writeTextFile(file:File, contents:String):void {
-		
-		// create connection
-		const stream:FileStream = new FileStream();
-		stream.open(file, FileMode.WRITE);
-		
-		// write
-		stream.writeUTFBytes(contents);
-		
-		// close the file
-		stream.close();
-		
-	}
+package onyx.plugin { 
+	public var DATE_NOW:String = new Date().getUTCMinutes().toString();
 }

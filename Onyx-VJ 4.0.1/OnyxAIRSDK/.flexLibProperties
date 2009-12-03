@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties version="1">
+  <includeClasses>
+    <classEntry path="onyx.core.ONRFile"/>
+    <classEntry path="onyx.utils.file.getDirectoryTree"/>
+    <classEntry path="onyx.utils.file.readTextFile"/>
+    <classEntry path="onyx.utils.file.readBinaryFile"/>
+    <classEntry path="onyx.utils.file.writeBinaryFile"/>
+    <classEntry path="onyx.utils.file.getRelativePath"/>
+    <classEntry path="onyx.utils.file.filterFileArray"/>
+    <classEntry path="onyx.utils.file.writeTextFile"/>
+    <classEntry path="onyx.asset.air.AIRAdapter"/>
+    <classEntry path="onyx.asset.air.AIRAsset"/>
+    <classEntry path="onyx.asset.air.AIRContentQuery"/>
+    <classEntry path="onyx.asset.air.AIRReadQuery"/>
+    <classEntry path="onyx.asset.air.AIRSaveBrowseQuery"/>
+    <classEntry path="onyx.asset.air.AIR_ROOT"/>
+    <classEntry path="onyx.asset.air.AIRSaveQuery"/>
+    <classEntry path="onyx.asset.air.AIRDirectoryQuery"/>
+    <classEntry path="onyx.asset.air.AIR_CONTEXT"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

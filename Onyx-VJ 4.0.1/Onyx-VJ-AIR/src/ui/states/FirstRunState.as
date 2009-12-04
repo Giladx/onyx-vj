@@ -147,6 +147,7 @@ package ui.states {
 			}
 			else
 			{
+				Console.output( "FirstRunState, app:/root/ exist: " + appDirectory.nativePath );
 				var copyFiles:Array		= getDirectoryTree(appDirectory, filter);
 				
 				// loop and copy folders

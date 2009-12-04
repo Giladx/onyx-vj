@@ -1,9 +1,10 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
- *
+ * Bruce Lane
+ * 
  * All rights reserved.
  *
  * Licensed under the CREATIVE COMMONS Attribution-Noncommercial-Share Alike 3.0
@@ -20,7 +21,8 @@ package ui.styles {
 	import onyx.asset.*;
 	import onyx.core.Console;
 	
-	public const TEXT_DEFAULT:TextFormat = new TextFormat(new AssetDefaultFont().fontName, 7, 0xe4eaef);
+	//public const TEXT_DEFAULT:TextFormat = new TextFormat(new AssetDefaultFont().fontName, 7, 0xe4eaef);
+	public const TEXT_DEFAULT:TextFormat = new TextFormat('Verdana', 10, 0xe4eaef);
 	
 	TEXT_DEFAULT.leading		= 3;
 	Console.output( "ui.styles.TEXT_DEFAULT: " + TEXT_DEFAULT.font);

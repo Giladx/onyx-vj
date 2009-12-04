@@ -40,18 +40,20 @@ package ui.text {
 		
 		/**
 		 * 	@constructor
+		 *  appear in white input textfields
 		 */
 		public function TextFieldCenter():void {
 			
 			super.selectable		= false,
-			super.defaultTextFormat	= TEXT_DEFAULT,
+			//super.defaultTextFormat	= TEXT_DEFAULT,
+			super.defaultTextFormat	= new TextFormat('Verdana', 10, 0x0000FF),
 			super.gridFitType		= GridFitType.PIXEL,
 			super.antiAliasType		= AntiAliasType.NORMAL,
 			super.autoSize			= TextFieldAutoSize.LEFT,
-			super.embedFonts		= true,
+			//super.embedFonts		= true,
 			super.mouseEnabled		= false,
 			super.mouseWheelEnabled	= false;
-			
+			super.textColor			= 0x0000FF;
 		}
 		
 		/**

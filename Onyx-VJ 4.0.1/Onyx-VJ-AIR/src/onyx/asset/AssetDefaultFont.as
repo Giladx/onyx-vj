@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -15,16 +16,50 @@
  */
 package onyx.asset {
 	
+	import flash.filesystem.File;
 	import flash.text.Font;
-	import flash.text.TextFormat;
+	
+	import onyx.core.Console;
 	
 	[Embed(
-			source='/assets/Pixel.ttf',
+			source='app:/assets/Pixel.ttf',///assets/Pixel.ttf',
 			fontName='DefaultFont',
 			advancedAntiAliasing='false',
-			mimeType='application/x-font',
-			unicodeRange='U+0020-U+0040,U+0041-U+005A,U+005B-U+0060,U+0061-U+007A,U+007B-U+007F')
+			mimeType='application/x-font')
 	]
+	//,
+			//unicodeRange='U+0020-U+0040,U+0041-U+005A,U+005B-U+0060,U+0061-U+007A,U+007B-U+007F')
 	public final class AssetDefaultFont extends Font {
+		/**
+		 * 	@constructor
+		 */
+		public function AssetDefaultFont() {
+			try {
+				var fontFile:File		= new File('/assets/Pixel.ttf');
+				
+				// load settings file
+				if (!fontFile.exists) {
+					Console.output('AssetDefaultFont, ERROR LOADING FONT FILE:\n',fontFile.nativePath);
+					fontFile = new File('app:/assets/Pixel.ttf');
+					if (!fontFile.exists) {
+						throw new Error('Font file assets/Pixel.ttf doesn\'t exist');
+					}
+					else
+					{
+						Console.output('AssetDefaultFont, font file exists:\n',fontFile.nativePath);
+					}
+				}
+				else
+				{
+					Console.output('AssetDefaultFont, font file exist:\n',fontFile.nativePath);
+				}
+				
+			} catch (e:Error) {
+				
+				Console.output('ERROR LOADING Pixel.ttf FILE:\n', e.message);
+				
+			}
+			Console.output( "AssetDefaultFont" + this.fontType );
+		}
 	}
 }

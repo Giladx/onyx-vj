@@ -22,7 +22,7 @@ package ui.text {
 	import ui.styles.TEXT_DEFAULT;
 	
 	/**
-	 * 	Default TextField
+	 * 	Default TextField (appears on directories, filters)
 	 */
 	public final class TextField extends flash.text.TextField implements IDisposable {
 		
@@ -33,11 +33,12 @@ package ui.text {
 			
 			super.selectable		= false,
 			super.gridFitType		= GridFitType.PIXEL,
-			super.embedFonts		= true,
+			//super.embedFonts		= true,
 			super.antiAliasType		= AntiAliasType.NORMAL,
 			this.mouseEnabled		= false;
-			this.defaultTextFormat	= TEXT_DEFAULT;
-
+			this.defaultTextFormat = new TextFormat('Verdana', 9, 0x00FF00);
+			//this.defaultTextFormat	= TEXT_DEFAULT;
+			super.textColor 		= 0x00FF00;
 		}
 		
 		/**

@@ -141,39 +141,47 @@ package ui.states {
 			
 			// need to verify all the files exist
 			var appDirectory:File	= new File('app:/root/');
-			var copyFiles:Array		= getDirectoryTree(appDirectory, filter);
-			
-			// loop and copy folders
-			for each (var file:File in copyFiles) {
+			if ( !appDirectory.exists )
+			{
+				Console.output( "FirstRunState, Error does not exist: " + appDirectory.nativePath );
+			}
+			else
+			{
+				var copyFiles:Array		= getDirectoryTree(appDirectory, filter);
 				
-				var path:String		= getRelativePath(appDirectory, file);
-				var dest:File		= folder.resolvePath(path);
-				
-				// check for disabled file
-				var disIndex:int	= path.lastIndexOf(dest.type);
-				if (disIndex >= 0) {
-					var disFile:File	= folder.resolvePath(path.substr(0, disIndex) + '-disabled' + dest.type);
-					if (disFile.exists) {
-						continue;
-					}
-				}
-				
-				// check for new file
-				if (!dest.exists || dest.modificationDate < file.modificationDate) {
+				// loop and copy folders
+				for each (var file:File in copyFiles) {
 					
-					// output only one
-					if (!dispatched) {
-						Console.output('*  COPYING DEFAULT FILES  *\n');
-						dispatched = true;
+					var path:String		= getRelativePath(appDirectory, file);
+					var dest:File		= folder.resolvePath(path);
+					
+					// check for disabled file
+					var disIndex:int	= path.lastIndexOf(dest.type);
+					if (disIndex >= 0) {
+						var disFile:File	= folder.resolvePath(path.substr(0, disIndex) + '-disabled' + dest.type);
+						if (disFile.exists) {
+							continue;
+						}
 					}
 					
-					Console.output('Copying: ', path);
-					file.copyTo(dest, true);
+					// check for new file
+					if (!dest.exists || dest.modificationDate < file.modificationDate) {
+						
+						// output only one
+						if (!dispatched) {
+							Console.output('*  COPYING DEFAULT FILES  *\n');
+							dispatched = true;
+						}
+						
+						Console.output('FirstRunState, Copying: ', path);
+						file.copyTo(dest, true);
+					}
 				}
+				// now create the ini file
+				writeTextFile(INIT_FILE, folder.nativePath);
+				
 			}
 			
-			// now create the ini file
-			writeTextFile(INIT_FILE, folder.nativePath);
 			
 			// kill the state
 			StateManager.removeState(this);

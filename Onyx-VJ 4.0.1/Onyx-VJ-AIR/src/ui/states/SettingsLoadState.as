@@ -178,6 +178,10 @@ package ui.states {
 			if (list.length()) {
 				ContentCamera.loadXML(list[0]);
 			}
+			list = core.razuna;
+			if (list.length()) {
+				ContentRazuna.loadXML(list[0]);
+			}
 		}
 	}
 }

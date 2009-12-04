@@ -83,7 +83,7 @@ package ui.states {
 			
 			label.text	=	'*  VERSION ' + VERSION + '  *\n\n' + 
 							'*  THE ONYX TEAM  *\n' +
-							'DANIEL HAI\nSTEFANO COTTAFAVI\n\n*  CONSIDER DONATING  *\nhttp://www.onyx-vj.com\n\n';
+							'DANIEL HAI\nSTEFANO COTTAFAVI\nBRUCE LANE\n\n*  CONSIDER DONATING  *\nhttp://www.onyx-vj.com\n\n';
 			
 			// add the children
 			DISPLAY_STAGE.addChild(image);

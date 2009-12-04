@@ -2,7 +2,7 @@
 
 	<!-- META DATA -->
 	<metadata>
-		<version>3.0.5</version>
+		<version>4.0.1</version>
 	</metadata>
 
 	<init>
@@ -22,7 +22,7 @@
 		
 		<!-- midi settings -->
 		<midi>
-			<enabled>false</enabled>
+			<enabled>true</enabled>
 		</midi>
 		
 		<!-- custom ordering of blendmodes for blendmode controls -->
@@ -39,6 +39,12 @@
 			<difference/>
 			<invert/>
 		</blendModes>
+		
+		<!-- midi settings -->
+		<razuna>
+			<login>onyxvj</login>
+			<pwd>batchass</pwd>
+		</razuna>
 		
 	</core>
 	

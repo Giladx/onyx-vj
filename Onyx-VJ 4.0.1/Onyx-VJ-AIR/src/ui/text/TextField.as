@@ -36,7 +36,7 @@ package ui.text {
 			//super.embedFonts		= true,
 			super.antiAliasType		= AntiAliasType.NORMAL,
 			this.mouseEnabled		= false;
-			//this.defaultTextFormat	= TEXT_DEFAULT;
+			this.defaultTextFormat	= TEXT_DEFAULT;
 
 		}
 		

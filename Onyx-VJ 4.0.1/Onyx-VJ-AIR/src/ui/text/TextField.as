@@ -33,7 +33,7 @@ package ui.text {
 			
 			super.selectable		= false,
 			super.gridFitType		= GridFitType.PIXEL,
-			//super.embedFonts		= true,
+			super.embedFonts		= true,
 			super.antiAliasType		= AntiAliasType.NORMAL,
 			this.mouseEnabled		= false;
 			this.defaultTextFormat	= TEXT_DEFAULT;

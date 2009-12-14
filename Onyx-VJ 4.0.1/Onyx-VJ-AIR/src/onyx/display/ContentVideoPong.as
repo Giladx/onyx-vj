@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -25,10 +26,42 @@ package onyx.display {
 	import onyx.events.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
-			
+	
 	use namespace onyx_ns;
 	
-	public final class ContentMC extends ContentBase {
+	public final class ContentVideoPong extends ContentBase {
+		
+		/**
+		 * 	@private
+		 */
+		private static var login:String = "batchass"; //const?
+		private static var pwd:String = "vptest"; //const?
+		
+		/**
+		 *  Save
+		 */
+		public static function toXML():XML {
+			const xml:XML	= <accounts />;
+			
+			xml.appendChild(
+				<account>
+					<login>{login}</login>
+					<pwd>{pwd}</pwd>
+				</account>
+			)
+			
+			return xml;
+		}
+		
+		/**
+		 *  Load
+		 */
+		public static function loadXML(xml:XML):void {
+			var node:XML = xml.account;
+			login = node.login;
+			pwd = node.pwd;
+		}
+		
 		
 		/**
 		 * 	@private
@@ -53,8 +86,8 @@ package onyx.display {
 			
 			if (!reg) {
 				reg			= new ContentRegistration(),
-				reg.loader	= loader,
-				_dict[path] = reg;
+					reg.loader	= loader,
+					_dict[path] = reg;
 			}
 			
 			reg.refCount++;
@@ -108,17 +141,17 @@ package onyx.display {
 		 * 	@private
 		 */
 		private var mc:MovieClip;
-
+		
 		/**
 		 * 	@constructor
 		 */		
-		public function ContentMC(layer:LayerImplementor, path:String, loader:Loader):void {
-
+		public function ContentVideoPong(layer:Layer, path:String, loader:Loader):void {
+			
 			loaderInfo		= loader.contentLoaderInfo,
 			mc				= loader.content as MovieClip;
-
+			
 			super(layer, path, loader.content, loaderInfo.width, loaderInfo.height);
-
+			
 			_framerate		= 1, // sets the framerate based on the swf framerate
 			_frame			= 0,
 			_lastTime		= getTimer() - DISPLAY_STAGE.frameRate;	// sets the last time we executed
@@ -126,7 +159,7 @@ package onyx.display {
 			_loopStart		= 0;
 			_loopEnd		= 1;
 		}
-
+		
 		/**
 		 * 	Sets the time
 		 */
@@ -153,7 +186,7 @@ package onyx.display {
 		 * 	Updates the bitmap source
 		 */
 		override public function render(info:RenderInfo):void {
-
+			
 			var lastTime:int = getTimer();
 			
 			if (!_paused) {
@@ -170,18 +203,18 @@ package onyx.display {
 				
 				// constrain the frame
 				frame = (frame < startFrame) ? endFrame : Math.max(frame % endFrame, startFrame);
-
+				
 				// save the frame
 				_frame = frame;
-								
+				
 			}
-
+			
 			// store last time
 			_lastTime = lastTime;
-
+			
 			// go to the right frame
 			mc.gotoAndStop(_frame << 0);
-
+			
 			// render
 			super.render(info);
 		}
@@ -193,14 +226,14 @@ package onyx.display {
 		override public function get framerate():Number {
 			return _framerate;
 		}
-
+		
 		/**
 		 * 	Sets framerate
 		 */
 		override public function set framerate(value:Number):void {
 			_framerate = super.__framerate.dispatch(value);
 		}
-
+		
 		/**
 		 * 	Sets the beginning loop point (percentage)
 		 */		
@@ -233,10 +266,10 @@ package onyx.display {
 		 * 	Destroys the content
 		 */
 		override public function dispose():void {
-
+			
 			// dispose
 			super.dispose();
-
+			
 			// unregister from the shared movieclips if it's the last one
 			var value:Boolean = unregister(_path);
 			
@@ -247,6 +280,6 @@ package onyx.display {
 			// remove reference
 			mc		= null;
 		}
-
+		
 	}
 }

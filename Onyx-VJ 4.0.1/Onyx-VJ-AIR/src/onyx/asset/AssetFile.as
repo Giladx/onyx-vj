@@ -41,7 +41,8 @@ package onyx.asset {
 		 * 
 		 */
 		onyx_ns static const protocols:Object	= {
-			camera: new CameraProtocol()
+			camera: new CameraProtocol(),
+			videopong: new VideoPongProtocol()
 		};
 
 		/**

@@ -22,13 +22,12 @@ package onyx.asset {
 	import onyx.core.Console;
 	
 	[Embed(
-			source='app:/assets/Pixel.ttf',///assets/Pixel.ttf',
+			source='app:/assets/Pixel.ttf',
 			fontName='DefaultFont',
 			advancedAntiAliasing='false',
-			mimeType='application/x-font')
+			mimeType='application/x-font',
+			unicodeRange='U+0020-U+0040,U+0041-U+005A,U+005B-U+0060,U+0061-U+007A,U+007B-U+007F')
 	]
-	//,
-			//unicodeRange='U+0020-U+0040,U+0041-U+005A,U+005B-U+0060,U+0061-U+007A,U+007B-U+007F')
 	public final class AssetDefaultFont extends Font {
 		/**
 		 * 	@constructor

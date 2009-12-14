@@ -92,9 +92,15 @@ package ui.window {
 		
 		/**
 		 * 	@private
-		 * 	The browser files button
+		 * 	The Cameras button
 		 */
 		private var buttonCameras:TextButtonIcon;
+		
+		/**
+		 * 	@private
+		 * 	The VideoPong button
+		 */
+		private var buttonVideoPong:TextButtonIcon;
 		
 		/**
 		 * 	@private
@@ -147,6 +153,7 @@ package ui.window {
 			
 			buttonFiles				= new TextButtonIcon(options, 'FILES', new AssetFolder()),
 			buttonCameras			= new TextButtonIcon(options, 'CAMERAS', new AssetIconCamera()),
+			buttonVideoPong			= new TextButtonIcon(options, 'VIDEOPONG', new AssetVideoPong()),
 			
 			files.x					= 4,
 			files.y					= 17,
@@ -155,16 +162,20 @@ package ui.window {
 			buttonFiles.x			= 417,
 			buttonFiles.y			= 192,
 			buttonCameras.x			= 417,
-			buttonCameras.y			= 204;
+			buttonCameras.y			= 204,
+			buttonVideoPong.x		= 417,
+			buttonVideoPong.y		= 180;
 			
 			// add handlers for buttons
 			buttonFiles.addEventListener(MouseEvent.MOUSE_DOWN, fileDown);
 			buttonCameras.addEventListener(MouseEvent.MOUSE_DOWN, fileDown);
+			buttonVideoPong.addEventListener(MouseEvent.MOUSE_DOWN, fileDown);
 			
 			addChild(folders);
 			addChild(files);
 			addChild(buttonFiles);
 			addChild(buttonCameras);
+			addChild(buttonVideoPong);
 			
 			// query default folder
 			AssetFile.queryDirectory(ONYX_LIBRARY_PATH, updateList);
@@ -304,6 +315,11 @@ package ui.window {
 				case buttonCameras:
 				
 					AssetFile.queryDirectory('onyx-query://camera', updateList);
+					
+					break;
+				case buttonVideoPong:
+				
+					AssetFile.queryDirectory('onyx-query://videopong', updateList);
 					
 					break;
 			}

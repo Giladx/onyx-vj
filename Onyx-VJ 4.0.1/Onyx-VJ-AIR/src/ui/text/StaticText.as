@@ -30,12 +30,12 @@ package ui.text {
 			super.autoSize			= TextFieldAutoSize.LEFT,
 			super.selectable		= false,
 			//super.defaultTextFormat	= TEXT_DEFAULT,
-			super.defaultTextFormat	= new TextFormat('Verdana', 10, 0xFF0000),
+			super.defaultTextFormat	= new TextFormat('Verdana', 7, 0xe4eaef),
 			super.gridFitType		= GridFitType.PIXEL,
 			super.height			= 11,
 			//super.embedFonts		= true,
 			super.antiAliasType		= AntiAliasType.NORMAL,
-			super.textColor			= 0xFF0000,//0xb3c4d2,
+			super.textColor			= 0xb3c4d2,
 			super.text				= text;
 			
 		}

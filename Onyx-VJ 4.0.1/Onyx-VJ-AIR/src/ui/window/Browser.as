@@ -193,7 +193,7 @@ package ui.window {
 				this.query	= query;
 				this.list	= list;
 				
-				const dbFile:File = new File(AssetFile.resolvePath(query.path + '/.onyx-cache'));
+				const dbFile:File = new File(AssetFile.resolvePath(query.path + '/.onyx-cache'));//TODO: manage videopong, no files
 				db = new AIRThumbnailDB();
 				
 				if (dbFile.exists) {

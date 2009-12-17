@@ -1,7 +1,7 @@
 package onyx.asset {
 	
-	import flash.media.*;
 	import flash.display.Loader;
+	import flash.media.*;
 	
 	import onyx.display.*;
 	import onyx.plugin.*;
@@ -21,6 +21,8 @@ package onyx.asset {
 		 */
 		public function getProtocolList(path:String):Array {
 			const list:Array = [];
+				list.push(new VideoPongAsset("1st"));
+				list.push(new VideoPongAsset("2nd"));
 			return list;
 		}
 	}

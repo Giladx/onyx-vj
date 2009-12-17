@@ -24,6 +24,7 @@ package ui.states {
 	
 	import onyx.asset.*;
 	import onyx.asset.air.*;
+	import onyx.asset.vp.*;
 	import onyx.core.*;
 	import onyx.plugin.*;
 	import onyx.utils.file.*;
@@ -48,6 +49,7 @@ package ui.states {
 			// initialize the screens
 			initWindow();
 			
+			Onyx.initializeAdapters(new VPAdapter(), new UserInterfaceAPI());
 			// check if file exists
 			if (INIT_FILE.exists) {
 				var path:String = readTextFile(INIT_FILE);
@@ -56,6 +58,7 @@ package ui.states {
 			} else {
 				return openSaveDialog();
 			}
+
 		}
 		
 		/**

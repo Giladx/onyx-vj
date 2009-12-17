@@ -21,6 +21,8 @@ package onyx.asset.vp {
 	import flash.filesystem.*;
 	import flash.media.*;
 	
+	import mx.rpc.AsyncToken;
+	
 	import onyx.asset.*;
 	import onyx.core.*;
 	import onyx.plugin.*;

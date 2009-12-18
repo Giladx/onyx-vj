@@ -10,9 +10,11 @@ import mx.rpc.AbstractOperation;
 import com.adobe.fiber.services.wrapper.HTTPServiceWrapper;
 import mx.rpc.http.HTTPMultiService;
 import mx.rpc.http.Operation;
+import com.adobe.serializers.xml.XMLSerializationFilter;
 [ExcludeClass]
 internal class _Super_VideoPong extends HTTPServiceWrapper
 {      
+    private static var serializer0:XMLSerializationFilter = new XMLSerializationFilter();
        
     // Constructor
     public function _Super_VideoPong()
@@ -28,6 +30,8 @@ internal class _Super_VideoPong extends HTTPServiceWrapper
          operation.method = "POST";
          argsArray = new Array("action","method","user","pass","passhashed");
          operation.argumentNames = argsArray;         
+         operation.serializationFilter = serializer0;
+         operation.contentType = "application/x-www-form-urlencoded";
 		 operation.resultType = Object; 		 
          operations.push(operation);
     

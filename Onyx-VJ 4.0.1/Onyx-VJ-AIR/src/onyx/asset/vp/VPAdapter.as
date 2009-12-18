@@ -18,6 +18,7 @@ package onyx.asset.vp {
 	
 	import flash.utils.*;
 	
+	import mx.messaging.messages.IMessage;
 	import mx.rpc.CallResponder;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
@@ -64,8 +65,13 @@ package onyx.asset.vp {
 		 */
 		public function loginHandler( event:ResultEvent ):void {
 			
-			var response:uint = event.result.Response.ResponseCode;//0 if ok
-			var sess:String = event.result.Response.SessionToken;
+			var ack:IMessage = event.message;
+			trace(ack.body.toString() );
+			var result:String =	ack.body.toString();
+			var res:XML = XML(result);
+			
+			var response:uint =res..ResponseCode;//0 if ok 1 if not then it is a guest
+			var sess:String = res..SessionToken;
 			
 			trace("loginHandler, res: "+response);  
 			trace("loginHandler, sess: "+sess);  

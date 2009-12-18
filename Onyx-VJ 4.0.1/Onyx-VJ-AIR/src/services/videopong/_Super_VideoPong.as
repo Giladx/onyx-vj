@@ -35,6 +35,15 @@ internal class _Super_VideoPong extends HTTPServiceWrapper
 		 operation.resultType = Object; 		 
          operations.push(operation);
     
+         operation = new Operation(null, "getfolderstree");
+         operation.url = "http://www.videopong.net";
+         operation.method = "POST";
+         argsArray = new Array("action","method","sessiontoken","e4x");
+         operation.argumentNames = argsArray;         
+         operation.contentType = "application/x-www-form-urlencoded";
+		 operation.resultType = Object; 		 
+         operations.push(operation);
+    
          _serviceControl.operationList = operations;  
 
     
@@ -57,6 +66,25 @@ internal class _Super_VideoPong extends HTTPServiceWrapper
 	{
 		var _internal_operation:AbstractOperation = _serviceControl.getOperation("login");
 		var _internal_token:AsyncToken = _internal_operation.send(action,method,user,pass,passhashed) ;
+
+		return _internal_token;
+	}   
+	 
+	/**
+	  * This method is a generated wrapper used to call the 'getfolderstree' operation. It returns an AsyncToken whose 
+	  * result property will be populated with the result of the operation when the server response is received. 
+	  * To use this result from MXML code, define a CallResponder component and assign its token property to this method's return value. 
+	  * You can then bind to CallResponder.lastResult or listen for the CallResponder.result or fault events.
+      *
+      * @see mx.rpc.AsyncToken
+      * @see mx.rpc.CallResponder 
+      *
+      * @return an AsyncToken whose result property will be populated with the result of the operation when the server response is received.
+	  */          
+	public function getfolderstree(action:String, method:String, sessiontoken:String, e4x:String) : AsyncToken
+	{
+		var _internal_operation:AbstractOperation = _serviceControl.getOperation("getfolderstree");
+		var _internal_token:AsyncToken = _internal_operation.send(action,method,sessiontoken,e4x) ;
 
 		return _internal_token;
 	}   

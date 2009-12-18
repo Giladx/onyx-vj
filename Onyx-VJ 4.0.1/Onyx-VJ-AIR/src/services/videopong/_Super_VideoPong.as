@@ -4,11 +4,10 @@
  */
 package services.videopong
 {
-import com.adobe.fiber.core.model_internal;
-import com.adobe.fiber.services.wrapper.HTTPServiceWrapper;
-
-import mx.rpc.AbstractOperation;
 import mx.rpc.AsyncToken;
+import com.adobe.fiber.core.model_internal;
+import mx.rpc.AbstractOperation;
+import com.adobe.fiber.services.wrapper.HTTPServiceWrapper;
 import mx.rpc.http.HTTPMultiService;
 import mx.rpc.http.Operation;
 [ExcludeClass]
@@ -26,7 +25,7 @@ internal class _Super_VideoPong extends HTTPServiceWrapper
          
          operation = new Operation(null, "login");
          operation.url = "http://www.videopong.net";
-         operation.method = "GET";
+         operation.method = "POST";
          argsArray = new Array("action","method","user","pass","passhashed");
          operation.argumentNames = argsArray;         
 		 operation.resultType = Object; 		 

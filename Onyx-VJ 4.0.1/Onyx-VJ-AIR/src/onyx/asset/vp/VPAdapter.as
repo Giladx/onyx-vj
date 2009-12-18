@@ -18,10 +18,15 @@ package onyx.asset.vp {
 	
 	import flash.utils.*;
 	
+	import mx.rpc.CallResponder;
+	import mx.rpc.events.FaultEvent;
+	import mx.rpc.events.ResultEvent;
+	
 	import onyx.asset.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
 	
+	import services.videopong.*;
 	
 	/**
 	 * 
@@ -44,9 +49,37 @@ package onyx.asset.vp {
 		 * 
 		 */
 		public function VPAdapter():void {
+			//Call videopong webservice
+			var vp:VideoPong = new VideoPong();
 			
+			var vpCallResponder:CallResponder = new CallResponder();
+			// addEventListener for response
+			vpCallResponder.addEventListener( ResultEvent.RESULT, loginHandler );
+			vpCallResponder.addEventListener( FaultEvent.FAULT, faultHandler );
+			//vp.operations
+			vpCallResponder.token = vp.login(  "onyxapi","login","batchass","vptest",0 );
 		}
-		
+		/**
+		 * 	Result from Login
+		 */
+		public function loginHandler( event:ResultEvent ):void {
+			
+			var response:uint = event.result.Response.ResponseCode;//0 if ok
+			var sess:String = event.result.Response.SessionToken;
+			
+			trace("loginHandler, res: "+response);  
+			trace("loginHandler, sess: "+sess);  
+			
+		}		
+		public function faultHandler( event:FaultEvent ):void {
+			
+			var faultString:String = event.fault.faultString;//0 if ok
+			var faultDetail:String = event.fault.faultDetail;
+			
+			trace("faultHandler, faultString: "+faultString);  
+			trace("faultHandler, faultDetail: "+faultDetail);  
+			
+		}		
 		/**
 		 * 	Queries a directory
 		 */

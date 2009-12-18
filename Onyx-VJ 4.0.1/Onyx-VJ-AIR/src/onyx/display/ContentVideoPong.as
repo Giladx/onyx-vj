@@ -34,30 +34,28 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private static var login:String = "batchass"; //const?
-		private static var pwd:String = "vptest"; //const?
+		private static var login:String;
+		private static var pwd:String;
 		
 		/**
 		 *  Save
 		 */
 		public static function toXML():XML {
-			const xml:XML	= <accounts />;
-			
-			xml.appendChild(
-				<account>
+			const xml:XML	= 
+				<videopong>
 					<login>{login}</login>
 					<pwd>{pwd}</pwd>
-				</account>
-			)
+				</videopong>;
+			
 			
 			return xml;
 		}
-		
+
 		/**
 		 *  Load
 		 */
 		public static function loadXML(xml:XML):void {
-			var node:XML = xml.account;
+			var node:XML = xml.videopong;
 			login = node.login;
 			pwd = node.pwd;
 		}

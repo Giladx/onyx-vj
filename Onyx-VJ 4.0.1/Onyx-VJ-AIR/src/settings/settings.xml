@@ -40,11 +40,17 @@
 			<invert/>
 		</blendModes>
 		
-		<!-- midi settings -->
+		<!-- razuna settings -->
 		<razuna>
 			<login>onyxvj</login>
 			<pwd>batchass</pwd>
 		</razuna>
+
+		<!-- videopong settings -->
+		<videopong>
+			<login>batchass</login>
+			<pwd>vptest</pwd>
+		</videopong>
 		
 	</core>
 	

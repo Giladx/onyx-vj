@@ -182,6 +182,10 @@ package ui.states {
 			if (list.length()) {
 				ContentRazuna.loadXML(list[0]);
 			}
+			list = core.videopong;
+			if (list.length()) {
+				ContentVideoPong.loadXML(list[0]);
+			}
 		}
 	}
 }

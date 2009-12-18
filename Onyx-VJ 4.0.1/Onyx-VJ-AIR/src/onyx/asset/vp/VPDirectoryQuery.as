@@ -58,7 +58,7 @@ package onyx.asset.vp {
 		 * 	@private
 		 */
 		public function query():void {
-			
+			Console.output( "VPDirectoryQuery, query");
 			list = [];
 			
 		}

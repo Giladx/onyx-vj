@@ -24,6 +24,7 @@ package onyx.asset.vp {
 	import mx.rpc.events.ResultEvent;
 	
 	import onyx.asset.*;
+	import onyx.core.Console;
 	import onyx.display.*;
 	import onyx.plugin.*;
 	
@@ -34,6 +35,7 @@ package onyx.asset.vp {
 	 */
 	public final class VPAdapter implements IAssetAdapter {
 		
+		private var console:Console = Console.getInstance();
 		/**
 		 * 	Cache
 		 */
@@ -50,6 +52,7 @@ package onyx.asset.vp {
 		 * 
 		 */
 		public function VPAdapter():void {
+			 
 			//Call videopong webservice
 			var vp:VideoPong = new VideoPong();
 			
@@ -57,6 +60,7 @@ package onyx.asset.vp {
 			// addEventListener for response
 			vpCallResponder.addEventListener( ResultEvent.RESULT, loginHandler );
 			vpCallResponder.addEventListener( FaultEvent.FAULT, faultHandler );
+			//console.output( "VideoPong Login" );
 			//vp.operations
 			vpCallResponder.token = vp.login(  "onyxapi","login","batchass","vptest",0 );
 		}

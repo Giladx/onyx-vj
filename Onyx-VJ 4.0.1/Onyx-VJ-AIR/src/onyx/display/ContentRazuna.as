@@ -31,23 +31,22 @@ package onyx.display {
 		 * 	Stores the loader object where the content was loaded into
 		 */
 		private var loader:Loader;
-		private static var _login:String;
-		private static var _pwd:String;
+		private static var login:String;
+		private static var pwd:String;
 
 		public static function loadXML(xml:XML):void {
-			for each (var node:XML in xml.razuna) {
-				_login	= node.login;
-				_pwd	= node.pwd;
-			}
+			login	= xml.login;
+			pwd	= xml.pwd;
 		}
+
 		/**
 		 * 
 		 */
 		public static function toXML():XML {
 			const xml:XML	= 
 				<razuna>
-					<login>{_login}</login>
-					<pwd>{_pwd}</pwd>
+					<login>{login}</login>
+					<pwd>{pwd}</pwd>
 				</razuna>;
 			
 			return xml;

@@ -12,8 +12,7 @@ package onyx.asset {
 		 * 
 		 */
 		public function getContent(path:String, layer:Layer ):Content {
-			var loader:Loader = null;//todo
-			return new ContentVideoPong(layer, path, loader);
+			return new ContentVideoPong(layer, path);
 		}
 		
 		/**

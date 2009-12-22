@@ -43,13 +43,13 @@
 		<!-- razuna settings -->
 		<razuna>
 			<login>onyxvj</login>
-			<pwd>batchass</pwd>
+			<pwd>null</pwd>
 		</razuna>
 
 		<!-- videopong settings -->
 		<videopong>
 			<login>batchass</login>
-			<pwd>vptest</pwd>
+			<pwd>null</pwd>
 		</videopong>
 		
 	</core>

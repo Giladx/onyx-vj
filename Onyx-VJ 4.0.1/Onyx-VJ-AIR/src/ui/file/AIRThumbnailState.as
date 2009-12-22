@@ -164,7 +164,8 @@ package ui.file {
 					
 					if (db.isEmpty()) {
 						
-						path.resolvePath('.onyx-cache').deleteFile();
+						if ( path.resolvePath('.onyx-cache').exists )
+							path.resolvePath('.onyx-cache').deleteFile();
 						
 					} else {
 						

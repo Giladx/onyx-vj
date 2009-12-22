@@ -34,9 +34,29 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private static var login:String;
-		private static var pwd:String;
+		private static var _login:String;
+		private static var _pwd:String;
 		
+		public static function get pwd():String
+		{
+			return _pwd;
+		}
+
+		public static function set pwd(value:String):void
+		{
+			_pwd = value;
+		}
+
+		public static function get login():String
+		{
+			return _login;
+		}
+
+		public static function set login(value:String):void
+		{
+			_login = value;
+		}
+
 		/**
 		 *  Save
 		 */
@@ -55,209 +75,20 @@ package onyx.display {
 		 *  Load
 		 */
 		public static function loadXML(xml:XML):void {
-			var node:XML = xml.videopong;
-			login = node.login;
-			pwd = node.pwd;
+			login = xml.login;
+			pwd = xml.pwd;
 		}
 		
-		
-		/**
-		 * 	@private
-		 * 	Stores paths of loaded stuff
-		 */
-		private static const _dict:Object = {};
-		
-		/**
-		 * 	@private
-		 * 	Registers a loader
-		 */
-		public static function registration(path:String):ContentRegistration {
-			return _dict[path];
-		}
-		
-		/**
-		 * 
-		 */
-		public static function register(path:String, loader:Loader = null):void {
-			
-			var reg:ContentRegistration = _dict[path];
-			
-			if (!reg) {
-				reg			= new ContentRegistration(),
-					reg.loader	= loader,
-					_dict[path] = reg;
-			}
-			
-			reg.refCount++;
-		}
-		
-		/**
-		 * 	Unregisters from shared
-		 */
-		public static function unregister(path:String):Boolean {
-			
-			var reg:ContentRegistration = _dict[path];
-			
-			if (reg) {
-				reg.refCount--;
-				
-				if (reg.refCount === 0) {
-					reg.dispose();
-					delete _dict[path];
-				}
-			} else {
-				return false;
-			}
-			
-			return true;
-		}
-		
-		/**
-		 * 	@private
-		 * 	The frame number we are currently should navigate to
-		 */
-		private var _frame:Number;
-		
-		/**
-		 * 	@private
-		 * 	The amount of frames to move per frame
-		 */
-		private var _framerate:Number;
-		
-		/**
-		 * 	@private
-		 * 	Stores last time the draw was executed
-		 */
-		private var _lastTime:uint;
-		
-		/**
-		 * 	@private
-		 */
-		private var loaderInfo:LoaderInfo;
-		
-		/**
-		 * 	@private
-		 */
-		private var mc:MovieClip;
-		
+	
 		/**
 		 * 	@constructor
 		 */		
-		public function ContentVideoPong(layer:Layer, path:String, loader:Loader):void {
+		public function ContentVideoPong(layer:Layer, path:String):void {
 			
-			loaderInfo		= loader.contentLoaderInfo,
-			mc				= loader.content as MovieClip;
+
 			
-			super(layer, path, loader.content, loaderInfo.width, loaderInfo.height);
+			super(layer, path,null,320,240);
 			
-			_framerate		= 1, // sets the framerate based on the swf framerate
-			_frame			= 0,
-			_lastTime		= getTimer() - DISPLAY_STAGE.frameRate;	// sets the last time we executed
-			
-			_loopStart		= 0;
-			_loopEnd		= 1;
-		}
-		
-		/**
-		 * 	Sets the time
-		 */
-		override public function set time(value:Number):void {
-			_frame	= mc.totalFrames * value;
-			
-		}
-		
-		/**
-		 * 	Gets the time
-		 */
-		override public function get time():Number {
-			return _frame / (mc.totalFrames);
-		}
-		
-		/**
-		 * 	Gets the total time
-		 */
-		override public function get totalTime():int {
-			return (mc.totalFrames / loaderInfo.frameRate) * 1000;
-		}
-		
-		/**
-		 * 	Updates the bitmap source
-		 */
-		override public function render(info:RenderInfo):void {
-			
-			var lastTime:int = getTimer();
-			
-			if (!_paused) {
-				
-				// get ellapsed frame
-				var stageRate:int		= DISPLAY_STAGE.frameRate;
-				var time:int			= lastTime - _lastTime;
-				var ratio:Number		= (time / (1000 / stageRate));
-				var startFrame:Number	= mc.totalFrames * _loopStart;
-				var endFrame:Number		= mc.totalFrames * _loopEnd;
-				
-				// set frame
-				var frame:Number	= _frame + ((loaderInfo.frameRate / stageRate) * (_framerate * ratio));
-				
-				// constrain the frame
-				frame = (frame < startFrame) ? endFrame : Math.max(frame % endFrame, startFrame);
-				
-				// save the frame
-				_frame = frame;
-				
-			}
-			
-			// store last time
-			_lastTime = lastTime;
-			
-			// go to the right frame
-			mc.gotoAndStop(_frame << 0);
-			
-			// render
-			super.render(info);
-		}
-		
-		/**
-		 * 	Gets the framerate
-		 * 	get the ratio of the original framerate and the actual framerate
-		 */
-		override public function get framerate():Number {
-			return _framerate;
-		}
-		
-		/**
-		 * 	Sets framerate
-		 */
-		override public function set framerate(value:Number):void {
-			_framerate = super.__framerate.dispatch(value);
-		}
-		
-		/**
-		 * 	Sets the beginning loop point (percentage)
-		 */		
-		override public function set loopStart(value:Number):void {
-			_loopStart	= __loopStart.dispatch(Math.min(value, _loopEnd));
-		}
-		
-		/**
-		 * 
-		 */
-		override public function get loopStart():Number {
-			return _loopStart;
-		}
-		
-		/**
-		 * 	Sets the end loop point
-		 */
-		override public function set loopEnd(value:Number):void {
-			_loopEnd = __loopEnd.dispatch(Math.max(value, _loopStart, 0.01));
-		}
-		
-		/**
-		 * 	Sets the end loop point
-		 */
-		override public function get loopEnd():Number {
-			return _loopEnd;
 		}
 		
 		/**
@@ -268,15 +99,6 @@ package onyx.display {
 			// dispose
 			super.dispose();
 			
-			// unregister from the shared movieclips if it's the last one
-			var value:Boolean = unregister(_path);
-			
-			if (!value && mc is IDisposable) {
-				(mc as IDisposable).dispose();
-			}
-			
-			// remove reference
-			mc		= null;
 		}
 		
 	}

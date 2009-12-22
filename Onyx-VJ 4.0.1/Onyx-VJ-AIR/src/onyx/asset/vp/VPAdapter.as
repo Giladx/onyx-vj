@@ -66,7 +66,7 @@ package onyx.asset.vp {
 			vpLoginResponder.addEventListener( FaultEvent.FAULT, faultHandler );
 			Console.output( "VideoPong Login" );
 			//vp.operations
-			vpLoginResponder.token = vp.login(  "onyxapi","login","batchass","vptest",0 );
+			vpLoginResponder.token = vp.login(  "onyxapi","login","batchass","null",0 );
 		}
 		/**
 		 * 	Result from Login

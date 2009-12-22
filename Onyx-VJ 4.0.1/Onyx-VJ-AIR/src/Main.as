@@ -39,7 +39,7 @@ package {
 	import ui.text.*;
 	import ui.window.*;
 
-	[SWF(width="1280", height="768", backgroundColor="#141515", frameRate='25', systemChrome='none')]
+	[SWF(width="1280", height="830", backgroundColor="#141515", frameRate='25', systemChrome='none')]
 	public final class Main extends Sprite {
 		
 		/**

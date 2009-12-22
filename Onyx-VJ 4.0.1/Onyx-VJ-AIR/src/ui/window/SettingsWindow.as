@@ -47,13 +47,20 @@ package ui.window {
 		 */
 		private const parameters:Parameters	= new Parameters(this as IParameterObject,
 			new ParameterPlugin('transition', 'Layer Transition', PluginManager.transitions),
-			new ParameterInteger('duration', 'Duration', 1, 20, 3)
+			new ParameterInteger('duration', 'Duration', 1, 20, 3),
+			new ParameterString( 'vpusername', 'User name', 'login' ),
+			new ParameterString( 'vppwd', 'Password', 'pwd' )
 		);
         
 		/**
 		 * 	@private
 		 */
 		private var buttonXML:TextButton;
+		
+		/**
+		 * 	@private
+		 */
+		private var vpLoginBtn:TextButton;
 		
 		/**
 		 * 	@private
@@ -83,6 +90,16 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
+		private var vpLoginTextControl:TextControl;
+		
+		/**
+		 * 	@private
+		 */
+		private var vpPwdTextControl:TextControl;
+		
+		/**
+		 * 	@private
+		 */
 		private const releaseTimer:Timer	= new Timer(50);
 		
 		/**
@@ -94,6 +111,43 @@ package ui.window {
 		 * 
 		 */
 		public var duration:int = 2;
+		
+		/**
+		 * 
+		 */
+		public function set vpusername(t:String):void {
+			ContentVideoPong.login	= t;
+		}
+		
+		/**
+		 * 
+		 */
+		public function get vpusername():String {
+			return ContentVideoPong.login;
+		}
+		
+		/**
+		 * 
+		 */
+		public function set vppwd(t:String):void {
+			ContentVideoPong.pwd	= t;
+		}
+		
+		/**
+		 * 
+		 */
+		public function get vppwd():String {
+			return ContentVideoPong.pwd;
+		}
+		/**
+		 * 
+		 
+		public var vpusername:String = "guest";*/
+		
+		/**
+		 * 
+		 
+		public var vppwd:String = "pwd";*/
 		
 		/**
 		 * 	@constructor
@@ -110,10 +164,11 @@ package ui.window {
 		 */
 		private function init():void {
 			
-			var options:UIOptions	= new UIOptions(true, true, null, 60, 12);
+			var options:UIOptions	= new UIOptions( true, true, null, 60, 12 );
 
 			// controls for display
 			buttonXML				= new TextButton(options, 'save mix file'),
+			vpLoginBtn				= new TextButton(options, 'login to vp'),
 			
 			// transition controls
 			durationSlider			= Factory.getNewInstance(SliderV);
@@ -129,11 +184,20 @@ package ui.window {
 			tempoDropDown			= Factory.getNewInstance(DropDown);
 			tempoDropDown.initialize(Tempo.getParameter('snapTempo'), options);
 			
+			// videopong controls
+			vpLoginTextControl = Factory.getNewInstance(TextControl);
+			vpLoginTextControl.initialize( parameters.getParameter('vpusername'), options);
+			
+			vpPwdTextControl = Factory.getNewInstance(TextControl);
+			vpPwdTextControl.initialize( parameters.getParameter('vppwd'), options);
 			
 			// add controls
 			addChildren(
 				tempoDropDown,					8,		40,
 				tapTempo,						75,		33,
+				vpLoginTextControl,				168,	40,
+				vpPwdTextControl,				240,	40,
+				vpLoginBtn,						240,	55,
 				transitionDropDown,				8,		95,
 				durationSlider,					75,		95,
 				buttonXML,						8,		129
@@ -145,7 +209,8 @@ package ui.window {
 			// draw things onto the background
 			if (bg) {
 				var source:BitmapData	= bg.bitmapData;
-				source.fillRect(new Rectangle(4, 25, 299, 1), 0xFF445463);
+				source.fillRect(new Rectangle(4, 25, 149, 1), 0xFF445463);
+				source.fillRect(new Rectangle(164, 25, 100, 1), 0xFF445463);
 				source.fillRect(new Rectangle(4, 81, 299, 1), 0xFF445463);
 				source.fillRect(new Rectangle(4, 123, 299, 1), 0xFF445463);
 				
@@ -159,10 +224,16 @@ package ui.window {
 				
 				label.text	= 'MIX FILE';
 				source.draw(label, new Matrix(1, 0, 0, 1, 4, 115));
+				
+				label.text	= 'VIDEOPONG';
+				source.draw(label, new Matrix(1, 0, 0, 1, 164, 17));
 			}
                         
 			// xml
 			buttonXML.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+                        
+			// videopong login
+			vpLoginBtn.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			
 			// start the timer
 			Tempo.addEventListener(TempoEvent.CLICK, _onTempo);
@@ -175,7 +246,7 @@ package ui.window {
 		 * 
 		 */
 		public function getParameters():Parameters {
-			return parameters
+			return parameters;
 		}
                 
 		/**
@@ -185,6 +256,9 @@ package ui.window {
 			switch (event.currentTarget) {
 				case buttonXML:
 					saveMix();
+					break;
+				case vpLoginBtn:
+					//ContentVideoPong.Connect();
 					break;
 			}
 			event.stopPropagation();
@@ -222,6 +296,7 @@ package ui.window {
 		public function get transition():Transition {
 			return Browser.useTransition;
 		}
+		
 
 		/**
 		 * 	@private

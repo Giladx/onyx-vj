@@ -47,6 +47,14 @@
 			</camera>
 			-->
 		</cameras>
+		<razuna>
+      		<login>onyxvj</login>
+      		<pwd>null</pwd>
+    	</razuna>
+    	<videopong>
+     	 	<login>batchass</login>
+      		<pwd>null</pwd>
+    	</videopong>
 		
 	</core>
 	

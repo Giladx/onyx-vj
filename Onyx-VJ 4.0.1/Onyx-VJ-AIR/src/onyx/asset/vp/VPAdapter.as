@@ -18,28 +18,18 @@ package onyx.asset.vp {
 	
 	import flash.utils.*;
 	
-	import mx.messaging.messages.IMessage;
-	import mx.rpc.CallResponder;
-	import mx.rpc.events.FaultEvent;
-	import mx.rpc.events.ResultEvent;
-	
 	import onyx.asset.*;
 	import onyx.core.Console;
 	import onyx.display.*;
 	import onyx.plugin.*;
 	
-	import services.videopong.*;
 	
 	/**
 	 * 
 	 */
 	public final class VPAdapter implements IAssetAdapter {
 		
-		//private var console:Console = Console.getInstance();
-		private var vpLoginResponder:CallResponder;
-		private var vpFoldersResponder:CallResponder;
-		private var vp:VideoPong;
-		private var sessiontoken:String;
+
 		/**
 		 * 	Cache
 		 */
@@ -57,60 +47,8 @@ package onyx.asset.vp {
 		 */
 		public function VPAdapter():void {
 			 
-			//Call videopong webservice
-			vp = new VideoPong();
-			
-			vpLoginResponder = new CallResponder();
-			// addEventListener for response
-			vpLoginResponder.addEventListener( ResultEvent.RESULT, loginHandler );
-			vpLoginResponder.addEventListener( FaultEvent.FAULT, faultHandler );
-			Console.output( "VideoPong Login" );
-			//vp.operations
-			vpLoginResponder.token = vp.login(  "onyxapi","login","batchass","null",0 );
-		}
-		/**
-		 * 	Result from Login
-		 */
-		public function loginHandler( event:ResultEvent ):void {
-			
-			var ack:IMessage = event.message;
-			trace(ack.body.toString() );
-			var result:String =	ack.body.toString();
-			var res:XML = XML(result);
-			
-			var response:uint = res..ResponseCode;//0 if ok 1 if not then it is a guest
-			sessiontoken = res..SessionToken;
-			
-			Console.output("loginHandler, response: "+response);  
-			trace("loginHandler, sessiontoken: "+sessiontoken);  
-			// ask for folders tree
-			vpFoldersResponder = new CallResponder();
-			// addEventListener for response
-			vpFoldersResponder.addEventListener( ResultEvent.RESULT, foldersTreeHandler );
-			vpFoldersResponder.addEventListener( FaultEvent.FAULT, faultHandler );
-			Console.output( "VideoPong Login" );
-			//vp.operations
-			vpFoldersResponder.token = vp.getfolderstree( "onyxapi", "getfolderstree", sessiontoken, "1" );
-			
-		}		
-		public function foldersTreeHandler( event:ResultEvent ):void {
-			var ack:IMessage = event.message;
-			trace(ack.body.toString() );
-			var result:String =	ack.body.toString();
-			var res:XML = XML(result);
-			
-			var response:uint = res..ResponseCode;//0 if ok
 			
 		}
-		public function faultHandler( event:FaultEvent ):void {
-			
-			var faultString:String = event.fault.faultString;
-			var faultDetail:String = event.fault.faultDetail;
-			
-			Console.output("faultHandler, faultString: "+faultString);  
-			Console.output("faultHandler, faultDetail: "+faultDetail);  
-			
-		}		
 		/**
 		 * 	Queries a directory
 		 */
@@ -160,8 +98,6 @@ package onyx.asset.vp {
 		 * 
 		 */
 		public function quit():void {
-			vpLoginResponder.removeEventListener( ResultEvent.RESULT, loginHandler );
-			vpLoginResponder.removeEventListener( FaultEvent.FAULT, faultHandler );
 
 		}
 	}

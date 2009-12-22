@@ -32,6 +32,8 @@ package ui.window {
 					new WindowStateReg('DISPLAY',		518,	565),
 					new WindowStateReg('CONSOLE',		6,		565),
 					new WindowStateReg('SETTINGS',		200,	565),
+					new WindowStateReg('VIDEOPONG',		360,	565),
+					new WindowStateReg('RECORDER',		7,		756),
 					new WindowStateReg('PREVIEW',		775,	345)
 				])
 			)

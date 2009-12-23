@@ -20,13 +20,19 @@ package ui.window {
 	import flash.geom.*;
 	import flash.utils.*;
 	
-	import onyx.asset.AssetQuery;
+	import mx.messaging.messages.IMessage;
+	import mx.rpc.CallResponder;
+	import mx.rpc.events.FaultEvent;
+	import mx.rpc.events.ResultEvent;
+	
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.events.*;
 	import onyx.jobs.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
+	
+	import services.videopong.*;
 	
 	import ui.assets.*;
 	import ui.controls.*;
@@ -35,20 +41,12 @@ package ui.window {
 	import ui.states.*;
 	import ui.styles.*;
 	import ui.text.*;
-	
-	import mx.messaging.messages.IMessage;
-	import mx.rpc.CallResponder;
-	import mx.rpc.events.FaultEvent;
-	import mx.rpc.events.ResultEvent;
-	
-	import services.videopong.*;
 	/**
 	 * 
 	 */
 	public final class VideopongWindow extends Window implements IParameterObject {
 		
 		private var vpLoginResponder:CallResponder;
-		private var vpFoldersResponder:CallResponder;
 		private var vp:VideoPong;
 		private var sessiontoken:String;
 		/**
@@ -102,15 +100,6 @@ package ui.window {
 		public function get vppwd():String {
 			return ContentVideoPong.pwd;
 		}		
-		/**
-		 * 
-		 
-		 public var vpusername:String = "guest";*/
-		
-		/**
-		 * 
-		 
-		 public var vppwd:String = "pwd";*/
 		
 		/**
 		 * 	@constructor
@@ -196,7 +185,7 @@ package ui.window {
 			// addEventListener for response
 			vpLoginResponder.addEventListener( ResultEvent.RESULT, loginHandler );
 			vpLoginResponder.addEventListener( FaultEvent.FAULT, faultHandler );
-			Console.output( "VideoPong Login" );
+			Console.output( "VideopongWindow, VideoPong Login" );
 			//vp.operations
 			vpLoginResponder.token = vp.login(  "onyxapi","login",vpusername,vppwd,0 );
 		}		
@@ -213,34 +202,25 @@ package ui.window {
 			var response:uint = res..ResponseCode;//0 if ok 1 if not then it is a guest
 			sessiontoken = res..SessionToken;
 			
-			Console.output("loginHandler, response: "+response);  
-			trace("loginHandler, sessiontoken: "+sessiontoken);  
+			Console.output("VideopongWindow,loginHandler, response: "+response);  
+			trace("VideopongWindow, loginHandler, sessiontoken: "+sessiontoken);  
 			// ask for folders tree
 			vpFoldersResponder = new CallResponder();
 			// addEventListener for response
 			vpFoldersResponder.addEventListener( ResultEvent.RESULT, foldersTreeHandler );
 			vpFoldersResponder.addEventListener( FaultEvent.FAULT, faultHandler );
-			Console.output( "VideoPong Login" );
+			Console.output( "VideopongWindow, VideoPong Login" );
 			//vp.operations
 			vpFoldersResponder.token = vp.getfolderstree( "onyxapi", "getfolderstree", sessiontoken, "1" );
 			
 		}		
-		public function foldersTreeHandler( event:ResultEvent ):void {
-			var ack:IMessage = event.message;
-			trace(ack.body.toString() );
-			var result:String =	ack.body.toString();
-			var res:XML = XML(result);
-			
-			var response:uint = res..ResponseCode;//0 if ok
-			
-		}
 		public function faultHandler( event:FaultEvent ):void {
 			
 			var faultString:String = event.fault.faultString;
 			var faultDetail:String = event.fault.faultDetail;
 			
-			Console.output("faultHandler, faultString: "+faultString);  
-			Console.output("faultHandler, faultDetail: "+faultDetail);  
+			Console.output("VideopongWindow, faultHandler, faultString: "+faultString);  
+			Console.output("VideopongWindow, faultHandler, faultDetail: "+faultDetail);  
 			
 		}		
 		/**

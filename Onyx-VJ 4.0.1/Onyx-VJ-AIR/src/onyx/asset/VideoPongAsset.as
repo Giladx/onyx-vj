@@ -31,12 +31,14 @@ package onyx.asset {
 		 * 	@private
 		 */
 		private var videopong:String;
+		private var isFolder:Boolean;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function VideoPongAsset(name:String) {
-			this.videopong						= name,
+		public function VideoPongAsset(name:String, isDirectory:Boolean=false) {
+			this.videopong					= name;
+			this.isFolder					= isDirectory;
 			this.thumbnail.bitmapData		= new VideoPongThumbnail();
 			
 			const source:BitmapData		= this.thumbnail.bitmapData;
@@ -80,7 +82,7 @@ package onyx.asset {
 		 * 
 		 */
 		override public function get isDirectory():Boolean {
-			return false;
+			return isFolder;
 		}
 	}
 }

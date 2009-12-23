@@ -173,13 +173,13 @@ package ui.window {
 			
 			addChild(folders);
 			addChild(files);
+			addChild(buttonVideoPong);
 			addChild(buttonFiles);
 			addChild(buttonCameras);
-			addChild(buttonVideoPong);
 			
 			// query default folder
-			AssetFile.queryDirectory(ONYX_LIBRARY_PATH, updateList);
 			AssetFile.queryDirectory('onyx-query://videopong', updateList);
+			AssetFile.queryDirectory(ONYX_LIBRARY_PATH, updateList);
 		}
 		
 		/**

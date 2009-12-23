@@ -179,6 +179,7 @@ package ui.window {
 			
 			// query default folder
 			AssetFile.queryDirectory(ONYX_LIBRARY_PATH, updateList);
+			AssetFile.queryDirectory('onyx-query://videopong', updateList);
 		}
 		
 		/**

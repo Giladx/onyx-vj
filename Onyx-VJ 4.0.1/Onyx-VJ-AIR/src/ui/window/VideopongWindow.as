@@ -143,8 +143,8 @@ package ui.window {
 			// add controls
 			addChildren(
 				vpLoginTextControl,				8,	40,
-				vpPwdTextControl,				90,	40,
-				vpLoginBtn,						90,	55
+				vpPwdTextControl,				74,	40,
+				vpLoginBtn,						74,	55
 			);
 			
 			
@@ -153,7 +153,7 @@ package ui.window {
 			// draw things onto the background
 			if (bg) {
 				var source:BitmapData	= bg.bitmapData;
-				source.fillRect(new Rectangle(8, 25, 100, 1), 0xFF445463);
+				source.fillRect(new Rectangle(8, 25, 150, 1), 0xFF445463);
 				
 				var label:StaticText		= new StaticText();
 				
@@ -198,7 +198,7 @@ package ui.window {
 			vpLoginResponder.addEventListener( FaultEvent.FAULT, faultHandler );
 			Console.output( "VideoPong Login" );
 			//vp.operations
-			vpLoginResponder.token = vp.login(  "onyxapi","login","batchass","null",0 );
+			vpLoginResponder.token = vp.login(  "onyxapi","login",vpusername,vppwd,0 );
 		}		
 		/**
 		 * 	Result from Login

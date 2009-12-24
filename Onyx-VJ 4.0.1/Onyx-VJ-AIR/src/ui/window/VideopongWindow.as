@@ -20,11 +20,6 @@ package ui.window {
 	import flash.geom.*;
 	import flash.utils.*;
 	
-	import mx.messaging.messages.IMessage;
-	import mx.rpc.CallResponder;
-	import mx.rpc.events.FaultEvent;
-	import mx.rpc.events.ResultEvent;
-	
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.events.*;
@@ -32,7 +27,7 @@ package ui.window {
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
-	import services.videopong.*;
+	import services.videopong.VideoPong;
 	
 	import ui.assets.*;
 	import ui.controls.*;
@@ -41,14 +36,14 @@ package ui.window {
 	import ui.states.*;
 	import ui.styles.*;
 	import ui.text.*;
+
 	/**
 	 * 
 	 */
 	public final class VideopongWindow extends Window implements IParameterObject {
 		
-		private var vpLoginResponder:CallResponder;
-		private var vp:VideoPong;
-		private var sessiontoken:String;
+		private const vp:VideoPong = VideoPong.getInstance();
+		
 		/**
 		 * 	@private
 		 * 	returns controls
@@ -77,28 +72,28 @@ package ui.window {
 		 * 
 		 */
 		public function set vpusername(t:String):void {
-			ContentVideoPong.login	= t;
+			vp.username	= t;
 		}
 		
 		/**
 		 * 
 		 */
 		public function get vpusername():String {
-			return ContentVideoPong.login;
+			return vp.username;
 		}
 		
 		/**
 		 * 
 		 */
 		public function set vppwd(t:String):void {
-			ContentVideoPong.pwd	= t;
+			vp.pwd	= t;
 		}
 		
 		/**
 		 * 
 		 */
 		public function get vppwd():String {
-			return ContentVideoPong.pwd;
+			return vp.pwd;
 		}		
 		
 		/**
@@ -168,73 +163,16 @@ package ui.window {
 		private function mouseDown(event:MouseEvent):void {
 			switch (event.currentTarget) {
 				case vpLoginBtn:
-					vpLogin();
+					vp.vpLogin();
 					break;
 			}
 			event.stopPropagation();
 		}
-		/**
-		 * 
-		 */
-		public function vpLogin():void {
-			
-			//Call videopong webservice
-			vp = new VideoPong();
-			
-			vpLoginResponder = new CallResponder();
-			// addEventListener for response
-			vpLoginResponder.addEventListener( ResultEvent.RESULT, loginHandler );
-			vpLoginResponder.addEventListener( FaultEvent.FAULT, faultHandler );
-			Console.output( "VideopongWindow, VideoPong Login" );
-			//vp.operations
-			vpLoginResponder.token = vp.login(  "onyxapi","login",vpusername,vppwd,0 );
-		}		
-		/**
-		 * 	Result from Login
-		 */
-		public function loginHandler( event:ResultEvent ):void {
-			
-			var ack:IMessage = event.message;
-			trace(ack.body.toString() );
-			var result:String =	ack.body.toString();
-			var res:XML = XML(result);
-			
-			var response:uint = res..ResponseCode;//0 if ok 1 if not then it is a guest
-			sessiontoken = res..SessionToken;
-			
-			Console.output("VideopongWindow,loginHandler, response: "+response);  
-			trace("VideopongWindow, loginHandler, sessiontoken: "+sessiontoken);  
-			// ask for folders tree
-			vpFoldersResponder = new CallResponder();
-			// addEventListener for response
-			vpFoldersResponder.addEventListener( ResultEvent.RESULT, foldersTreeHandler );
-			vpFoldersResponder.addEventListener( FaultEvent.FAULT, faultHandler );
-			Console.output( "VideopongWindow, VideoPong Login" );
-			//vp.operations
-			vpFoldersResponder.token = vp.getfolderstree( "onyxapi", "getfolderstree", sessiontoken, "1" );
-			
-		}		
-		public function faultHandler( event:FaultEvent ):void {
-			
-			var faultString:String = event.fault.faultString;
-			var faultDetail:String = event.fault.faultDetail;
-			
-			Console.output("VideopongWindow, faultHandler, faultString: "+faultString);  
-			Console.output("VideopongWindow, faultHandler, faultDetail: "+faultDetail);  
-			
-		}		
+	
 		/**
 		 * 	@public
 		 */
 		override public function dispose():void {
-			
-			if ( vpLoginResponder )
-			{
-				if ( vpLoginResponder.hasEventListener( ResultEvent.RESULT ) ) vpLoginResponder.removeEventListener( ResultEvent.RESULT, loginHandler );
-				if ( vpLoginResponder.hasEventListener( FaultEvent.FAULT ) ) vpLoginResponder.removeEventListener( FaultEvent.FAULT, faultHandler );
-			}
-			// login btn
-			vpLoginBtn.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			
 			// remove
 			super.dispose();

@@ -27,44 +27,21 @@ package onyx.display {
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
+	import services.videopong.VideoPong;
+	
 	use namespace onyx_ns;
 	
 	public final class ContentVideoPong extends ContentBase {
 		
-		/**
-		 * 	@private
-		 */
-		private static var _login:String;
-		private static var _pwd:String;
-		
-		public static function get pwd():String
-		{
-			return _pwd;
-		}
-
-		public static function set pwd(value:String):void
-		{
-			_pwd = value;
-		}
-
-		public static function get login():String
-		{
-			return _login;
-		}
-
-		public static function set login(value:String):void
-		{
-			_login = value;
-		}
-
+		private static const vp:VideoPong = VideoPong.getInstance();
 		/**
 		 *  Save
 		 */
 		public static function toXML():XML {
 			const xml:XML	= 
 				<videopong>
-					<login>{login}</login>
-					<pwd>{pwd}</pwd>
+					<login>{vp.username}</login>
+					<pwd>{vp.pwd}</pwd>
 				</videopong>;
 			
 			
@@ -75,8 +52,8 @@ package onyx.display {
 		 *  Load
 		 */
 		public static function loadXML(xml:XML):void {
-			login = xml.login;
-			pwd = xml.pwd;
+			vp.username = xml.login;
+			vp.pwd = xml.pwd;
 		}
 		
 	
@@ -84,8 +61,6 @@ package onyx.display {
 		 * 	@constructor
 		 */		
 		public function ContentVideoPong(layer:Layer, path:String):void {
-			
-
 			
 			super(layer, path,null,320,240);
 			

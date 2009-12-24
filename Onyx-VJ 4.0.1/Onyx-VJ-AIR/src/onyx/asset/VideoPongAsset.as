@@ -41,7 +41,7 @@ package onyx.asset {
 			this.isFolder					= isDirectory;
 			this.thumbnail.bitmapData		= new VideoPongThumbnail();
 			
-			const source:BitmapData		= this.thumbnail.bitmapData;
+			const source:BitmapData			= this.thumbnail.bitmapData;
 			const label:TextField			= new TextField();
 			const format:TextFormat			= new TextFormat('Verdana', 7, 0xFFFFFF);
 			//const format:TextFormat			= new TextFormat(new AssetDefaultFont().fontName, 7, 0xFFFFFF);

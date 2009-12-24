@@ -194,18 +194,27 @@ package ui.window {
 				this.query	= query;
 				this.list	= list;
 				
-				const dbFile:File = new File(AssetFile.resolvePath(query.path + '/.onyx-cache'));//TODO: manage videopong, no files
-				db = new AIRThumbnailDB();
-				
-				if (dbFile.exists) {
+				if ( query.path.substr( 0, 22 ) == "onyx-query://videopong" )
+				{
+						//createUserObjects(); todo differentiate from AIR
 					
-	                const stream:FileStream = new FileStream();
-	                stream.addEventListener(Event.COMPLETE, dbHandler);
-	                stream.openAsync(dbFile, FileMode.READ);
-	                
-				} else {
+				}
+				else
+				{
+					const dbFile:File = new File(AssetFile.resolvePath(query.path + '/.onyx-cache'));//TODO: manage videopong, no files
+					db = new AIRThumbnailDB();
 					
-					createUserObjects();
+					if (dbFile.exists) {
+						
+		                const stream:FileStream = new FileStream();
+		                stream.addEventListener(Event.COMPLETE, dbHandler);
+		                stream.openAsync(dbFile, FileMode.READ);
+		                
+					} else {
+						
+						createUserObjects();
+						
+					}
 					
 				}
 			}
@@ -270,8 +279,8 @@ package ui.window {
 	
 					// position it
 					control.x	= (index % FILES_PER_ROW) * FILE_WIDTH;
-					index++;
 					control.y	= ((index / FILES_PER_ROW) >> 0) * FILE_HEIGHT;
+					index++;
 					//compile error: control.y	= ((index++ / FILES_PER_ROW) >> 0) * FILE_HEIGHT;
 					
 					// start listening to start dragging

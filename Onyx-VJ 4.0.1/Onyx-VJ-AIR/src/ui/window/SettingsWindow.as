@@ -83,16 +83,6 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
-		private var vpLoginTextControl:TextControl;
-		
-		/**
-		 * 	@private
-		 */
-		private var vpPwdTextControl:TextControl;
-		
-		/**
-		 * 	@private
-		 */
 		private const releaseTimer:Timer	= new Timer(50);
 		
 		/**

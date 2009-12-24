@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -196,12 +197,12 @@ package ui.window {
 				
 				if ( query.path.substr( 0, 22 ) == "onyx-query://videopong" )
 				{
-						//createUserObjects(); todo differentiate from AIR
+						createUserObjects( false );
 					
 				}
 				else
 				{
-					const dbFile:File = new File(AssetFile.resolvePath(query.path + '/.onyx-cache'));//TODO: manage videopong, no files
+					const dbFile:File = new File(AssetFile.resolvePath(query.path + '/.onyx-cache'));
 					db = new AIRThumbnailDB();
 					
 					if (dbFile.exists) {
@@ -240,7 +241,7 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
-		private function createUserObjects():void {
+		private function createUserObjects( isAIREnabled:Boolean = true ):void {
 			
 			var control:DisplayObject, index:int;
 			
@@ -305,9 +306,12 @@ package ui.window {
 				}
 			}
 			
-			StateManager.loadState(
-				new AIRThumbnailState(AssetFile.resolvePath(query.path), db, needToThumbnail, checkForDelete)
-			);
+			if ( isAIREnabled )
+			{
+				StateManager.loadState(
+					new AIRThumbnailState(AssetFile.resolvePath(query.path), db, needToThumbnail, checkForDelete)
+				);
+			}
 		}
 		
 		/**

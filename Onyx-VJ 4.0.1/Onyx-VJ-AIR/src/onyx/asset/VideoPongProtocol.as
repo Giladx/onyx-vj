@@ -37,6 +37,10 @@ package onyx.asset {
 				//list.push(new VideoPongAsset("2nd"));
 				
 			}
+			else
+			{
+				trace( 'find why this is called, should not be before login' );
+			}
 			return list;
 		}
 

@@ -2,6 +2,7 @@ package onyx.asset {
 	
 	import flash.media.*;
 	
+	import onyx.core.Console;
 	import onyx.display.*;
 	import onyx.plugin.*;
 	
@@ -30,16 +31,20 @@ package onyx.asset {
 			if ( folders )
 			{
 				var response:uint = folders..ResponseCode;//0 if ok
-				list.push( new VideoPongAsset( folders.listfolders.folder[0].foldername,true ) );
-				list.push( new VideoPongAsset( "direct",true ) );
-				list.push( new VideoPongAsset( folders..subfolder[0].folder[0].foldername,true ) );
-				//list.push(new VideoPongAsset("2nd"));
-				//list.push(new VideoPongAsset("2nd"));
-				
+				//select only folders for the path eg:onyx-query://vdpong/all
+				var folderList:XMLList = folders..folder;
+				//var folderList:XMLList = folders.(folder=="all").folder;
+				//loop on resulting xmllist
+				for each ( var folder:XML in folderList )
+				{
+					//folder.@foldername = folder.foldername;
+					
+					list.push( new VideoPongAsset( folder.@foldername,true ) );
+				}
 			}
 			else
 			{
-				trace( 'find why this is called, should not be before login' );
+				Console.output( 'VideoPongProtocol, no folders found' );
 			}
 			return list;
 		}

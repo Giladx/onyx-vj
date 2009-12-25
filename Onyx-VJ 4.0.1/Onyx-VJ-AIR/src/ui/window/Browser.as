@@ -179,7 +179,7 @@ package ui.window {
 			addChild(buttonCameras);
 			
 			// query default folder
-			AssetFile.queryDirectory('onyx-query://videopong', updateList);
+			//AssetFile.queryDirectory('onyx-query://vdpong', updateList);
 			AssetFile.queryDirectory(ONYX_LIBRARY_PATH, updateList);
 		}
 		
@@ -195,7 +195,7 @@ package ui.window {
 				this.query	= query;
 				this.list	= list;
 				
-				if ( query.path.substr( 0, 22 ) == "onyx-query://videopong" )
+				if ( query.path.substr( 0, 19 ) == "onyx-query://vdpong" )
 				{
 						createUserObjects( false );
 					
@@ -333,7 +333,7 @@ package ui.window {
 					break;
 				case buttonVideoPong:
 				
-					AssetFile.queryDirectory('onyx-query://videopong', updateList);
+					AssetFile.queryDirectory('onyx-query://vdpong', updateList);
 					
 					break;
 			}

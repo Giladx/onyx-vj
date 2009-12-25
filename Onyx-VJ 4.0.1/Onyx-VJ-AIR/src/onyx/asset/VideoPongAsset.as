@@ -68,7 +68,7 @@ package onyx.asset {
 		 * 
 		 */
 		override public function get path():String {
-			return 'videopong://' + name;
+			return 'onyx-query://vdpong/' + name;
 		}
 		
 		/**

@@ -38,11 +38,11 @@ package onyx.asset {
 		onyx_ns static var adapter:IAssetAdapter;
 		
 		/**
-		 * 
+		 *  all name must have a length of 6
 		 */
 		onyx_ns static const protocols:Object	= {
 			camera: new CameraProtocol(),
-			videopong: new VideoPongProtocol()
+			vdpong: new VideoPongProtocol()
 		};
 
 		/**
@@ -52,7 +52,7 @@ package onyx.asset {
 			
 			if (path.substr(0, 13).toLowerCase() === 'onyx-query://') {	
 				
-				const p:IAssetProtocol = protocols[path.substr(13)];
+				const p:IAssetProtocol = protocols[path.substr(13,6)];
 				
 				// protocol registered
 				if (p) {
@@ -65,7 +65,7 @@ package onyx.asset {
 				}
 			}
 
-			adapter.queryDirectory(path, callback);
+			adapter.queryDirectory(path, callback);//AIR adapter, not called if other protocols
 		}
 		
 		/**

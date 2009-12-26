@@ -36,17 +36,20 @@ package onyx.asset {
 				var subFolder:String = '';
 				if ( path.length > 20 )
 				{
-					list.push( new VideoPongAsset( '', true ) );
 					folderList = folders.listfolders.folder.(@foldername==path.substr(20)).subfolder.folder; 
 					if ( folderList.length() == 0 )
 					{
-						subFolder = path.substr( 0, path.lastIndexOf('/') );
+						//no subfolders
+						var suffix:String = path.substr(20);
+						subFolder = suffix.substr( 0, path.indexOf('/') );
+						list.push( new VideoPongAsset( '', true, subFolder ) );
+						trace(subFolder);
 					}
 					else
 					{
 						subFolder = folders.listfolders.folder.(@foldername==path.substr(20)).@foldername + '/';
+						list.push( new VideoPongAsset( '', true ) );
 					}
-					trace(subFolder);
 					//folderList = folders.listfolders.folder.(foldername.toString().search(path.substr(20)) > -1).folder; 
 				}
 				else
@@ -63,7 +66,7 @@ package onyx.asset {
 				{
 					//folder.@foldername = folder.foldername;
 					
-					list.push( new VideoPongAsset( folder.@foldername, true, folder.url, subFolder ) );
+					list.push( new VideoPongAsset( folder.@foldername, true, subFolder, folder.url ) );
 				}
 			}
 			else

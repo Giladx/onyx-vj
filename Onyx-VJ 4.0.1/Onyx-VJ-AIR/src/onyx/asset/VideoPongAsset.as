@@ -38,7 +38,7 @@ package onyx.asset {
 		/**
 		 * 	@constructor
 		 */
-		public function VideoPongAsset( name:String, isDirectory:Boolean = false , url:String = '', subFolder:String = '' ) {
+		public function VideoPongAsset( name:String, isDirectory:Boolean = false, subFolder:String = '', url:String = '' ) {
 			this.videopong					= name;
 			this.urlToAssets				= url;
 			this.subFolder					= subFolder;

@@ -36,8 +36,8 @@ package ui.text {
 			//super.embedFonts		= true,
 			super.antiAliasType		= AntiAliasType.NORMAL,
 			this.mouseEnabled		= false;
-			this.defaultTextFormat = new TextFormat('Courrier New', 7, 0xe4eaef,true);
-			//this.defaultTextFormat	= TEXT_DEFAULT;
+			//this.defaultTextFormat = new TextFormat('Courrier New', 7, 0xe4eaef,true);
+			this.defaultTextFormat	= TEXT_DEFAULT;
 			//super.textColor 		= 0x00FF00;
 		}
 		

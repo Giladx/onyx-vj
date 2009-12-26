@@ -35,16 +35,17 @@ package onyx.asset {
 				var folderList:XMLList;
 				if ( path.length > 20 )
 				{
+					list.push( new VideoPongAsset( 'Up one folder', true ) );
 					folderList = folders.listfolders.folder.(@foldername==path.substr(20)).subfolder.folder; 
 					//folderList = folders.listfolders.folder.(foldername.toString().search(path.substr(20)) > -1).folder; 
 				}
 				else
 				{
 					folderList = folders.listfolders.folder;
+					//OK all folders: var folderList:XMLList = folders..folder;
 				}
 					
 				
-				//OK all folders: var folderList:XMLList = folders..folder;
 				//var folderList:XMLList = folders..(folder.toString().search("public") > -1).folder;
 				//var folderList:XMLList = folders..folder.(folder.toString().search("public") > -1);
 				//loop on resulting xmllist
@@ -52,12 +53,12 @@ package onyx.asset {
 				{
 					//folder.@foldername = folder.foldername;
 					
-					list.push( new VideoPongAsset( folder.@foldername,true ) );
+					list.push( new VideoPongAsset( folder.@foldername, true ) );
 				}
 			}
 			else
 			{
-				Console.output( 'VideoPongProtocol, no folders found' );
+				Console.output( 'VideoPongProtocol, no folders found, please login first.' );
 			}
 			return list;
 		}

@@ -46,7 +46,7 @@ package ui.text {
 			
 			super.selectable		= false,
 			//super.defaultTextFormat	= TEXT_DEFAULT,
-			super.defaultTextFormat	= new TextFormat('Verdana', 7, 0xe4eaef);
+			super.defaultTextFormat	= new TextFormat('Pixel', 7, 0xe4eaef);
 			super.gridFitType		= GridFitType.PIXEL,
 			super.antiAliasType		= AntiAliasType.NORMAL,
 			super.autoSize			= TextFieldAutoSize.LEFT,

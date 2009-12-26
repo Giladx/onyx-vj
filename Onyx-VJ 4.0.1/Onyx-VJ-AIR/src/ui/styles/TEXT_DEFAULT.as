@@ -22,7 +22,7 @@ package ui.styles {
 	import onyx.core.Console;
 	
 	//public const TEXT_DEFAULT:TextFormat = new TextFormat(new AssetDefaultFont().fontName, 7, 0xe4eaef);
-	public const TEXT_DEFAULT:TextFormat = new TextFormat('Verdana', 7, 0xe4eaef);
+	public const TEXT_DEFAULT:TextFormat = new TextFormat('Pixel', 7, 0xe4eaef);
 	
 	TEXT_DEFAULT.leading		= 3;
 	Console.output( "ui.styles.TEXT_DEFAULT: " + TEXT_DEFAULT.font);

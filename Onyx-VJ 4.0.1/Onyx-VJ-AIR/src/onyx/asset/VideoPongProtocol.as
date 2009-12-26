@@ -36,6 +36,7 @@ package onyx.asset {
 				var subFolder:String = '';
 				if ( path.length > 20 )
 				{
+					//var url:String = VideoPongAsset.assetsUrl;// folders.listfolders.folder.(@foldername==path.substr(20)).@url;
 					folderList = folders.listfolders.folder.(@foldername==path.substr(20)).subfolder.folder; 
 					if ( folderList.length() == 0 )
 					{
@@ -66,7 +67,7 @@ package onyx.asset {
 				{
 					//folder.@foldername = folder.foldername;
 					
-					list.push( new VideoPongAsset( folder.@foldername, true, subFolder, folder.url ) );
+					list.push( new VideoPongAsset( folder.@foldername, true, subFolder, folder.@url ) );
 				}
 			}
 			else

@@ -78,6 +78,13 @@ package onyx.asset {
 		/**
 		 * 
 		 */
+		public function get assetsUrl():String {
+			return urlToAssets;
+		}
+		
+		/**
+		 * 
+		 */
 		override public function get extension():String {
 			return '';
 		}

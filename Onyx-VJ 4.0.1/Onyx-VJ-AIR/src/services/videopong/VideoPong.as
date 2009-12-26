@@ -26,6 +26,7 @@ package services.videopong
 		private var _loginResponse:uint;
 		private var vpLoginResponder:CallResponder;
 		private var vpFoldersResponder:CallResponder;
+		private var vpAssetsResponder:CallResponder;
 		private var _sessiontoken:String;
 
 		/**
@@ -48,7 +49,7 @@ package services.videopong
 		}
 	               
 		/**
-		 * 
+		 * Login
 		 */
 		public function vpLogin():void {
 			
@@ -61,7 +62,7 @@ package services.videopong
 			vpLoginResponder.addEventListener( FaultEvent.FAULT, faultHandler );
 			//Console.output( "VideopongWindow, VideoPong Login" );
 			//vp.operations
-			vpLoginResponder.token = login(  "onyxapi","login",username,pwd,0 );
+			vpLoginResponder.token = login( "onyxapi", "login", username, pwd, 0 );
 		}		
 		/**
 		 * 	Result from Login
@@ -76,7 +77,7 @@ package services.videopong
 			loginResponse = res..ResponseCode;//0 if ok 1 if not then it is a guest
 			sessiontoken = res..SessionToken;
 			
-			Console.output( "VideopongWindow,loginHandler, response: " + loginResponse );  
+			Console.output( "VideopongWindow, loginHandler, response: " + loginResponse );  
 			Console.output( "VideopongWindow, loginHandler, sessiontoken: " + sessiontoken );  
 			// ask for folders tree
 			vpFoldersResponder = new CallResponder();
@@ -95,13 +96,24 @@ package services.videopong
 			
 			folderResponse = folders..ResponseCode;//0 if ok
 		}
+		/**
+		 * getAssets based on folderId
+		 */
+		public function vpGetAssets( folderId:String, assetsHandlerCallback:Function ):void {
+			vpAssetsResponder = new CallResponder();
+			// addEventListener for response
+			vpAssetsResponder.addEventListener( ResultEvent.RESULT, assetsHandlerCallback );
+			vpAssetsResponder.addEventListener( FaultEvent.FAULT, faultHandler );
+			//vp.operations
+			vpAssetsResponder.token = getassets( "onyxapi", "getassets", folderId, sessiontoken );
+		}		
 		public function faultHandler( event:FaultEvent ):void {
 			
 			var faultString:String = event.fault.faultString;
 			var faultDetail:String = event.fault.faultDetail;
 			
-			//Console.output("VideopongWindow, faultHandler, faultString: "+faultString);  
-			//Console.output("VideopongWindow, faultHandler, faultDetail: "+faultDetail);  
+			Console.output("VideopongWindow, faultHandler, faultString: "+faultString);  
+			Console.output("VideopongWindow, faultHandler, faultDetail: "+faultDetail);  
 			
 		}	
 		public function get folders():XML

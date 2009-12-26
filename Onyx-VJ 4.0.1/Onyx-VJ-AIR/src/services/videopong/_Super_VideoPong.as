@@ -10,11 +10,11 @@ import mx.rpc.AbstractOperation;
 import com.adobe.fiber.services.wrapper.HTTPServiceWrapper;
 import mx.rpc.http.HTTPMultiService;
 import mx.rpc.http.Operation;
-import com.adobe.serializers.xml.XMLSerializationFilter;
+//import com.adobe.serializers.xml.XMLSerializationFilter;
 [ExcludeClass]
 internal class _Super_VideoPong extends HTTPServiceWrapper
 {      
-    private static var serializer0:XMLSerializationFilter = new XMLSerializationFilter();
+    //private static var serializer0:XMLSerializationFilter = new XMLSerializationFilter();
        
     // Constructor
     public function _Super_VideoPong()
@@ -30,7 +30,7 @@ internal class _Super_VideoPong extends HTTPServiceWrapper
          operation.method = "POST";
          argsArray = new Array("action","method","user","pass","passhashed");
          operation.argumentNames = argsArray;         
-         operation.serializationFilter = serializer0;
+         //operation.serializationFilter = serializer0;
          operation.contentType = "application/x-www-form-urlencoded";
 		 operation.resultType = Object; 		 
          operations.push(operation);
@@ -39,6 +39,15 @@ internal class _Super_VideoPong extends HTTPServiceWrapper
          operation.url = "http://www.videopong.net";
          operation.method = "POST";
          argsArray = new Array("action","method","sessiontoken","e4x");
+         operation.argumentNames = argsArray;         
+         operation.contentType = "application/x-www-form-urlencoded";
+		 operation.resultType = Object; 		 
+         operations.push(operation);
+    
+         operation = new Operation(null, "getassets");
+         operation.url = "http://www.videopong.net";
+         operation.method = "POST";
+         argsArray = new Array("action","method","folderid","sessiontoken");
          operation.argumentNames = argsArray;         
          operation.contentType = "application/x-www-form-urlencoded";
 		 operation.resultType = Object; 		 
@@ -69,22 +78,18 @@ internal class _Super_VideoPong extends HTTPServiceWrapper
 
 		return _internal_token;
 	}   
-	 
-	/**
-	  * This method is a generated wrapper used to call the 'getfolderstree' operation. It returns an AsyncToken whose 
-	  * result property will be populated with the result of the operation when the server response is received. 
-	  * To use this result from MXML code, define a CallResponder component and assign its token property to this method's return value. 
-	  * You can then bind to CallResponder.lastResult or listen for the CallResponder.result or fault events.
-      *
-      * @see mx.rpc.AsyncToken
-      * @see mx.rpc.CallResponder 
-      *
-      * @return an AsyncToken whose result property will be populated with the result of the operation when the server response is received.
-	  */          
 	public function getfolderstree(action:String, method:String, sessiontoken:String, e4x:String) : AsyncToken
 	{
 		var _internal_operation:AbstractOperation = _serviceControl.getOperation("getfolderstree");
 		var _internal_token:AsyncToken = _internal_operation.send(action,method,sessiontoken,e4x) ;
+
+		return _internal_token;
+	}   
+	 
+	public function getassets(action:String, method:String, folderid:String, sessiontoken:String) : AsyncToken
+	{
+		var _internal_operation:AbstractOperation = _serviceControl.getOperation("getassets");
+		var _internal_token:AsyncToken = _internal_operation.send( action, method, folderid, sessiontoken );
 
 		return _internal_token;
 	}   

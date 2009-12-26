@@ -2,6 +2,9 @@ package onyx.asset {
 	
 	import flash.media.*;
 	
+	import mx.messaging.messages.IMessage;
+	import mx.rpc.events.ResultEvent;
+	
 	import onyx.core.Console;
 	import onyx.display.*;
 	import onyx.plugin.*;
@@ -36,14 +39,18 @@ package onyx.asset {
 				var subFolder:String = '';
 				if ( path.length > 20 )
 				{
-					//var url:String = VideoPongAsset.assetsUrl;// folders.listfolders.folder.(@foldername==path.substr(20)).@url;
+					var assetsList:XMLList;
 					folderList = folders.listfolders.folder.(@foldername==path.substr(20)).subfolder.folder; 
 					if ( folderList.length() == 0 )
 					{
 						//no subfolders
 						var suffix:String = path.substr(20);
 						subFolder = suffix.substr( 0, path.indexOf('/') );
+						var currentFolder:String = suffix.substr( path.indexOf('/') + 1 );
 						list.push( new VideoPongAsset( '', true, subFolder ) );
+						assetsList = folders.listfolders.folder.(@foldername==subFolder).subfolder.folder.(@foldername==currentFolder); 
+						var folderId:String = assetsList.@folderid;
+						vp.vpGetAssets( folderId, getAssetsHandler );
 						trace(subFolder);
 					}
 					else
@@ -67,7 +74,7 @@ package onyx.asset {
 				{
 					//folder.@foldername = folder.foldername;
 					
-					list.push( new VideoPongAsset( folder.@foldername, true, subFolder, folder.@url ) );
+					list.push( new VideoPongAsset( folder.@foldername, true, subFolder ) );
 				}
 			}
 			else
@@ -75,6 +82,14 @@ package onyx.asset {
 				Console.output( 'VideoPongProtocol, no folders found, please login first.' );
 			}
 			return list;
+		}
+		public function getAssetsHandler( event:ResultEvent ):void {
+			var ack:IMessage = event.message;
+			trace(ack.body.toString() );
+			var result:String =	ack.body.toString();
+			var assets:XML = XML(result);
+			
+			trace( assets..ResponseCode );//0 if ok
 		}
 
 	}

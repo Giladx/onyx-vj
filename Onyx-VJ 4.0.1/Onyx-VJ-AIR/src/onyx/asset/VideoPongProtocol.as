@@ -33,10 +33,20 @@ package onyx.asset {
 				var response:uint = folders..ResponseCode;//0 if ok
 				//select only folders for the path eg:onyx-query://vdpong/all
 				var folderList:XMLList;
+				var subFolder:String = '';
 				if ( path.length > 20 )
 				{
-					list.push( new VideoPongAsset( 'Up one folder', true ) );
+					list.push( new VideoPongAsset( '', true ) );
 					folderList = folders.listfolders.folder.(@foldername==path.substr(20)).subfolder.folder; 
+					if ( folderList.length() == 0 )
+					{
+						subFolder = path.substr( 0, path.lastIndexOf('/') );
+					}
+					else
+					{
+						subFolder = folders.listfolders.folder.(@foldername==path.substr(20)).@foldername + '/';
+					}
+					trace(subFolder);
 					//folderList = folders.listfolders.folder.(foldername.toString().search(path.substr(20)) > -1).folder; 
 				}
 				else
@@ -53,7 +63,7 @@ package onyx.asset {
 				{
 					//folder.@foldername = folder.foldername;
 					
-					list.push( new VideoPongAsset( folder.@foldername, true ) );
+					list.push( new VideoPongAsset( folder.@foldername, true, folder.url, subFolder ) );
 				}
 			}
 			else

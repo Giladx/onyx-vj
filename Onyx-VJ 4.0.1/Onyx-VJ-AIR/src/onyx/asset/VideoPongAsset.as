@@ -31,13 +31,17 @@ package onyx.asset {
 		 * 	@private
 		 */
 		private var videopong:String;
+		private var urlToAssets:String;
+		private var subFolder:String;
 		private var isFolder:Boolean;
 		
 		/**
 		 * 	@constructor
 		 */
-		public function VideoPongAsset(name:String, isDirectory:Boolean=false) {
+		public function VideoPongAsset( name:String, isDirectory:Boolean = false , url:String = '', subFolder:String = '' ) {
 			this.videopong					= name;
+			this.urlToAssets				= url;
+			this.subFolder					= subFolder;
 			this.isFolder					= isDirectory;
 			this.thumbnail.bitmapData		= new VideoPongThumbnail();
 			
@@ -68,7 +72,7 @@ package onyx.asset {
 		 * 
 		 */
 		override public function get path():String {
-			return 'onyx-query://vdpong/' + name;
+			return 'onyx-query://vdpong/' + subFolder + videopong;
 		}
 		
 		/**

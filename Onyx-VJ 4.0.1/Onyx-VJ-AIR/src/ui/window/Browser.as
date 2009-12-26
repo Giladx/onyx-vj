@@ -263,7 +263,8 @@ package ui.window {
 				if (asset.isDirectory) {
 					
 					// add and position
-					control		= folders.addChild(new FolderControl(asset, asset.path.length < path.length));
+					// check the asset path length for showing 'up one level'
+					control		= folders.addChild( new FolderControl( asset, asset.path.length < path.length ) );
 
 					index		= folders.getChildIndex(control);
 

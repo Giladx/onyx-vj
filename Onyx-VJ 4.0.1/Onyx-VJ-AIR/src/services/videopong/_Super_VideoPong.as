@@ -53,6 +53,15 @@ internal class _Super_VideoPong extends HTTPServiceWrapper
 		 operation.resultType = Object; 		 
          operations.push(operation);
     
+         operation = new Operation(null, "get_clip");
+         operation.url = "http://www.videopong.net";
+         operation.method = "POST";
+         argsArray = new Array("action","method","clip_id","sessiontoken");
+         operation.argumentNames = argsArray;         
+         operation.contentType = "application/x-www-form-urlencoded";
+		 operation.resultType = Object; 		 
+         operations.push(operation);
+    
          _serviceControl.operationList = operations;  
 
     
@@ -78,6 +87,7 @@ internal class _Super_VideoPong extends HTTPServiceWrapper
 
 		return _internal_token;
 	}   
+
 	public function getfolderstree(action:String, method:String, sessiontoken:String, e4x:String) : AsyncToken
 	{
 		var _internal_operation:AbstractOperation = _serviceControl.getOperation("getfolderstree");
@@ -90,6 +100,14 @@ internal class _Super_VideoPong extends HTTPServiceWrapper
 	{
 		var _internal_operation:AbstractOperation = _serviceControl.getOperation("getassets");
 		var _internal_token:AsyncToken = _internal_operation.send( action, method, folderid, sessiontoken );
+
+		return _internal_token;
+	}   
+	 
+	public function get_clip(action:String, method:String, clip_id:String, sessiontoken:String) : AsyncToken
+	{
+		var _internal_operation:AbstractOperation = _serviceControl.getOperation("get_clip");
+		var _internal_token:AsyncToken = _internal_operation.send( action, method, clip_id, sessiontoken );
 
 		return _internal_token;
 	}   

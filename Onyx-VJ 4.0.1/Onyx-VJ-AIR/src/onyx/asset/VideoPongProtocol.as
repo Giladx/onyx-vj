@@ -39,41 +39,39 @@ package onyx.asset {
 				var subFolder:String = '';
 				if ( path.length > 20 )
 				{
-					var assetsList:XMLList;
-					folderList = folders.listfolders.folder.(@foldername==path.substr(20)).subfolder.folder; 
+					var folderIdList:XMLList;
+					var suffix:String = path.substr(20);
+					var currentFolder:String = suffix.substr( path.indexOf('/') + 1 );
+					folderList = folders.listfolders.folder.(@foldername==suffix).subfolder.folder; 
 					if ( folderList.length() == 0 )
 					{
 						//no subfolders
-						var suffix:String = path.substr(20);
-						subFolder = suffix.substr( 0, path.indexOf('/') );
-						var currentFolder:String = suffix.substr( path.indexOf('/') + 1 );
 						list.push( new VideoPongAsset( '', true, subFolder ) );
-						assetsList = folders.listfolders.folder.(@foldername==subFolder).subfolder.folder.(@foldername==currentFolder); 
-						var folderId:String = assetsList.@folderid;
-						vp.vpGetAssets( folderId, getAssetsHandler );
+						subFolder = suffix.substr( 0, path.indexOf('/') );
+						folderIdList = folders.listfolders.folder.(@foldername==subFolder).subfolder.folder.(@foldername==currentFolder); 
 						trace(subFolder);
 					}
 					else
 					{
-						subFolder = folders.listfolders.folder.(@foldername==path.substr(20)).@foldername + '/';
+						subFolder = folders.listfolders.folder.(@foldername==suffix).@foldername + '/';
+						folderIdList = folders.listfolders.folder.(@foldername==suffix); 
 						list.push( new VideoPongAsset( '', true ) );
 					}
-					//folderList = folders.listfolders.folder.(foldername.toString().search(path.substr(20)) > -1).folder; 
+					if ( folderIdList.length() > 0 )
+					{
+						var folderId:String = folderIdList.@folderid;
+						vp.vpGetAssets( folderId, getAssetsHandler );
+						
+					}
 				}
 				else
 				{
 					folderList = folders.listfolders.folder;
 					//OK all folders: var folderList:XMLList = folders..folder;
 				}
-					
-				
-				//var folderList:XMLList = folders..(folder.toString().search("public") > -1).folder;
-				//var folderList:XMLList = folders..folder.(folder.toString().search("public") > -1);
 				//loop on resulting xmllist
 				for each ( var folder:XML in folderList )
 				{
-					//folder.@foldername = folder.foldername;
-					
 					list.push( new VideoPongAsset( folder.@foldername, true, subFolder ) );
 				}
 			}
@@ -90,6 +88,14 @@ package onyx.asset {
 			var assets:XML = XML(result);
 			
 			trace( assets..ResponseCode );//0 if ok
+			var assetsList:XMLList;
+			assetsList = assets.listassets.asset;
+			//loop on resulting xmllist
+			for each ( var asset:XML in assetsList )
+			{
+				trace( asset.@id );
+				//list.push( new VideoPongAsset( asset.@name ) );
+			}
 		}
 
 	}

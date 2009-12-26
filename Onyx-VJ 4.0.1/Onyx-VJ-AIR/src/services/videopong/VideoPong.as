@@ -13,6 +13,7 @@ package services.videopong
 	import mx.rpc.events.ResultEvent;
 	
 	import onyx.core.Console;
+	import onyx.plugin.Display;
 	
 	public class VideoPong extends _Super_VideoPong
 	{
@@ -55,7 +56,7 @@ package services.videopong
 			
 			//Call videopong webservice
 			//vp = new VideoPong();
-			
+			//Display.pause(true);//TODO: remove!
 			vpLoginResponder = new CallResponder();
 			// addEventListener for response
 			vpLoginResponder.addEventListener( ResultEvent.RESULT, loginHandler );

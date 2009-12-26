@@ -79,8 +79,12 @@ package onyx.asset {
 			{
 				Console.output( 'VideoPongProtocol, no folders found, please login first.' );
 			}
+			list.push( new VideoPongAsset( "0cwr94akevq" ) );
 			return list;
 		}
+		/**
+		 *  
+		 */
 		public function getAssetsHandler( event:ResultEvent ):void {
 			var ack:IMessage = event.message;
 			trace(ack.body.toString() );
@@ -95,6 +99,7 @@ package onyx.asset {
 			{
 				trace( asset.@id );
 				//list.push( new VideoPongAsset( asset.@name ) );
+				//var a:VideoPongAsset = new VideoPongAsset( asset.@name );
 			}
 		}
 

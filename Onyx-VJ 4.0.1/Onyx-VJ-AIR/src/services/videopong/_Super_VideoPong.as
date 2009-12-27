@@ -63,8 +63,6 @@ internal class _Super_VideoPong extends HTTPServiceWrapper
          operations.push(operation);
     
          _serviceControl.operationList = operations;  
-
-    
                       
          model_internal::initialize();
     }

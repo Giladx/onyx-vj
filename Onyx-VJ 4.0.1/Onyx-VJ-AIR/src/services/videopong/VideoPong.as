@@ -23,6 +23,7 @@ package services.videopong
 		private static var _username:String;
 		private static var _pwd:String;
 		private var _folders:XML;
+		private var _assets:XML;
 		private var _folderResponse:uint;
 		private var _loginResponse:uint;
 		private var vpLoginResponder:CallResponder;
@@ -96,17 +97,57 @@ package services.videopong
 			folders = XML(result);
 			
 			folderResponse = folders..ResponseCode;//0 if ok
+			if ( folderResponse == 0 ) retrieveAssets();
+			
+		}
+		/**
+		 *  retrieveAssets based on folders xml result
+		 */
+		private function retrieveAssets( ):void 
+		{
+			var folderList:XMLList = folders..folder; // all folders
+			vpAssetsResponder = new CallResponder();
+			// addEventListener for response
+			vpAssetsResponder.addEventListener( ResultEvent.RESULT, getAssetsHandler );
+			vpAssetsResponder.addEventListener( FaultEvent.FAULT, faultHandler );
+
+			assets = <assets />;
+			//loop on resulting xmllist
+			for each ( var folder:XML in folderList )
+			{
+				trace("calling getassets with folderid: " + folder.@folderid );
+				vpAssetsResponder.token = getassets( "onyxapi", "getassets", folder.@folderid, sessiontoken );
+				vpAssetsResponder.token.folderid = folder.@folderid;
+			}			
+		}		
+		/**
+		 *  
+		 */
+		public function getAssetsHandler( event:ResultEvent ):void {
+			var ack:IMessage = event.message;
+			trace(ack.body.toString() );
+			var result:String =	ack.body.toString();
+			var assetsXML:XML = XML(result);
+			
+			trace( assetsXML..ResponseCode );//0 if ok
+			var assetsList:XMLList;
+			assetsList = assetsXML.listassets.asset;
+			//loop on resulting xmllist
+			for each ( var asset:XML in assetsList )
+			{
+				trace( asset.@id );
+				asset.@["folderid"] = event.token.folderid;
+				assets.appendChild( asset );
+			}
+			trace("assets from folderid: " + event.token.folderid + "=" + assets);
 		}
 		/**
 		 * getAssets based on folderId
 		 */
-		public function vpGetAssets( folderId:String, assetsHandlerCallback:Function ):void {
-			vpAssetsResponder = new CallResponder();
-			// addEventListener for response
-			vpAssetsResponder.addEventListener( ResultEvent.RESULT, assetsHandlerCallback );
-			vpAssetsResponder.addEventListener( FaultEvent.FAULT, faultHandler );
-			//vp.operations
-			vpAssetsResponder.token = getassets( "onyxapi", "getassets", folderId, sessiontoken );
+		public function vpGetAssets( folderId:String ):XMLList {
+			var assetsList:XMLList;
+			assetsList = assets.asset.(@folderid == folderId);
+			return assetsList;
 		}		
 		public function faultHandler( event:FaultEvent ):void {
 			
@@ -156,18 +197,6 @@ package services.videopong
 		{
 			_username = value;
 		}
-		/**
-		 * 	@public
-		 */
-		public function dispose():void {
-			
-			if ( vpLoginResponder )
-			{
-				if ( vpLoginResponder.hasEventListener( ResultEvent.RESULT ) ) vpLoginResponder.removeEventListener( ResultEvent.RESULT, loginHandler );
-				if ( vpLoginResponder.hasEventListener( FaultEvent.FAULT ) ) vpLoginResponder.removeEventListener( FaultEvent.FAULT, faultHandler );
-			}
-			
-		}
 
 		public function get folderResponse():uint
 		{
@@ -197,6 +226,38 @@ package services.videopong
 		public function set sessiontoken(value:String):void
 		{
 			_sessiontoken = value;
+		}
+
+		public function get assets():XML
+		{
+			return _assets;
+		}
+
+		public function set assets(value:XML):void
+		{
+			_assets = value;
+		}
+		/**
+		 * 	@public
+		 */
+		public function dispose():void {
+			
+			if ( vpLoginResponder )
+			{
+				if ( vpLoginResponder.hasEventListener( ResultEvent.RESULT ) ) vpLoginResponder.removeEventListener( ResultEvent.RESULT, loginHandler );
+				if ( vpLoginResponder.hasEventListener( FaultEvent.FAULT ) ) vpLoginResponder.removeEventListener( FaultEvent.FAULT, faultHandler );
+			}
+			if ( vpFoldersResponder )
+			{
+				if ( vpFoldersResponder.hasEventListener( ResultEvent.RESULT ) ) vpFoldersResponder.removeEventListener( ResultEvent.RESULT, foldersTreeHandler );
+				if ( vpFoldersResponder.hasEventListener( FaultEvent.FAULT ) ) vpFoldersResponder.removeEventListener( FaultEvent.FAULT, faultHandler );
+			}
+			if ( vpAssetsResponder )
+			{
+				if ( vpAssetsResponder.hasEventListener( ResultEvent.RESULT ) ) vpAssetsResponder.removeEventListener( ResultEvent.RESULT, getAssetsHandler );
+				if ( vpAssetsResponder.hasEventListener( FaultEvent.FAULT ) ) vpAssetsResponder.removeEventListener( FaultEvent.FAULT, faultHandler );
+			}
+			
 		}
 
 

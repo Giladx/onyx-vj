@@ -80,7 +80,6 @@ package services.videopong
 			sessiontoken = res..SessionToken;
 			
 			Console.output( "VideopongWindow, loginHandler, response: " + loginResponse );  
-			Console.output( "VideopongWindow, loginHandler, sessiontoken: " + sessiontoken );  
 			// ask for folders tree
 			vpFoldersResponder = new CallResponder();
 			// addEventListener for response
@@ -91,19 +90,21 @@ package services.videopong
 			
 		}		
 		public function foldersTreeHandler( event:ResultEvent ):void {
+			
 			var ack:IMessage = event.message;
 			trace(ack.body.toString() );
 			var result:String =	ack.body.toString();
 			folders = XML(result);
 			
 			folderResponse = folders..ResponseCode;//0 if ok
-			if ( folderResponse == 0 ) retrieveAssets();
+			Console.output( "VideopongWindow, foldersTreeHandler, ResponseCode: " + folderResponse );  
+			//if ( folderResponse == 0 ) retrieveAssets();
 			
 		}
 		/**
 		 *  retrieveAssets based on folders xml result
 		 */
-		private function retrieveAssets( ):void 
+		/*private function retrieveAssets( ):void 
 		{
 			var folderList:XMLList = folders..folder; // all folders
 			vpAssetsResponder = new CallResponder();
@@ -119,11 +120,11 @@ package services.videopong
 				vpAssetsResponder.token = getassets( "onyxapi", "getassets", folder.@folderid, sessiontoken );
 				vpAssetsResponder.token.folderid = folder.@folderid;
 			}			
-		}		
+		}*/		
 		/**
 		 *  
 		 */
-		public function getAssetsHandler( event:ResultEvent ):void {
+		/*public function getAssetsHandler( event:ResultEvent ):void {
 			var ack:IMessage = event.message;
 			trace(ack.body.toString() );
 			var result:String =	ack.body.toString();
@@ -140,7 +141,7 @@ package services.videopong
 				assets.appendChild( asset );
 			}
 			trace("assets from folderid: " + event.token.folderid + "=" + assets);
-		}
+		}*/
 		/**
 		 * getAssets based on folderId
 		 */
@@ -252,11 +253,11 @@ package services.videopong
 				if ( vpFoldersResponder.hasEventListener( ResultEvent.RESULT ) ) vpFoldersResponder.removeEventListener( ResultEvent.RESULT, foldersTreeHandler );
 				if ( vpFoldersResponder.hasEventListener( FaultEvent.FAULT ) ) vpFoldersResponder.removeEventListener( FaultEvent.FAULT, faultHandler );
 			}
-			if ( vpAssetsResponder )
+			/*if ( vpAssetsResponder )
 			{
 				if ( vpAssetsResponder.hasEventListener( ResultEvent.RESULT ) ) vpAssetsResponder.removeEventListener( ResultEvent.RESULT, getAssetsHandler );
 				if ( vpAssetsResponder.hasEventListener( FaultEvent.FAULT ) ) vpAssetsResponder.removeEventListener( FaultEvent.FAULT, faultHandler );
-			}
+			}*/
 			
 		}
 

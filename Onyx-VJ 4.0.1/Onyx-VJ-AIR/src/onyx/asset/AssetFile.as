@@ -38,7 +38,7 @@ package onyx.asset {
 		onyx_ns static var adapter:IAssetAdapter;
 		
 		/**
-		 *  all name must have a length of 6
+		 *  all names must have a length of 6
 		 */
 		onyx_ns static const protocols:Object	= {
 			camera: new CameraProtocol(),

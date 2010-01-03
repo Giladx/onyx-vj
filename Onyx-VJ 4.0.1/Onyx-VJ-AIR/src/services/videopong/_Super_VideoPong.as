@@ -62,6 +62,15 @@ internal class _Super_VideoPong extends HTTPServiceWrapper
 		 operation.resultType = Object; 		 
          operations.push(operation);
     
+		 operation = new Operation(null, "getfolderstreeassets");
+		 operation.url = "http://www.videopong.net";
+		 operation.method = "POST";
+		 argsArray = new Array("action","method","sessiontoken","e4x");
+		 operation.argumentNames = argsArray;         
+		 operation.contentType = "application/x-www-form-urlencoded";
+		 operation.resultType = Object; 		 
+		 operations.push(operation);
+		 
          _serviceControl.operationList = operations;  
                       
          model_internal::initialize();
@@ -86,9 +95,17 @@ internal class _Super_VideoPong extends HTTPServiceWrapper
 		return _internal_token;
 	}   
 
-	public function getfolderstree(action:String, method:String, sessiontoken:String, e4x:String) : AsyncToken
+	/*public function getfolderstree(action:String, method:String, sessiontoken:String, e4x:String) : AsyncToken
 	{
 		var _internal_operation:AbstractOperation = _serviceControl.getOperation("getfolderstree");
+		var _internal_token:AsyncToken = _internal_operation.send(action,method,sessiontoken,e4x) ;
+
+		return _internal_token;
+	} */  
+	 
+	public function getfolderstreeassets(action:String, method:String, sessiontoken:String, e4x:String) : AsyncToken
+	{
+		var _internal_operation:AbstractOperation = _serviceControl.getOperation("getfolderstreeassets");
 		var _internal_token:AsyncToken = _internal_operation.send(action,method,sessiontoken,e4x) ;
 
 		return _internal_token;

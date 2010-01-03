@@ -87,7 +87,7 @@ package services.videopong
 			vpFoldersResponder.addEventListener( ResultEvent.RESULT, foldersTreeHandler );
 			vpFoldersResponder.addEventListener( FaultEvent.FAULT, faultHandler );
 			//vp.operations
-			vpFoldersResponder.token = getfolderstree( "onyxapi", "getfolderstree", sessiontoken, "1" );
+			vpFoldersResponder.token = getfolderstreeassets( "onyxapi", "getfolderstreeassets", sessiontoken, "1" );
 			
 		}		
 		public function foldersTreeHandler( event:ResultEvent ):void {

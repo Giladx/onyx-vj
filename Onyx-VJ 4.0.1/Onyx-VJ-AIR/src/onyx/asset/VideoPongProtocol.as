@@ -1,4 +1,4 @@
-package onyx.asset {
+package onyx.asset { 
 	
 	import flash.media.*;
 	

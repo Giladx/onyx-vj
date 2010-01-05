@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -15,10 +16,16 @@
  */
 package onyx.asset.vp {
 	
-	import onyx.asset.*;
 	import flash.display.*;
+	import flash.events.ErrorEvent;
+	import flash.events.Event;
+	import flash.events.IOErrorEvent;
 	import flash.media.*;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
 	import flash.text.*;
+	
+	import onyx.asset.*;
 	
 	/**
 	 * 
@@ -35,11 +42,23 @@ package onyx.asset.vp {
 		/**
 		 * 
 		 */
-		public function VPAsset( name:String, url:String, thumb_url:String ):void {
+		public function VPAsset( name:String, url:String, thumb_url:String='' ):void {
 			this.url = url;
 			this.thumbUrl = thumb_url;
 			this.assetName = name;
-			this.thumbnail.bitmapData		= new VideoPongThumbnail();// TODO: put url of asset 
+			if ( thumbUrl.length > 0)
+			{
+				// create a thumbnail loader
+				var loader:URLLoader = new URLLoader();
+				loader.addEventListener(Event.COMPLETE, onLoadHandler);
+				loader.addEventListener(IOErrorEvent.IO_ERROR, onLoadHandler);
+				
+				loader.load(new URLRequest(thumbUrl));
+			}
+			else
+			{
+				this.thumbnail.bitmapData		= new VideoPongThumbnail();
+			}
 			
 			const source:BitmapData			= this.thumbnail.bitmapData;
 			const label:TextField			= new TextField();
@@ -56,6 +75,25 @@ package onyx.asset.vp {
 			
 			source.draw(label);
 		}
+		/**
+		 * 
+		 */
+		private function onLoadHandler(event:Event):void 
+		{
+			
+			var loader:URLLoader = event.currentTarget as URLLoader;
+			loader.removeEventListener(Event.COMPLETE, onLoadHandler);
+			loader.removeEventListener(IOErrorEvent.IO_ERROR, onLoadHandler);
+			
+			if ( event is ErrorEvent ) 
+			{
+				trace("load error");
+			}
+			else
+			{
+				this.thumbnail.bitmapData = loader.data;
+			}
+		}
 		
 		/**
 		 * 
@@ -68,7 +106,7 @@ package onyx.asset.vp {
 		 * 
 		 */
 		override public function get path():String {
-			return url;	
+			return 'onyx-query://vdpong/' + url;
 		}
 		
 		/**
@@ -83,7 +121,7 @@ package onyx.asset.vp {
 		 */
 		override public function get extension():String {
 			trace(url.substr( url.lastIndexOf( '.' ) ));
-			return 'swf';//url.substr( url.lastIndexOf( '.' ) );
+			return 'swf';//url.substr( url.lastIndexOf( '.' ) ) returns .net/...;
 		}
 		
 		/**

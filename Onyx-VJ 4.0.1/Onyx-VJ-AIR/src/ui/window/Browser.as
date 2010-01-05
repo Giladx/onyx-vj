@@ -174,7 +174,7 @@ package ui.window {
 			
 			addChild(folders);
 			addChild(files);
-			addChild(buttonVideoPong);
+			addChild(buttonVideoPong);// TODO: add this button on vp successful login
 			addChild(buttonFiles);
 			addChild(buttonCameras);
 			

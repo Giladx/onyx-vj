@@ -2,6 +2,7 @@ package onyx.asset {
 	
 	import flash.media.*;
 	
+	import onyx.asset.vp.VPAsset;
 	import onyx.core.Console;
 	import onyx.display.*;
 	import onyx.plugin.*;
@@ -64,7 +65,8 @@ package onyx.asset {
 							
 							for each ( var asset:XML in assetsList )
 							{
-								list.push( new VideoPongAsset( asset.@id ) );
+								var vpAsset:AssetFile = new VPAsset( asset.@name, asset.@url+vp.sessiontoken, asset.@thumb_url );
+								list.push( vpAsset );
 							}
 						}
 					}

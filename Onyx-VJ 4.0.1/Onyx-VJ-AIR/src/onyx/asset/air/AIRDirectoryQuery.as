@@ -82,7 +82,7 @@ package onyx.asset.air {
 				list.push(new AIRAsset(AIR_ROOT.resolvePath(path).parent))
 				
 			}
-
+			
             // add files                            
             for each (file in files) {
 

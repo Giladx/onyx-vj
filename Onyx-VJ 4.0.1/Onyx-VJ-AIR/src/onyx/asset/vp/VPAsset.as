@@ -64,13 +64,13 @@ package onyx.asset.vp {
 			
 			const source:BitmapData			= this.thumbnail.bitmapData;
 			const label:TextField			= new TextField();
-			const format:TextFormat			= new TextFormat('Pixel', 7, 0xFFFFFF);
-			//const format:TextFormat			= new TextFormat(new AssetDefaultFont().fontName, 7, 0xFFFFFF);
+			//const format:TextFormat			= new TextFormat('Pixel', 7, 0xFFFFFF);
+			const format:TextFormat			= new TextFormat(new AssetDefaultFont().fontName, 7, 0xFFFFFF);
 			format.leading					= 3;
 			label.autoSize					= TextFieldAutoSize.LEFT;
 			label.wordWrap					= true;
 			label.width						= 44;
-			//label.embedFonts				= true;
+			label.embedFonts				= true;
 			label.defaultTextFormat			= format;
 			
 			label.text						= name.toUpperCase();

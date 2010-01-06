@@ -38,14 +38,16 @@ package onyx.asset.vp {
 		private var url:String;
 		private var thumbUrl:String;
 		private var assetName:String;
+		private var ext:String;
 		
 		/**
 		 * 
 		 */
-		public function VPAsset( name:String, url:String, thumb_url:String='' ):void {
+		public function VPAsset( name:String, url:String, thumb_url:String='', extension:String ):void {
 			this.url = url;
 			this.thumbUrl = thumb_url;
 			this.assetName = name;
+			this.ext = extension;
 			if ( thumbUrl.length > 0)
 			{
 				// create a thumbnail loader
@@ -106,7 +108,14 @@ package onyx.asset.vp {
 		 * 
 		 */
 		override public function get path():String {
-			return 'onyx-query://vdpong/' + url;
+			return 'vdpong://' + name;
+		}
+		
+		/**
+		 * 
+		 */
+		public function get url():String {
+			return assetUrl;	
 		}
 		
 		/**

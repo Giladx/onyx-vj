@@ -45,12 +45,12 @@ package ui.text {
 		public function TextFieldCenter():void {
 			
 			super.selectable		= false,
-			//super.defaultTextFormat	= TEXT_DEFAULT,
-			super.defaultTextFormat	= new TextFormat('Pixel', 7, 0xe4eaef);
+			super.defaultTextFormat	= TEXT_DEFAULT,
+			//super.defaultTextFormat	= new TextFormat('Pixel', 7, 0xe4eaef);
 			super.gridFitType		= GridFitType.PIXEL,
 			super.antiAliasType		= AntiAliasType.NORMAL,
 			super.autoSize			= TextFieldAutoSize.LEFT,
-			//super.embedFonts		= true,
+			super.embedFonts		= true,
 			super.mouseEnabled		= false,
 			super.mouseWheelEnabled	= false;
 			//super.textColor			= 0x0000FF;

@@ -65,7 +65,7 @@ package onyx.asset {
 							
 							for each ( var asset:XML in assetsList )
 							{
-								var vpAsset:AssetFile = new VPAsset( asset.@name, asset.@url+vp.sessiontoken, asset.@thumb_url );
+								var vpAsset:AssetFile = new VPAsset( asset.@name, asset.@url+vp.sessiontoken, asset.@ext, asset.@thumb_url );
 								list.push( vpAsset );
 							}
 						}

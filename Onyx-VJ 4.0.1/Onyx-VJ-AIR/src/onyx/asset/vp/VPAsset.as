@@ -35,7 +35,7 @@ package onyx.asset.vp {
 		/**
 		 * 	@private
 		 */
-		private var url:String;
+		private var assetUrl:String;
 		private var thumbUrl:String;
 		private var assetName:String;
 		private var ext:String;
@@ -43,8 +43,8 @@ package onyx.asset.vp {
 		/**
 		 * 
 		 */
-		public function VPAsset( name:String, url:String, thumb_url:String='', extension:String ):void {
-			this.url = url;
+		public function VPAsset( name:String, url:String, extension:String, thumb_url:String='' ):void {
+			this.assetUrl = url;
 			this.thumbUrl = thumb_url;
 			this.assetName = name;
 			this.ext = extension;

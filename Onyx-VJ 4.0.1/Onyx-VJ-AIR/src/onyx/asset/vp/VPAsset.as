@@ -17,16 +17,14 @@
 package onyx.asset.vp {
 	
 	import flash.display.*;
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
+	import flash.events.*;
 	import flash.media.*;
 	import flash.net.URLRequest;
 	import flash.text.*;
 	
 	import onyx.asset.*;
 	
-	import ui.styles.THUMB_HEIGHT;
-	import ui.styles.THUMB_WIDTH;
+	import ui.styles.*;
 	
 	/**
 	 * 

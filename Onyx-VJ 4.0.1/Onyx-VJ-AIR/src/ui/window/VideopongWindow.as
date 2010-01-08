@@ -187,7 +187,7 @@ package ui.window {
 			if (bg) {
 				var source:BitmapData	= bg.bitmapData;
 				vpInfoLabel = new StaticText();
-				vpInfoLabel.text = 'You are logged in as ' +event.text;
+				vpInfoLabel.text = 'You are logged in as ' + event.text;
 				Console.output( vpInfoLabel.text );
 				source.draw(vpInfoLabel, new Matrix(1, 0, 0, 1, 8, 75));
 			}

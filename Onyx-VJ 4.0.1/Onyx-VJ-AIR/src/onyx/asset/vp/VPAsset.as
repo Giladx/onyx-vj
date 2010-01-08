@@ -39,32 +39,16 @@ package onyx.asset.vp {
 		private var thumbUrl:String;
 		private var assetName:String;
 		private var ext:String;
-		
+		private const label:TextField = new TextField();;
 		/**
 		 * 
 		 */
 		public function VPAsset( name:String, url:String, extension:String, thumb_url:String='' ):void {
-			this.assetUrl = url;
-			this.thumbUrl = thumb_url;
-			this.assetName = name;
-			this.ext = extension;
-			if ( thumbUrl.length > 0)
-			{
-				// create a thumbnail loader
-				var loader:URLLoader = new URLLoader();
-				loader.addEventListener(Event.COMPLETE, onLoadHandler);
-				loader.addEventListener(IOErrorEvent.IO_ERROR, onLoadHandler);
-				
-				loader.load(new URLRequest(thumbUrl));
-			}
-			else
-			{
-				this.thumbnail.bitmapData		= new VideoPongThumbnail();
-			}
-			
-			const source:BitmapData			= this.thumbnail.bitmapData;
-			const label:TextField			= new TextField();
-			//const format:TextFormat			= new TextFormat('Pixel', 7, 0xFFFFFF);
+			this.assetUrl 					= url;
+			this.thumbUrl 					= thumb_url;
+			this.assetName 					= name;
+			this.ext 						= extension;
+										
 			const format:TextFormat			= new TextFormat(new AssetDefaultFont().fontName, 7, 0xFFFFFF);
 			format.leading					= 3;
 			label.autoSize					= TextFieldAutoSize.LEFT;
@@ -74,29 +58,46 @@ package onyx.asset.vp {
 			label.defaultTextFormat			= format;
 			
 			label.text						= name.toUpperCase();
+			if ( thumbUrl.length > 0)
+			{
+				// create a thumbnail loader
+				var loader:Loader = new Loader();
+				loader.contentLoaderInfo.addEventListener( Event.COMPLETE, onImageLoaded );
+				loader.contentLoaderInfo.addEventListener( IOErrorEvent.IO_ERROR, ioErrorHandler ); 
+				
+				loader.load(new URLRequest(thumbUrl));
+			}
+			else
+			{
+				this.thumbnail.bitmapData		= new VideoPongThumbnail();
+				
+				const source:BitmapData			= this.thumbnail.bitmapData;
+				source.draw(label);
+			}
 			
-			source.draw(label);
 		}
 		/**
 		 * 
 		 */
-		private function onLoadHandler(event:Event):void 
+		private function onImageLoaded( evt:Event ):void
 		{
-			
-			var loader:URLLoader = event.currentTarget as URLLoader;
-			loader.removeEventListener(Event.COMPLETE, onLoadHandler);
-			loader.removeEventListener(IOErrorEvent.IO_ERROR, onLoadHandler);
-			
-			if ( event is ErrorEvent ) 
+			if (evt) 
 			{
-				trace("load error");
-			}
-			else
-			{
-				this.thumbnail.bitmapData = loader.data;
+				var bmpThumb = Bitmap( evt.target.content );
+				//bmpThumb.smoothing = true;
+				//this.thumbnail.bitmapData = new BitmapData( bmpThumb.bitmapData.width, bmpThumb.bitmapData.height );
+				this.thumbnail.bitmapData = new BitmapData( 64, 43 );
+				this.thumbnail.bitmapData = bmpThumb.bitmapData;
+				this.thumbnail.bitmapData.draw(label);
 			}
 		}
-		
+		/**
+		 * 
+		 */
+		private function ioErrorHandler( evt:IOErrorEvent ):void 
+		{
+			trace("thumbnail load error");
+		}				
 		/**
 		 * 
 		 */

@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -67,6 +68,11 @@ package ui.window {
 		 * 	@private
 		 */
 		private var vpPwdTextControl:TextControl;
+		
+		/**
+		 * 	@private
+		 */
+		public var vpInfoLabel:StaticText;
 		
 		/**
 		 * 
@@ -143,6 +149,7 @@ package ui.window {
 				
 				label.text	= 'VIDEOPONG';
 				source.draw(label, new Matrix(1, 0, 0, 1, 8, 17));
+				
 			}
 			
 			// videopong login
@@ -163,12 +170,30 @@ package ui.window {
 		private function mouseDown(event:MouseEvent):void {
 			switch (event.currentTarget) {
 				case vpLoginBtn:
+					vp.addEventListener( 'loggedin', setUserName);
 					vp.vpLogin();
 					break;
 			}
 			event.stopPropagation();
 		}
-	
+		
+		/**
+		 * 	@private
+		 */
+		private function setUserName(event:TextEvent):void
+		{
+			var bg:AssetWindow	= super.getBackground() as AssetWindow;
+			
+			if (bg) {
+				var source:BitmapData	= bg.bitmapData;
+				vpInfoLabel = new StaticText();
+				vpInfoLabel.text = 'You are logged in as ' +event.text;
+				Console.output( vpInfoLabel.text );
+				source.draw(vpInfoLabel, new Matrix(1, 0, 0, 1, 8, 75));
+			}
+			event.stopPropagation();
+		}
+		
 		/**
 		 * 	@public
 		 */

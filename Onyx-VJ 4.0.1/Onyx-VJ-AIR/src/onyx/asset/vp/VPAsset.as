@@ -17,15 +17,16 @@
 package onyx.asset.vp {
 	
 	import flash.display.*;
-	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.media.*;
-	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.text.*;
 	
 	import onyx.asset.*;
+	
+	import ui.styles.THUMB_HEIGHT;
+	import ui.styles.THUMB_WIDTH;
 	
 	/**
 	 * 
@@ -84,10 +85,9 @@ package onyx.asset.vp {
 			if (evt) 
 			{
 				var bmpThumb = Bitmap( evt.target.content );
-				//bmpThumb.smoothing = true;
-				//this.thumbnail.bitmapData = new BitmapData( bmpThumb.bitmapData.width, bmpThumb.bitmapData.height );
-				this.thumbnail.bitmapData = new BitmapData( 64, 43 );
-				this.thumbnail.bitmapData = bmpThumb.bitmapData;
+				var tmpBD:BitmapData = new BitmapData( THUMB_WIDTH, THUMB_HEIGHT );
+				tmpBD.draw( bmpThumb.bitmapData );
+				this.thumbnail.bitmapData = tmpBD;
 				this.thumbnail.bitmapData.draw(label);
 			}
 		}

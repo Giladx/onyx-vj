@@ -27,6 +27,7 @@ package ui.window {
 	import onyx.jobs.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
+	import onyx.utils.updater.OnyxAIRUpdate;
 	
 	import ui.assets.*;
 	import ui.controls.*;
@@ -54,6 +55,16 @@ package ui.window {
 		 * 	@private
 		 */
 		private var buttonXML:TextButton;
+		
+		/**
+		 * 	@private
+		 */
+		private var buttonCheckForUpdate:TextButton;
+		
+		/**
+		 * 	@private
+		 */
+		private var buttonUpdate:TextButton;
 		
 		/**
 		 * 	@private
@@ -89,7 +100,7 @@ package ui.window {
 		 * 	@private
 		 */
 		private const samples:Array			= [0];
-		
+				
 		/**
 		 * 
 		 */
@@ -114,6 +125,8 @@ package ui.window {
 
 			// controls for display
 			buttonXML				= new TextButton(options, 'save mix file'),
+			buttonCheckForUpdate	= new TextButton(options, 'check'),
+			buttonUpdate			= new TextButton(options, 'download'),
 			
 			// transition controls
 			durationSlider			= Factory.getNewInstance(SliderV);
@@ -135,7 +148,9 @@ package ui.window {
 				tapTempo,						75,		33,
 				transitionDropDown,				8,		95,
 				durationSlider,					75,		95,
-				buttonXML,						8,		129
+				buttonXML,						8,		129,
+				buttonCheckForUpdate,			8,		161,
+				buttonUpdate,					75,		161
 			);
 			
 			
@@ -147,6 +162,7 @@ package ui.window {
 				source.fillRect(new Rectangle(4, 25, 149, 1), 0xFF445463);
 				source.fillRect(new Rectangle(4, 81, 149, 1), 0xFF445463);
 				source.fillRect(new Rectangle(4, 123, 149, 1), 0xFF445463);
+				source.fillRect(new Rectangle(4, 155, 149, 1), 0xFF445463);
 				
 				var label:StaticText		= new StaticText();
 				
@@ -159,10 +175,19 @@ package ui.window {
 				label.text	= 'MIX FILE';
 				source.draw(label, new Matrix(1, 0, 0, 1, 4, 115));
 				
+				label.text	= 'ONYX-VJ UPDATE';
+				source.draw(label, new Matrix(1, 0, 0, 1, 4, 147));
+				
 			}
                         
 			// xml
 			buttonXML.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			
+			// check for update
+			buttonCheckForUpdate.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+                        
+			// update
+			buttonUpdate.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
                         
 			// start the timer
 			Tempo.addEventListener(TempoEvent.CLICK, _onTempo);
@@ -186,6 +211,12 @@ package ui.window {
 				case buttonXML:
 					saveMix();
 					break;
+				case buttonCheckForUpdate:
+					OnyxAIRUpdate.checkForUpdate();
+					break;
+				case buttonUpdate:
+					OnyxAIRUpdate.downloadUpdate();
+					break;
 			}
 			event.stopPropagation();
 		}
@@ -198,7 +229,7 @@ package ui.window {
 			StateManager.loadState(new SaveMixState());
 
 		}
-		        
+		
 		/**
 		 * 	@private
 		 */

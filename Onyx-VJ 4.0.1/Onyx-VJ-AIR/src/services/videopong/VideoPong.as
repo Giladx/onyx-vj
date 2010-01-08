@@ -7,13 +7,16 @@
  
 package services.videopong
 {
+	import flash.events.TextEvent;
+	
 	import mx.messaging.messages.IMessage;
 	import mx.rpc.CallResponder;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	
 	import onyx.core.Console;
-	import onyx.plugin.Display;
+	
+	[Event(name="loggedin", type="flash.events.TextEvent")]
 	
 	public class VideoPong extends _Super_VideoPong
 	{
@@ -30,6 +33,7 @@ package services.videopong
 		private var vpFoldersResponder:CallResponder;
 		private var vpAssetsResponder:CallResponder;
 		private var _sessiontoken:String;
+		private var _fullUserName:String;
 
 		/**
 		 * 	VideoPong class instance
@@ -40,6 +44,7 @@ package services.videopong
 		 * 	Returns the VideoPong instance (singleton)
 		 *  to avoid multiple instances
 		 */
+
 		public static function getInstance():VideoPong {
 			return vpInstance;
 		}
@@ -78,6 +83,10 @@ package services.videopong
 			
 			loginResponse = res..ResponseCode;//0 if ok 1 if not then it is a guest
 			sessiontoken = res..SessionToken;
+			fullUserName = res..UserName;
+			var tEvent:TextEvent = new TextEvent("loggedin");
+			tEvent.text = fullUserName;
+			dispatchEvent(tEvent);
 			
 			Console.output( "VideopongWindow, loginHandler, response: " + loginResponse );  
 			// ask for folders tree
@@ -188,7 +197,15 @@ package services.videopong
 		{
 			_pwd = value;
 		}
+		public function get fullUserName():String
+		{
+			return _fullUserName;
+		}
 		
+		public function set fullUserName(value:String):void
+		{
+			_fullUserName = value;
+		}
 		public function get username():String
 		{
 			return _username;

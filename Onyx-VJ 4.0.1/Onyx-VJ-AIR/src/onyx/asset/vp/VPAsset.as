@@ -83,7 +83,7 @@ package onyx.asset.vp {
 		{
 			if (evt) 
 			{
-				var bmpThumb = Bitmap( evt.target.content );
+				var bmpThumb:Bitmap = Bitmap( evt.target.content );
 				var tmpBD:BitmapData = new BitmapData( THUMB_WIDTH, THUMB_HEIGHT );
 				tmpBD.draw( bmpThumb.bitmapData );
 				this.thumbnail.bitmapData = tmpBD;

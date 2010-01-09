@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -13,8 +14,8 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
+// Bruce: this may be obsolete as autoupdate finds the version in Main-app.xml
 package onyx.core {
-
 	import flash.display.*;
 	
 	[ExcludeClass]

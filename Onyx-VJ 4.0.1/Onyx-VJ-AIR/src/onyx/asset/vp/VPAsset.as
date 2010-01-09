@@ -89,7 +89,7 @@ package onyx.asset.vp {
 				this.thumbnail.bitmapData = tmpBD;
 				this.thumbnail.bitmapData.draw(label);
 			}
-			Display.pause(true);
+			Display.pause(true);//TODO: remove
 		}
 		/**
 		 * 

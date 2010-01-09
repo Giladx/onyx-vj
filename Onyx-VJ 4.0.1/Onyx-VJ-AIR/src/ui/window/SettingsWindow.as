@@ -126,7 +126,7 @@ package ui.window {
 			// controls for display
 			buttonXML				= new TextButton(options, 'save mix file'),
 			buttonCheckForUpdate	= new TextButton(options, 'check'),
-			buttonUpdate			= new TextButton(options, 'download'),
+			buttonUpdate			= new TextButton(options, 'update'),
 			
 			// transition controls
 			durationSlider			= Factory.getNewInstance(SliderV);
@@ -149,8 +149,8 @@ package ui.window {
 				transitionDropDown,				8,		95,
 				durationSlider,					75,		95,
 				buttonXML,						8,		129,
-				buttonCheckForUpdate,			8,		161,
-				buttonUpdate,					75,		161
+				buttonUpdate,					8,		161,
+				buttonCheckForUpdate,			75,		161
 			);
 			
 			

@@ -46,7 +46,6 @@ package onyx.utils.updater
 			installedVersion = getApplicationVersion();
 			Console.output( 'checkForUpdate' );
 			appUpdater = new ApplicationUpdater();
-			setApplicationVersion(); // Find the current version so we can show it below  
 			// Configuration stuff - see update framework docs for more details  
 			appUpdater.updateURL = "http://www.batchass.fr/onyx-vj/update/update.xml"; // Server-side XML file describing update  
 			appUpdater.addEventListener( UpdateEvent.INITIALIZED, updaterInitializedHandler ); // Once initialized, run onUpdate  
@@ -76,7 +75,7 @@ package onyx.utils.updater
 			event.preventDefault();
 			isInstallPostponed = true;
 			//updateBtn.visible = false;
-			Console.output( "Update downloaded, it will be installed on next Onyx-VJ launch." );
+			//Console.output( "Update downloaded, it will be installed on next Onyx-VJ launch." );
 			appUpdater.installUpdate();
 		}
 		
@@ -161,6 +160,7 @@ package onyx.utils.updater
 		{
 			var appXML:XML = NativeApplication.nativeApplication.applicationDescriptor;
 			var ns:Namespace = appXML.namespace();
+			Console.output( "Onyx-VJ version: " + appXML.ns::version ); 
 			return appXML.ns::version; 
 		}
 		
@@ -227,19 +227,7 @@ package onyx.utils.updater
 		{  
 			isInstallPostponed = false;
 			appUpdater.checkNow(); // Go check for an update now  
-		}  
-
-		/**
-		 * 	
-		 */
-		
-		private static function setApplicationVersion():void 
-		{  
-			var appXML:XML = NativeApplication.nativeApplication.applicationDescriptor;  
-			var ns:Namespace = appXML.namespace();  
-			Console.output( "Onyx-VJ version: " + appXML.ns::version ); 
-		} 
-		
+		}  		
 		
 	}
 	

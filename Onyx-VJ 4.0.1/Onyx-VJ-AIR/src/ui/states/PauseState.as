@@ -23,6 +23,7 @@ package ui.states {
 	import onyx.plugin.*;
 	
 	import ui.window.*;
+	import onyx.utils.updater.OnyxAIRUpdate;
 	
 	/**
 	 * 
@@ -70,6 +71,9 @@ package ui.states {
 				
 				// create layers
 				(Display as OutputDisplay).createLayers(5);
+				
+				//check for update or update if downloaded
+				OnyxAIRUpdate.checkForUpdate();
 				
 				// remove this
 				StateManager.removeState(this);

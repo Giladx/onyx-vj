@@ -48,7 +48,7 @@ package onyx.utils.updater
 			appUpdater = new ApplicationUpdater();
 			setApplicationVersion(); // Find the current version so we can show it below  
 			// Configuration stuff - see update framework docs for more details  
-			appUpdater.updateURL = "http://www.batchass.fr/onyxvj/updateonyx.xml"; // Server-side XML file describing update  
+			appUpdater.updateURL = "http://www.batchass.fr/onyx-vj/update/update.xml"; // Server-side XML file describing update  
 			appUpdater.addEventListener( UpdateEvent.INITIALIZED, updaterInitializedHandler ); // Once initialized, run onUpdate  
 			appUpdater.addEventListener( ErrorEvent.ERROR, updaterErrorHandler  ); // If something goes wrong, run onError  
 			appUpdater.addEventListener( StatusUpdateEvent.UPDATE_STATUS, updaterStatusHandler );
@@ -101,7 +101,7 @@ package onyx.utils.updater
 				updateVersion = event.version;
 				Console.output( "updaterStatusHandler, updateVersion:" + updateVersion );
 				updateDescription = getUpdateDescription( event.details );
-				Console.output( "Onyx-VJ " + installedVersion + " New version " + updateVersion + " is available, click on Update button!" );
+				Console.output( "Onyx-VJ " + installedVersion + " New version " + updateVersion + " is available, click on Download button!" );
 			}
 			else 
 			{

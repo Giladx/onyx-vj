@@ -23,6 +23,7 @@ package onyx.asset.vp {
 	import flash.text.*;
 	
 	import onyx.asset.*;
+	import onyx.plugin.Display;
 	
 	import ui.styles.*;
 	
@@ -88,6 +89,7 @@ package onyx.asset.vp {
 				this.thumbnail.bitmapData = tmpBD;
 				this.thumbnail.bitmapData.draw(label);
 			}
+			Display.pause(true);
 		}
 		/**
 		 * 

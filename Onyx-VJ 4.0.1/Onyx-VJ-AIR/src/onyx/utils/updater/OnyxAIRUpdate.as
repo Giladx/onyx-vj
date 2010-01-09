@@ -76,7 +76,7 @@ package onyx.utils.updater
 			event.preventDefault();
 			isInstallPostponed = true;
 			//updateBtn.visible = false;
-			Console.output( "Update downloaded, it will be installed on next Razuna Desktop launch." );
+			Console.output( "Update downloaded, it will be installed on next Onyx-VJ launch." );
 			appUpdater.installUpdate();
 		}
 		

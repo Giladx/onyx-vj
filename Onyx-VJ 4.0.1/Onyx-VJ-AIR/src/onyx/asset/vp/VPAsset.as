@@ -109,7 +109,7 @@ package onyx.asset.vp {
 		 * 
 		 */
 		override public function get path():String {
-			return 'vdpong://' + name;
+			return 'vdpong://' + assetUrl + '.' + ext;
 		}
 		
 		/**
@@ -130,8 +130,7 @@ package onyx.asset.vp {
 		 * 
 		 */
 		override public function get extension():String {
-			trace(url.substr( url.lastIndexOf( '.' ) ));
-			return 'swf';//url.substr( url.lastIndexOf( '.' ) ) returns .net/...;
+			return ext;
 		}
 		
 		/**

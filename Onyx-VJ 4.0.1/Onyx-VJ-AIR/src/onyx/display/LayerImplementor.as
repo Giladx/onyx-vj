@@ -199,6 +199,7 @@ package onyx.display {
 			content.addEventListener(TransitionEvent.TRANSITION_END,	_endTransition);
 
 			// apply settings & midi
+			//TODO: implement midi 
 			if (settings) {
 				settings.apply(content);
 			}

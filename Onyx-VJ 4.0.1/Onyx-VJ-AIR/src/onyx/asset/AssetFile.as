@@ -20,6 +20,7 @@ package onyx.asset {
 	import flash.media.*;
 	import flash.utils.ByteArray;
 	
+	import onyx.asset.vp.VPContentQuery;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
@@ -92,6 +93,12 @@ package onyx.asset {
 				const p:IAssetProtocol = protocols[path.substr(0, index)];
 				if (p) {
 					callback(EVENT_COMPLETE, p.getContent(path, layer), settings, transition);	
+					if ( p is VideoPongProtocol )
+					{
+						new VPContentQuery( path.substr(9) , callback, layer, settings, transition );
+						//VPAdapter.queryContent( path, callback, layer, settings, transition );
+						return;
+					}
 				}
 			}
 			

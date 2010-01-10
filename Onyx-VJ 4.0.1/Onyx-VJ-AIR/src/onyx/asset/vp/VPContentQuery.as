@@ -39,20 +39,27 @@ package onyx.asset.vp {
 		private var layer:Layer;
 		private var settings:LayerSettings;
 		private var transition:Transition;
-		private const bytes:ByteArray			= new ByteArray();
+		private const bytes:ByteArray = new ByteArray();
+		private var url:String;
+		private var extension:String;
 		
 		/**
 		 * 
 		 */
 		public function VPContentQuery(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void {
 			
+			// path ends with .extension, which we have to remove to call the loader
+			// we store the url before 
+			this.url = path;
+			path = url.substr( 0, url.lastIndexOf('.') ); // remove extension
 			//
 			super(path, callback);
 			
 			// store & execute
 			this.layer		= layer,
-				this.settings	= settings,
-				this.transition	= transition;
+			this.settings	= settings,
+			this.transition	= transition;
+			this.extension = url.substr(url.length - 3);
 			
 			// load
 			loadContent();
@@ -73,7 +80,7 @@ package onyx.asset.vp {
 		internal function loadContent():void {
 			
 			// depending on the extension, do different things
-			switch (path.substr(path.length - 3)) { //TODO: verify content
+			switch ( extension ) { 
 				
 				// Netstream objects
 				case 'mp4':
@@ -83,12 +90,12 @@ package onyx.asset.vp {
 				case '3gp':
 				case 'flv':
 					
-					/*var stream:Stream		= new Stream(AIR_ROOT.resolvePath(path).nativePath);
+					var stream:Stream		= new Stream( path);
 					stream.bufferTime		= 0;
 					stream.soundTransform	= new SoundTransform(0);
 					stream.addEventListener(Event.COMPLETE,				streamComplete);
 					stream.addEventListener(NetStatusEvent.NET_STATUS,	streamComplete);
-					stream.play(AIR_ROOT.resolvePath(path).nativePath);*/
+					stream.play( path );
 					
 					break;
 				
@@ -99,9 +106,9 @@ package onyx.asset.vp {
 					sound.addEventListener(IOErrorEvent.IO_ERROR,	soundHandler);
 					
 					// load
-					/*sound.load(
-						new URLRequest(AIR_ROOT.resolvePath(path).nativePath)
-					);*/
+					sound.load(
+						new URLRequest( path )
+					);
 					
 					break;
 				
@@ -109,90 +116,26 @@ package onyx.asset.vp {
 				case 'swf':
 					
 					// need to check for already loaded swf's of the same name (performance gain);
-					var reg:ContentRegistration = ContentMC.registration(path);
+					var reg:ContentRegistration = ContentMC.registration( path );
 					
 				case 'gif':
 				case 'jpg':
 				case 'jpeg':
 				case 'png':
-				case 'onr':
 					
 					// if the swf is already loaded, test for re-use
 					if (reg) {												 
-						ContentMC.register(path);
+						ContentMC.register( path );
 						_createLoaderContent(reg.loader.contentLoaderInfo);
 					} else {
-						/*var fs:FileStream = new FileStream();
-						
-						if (file.extension === 'onr') {
-							fs.addEventListener(IOErrorEvent.IO_ERROR, onrComplete);
-							fs.addEventListener(Event.COMPLETE, onrComplete);
-						} else {
-							
-							fs.addEventListener(IOErrorEvent.IO_ERROR, bytesComplete);
-							fs.addEventListener(Event.COMPLETE, bytesComplete);
-						}
-						fs.openAsync(file, FileMode.READ);*/
+						var loader:Loader = new Loader();
+						loader.contentLoaderInfo.addEventListener( Event.COMPLETE, contentHandler );
+						loader.contentLoaderInfo.addEventListener( IOErrorEvent.IO_ERROR, contentHandler ); 
+						loader.load( new URLRequest( path ) );
 					}
 					
 					break;
 			}
-		}
-		
-		/**
-		 * 	@private
-		 */
-		private function onrComplete(event:Event):void {
-			/*var fs:FileStream	= event.currentTarget as FileStream;
-			fs.removeEventListener(Event.COMPLETE,			onrComplete);
-			fs.removeEventListener(IOErrorEvent.IO_ERROR,	onrComplete);
-			// fs.removeEventListener(ProgressEvent.PROGRESS,	fillBuffer);
-			
-			var bytesRead:int	= fs.bytesAvailable;
-			if (bytesRead > 0) {			
-				fs.readBytes(bytes);
-				// bytes.position +=	bytesRead;
-			}
-			
-			// close the stream
-			fs.close();
-			
-			// resolve the file path
-			var file:File = AIR_ROOT.resolvePath(path);
-			
-			var c:Content	= new ContentONR(layer, path, bytes);
-			
-			// give it up!
-			executeContent(this, new Event(Event.COMPLETE), c);*/
-			
-		}
-		
-		/**
-		 * 	@private
-		 */
-		private function bytesComplete(event:Event):void {
-			/*var stream:FileStream = event.currentTarget as FileStream;
-			stream.removeEventListener(Event.COMPLETE, streamComplete);
-			stream.removeEventListener(IOErrorEvent.IO_ERROR, streamComplete);
-			
-			if (event is ErrorEvent) {
-				
-				// complete					
-				executeContent(
-					this,
-					event
-				)
-				
-			} else {
-				
-				stream.readBytes(bytes);
-				stream.close();
-				
-				var loader:Loader	= new Loader();
-				var info:LoaderInfo	= loader.contentLoaderInfo;
-				info.addEventListener(Event.COMPLETE, contentHandler);
-				loader.loadBytes(bytes, AIR_CONTEXT);
-			}*/
 		}
 		
 		/**

@@ -40,7 +40,7 @@ package onyx.asset.vp {
 		private var settings:LayerSettings;
 		private var transition:Transition;
 		private const bytes:ByteArray = new ByteArray();
-		private var url:String;
+		//private var url:String;
 		private var extension:String;
 		
 		/**
@@ -50,8 +50,8 @@ package onyx.asset.vp {
 			
 			// path ends with .extension, which we have to remove to call the loader
 			// we store the url before 
-			this.url = path;
-			path = url.substr( 0, url.lastIndexOf('.') ); // remove extension
+			//this.url = path;
+			//path = url.substr( 0, url.lastIndexOf('.') ); // remove extension
 			//
 			super(path, callback);
 			
@@ -59,7 +59,7 @@ package onyx.asset.vp {
 			this.layer		= layer,
 			this.settings	= settings,
 			this.transition	= transition;
-			this.extension = url.substr(url.length - 3);
+			this.extension = 'swf'; //TODO remove this!
 			
 			// load
 			loadContent();
@@ -122,7 +122,7 @@ package onyx.asset.vp {
 				case 'jpg':
 				case 'jpeg':
 				case 'png':
-					
+				default:	
 					// if the swf is already loaded, test for re-use
 					if (reg) {												 
 						ContentMC.register( path );

@@ -86,22 +86,25 @@ package onyx.asset {
 		/**
 		 * 	Callback is:
 		 */
-		public static function queryContent(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void {
+		public static function queryContent(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void 
+		{
 			const index:int = path.indexOf('://');
-			if (index > 4) {
-				
-				const p:IAssetProtocol = protocols[path.substr(0, index)];
-				if (p) {
+			if ( index > 3 ) 
+			{
+				var protocol:String = ( index == 4 ? 'vdpong' : path.substr(0, index) );
+				const p:IAssetProtocol = protocols[protocol];
+				if (p) 
+				{
 					callback(EVENT_COMPLETE, p.getContent(path, layer), settings, transition);	
 					if ( p is VideoPongProtocol )
 					{
-						new VPContentQuery( path.substr(9) , callback, layer, settings, transition );
-						//VPAdapter.queryContent( path, callback, layer, settings, transition );
+						new VPContentQuery( path, callback, layer, settings, transition );
+						//new VPContentQuery( path.substr(9) , callback, layer, settings, transition );
 						return;
 					}
 				}
 			}
-			
+
 			// fall through to the adapter
 			adapter.queryContent(path, callback, layer, settings, transition);
 		}

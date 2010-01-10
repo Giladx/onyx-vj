@@ -109,7 +109,8 @@ package onyx.asset.vp {
 		 * 
 		 */
 		override public function get path():String {
-			return 'vdpong://' + assetUrl + '.' + ext;
+			return assetUrl;
+			//return 'vdpong://' + assetUrl + '.' + ext;
 		}
 		
 		/**

@@ -66,6 +66,7 @@ package onyx.asset {
 							for each ( var asset:XML in assetsList )
 							{
 								//var vpAsset:AssetFile = new VPAsset( asset.@name, asset.@url+vp.sessiontoken, asset.@ext, asset.@thumb_url );
+								//TODO:put real url
 								var vpAsset:AssetFile = new VPAsset( asset.@name, 'http://www.videopong.net?action=onyxapi&method=get_clip&clip_id=0cn9wp9v5zy&sessiontoken='+vp.sessiontoken, asset.@ext, asset.@thumb_url );
 								list.push( vpAsset );
 							}

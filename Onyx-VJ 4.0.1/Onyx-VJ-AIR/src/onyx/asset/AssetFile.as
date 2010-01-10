@@ -105,7 +105,7 @@ package onyx.asset {
 				}
 			}
 
-			// fall through to the adapter
+			// fall through to the AIR adapter
 			adapter.queryContent(path, callback, layer, settings, transition);
 		}
 		

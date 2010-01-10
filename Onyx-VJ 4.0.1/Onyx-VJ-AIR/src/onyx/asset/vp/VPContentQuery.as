@@ -59,7 +59,7 @@ package onyx.asset.vp {
 			this.layer		= layer,
 			this.settings	= settings,
 			this.transition	= transition;
-			this.extension = 'swf'; //TODO remove this!
+			this.extension = 'swf'; //TODO put real extension
 			
 			// load
 			loadContent();
@@ -132,6 +132,8 @@ package onyx.asset.vp {
 						loader.contentLoaderInfo.addEventListener( Event.COMPLETE, contentHandler );
 						loader.contentLoaderInfo.addEventListener( IOErrorEvent.IO_ERROR, contentHandler ); 
 						loader.load( new URLRequest( path ) );
+						//KO loader.load( new URLRequest( path + '&s=file.swf') );
+						//loader.load( new URLRequest( 'http://www.videopong.net/images/backgrounds/vp_6086.png' ) );
 					}
 					
 					break;
@@ -215,28 +217,35 @@ package onyx.asset.vp {
 		/**
 		 *	@private 
 		 */
-		private function contentHandler(event:Event):void {
+		private function contentHandler(event:Event):void 
+		{
 			var info:LoaderInfo			= event.currentTarget as LoaderInfo;
 			var content:DisplayObject	= info.content;
 			
 			// remove listener
 			info.removeEventListener(Event.COMPLETE, contentHandler);
 			
-			// get the classname
-			if (getQualifiedClassName(info.content) === 'flash.display::MovieClip') {
-				
-				var reg:ContentRegistration = ContentMC.registration(path);
-				// if something loaded before us, use it's loader instead of our own
-				if (reg) {
-					info = reg.loader.contentLoaderInfo;
-				}
-				
-				// register
-				ContentMC.register(path, info.loader);
+			if (event is ErrorEvent) 
+			{
+				Console.output( 'VPContentQuery asset error: ' + (event as IOErrorEvent).text );
 			}
-			
-			// load
-			_createLoaderContent(info);
+			else
+			{ 
+				// get the classname
+				if (getQualifiedClassName(info.content) === 'flash.display::MovieClip') {
+					
+					var reg:ContentRegistration = ContentMC.registration(path);
+					// if something loaded before us, use it's loader instead of our own
+					if (reg) {
+						info = reg.loader.contentLoaderInfo;
+					}
+					
+					// register
+					ContentMC.register(path, info.loader);
+				}
+				// load
+				_createLoaderContent(info);
+			}
 		}
 	}
 }

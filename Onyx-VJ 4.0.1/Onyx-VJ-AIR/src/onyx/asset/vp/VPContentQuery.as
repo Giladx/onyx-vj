@@ -28,6 +28,8 @@ package onyx.asset.vp {
 	import onyx.plugin.*;
 	import onyx.utils.event.*;
 	
+	import services.videopong.VideoPong;
+	
 	/**
 	 * 
 	 */
@@ -42,6 +44,7 @@ package onyx.asset.vp {
 		private const bytes:ByteArray = new ByteArray();
 		//private var url:String;
 		private var extension:String;
+		private const vp:VideoPong = VideoPong.getInstance();
 		
 		/**
 		 * 
@@ -124,22 +127,41 @@ package onyx.asset.vp {
 				case 'png':
 				default:	
 					// if the swf is already loaded, test for re-use
-					if (reg) {												 
+					if (reg) 
+					{												 
 						ContentMC.register( path );
 						_createLoaderContent(reg.loader.contentLoaderInfo);
-					} else {
+					} 
+					else 
+					{
+						//var request:URLRequest = new URLRequest( path );
+						var request:URLRequest = new URLRequest( 'http://www.videopong.net/index.php/file.swf' );
+						request.method = URLRequestMethod.POST;
+						request.contentType = 'application/x-shockwave-flash';
+						var reqData:Object = new Object();
+						reqData.action = 'onyxapi';
+						reqData.method = 'get_clip';
+						reqData.clip_id = '0cn9wp9v5zy';
+						//reqData.name = '';
+						reqData.sessiontoken = vp.sessiontoken;
+						request.data = reqData;
 						var loader:Loader = new Loader();
 						loader.contentLoaderInfo.addEventListener( Event.COMPLETE, contentHandler );
 						loader.contentLoaderInfo.addEventListener( IOErrorEvent.IO_ERROR, contentHandler ); 
-						loader.load( new URLRequest( path ) );
-						//KO loader.load( new URLRequest( path + '&s=file.swf') );
+						loader.contentLoaderInfo.addEventListener( ProgressEvent.PROGRESS, progressHandler);
+
+						loader.load( request );
+						
 						//loader.load( new URLRequest( 'http://www.videopong.net/images/backgrounds/vp_6086.png' ) );
 					}
 					
 					break;
 			}
 		}
-		
+		private function progressHandler(event:ProgressEvent):void 
+		{
+			trace("progressHandler loaded:" + event.bytesLoaded + " total: " + event.bytesTotal);
+		}	
 		/**
 		 * 	@private
 		 * 	Handles events when a sound object retrieves it's ID3 information

@@ -100,7 +100,7 @@ package onyx.utils.updater
 				updateVersion = event.version;
 				Console.output( "updaterStatusHandler, updateVersion:" + updateVersion );
 				updateDescription = getUpdateDescription( event.details );
-				Console.output( "Onyx-VJ " + installedVersion + " New version " + updateVersion + " is available, click on Download button!" );
+				Console.output( "Onyx-VJ " + installedVersion + " New version " + updateVersion + " is available, click on Update button!" );
 			}
 			else 
 			{

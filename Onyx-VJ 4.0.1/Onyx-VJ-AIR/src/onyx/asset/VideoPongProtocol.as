@@ -67,8 +67,8 @@ package onyx.asset {
 							{
 								//var vpAsset:AssetFile = new VPAsset( asset.@name, asset.@url+vp.sessiontoken, asset.@ext, asset.@thumb_url );
 								//TODO:put real url
-								//var vpAsset:AssetFile = new VPAsset( asset.@name, 'http://www.videopong.net/?action=onyxapi&method=get_clip&clip_id=0cwr94akevq&sessiontoken='+vp.sessiontoken, asset.@ext, asset.@thumb_url );
-								var vpAsset:AssetFile = new VPAsset( asset.@name, 'http://www.videopong.net/movie.swf', asset.@ext, asset.@thumb_url );
+								var vpAsset:AssetFile = new VPAsset( asset.@name, asset.@url, asset.@thumb_url );
+								//var vpAsset:AssetFile = new VPAsset( asset.@name, 'http://www.videopong.net/movie.swf', asset.@ext, asset.@thumb_url );
 								list.push( vpAsset );
 							}
 						}

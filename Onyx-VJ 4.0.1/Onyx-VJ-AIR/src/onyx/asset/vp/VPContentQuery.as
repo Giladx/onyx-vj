@@ -134,9 +134,11 @@ package onyx.asset.vp {
 					} 
 					else 
 					{
-						var request:URLRequest = new URLRequest( 'http://www.videopong.net/api/get_clip/0czocgkks87/ee5a2857bbebaad9aab5807f4e461a22/movie.swf' );
+						var sessionReplace:RegExp = /sessiontoken/gi; // g:global i:ignore case
+						var request:URLRequest = new URLRequest( path.replace( sessionReplace, vp.sessiontoken ) );
+						//var request:URLRequest = new URLRequest(  'http://www.videopong.net/api/get_clip/0czocgkks87/ee5a2857bbebaad9aab5807f4e461a22/movie.swf' );
 						request.method = URLRequestMethod.POST;
-						//request.contentType = 'application/x-shockwave-flash';
+						request.contentType = 'application/x-shockwave-flash';
 						/*var reqData:Object = new Object();
 						reqData.action = 'onyxapi';
 						reqData.method = 'get_clip';

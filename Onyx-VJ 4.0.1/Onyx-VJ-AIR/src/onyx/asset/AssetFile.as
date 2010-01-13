@@ -99,7 +99,6 @@ package onyx.asset {
 					if ( p is VideoPongProtocol )
 					{
 						new VPContentQuery( path, callback, layer, settings, transition );
-						//new VPContentQuery( path.substr(9) , callback, layer, settings, transition );
 						return;
 					}
 				}

@@ -23,7 +23,6 @@ package onyx.asset.vp {
 	import flash.text.*;
 	
 	import onyx.asset.*;
-	import onyx.plugin.Display;
 	
 	import ui.styles.*;
 	
@@ -38,17 +37,14 @@ package onyx.asset.vp {
 		private var assetUrl:String;
 		private var thumbUrl:String;
 		private var assetName:String;
-		//private var ext:String;
 		private const label:TextField = new TextField();;
 		/**
 		 * 
 		 */
-		//public function VPAsset( name:String, url:String, extension:String, thumb_url:String='' ):void {
 		public function VPAsset( name:String, url:String, thumb_url:String='' ):void {
 			this.assetUrl 					= url;
 			this.thumbUrl 					= thumb_url;
 			this.assetName 					= name;
-			//this.ext 						= extension;
 										
 			const format:TextFormat			= new TextFormat(new AssetDefaultFont().fontName, 7, 0xFFFFFF);
 			format.leading					= 3;
@@ -90,7 +86,6 @@ package onyx.asset.vp {
 				this.thumbnail.bitmapData = tmpBD;
 				this.thumbnail.bitmapData.draw(label);
 			}
-			//Display.pause(true);//TODO: remove
 		}
 		/**
 		 * 
@@ -111,7 +106,6 @@ package onyx.asset.vp {
 		 */
 		override public function get path():String {
 			return assetUrl;
-			//return 'vdpong://' + assetUrl + '.' + ext;
 		}
 		
 		/**
@@ -127,13 +121,6 @@ package onyx.asset.vp {
 		override public function get isDirectory():Boolean {
 			return false;
 		}
-		
-		/**
-		 * 
-		
-		override public function get extension():String {
-			return ext;
-		} */
 		
 		/**
 		 * 

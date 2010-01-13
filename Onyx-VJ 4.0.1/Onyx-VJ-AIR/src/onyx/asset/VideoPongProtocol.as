@@ -49,7 +49,6 @@ package onyx.asset {
 						//no subfolders
 						//add up folder button
 						subFolder = suffix.substr( 0, suffix.indexOf('/') );
-						Console.output( 'VideoPongProtocol, first / in the path at position: ' + path.indexOf('/') );
 						Console.output( 'VideoPongProtocol, no subfolders, we add the up one folder button to return to: ' + subFolder );
 						list.push( new VideoPongAsset( '', true, subFolder  ) );
 						// get assets from the selected folder
@@ -88,7 +87,6 @@ package onyx.asset {
 			{
 				Console.output( 'VideoPongProtocol, no folders found, please login first.' );
 			}
-			Console.output( 'VideoPongProtocol, returning list\n--------------------------------' );
 			
 			return list;
 		}

@@ -66,7 +66,7 @@ package ui.controls {
 		 */
 		private function mouseDown(event:MouseEvent):void {
 			
-			var popup:TextControlPopUp	= new TextControlPopUp(this, null, 100, 100, parameter.value, parameter);
+			var popup:TextControlPopUp	= new TextControlPopUp(this, null, 60, 16, parameter.value, parameter);
 			event.stopPropagation();
 		}
 		

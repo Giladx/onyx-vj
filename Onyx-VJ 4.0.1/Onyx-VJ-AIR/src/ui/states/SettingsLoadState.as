@@ -120,7 +120,7 @@ package ui.states {
 				// turn on hardware accelleration for the output window
 				stage.fullScreenSourceRect	= new Rectangle(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 				stage.displayState			= StageDisplayState.FULL_SCREEN_INTERACTIVE;
-				
+
 				displayWindow.activate();
 			}
 

@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -17,7 +18,7 @@ package ui.window {
 	
 	import flash.display.*;
 	import flash.events.*;
-	//import flash.filesystem.*;
+	import flash.filesystem.*;
 	import flash.geom.*;
 	import flash.utils.*;
 	
@@ -86,20 +87,15 @@ package ui.window {
 		
 		/**
 		 * 	@private
-		 * 	The browser files button
-		 */
-		private var buttonFiles:TextButtonIcon;
-		
-		/**
-		 * 	@private
-		 * 	The browser files button
+		 * 	The Cameras button
 		 */
 		private var buttonCameras:TextButtonIcon;
 		
 		/**
 		 * 	@private
+		 * 	The VideoPong button
 		 */
-		private var db:AIRThumbnailDB;
+		private var buttonVideoPong:TextButtonIcon;
 		
 		/**
 		 * 	@private
@@ -145,29 +141,29 @@ package ui.window {
 			const options:UIOptions	= new UIOptions();
 			options.width			= 82;
 			
-			buttonFiles				= new TextButtonIcon(options, 'FILES', new AssetFolder()),
 			buttonCameras			= new TextButtonIcon(options, 'CAMERAS', new AssetIconCamera()),
+			buttonVideoPong			= new TextButtonIcon(options, 'VIDEOPONG', new AssetVideoPong()),
 			
 			files.x					= 4,
 			files.y					= 17,
 			folders.x				= 417,
 			folders.y				= 15,
-			buttonFiles.x			= 417,
-			buttonFiles.y			= 192,
 			buttonCameras.x			= 417,
-			buttonCameras.y			= 204;
+			buttonCameras.y			= 204,
+			buttonVideoPong.x		= 417,
+			buttonVideoPong.y		= 192;
 			
 			// add handlers for buttons
-			buttonFiles.addEventListener(MouseEvent.MOUSE_DOWN, fileDown);
 			buttonCameras.addEventListener(MouseEvent.MOUSE_DOWN, fileDown);
+			buttonVideoPong.addEventListener(MouseEvent.MOUSE_DOWN, fileDown);
 			
 			addChild(folders);
 			addChild(files);
-			addChild(buttonFiles);
+			addChild(buttonVideoPong);// TODO: add this button on vp successful login
 			addChild(buttonCameras);
 			
 			// query default folder
-			AssetFile.queryDirectory(ONYX_LIBRARY_PATH, updateList);
+			//AssetFile.queryDirectory('onyx-query://vdpong', updateList);
 		}
 		
 		/**
@@ -182,45 +178,22 @@ package ui.window {
 				this.query	= query;
 				this.list	= list;
 				
-				//const dbFile:File = new File(AssetFile.resolvePath(query.path + '/.onyx-cache'));
-				db = new AIRThumbnailDB();
-				
-				/*if (dbFile.exists) {
+				if ( query.path.substr( 0, 19 ) == "onyx-query://vdpong" )
+				{
+						createUserObjects( false );
 					
-	                const stream:FileStream = new FileStream();
-	                stream.addEventListener(Event.COMPLETE, dbHandler);
-	                stream.openAsync(dbFile, FileMode.READ);
-	                
-				} else {
-					
-					createUserObjects();
-					
-				}*/
-				createUserObjects();
+				}
+				else
+				{
+					//AIR
+				}
 			}
 		}
 		        
-        /**
-         * 	@private
-         */
-        /*private function dbHandler(event:Event):void {
-            var stream:FileStream = event.currentTarget as FileStream;
-            stream.removeEventListener(Event.COMPLETE, dbHandler);
-            
-            var bytes:ByteArray = new ByteArray();
-            stream.readBytes(bytes);
-            stream.close();
-            
-            db.load(bytes);
-
-			// create objects
-			createUserObjects();
-        }*/
-		
-		/**
+ 		/**
 		 * 	@private
 		 */
-		private function createUserObjects():void {
+		private function createUserObjects( isAIREnabled:Boolean = true ):void {
 			
 			var control:DisplayObject, index:int;
 			
@@ -242,7 +215,8 @@ package ui.window {
 				if (asset.isDirectory) {
 					
 					// add and position
-					control		= folders.addChild(new FolderControl(asset, asset.path.length < path.length));
+					// check the asset path length for showing 'up one level'
+					control		= folders.addChild( new FolderControl( asset, asset.path.length < path.length ) );
 
 					index		= folders.getChildIndex(control);
 
@@ -259,8 +233,8 @@ package ui.window {
 	
 					// position it
 					control.x	= (index % FILES_PER_ROW) * FILE_WIDTH;
-					index++;
 					control.y	= ((index / FILES_PER_ROW) >> 0) * FILE_HEIGHT;
+					index++;
 					//compile error: control.y	= ((index++ / FILES_PER_ROW) >> 0) * FILE_HEIGHT;
 					
 					// start listening to start dragging
@@ -268,7 +242,7 @@ package ui.window {
 
 					// if there is a valid bitmap, that means there is a thumbnail
 					// if no bitmap, add it to our job queue
-					if (!asset.thumbnail.bitmapData) {
+					/*if (!asset.thumbnail.bitmapData) {
 						asset.thumbnail.bitmapData	= db.getThumbnail(asset.name);
 						
 						// doesn't exist, thumbnail it
@@ -281,13 +255,16 @@ package ui.window {
 							checkForDelete[asset.name] = asset;
 							
 						}
-					}
+					}*/
 				}
 			}
 			
-			StateManager.loadState(
-				new AIRThumbnailState(AssetFile.resolvePath(query.path), db, needToThumbnail, checkForDelete)
-			);
+			/*if ( isAIREnabled )
+			{
+				StateManager.loadState(
+					new AIRThumbnailState(AssetFile.resolvePath(query.path), db, needToThumbnail, checkForDelete)
+				);
+			}*/
 		}
 		
 		/**
@@ -297,14 +274,14 @@ package ui.window {
 		private function fileDown(event:MouseEvent):void {
 			
 			switch (event.currentTarget) {
-				case buttonFiles:
-
-					AssetFile.queryDirectory(ONYX_LIBRARY_PATH, updateList);
-					
-					break;
 				case buttonCameras:
 				
 					AssetFile.queryDirectory('onyx-query://camera', updateList);
+					
+					break;
+				case buttonVideoPong:
+				
+					AssetFile.queryDirectory('onyx-query://vdpong', updateList);
 					
 					break;
 			}

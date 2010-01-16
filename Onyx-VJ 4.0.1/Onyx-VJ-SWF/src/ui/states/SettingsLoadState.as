@@ -201,6 +201,10 @@ package ui.states {
 			if (list.length()) {
 				ContentCamera.loadXML(list[0]);
 			}
+			list = core.videopong;
+			if (list.length()) {
+				ContentVideoPong.loadXML(list[0]);
+			}
 		}
 	}
 }

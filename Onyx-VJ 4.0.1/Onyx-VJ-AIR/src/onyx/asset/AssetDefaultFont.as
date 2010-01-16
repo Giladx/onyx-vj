@@ -16,7 +16,6 @@
  */
 package onyx.asset {
 	
-	import flash.filesystem.File;
 	import flash.text.Font;
 	
 	import onyx.core.Console;

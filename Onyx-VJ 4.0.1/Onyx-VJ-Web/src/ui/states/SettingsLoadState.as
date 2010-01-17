@@ -25,11 +25,9 @@ package ui.states {
 	import flash.net.URLRequest;
 	
 	import onyx.asset.*;
-	import onyx.asset.air.*;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
-	import onyx.utils.file.*;
 	
 	import ui.assets.StartupDisplay;
 	import ui.controls.*;

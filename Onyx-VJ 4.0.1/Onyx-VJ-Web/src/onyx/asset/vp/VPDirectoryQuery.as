@@ -18,7 +18,6 @@ package onyx.asset.vp {
 	
 	import flash.display.*;
 	import flash.events.*;
-	import flash.filesystem.*;
 	import flash.media.*;
 	
 	import onyx.asset.*;

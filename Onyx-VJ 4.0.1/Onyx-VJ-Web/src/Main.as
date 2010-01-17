@@ -29,7 +29,6 @@ package {
 	import onyx.display.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
-	import onyx.utils.file.*;
 	
 	import ui.controls.*;
 	import ui.controls.layer.*;

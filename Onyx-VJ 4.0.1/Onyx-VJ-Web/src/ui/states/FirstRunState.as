@@ -26,7 +26,6 @@ package ui.states {
 	import onyx.asset.vp.*;
 	import onyx.core.*;
 	import onyx.plugin.*;
-	import onyx.utils.file.*;
 	
 	import ui.core.UserInterfaceAPI;
 

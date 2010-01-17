@@ -18,7 +18,6 @@ package onyx.core {
 	import flash.events.*;
 	
 	import onyx.events.ConsoleEvent;
-	import onyx.utils.file.*;
 
 	[Event(name="output",	type="onyx.events.ConsoleEvent")]
 	

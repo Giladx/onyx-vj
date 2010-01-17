@@ -18,12 +18,10 @@ package ui.window {
 	
 	import flash.display.*;
 	import flash.events.*;
-	import flash.filesystem.*;
 	import flash.geom.*;
 	import flash.utils.*;
 	
 	import onyx.asset.*;
-	import onyx.asset.air.*;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
@@ -33,7 +31,6 @@ package ui.window {
 	import ui.controls.browser.*;
 	import ui.core.*;
 	import ui.events.*;
-	import ui.file.*;
 	import ui.layer.*;
 	import ui.styles.*;
 	import ui.text.*;

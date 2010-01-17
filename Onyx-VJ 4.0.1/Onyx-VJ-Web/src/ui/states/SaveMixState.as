@@ -20,13 +20,9 @@ package ui.states {
 	//import flash.filesystem.File;
 	
 	import onyx.asset.*;
-	import onyx.asset.air.*;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
-	import onyx.utils.file.*;
-	
-	import ui.file.*;
 	import ui.window.*;
 	
 	/**

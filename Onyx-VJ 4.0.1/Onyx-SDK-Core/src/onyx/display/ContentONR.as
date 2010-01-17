@@ -1,7 +1,7 @@
 package onyx.display {
 	
 	import flash.display.*;
-	import flash.filesystem.*;
+//	import flash.filesystem.*;
 	import flash.utils.*;
 	
 	import onyx.core.*;

@@ -51,6 +51,9 @@ package services.videopong
 		// Constructor
 		public function VideoPong()
 		{
+			_username = 'username';
+			_pwd = 'password';
+			
 			super();
 		}
 	               

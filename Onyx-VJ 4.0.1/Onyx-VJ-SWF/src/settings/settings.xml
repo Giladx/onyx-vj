@@ -40,6 +40,18 @@
 			<invert/>
 		</blendModes>
 		
+		<!-- razuna settings -->
+		<razuna>
+			<login>username</login>
+			<pwd>password</pwd>
+		</razuna>
+
+		<!-- videopong settings -->
+		<videopong>
+			<login>username</login>
+			<pwd>password</pwd>
+		</videopong>
+		
 	</core>
 	
 	<!-- UI STATES -->

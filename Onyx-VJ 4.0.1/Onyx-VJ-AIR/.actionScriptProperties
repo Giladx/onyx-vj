@@ -35,6 +35,7 @@
       </libraryPathEntry>
       <libraryPathEntry kind="1" linkType="1" path="${DCD_LIB_LOCATION}"/>
       <libraryPathEntry kind="1" linkType="1" path="${DCD_LOCALE_LOCATION}"/>
+      <libraryPathEntry kind="3" linkType="1" path="/Onyx-SDK-Core/bin-debug/Onyx-SDK-Core.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>

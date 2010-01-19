@@ -53,6 +53,7 @@ package {
 
 		private var _source:BitmapData		= createDefaultBitmap();
 
+		public var delay:int				= 0;
 		public var preblur:Number			= 2;
 		private var _currentBlur:Number		= 2;
 		
@@ -99,6 +100,7 @@ package {
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
 			parameters.addParameters(
 				new ParameterLayer('layer', 'layer'),
+				new ParameterInteger('delay', 'frame delay', 0, 100, 0),
 				new ParameterInteger('preblur', 'preblur', 0, 30, 2, 10),	// Amount of Blur
 				new ParameterInteger('size', 'size', 5, 200, size)			// Size
 			);
@@ -204,9 +206,9 @@ package {
 		 */
 		override public function render(info:RenderInfo):void 
 		{
-			if ( _layer ) 
+			if (_layer && frames) 
 			{
-				
+				_source = frames[delay];
 				// clear
 				graphics.clear();
 				output.lock();
@@ -218,7 +220,8 @@ package {
 					var factor:int = _currentBlur - 2;
 					
 					_currentBlur = 0;
-					_source.applyFilter(_source, DISPLAY_RECT, ONYX_POINT_IDENTITY, new BlurFilter(factor + 2,factor + 2));
+					//_source.applyFilter(_source, DISPLAY_RECT, ONYX_POINT_IDENTITY, new BlurFilter(factor + 2,factor + 2));
+					_source.applyFilter(_source, _source.rect, ONYX_POINT_IDENTITY, new BlurFilter(factor + 2,factor + 2));
 				}
 	
 				_source.draw(this);

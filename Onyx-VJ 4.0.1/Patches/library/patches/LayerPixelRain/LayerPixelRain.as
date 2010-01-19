@@ -43,13 +43,15 @@ package {
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
+	import onyx.parameter.*;
+
 	/**
 	 * 	Draw bitmaps
 	 */
 	[SWF(width='320', height='240', frameRate='24')]
 	public class LayerPixelRain extends Patch {
 
-		private var _source:BitmapData		= new BitmapData(BITMAP_WIDTH,BITMAP_HEIGHT,true, 0x00000000);
+		private var _source:BitmapData		= createDefaultBitmap();
 
 		public var preblur:Number			= 2;
 		private var _currentBlur:Number		= 2;
@@ -61,8 +63,8 @@ package {
 		//PixelRain
 		private const DAMP: Number = .94;
 		private var pixels: Array;
-		[Embed(source='../images/batchass240t.png' )] private const ImageB: Class;
-		private const imageData: BitmapData = Bitmap( new ImageB() ).bitmapData;
+		private var imageData:BitmapData;
+		private var _canvasBMP:Bitmap;
 		private var blurBitmap: Bitmap ;
 		private var output:BitmapData;
 		private var blurOut:BitmapData;
@@ -83,8 +85,8 @@ package {
 		private const alphaTrans:ColorTransform = new ColorTransform( 1, 1, 1, 1, 0, 0, 0, -4 );
 		private var mx:Number = 50;
 		private var my:Number = 50;
-		private const w:int = BITMAP_WIDTH;
-		private const h:int = BITMAP_HEIGHT;
+		private const w:int = DISPLAY_WIDTH;
+		private const h:int = DISPLAY_HEIGHT;
 		private var _mDown:Boolean= false;
 
 		/**
@@ -97,10 +99,13 @@ package {
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
 			parameters.addParameters(
 				new ParameterLayer('layer', 'layer'),
-				new ParameterInteger( 'spread', 'spread', 1, 300, 35 ),
 				new ParameterInteger('preblur', 'preblur', 0, 30, 2, 10),	// Amount of Blur
 				new ParameterInteger('size', 'size', 5, 200, size)			// Size
 			);
+			
+			imageData = new BitmapData( DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0x00FFFFFF);
+			_canvasBMP = new Bitmap( imageData, "auto", true );
+			addChild( _canvasBMP );
 						
 			pixels = new Array();
 			var ox: int = ( w - imageData.width ) >> 1;
@@ -133,7 +138,7 @@ package {
 		/**
 		 * 	@private
 		 */
-		private static function register(layer:Layer, patch:PixelRain, addReference:Boolean):Array {
+		private static function register(layer:Layer, patch:LayerPixelRain, addReference:Boolean):Array {
 			
 			var listener:LayerListener	= LAYER_COMBINED[layer];
 			if (!listener) {
@@ -176,6 +181,11 @@ package {
 		/**
 		 * 	@private
 		 */
+		private var frames:Array;
+
+		/**
+		 * 	@private
+		 */
 		 private function mouseDown(event:MouseEvent):void {
 			_mDown = true;
 			addEventListener(MouseEvent.MOUSE_UP, _mouseUp);		 
@@ -208,7 +218,7 @@ package {
 					var factor:int = _currentBlur - 2;
 					
 					_currentBlur = 0;
-					_source.applyFilter(_source, BITMAP_RECT, POINT, new BlurFilter(factor + 2,factor + 2));
+					_source.applyFilter(_source, DISPLAY_RECT, ONYX_POINT_IDENTITY, new BlurFilter(factor + 2,factor + 2));
 				}
 	
 				_source.draw(this);
@@ -277,9 +287,9 @@ package {
 				
 				output.unlock();
 				blurOut.unlock();
-				var transform:RenderTransform = RenderTransform.getTransform(this);
-				transform.content = blurOut;
-				return transform;
+				if ( imageData ) {
+					info.render( imageData );
+				}
 			}
 		}
 		
@@ -304,10 +314,79 @@ package {
 			removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			removeEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 
-			_controls = null;
 			graphics.clear();
 			register(_layer, this, false);		
 
+		}
+	}
+}
+import flash.events.*;
+
+import onyx.events.*;
+import flash.display.BitmapData;
+import onyx.parameter.Parameter;
+import onyx.parameter.Parameters;
+import onyx.plugin.*;
+
+final class LayerListener {
+	
+	public const frames:Array		= [];
+	
+	/**
+	 * 	@private
+	 */
+	private const listeners:Array	= [];
+	
+	/**
+	 * 	@private
+	 */
+	private var maxDelay:int		= 0;
+	
+	/**
+	 * 	@private
+	 */
+	private var layer:Layer;
+	
+	/**
+	 * 
+	 */
+	public function LayerListener(layer:Layer):void {
+		this.layer = layer;
+	}
+	
+	/**
+	 * 
+	 */
+	public function addPatch(patch:LayerPixelRain):void {
+		
+		// add the patch
+		listeners.push(patch);
+		
+		// listen for every render
+		layer.addEventListener(LayerEvent.LAYER_RENDER, render);
+	}
+	
+	/**
+	 * 	@private
+	 */
+	private function render(event:Event):void {
+		frames.unshift(layer.source.clone());
+		
+		while (frames.length > maxDelay + 1) {
+			var bmp:BitmapData = frames.pop();
+			bmp.dispose();
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	public function removePatch(patch:LayerPixelRain):void {
+		
+		listeners.splice(listeners.indexOf(patch), 1);
+		
+		if (!listeners.length && layer) {
+			layer.removeEventListener(LayerEvent.LAYER_RENDER, render);
 		}
 	}
 }

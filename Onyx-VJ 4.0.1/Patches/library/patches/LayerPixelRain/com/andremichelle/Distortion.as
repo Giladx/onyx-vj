@@ -33,7 +33,8 @@ package com.andremichelle {
 		public static function render(source:BitmapData, distortion:Distortion, matrix:Matrix = null, transform:ColorTransform = null, blendMode:String = null):void {
 			BUFFER.copyPixels(source, source.rect, POINT);
 			DISTORT.setTransform(SHAPE.graphics, BUFFER, distortion.topLeft, distortion.topRight, distortion.bottomRight, distortion.bottomLeft)
-			source.fillRect(BITMAP_RECT, 0);
+			source.fillRect(source.rect, 0);
+			//source.fillRect(BITMAP_RECT, 0);
 			source.draw(SHAPE, matrix, transform, blendMode);
 		}
 		

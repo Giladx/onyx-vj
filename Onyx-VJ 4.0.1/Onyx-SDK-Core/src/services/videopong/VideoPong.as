@@ -14,8 +14,8 @@ package services.videopong
 	import flash.events.TextEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
-	import flash.net.URLRequestMethod;
 	
+	import onyx.asset.AssetFile;
 	import onyx.core.Console;
 	
 	[Event(name="loggedin", type="flash.events.TextEvent")]
@@ -123,7 +123,8 @@ package services.videopong
 				folders = XML(result);
 				
 				folderResponse = folders..ResponseCode;//0 if ok
-				Console.output( "VideopongWindow, foldersTreeHandler, ResponseCode: " + folderResponse );  
+				Console.output( "VideopongWindow, foldersTreeHandler, ResponseCode: " + folderResponse ); 
+				
 				//if ( folderResponse == 0 ) retrieveAssets();
 				
 			}

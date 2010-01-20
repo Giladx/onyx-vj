@@ -156,8 +156,8 @@ package ui.window {
 			
 			addChild(folders);
 			addChild(files);
-			addChild(buttonVideoPong);// TODO: add this button on vp successful login
 			addChild(buttonCameras);
+			addChild(buttonVideoPong);// TODO: add this button on vp successful login
 			
 			// query default folder
 			//AssetFile.queryDirectory('onyx-query://vdpong', updateList);
@@ -195,8 +195,8 @@ package ui.window {
 			var control:DisplayObject, index:int;
 			
 			// store an array of items we need to thumbnail
-			const needToThumbnail:Array	= [];
-			const checkForDelete:Object	= {};
+			/*const needToThumbnail:Array	= [];
+			const checkForDelete:Object	= {};*/
 
 			// kill all previous objects here
 			_clearChildren();
@@ -237,31 +237,10 @@ package ui.window {
 					// start listening to start dragging
 					control.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 
-					// if there is a valid bitmap, that means there is a thumbnail
-					// if no bitmap, add it to our job queue
-					/*if (!asset.thumbnail.bitmapData) {
-						asset.thumbnail.bitmapData	= db.getThumbnail(asset.name);
-						
-						// doesn't exist, thumbnail it
-						if (!asset.thumbnail.bitmapData) {
-							needToThumbnail.push(asset);
-							
-						// exists, don't send this for thumbnail deletion
-						} else {
-							
-							checkForDelete[asset.name] = asset;
-							
-						}
-					}*/
+
 				}
 			}
 			
-			/*if ( isAIREnabled )
-			{
-				StateManager.loadState(
-					new AIRThumbnailState(AssetFile.resolvePath(query.path), db, needToThumbnail, checkForDelete)
-				);
-			}*/
 		}
 		
 		/**

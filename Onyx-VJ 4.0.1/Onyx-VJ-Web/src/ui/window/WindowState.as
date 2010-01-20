@@ -23,7 +23,22 @@ package ui.window {
 	public final class WindowState {
 
 		// auto-register the default window state
-		{	register(
+		{	
+			register(
+				new WindowState('DEFAULT', [
+					new WindowStateReg('FILE BROWSER',	6,		613),
+					new WindowStateReg('FILTERS',		518,	613),
+					new WindowStateReg('LAYERS',		6,		274),
+					new WindowStateReg('KEY MAPPING',	615,	219, 	false),
+					new WindowStateReg('DISPLAY',		518,	86),
+					new WindowStateReg('CONSOLE',		355,	6),
+					new WindowStateReg('SETTINGS',		355,	86),
+					new WindowStateReg('VIDEOPONG',		775,	86),
+					new WindowStateReg('RECORDER',		7,		556),
+					new WindowStateReg('PREVIEW',		6,		6)
+				])
+			)
+/*			register(
 				new WindowState('DEFAULT', [
 					new WindowStateReg('FILE BROWSER',	6,		345),
 					new WindowStateReg('FILTERS',		518,	345),
@@ -36,7 +51,7 @@ package ui.window {
 					new WindowStateReg('RECORDER',		7,		756),
 					new WindowStateReg('PREVIEW',		775,	345)
 				])
-			)
+			)*/
 		}
 		
 		/**

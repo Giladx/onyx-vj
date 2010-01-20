@@ -18,12 +18,13 @@ package ui.window {
 		 */
 		public function PreviewWindow(reg:WindowRegistration):void {
 			
-			super(reg, true, 490, 385);
+			super(reg, true, 330, 265);
+			//super(reg, true, 490, 385);
 			
 			preview.x		= 5;
 			preview.y		= 20;
-			preview.width	= 480; //Math.min(480, DISPLAY_WIDTH);
-			preview.height	= 360; //Math.min(360, DISPLAY_HEIGHT);
+			preview.width	= 320; //Math.min(480, DISPLAY_WIDTH);
+			preview.height	= 240; //Math.min(360, DISPLAY_HEIGHT);
 			addChild(preview);
 			
 			// add listeners			

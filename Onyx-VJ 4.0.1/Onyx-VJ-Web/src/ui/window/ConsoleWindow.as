@@ -61,7 +61,7 @@ package ui.window {
 		 */
 		public function ConsoleWindow(reg:WindowRegistration):void {
 			
-			super(reg, true, 190, 184);
+			super(reg, true, 300, 74);
 
 			Console.getInstance().addEventListener(ConsoleEvent.OUTPUT, _onMessage);
 			

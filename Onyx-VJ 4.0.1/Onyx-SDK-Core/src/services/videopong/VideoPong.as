@@ -7,12 +7,12 @@
 
 package services.videopong
 {
-	import flash.display.Loader;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IOErrorEvent;
 	import flash.events.TextEvent;
+	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
 	
@@ -64,20 +64,13 @@ package services.videopong
 		{
 			
 			//Call videopong webservice
-			var request:URLRequest = new URLRequest( 'http://www.videopong.net' );
-			request.method = URLRequestMethod.POST;
+			var url:String = 'http://www.videopong.net/api/login/' + username + '/' + pwd;
+			var request:URLRequest = new URLRequest( url );
+			//request.method = URLRequestMethod.POST;
 			
-			var reqData:Object = new Object();
-			reqData.action = 'onyxapi';
-			reqData.method = 'login';
-			reqData.user = username;
-			reqData.pass = pwd;
-			reqData.passhashed = 0;
-			request.data = reqData;
-			
-			var loader:Loader = new Loader();
-			loader.contentLoaderInfo.addEventListener( Event.COMPLETE, loginHandler );
-			loader.contentLoaderInfo.addEventListener( IOErrorEvent.IO_ERROR, faultHandler ); 
+			var loader:URLLoader = new URLLoader();
+			loader.addEventListener( Event.COMPLETE, loginHandler );
+			loader.addEventListener( IOErrorEvent.IO_ERROR, faultHandler ); 
 			loader.load( request );
 			
 		}		
@@ -86,25 +79,27 @@ package services.videopong
 		 */
 		public function loginHandler( event:Event ):void {
 			
-			var result:String =	event.currentTarget.toString();
+			var result:String =	event.currentTarget.data;
 			var res:XML = XML(result);
+			Console.output( 'Videopong, loginHandler, response: ' + result );
 			
 			if (event is ErrorEvent) 
 			{
-				Console.output( 'Videopong login error: ' + (event as IOErrorEvent).text );
+				Console.output( 'Videopong, loginHandler, login error: ' + (event as IOErrorEvent).text );
 			}
 			else
 			{ 
+				loginResponse = res..ResponseCode;//0 if ok 1 if not then it is a guest
+				sessiontoken = res..SessionToken;
+				fullUserName = res..UserName;
+				Console.output( 'Videopong, loginHandler, login ok: ' + fullUserName );
+				var tEvent:TextEvent = new TextEvent("loggedin");
+				tEvent.text = fullUserName;
+				dispatchEvent(tEvent);
+				
+				Console.output( "VideopongWindow, loginHandler, response: " + loginResponse );  
 				
 			}
-			loginResponse = res..ResponseCode;//0 if ok 1 if not then it is a guest
-			sessiontoken = res..SessionToken;
-			fullUserName = res..UserName;
-			var tEvent:TextEvent = new TextEvent("loggedin");
-			tEvent.text = fullUserName;
-			dispatchEvent(tEvent);
-			
-			Console.output( "VideopongWindow, loginHandler, response: " + loginResponse );  
 			// ask for folders tree
 			//vpFoldersResponder = new CallResponder();
 			// addEventListener for response

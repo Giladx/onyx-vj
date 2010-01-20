@@ -70,7 +70,7 @@ package services.videopong
 			
 			var loader:URLLoader = new URLLoader();
 			loader.addEventListener( Event.COMPLETE, loginHandler );
-			loader.addEventListener( IOErrorEvent.IO_ERROR, faultHandler ); 
+			loader.addEventListener( IOErrorEvent.IO_ERROR, loginHandler ); 
 			loader.load( request );
 			
 		}		
@@ -79,8 +79,6 @@ package services.videopong
 		 */
 		public function loginHandler( event:Event ):void {
 			
-			var result:String =	event.currentTarget.data;
-			var res:XML = XML(result);
 			Console.output( 'Videopong, loginHandler, response: ' + result );
 			
 			if (event is ErrorEvent) 
@@ -89,6 +87,8 @@ package services.videopong
 			}
 			else
 			{ 
+				var result:String =	event.currentTarget.data;
+				var res:XML = XML(result);
 				loginResponse = res..ResponseCode;//0 if ok 1 if not then it is a guest
 				sessiontoken = res..SessionToken;
 				fullUserName = res..UserName;
@@ -97,26 +97,36 @@ package services.videopong
 				tEvent.text = fullUserName;
 				dispatchEvent(tEvent);
 				
-				Console.output( "VideopongWindow, loginHandler, response: " + loginResponse );  
+				Console.output( "VideopongWindow, loginHandler, loading folders" );  
+				// ask for folders tree
+				var url:String = 'http://www.videopong.net/api/getfolderstreeassets/' + sessiontoken;
+				var request:URLRequest = new URLRequest( url );
+				
+				var loader:URLLoader = new URLLoader();
+				loader.addEventListener( Event.COMPLETE, foldersTreeHandler );
+				loader.addEventListener( IOErrorEvent.IO_ERROR, foldersTreeHandler ); 
+				loader.load( request );
 				
 			}
-			// ask for folders tree
-			//vpFoldersResponder = new CallResponder();
-			// addEventListener for response
-			//vpFoldersResponder.addEventListener( ResultEvent.RESULT, foldersTreeHandler );
-			//vpFoldersResponder.addEventListener( FaultEvent.FAULT, faultHandler );
-			//vp.operations
-			//vpFoldersResponder.token = getfolderstreeassets( "onyxapi", "getfolderstreeassets", sessiontoken, "1" );
+
 			
 		}		
-		public function foldersTreeHandler( event:Event ):void {
-			
-			var result:String =	event.currentTarget.toString();
-			folders = XML(result);
-			
-			folderResponse = folders..ResponseCode;//0 if ok
-			Console.output( "VideopongWindow, foldersTreeHandler, ResponseCode: " + folderResponse );  
-			//if ( folderResponse == 0 ) retrieveAssets();
+		public function foldersTreeHandler( event:Event ):void
+		{
+			if (event is ErrorEvent) 
+			{
+				Console.output( 'Videopong, foldersTreeHandler, response error: ' + (event as IOErrorEvent).text );
+			}
+			else
+			{
+				var result:String =	event.currentTarget.data;
+				folders = XML(result);
+				
+				folderResponse = folders..ResponseCode;//0 if ok
+				Console.output( "VideopongWindow, foldersTreeHandler, ResponseCode: " + folderResponse );  
+				//if ( folderResponse == 0 ) retrieveAssets();
+				
+			}
 			
 		}
 		

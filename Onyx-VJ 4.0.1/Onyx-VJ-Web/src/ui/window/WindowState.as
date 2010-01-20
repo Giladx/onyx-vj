@@ -26,16 +26,16 @@ package ui.window {
 		{	
 			register(
 				new WindowState('DEFAULT', [
-					new WindowStateReg('FILE BROWSER',	6,		613),
+					new WindowStateReg('FILE BROWSER',	6,		513),
 					new WindowStateReg('FILTERS',		518,	613),
 					new WindowStateReg('LAYERS',		6,		274),
 					new WindowStateReg('KEY MAPPING',	615,	219, 	false),
 					new WindowStateReg('DISPLAY',		518,	86),
-					new WindowStateReg('CONSOLE',		6,	6),
+					new WindowStateReg('CONSOLE',		6,		6),
 					new WindowStateReg('SETTINGS',		355,	86),
 					new WindowStateReg('VIDEOPONG',		775,	86),
 					new WindowStateReg('RECORDER',		7,		556),
-					new WindowStateReg('PREVIEW',		355,		6)
+					new WindowStateReg('PREVIEW',		355,	6)
 				])
 			)
 /*			register(

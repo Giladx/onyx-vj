@@ -123,7 +123,7 @@ package ui.window {
 			_border						= this.graphics;
 						
 			_text						= Factory.getNewInstance(TextField);
-			_text.width					= 185,
+			_text.width					= 155,
 			_text.height				= 54,
 			_text.multiline				= true,
 			_text.wordWrap				= true,
@@ -132,7 +132,7 @@ package ui.window {
 			_text.selectable			= true;
 			
 			_input						= Factory.getNewInstance(TextField);
-			_input.width				= 187,
+			_input.width				= 157,
 			_input.height				= 10;
 			_input.x  					= 2;
 			_input.y  					= super.height - 11;

@@ -54,7 +54,7 @@ package ui.states {
 			var loader:URLLoader = new URLLoader();
 			loader.addEventListener(Event.COMPLETE, settingsHandler);
 			loader.addEventListener(IOErrorEvent.IO_ERROR, settingsHandler);
-			loader.load(new URLRequest('settings/settings.xml'));
+			loader.load(new URLRequest('lib/onyx/settings/settings.xml'));
 			
 			// create the output display
 			Display			= new OutputDisplay();

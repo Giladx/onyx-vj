@@ -19,13 +19,10 @@ package {
 	import flash.desktop.*;
 	import flash.display.*;
 	import flash.events.*;
-	//import flash.filesystem.*;
 	import flash.geom.*;
-	//import flash.html.*;
 	import flash.utils.*;
 	
 	import onyx.asset.*;
-	//import onyx.asset.air.*;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.parameter.*;
@@ -38,7 +35,7 @@ package {
 	import ui.text.*;
 	import ui.window.*;
 	
-	[SWF(width="1280", height="768", backgroundColor="#141515", frameRate='25', systemChrome='none')]
+	[SWF(width="762", height="839", backgroundColor="#141515", frameRate='25', systemChrome='none')]
 	public final class Main extends Sprite {
 		
 		/**
@@ -84,10 +81,6 @@ package {
 			DISPLAY_STAGE		= this.stage;
 			Tempo				= new TempoImplementer();
 			
-			// quit on close
-			/*stage.nativeWindow.addEventListener(Event.CLOSE, closeChildren);
-			NativeApplication.nativeApplication.addEventListener(Event.EXITING, closeChildren);*/
-			
 			// check first run and setup
 			checkFirstRun();
 		}
@@ -132,9 +125,6 @@ package {
 		private function start():void {
 			
 			const setup:ShowOnyxState = StateManager.getStates('startup')[0];
-			
-			// write to the startup.log file
-			//writeTextFile(new File(AssetFile.resolvePath('logs/start.log')), setup.getLogText());
 			
 			// remove the startup state
 			StateManager.removeState(setup);

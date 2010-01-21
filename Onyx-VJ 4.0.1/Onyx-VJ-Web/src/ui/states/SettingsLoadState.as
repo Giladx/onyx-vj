@@ -50,28 +50,6 @@ package ui.states {
 			
 			Console.output('*  LOADING SETTINGS  *\n');
 			
-			/*try {
-				var file:File		= new File(AssetFile.resolvePath('settings/settings.xml'));
-				
-				// load settings file
-				if (!file.exists) {
-					file = new File(AssetFile.resolvePath('settings/default.xml'));
-					if (!file.exists) {
-						throw new Error('Settings file doesn\'t exist');
-					}
-				}
-				
-				// read settings file
-				SETTINGS_XML		= new XML(readTextFile(file));
-
-				// create display width/height
-				applyCoreSettings();
-				
-			} catch (e:Error) {
-
-				Console.output('ERROR LOADING SETTINGS FILE:\n', e.message);
-
-			}*/
 			// load settings
 			var loader:URLLoader = new URLLoader();
 			loader.addEventListener(Event.COMPLETE, settingsHandler);
@@ -81,56 +59,6 @@ package ui.states {
 			// create the output display
 			Display			= new OutputDisplay();
 			
-			// store screens
-			//const screens:Array			= Screen.screens;
-
-			// if we have more than one screen present
-			//if (screens.length > 1) {
-
-				// create a new window to put the output window
-				/*const options:NativeWindowInitOptions = new NativeWindowInitOptions();
-				options.systemChrome	= NativeWindowSystemChrome.NONE;
-				options.transparent		= false;
-				options.type			= NativeWindowType.LIGHTWEIGHT;*/
-				
-				// create the window
-				/*const displayWindow:NativeWindow	= new NativeWindow(options);
-				displayWindow.width				= DISPLAY_WIDTH;
-				displayWindow.height			= DISPLAY_HEIGHT;
-				displayWindow.alwaysInFront		= true;*/
-				
-				// no scale please thanks
-				/*const stage:Stage				= displayWindow.stage;
-				stage.align						= StageAlign.TOP_LEFT;
-				stage.scaleMode 				= StageScaleMode.NO_SCALE;
-				DISPLAY_STAGE.quality 			= stage.quality	= StageQuality.MEDIUM;*/
-				
-				// we need to put the new window onto the new screen
-				//const screen:Screen		= screens[1];
-				//displayWindow.bounds	= screen.bounds;
-				
-				// listen for a close
-				//displayWindow.addEventListener(Event.CLOSING, quitHandler, false, 0, true);
-
-				// add the display to our new window
-				//stage.addChild(Display as DisplayObject);
-
-				// add the right display object
-				/*const dsp:StartupDisplay	= new StartupDisplay();
-				stage.addChild(dsp);
-				
-				dsp.width					= DISPLAY_WIDTH;
-				dsp.height					= DISPLAY_HEIGHT;*/
-				
-				// turn on hardware accelleration for the output window
-				//stage.fullScreenSourceRect	= new Rectangle(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-				//stage.displayState			= StageDisplayState.FULL_SCREEN_INTERACTIVE;
-				
-				//displayWindow.activate();
-			//}
-
-			// kill the state
-			//StateManager.removeState(this);
 		}
 		private function settingsHandler(event:Event):void {
 			

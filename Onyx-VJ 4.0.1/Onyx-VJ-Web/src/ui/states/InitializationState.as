@@ -51,25 +51,9 @@ package ui.states {
 	public final class InitializationState extends ApplicationState {
 		
 		/**
-		 * 
-		 */
-		/*private static const INSECURE_CONTEXT:LoaderContext	= new LoaderContext(false);
-		INSECURE_CONTEXT.allowLoadBytesCodeExecution		= true;*/
-		
-		/**
 		 * 	@private
 		 */
 		private var filters:Array;
-		
-		/**
-		 * 	@private
-		 */
-		//private var currentFile:File;
-		
-		/**
-		 * 	@private
-		 */
-		//private var pluginPath:File;
 		
 		/**
 		 * 	Initializes
@@ -164,27 +148,8 @@ package ui.states {
 				new Plugin('SmoothVisualizer',		SmoothVisualizer, 'SmoothVisualizer')
 			]);
 			
-			
-			
-			// store the plugin path
-			//pluginPath	= new File(AssetFile.resolvePath('plugins'));
-			
-			// get all the plugins
-			//filters = getDirectoryTree(pluginPath, filter);
-			
-			// stuff to load?
-			/*if (filters && filters.length) {
-				
-				DISPLAY_STAGE.addEventListener(Event.ENTER_FRAME, queueNext);
-				
 			// kill this state
-			} else {
-
-				StateManager.removeState(this);
-				
-			}*/
-			//ADDED
-				StateManager.removeState(this);
+			StateManager.removeState(this);
 		}
 		
 		/**

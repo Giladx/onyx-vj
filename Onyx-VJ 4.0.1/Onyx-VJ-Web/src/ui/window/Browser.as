@@ -194,10 +194,6 @@ package ui.window {
 			
 			var control:DisplayObject, index:int;
 			
-			// store an array of items we need to thumbnail
-			/*const needToThumbnail:Array	= [];
-			const checkForDelete:Object	= {};*/
-
 			// kill all previous objects here
 			_clearChildren();
 			

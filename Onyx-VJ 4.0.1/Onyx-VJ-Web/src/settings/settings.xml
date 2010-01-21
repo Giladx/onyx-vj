@@ -2,7 +2,7 @@
 
 	<!-- META DATA -->
 	<metadata>
-		<version>4.0.5</version>
+		<version>4.0.7</version>
 	</metadata>
 
 	<init>
@@ -122,16 +122,16 @@
 		</keys>
 		<windows>
 	      <state name="DEFAULT">
-	        <window name="FILE BROWSER" x="6" y="345" enabled="true"/>
-	        <window name="FILTERS" x="518" y="345" enabled="true"/>
-	        <window name="LAYERS" x="6" y="6" enabled="true"/>
+	        <window name="FILE BROWSER" x="6" y="613" enabled="true"/>
+	        <window name="FILTERS" x="518" y="613" enabled="true"/>
+	        <window name="LAYERS" x="6" y="274" enabled="true"/>
 	        <window name="KEY MAPPING" x="615" y="319" enabled="false"/>
-	        <window name="DISPLAY" x="518" y="565" enabled="true"/>
-	        <window name="CONSOLE" x="7" y="568" enabled="true"/>
-	        <window name="SETTINGS" x="200" y="565" enabled="true"/>
-	        <window name="VIDEOPONG" x="360" y="565" enabled="true"/>
+	        <window name="DISPLAY" x="518" y="106" enabled="true"/>
+	        <window name="CONSOLE" x="345" y="6" enabled="true"/>
+	        <window name="SETTINGS" x="345" y="106" enabled="true"/>
+	        <window name="VIDEOPONG" x="660" y="6" enabled="true"/>
 	        <window name="RECORDER" x="0" y="0" enabled="false"/>
-	        <window name="PREVIEW" x="775" y="345" enabled="true"/>
+	        <window name="PREVIEW" x="6" y="6" enabled="true"/>
 	        <window name="RECORDER" x="0" y="0" enabled="false"/>
 	        <window name="PERFORMANCE" x="300" y="657" enabled="true"/>
 	      </state>

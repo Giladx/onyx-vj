@@ -53,11 +53,6 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
-		private var buttonXML:TextButton;
-		
-		/**
-		 * 	@private
-		 */
 		private var transitionDropDown:DropDown;
 		
 		/**
@@ -100,7 +95,7 @@ package ui.window {
 		 */
 		public function SettingsWindow(reg:WindowRegistration):void {
 			
-			super(reg, true, 150, 184);
+			super(reg, true, 160, 154);
 
 			init();
 		}
@@ -112,9 +107,6 @@ package ui.window {
 			
 			var options:UIOptions	= new UIOptions( true, true, null, 60, 12 );
 
-			// controls for display
-			buttonXML				= new TextButton(options, 'save mix file'),
-			
 			// transition controls
 			durationSlider			= Factory.getNewInstance(SliderV);
 			durationSlider.initialize(parameters.getParameter('duration'), options);
@@ -134,8 +126,7 @@ package ui.window {
 				tempoDropDown,					8,		40,
 				tapTempo,						75,		33,
 				transitionDropDown,				8,		95,
-				durationSlider,					75,		95,
-				buttonXML,						8,		129
+				durationSlider,					75,		95
 			);
 			
 			
@@ -146,8 +137,6 @@ package ui.window {
 				var source:BitmapData	= bg.bitmapData;
 				source.fillRect(new Rectangle(4, 25, 149, 1), 0xFF445463);
 				source.fillRect(new Rectangle(4, 81, 149, 1), 0xFF445463);
-				source.fillRect(new Rectangle(4, 123, 149, 1), 0xFF445463);
-				source.fillRect(new Rectangle(4, 155, 149, 1), 0xFF445463);
 				
 				var label:StaticText		= new StaticText();
 				
@@ -156,18 +145,8 @@ package ui.window {
 				
 				label.text	= 'TRANSITION';
 				source.draw(label, new Matrix(1, 0, 0, 1, 4, 73));
-				
-				label.text	= 'MIX FILE';
-				source.draw(label, new Matrix(1, 0, 0, 1, 4, 115));
-				
-				label.text	= 'ONYX-VJ UPDATE';
-				source.draw(label, new Matrix(1, 0, 0, 1, 4, 147));
-				
 			}
-                        
-			// xml
-			buttonXML.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-			
+                        			
 			// start the timer
 			Tempo.addEventListener(TempoEvent.CLICK, _onTempo);
 			
@@ -181,35 +160,7 @@ package ui.window {
 		public function getParameters():Parameters {
 			return parameters;
 		}
-                
-		/**
-		 * 	@private
-		 */
-		private function mouseDown(event:MouseEvent):void {
-			switch (event.currentTarget) {
-				case buttonXML:
-					saveMix();
-					break;
-			}
-			event.stopPropagation();
-		}
-		
-		/**
-		 * 	@private
-		 */
-		private function saveMix():void {
-			
-			StateManager.loadState(new SaveMixState());
-
-		}
-		
-		/**
-		 * 	@private
-		 */
-		private function _onFileSaved(query:AssetQuery):void {
-			Console.output(query.path + ' saved.');
-		}
-		
+                		
 		/**
 		 * 
 		 */
@@ -286,9 +237,6 @@ package ui.window {
 		 * 	@public
 		 */
 		override public function dispose():void {
-			
-			// xml
-			buttonXML.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			
 			// start the timer
 			Tempo.removeEventListener(TempoEvent.CLICK, _onTempo);

@@ -107,7 +107,7 @@ package ui.window {
 		 */
 		public function VideopongWindow(reg:WindowRegistration):void {
 			
-			super(reg, true, 150, 184);
+			super(reg, true, 85, 95);
 			
 			init();
 		}
@@ -133,8 +133,8 @@ package ui.window {
 			// add controls
 			addChildren(
 				vpLoginTextControl,				8,	40,
-				vpPwdTextControl,				74,	40,
-				vpLoginBtn,						74,	55
+				vpPwdTextControl,				8,	60,
+				vpLoginBtn,						8,	80
 			);
 			
 			

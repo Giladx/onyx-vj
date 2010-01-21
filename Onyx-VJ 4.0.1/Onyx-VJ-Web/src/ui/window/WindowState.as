@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -24,7 +25,7 @@ package ui.window {
 
 		// auto-register the default window state
 		{	
-			register(
+			/*register(
 				new WindowState('DEFAULT', [
 					new WindowStateReg('FILE BROWSER',	6,		513),
 					new WindowStateReg('FILTERS',		518,	613),
@@ -37,8 +38,8 @@ package ui.window {
 					new WindowStateReg('RECORDER',		7,		556),
 					new WindowStateReg('PREVIEW',		355,	6)
 				])
-			)
-/*			register(
+			)*/
+			register(
 				new WindowState('DEFAULT', [
 					new WindowStateReg('FILE BROWSER',	6,		345),
 					new WindowStateReg('FILTERS',		518,	345),
@@ -51,7 +52,7 @@ package ui.window {
 					new WindowStateReg('RECORDER',		7,		756),
 					new WindowStateReg('PREVIEW',		775,	345)
 				])
-			)*/
+			)
 		}
 		
 		/**

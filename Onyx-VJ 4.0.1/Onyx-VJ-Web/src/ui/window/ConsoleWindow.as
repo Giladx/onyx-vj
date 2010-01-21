@@ -61,7 +61,7 @@ package ui.window {
 		 */
 		public function ConsoleWindow(reg:WindowRegistration):void {
 			
-			super(reg, true, 300, 274);
+			super(reg, true, 160, 95);
 
 			Console.getInstance().addEventListener(ConsoleEvent.OUTPUT, _onMessage);
 			
@@ -79,7 +79,7 @@ package ui.window {
 			
 			// get the start-up motd
 			Console.executeCommand('help');
-			Console.executeCommand('help modules');
+			//Console.executeCommand('help modules');
 			
 		}
 			
@@ -124,7 +124,7 @@ package ui.window {
 						
 			_text						= Factory.getNewInstance(TextField);
 			_text.width					= 185,
-			_text.height				= 154,
+			_text.height				= 54,
 			_text.multiline				= true,
 			_text.wordWrap				= true,
 			_text.x						= 2,
@@ -142,6 +142,7 @@ package ui.window {
 			_input.doubleClickEnabled	= true;
 			_input.selectable			= true;
 			_input.mouseEnabled			= true;
+			_input.maxChars				= 25;
 			_input.type					= TextFieldType.INPUT;
 
 			addChild(_text);

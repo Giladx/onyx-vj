@@ -84,7 +84,9 @@ package onyx.core {
 				
 					break;
 				case 'contributors':
-					text =	'CONTRIBUTORS<br>-------------<br>DANIEL HAI: <A HREF="HTTP://WWW.DANIELHAI.COM">HTTP://WWW.DANIELHAI.COM</A>' +
+					text =	'CONTRIBUTORS<br>-------------<br>' +
+							'DANIEL HAI: <A HREF="HTTP://WWW.DANIELHAI.COM">HTTP://WWW.DANIELHAI.COM</A>' +
+							'BRUCE LANE: <A HREF="HTTP://WWW.BATCHASS.FR">HTTP://WWW.BATCHASS.FR</A>' +
 							'STEFANO COTTAFAVI';
 					break;
 				case 'plugins':
@@ -104,7 +106,7 @@ package onyx.core {
 				// dispatch the start-up motd
 				default:
 					text =	_createHeader('<b>ONYX ' + VERSION + '</b>', 21) + 
-							'COPYRIGHT 2003-2009: WWW.ONYX-VJ.COM' +
+							'COPYRIGHT 2003-2010: WWW.ONYX-VJ.COM' +
 							'<br>TYPE "HELP" OR "HELP COMMANDS" FOR MORE COMMANDS.' +
 							'<br>' ;
 					break;

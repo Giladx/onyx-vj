@@ -107,8 +107,7 @@ package onyx.core {
 				default:
 					text =	_createHeader('<b>ONYX ' + VERSION + '</b>', 21) + 
 							'COPYRIGHT 2003-2010: WWW.ONYX-VJ.COM' +
-							'<br>TYPE "HELP" OR "HELP COMMANDS" FOR MORE COMMANDS.' +
-							'<br>' ;
+							'<br>TYPE "HELP" OR "HELP COMMANDS" FOR MORE COMMANDS.' ;
 					break;
 			}
 			

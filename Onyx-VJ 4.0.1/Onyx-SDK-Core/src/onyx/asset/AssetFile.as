@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -20,6 +21,7 @@ package onyx.asset {
 	import flash.media.*;
 	import flash.utils.ByteArray;
 	
+	import onyx.asset.vp.VPContentQuery;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
@@ -38,12 +40,13 @@ package onyx.asset {
 		onyx_ns static var adapter:IAssetAdapter;
 		
 		/**
-		 * 
+		 *  all names must have a length of 6
 		 */
 		onyx_ns static const protocols:Object	= {
-			camera: new CameraProtocol()
+			camera: new CameraProtocol(),
+			vdpong: new VideoPongProtocol()
 		};
-
+		
 		/**
 		 * 
 		 */
@@ -51,7 +54,7 @@ package onyx.asset {
 			
 			if (path.substr(0, 13).toLowerCase() === 'onyx-query://') {	
 				
-				const p:IAssetProtocol = protocols[path.substr(13)];
+				const p:IAssetProtocol = protocols[path.substr(13,6)];
 				
 				// protocol registered
 				if (p) {
@@ -63,8 +66,8 @@ package onyx.asset {
 					return;
 				}
 			}
-
-			//adapter.queryDirectory(path, callback);
+			
+			adapter.queryDirectory(path, callback);//AIR adapter, not called if other protocols
 		}
 		
 		/**
@@ -84,17 +87,25 @@ package onyx.asset {
 		/**
 		 * 	Callback is:
 		 */
-		public static function queryContent(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void {
+		public static function queryContent(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void 
+		{
 			const index:int = path.indexOf('://');
-			if (index > 4) {
-				
-				const p:IAssetProtocol = protocols[path.substr(0, index)];
-				if (p) {
+			if ( index > 3 ) 
+			{
+				var protocol:String = ( index == 4 ? 'vdpong' : path.substr(0, index) );
+				const p:IAssetProtocol = protocols[protocol];
+				if (p) 
+				{
 					callback(EVENT_COMPLETE, p.getContent(path, layer), settings, transition);	
+					if ( p is VideoPongProtocol )
+					{
+						new VPContentQuery( path, callback, layer, settings, transition );
+						return;
+					}
 				}
 			}
 			
-			// fall through to the adapter
+			// fall through to the AIR adapter
 			adapter.queryContent(path, callback, layer, settings, transition);
 		}
 		

@@ -17,19 +17,18 @@ package ui.states {
 	
 	import flash.desktop.*;
 	import flash.display.*;
+	import flash.errors.IOError;
 	import flash.events.*;
-	//import flash.filesystem.*;
 	import flash.geom.*;
-	import flash.utils.*;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.utils.*;
 	
 	import onyx.asset.*;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
 	
-	import ui.assets.StartupDisplay;
 	import ui.controls.*;
 	import ui.window.*;
 
@@ -66,12 +65,20 @@ package ui.states {
 			loader.removeEventListener(Event.COMPLETE, settingsHandler);
 			loader.removeEventListener(IOErrorEvent.IO_ERROR, settingsHandler);
 			
-			if (!(event is ErrorEvent)) {
-				try {
+			if (event is IOErrorEvent) 
+			{
+				try 
+				{
 					SETTINGS_XML = new XML(loader.data);
-				} catch (e:Error) {
-					trace(e.message);
+				} 
+				catch (e:Error) 
+				{
+					Console.output( 'settingsHandler: ' + ( e.message ) );
 				}
+			}
+			else
+			{
+				Console.output( 'settingsHandler, Error loading: ' + (event as IOErrorEvent).text );
 			}
 			// kill the state
 			StateManager.removeState(this);

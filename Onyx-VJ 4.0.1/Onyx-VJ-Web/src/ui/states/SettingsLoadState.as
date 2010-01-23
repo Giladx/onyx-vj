@@ -53,6 +53,8 @@ package ui.states {
 			var loader:URLLoader = new URLLoader();
 			loader.addEventListener(Event.COMPLETE, settingsHandler);
 			loader.addEventListener(IOErrorEvent.IO_ERROR, settingsHandler);
+
+			// this url is specific to videopong.net
 			loader.load(new URLRequest('lib/onyx/settings/settings.xml'));
 			
 			// create the output display
@@ -65,7 +67,7 @@ package ui.states {
 			loader.removeEventListener(Event.COMPLETE, settingsHandler);
 			loader.removeEventListener(IOErrorEvent.IO_ERROR, settingsHandler);
 			
-			if (event is IOErrorEvent) 
+			if ( !(event is IOErrorEvent) ) 
 			{
 				try 
 				{
@@ -78,12 +80,13 @@ package ui.states {
 			}
 			else
 			{
-				Console.output( 'settingsHandler, Error loading: ' + (event as IOErrorEvent).text );
+				Console.output( 'settingsHandler, IO Error loading: ' + (event as IOErrorEvent).text );
 			}
 			// kill the state
 			StateManager.removeState(this);
 			
 		}					
+
 		/**
 		 * 	@private
 		 */

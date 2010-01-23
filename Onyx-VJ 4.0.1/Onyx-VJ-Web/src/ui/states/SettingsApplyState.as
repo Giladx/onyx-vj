@@ -51,68 +51,72 @@ package ui.states {
 		 */
 		private function applySettings():void {
 			
-			const xml:XML			= SettingsLoadState.SETTINGS_XML;
-			const uiXML:XMLList	= xml.ui;
-
-			var list:XMLList;
-			
-			if (uiXML.hasOwnProperty('swatch')) {
-				list = uiXML.swatch;
+			if ( SettingsLoadState.SETTINGS_XML ) 
+			{
 				
-				try {
-					var colors:Array = [];
-					for each (var color:uint in list.*) {
-						colors.push(color);
-					}
-					ColorPicker.registerSwatch(colors);
-				} catch (e:Error) {
-					Console.error(e);
-				}
+				const xml:XML			= SettingsLoadState.SETTINGS_XML;
+				const uiXML:XMLList	= xml.ui;
+	
+				var list:XMLList;
 				
-			}
-			
-			// stored keys
-			if (uiXML.hasOwnProperty('keys')) {
-				
-				list = uiXML.keys;
-				
-				// map keys
-				for each (var key:XML in list.*) {
+				if (uiXML.hasOwnProperty('swatch')) {
+					list = uiXML.swatch;
 					
 					try {
-						KeyListenerState.registerKey(key.@code, PluginManager.getMacroDefinition(key.toString()));
+						var colors:Array = [];
+						for each (var color:uint in list.*) {
+							colors.push(color);
+						}
+						ColorPicker.registerSwatch(colors);
 					} catch (e:Error) {
 						Console.error(e);
 					}
-
+					
 				}
-			}
-			
-			// parse states
-			if (uiXML.hasOwnProperty('windows')) {
-
-				// set the startup window state
 				
-				list = uiXML.windows;
-				for each (var stateXML:XML in list.*) {
-					var state:WindowState = WindowState.getState(String(stateXML.@name));
-					if (state) {
-						for each (var windowXML:XML in stateXML.*) {
-							// find the window
-							for each (var window:WindowStateReg in state.windows) {
-								if (window.name == windowXML.@name) {
-									window.x		= windowXML.@x;
-									window.y		= windowXML.@y;
-									window.enabled	= String(windowXML.@enabled) == 'true';
-									break;
+				// stored keys
+				if (uiXML.hasOwnProperty('keys')) {
+					
+					list = uiXML.keys;
+					
+					// map keys
+					for each (var key:XML in list.*) {
+						
+						try {
+							KeyListenerState.registerKey(key.@code, PluginManager.getMacroDefinition(key.toString()));
+						} catch (e:Error) {
+							Console.error(e);
+						}
+	
+					}
+				}
+				
+				// parse states
+				if (uiXML.hasOwnProperty('windows')) {
+	
+					// set the startup window state
+					
+					list = uiXML.windows;
+					for each (var stateXML:XML in list.*) {
+						var state:WindowState = WindowState.getState(String(stateXML.@name));
+						if (state) {
+							for each (var windowXML:XML in stateXML.*) {
+								// find the window
+								for each (var window:WindowStateReg in state.windows) {
+									if (window.name == windowXML.@name) {
+										window.x		= windowXML.@x;
+										window.y		= windowXML.@y;
+										window.enabled	= String(windowXML.@enabled) == 'true';
+										break;
+									}
 								}
 							}
 						}
 					}
+					
 				}
-				
-			}
 
+			}
 			// done
 			StateManager.removeState(this);
 		}

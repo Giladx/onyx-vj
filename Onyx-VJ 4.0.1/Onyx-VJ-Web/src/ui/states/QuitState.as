@@ -42,11 +42,6 @@ package ui.states {
 		/**
 		 * 
 		 */
-		
-
-		/**
-		 * 
-		 */
 		private static var startTime:int;
 
 		/**
@@ -143,11 +138,6 @@ package ui.states {
 		 * 	@private
 		 */
 		private function quit(event:Event = null):void {
-			/*for each (var window:NativeWindow in NativeApplication.nativeApplication.openedWindows) {
-				window.close();
-			}
-
-			NativeApplication.nativeApplication.exit();*/
 		}
 		
 		/**
@@ -155,55 +145,7 @@ package ui.states {
 		 */
 		private function showQuitImage():void {
 			
-			// save
-			//var xml:XML		= Settings.toXML();
-			//var file:File	= new File(AssetFile.resolvePath('settings/settings.xml'));
-			//writeTextFile(file, xml.toString());
-			
-			// create a new window to put the output window
-			/*var options:NativeWindowInitOptions = new NativeWindowInitOptions();
-			options.systemChrome	= NativeWindowSystemChrome.NONE;
-			options.transparent		= false;
-			options.type			= NativeWindowType.LIGHTWEIGHT;*/
-			
-			// create the image and a label
-			/*image			= new OnyxStartUpImage();
-			label			= new TextField()
-			label.width		= 400,
-			label.height	= 425;*/
-			
-			//var screen:Screen	= Screen.screens[0];
-			
-			// create the window
-			/*var displayWindow:NativeWindow	= new NativeWindow(options);
-			displayWindow.bounds			= screen.bounds;
-			displayWindow.addEventListener(Event.CLOSE, quit);*/
-			
-			// no scale please thanks
-			/*var stage:Stage				= displayWindow.stage;
-			stage.align					= StageAlign.TOP_LEFT;
-			stage.scaleMode 			= StageScaleMode.NO_SCALE;*/
 
-			// add child
-			/*stage.addChild(image);
-			stage.addChild(label);
-						
-			label.text	=	'*  THANKS FOR USING ONYX-VJ  *\nVERSION ' + VERSION + '\n\n' + 
-							'*  THE ONYX TEAM  *\n' +
-							'DANIEL HAI\nSTEFANO COTTAFAVI\n\n*  CONSIDER DONATING  *\nhttp://www.onyx-vj.com\n\nCLOSING MODULES ...';
-			*/
-			// listen for updates
-			/*var console:Console	= Console.getInstance();
-			console.addEventListener(ConsoleEvent.OUTPUT, onOutput);*/
-			
-			// set the label type
-			/*label.selectable	= false;
-			label.x				= 465;
-			label.y				= 190;*/
-			
-			// activate
-			//displayWindow.activate();
-			
 		}
 		
 		

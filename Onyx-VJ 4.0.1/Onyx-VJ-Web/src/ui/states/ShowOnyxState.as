@@ -78,12 +78,15 @@ package ui.states {
 			label				= Factory.getNewInstance(ui.text.TextField);
 			label.width			= 400;
 			label.height		= 425;
-			label.x				= 465;
+			label.x				= 405;
 			label.y				= 190;
 			
 			label.text	=	'*  VERSION ' + VERSION + '  *\n\n' + 
 							'*  THE ONYX TEAM  *\n' +
-							'DANIEL HAI\nSTEFANO COTTAFAVI\n\n*  CONSIDER DONATING  *\nhttp://www.onyx-vj.com\n\n';
+							'DANIEL HAI\n' +
+							'STEFANO COTTAFAVI\n' +
+							'BRUCE LANE\n' +
+							'\n*  CONSIDER DONATING  *\nhttp://www.onyx-vj.com\n\n';
 			
 			// add the children
 			DISPLAY_STAGE.addChild(image);

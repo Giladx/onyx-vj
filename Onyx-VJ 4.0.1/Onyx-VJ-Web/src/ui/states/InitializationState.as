@@ -68,8 +68,8 @@ package ui.states {
 				new Plugin('SelectLayer0',			SelectLayer0, 'Selects Layer 0'),
 				new Plugin('SelectLayer1',			SelectLayer1, 'Selects Layer 1'),
 				new Plugin('SelectLayer2',			SelectLayer2, 'Selects Layer 2'),
-				new Plugin('SelectLayer3',			SelectLayer3, 'Selects Layer 3'),
-				new Plugin('SelectLayer4',			SelectLayer4, 'Selects Layer 4'),
+				/*new Plugin('SelectLayer3',			SelectLayer3, 'Selects Layer 3'),
+				new Plugin('SelectLayer4',			SelectLayer4, 'Selects Layer 4'),*/
 				new Plugin('SelectLayerNext',		SelectLayerNext, 'Selects Next Layer'),
 				new Plugin('SelectLayerPrevious',	SelectLayerPrevious, 'Selects Previous Layer'),
 				new Plugin('SelectPage0',			SelectPage0, 'Selects Basic Control'),
@@ -78,8 +78,8 @@ package ui.states {
 				new Plugin('MuteLayer0',			MuteLayer0, 'Mutes Layer 1'),
 				new Plugin('MuteLayer1',			MuteLayer1, 'Mutes Layer 2'),
 				new Plugin('MuteLayer2',			MuteLayer2, 'Mutes Layer 3'),
-				new Plugin('MuteLayer3',			MuteLayer3, 'Mutes Layer 4'),
-				new Plugin('MuteLayer4',			MuteLayer4, 'Mutes Layer 5'),
+				/*new Plugin('MuteLayer3',			MuteLayer3, 'Mutes Layer 4'),
+				new Plugin('MuteLayer4',			MuteLayer4, 'Mutes Layer 5'),*/
 				new Plugin('CycleBlendUp',			CycleBlendModeUp,	'Cycles BlendMode Up'),
 				new Plugin('CycleBlendDown',		CycleBlendModeDown,	'Cycle BlendMode Down'),
 				new Plugin('ResetLayer',			ResetLayer,			'Resets a Layer'),

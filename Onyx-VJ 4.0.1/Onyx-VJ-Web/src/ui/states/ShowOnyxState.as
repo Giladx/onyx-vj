@@ -92,11 +92,8 @@ package ui.states {
 			DISPLAY_STAGE.addChild(image);
 			DISPLAY_STAGE.addChild(label);
 			
-			/*const screenBounds:Rectangle	= Screen.mainScreen.bounds;
-			const width:int					= screenBounds.width;
-			const height:int				= screenBounds.height;*/
-			const width:int					= 1024;
-			const height:int				= 768;			
+			const width:int					= 762;
+			const height:int				= 839;			
 			// greater width-wise
 			if (width / height >= 4 / 3) {
 				

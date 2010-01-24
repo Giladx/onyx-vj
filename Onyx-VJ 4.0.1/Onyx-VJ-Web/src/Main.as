@@ -35,9 +35,16 @@ package {
 	import ui.text.*;
 	import ui.window.*;
 	
+	import services.videopong.VideoPong;
+
 	[SWF(width="762", height="839", backgroundColor="#141515", frameRate='25', systemChrome='none')]
 	public final class Main extends Sprite {
 		
+		/**
+		 * 	VideoPong instance
+		 */
+		private const vp:VideoPong = VideoPong.getInstance();
+
 		/**
 		 * 	@private
 		 */
@@ -53,6 +60,10 @@ package {
 		 * 	@constructor
 		 */
 		public function Main():void {
+			
+			// get the sessiontoken from flashvars
+			vp.sessiontoken = root.loaderInfo.parameters.sessiontoken;
+			if ( vp.sessiontoken ) vp.loadFoldersAndAssets();
 			
 			// register classes for re-use
 			Factory.registerClass(ButtonControl);

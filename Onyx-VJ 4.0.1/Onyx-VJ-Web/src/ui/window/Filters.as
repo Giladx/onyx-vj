@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -229,17 +230,23 @@ package ui.window {
 		private function _doubleClick(event:MouseEvent):void {
 			
 			var control:LibraryFilter	= event.target as LibraryFilter;
-			var plugin:Plugin			= control.filter;
-			var target:IFilterDrop		= UIObject.selection as IFilterDrop;
-			
-			if (target) {
-				if (event.ctrlKey) {
-					_applyToAll(plugin);
-				} else {
-					target.addFilter(plugin.createNewInstance() as Filter);
-				}
-			}
+			if ( control )
+			{
+				var plugin:Plugin			= control.filter;
+				var target:IFilterDrop		= UIObject.selection as IFilterDrop;
 				
+				if (target) 
+				{
+					if (event.ctrlKey) 
+					{
+						_applyToAll(plugin);
+					} 
+					else 
+					{
+						target.addFilter(plugin.createNewInstance() as Filter);
+					}
+				}	
+			}			
 		}
 		
 		/**

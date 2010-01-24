@@ -69,7 +69,7 @@ package ui.states {
 				INITIALIZED = true;
 				
 				// create layers
-				(Display as OutputDisplay).createLayers(5);
+				(Display as OutputDisplay).createLayers(3);
 				
 				// remove this
 				StateManager.removeState(this);

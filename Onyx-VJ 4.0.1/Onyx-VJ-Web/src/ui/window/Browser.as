@@ -26,6 +26,8 @@ package ui.window {
 	import onyx.display.*;
 	import onyx.plugin.*;
 	
+	import services.videopong.VideoPong;
+	
 	import ui.assets.*;
 	import ui.controls.*;
 	import ui.controls.browser.*;
@@ -40,6 +42,10 @@ package ui.window {
 	 */
 	public final class Browser extends Window {
 		
+		/**
+		 * 	@private
+		 */
+		private const vp:VideoPong = VideoPong.getInstance();
 		/**
 		 * 	
 		 */
@@ -157,12 +163,21 @@ package ui.window {
 			addChild(folders);
 			addChild(files);
 			addChild(buttonCameras);
-			addChild(buttonVideoPong);// TODO: add this button on vp successful login
+			addChild(buttonVideoPong);
 			
 			// query default folder
-			//AssetFile.queryDirectory('onyx-query://vdpong', updateList);
+			vp.addEventListener( 'foldersloaded', setFolders);		
+
 		}
 		
+		/**
+		 * 	@private
+		 */
+		private function setFolders( event:TextEvent ):void 
+		{
+			AssetFile.queryDirectory('onyx-query://vdpong', updateList);
+			
+		}
 		/**
 		 * 	@private
 		 */
@@ -258,7 +273,6 @@ package ui.window {
 					break;
 			}
 		}
-		
 		
 		/**
 		 * 	@private

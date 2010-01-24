@@ -57,7 +57,7 @@ package ui.states {
 				WindowState.load(
 					WindowState.getState('DEFAULT')
 				);
-				
+
 				// create the bottom buttons
 				var window:MenuWindow = new MenuWindow(null);
 				window.createButtons(775, 732);

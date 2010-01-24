@@ -43,6 +43,9 @@ package ui.window {
 	 */
 	public final class VideopongWindow extends Window implements IParameterObject {
 		
+		/**
+		 * 	@private
+		 */
 		private const vp:VideoPong = VideoPong.getInstance();
 		
 		/**

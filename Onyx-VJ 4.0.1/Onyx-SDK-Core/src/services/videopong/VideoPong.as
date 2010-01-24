@@ -19,6 +19,7 @@ package services.videopong
 	import onyx.core.Console;
 	
 	[Event(name="loggedin", type="flash.events.TextEvent")]
+	[Event(name="foldersloaded", type="flash.events.TextEvent")]
 	
 	public class VideoPong extends EventDispatcher
 	{
@@ -127,10 +128,14 @@ package services.videopong
 				folderResponse = folders..ResponseCode;//0 if ok
 				Console.output( "VideopongWindow, foldersTreeHandler, ResponseCode: " + folderResponse ); 
 				
-				//if ( folderResponse == 0 ) retrieveAssets();
-				
+				if ( folderResponse == 0 ) 
+				{
+					var tEvent:TextEvent = new TextEvent("foldersloaded");
+					tEvent.text = "Folders and assets tree loaded";
+					dispatchEvent( tEvent );
+					//AssetFile.queryDirectory('onyx-query://vdpong', updateList);
+				}
 			}
-			
 		}
 		
 		/**

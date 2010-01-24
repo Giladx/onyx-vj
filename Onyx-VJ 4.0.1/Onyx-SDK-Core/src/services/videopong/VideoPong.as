@@ -95,22 +95,24 @@ package services.videopong
 				Console.output( 'Videopong, loginHandler, login ok: ' + fullUserName );
 				var tEvent:TextEvent = new TextEvent("loggedin");
 				tEvent.text = fullUserName;
-				dispatchEvent(tEvent);
+				dispatchEvent( tEvent );
 				
-				Console.output( "VideopongWindow, loginHandler, loading folders" );  
 				// ask for folders tree
-				var url:String = 'http://www.videopong.net/api/getfolderstreeassets/' + sessiontoken;
-				var request:URLRequest = new URLRequest( url );
-				
-				var loader:URLLoader = new URLLoader();
-				loader.addEventListener( Event.COMPLETE, foldersTreeHandler );
-				loader.addEventListener( IOErrorEvent.IO_ERROR, foldersTreeHandler ); 
-				loader.load( request );
-				
+				loadFoldersAndAssets();
 			}
-
+		}	
+		
+		public function loadFoldersAndAssets():void
+		{
+			Console.output( "VideopongWindow, loadFoldersAndAssets, loading folders" );  
+			var url:String = 'http://www.videopong.net/api/getfolderstreeassets/' + sessiontoken;
+			var request:URLRequest = new URLRequest( url );
 			
-		}		
+			var loader:URLLoader = new URLLoader();
+			loader.addEventListener( Event.COMPLETE, foldersTreeHandler );
+			loader.addEventListener( IOErrorEvent.IO_ERROR, foldersTreeHandler ); 
+			loader.load( request );
+		}
 		public function foldersTreeHandler( event:Event ):void
 		{
 			if (event is ErrorEvent) 

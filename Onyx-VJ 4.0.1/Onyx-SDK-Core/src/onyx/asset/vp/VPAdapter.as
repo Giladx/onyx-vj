@@ -18,11 +18,12 @@ package onyx.asset.vp {
 	
 	import flash.utils.*;
 	
+	import mx.core.Application;
+	
 	import onyx.asset.*;
 	import onyx.core.Console;
 	import onyx.display.*;
 	import onyx.plugin.*;
-	
 	
 	/**
 	 * 
@@ -46,7 +47,6 @@ package onyx.asset.vp {
 		 * 
 		 */
 		public function VPAdapter():void {
-			 
 			
 		}
 		/**

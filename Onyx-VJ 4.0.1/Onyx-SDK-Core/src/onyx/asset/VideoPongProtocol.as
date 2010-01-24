@@ -40,7 +40,7 @@ package onyx.asset {
 				if ( path.length > 20 )
 				{
 					var suffix:String = path.substr(20);
-					Console.output( 'VideoPongProtocol, we are in a sub-folder: ' + suffix );
+					//Console.output( 'VideoPongProtocol, we are in a sub-folder: ' + suffix );
 					var currentFolder:String = suffix.substr( suffix.indexOf('/') + 1 );
 					Console.output( 'VideoPongProtocol, current folder: ' + currentFolder );
 					folderList = folders.listfolders.folder.(@foldername==suffix).subfolder.folder; 
@@ -49,7 +49,7 @@ package onyx.asset {
 						//no subfolders
 						//add up folder button
 						subFolder = suffix.substr( 0, suffix.indexOf('/') );
-						Console.output( 'VideoPongProtocol, no subfolders, we add the up one folder button to return to: ' + subFolder );
+						//Console.output( 'VideoPongProtocol, no subfolders, we add the up one folder button to return to: ' + subFolder );
 						list.push( new VideoPongAsset( '', true, subFolder  ) );
 						// get assets from the selected folder
 						var assetsList:XMLList = folders.listfolders.folder.(@foldername==subFolder).subfolder.folder.(@foldername==currentFolder).asset;
@@ -67,7 +67,7 @@ package onyx.asset {
 					else
 					{
 						subFolder = folders.listfolders.folder.(@foldername==suffix).@foldername + '/';
-						Console.output( 'VideoPongProtocol, subfolders exist, we first add the up one folder button to return to: ' + subFolder );
+						//Console.output( 'VideoPongProtocol, subfolders exist, we first add the up one folder button to return to: ' + subFolder );
 						list.push( new VideoPongAsset( '', true ) );
 					}
 				}
@@ -85,7 +85,7 @@ package onyx.asset {
 			}
 			else
 			{
-				Console.output( 'VideoPongProtocol, no folders found, please login first.' );
+				Console.output( 'VideoPongProtocol, no folders found, please login first or have a valid sessiontoken.' );
 			}
 			
 			return list;

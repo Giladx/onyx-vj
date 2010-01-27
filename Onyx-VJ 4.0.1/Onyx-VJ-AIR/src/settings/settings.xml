@@ -50,6 +50,7 @@
 		<videopong>
 			<login>batchass</login>
 			<pwd>null</pwd>
+			<domain>https://www.videopong.net</domain>
 		</videopong>
 		
 	</core>

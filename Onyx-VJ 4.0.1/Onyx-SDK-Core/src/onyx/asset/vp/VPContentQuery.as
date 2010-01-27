@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -19,7 +20,6 @@ package onyx.asset.vp {
 	import flash.events.*;
 	import flash.media.*;
 	import flash.net.*;
-	import flash.system.Security;
 	import flash.utils.*;
 	
 	import onyx.asset.*;
@@ -131,15 +131,8 @@ package onyx.asset.vp {
 					{
 						var sessionReplace:RegExp = /replacethissessiontoken/gi; // g:global i:ignore case
 						var request:URLRequest = new URLRequest( path.replace( sessionReplace, vp.sessiontoken ) );
-						//var request:URLRequest = new URLRequest(  'http://www.videopong.net/api/get_clip/0czocgkks87/ee5a2857bbebaad9aab5807f4e461a22/movie.swf' );
 						request.method = URLRequestMethod.POST;
 						request.contentType = 'application/x-shockwave-flash';
-						/*var reqData:Object = new Object();
-						reqData.action = 'onyxapi';
-						reqData.method = 'get_clip';
-						reqData.clip_id = '0cn9wp9v5zy';
-						reqData.sessiontoken = vp.sessiontoken;
-						request.data = reqData;*/
 						var loader:Loader = new Loader();
 						loader.contentLoaderInfo.addEventListener( Event.COMPLETE, contentHandler );
 						loader.contentLoaderInfo.addEventListener( IOErrorEvent.IO_ERROR, contentHandler ); 
@@ -153,7 +146,7 @@ package onyx.asset.vp {
 		}
 		private function progressHandler(event:ProgressEvent):void 
 		{
-			trace("progressHandler loaded:" + event.bytesLoaded + " total: " + event.bytesTotal);
+			Console.output('LOADING ' + Math.floor(event.bytesLoaded / event.bytesTotal * 100) + '% (' + Math.floor(event.bytesTotal / 1024) + ' kb)');
 			//this.layer..path =  'LOADING ' + Math.floor(event.bytesLoaded / event.bytesTotal * 100) + '% (' + Math.floor(event.bytesTotal / 1024) + ' kb)';
 		}	
 		/**

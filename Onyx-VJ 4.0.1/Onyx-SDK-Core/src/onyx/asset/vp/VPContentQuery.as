@@ -58,7 +58,6 @@ package onyx.asset.vp {
 			this.layer		= layer,
 			this.settings	= settings,
 			this.transition	= transition;
-			//Bruce Jan 27 this.extension = 'swf'; //TODO put real extension
 			
 			// load
 			loadContent();

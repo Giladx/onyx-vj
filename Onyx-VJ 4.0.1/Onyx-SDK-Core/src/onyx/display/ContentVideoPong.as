@@ -42,6 +42,7 @@ package onyx.display {
 				<videopong>
 					<login>{vp.username}</login>
 					<pwd>{vp.pwd}</pwd>
+					<domain>{vp.domain}</domain>
 				</videopong>;
 			
 			
@@ -51,16 +52,17 @@ package onyx.display {
 		/**
 		 *  Load
 		 */
-		public static function loadXML(xml:XML):void {
+		public static function loadXML( xml:XML ):void {
 			vp.username = xml.login;
 			vp.pwd = xml.pwd;
+			vp.domain = xml.domain;
 		}
 		
 		
 		/**
 		 * 	@constructor
 		 */		
-		public function ContentVideoPong(layer:Layer, path:String):void {
+		public function ContentVideoPong( layer:Layer, path:String ):void {
 			
 			super(layer, path,null,320,240);
 			

@@ -28,6 +28,7 @@ package services.videopong
 		 */
 		private static var _username:String;
 		private static var _pwd:String;
+		private static var _domain:String;
 		private var _folders:XML;
 		private var _assets:XML;
 		private var _folderResponse:uint;
@@ -54,6 +55,7 @@ package services.videopong
 		{
 			_username = 'username';
 			_pwd = 'password';
+			_domain = '';
 			
 			super();
 		}
@@ -65,8 +67,7 @@ package services.videopong
 		{
 			
 			//Call videopong webservice
-			//var url:String = 'http://www.videopong.net/api/login/' + username + '/' + pwd;
-			var url:String = '/api/login/' + username + '/' + pwd;
+			var url:String = domain + '/api/login/' + username + '/' + pwd;
 			var request:URLRequest = new URLRequest( url );
 			//request.method = URLRequestMethod.POST;
 			
@@ -152,7 +153,7 @@ package services.videopong
 			
 			var faultString:String = event.currentTarget.toString();
 			
-			Console.output("Videopong faultHandler: "+faultString);  
+			Console.output( "Videopong faultHandler: " + faultString );  
 			
 		}	
 		public function get folders():XML
@@ -175,6 +176,16 @@ package services.videopong
 			sessiontoken = value;
 		}
 		
+		public function get domain():String
+		{
+			return _domain;
+		}
+		
+		public function set domain(value:String):void
+		{
+			_domain = value;
+		}
+
 		public function get pwd():String
 		{
 			return _pwd;
@@ -249,7 +260,6 @@ package services.videopong
 			
 			
 		}
-		
-		
+	
 	}
 }

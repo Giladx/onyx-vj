@@ -54,7 +54,7 @@ package ui.states {
 			if ( SettingsLoadState.SETTINGS_XML ) 
 			{
 				
-				const xml:XML			= SettingsLoadState.SETTINGS_XML;
+				const xml:XML		= SettingsLoadState.SETTINGS_XML;
 				const uiXML:XMLList	= xml.ui;
 	
 				var list:XMLList;

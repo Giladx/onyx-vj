@@ -65,7 +65,8 @@ package services.videopong
 		{
 			
 			//Call videopong webservice
-			var url:String = 'http://www.videopong.net/api/login/' + username + '/' + pwd;
+			//var url:String = 'http://www.videopong.net/api/login/' + username + '/' + pwd;
+			var url:String = '/api/login/' + username + '/' + pwd;
 			var request:URLRequest = new URLRequest( url );
 			//request.method = URLRequestMethod.POST;
 			
@@ -80,11 +81,11 @@ package services.videopong
 		 */
 		public function loginHandler( event:Event ):void {
 			
-			Console.output( 'Videopong, loginHandler, response: ' + result );
+			//Console.output( 'Videopong, loginHandler, response: ' + result );
 			
 			if (event is ErrorEvent) 
 			{
-				Console.output( 'Videopong, loginHandler, login error: ' + (event as IOErrorEvent).text );
+				Console.output( 'Videopong login error: ' + (event as IOErrorEvent).text );
 			}
 			else
 			{ 
@@ -93,7 +94,7 @@ package services.videopong
 				loginResponse = res..ResponseCode;//0 if ok 1 if not then it is a guest
 				sessiontoken = res..SessionToken;
 				fullUserName = res..UserName;
-				Console.output( 'Videopong, loginHandler, login ok: ' + fullUserName );
+				Console.output( 'Videopong login ok: ' + fullUserName );
 				var tEvent:TextEvent = new TextEvent("loggedin");
 				tEvent.text = fullUserName;
 				dispatchEvent( tEvent );
@@ -105,8 +106,9 @@ package services.videopong
 		
 		public function loadFoldersAndAssets():void
 		{
-			Console.output( "VideopongWindow, loadFoldersAndAssets, loading folders" );  
-			var url:String = 'http://www.videopong.net/api/getfolderstreeassets/' + sessiontoken;
+			Console.output( "Videopong loading folders" );  
+			//var url:String = 'http://www.videopong.net/api/getfolderstreeassets/' + sessiontoken;
+			var url:String = '/api/getfolderstreeassets/' + sessiontoken;
 			var request:URLRequest = new URLRequest( url );
 			
 			var loader:URLLoader = new URLLoader();
@@ -118,7 +120,7 @@ package services.videopong
 		{
 			if (event is ErrorEvent) 
 			{
-				Console.output( 'Videopong, foldersTreeHandler, response error: ' + (event as IOErrorEvent).text );
+				Console.output( 'Videopong foldersTree error: ' + (event as IOErrorEvent).text );
 			}
 			else
 			{
@@ -126,7 +128,7 @@ package services.videopong
 				folders = XML(result);
 				
 				folderResponse = folders..ResponseCode;//0 if ok
-				Console.output( "VideopongWindow, foldersTreeHandler, ResponseCode: " + folderResponse ); 
+				Console.output( "Videopong folders loaded" ); 
 				
 				if ( folderResponse == 0 ) 
 				{
@@ -150,7 +152,7 @@ package services.videopong
 			
 			var faultString:String = event.currentTarget.toString();
 			
-			Console.output("VideopongWindow, faultHandler, faultString: "+faultString);  
+			Console.output("Videopong faultHandler: "+faultString);  
 			
 		}	
 		public function get folders():XML

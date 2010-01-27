@@ -19,6 +19,7 @@ package onyx.asset.vp {
 	import flash.events.*;
 	import flash.media.*;
 	import flash.net.*;
+	import flash.system.Security;
 	import flash.utils.*;
 	
 	import onyx.asset.*;
@@ -50,10 +51,6 @@ package onyx.asset.vp {
 		 */
 		public function VPContentQuery(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void {
 			
-			// path ends with .extension, which we have to remove to call the loader
-			// we store the url before 
-			//this.url = path;
-			//path = url.substr( 0, url.lastIndexOf('.') ); // remove extension
 			//
 			super(path, callback);
 			
@@ -61,7 +58,7 @@ package onyx.asset.vp {
 			this.layer		= layer,
 			this.settings	= settings,
 			this.transition	= transition;
-			this.extension = 'swf'; //TODO put real extension
+			//Bruce Jan 27 this.extension = 'swf'; //TODO put real extension
 			
 			// load
 			loadContent();
@@ -158,6 +155,7 @@ package onyx.asset.vp {
 		private function progressHandler(event:ProgressEvent):void 
 		{
 			trace("progressHandler loaded:" + event.bytesLoaded + " total: " + event.bytesTotal);
+			//this.layer..path =  'LOADING ' + Math.floor(event.bytesLoaded / event.bytesTotal * 100) + '% (' + Math.floor(event.bytesTotal / 1024) + ' kb)';
 		}	
 		/**
 		 * 	@private

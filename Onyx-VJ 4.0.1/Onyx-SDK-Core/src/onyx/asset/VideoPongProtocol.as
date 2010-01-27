@@ -26,7 +26,7 @@ package onyx.asset {
 		 */
 		public function getProtocolList(path:String):Array 
 		{
-			Console.output( '--------------------------------\nVideoPongProtocol, start of getProtocolList' );
+			//Console.output( '--------------------------------\nVideoPongProtocol, start of getProtocolList' );
 			const list:Array = [];
 			// must login first
 			var folders:XML = vp.folders;
@@ -38,13 +38,13 @@ package onyx.asset {
 				var folderList:XMLList;
 				var subFolder:String = '';
 				var assetsList:XMLList;
-				Console.output( 'VideoPongProtocol, path: ' + path );
+				//Console.output( 'VideoPongProtocol, path: ' + path );
 				if ( path.length > 20 )
 				{
 					var suffix:String = path.substr(20);
 					//Console.output( 'VideoPongProtocol, we are in a sub-folder: ' + suffix );
 					var currentFolder:String = suffix.substr( suffix.indexOf('/') + 1 );
-					Console.output( 'VideoPongProtocol, current folder: ' + currentFolder );
+					//Console.output( 'VideoPongProtocol, current folder: ' + currentFolder );
 					folderList = folders.listfolders.folder.(@foldername==suffix).subfolder.folder; 
 					if ( folderList.length() == 0 )
 					{
@@ -66,7 +66,7 @@ package onyx.asset {
 				}
 				else
 				{
-					Console.output( 'VideoPongProtocol, root folder.' );
+					//Console.output( 'VideoPongProtocol, root folder.' );
 					folderList = folders.listfolders.folder;
 					assetsList = folders.listfolders.asset;
 					//OK all folders: var folderList:XMLList = folders..folder;

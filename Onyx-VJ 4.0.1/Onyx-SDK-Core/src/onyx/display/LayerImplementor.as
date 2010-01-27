@@ -142,6 +142,8 @@ package onyx.display {
 			
 			// if it's a progress event, pass it on
 			if (event is ProgressEvent) {
+				Console.output('LOADING ' + Math.floor((event as ProgressEvent).bytesLoaded / (event as ProgressEvent).bytesTotal * 100) + '% (' + Math.floor((event as ProgressEvent).bytesTotal / 1024) + ' kb)');
+
 				super.dispatchEvent(event);
 				return;
 			}

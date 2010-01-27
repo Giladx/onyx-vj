@@ -146,6 +146,9 @@ package onyx.asset.vp {
 		}
 		private function progressHandler(event:ProgressEvent):void 
 		{
+			
+			Console.executeCommand('res');
+			Console.executeCommand('help contributo');
 			Console.output('LOADING ' + Math.floor(event.bytesLoaded / event.bytesTotal * 100) + '% (' + Math.floor(event.bytesTotal / 1024) + ' kb)');
 			//this.layer..path =  'LOADING ' + Math.floor(event.bytesLoaded / event.bytesTotal * 100) + '% (' + Math.floor(event.bytesTotal / 1024) + ' kb)';
 		}	

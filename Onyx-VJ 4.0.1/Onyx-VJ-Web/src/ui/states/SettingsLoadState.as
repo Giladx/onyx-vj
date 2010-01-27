@@ -55,7 +55,7 @@ package ui.states {
 			loader.addEventListener(IOErrorEvent.IO_ERROR, settingsHandler);
 
 			// this url is specific to videopong.net
-			loader.load(new URLRequest('lib/onyx/settings/settings.xml'));
+			loader.load(new URLRequest('settings/settings.xml'));
 			
 			// create the output display
 			Display			= new OutputDisplay();

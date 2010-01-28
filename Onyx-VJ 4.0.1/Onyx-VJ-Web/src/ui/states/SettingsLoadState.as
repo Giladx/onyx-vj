@@ -56,7 +56,6 @@ package ui.states {
 
 			// this url is specific to videopong.net
 			loader.load(new URLRequest('settings/settings.xml'));
-			
 			// create the output display
 			Display			= new OutputDisplay();
 			
@@ -72,6 +71,8 @@ package ui.states {
 				try 
 				{
 					SETTINGS_XML = new XML(loader.data);
+					trace(SETTINGS_XML);
+					trace(SETTINGS_XML);
 				} 
 				catch (e:Error) 
 				{
@@ -82,6 +83,9 @@ package ui.states {
 			{
 				Console.output( 'settingsHandler, IO Error loading: ' + (event as IOErrorEvent).text );
 			}
+			
+			applyCoreSettings();
+			
 			// kill the state
 			StateManager.removeState(this);
 			

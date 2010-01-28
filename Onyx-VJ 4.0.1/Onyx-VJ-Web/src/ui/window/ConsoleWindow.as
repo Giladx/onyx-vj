@@ -17,24 +17,33 @@ package ui.window {
 	
 	import flash.display.*;
 	import flash.events.*;
-	import flash.text.TextFieldType;
 	import flash.system.System;
+	import flash.text.TextFieldType;
 	
 	import onyx.core.*;
 	import onyx.events.*;
 	import onyx.utils.*;
 	
+	import services.videopong.VideoPong;
+	
 	import ui.core.DragManager;
+	import ui.core.Settings;
 	import ui.policy.*;
 	import ui.states.*;
 	import ui.text.*;
 	
+			
 	use namespace onyx_ns;
 	
 	/**
 	 * 	Console window
 	 */
 	public final class ConsoleWindow extends Window {
+		
+		/**
+		 * 	singleton instance of Videopong class
+		 */
+		private const vp:VideoPong = VideoPong.getInstance();
 		
 		/**
 		 * 	@private
@@ -109,6 +118,7 @@ package ui.window {
 		 */
 		private function _onMessage(event:ConsoleEvent):void {
 			
+			//_text.htmlText = '<font size="7" color="#DCC697" face="DefaultFont"><b>ONYX ' + VERSION + '</b></font><br>';
 			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="7" COLOR="#e4eaef" KERNING="0">' + event.message + '</font></textformat><br/>';
 			_text.scrollV = _text.maxScrollV;
 			
@@ -187,6 +197,22 @@ package ui.window {
 				case 'cls':
 					_text.text = '';
 				
+					break;
+				case 'settings':
+					_text.text = Settings.toXML();
+				
+					break;
+				case 'vpsettings':
+					_text.text = Settings.toXML()..videopong;
+				
+					break;
+				case 'vpdomain':
+					_text.text = 'Videopong domain: ' + vp.domain;
+				
+					break;
+				case 'vpsessiontoken':
+					_text.text = 'Videopong sessiontoken: ' + vp.sessiontoken;
+					
 					break;
 				default:
 					Console.executeCommand(command);

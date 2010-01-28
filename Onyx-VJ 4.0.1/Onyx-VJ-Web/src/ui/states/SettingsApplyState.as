@@ -15,9 +15,7 @@
  */
 package ui.states {
 	
-	//import flash.display.Screen;
 	import flash.events.*;
-	//import flash.filesystem.*;
 	import flash.geom.*;
 	import flash.utils.*;
 	
@@ -155,12 +153,7 @@ package ui.states {
 		 * 	@private
 		 */
 		override public function terminate():void {
-			
-			// check screens
-			/*if (Screen.screens.length === 1) {
-				Console.output('NO OUTPUT Display DETECTED.  PLEASE ENABLE THE SECOND SCREEN AND RESTART');
-			}*/
-			
+						
 			PluginManager.macros.sortOn('description')
 			
 			// output

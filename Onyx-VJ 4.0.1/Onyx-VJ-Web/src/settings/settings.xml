@@ -2,7 +2,7 @@
 
 	<!-- META DATA -->
 	<metadata>
-		<version>4.0.9</version>
+		<version>4.0.10</version>
 	</metadata>
 
 	<init>
@@ -49,8 +49,8 @@
 		<!-- videopong settings -->
 		<videopong>
 			<login>batchass</login>
-			<pwd>null</pwd>
-			<domain></domain>
+			<pwd>null1</pwd>
+			<domain>https://www.videopong.net</domain>
 		</videopong>
 		
 	</core>
@@ -123,18 +123,19 @@
 		</keys>
 		<windows>
 	      <state name="DEFAULT">
-	        <window name="FILE BROWSER" x="6" y="613" enabled="true"/>
-	        <window name="FILTERS" x="518" y="613" enabled="true"/>
-	        <window name="LAYERS" x="6" y="274" enabled="true"/>
-	        <window name="KEY MAPPING" x="615" y="319" enabled="false"/>
-	        <window name="DISPLAY" x="518" y="106" enabled="true"/>
-	        <window name="CONSOLE" x="345" y="6" enabled="true"/>
-	        <window name="SETTINGS" x="345" y="106" enabled="true"/>
-	        <window name="VIDEOPONG" x="660" y="6" enabled="true"/>
+	        <window name="LOGO" x="3" y="2" enabled="true"/>
+	        <window name="FILE BROWSER" x="3" y="619" enabled="true"/>
+	        <window name="FILTERS" x="515" y="619" enabled="true"/>
+	        <window name="LAYERS" x="3" y="275" enabled="true"/>
+	        <window name="KEY MAPPING" x="612" y="319" enabled="false"/>
+	        <window name="DISPLAY" x="3" y="84" enabled="true"/>
+	        <window name="CONSOLE" x="259" y="2" enabled="true"/>
+	        <window name="SETTINGS" x="259" y="113" enabled="true"/>
+	        <window name="VIDEOPONG" x="657" y="2" enabled="false"/>
 	        <window name="RECORDER" x="0" y="0" enabled="false"/>
-	        <window name="PREVIEW" x="6" y="6" enabled="true"/>
+	        <window name="PREVIEW" x="428" y="2" enabled="true"/>
 	        <window name="RECORDER" x="0" y="0" enabled="false"/>
-	        <window name="PERFORMANCE" x="300" y="657" enabled="true"/>
+	        <window name="PERFORMANCE" x="297" y="657" enabled="true"/>
 	      </state>
 	    </windows>
 	   	<!-- THE DIFFERENT INTERFACE STATES -->

@@ -28,6 +28,7 @@ package ui.window {
 	import ui.policy.*;
 	import ui.states.*;
 	import ui.text.*;
+	import services.videopong.VideoPong;
 	
 	use namespace onyx_ns;
 	
@@ -35,6 +36,11 @@ package ui.window {
 	 * 	Console window
 	 */
 	public final class ConsoleWindow extends Window {
+		
+		/**
+		 * 	singleton instance of Videopong class
+		 */
+		private const vp:VideoPong = VideoPong.getInstance();
 		
 		/**
 		 * 	@private
@@ -109,7 +115,7 @@ package ui.window {
 		 */
 		private function _onMessage(event:ConsoleEvent):void {
 			
-			_text.htmlText = '<font size="21" color="#DCC697" face="DefaultFont"><b>ONYX ' + VERSION + '</b></font><br>';
+			//_text.htmlText = '<font size="7" color="#DCC697" face="DefaultFont"><b>ONYX ' + VERSION + '</b></font><br>';
 			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="7" COLOR="#e4eaef" KERNING="0">' + event.message + '</font></textformat><br/>';
 			_text.scrollV = _text.maxScrollV;
 			
@@ -187,6 +193,14 @@ package ui.window {
 				case 'cls':
 					_text.text = '';
 				
+					break;
+				case 'vpdomain':
+					_text.text = 'Videopong domain: ' + vp.domain;
+					
+					break;
+				case 'vpsessiontoken':
+					_text.text = 'Videopong sessiontoken: ' + vp.sessiontoken;
+					
 					break;
 				default:
 					Console.executeCommand(command);

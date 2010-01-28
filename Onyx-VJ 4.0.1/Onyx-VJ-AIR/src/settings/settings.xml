@@ -48,8 +48,8 @@
 
 		<!-- videopong settings -->
 		<videopong>
-			<login>batchass</login>
-			<pwd>null</pwd>
+			<login>YourName</login>
+			<pwd>YourPwd</pwd>
 			<domain>https://www.videopong.net</domain>
 		</videopong>
 		

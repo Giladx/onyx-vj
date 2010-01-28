@@ -109,11 +109,12 @@ package ui.window {
 		 */
 		private function _onMessage(event:ConsoleEvent):void {
 			
+			_text.htmlText = '<font size="21" color="#DCC697" face="DefaultFont"><b>ONYX ' + VERSION + '</b></font><br>';
 			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="7" COLOR="#e4eaef" KERNING="0">' + event.message + '</font></textformat><br/>';
 			_text.scrollV = _text.maxScrollV;
 			
 		}
-		
+	
 		/**
 		 * 	@private
 		 * 	Draw

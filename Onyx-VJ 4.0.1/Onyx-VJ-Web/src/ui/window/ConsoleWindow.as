@@ -214,6 +214,10 @@ package ui.window {
 					_text.text = 'Videopong sessiontoken: ' + vp.sessiontoken;
 					
 					break;
+				case 'fullscreen':
+					_text.text = 'Fullscreen mode';
+					stage.displayState = 'fullScreen';
+					break;
 				default:
 					Console.executeCommand(command);
 					_input.setSelection(0, _input.length);

@@ -71,8 +71,6 @@ package ui.states {
 				try 
 				{
 					SETTINGS_XML = new XML(loader.data);
-					trace(SETTINGS_XML);
-					trace(SETTINGS_XML);
 				} 
 				catch (e:Error) 
 				{

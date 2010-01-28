@@ -87,7 +87,7 @@ package onyx.core {
 					text =	'CONTRIBUTORS<br>-------------<br>' +
 							'DANIEL HAI: <A HREF="HTTP://WWW.DANIELHAI.COM">HTTP://WWW.DANIELHAI.COM</A>' +
 							'BRUCE LANE: <A HREF="HTTP://WWW.BATCHASS.FR">HTTP://WWW.BATCHASS.FR</A>' +
-							'STEFANO COTTAFAVI';
+							'STEFANO COTTAFAVI <A HREF="HTTP://WWW.STEFANOCOTTAFAVI.COM/">HTTP://WWW.STEFANOCOTTAFAVI.COM/</A>';
 					break;
 				case 'plugins':
 					text =	PluginManager.filters.length + ' FILTERS, ' +

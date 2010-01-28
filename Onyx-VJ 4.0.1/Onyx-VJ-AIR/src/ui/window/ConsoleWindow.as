@@ -17,18 +17,20 @@ package ui.window {
 	
 	import flash.display.*;
 	import flash.events.*;
-	import flash.text.TextFieldType;
 	import flash.system.System;
+	import flash.text.TextFieldType;
 	
 	import onyx.core.*;
 	import onyx.events.*;
 	import onyx.utils.*;
 	
+	import services.videopong.VideoPong;
+	
 	import ui.core.DragManager;
+	import ui.core.Settings;
 	import ui.policy.*;
 	import ui.states.*;
 	import ui.text.*;
-	import services.videopong.VideoPong;
 	
 	use namespace onyx_ns;
 	
@@ -194,6 +196,14 @@ package ui.window {
 					_text.text = '';
 				
 					break;
+				case 'settings':
+					_text.text = Settings.toXML();
+					
+					break;
+				case 'vpsettings':
+					_text.text = Settings.toXML()..videopong;
+					
+					break;
 				case 'vpdomain':
 					_text.text = 'Videopong domain: ' + vp.domain;
 					
@@ -201,6 +211,10 @@ package ui.window {
 				case 'vpsessiontoken':
 					_text.text = 'Videopong sessiontoken: ' + vp.sessiontoken;
 					
+					break;
+				case 'fullscreen':
+					_text.text = 'Fullscreen mode';
+					stage.displayState = 'fullScreen';
 					break;
 				default:
 					Console.executeCommand(command);

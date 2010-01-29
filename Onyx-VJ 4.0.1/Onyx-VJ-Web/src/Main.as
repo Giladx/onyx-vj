@@ -20,6 +20,7 @@ package {
 	import flash.display.*;
 	import flash.events.*;
 	import flash.geom.*;
+	import flash.system.Security;
 	import flash.utils.*;
 	
 	import onyx.asset.*;
@@ -28,14 +29,14 @@ package {
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
+	import services.videopong.VideoPong;
+	
 	import ui.controls.*;
 	import ui.controls.layer.*;
 	import ui.core.*;
 	import ui.states.*;
 	import ui.text.*;
 	import ui.window.*;
-	
-	import services.videopong.VideoPong;
 
 	[SWF(width="762", height="839", backgroundColor="#141515", frameRate='25', systemChrome='none')]
 	public final class Main extends Sprite {
@@ -60,10 +61,6 @@ package {
 		 * 	@constructor
 		 */
 		public function Main():void {
-			
-			// get the sessiontoken from flashvars
-			vp.sessiontoken = root.loaderInfo.parameters.sessiontoken;
-			if ( vp.sessiontoken ) vp.loadFoldersAndAssets();
 			
 			// register classes for re-use
 			Factory.registerClass(ButtonControl);
@@ -143,6 +140,12 @@ package {
 			// load default states
 			StateManager.loadState(new KeyListenerState());		// listen for keyboard
 			Display.pause(false);
+			
+			Security.allowInsecureDomain( 'www.videopong.net' );
+			// get the sessiontoken from flashvars
+			vp.sessiontoken = root.loaderInfo.parameters.sessiontoken;
+			if ( vp.sessiontoken ) vp.loadFoldersAndAssets();
+			
 		}
 		
 		/**

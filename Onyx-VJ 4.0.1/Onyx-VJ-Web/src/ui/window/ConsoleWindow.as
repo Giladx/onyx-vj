@@ -213,6 +213,11 @@ package ui.window {
 					_text.text = 'Videopong sessiontoken: ' + vp.sessiontoken;
 					
 					break;
+				case 'vpfolders':
+					_text.text = 'Videopong loading folders: ' + vp.sessiontoken;
+					if ( vp.sessiontoken ) vp.loadFoldersAndAssets() else _text.text += 'Invalid sessiontoken';
+					
+					break;
 				case 'fullscreen':
 					_text.text = 'Fullscreen mode';
 					stage.displayState = 'fullScreen';

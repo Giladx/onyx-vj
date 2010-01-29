@@ -141,7 +141,8 @@ package {
 			StateManager.loadState(new KeyListenerState());		// listen for keyboard
 			Display.pause(false);
 			
-			Security.allowInsecureDomain( 'www.videopong.net' );
+			//KO Security.allowDomain( 'https://www.videopong.net' );
+			//KO Security.allowInsecureDomain( 'https://www.videopong.net' );
 			// get the sessiontoken from flashvars
 			vp.sessiontoken = root.loaderInfo.parameters.sessiontoken;
 			if ( vp.sessiontoken ) vp.loadFoldersAndAssets();

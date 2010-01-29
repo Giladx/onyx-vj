@@ -74,7 +74,7 @@ package onyx.asset {
 				// get assets from the selected folder
 				if ( assetsList.length() >0 )
 				{
-					Console.output( 'VideoPongProtocol, number of assets: ' + assetsList.length() );
+					if ( DEBUG::SPLASHTIME==0 ) Console.output( 'VideoPongProtocol, number of assets: ' + assetsList.length() );
 					
 					for each ( var asset:XML in assetsList )
 					{

@@ -20,6 +20,7 @@ package onyx.asset.vp {
 	import flash.events.*;
 	import flash.media.*;
 	import flash.net.*;
+	import flash.system.Security;
 	import flash.utils.*;
 	
 	import onyx.asset.*;
@@ -129,8 +130,13 @@ package onyx.asset.vp {
 					} 
 					else 
 					{
+						//useless and AIR gives an error with Security.allowDomain( 'www.videopong.net' );
+						//useless and AIR gives an error with Security.allowInsecureDomain( 'www.videopong.net' );
+						
 						var sessionReplace:RegExp = /replacethissessiontoken/gi; // g:global i:ignore case
-						var request:URLRequest = new URLRequest( path.replace( sessionReplace, vp.sessiontoken ) );
+						var pathWithSessiontoken:String = path.replace( sessionReplace, vp.sessiontoken );
+						if ( DEBUG::SPLASHTIME==0 ) Console.output('VPContentQuery, LOADING ' + pathWithSessiontoken);
+						var request:URLRequest = new URLRequest( pathWithSessiontoken );
 						request.method = URLRequestMethod.POST;
 						request.contentType = 'application/x-shockwave-flash';
 						var loader:Loader = new Loader();

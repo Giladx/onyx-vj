@@ -152,9 +152,6 @@ package onyx.asset.vp {
 		}
 		private function progressHandler(event:ProgressEvent):void 
 		{
-			
-			Console.executeCommand('res');
-			Console.executeCommand('help contributo');
 			Console.output('LOADING ' + Math.floor(event.bytesLoaded / event.bytesTotal * 100) + '% (' + Math.floor(event.bytesTotal / 1024) + ' kb)');
 			//this.layer..path =  'LOADING ' + Math.floor(event.bytesLoaded / event.bytesTotal * 100) + '% (' + Math.floor(event.bytesTotal / 1024) + ' kb)';
 		}	
@@ -250,6 +247,7 @@ package onyx.asset.vp {
 			else
 			{ 
 				// get the classname
+				//Videopong swfs:  flash.display::AVM1Movie
 				if (getQualifiedClassName(info.content) === 'flash.display::MovieClip') {
 					
 					var reg:ContentRegistration = ContentMC.registration(path);
@@ -260,6 +258,10 @@ package onyx.asset.vp {
 					
 					// register
 					ContentMC.register(path, info.loader);
+				}
+				else
+				{
+					//Put the file in cache
 				}
 				// load
 				_createLoaderContent(info);

@@ -92,6 +92,7 @@ package onyx.asset {
 			const index:int = path.indexOf('://');
 			if ( index > 3 ) 
 			{
+				// 5 for https
 				var protocol:String = ( index == 5 ? 'vdpong' : path.substr(0, index) );
 				if ( DEBUG::SPLASHTIME==0 ) Console.output('AssetFile, LOADING protocol: ' + protocol);
 				const p:IAssetProtocol = protocols[protocol];

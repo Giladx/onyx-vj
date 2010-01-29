@@ -76,18 +76,20 @@ package onyx.core {
 				case 'command':
 				case 'commands':
 				
-					text =	_createHeader('commands') + 'PLUGINS: SHOWS # OF PLUGINS<br>' +
+					text =	_createHeader('commands') + 
 							'CLEAR: CLEARS THE TEXT<br>' +
-							'STAT [TIME:INT]:	TESTS ALL LAYERS FOR AVERAGE RENDERING TIME<br>' +
+							'FULLSCREEN: RUNS ONYX IN FULLSCREEN MODE<br>' +
+							'COPY: COPY THE CONSOLE TEXT IN CLIPBOARD<br>' +
 							'HELP CONTRIBUTORS: LIST OF CONTRIBUTORS TO THE ONYX PROJECT<br>' +
 							'RESOLUTION: OUTPUTS THE SIZE OF THE FLASH DISPLAY_STAGE'
-				
+							/*'STAT [TIME:INT]:	TESTS ALL LAYERS FOR AVERAGE RENDERING TIME<br>' +
+							'PLUGINS: SHOWS # OF PLUGINS<br>' + */
 					break;
 				case 'contributors':
 					text =	'CONTRIBUTORS<br>-------------<br>' +
-							'DANIEL HAI: <A HREF="HTTP://WWW.DANIELHAI.COM">HTTP://WWW.DANIELHAI.COM</A>' +
-							'BRUCE LANE: <A HREF="HTTP://WWW.BATCHASS.FR">HTTP://WWW.BATCHASS.FR</A>' +
-							'STEFANO COTTAFAVI <A HREF="HTTP://WWW.STEFANOCOTTAFAVI.COM/">HTTP://WWW.STEFANOCOTTAFAVI.COM/</A>';
+							'DANIEL HAI: <A HREF="HTTP://WWW.DANIELHAI.COM">HTTP://WWW.DANIELHAI.COM</A><br>' +
+							'BRUCE LANE: <A HREF="HTTP://WWW.BATCHASS.FR">HTTP://WWW.BATCHASS.FR</A><br>' +
+							'STEFANO COTTAFAVI <A HREF="HTTP://WWW.STEFANOCOTTAFAVI.COM/">HTTP://WWW.STEFANOCOTTAFAVI.COM/</A><br>';
 					break;
 				case 'plugins':
 					text =	PluginManager.filters.length + ' FILTERS, ' +

@@ -30,7 +30,7 @@ package ui.window {
 					new WindowStateReg('FILE BROWSER',	6,		345),
 					new WindowStateReg('FILTERS',		518,	345),
 					new WindowStateReg('LAYERS',		6,		6),
-					new WindowStateReg('KEY MAPPING',	615,	319, 	false),
+					new WindowStateReg('KEY MAPPING',	515,	319, 	false),
 					new WindowStateReg('DISPLAY',		518,	565),
 					new WindowStateReg('CONSOLE',		6,		565),
 					new WindowStateReg('SETTINGS',		200,	565),

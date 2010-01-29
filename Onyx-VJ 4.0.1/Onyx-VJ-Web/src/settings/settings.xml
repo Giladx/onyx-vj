@@ -49,7 +49,7 @@
 		<!-- videopong settings -->
 		<videopong>
 			<login>batchass</login>
-			<pwd>null1</pwd>
+			<pwd>null</pwd>
 			<domain>https://www.videopong.net</domain>
 		</videopong>
 		
@@ -130,7 +130,7 @@
 	        <window name="KEY MAPPING" x="612" y="319" enabled="false"/>
 	        <window name="DISPLAY" x="3" y="84" enabled="true"/>
 	        <window name="CONSOLE" x="259" y="2" enabled="true"/>
-	        <window name="SETTINGS" x="259" y="113" enabled="true"/>
+	        <window name="SETTINGS" x="259" y="153" enabled="true"/>
 	        <window name="VIDEOPONG" x="657" y="2" enabled="false"/>
 	        <window name="RECORDER" x="0" y="0" enabled="false"/>
 	        <window name="PREVIEW" x="428" y="2" enabled="true"/>

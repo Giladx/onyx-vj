@@ -70,7 +70,7 @@ package ui.window {
 		 */
 		public function ConsoleWindow(reg:WindowRegistration):void {
 			
-			super(reg, true, 160, 95);
+			super(reg, true, 160, 145);
 
 			Console.getInstance().addEventListener(ConsoleEvent.OUTPUT, _onMessage);
 			
@@ -87,8 +87,7 @@ package ui.window {
 			DragManager.setDraggable(this);
 			
 			// get the start-up motd
-			Console.executeCommand('help');
-			//Console.executeCommand('help modules');
+			Console.executeCommand('help commands');
 			
 		}
 			
@@ -134,7 +133,7 @@ package ui.window {
 						
 			_text						= Factory.getNewInstance(TextField);
 			_text.width					= 155,
-			_text.height				= 54,
+			_text.height				= 120,
 			_text.multiline				= true,
 			_text.wordWrap				= true,
 			_text.x						= 2,

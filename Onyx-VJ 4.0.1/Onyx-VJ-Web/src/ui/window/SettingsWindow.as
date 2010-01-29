@@ -95,7 +95,7 @@ package ui.window {
 		 */
 		public function SettingsWindow(reg:WindowRegistration):void {
 			
-			super(reg, true, 160, 154);
+			super(reg, true, 160, 114);
 
 			init();
 		}

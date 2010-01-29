@@ -44,7 +44,7 @@ package onyx.utils.updater
 		public static function checkForUpdate():void 
 		{ 
 			installedVersion = getApplicationVersion();
-			Console.output( 'checkForUpdate' );
+			if ( DEBUG::SPLASHTIME==0 ) Console.output( 'checkForUpdate' );
 			appUpdater = new ApplicationUpdater();
 			// Configuration stuff - see update framework docs for more details  
 			appUpdater.updateURL = "http://www.batchass.fr/onyx-vj/update/update.xml"; // Server-side XML file describing update  
@@ -94,17 +94,17 @@ package onyx.utils.updater
 				// avoid auto download
 				// because ( appUpdater.isDownloadUpdateVisible ) doesn't work
 				event.preventDefault();				
-				Console.output( "updaterStatusHandler, getApplicationName:" + getApplicationName() );
+				if ( DEBUG::SPLASHTIME==0 ) Console.output( "updaterStatusHandler, getApplicationName:" + getApplicationName() );
 				appName = getApplicationName() || getApplicationName();
-				Console.output( "updaterStatusHandler, appName:" + appName );
+				if ( DEBUG::SPLASHTIME==0 ) Console.output( "updaterStatusHandler, appName:" + appName );
 				updateVersion = event.version;
-				Console.output( "updaterStatusHandler, updateVersion:" + updateVersion );
+				if ( DEBUG::SPLASHTIME==0 ) Console.output( "updaterStatusHandler, updateVersion:" + updateVersion );
 				updateDescription = getUpdateDescription( event.details );
 				Console.output( "Onyx-VJ " + installedVersion + " New version " + updateVersion + " is available, click on Update button!" );
 			}
 			else 
 			{
-				Console.output( "updaterStatusHandler, no update available" );
+				if ( DEBUG::SPLASHTIME==0 ) Console.output( "updaterStatusHandler, no update available" );
 			}
 		}
 		

@@ -21,6 +21,6 @@ package onyx.plugin {
 	 * 	decrease the height and width via the settings.xml -- this value should *NOT*
 	 * 	be changed at runtime.
 	 */
-	public var DISPLAY_WIDTH:int = 480;
+	public var DISPLAY_WIDTH:int = 320;
 
 }

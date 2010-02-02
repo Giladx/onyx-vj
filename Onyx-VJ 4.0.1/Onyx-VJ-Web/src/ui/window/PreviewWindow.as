@@ -23,8 +23,8 @@ package ui.window {
 			
 			preview.x		= 5;
 			preview.y		= 20;
-			preview.width	= Math.min(480, DISPLAY_WIDTH);
-			preview.height	= Math.min(360, DISPLAY_HEIGHT);
+			preview.width	= Math.min(480, DISPLAY_WIDTH); //should be 320
+			preview.height	= Math.min(360, DISPLAY_HEIGHT); //should be 240
 			addChild(preview);
 			
 			// add listeners			

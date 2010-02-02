@@ -113,6 +113,7 @@ package ui.states {
 				list = core.render;
 
 				if (list.hasOwnProperty('bitmapData')) {
+					//trace( DISPLAY_WIDTH + " " + list.bitmapData.width );
 					Onyx.initialize(DISPLAY_STAGE, list.bitmapData.width, list.bitmapData.height, list.quality || StageQuality.MEDIUM);
 				}
 				

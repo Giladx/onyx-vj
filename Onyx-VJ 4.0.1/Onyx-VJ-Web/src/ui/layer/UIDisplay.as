@@ -16,6 +16,8 @@
 package ui.layer {
 	
 	import flash.display.*;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
 	import onyx.core.*;
 	import onyx.display.*;
@@ -49,7 +51,12 @@ package ui.layer {
 		/**
 		 * 	@private
 		 */
-		private var _background:AssetDisplay			= new AssetDisplay();
+		private var _background:AssetDisplay		= new AssetDisplay();
+		
+		/**
+		 * 	@private
+		 */
+		private var _fullScreenButton:TextButton;
 		
 		/**
 		 * 	@constructor
@@ -115,8 +122,29 @@ package ui.layer {
 			// add the fader
 			addChild(_transitionDrop);
 			addChild(_xFader);
+			
+			//add fullscreen button
+			var fsOptions:UIOptions	= new UIOptions();
+			fsOptions.height		= 12,
+			fsOptions.width			= 65;
+			
+			_fullScreenButton		= new TextButton( fsOptions, 'FULLSCREEN' );
+			_fullScreenButton.addEventListener( MouseEvent.MOUSE_DOWN, _goFullScreen );
+			
+			_fullScreenButton.x		= 3;
+			_fullScreenButton.y		= 87;
+			
+			// add
+			addChild( _fullScreenButton );
 
 		}
+		/**
+		 * 	@private
+		 */
+		private function _goFullScreen(event:Event):void {
+			stage.displayState = 'fullScreen';
+		}
+		
 		
 	}
 }

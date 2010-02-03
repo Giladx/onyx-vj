@@ -75,6 +75,8 @@ package onyx.asset.air {
 			
 			// resolve the file path
 			var file:File = AIR_ROOT.resolvePath(path);
+			// AIR_ROOT.nativePath: e:\SelectedFolderForLibrary\Onyx-VJ
+			// file.nativePath: e:\SelectedFolderForLibrary\Onyx-VJ\library\vincent\Caussols3.jpg
 			
 			// depending on the extension, do different things
 			switch (file.extension) {

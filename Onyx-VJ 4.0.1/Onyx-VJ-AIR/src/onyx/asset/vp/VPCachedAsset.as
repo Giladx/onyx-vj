@@ -45,9 +45,9 @@ package onyx.asset.vp {
 		 * 
 		 */
 		public function VPCachedAsset( name:String, url:String, thumb_url:String='' ):void {
-			this.assetUrl 					= url;
-			this.thumbUrl 					= thumb_url;
-			this.assetName 					= name;
+			this.assetUrl 					= url; // https://www.videopong.net/api/get_clip/replacethissessiontoken/0cwqpxstzh2/ninja.swf
+			this.thumbUrl 					= thumb_url; // https://www.videopong.net/movies/0cwqpxstzh2/thumb1.jpg
+			this.assetName 					= name; // Ninja
 										
 			const format:TextFormat			= new TextFormat(new AssetDefaultFont().fontName, 7, 0xFFFFFF);
 			format.leading					= 3;

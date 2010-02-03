@@ -60,7 +60,7 @@ package ui.states {
 
 				// create the bottom buttons
 				var window:MenuWindow = new MenuWindow(null);
-				window.createButtons(775, 732);
+				window.createButtons( 2, 2840 ); //useless buttons for SWF mode
 				
 				// load menu bar
 				DISPLAY_STAGE.addChild(window);

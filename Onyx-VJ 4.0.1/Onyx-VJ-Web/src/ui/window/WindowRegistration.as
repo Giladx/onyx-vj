@@ -22,7 +22,8 @@ package ui.window {
 	 */
 	public final class WindowRegistration {
 		
-		{	register(
+		{	
+			register(
 				new WindowRegistration('FILE BROWSER',	Browser),
 				new WindowRegistration('CONSOLE',		ConsoleWindow),
 				new WindowRegistration('FILTERS',		Filters),

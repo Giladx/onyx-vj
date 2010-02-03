@@ -27,7 +27,7 @@ package ui.window {
 		 * 	@constructor
 		 */
 		public function PatchWindow(reg:WindowRegistration):void {
-			super(reg, 396, 200);
+			super(reg, true, 396, 200);
 		}
 		
 		/**

@@ -59,11 +59,11 @@ package ui.states {
 				);
 
 				// create the bottom buttons
-				var window:MenuWindow = new MenuWindow(null);
-				window.createButtons( 2, 2840 ); //useless buttons for SWF mode
+				//var window:MenuWindow = new MenuWindow(null);
+				//window.createButtons( 2, 840 ); //useless buttons for SWF mode
 				
 				// load menu bar
-				DISPLAY_STAGE.addChild(window);
+				//DISPLAY_STAGE.addChild(window);
 				
 				// we're initialized
 				INITIALIZED = true;

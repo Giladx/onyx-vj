@@ -75,8 +75,8 @@ package ui.window {
 			_text.sharpness				= 400;
 			_text.thickness				= 0;
 			
-			_text.htmlText = '<font size="31" color="#DCC697" face="DefaultFont"><b>ONYX ' + VERSION + '</b></font><br>';
-			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="19" COLOR="#e4eaef" KERNING="0">Videopong edition</font></textformat><br/>';
+			_text.htmlText = '<font size="28" color="#DCC697" face="DefaultFont"><b>ONYX ' + VERSION + '</b></font><br>';
+			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="21" COLOR="#e4eaef" KERNING="0">Videopong edition</font></textformat><br/>';
 			/*_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="7" COLOR="#e4eaef" KERNING="0">COPYRIGHT 2003-2010: WWW.ONYX-VJ.COM</font></textformat><br/>';
 			_text.htmlText += 'COPYRIGHT 2003-2010: WWW.ONYX-VJ.COM<br/>';*/
 			

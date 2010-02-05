@@ -1,8 +1,10 @@
 package onyx.asset { 
 	
+	import flash.filesystem.*;
 	import flash.media.*;
 	
-	import onyx.asset.vp.VPCachedAsset;
+	import onyx.asset.*;
+	import onyx.asset.vp.*;
 	import onyx.core.Console;
 	import onyx.display.*;
 	import onyx.plugin.*;
@@ -38,21 +40,25 @@ package onyx.asset {
 				var folderList:XMLList;
 				var subFolder:String = '';
 				var assetsList:XMLList;
+				var currentFolder:String = '';
 				//Console.output( 'VideoPongProtocol, path: ' + path );
 				if ( path.length > 20 )
 				{
 					var suffix:String = path.substr(20);
 					//Console.output( 'VideoPongProtocol, we are in a sub-folder: ' + suffix );
-					var currentFolder:String = suffix.substr( suffix.indexOf('/') + 1 );
+					currentFolder = suffix.substr( suffix.indexOf('/') + 1 );
 					//Console.output( 'VideoPongProtocol, current folder: ' + currentFolder );
 					folderList = folders.listfolders.folder.(@foldername==suffix).subfolder.folder; 
 					if ( folderList.length() == 0 )
 					{
-						//no subfolders
+						//no subfolders (second level in tree)
 						//add up folder button
 						subFolder = suffix.substr( 0, suffix.indexOf('/') );
 						//Console.output( 'VideoPongProtocol, no subfolders, we add the up one folder button to return to: ' + subFolder );
 						list.push( new VideoPongAsset( '', true, subFolder  ) );
+						//add folder to library for cache 
+						Console.output( 'path to library: '+ VP_ROOT.resolvePath( currentFolder ).nativePath );
+						if ( !VP_ROOT.resolvePath( currentFolder ).exists ) VP_ROOT.resolvePath( currentFolder ).createDirectory();
 						assetsList = folders.listfolders.folder.(@foldername==subFolder).subfolder.folder.(@foldername==currentFolder).asset;
 					}
 					else

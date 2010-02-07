@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" version="3">
+  <includeClasses>
+    <classEntry path="onyx.core.SpectrumAnalyzer"/>
+    <classEntry path="onyx.core.FilterArray"/>
+    <classEntry path="onyx.core.StateManager"/>
+    <classEntry path="onyx.core.PluginArray"/>
+    <classEntry path="onyx.core.Console"/>
+    <classEntry path="onyx.core.Command"/>
+    <classEntry path="onyx.utils.GCTester"/>
+    <classEntry path="onyx.utils.GraphPlotter"/>
+    <classEntry path="onyx.utils.string.removeExtension"/>
+    <classEntry path="onyx.utils.string.pad"/>
+    <classEntry path="onyx.utils.bitmap.PNGEncoder"/>
+    <classEntry path="onyx.utils.array.swap"/>
+    <classEntry path="onyx.utils.string.getExtension"/>
+    <classEntry path="onyx.utils.string.pathUpOneLevel"/>
+    <classEntry path="onyx.utils.bitmap.JPGEncoder"/>
+    <classEntry path="onyx.utils.string.getProtocol"/>
+    <classEntry path="onyx.utils.event.EVENT_COMPLETE"/>
+    <classEntry path="onyx.utils.bitmap.Distortion"/>
+    <classEntry path="onyx.utils.string.substituteBlanks"/>
+    <classEntry path="onyx.utils.bitmap.DistortImage"/>
+    <classEntry path="onyx.tween.TweenProperty"/>
+    <classEntry path="onyx.tween.Tween"/>
+    <classEntry path="onyx.tween.easing.Cubic"/>
+    <classEntry path="onyx.tween.easing.Quadratic"/>
+    <classEntry path="onyx.tween.easing.Bounce"/>
+    <classEntry path="onyx.tween.easing.Back"/>
+    <classEntry path="onyx.tween.easing.Quintic"/>
+    <classEntry path="onyx.tween.easing.Circular"/>
+    <classEntry path="onyx.tween.easing.Exponential"/>
+    <classEntry path="onyx.tween.easing.Quartic"/>
+    <classEntry path="onyx.tween.easing.Elastic"/>
+    <classEntry path="onyx.tween.easing.Sine"/>
+    <classEntry path="onyx.tween.easing.Linear"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

@@ -101,7 +101,7 @@ package onyx.asset {
 					callback(EVENT_COMPLETE, p.getContent(path, layer), settings, transition);	
 					if ( p is VideoPongProtocol )
 					{
-						Console.output('AssetFile, protocol known, LOADING ' + path);
+						//Console.output('AssetFile, protocol known, LOADING ' + path);
 						new VPContentQuery( path, callback, layer, settings, transition );
 						return;
 					}

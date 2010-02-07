@@ -94,14 +94,14 @@ package onyx.asset {
 			{
 				// 5 for https
 				var protocol:String = ( index == 5 ? 'vdpong' : path.substr(0, index) );
-				if ( DEBUG::SPLASHTIME==0 ) Console.output('AssetFile, LOADING protocol: ' + protocol);
+				//if ( DEBUG::SPLASHTIME==0 ) Console.output('AssetFile, LOADING protocol: ' + protocol);
 				const p:IAssetProtocol = protocols[protocol];
 				if (p) 
 				{
 					callback(EVENT_COMPLETE, p.getContent(path, layer), settings, transition);	
 					if ( p is VideoPongProtocol )
 					{
-						Console.output('AssetFile, protocol known, LOADING ' + path);
+						//Console.output('AssetFile, protocol known, LOADING ' + path);
 						new VPContentQuery( path, callback, layer, settings, transition );
 						return;
 					}

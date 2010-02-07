@@ -8,14 +8,10 @@
     <classEntry path="onyx.plugin.createDefaultBitmap"/>
     <classEntry path="onyx.display.BaseDisplay"/>
     <classEntry path="onyx.display.ContentCustom"/>
-    <classEntry path="onyx.display.ContentMC"/>
-    <classEntry path="onyx.display.LayerImplementor"/>
     <classEntry path="onyx.display.ContentSprite"/>
     <classEntry path="onyx.display.ContentPlugin"/>
     <classEntry path="onyx.display.ContentCustomTime"/>
     <classEntry path="onyx.display.OutputDisplay"/>
-    <classEntry path="onyx.display.ContentTransition"/>
-    <classEntry path="onyx.display.ContentBase"/>
     <classEntry path="onyx.display.ContentMP3"/>
     <classEntry path="onyx.display.ContentCamera"/>
     <classEntry path="onyx.display.ContentONR"/>

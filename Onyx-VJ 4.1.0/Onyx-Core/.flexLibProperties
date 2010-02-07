@@ -34,6 +34,12 @@
     <classEntry path="onyx.tween.easing.Elastic"/>
     <classEntry path="onyx.tween.easing.Sine"/>
     <classEntry path="onyx.tween.easing.Linear"/>
+    <classEntry path="onyx.display.ContentBase"/>
+    <classEntry path="onyx.display.ContentMC"/>
+    <classEntry path="onyx.display.LayerImplementor"/>
+    <classEntry path="onyx.display.ContentTransition"/>
+    <classEntry path="onyx.asset.AssetFile"/>
+    <classEntry path="onyx.asset.AssetQuery"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

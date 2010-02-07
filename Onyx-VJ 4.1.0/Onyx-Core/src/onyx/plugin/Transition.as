@@ -23,8 +23,8 @@ package onyx.plugin {
 
 	import onyx.parameter.*;
 	import onyx.core.*;
-	import onyx.events.TransitionEvent;
-	import onyx.tween.easing.Linear;
+	//import onyx.events.TransitionEvent;
+	//import onyx.tween.easing.Linear;
 	
 	use namespace onyx_ns;
 	

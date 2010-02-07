@@ -19,7 +19,7 @@ package onyx.plugin {
 	import flash.events.*;
 	
 	import onyx.core.*;
-	import onyx.parameter.Parameter;
+	//import onyx.parameter.Parameter;
 	
 	[Event(name="close", type="flash.events.Event")]
 	

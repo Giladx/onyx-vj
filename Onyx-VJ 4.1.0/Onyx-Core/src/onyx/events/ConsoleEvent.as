@@ -17,7 +17,7 @@ package onyx.events {
 	
 	import flash.events.Event;
 	
-	import onyx.core.Console;
+	//import onyx.core.Console;
 
 	/**
 	 * 	Events dispatched by the onyx console

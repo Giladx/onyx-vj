@@ -45,6 +45,7 @@ package onyx.asset.vp {
 		private const bytes:ByteArray = new ByteArray();
 		//private var url:String;
 		private var extension:String;
+		private var tens:String = '0';
 		private const vp:VideoPong = VideoPong.getInstance();
 		
 		/**
@@ -135,7 +136,7 @@ package onyx.asset.vp {
 						
 						var sessionReplace:RegExp = /replacethissessiontoken/gi; // g:global i:ignore case
 						var pathWithSessiontoken:String = path.replace( sessionReplace, vp.sessiontoken );
-						if ( DEBUG::SPLASHTIME==0 ) Console.output('VPContentQuery, LOADING ' + pathWithSessiontoken);
+						//if ( DEBUG::SPLASHTIME==0 ) Console.output('VPContentQuery, LOADING ' + pathWithSessiontoken);
 						var request:URLRequest = new URLRequest( pathWithSessiontoken );
 						request.method = URLRequestMethod.POST;
 						request.contentType = 'application/x-shockwave-flash';
@@ -152,7 +153,13 @@ package onyx.asset.vp {
 		}
 		private function progressHandler(event:ProgressEvent):void 
 		{
-			Console.output('LOADING ' + Math.floor(event.bytesLoaded / event.bytesTotal * 100) + '% (' + Math.floor(event.bytesTotal / 1024) + ' kb)');
+			var ten:String = Math.floor(event.bytesLoaded / event.bytesTotal * 10).toString();
+			if ( ten != tens )
+			{
+				tens = ten;
+				Console.output('LOADING ' + Math.floor(event.bytesLoaded / event.bytesTotal * 100) + '% (' + Math.floor(event.bytesTotal / 1024) + ' kb)');
+				
+			}
 			//this.layer..path =  'LOADING ' + Math.floor(event.bytesLoaded / event.bytesTotal * 100) + '% (' + Math.floor(event.bytesTotal / 1024) + ' kb)';
 		}	
 		/**

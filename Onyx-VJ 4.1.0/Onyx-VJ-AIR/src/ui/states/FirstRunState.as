@@ -139,7 +139,7 @@ package ui.states {
 			}
 			
 			// initialize all the adapters
-			Onyx.initializeAdapters(new VPAdapter(folder.nativePath), new UserInterfaceAPI());
+			Onyx.initializeAdapters(new VPAdapter(), new UserInterfaceAPI());
 			Onyx.initializeAdapters(new AIRAdapter(folder.nativePath), new UserInterfaceAPI());
 			
 			// need to verify all the files exist

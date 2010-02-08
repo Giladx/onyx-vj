@@ -3,6 +3,27 @@
   <includeClasses>
     <classEntry path="services.videopong.VideoPong"/>
     <classEntry path="onyx.display.ContentVideoPong"/>
+    <classEntry path="onyx.asset.AssetFile"/>
+    <classEntry path="onyx.display.ContentMC"/>
+    <classEntry path="onyx.display.ContentTransition"/>
+    <classEntry path="onyx.display.ContentBase"/>
+    <classEntry path="onyx.asset.VideoPongProtocol"/>
+    <classEntry path="onyx.asset.vp.VPContentQuery"/>
+    <classEntry path="onyx.asset.vp.VPAdapter"/>
+    <classEntry path="onyx.asset.vp.VPDirectoryQuery"/>
+    <classEntry path="onyx.asset.vp.VPAsset"/>
+    <classEntry path="onyx.asset.VideoPongAsset"/>
+    <classEntry path="onyx.asset.CameraProtocol"/>
+    <classEntry path="onyx.display.ContentCustom"/>
+    <classEntry path="onyx.display.ContentSprite"/>
+    <classEntry path="onyx.display.ContentMP3"/>
+    <classEntry path="onyx.display.ContentCamera"/>
+    <classEntry path="onyx.display.ContentCustomTime"/>
+    <classEntry path="onyx.display.ContentFLV"/>
+    <classEntry path="onyx.asset.CameraAsset"/>
+    <classEntry path="onyx.asset.VideoPongThumbnail"/>
+    <classEntry path="onyx.asset.AssetDefaultFont"/>
+    <classEntry path="onyx.asset.CameraThumbnail"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

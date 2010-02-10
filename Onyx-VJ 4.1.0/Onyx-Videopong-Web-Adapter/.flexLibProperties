@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" version="3">
+  <includeClasses>
+    <classEntry path="onyx.asset.AssetDefaultFont"/>
+    <classEntry path="onyx.asset.AssetFile"/>
+    <classEntry path="onyx.asset.AssetQuery"/>
+    <classEntry path="onyx.asset.CameraAsset"/>
+    <classEntry path="onyx.asset.CameraProtocol"/>
+    <classEntry path="onyx.asset.CameraThumbnail"/>
+    <classEntry path="onyx.asset.IAssetAdapter"/>
+    <classEntry path="onyx.asset.IAssetProtocol"/>
+    <classEntry path="onyx.asset.VideoPongAsset"/>
+    <classEntry path="onyx.asset.VideoPongProtocol"/>
+    <classEntry path="onyx.asset.VideoPongThumbnail"/>
+    <classEntry path="onyx.asset.vp.VPAdapter"/>
+    <classEntry path="onyx.asset.vp.VPAsset"/>
+    <classEntry path="onyx.asset.vp.VPContentQuery"/>
+    <classEntry path="onyx.asset.vp.VPDirectoryQuery"/>
+    <classEntry path="onyx.display.BaseDisplay"/>
+    <classEntry path="onyx.display.BlendModes"/>
+    <classEntry path="onyx.display.ColorFilter"/>
+    <classEntry path="onyx.display.ContentBase"/>
+    <classEntry path="onyx.display.ContentCamera"/>
+    <classEntry path="onyx.display.ContentCustom"/>
+    <classEntry path="onyx.display.ContentCustomTime"/>
+    <classEntry path="onyx.display.ContentFLV"/>
+    <classEntry path="onyx.display.ContentMC"/>
+    <classEntry path="onyx.display.ContentMP3"/>
+    <classEntry path="onyx.display.ContentNull"/>
+    <classEntry path="onyx.display.ContentONR"/>
+    <classEntry path="onyx.display.ContentPlugin"/>
+    <classEntry path="onyx.display.ContentRegistration"/>
+    <classEntry path="onyx.display.ContentSprite"/>
+    <classEntry path="onyx.display.ContentTransition"/>
+    <classEntry path="onyx.display.ContentVideoPong"/>
+    <classEntry path="onyx.display.IDisplay"/>
+    <classEntry path="onyx.display.LayerImplementor"/>
+    <classEntry path="onyx.display.LayerSettings"/>
+    <classEntry path="onyx.display.OutputDisplay"/>
+    <classEntry path="onyx.utils.GCTester"/>
+    <classEntry path="onyx.utils.GraphPlotter"/>
+    <classEntry path="onyx.utils.array.swap"/>
+    <classEntry path="onyx.utils.bitmap.DistortImage"/>
+    <classEntry path="onyx.utils.bitmap.Distortion"/>
+    <classEntry path="onyx.utils.bitmap.JPGEncoder"/>
+    <classEntry path="onyx.utils.bitmap.PNGEncoder"/>
+    <classEntry path="onyx.utils.event.EVENT_COMPLETE"/>
+    <classEntry path="onyx.utils.string.getExtension"/>
+    <classEntry path="onyx.utils.string.getProtocol"/>
+    <classEntry path="onyx.utils.string.pad"/>
+    <classEntry path="onyx.utils.string.pathUpOneLevel"/>
+    <classEntry path="onyx.utils.string.removeExtension"/>
+    <classEntry path="onyx.utils.string.substituteBlanks"/>
+    <classEntry path="services.videopong.VideoPong"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

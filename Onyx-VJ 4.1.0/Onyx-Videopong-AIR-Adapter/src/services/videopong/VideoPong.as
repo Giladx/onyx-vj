@@ -66,6 +66,7 @@ package services.videopong
 		{
 			
 			//Call videopong webservice
+			if ( _domain == '' ) _domain = 'https://www.videopong.net';
 			var url:String = domain + '/api/login/' + username + '/' + pwd;
 			var request:URLRequest = new URLRequest( url );
 			//request.method = URLRequestMethod.POST;

@@ -25,11 +25,17 @@ package ui.states {
 	
 	import ui.controls.*;
 	import ui.window.*;
+	import services.videopong.VideoPong;
 
 	/**
 	 * 
 	 */
 	public final class SettingsApplyState extends ApplicationState {
+		
+		/**
+		 * 	VideoPong instance
+		 */
+		private const vp:VideoPong = VideoPong.getInstance();
 		
 		/**
 		 * 
@@ -105,6 +111,7 @@ package ui.states {
 										window.x		= windowXML.@x;
 										window.y		= windowXML.@y;
 										window.enabled	= String(windowXML.@enabled) == 'true';
+										if ( ( window.name == 'VIDEOPONG' ) && ( !vp.sessiontoken ) ) window.enabled = true ;
 										break;
 									}
 								}

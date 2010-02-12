@@ -16,13 +16,13 @@
 package ui.window {
 	
 	import onyx.plugin.*;
-
+	
 	/**
 	 * 	Window Registration
 	 */
 	public final class WindowRegistration {
-		
-		{	
+
+		{
 			register(
 				new WindowRegistration('FILE BROWSER',	Browser),
 				new WindowRegistration('CONSOLE',		ConsoleWindow),

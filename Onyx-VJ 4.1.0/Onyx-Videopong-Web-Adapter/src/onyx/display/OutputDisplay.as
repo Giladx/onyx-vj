@@ -23,7 +23,7 @@ package onyx.display {
 	
 	import onyx.core.*;
 	import onyx.events.*;
-	import onyx.jobs.*;
+	//import onyx.jobs.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	import onyx.utils.array.*;
@@ -355,11 +355,11 @@ package onyx.display {
 			super.dispatchEvent(new DisplayEvent(DisplayEvent.MIX_LOADING));
 			
 			// start loading
-			const job:LoadONXJob = new LoadONXJob(this, origin, transition);
-			job.addEventListener(Event.COMPLETE, jobComplete);
+			//const job:LoadONXJob = new LoadONXJob(this, origin, transition);
+			//job.addEventListener(Event.COMPLETE, jobComplete);
 			
 			// register
-			JobManager.register(this, job, path);
+			//JobManager.register(this, job, path);
 			
 		}
 		
@@ -368,8 +368,8 @@ package onyx.display {
 		 */
 		private function jobComplete(event:Event):void {
 			
-			const job:LoadONXJob	= event.currentTarget as LoadONXJob;
-			job.removeEventListener(Event.COMPLETE, jobComplete);
+			/*const job:LoadONXJob	= event.currentTarget as LoadONXJob;
+			job.removeEventListener(Event.COMPLETE, jobComplete);*/
 			
 			// dispatch event
 			super.dispatchEvent(new DisplayEvent(DisplayEvent.MIX_LOADED));

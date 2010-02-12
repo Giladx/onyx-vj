@@ -23,7 +23,7 @@ package onyx.display {
 	
 	import onyx.core.*;
 	import onyx.events.*;
-	import onyx.jobs.*;
+	//import onyx.jobs.*; 
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	import onyx.utils.array.*;

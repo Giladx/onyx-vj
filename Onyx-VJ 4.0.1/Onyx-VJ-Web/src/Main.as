@@ -75,6 +75,8 @@ package {
 			Factory.registerClass(TextField);
 			Factory.registerClass(TextFieldCenter);
 			
+			// get the sessiontoken from flashvars
+			vp.sessiontoken = root.loaderInfo.parameters.sessiontoken;
 			// init
 			init();
 			
@@ -143,8 +145,6 @@ package {
 			
 			//KO Security.allowDomain( 'https://www.videopong.net' );
 			//KO Security.allowInsecureDomain( 'https://www.videopong.net' );
-			// get the sessiontoken from flashvars
-			vp.sessiontoken = root.loaderInfo.parameters.sessiontoken;
 			if ( vp.sessiontoken ) vp.loadFoldersAndAssets();
 			
 		}

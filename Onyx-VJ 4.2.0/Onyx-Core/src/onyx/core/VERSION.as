@@ -18,6 +18,6 @@ package onyx.core {
 	import flash.display.*;
 	
 	[ExcludeClass]
-	public const VERSION:String = '4.0.12';
+	public const VERSION:String = '4.2.0';
 	
 }

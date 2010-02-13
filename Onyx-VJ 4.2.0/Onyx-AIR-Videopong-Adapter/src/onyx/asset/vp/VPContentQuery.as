@@ -18,6 +18,9 @@ package onyx.asset.vp {
 	
 	import flash.display.*;
 	import flash.events.*;
+	import flash.filesystem.File;
+	import flash.filesystem.FileMode;
+	import flash.filesystem.FileStream;
 	import flash.media.*;
 	import flash.net.*;
 	import flash.system.Security;
@@ -43,10 +46,11 @@ package onyx.asset.vp {
 		private var settings:LayerSettings;
 		private var transition:Transition;
 		private const bytes:ByteArray = new ByteArray();
-		//private var url:String;
 		private var extension:String;
 		private var tens:String = '0';
 		private const vp:VideoPong = VideoPong.getInstance();
+		private var pendingDictionaryByLoader:Dictionary = new Dictionary();
+		private var pendingDictionaryByURL:Dictionary = new Dictionary();
 		
 		/**
 		 * 
@@ -253,6 +257,17 @@ package onyx.asset.vp {
 			}
 			else
 			{ 
+				trace( 'VPContentQuery url: ' + info.url );
+				var url:String = pendingDictionaryByLoader[info.url];
+				
+				var cacheFile:File = new File( VP_ROOT.nativePath + File.separator + getFileName( info.url ) );
+				var stream:FileStream = new FileStream();
+				
+				stream.open(cacheFile,FileMode.WRITE);
+				stream.writeBytes(info.bytes);
+				stream.close();
+				delete pendingDictionaryByLoader[info.url]
+				delete pendingDictionaryByURL[url];
 				// get the classname
 				//Videopong swfs:  flash.display::AVM1Movie
 				if (getQualifiedClassName(info.content) === 'flash.display::MovieClip') {
@@ -273,6 +288,16 @@ package onyx.asset.vp {
 				// load
 				_createLoaderContent(info);
 			}
+		}
+		public function getFileName( url:String ):String
+		{
+			var lastSlash:uint = url.lastIndexOf( '/' );
+			var fileName:String;
+			if ( lastSlash > -1 )
+			{
+				fileName = url.substr( lastSlash + 1 );
+			}
+			return fileName;
 		}
 	}
 }

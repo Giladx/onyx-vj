@@ -3,6 +3,7 @@ package onyx.asset {
 	import flash.media.*;
 	
 	import onyx.asset.vp.VPAsset;
+	import onyx.asset.vp.VP_ROOT;
 	import onyx.core.Console;
 	import onyx.display.*;
 	import onyx.plugin.*;
@@ -53,6 +54,8 @@ package onyx.asset {
 						subFolder = suffix.substr( 0, suffix.indexOf('/') );
 						//Console.output( 'VideoPongProtocol, no subfolders, we add the up one folder button to return to: ' + subFolder );
 						list.push( new VideoPongAsset( '', true, subFolder  ) );
+						//add folder to library for cache 
+						if ( !VP_ROOT.resolvePath( currentFolder ).exists ) VP_ROOT.resolvePath( currentFolder ).createDirectory();
 						assetsList = folders.listfolders.folder.(@foldername==subFolder).subfolder.folder.(@foldername==currentFolder).asset;
 					}
 					else

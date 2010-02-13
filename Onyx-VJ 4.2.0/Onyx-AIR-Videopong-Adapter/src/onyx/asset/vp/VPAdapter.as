@@ -16,9 +16,8 @@
  */
 package onyx.asset.vp {
 	
+	import flash.filesystem.File;
 	import flash.utils.*;
-	
-	import mx.core.Application;
 	
 	import onyx.asset.*;
 	import onyx.core.Console;
@@ -46,8 +45,8 @@ package onyx.asset.vp {
 		/**
 		 * 
 		 */
-		public function VPAdapter():void {
-			
+		public function VPAdapter( root:String ):void {
+			VP_ROOT = new File( root + File.separator + ONYX_LIBRARY_PATH + File.separator + 'videopong cache' );
 		}
 		/**
 		 * 	Queries a directory

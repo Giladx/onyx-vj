@@ -141,20 +141,67 @@ package onyx.asset.vp {
 						var sessionReplace:RegExp = /replacethissessiontoken/gi; // g:global i:ignore case
 						var pathWithSessiontoken:String = path.replace( sessionReplace, vp.sessiontoken );
 						//if ( DEBUG::SPLASHTIME==0 ) Console.output('VPContentQuery, LOADING ' + pathWithSessiontoken);
-						var request:URLRequest = new URLRequest( pathWithSessiontoken );
+						getAssetByURL( pathWithSessiontoken );
+						/*var request:URLRequest = new URLRequest( pathWithSessiontoken );
 						request.method = URLRequestMethod.POST;
 						request.contentType = 'application/x-shockwave-flash';
 						var loader:Loader = new Loader();
 						loader.contentLoaderInfo.addEventListener( Event.COMPLETE, contentHandler );
 						loader.contentLoaderInfo.addEventListener( IOErrorEvent.IO_ERROR, contentHandler ); 
 						loader.contentLoaderInfo.addEventListener( ProgressEvent.PROGRESS, progressHandler);
-						loader.load( request );
+						loader.load( request );*/
 						
 					}
 					
 					break;
 			}
 		}
+		/**
+		 * 
+		 */
+		public function getAssetByURL( assetUrl:String ):String
+		{
+			var localUrl:String = VP_ROOT.nativePath + File.separator + getFileName( assetUrl ) ;
+			var cacheFile:File = new File( localUrl );
+			
+			if( cacheFile.exists )
+			{
+				trace( "ImageCacheManager, getAssetByURL cacheFile exists: " + cacheFile.url );
+				//TODO load local file
+				return cacheFile.url;
+			} 
+			else 
+			{
+				trace( "ImageCacheManager, getAssetByURL cacheFile does not exist: " + assetUrl );
+				addAssetToCache( assetUrl );
+				return assetUrl;
+			}
+			
+		}
+		/**
+		 * 
+		 */
+		private function addAssetToCache( url:String ):void
+		{
+			if(!pendingDictionaryByURL[url]){
+				
+				var request:URLRequest = new URLRequest( url );
+				request.method = URLRequestMethod.POST;
+				request.contentType = 'application/x-shockwave-flash';
+				var loader:Loader = new Loader();
+				loader.contentLoaderInfo.addEventListener( Event.COMPLETE, contentHandler );
+				loader.contentLoaderInfo.addEventListener( IOErrorEvent.IO_ERROR, contentHandler ); 
+				//TODO add this event type loader.contentLoaderInfo/addEventListener( SecurityErrorEvent.SECURITY_ERROR, contentHandler );
+				loader.contentLoaderInfo.addEventListener( ProgressEvent.PROGRESS, progressHandler);
+				loader.load( request );
+				
+				pendingDictionaryByLoader[loader] = url;
+				pendingDictionaryByURL[url] = true;
+			} 
+		}
+		/**
+		 *  shows loading progress in console
+		 */
 		private function progressHandler(event:ProgressEvent):void 
 		{
 			var ten:String = Math.floor(event.bytesLoaded / event.bytesTotal * 10).toString();

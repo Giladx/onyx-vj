@@ -47,6 +47,8 @@ package onyx.asset.vp {
 		 */
 		public function VPAdapter( root:String ):void {
 			VP_ROOT = new File( root + File.separator + ONYX_LIBRARY_PATH + File.separator + 'videopong cache' );
+			//add folder to library for cache 
+			if ( !VP_ROOT.exists ) VP_ROOT.createDirectory();
 		}
 		/**
 		 * 	Queries a directory

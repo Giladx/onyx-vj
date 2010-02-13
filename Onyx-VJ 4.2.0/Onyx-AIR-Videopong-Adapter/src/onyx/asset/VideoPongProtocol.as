@@ -55,7 +55,7 @@ package onyx.asset {
 						//Console.output( 'VideoPongProtocol, no subfolders, we add the up one folder button to return to: ' + subFolder );
 						list.push( new VideoPongAsset( '', true, subFolder  ) );
 						//add folder to library for cache 
-						if ( !VP_ROOT.resolvePath( currentFolder ).exists ) VP_ROOT.resolvePath( currentFolder ).createDirectory();
+						//for now only one folder if ( !VP_ROOT.resolvePath( currentFolder ).exists ) VP_ROOT.resolvePath( currentFolder ).createDirectory();
 						assetsList = folders.listfolders.folder.(@foldername==subFolder).subfolder.folder.(@foldername==currentFolder).asset;
 					}
 					else

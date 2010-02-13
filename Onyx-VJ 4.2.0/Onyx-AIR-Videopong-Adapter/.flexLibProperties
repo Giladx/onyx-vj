@@ -42,7 +42,6 @@
     <classEntry path="onyx.utils.file.readTextFile"/>
     <classEntry path="onyx.utils.file.filterFileArray"/>
     <classEntry path="onyx.asset.vp.VP_ROOT"/>
-    <classEntry path="onyx.asset.vp.VPCachedAsset"/>
     <classEntry path="onyx.display.ContentONR"/>
   </includeClasses>
   <includeResources/>

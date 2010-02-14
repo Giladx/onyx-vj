@@ -52,6 +52,7 @@ package onyx.asset.vp {
 		private var pendingDictionaryByLoader:Dictionary = new Dictionary();
 		private var pendingDictionaryByURL:Dictionary = new Dictionary();
 		private var localFolder:String = '';
+		private var fileInCache:Boolean;
 		
 		/**
 		 * 
@@ -136,22 +137,10 @@ package onyx.asset.vp {
 					} 
 					else 
 					{
-						//useless and AIR gives an error with Security.allowDomain( 'www.videopong.net' );
-						//useless and AIR gives an error with Security.allowInsecureDomain( 'www.videopong.net' );
-						
 						var sessionReplace:RegExp = /replacethissessiontoken/gi; // g:global i:ignore case
 						var pathWithSessiontoken:String = path.replace( sessionReplace, vp.sessiontoken );
 						//if ( DEBUG::SPLASHTIME==0 ) Console.output('VPContentQuery, LOADING ' + pathWithSessiontoken);
 						getAssetByURL( pathWithSessiontoken );
-						/*var request:URLRequest = new URLRequest( pathWithSessiontoken );
-						request.method = URLRequestMethod.POST;
-						request.contentType = 'application/x-shockwave-flash';
-						var loader:Loader = new Loader();
-						loader.contentLoaderInfo.addEventListener( Event.COMPLETE, contentHandler );
-						loader.contentLoaderInfo.addEventListener( IOErrorEvent.IO_ERROR, contentHandler ); 
-						loader.contentLoaderInfo.addEventListener( ProgressEvent.PROGRESS, progressHandler);
-						loader.load( request );*/
-						
 					}
 					
 					break;
@@ -160,7 +149,7 @@ package onyx.asset.vp {
 		/**
 		 * 
 		 */
-		public function getAssetByURL( assetUrl:String ):String
+		public function getAssetByURL( assetUrl:String ):void
 		{
 			var ampersandPos:int = assetUrl.lastIndexOf('&');
 			localFolder = assetUrl.substr( ampersandPos + 1 );
@@ -168,24 +157,13 @@ package onyx.asset.vp {
 			var localUrl:String = VP_ROOT.nativePath + File.separator + localFolder + File.separator + getFileName( rawUrl ) ;
 			var cacheFile:File = new File( localUrl );
 			
-			if( cacheFile.exists )
-			{
-				trace( "ImageCacheManager, getAssetByURL cacheFile exists: " + cacheFile.url );
-				//TODO load local file
-				return cacheFile.url;
-			} 
-			else 
-			{
-				trace( "ImageCacheManager, getAssetByURL cacheFile does not exist: " + assetUrl );
-				addAssetToCache( rawUrl );
-				return assetUrl;
-			}
-			
+			fileInCache = cacheFile.exists;
+			if ( fileInCache ) addAsset ( localUrl ) else addAsset( rawUrl );
 		}
 		/**
 		 * 
 		 */
-		private function addAssetToCache( url:String ):void
+		private function addAsset( url:String ):void
 		{
 			if(!pendingDictionaryByURL[url]){
 				
@@ -309,14 +287,17 @@ package onyx.asset.vp {
 			else
 			{ 
 				trace( 'VPContentQuery url: ' + info.url );
-				var url:String = pendingDictionaryByLoader[info.url];
-				
-				var cacheFile:File = new File( VP_ROOT.nativePath + File.separator + localFolder + File.separator + getFileName( info.url ) );
-				var stream:FileStream = new FileStream();
-				
-				stream.open(cacheFile,FileMode.WRITE);
-				stream.writeBytes(info.bytes);
-				stream.close();
+				if ( !fileInCache )
+				{
+					var url:String = pendingDictionaryByLoader[info.url];
+					
+					var cacheFile:File = new File( VP_ROOT.nativePath + File.separator + localFolder + File.separator + getFileName( info.url ) );
+					var stream:FileStream = new FileStream();
+					
+					stream.open(cacheFile,FileMode.WRITE);
+					stream.writeBytes(info.bytes);
+					stream.close();					
+				}
 				delete pendingDictionaryByLoader[info.url]
 				delete pendingDictionaryByURL[url];
 				// get the classname

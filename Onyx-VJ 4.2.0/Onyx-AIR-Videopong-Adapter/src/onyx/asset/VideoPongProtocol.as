@@ -38,6 +38,7 @@ package onyx.asset {
 				//select only folders for the path eg:onyx-query://vdpong/all
 				var folderList:XMLList;
 				var subFolder:String = '';
+				var assetFolder:String = '';
 				var assetsList:XMLList;
 				//Console.output( 'VideoPongProtocol, path: ' + path );
 				if ( path.length > 20 )
@@ -55,7 +56,8 @@ package onyx.asset {
 						//Console.output( 'VideoPongProtocol, no subfolders, we add the up one folder button to return to: ' + subFolder );
 						list.push( new VideoPongAsset( '', true, subFolder  ) );
 						//add folder to library for cache 
-						//for now only one folder if ( !VP_ROOT.resolvePath( currentFolder ).exists ) VP_ROOT.resolvePath( currentFolder ).createDirectory();
+						if ( !VP_ROOT.resolvePath( currentFolder ).exists ) VP_ROOT.resolvePath( currentFolder ).createDirectory();
+						assetFolder = currentFolder;
 						assetsList = folders.listfolders.folder.(@foldername==subFolder).subfolder.folder.(@foldername==currentFolder).asset;
 					}
 					else
@@ -81,7 +83,7 @@ package onyx.asset {
 					
 					for each ( var asset:XML in assetsList )
 					{
-						var vpAsset:AssetFile = new VPAsset( asset.@name, asset.@url, asset.@thumb_url );
+						var vpAsset:AssetFile = new VPAsset( asset.@name, asset.@url + '&' + assetFolder, asset.@thumb_url );
 						list.push( vpAsset );
 					}
 				}

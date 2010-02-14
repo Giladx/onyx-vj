@@ -51,6 +51,7 @@ package onyx.asset.vp {
 		private const vp:VideoPong = VideoPong.getInstance();
 		private var pendingDictionaryByLoader:Dictionary = new Dictionary();
 		private var pendingDictionaryByURL:Dictionary = new Dictionary();
+		private var localFolder:String = '';
 		
 		/**
 		 * 
@@ -161,7 +162,10 @@ package onyx.asset.vp {
 		 */
 		public function getAssetByURL( assetUrl:String ):String
 		{
-			var localUrl:String = VP_ROOT.nativePath + File.separator + getFileName( assetUrl ) ;
+			var ampersandPos:int = assetUrl.lastIndexOf('&');
+			localFolder = assetUrl.substr( ampersandPos + 1 );
+			var rawUrl:String = assetUrl.substr( 0, ampersandPos );
+			var localUrl:String = VP_ROOT.nativePath + File.separator + localFolder + File.separator + getFileName( rawUrl ) ;
 			var cacheFile:File = new File( localUrl );
 			
 			if( cacheFile.exists )
@@ -173,7 +177,7 @@ package onyx.asset.vp {
 			else 
 			{
 				trace( "ImageCacheManager, getAssetByURL cacheFile does not exist: " + assetUrl );
-				addAssetToCache( assetUrl );
+				addAssetToCache( rawUrl );
 				return assetUrl;
 			}
 			
@@ -307,7 +311,7 @@ package onyx.asset.vp {
 				trace( 'VPContentQuery url: ' + info.url );
 				var url:String = pendingDictionaryByLoader[info.url];
 				
-				var cacheFile:File = new File( VP_ROOT.nativePath + File.separator + getFileName( info.url ) );
+				var cacheFile:File = new File( VP_ROOT.nativePath + File.separator + localFolder + File.separator + getFileName( info.url ) );
 				var stream:FileStream = new FileStream();
 				
 				stream.open(cacheFile,FileMode.WRITE);

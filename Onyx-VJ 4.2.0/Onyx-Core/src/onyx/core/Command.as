@@ -135,5 +135,23 @@ package onyx.core {
 		private static function res():String {
 			return 'RESOLUTION: ' + DISPLAY_STAGE.stageWidth + 'x' + DISPLAY_STAGE.stageHeight;
 		}
+		/**
+		 * 	@private
+		 * 	asset information
+		 */
+		private static function info(... args:Array):String {
+			
+			var text:String;
+			
+			switch (args[0]) {
+				default:
+					text =	'http://';
+					break;
+			}
+			
+			// output
+			return text;
+		}
+
 	}
 }

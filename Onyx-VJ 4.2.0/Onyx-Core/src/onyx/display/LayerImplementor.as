@@ -129,7 +129,7 @@ package onyx.display {
 		 **/
 		public function load(path:String, settings:LayerSettings = null, transition:Transition = null):void {
 			
-			if (DEBUG::SPLASHTIME==0) Console.output('LayerImplementor, LOADING ' + path);
+			//if (DEBUG::SPLASHTIME==0) Console.output('LayerImplementor, LOADING ' + path);
 			// query
 			AssetFile.queryContent(path, loadStatus, this, settings || new LayerSettings(), transition);
 												
@@ -143,7 +143,7 @@ package onyx.display {
 			
 			// if it's a progress event, pass it on
 			if (event is ProgressEvent) {
-				if (DEBUG::SPLASHTIME==0) Console.output('LOADING ' + Math.floor((event as ProgressEvent).bytesLoaded / (event as ProgressEvent).bytesTotal * 100) + '% (' + Math.floor((event as ProgressEvent).bytesTotal / 1024) + ' kb)');
+				//if (DEBUG::SPLASHTIME==0) Console.output('LOADING ' + Math.floor((event as ProgressEvent).bytesLoaded / (event as ProgressEvent).bytesTotal * 100) + '% (' + Math.floor((event as ProgressEvent).bytesTotal / 1024) + ' kb)');
 
 				super.dispatchEvent(event);
 				return;

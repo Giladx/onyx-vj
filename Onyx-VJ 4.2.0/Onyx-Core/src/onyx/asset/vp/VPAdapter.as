@@ -62,8 +62,6 @@ package onyx.asset.vp {
 		 * 	Resolves a path to content
 		 */
 		public function queryContent(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void {
-			if ( DEBUG::SPLASHTIME==0 ) Console.output('VPAdapter, LOADING ' + path);
-
 			new VPContentQuery(path, callback, layer, settings, transition);
 		}
 		

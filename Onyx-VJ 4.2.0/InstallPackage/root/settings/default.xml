@@ -55,6 +55,7 @@
 			<login>batchass</login>
 			<pwd>null</pwd>
 			<domain>https://www.videopong.net</domain>
+			<appkey>onyxair</appkey>
 		</videopong>
 		
 	</core>

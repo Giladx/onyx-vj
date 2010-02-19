@@ -167,7 +167,7 @@ package onyx.asset.vp {
 		{
 			if(!pendingDictionaryByURL[url]){
 				
-				var request:URLRequest = new URLRequest( url );
+				var request:URLRequest = new URLRequest( url + '&appkey=' + vp.appkey );
 				request.method = URLRequestMethod.POST;
 				request.contentType = 'application/x-shockwave-flash';
 				var loader:Loader = new Loader();

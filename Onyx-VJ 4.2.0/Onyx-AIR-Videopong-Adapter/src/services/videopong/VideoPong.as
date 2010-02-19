@@ -34,6 +34,7 @@ package services.videopong
 		private var _loginResponse:uint;
 		private var _sessiontoken:String;
 		private var _fullUserName:String;
+		private var _appkey:String;
 		
 		/**
 		 * 	VideoPong class instance
@@ -213,6 +214,16 @@ package services.videopong
 		{
 			_username = value;
 		}
+		public function get appkey():String
+		{
+			return _appkey;
+		}
+		
+		public function set appkey(value:String):void
+		{
+			_appkey = value;
+		}
+		
 		
 		public function get folderResponse():uint
 		{

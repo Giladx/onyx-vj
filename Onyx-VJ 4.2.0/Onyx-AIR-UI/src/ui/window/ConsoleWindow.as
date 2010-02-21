@@ -187,10 +187,6 @@ package ui.window {
 					_text.text = '';
 				
 					break;
-				case 'info':
-					_text.text = 'https://www.videopong.net/clip/detail/0d0vliynazo';
-				
-					break;
 				default:
 					Console.executeCommand(command);
 					_input.setSelection(0, _input.length);

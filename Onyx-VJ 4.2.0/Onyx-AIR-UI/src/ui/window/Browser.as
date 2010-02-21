@@ -20,10 +20,13 @@ package ui.window {
 	import flash.events.*;
 	import flash.filesystem.*;
 	import flash.geom.*;
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
 	import flash.utils.*;
 	
 	import onyx.asset.*;
 	import onyx.asset.air.*;
+	import onyx.asset.vp.VPAsset;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.plugin.*;
@@ -382,7 +385,30 @@ package ui.window {
 		private function mouseDown(event:MouseEvent):void {
 			
 			var control:FileControl = event.currentTarget as FileControl;
-			DragManager.startDrag(control, targets, dragOver, dragOut, dragDrop);
+			// ctrl for asset details in a browser
+			if ( event.controlKey ) 
+			{
+				if ( control.asset is VPAsset ) 
+				{
+					var rawUrl:String = control.asset.path;
+					var lastSlashPos:int = rawUrl.lastIndexOf('/');
+					if ( lastSlashPos > 0 )
+					{
+						// & found
+						rawUrl = rawUrl.substr( 0, lastSlashPos );
+						lastSlashPos = rawUrl.lastIndexOf('/');
+						if ( lastSlashPos > 0 )
+						{
+							var assetid:String = rawUrl.substr( lastSlashPos + 1 );		
+							navigateToURL( new URLRequest ('https://www.videopong.net/clip/detail/' + assetid ) );
+						}
+					}
+				}
+			}
+			else
+			{
+				DragManager.startDrag(control, targets, dragOver, dragOut, dragDrop);
+			}
 			
 		}
 		

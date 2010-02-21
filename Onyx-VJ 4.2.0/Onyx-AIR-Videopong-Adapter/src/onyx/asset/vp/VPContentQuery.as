@@ -153,7 +153,7 @@ package onyx.asset.vp {
 		{
 			var ampersandPos:int = assetUrl.lastIndexOf('&');
 			localFolder = assetUrl.substr( ampersandPos + 1 );
-			var rawUrl:String = assetUrl.substr( 0, ampersandPos );
+			var rawUrl:String = ( ampersandPos < 0 ? assetUrl : assetUrl.substr( 0, ampersandPos ) );
 			var localUrl:String = VP_ROOT.nativePath + File.separator + localFolder + File.separator + getFileName( rawUrl ) ;
 			var cacheFile:File = new File( localUrl );
 			

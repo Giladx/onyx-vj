@@ -150,10 +150,22 @@ package onyx.asset.vp {
 		 * 
 		 */
 		public function getAssetByURL( assetUrl:String ):void
-		{
+		{	
+			var rawUrl:String;
 			var ampersandPos:int = assetUrl.lastIndexOf('&');
-			localFolder = assetUrl.substr( ampersandPos + 1 );
-			var rawUrl:String = ( ampersandPos < 0 ? assetUrl : assetUrl.substr( 0, ampersandPos ) );
+			if ( ampersandPos < 0 )
+			{
+				// & not found
+				rawUrl = assetUrl;
+				localFolder = '';
+			}
+			else
+			{
+				// & found
+				rawUrl = assetUrl.substr( 0, ampersandPos );
+				localFolder = assetUrl.substr( ampersandPos + 1 );
+			}
+			
 			var localUrl:String = VP_ROOT.nativePath + File.separator + localFolder + File.separator + getFileName( rawUrl ) ;
 			var cacheFile:File = new File( localUrl );
 			

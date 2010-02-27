@@ -170,7 +170,7 @@ package onyx.asset.vp {
 			var cacheFile:File = new File( localUrl );
 			
 			fileInCache = cacheFile.exists;
-			if ( fileInCache ) addAsset ( localUrl ) else addAsset( rawUrl );
+			if ( fileInCache ) addAsset ( localUrl ) else addAsset( rawUrl + '&appkey=' + vp.appkey );
 		}
 		/**
 		 * 
@@ -179,7 +179,7 @@ package onyx.asset.vp {
 		{
 			if(!pendingDictionaryByURL[url]){
 				
-				var request:URLRequest = new URLRequest( url + '&appkey=' + vp.appkey );
+				var request:URLRequest = new URLRequest( url );
 				request.method = URLRequestMethod.POST;
 				request.contentType = 'application/x-shockwave-flash';
 				var loader:Loader = new Loader();
@@ -300,7 +300,16 @@ package onyx.asset.vp {
 			{ 
 				trace( 'VPContentQuery url: ' + info.url );
 				// remove '&appkey=' + vp.appkey 
-				var rawUrl:String = info.url.substr( 0, info.url.lastIndexOf( '&appkey=' ) )
+				var appkeyLastindex:int = info.url.lastIndexOf( '&appkey=' );
+				var rawUrl:String;
+				if ( appkeyLastindex > -1 )
+				{
+					rawUrl = info.url.substr( 0, appkeyLastindex );
+				}
+				else
+				{
+					rawUrl = info.url;
+				}
 				if ( !fileInCache )
 				{
 					var url:String = pendingDictionaryByLoader[rawUrl];

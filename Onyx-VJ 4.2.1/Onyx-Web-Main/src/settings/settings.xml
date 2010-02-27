@@ -2,7 +2,7 @@
 
 	<!-- META DATA -->
 	<metadata>
-		<version>4.0.12</version>
+		<version>4.2.1</version>
 	</metadata>
 
 	<init>
@@ -51,6 +51,7 @@
 			<login>batchass</login>
 			<pwd>null</pwd>
 			<domain>https://www.videopong.net</domain>
+			<appkey>onyxwebvp</appkey>
 		</videopong>
 		
 	</core>

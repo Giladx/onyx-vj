@@ -19,6 +19,8 @@ package ui.window {
 	import flash.display.*;
 	import flash.events.*;
 	import flash.geom.*;
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
 	import flash.utils.*;
 	
 	import onyx.asset.*;
@@ -247,6 +249,8 @@ package ui.window {
 					
 					// start listening to start dragging
 					control.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+					// start listening to give info on key down
+					control.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 
 
 				}
@@ -286,7 +290,8 @@ package ui.window {
 
 				// stop listening to start dragging
 				control.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-
+				// stop listening to keys
+				control.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			}
 			
 			if (folders.numChildren > 0) {
@@ -317,6 +322,33 @@ package ui.window {
 			var control:FileControl = event.currentTarget as FileControl;
 			DragManager.startDrag(control, targets, dragOver, dragOut, dragDrop);
 			
+		}
+		
+		/**
+		 * 	@private
+		 *  when we start dragging
+		 */
+		private function keyDown(event:KeyboardEvent):void {
+			
+			var control:FileControl = event.currentTarget as FileControl;
+
+			if ( control.asset.path.substr( 0, 21 ) == 'https://www.videopong' ) 
+			{
+				var rawUrl:String = control.asset.path;
+				var lastSlashPos:int = rawUrl.lastIndexOf('/');
+				if ( lastSlashPos > 0 )
+				{
+					// & found
+					rawUrl = rawUrl.substr( 0, lastSlashPos );
+					lastSlashPos = rawUrl.lastIndexOf('/');
+					if ( lastSlashPos > 0 )
+					{
+						var assetid:String = rawUrl.substr( lastSlashPos + 1 );		
+						navigateToURL( new URLRequest( 'https://www.videopong.net/clip/detail/' + assetid ) );
+					}
+				}
+			}
+
 		}
 		
 		/**

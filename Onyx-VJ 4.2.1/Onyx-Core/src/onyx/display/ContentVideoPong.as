@@ -43,6 +43,7 @@ package onyx.display {
 					<login>{vp.username}</login>
 					<pwd>{vp.pwd}</pwd>
 					<domain>{vp.domain}</domain>
+					<appkey>{vp.appkey}</appkey>
 				</videopong>;
 			
 			
@@ -56,6 +57,7 @@ package onyx.display {
 			vp.username = xml.login;
 			vp.pwd = xml.pwd;
 			vp.domain = xml.domain;
+			vp.appkey = xml.appkey;
 		}
 		
 		

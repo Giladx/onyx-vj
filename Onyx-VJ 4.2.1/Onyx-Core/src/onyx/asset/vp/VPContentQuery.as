@@ -137,7 +137,7 @@ package onyx.asset.vp {
 						var sessionReplace:RegExp = /replacethissessiontoken/gi; // g:global i:ignore case
 						var pathWithSessiontoken:String = path.replace( sessionReplace, vp.sessiontoken );
 						//if ( DEBUG::SPLASHTIME==0 ) Console.output('VPContentQuery, LOADING ' + pathWithSessiontoken);
-						var request:URLRequest = new URLRequest( pathWithSessiontoken );
+						var request:URLRequest = new URLRequest( pathWithSessiontoken + '&appkey=' + vp.appkey );
 						request.method = URLRequestMethod.POST;
 						request.contentType = 'application/x-shockwave-flash';
 						var loader:Loader = new Loader();
@@ -158,7 +158,7 @@ package onyx.asset.vp {
 			{
 				tens = ten;
 				Console.output('LOADING ' + Math.floor(event.bytesLoaded / event.bytesTotal * 100) + '% (' + Math.floor(event.bytesTotal / 1024) + ' kb)');
-				
+				//Console.output('appkey=' + vp.appkey );
 			}
 			//this.layer..path =  'LOADING ' + Math.floor(event.bytesLoaded / event.bytesTotal * 100) + '% (' + Math.floor(event.bytesTotal / 1024) + ' kb)';
 		}	

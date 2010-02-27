@@ -170,7 +170,7 @@ package onyx.asset.vp {
 			var cacheFile:File = new File( localUrl );
 			
 			fileInCache = cacheFile.exists;
-			if ( fileInCache ) addAsset ( localUrl ) else addAsset( rawUrl + '&appkey=' + vp.appkey );
+			if ( fileInCache ) addAsset( localUrl ) else addAsset( rawUrl + '&appkey=' + vp.appkey );
 		}
 		/**
 		 * 

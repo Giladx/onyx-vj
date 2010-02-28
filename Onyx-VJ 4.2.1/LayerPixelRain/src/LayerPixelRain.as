@@ -192,17 +192,20 @@ package {
 		 */
 		public function capture():void 
 		{
-			pixels = new Array();
-			var ox: int = ( w - _canvasBD.width ) >> 1;
-			var oy: int = ( h - _canvasBD.height ) >> 1;
-			var x: int;
-			for( var y: int = 0 ; y < _canvasBD.height ; y++ )
+			if ( _sourceBD )
 			{
-				for( x = 0 ; x < _canvasBD.width ; x++ )
+				pixels = new Array();
+				var ox: int = ( w - _canvasBD.width ) >> 1;
+				var oy: int = ( h - _canvasBD.height ) >> 1;
+				var x: int;
+				for( var y: int = 0 ; y < _canvasBD.height ; y++ )
 				{
-					pixels.push( new Pixel( x + ox, y + oy, _sourceBD.getPixel32( x, y ) ) );
-				}					
-			} 
+					for( x = 0 ; x < _canvasBD.width ; x++ )
+					{
+						pixels.push( new Pixel( x + ox, y + oy, _sourceBD.getPixel32( x, y ) ) );
+					}					
+				} 
+			}
 		}
 		
 		/**
@@ -213,7 +216,7 @@ package {
 			if ( _layer && frames ) 
 			{
 				_sourceBD = frames[delay];
-				if (_sourceBD) 
+				if ( _sourceBD ) 
 				{
 					// clear
 					graphics.clear();

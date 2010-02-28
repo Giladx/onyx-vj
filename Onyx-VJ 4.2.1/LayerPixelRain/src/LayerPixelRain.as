@@ -42,8 +42,8 @@ package {
 	import onyx.asset.*;
 	import onyx.core.*;
 	import onyx.display.*;
-	import onyx.plugin.*;
 	import onyx.parameter.*;
+	import onyx.plugin.*;
 	
 	/**
 	 * 	Draw bitmaps
@@ -192,19 +192,28 @@ package {
 		 */
 		public function capture():void 
 		{
-			if ( _sourceBD )
+			if ( _layer && frames ) 
 			{
-				pixels = new Array();
-				var ox: int = ( w - _canvasBD.width ) >> 1;
-				var oy: int = ( h - _canvasBD.height ) >> 1;
-				var x: int;
-				for( var y: int = 0 ; y < _canvasBD.height ; y++ )
+				_sourceBD = frames[delay];
+				if ( _sourceBD )
 				{
-					for( x = 0 ; x < _canvasBD.width ; x++ )
+					pixels = new Array();
+					//var ox: int = ( w - _canvasBD.width ) >> 1;
+					//var oy: int = ( h - _canvasBD.height ) >> 1;
+					var x: int;
+					var y: int;
+					for( y = 0 ; y < _canvasBD.height ; y++ )
 					{
-						pixels.push( new Pixel( x + ox, y + oy, _sourceBD.getPixel32( x, y ) ) );
-					}					
-				} 
+						for( x = 0 ; x < _canvasBD.width ; x++ )
+						{
+							if ( _sourceBD.width && _sourceBD.height )
+							{
+								//trace( _sourceBD.width + "w h" + _sourceBD.height );
+								pixels.push( new Pixel( x, y, _sourceBD.getPixel32( x, y ) ) );
+							}
+						}					
+					} 
+				}
 			}
 		}
 		

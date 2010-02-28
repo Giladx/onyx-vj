@@ -101,7 +101,8 @@ package {
 				new ParameterLayer('layer', 'layer'),
 				new ParameterInteger('delay', 'frame delay', 0, 100, 0),
 				new ParameterInteger('preblur', 'preblur', 0, 30, 2, 10),	// Amount of Blur
-				new ParameterInteger('size', 'size', 5, 200, size)			// Size
+				new ParameterInteger('size', 'size', 5, 200, size),			// Size
+				new ParameterExecuteFunction('capture', 'capture')
 			);
 			
 			_canvasBD = new BitmapData( DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0x00FFFFFF);
@@ -187,6 +188,24 @@ package {
 		}
 		
 		/**
+		 * 	@public
+		 */
+		public function capture():void 
+		{
+			pixels = new Array();
+			var ox: int = ( w - _canvasBD.width ) >> 1;
+			var oy: int = ( h - _canvasBD.height ) >> 1;
+			var x: int;
+			for( var y: int = 0 ; y < _canvasBD.height ; y++ )
+			{
+				for( x = 0 ; x < _canvasBD.width ; x++ )
+				{
+					pixels.push( new Pixel( x + ox, y + oy, _sourceBD.getPixel32( x, y ) ) );
+				}					
+			} 
+		}
+		
+		/**
 		 * 	Render graphics
 		 */
 		override public function render(info:RenderInfo):void 
@@ -200,24 +219,11 @@ package {
 					graphics.clear();
 					_canvasBD.lock();
 					blurOut.lock();
-					_canvasBD.fillRect( _canvasBD.rect, 0x000000 );//bl 00
+					_canvasBD.fillRect( _canvasBD.rect, 0x000000 );
 					_currentBlur	+= preblur;
 					
 					if (_currentBlur >= 2) {
-						if( _mDown )
-						{
-							//pixels = new Array();
-							var ox: int = ( w - _canvasBD.width ) >> 1;
-							var oy: int = ( h - _canvasBD.height ) >> 1;
-							var x: int;
-							for( var y: int = 0 ; y < _canvasBD.height ; y++ )
-							{
-								for( x = 0 ; x < _canvasBD.width ; x++ )
-								{
-									pixels.push( new Pixel( x + ox, y + oy, _sourceBD.getPixel32( x, y ) ) );
-								}					
-							} 
-						}	
+							
 						var factor:int = _currentBlur - 2;
 						
 						_currentBlur = 0;

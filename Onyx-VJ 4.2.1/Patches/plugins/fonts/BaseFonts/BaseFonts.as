@@ -16,6 +16,7 @@
 package {
  	
  	import assets.*;
+	import onyx.plugin.PluginLoader;
  	
 	/**
 	 * 	Basic Text Control with Typewriter functionality

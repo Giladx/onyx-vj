@@ -192,7 +192,7 @@ package {
 		 */
 		public function capture():void 
 		{
-			if ( _sourceBD )
+			if ( _sourceBD && _canvasBD )
 			{
 				pixels = new Array();
 				var ox: int = ( w - _canvasBD.width ) >> 1;

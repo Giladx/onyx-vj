@@ -49,7 +49,7 @@ package {
 		/**
 		 * 	@private
 		 */
-		private var timer:Timer		= new Timer(120);
+		private var timer:Timer		= new Timer(180);
 		
 		/**
 		 * 	@private
@@ -72,6 +72,7 @@ package {
 				new ParameterColor('color', 'color'),
 				new ParameterInteger('size', 'size', 8, 100, 30),
 				new ParameterExecuteFunction('start', 'typewriter'),
+				new ParameterExecuteFunction('clear', 'clear'),
 				new ParameterBoolean('dropShadow', 'shadow')
 			);
 			
@@ -81,7 +82,7 @@ package {
 			label.textColor			= 0x0000FF;
 			
 			font	= PluginManager.createFont('Impact') || PluginManager.fonts[0],
-				size	= _size;
+			size	= _size;
 			
 			addChild(label);
 		}
@@ -92,7 +93,7 @@ package {
 		override public function render(info:RenderInfo):void {
 			var source:BitmapData = info.source;
 			source.draw(label, info.matrix, null, null, null, true);
-			info.render( source );//needed?
+			//info.render( source );//needed?
 		}
 		
 		/**
@@ -117,9 +118,26 @@ package {
 		}
 		
 		/**
+		 * 	
+		 */
+		public function clear():void {
+			timer.removeEventListener(TimerEvent.TIMER, _onTimer);
+			timer.stop();
+			
+			typeIndex = 0;
+			tempText = label.text = '';
+		}
+		
+		/**
 		 * 	@private
 		 */
 		private function _onTimer(event:TimerEvent):void {
+			trace(typeIndex +' = '+tempText.substr( typeIndex, 1 ) );
+			if ( tempText.substr( typeIndex, 1 ) == '.' ) {
+				label.textColor = 0xFF0000;
+				tempText = tempText.substr( typeIndex + 1 );
+				typeIndex = 0;
+			}
 			label.text = tempText.substr(0, ++typeIndex);
 			
 			if (typeIndex >= tempText.length) {
@@ -135,7 +153,8 @@ package {
 			if (timer.running) {
 				tempText = value;
 			} else {
-				tempText = label.text = value;
+				//only show on execute tempText = label.text = value;
+				tempText = value;
 			}
 		}
 		

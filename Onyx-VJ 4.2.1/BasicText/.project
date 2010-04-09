@@ -18,7 +18,7 @@
 		<link>
 			<name>bin-debug</name>
 			<type>2</type>
-			<location>E:/Onyx4/Onyx-VJ/library/patches</location>
+			<locationURI>DOCUMENTS/InstallPackage/root/library/patches</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

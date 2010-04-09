@@ -18,7 +18,7 @@
 		<link>
 			<name>bin-debug</name>
 			<type>2</type>
-			<location>E:/Onyx4/Onyx-VJ/plugins/fonts</location>
+			<locationURI>DOCUMENTS/InstallPackage/root/plugins/fonts</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

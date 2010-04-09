@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -137,9 +138,12 @@ package ui.controls {
 			_input = null;
 			
 			
-				// remove mouse capturing
-				DISPLAY_STAGE.removeEventListener(MouseEvent.MOUSE_DOWN, _captureMouse, false);
+			// remove mouse capturing
+			DISPLAY_STAGE.removeEventListener(MouseEvent.MOUSE_DOWN, _captureMouse, false);
+			//ADDED: caused error for instance on typewriter patch quit
+			if (parent) {
 				DISPLAY_STAGE.removeChild(this);
+			}
 		}
 	}
 }

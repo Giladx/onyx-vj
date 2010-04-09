@@ -137,9 +137,12 @@ package ui.controls {
 			_input = null;
 			
 			
-				// remove mouse capturing
-				DISPLAY_STAGE.removeEventListener(MouseEvent.MOUSE_DOWN, _captureMouse, false);
+			// remove mouse capturing
+			DISPLAY_STAGE.removeEventListener(MouseEvent.MOUSE_DOWN, _captureMouse, false);
+			//ADDED: caused error for instance on typewriter patch quit
+			if (parent) {
 				DISPLAY_STAGE.removeChild(this);
+			}
 		}
 	}
 }

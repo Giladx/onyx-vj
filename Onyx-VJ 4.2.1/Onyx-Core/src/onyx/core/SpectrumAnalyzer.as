@@ -34,7 +34,7 @@ package onyx.core {
 		 * 	@private
 		 */
 		private static function _init():void {
-			for (var count:int = 0; count < 127; count++) {
+			for (var count:int = 0; count < SPECTRUM_LENGTH; count++) {
 				BASE_ANALYSIS[count] = 0;
 			}
 		}
@@ -44,7 +44,12 @@ package onyx.core {
 		/**
 		 * 	@private
 		 */
-		private static const BASE_ANALYSIS:Array		= new Array(127);
+		private static const SPECTRUM_LENGTH:int		= 255;
+
+		/**
+		 * 	@private
+		 */
+		private static const BASE_ANALYSIS:Array		= new Array(SPECTRUM_LENGTH);
 
 		/**
 		 * 	@private
@@ -82,7 +87,7 @@ package onyx.core {
 				// check for already computed spectrum for this frame
 				if (!_spectrumFFT) {
 					
-					i		= 128,
+					i		= SPECTRUM_LENGTH + 1;
 					array	= BASE_ANALYSIS.concat();
 					
 					// compute
@@ -95,7 +100,7 @@ package onyx.core {
 						bytes.position = i * 8;
 						
 						// get amplitude value
-						array[i % 127] += (bytes.readFloat() / 2);
+						array[i % SPECTRUM_LENGTH] += (bytes.readFloat() / 2);
 						
 					}
 					
@@ -108,7 +113,7 @@ package onyx.core {
 			// check for already computed spectrum for this frame
 			if (!_spectrumNormal) {
 				
-				i		= 128,
+				i		= SPECTRUM_LENGTH + 1;
 				array	= BASE_ANALYSIS.concat();
 				
 				// compute
@@ -121,7 +126,7 @@ package onyx.core {
 					bytes.position = i * 8;
 					
 					// get amplitude value
-					array[i % 127] += (bytes.readFloat() / 2);
+					array[i % SPECTRUM_LENGTH] += (bytes.readFloat() / 2);
 					
 				}
 				

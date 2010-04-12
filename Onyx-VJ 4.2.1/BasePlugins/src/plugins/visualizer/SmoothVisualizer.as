@@ -34,32 +34,32 @@ package plugins.visualizer {
 		private var _spectrumLength:uint= 512 ;
 		private var _spectrumBuffer:uint = 8; 
 		public var spectrumBlur:uint = 8; 
-		public var startColor:uint		= 0xFF440A;
-		public var endColor:uint		= 0x2D0C0A;
+		public var startColor:uint		= 0x9a7dd5;
+		//public var startColor:uint		= 0xFF440A;
+		//public var endColor:uint		= 0x2D0C0A;
 		private var _bf:BlurFilter;
 		
 		private var _source:BitmapData 	= createDefaultBitmap();
 		private var _xoffset:int 		= 50;
 		private var _seed:Number ;
 		
-		public var height:int		= 200;
-		private var step:Number = 1;//DISPLAY_WIDTH / 260;
+		public var height:int		= DISPLAY_HEIGHT / 2;
+		private var step:Number = ( DISPLAY_WIDTH - ( _xoffset * 3 ) ) / 255 ;
 		
 		/**
 		 * 	@constructor
 		 */
 		public function SmoothVisualizer():void {
-			/*TODO: find the new way for that:
 			parameters.addParameters(
-				new ParameterInteger('spectrumBlur', 'spectrumBlur', 0, 50, spectrumBlur),
-				new ParameterInteger('height', 'height', 100, 300, height),
+				new ParameterInteger('spectrumBlur', 'spectrumBlur', 0, 50, spectrumBlur)
+				//new ParameterInteger('height', 'height', 100, 300, height),
 				//new ParameterInteger('spectrumGain', 'spectrumGain', -1000, 1000, spectrumGain),
-				new ParameterColor('startColor', 'startColor')
-			);*/
+				//new ParameterColor('startColor', 'startColor')
+			);
 			
-			_spectrum= SpectrumAnalyzer.getSpectrum(false);
+			_spectrum = SpectrumAnalyzer.getSpectrum(false);
 			_bandsInit() ;
-			_bf = new BlurFilter(spectrumBlur, spectrumBlur, 1);
+			_bf = new BlurFilter( spectrumBlur, spectrumBlur, 1 );
 		}
 		
 		/**
@@ -73,27 +73,36 @@ package plugins.visualizer {
 			
 			_spectrum= SpectrumAnalyzer.getSpectrum(false);
 			
-			var i :int=  -1 ;
+			var i:int=  -1 ;
+			var halfLen:int = _spectrum.length / 2;
 			while( ++i < _spectrum.length )
 			{
-				_drawBandAt( i, 0, 100 + (_spectrum[i] * height), 0, _spectrum[i] ) ;
+				
+				if ( i < halfLen )
+				{
+					_drawBandAt( i, 0, (_spectrum[i] * 100), 0, _spectrum[i] ) ;
+				}
+				else
+				{
+					_drawBandAt( i, _xoffset, (_spectrum[i] * 100), _xoffset, _spectrum[i] ) ;
+				}
 			} 
 			_bf.blurX = spectrumBlur;
 			_bf.blurY = spectrumBlur;
-			_seed = Math.floor( Math.random() * 100 );
 			_source.applyFilter( _source, DISPLAY_RECT, ONYX_POINT_IDENTITY, _bf );
 			_source.draw( _sprite );
 			
 			info.render( _source );
 
 		}
-		private function _bandsInit():void {
+		private function _bandsInit():void 
+		{
 			var i:int= -1 ;
 			while(++i< _spectrumLength )
 			{
 				var band:Sprite= new Sprite() ;
 				band.x = _xoffset + ( i * step ); 
-				band.y = 100 ;
+				band.y = height ;
 				_sprite.addChild( band );
 				
 				var level:Shape= new Shape() ;
@@ -101,12 +110,14 @@ package plugins.visualizer {
 			}
 		}
 		
-		private function _drawBandAt( index:Number, x1:Number, y1:Number, x2:Number, y2:Number ):void {
+		private function _drawBandAt( index:Number, x1:Number, y1:Number, x2:Number, y2:Number ):void 
+		{
 			var band :Sprite= Sprite( _sprite.getChildAt(index) ) ;
 			var level :Shape= Shape( band.getChildAt(0) );
 			
 			level.graphics.clear() ;
-			level.graphics.lineStyle( 0, startColor + ( y1*30 ), 1 ) ;
+			level.graphics.lineStyle( step+1, startColor + ( y1 ), 1 ) ;
+			
 			level.graphics.moveTo( x1, y1 ) ;
 			level.graphics.lineTo( x2, y2 ) ;
 		}

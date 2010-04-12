@@ -52,6 +52,7 @@ package plugins.filters {
 		 */
 		public function ColorFilter():void {
 			parameters.addParameters(
+				new ParameterColor('color',	'color'),
 				new ParameterNumber('brightness',	'bright', -1, 1, 0),
 				new ParameterNumber('contrast',	'contrast', -1, 2, 0),
 				new ParameterNumber('saturation',	'saturation', 0, 2, 1),
@@ -78,6 +79,11 @@ package plugins.filters {
 		 * 	@private
 		 */
 		private var _saturation:Number				= 1;
+		
+		/**
+		 * 	@private
+		 */
+		private var _color:uint						= 0;
 		
 		/**
 		 * 	@private
@@ -185,7 +191,32 @@ package plugins.filters {
 			}
 		}
 		
+		/**
+		 * 	Gets red
+		 */
+		public function get color():uint {
+			return _color;
+		}
 		
+		/**
+		 * 	Sets red
+		 */
+		public function set color(value:uint):void {
+			if (_color !== value) 
+			{	
+				_color	= value;
+				
+				const r:int = ((value & 0xFF0000) >> 16) * _color;
+				const g:int  = ((value & 0x00FF00) >> 8) * _color;
+				const b:int  = (value & 0x0000FF) * _color;
+				
+				applyMatrix([	r,0,0,0,255 * _brightness,
+					0,g,0,0,255 * _brightness,
+					0,0,b,0,255 * _brightness,
+					0,0,0,0,0]
+				);			
+			}
+		}		
 		/**
 		 * 	@private
 		 */

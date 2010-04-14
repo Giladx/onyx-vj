@@ -27,7 +27,6 @@ package plugins.visualizer {
 
 	public final class SmoothVisualizer extends Visualizer {
 		
-		private const shape:Shape	= new Shape();
 		private var _sprite:Sprite	= new Sprite();
 		
 		private var _spectrum:Array ;
@@ -35,13 +34,10 @@ package plugins.visualizer {
 		private var _spectrumBuffer:uint = 8; 
 		public var spectrumBlur:uint = 8; 
 		public var startColor:uint		= 0x9a7dd5;
-		//public var startColor:uint		= 0xFF440A;
-		//public var endColor:uint		= 0x2D0C0A;
 		private var _bf:BlurFilter;
 		
 		private var _source:BitmapData 	= createDefaultBitmap();
 		private var _xoffset:int 		= 50;
-		private var _seed:Number ;
 		
 		public var height:int		= DISPLAY_HEIGHT / 2;
 		private var step:Number = ( DISPLAY_WIDTH - ( _xoffset * 3 ) ) / 255 ;
@@ -53,7 +49,6 @@ package plugins.visualizer {
 			parameters.addParameters(
 				new ParameterInteger('spectrumBlur', 'spectrumBlur', 0, 50, spectrumBlur)
 				//new ParameterInteger('height', 'height', 100, 300, height),
-				//new ParameterInteger('spectrumGain', 'spectrumGain', -1000, 1000, spectrumGain),
 				//new ParameterColor('startColor', 'startColor')
 			);
 			
@@ -71,7 +66,7 @@ package plugins.visualizer {
 			
 			graphics.clear();
 			
-			_spectrum= SpectrumAnalyzer.getSpectrum(false);
+			_spectrum = SpectrumAnalyzer.getSpectrum(false);
 			
 			var i:int=  -1 ;
 			var halfLen:int = _spectrum.length / 2;

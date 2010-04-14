@@ -69,6 +69,7 @@ package {
 				new Plugin('Basic',					BasicVisualizer, 'Visualizer'),
 				new Plugin('Radar',					RadarVisualizer, 'RadarVisualizer'),
 				new Plugin('Smooth',				SmoothVisualizer, 'SmoothVisualizer'),
+				new Plugin('Isometric',				IsometricVisualizer, 'IsometricVisualizer'),
 				new Plugin('Circles',				CircleVisualizer, 'CircleVisualizer')
 			);
 			

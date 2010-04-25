@@ -44,6 +44,7 @@ package onyx.asset {
 		 */
 		onyx_ns static const protocols:Object	= {
 			camera: new CameraProtocol(),
+			linein: new MicProtocol(),
 			vdpong: new VideoPongProtocol()
 		};
 		
@@ -108,6 +109,11 @@ package onyx.asset {
 					if ( p is CameraProtocol )
 					{
 						Console.output('AssetFile, camera, LOADING ' + path);
+						return;
+					}
+					if ( p is MicProtocol )
+					{
+						Console.output('AssetFile, microphone, LOADING ' + path);
 						return;
 					}
 				}

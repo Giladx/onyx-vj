@@ -52,6 +52,7 @@
     <classEntry path="onyx.display.ContentFLV"/>
     <classEntry path="onyx.display.ContentMC"/>
     <classEntry path="onyx.display.ContentMP3"/>
+    <classEntry path="onyx.display.ContentMicrophone"/>
     <classEntry path="onyx.display.ContentNull"/>
     <classEntry path="onyx.display.ContentONR"/>
     <classEntry path="onyx.display.ContentPlugin"/>

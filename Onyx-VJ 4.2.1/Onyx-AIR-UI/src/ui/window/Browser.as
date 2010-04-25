@@ -108,6 +108,12 @@ package ui.window {
 		
 		/**
 		 * 	@private
+		 * 	The Microphone button
+		 */
+		private var buttonMicrophones:TextButtonIcon;
+		
+		/**
+		 * 	@private
 		 */
 		private var db:AIRThumbnailDB;
 		
@@ -157,6 +163,7 @@ package ui.window {
 			
 			buttonFiles				= new TextButtonIcon(options, 'FILES', new AssetFolder()),
 			buttonCameras			= new TextButtonIcon(options, 'CAMERAS', new AssetIconCamera()),
+			buttonMicrophones		= new TextButtonIcon(options, 'MICROPHONES', new AssetIconCamera()),
 			buttonVideoPong			= new TextButtonIcon(options, 'VIDEOPONG', new AssetVideoPong()),
 			
 			files.x					= 4,
@@ -167,12 +174,15 @@ package ui.window {
 			buttonFiles.y			= 192,
 			buttonCameras.x			= 417,
 			buttonCameras.y			= 204,
+			buttonMicrophones.x		= 417,
+			buttonMicrophones.y		= 168,
 			buttonVideoPong.x		= 417,
 			buttonVideoPong.y		= 180;
 			
 			// add handlers for buttons
 			buttonFiles.addEventListener(MouseEvent.MOUSE_DOWN, fileDown);
 			buttonCameras.addEventListener(MouseEvent.MOUSE_DOWN, fileDown);
+			buttonMicrophones.addEventListener(MouseEvent.MOUSE_DOWN, fileDown);
 			buttonVideoPong.addEventListener(MouseEvent.MOUSE_DOWN, fileDown);
 			
 			addChild(folders);
@@ -180,6 +190,7 @@ package ui.window {
 			addChild(buttonVideoPong);// TODO: add this button on vp successful login
 			addChild(buttonFiles);
 			addChild(buttonCameras);
+			addChild(buttonMicrophones);
 			
 			// query default folder
 			//AssetFile.queryDirectory('onyx-query://vdpong', updateList);
@@ -333,6 +344,11 @@ package ui.window {
 				case buttonCameras:
 				
 					AssetFile.queryDirectory('onyx-query://camera', updateList);
+					
+					break;
+				case buttonMicrophones:
+				
+					AssetFile.queryDirectory('onyx-query://linein', updateList);
 					
 					break;
 				case buttonVideoPong:

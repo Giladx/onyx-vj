@@ -26,8 +26,8 @@ package midi {
 	import onyx.events.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
-	import onyx.utils.string.*;
 	import onyx.ui.*;
+	import onyx.utils.string.*;
 	
 	import ui.states.*;
 	import ui.styles.*;
@@ -69,8 +69,12 @@ package midi {
 		 * 	Behavior/midihash crossmap
 		 */
 		private static var _map:Dictionary;
-		//private static var nowDate:String;
- 		        
+		
+		/**
+		 * 	Busy flag
+		 */
+		private static var busy:Boolean;
+		        
 		/**
 		 * 	@constructor
 		 */
@@ -87,86 +91,17 @@ package midi {
 			_moveEvents = 0;
 			for each(var layer:LayerImplementor in Display.layers) {
 				layer.addEventListener(LayerEvent.LAYER_MOVE, _swapLayers);
+				// add parameters listener
+				for each(var ctrl:Parameter in layer.getProperties()) {
+					ctrl.addEventListener(ParameterEvent.CHANGE, _parChanged);
+				}
 			}
 			
-			// TODO: add parameters listener
-			//for each(var ctrl:Parameter in UserInterface.getAllControls()) {
-			//	ctrl.addEventListener(ParameterEvent.CHANGE, _parChanged);
-			//}
-			
-		}
+			busy = false;
 						
-		/**
-		 *    Receive MIDI message from controller(via proxy)
-		 */
-		public static function receiveMessage(data:ByteArray):void {
-            var status:uint      = data.readUnsignedByte();
-			var command:uint     = status&0xF0;
-			var channel:uint     = status&0x0F; 
-			var data1:uint       = data.readUnsignedByte(); // SC: if CC this contains MIDI Channel Number
-			var data2:uint       = data.readUnsignedByte();
-		      
-		    var midihash:uint    = ((status<<8)&0xFF00) | data1&0xFF; // SC: was ((status<<8)&0xFF00);
-		    
-			var behavior:IMidiControlBehavior = _map[midihash]; 
-			
-			//Console.output('MIDI :' + command +' / '+data1+' / '+data2  );
-			
-			if(behavior) {
-			     switch(command) {
-	                case NOTE_OFF:
-						break;
-	                case NOTE_ON:
-						behavior.setValue(data1);
-	                    break;
-	                case PITCH_WHEEL:
-						behavior.setValue(data1);
-	                    break;
-	                case CONTROL_CHANGE: // SC: if CC then "channel" has values 0-15 for midi channels 1-16 
-						behavior.setValue(data2);
-	                    break;
-	                default:
-						behavior.setValue(data1);
-                 }
-			}
-            
-            /*if(instance.hasEventListener(MidiEvent.DATA)) {
-				//Console.output('instance.hasEventListener(MidiEvent.DATA)');
-            	REUSABLE.command        = command;
-                REUSABLE.channel        = channel;
-                REUSABLE.data1          = data1;
-                REUSABLE.data2          = data2;
-                
-                REUSABLE.midihash       = midihash;
-                
-                instance.dispatchEvent(REUSABLE);
-                
-            }*/
-		}	
-				
-		/**
-         *      Send MIDI message to controller(via proxy)
-         */
-		public static function execAction(control:Parameter):void {
-			Midi.sendMessage(control.getMetaData('midi') as uint, control.value);	
 		}
-		
-		public static function sendMessage(midihash:uint, value:int):void {
-						
-			var bytes:ByteArray = new ByteArray();
-            
-            bytes[0] = ((midihash>>8)&0xFF);
-            bytes[1] = (midihash&0xFF);
-            bytes[2] = (value);
-			Console.output('bytes: '+bytes[0].toString()+' '+bytes[1].toString()+' '+bytes[2].toString() );
-			
-            PluginManager.modules['MIDI'].sendData(bytes);
-            
-        }    
-        
-		/**
-		 * 
-		 */
+									        
+
 		public static function registerControl(control:Parameter, midihash:uint):ColorTransform {
 			
 			if(control && midihash) {
@@ -174,14 +109,17 @@ package midi {
             	// check if alredy have this midihash
 				for (var val:Object in _map) {
 					if(val==midihash.toString() ) {
-						if (_map[val]) controlsSet[(_map[val].control as Parameter).getMetaData(tag)] = MIDI_HIGHLIGHT;
-						unregisterControl(midihash);
+						if (_map[val]) {
+							controlsSet[(_map[val].control as Parameter).getMetaData(tag)] = MIDI_HIGHLIGHT;
+							unregisterControl(midihash);
+						}
 					}
 				}
 								
 	            // store the hash inside CONTROL
 	            control.setMetaData(tag, midihash);
-	                 
+				//controlsSet[control] = MIDI_HIGHLIGHT_SET;
+				
 	            // based on the control and the command type, create behaviors
 	            var behavior:IMidiControlBehavior;
 	                                          
@@ -228,9 +166,6 @@ package midi {
             
 		}
 		
-		/**
-		 * 
-		 */
 		public static function unregisterControl(midihash:uint):void {
 			if (_map[midihash]) {
 				delete _map[midihash].control.getMetaData(tag);			
@@ -238,13 +173,7 @@ package midi {
 			}           
 		}
 			
-		/**
-		 * 
-		 */
-		public static function getControlFromHash(midihash:uint):Parameter {
-			return _map[midihash].control;           
-		}
-		
+				
 		/**
 		 *  swap layers
 		 **/
@@ -277,17 +206,83 @@ package midi {
             
         }
         
+		
+		
+		/**
+		 *      RX/TX MIDI message to controller(via proxy)
+		 */		
+		public static function rxMessage(data:ByteArray):void {
+			
+			// this avoid loops on 2way communication: this tells that changes in parameter's value are coming from midi
+			// so we avoid (see private _parChange()) to send back signal to midi controller in loop
+			busy = true;
+			
+			var status:uint      = data.readUnsignedByte();
+			var command:uint     = status&0xF0;
+			var channel:uint     = status&0x0F; 
+			var data1:uint       = data.readUnsignedByte(); // SC: if CC this contains MIDI Channel Number
+			var data2:uint       = data.readUnsignedByte();
+			
+			var midihash:uint    = ((status<<8)&0xFF00) | data1&0xFF; // SC: was ((status<<8)&0xFF00);
+			
+			var behavior:IMidiControlBehavior = _map[midihash]; 
+			
+			
+			if(behavior) {
+				switch(command) {
+					case NOTE_OFF:
+						break;
+					case NOTE_ON:
+						behavior.setValue(data1);
+						break;
+					case PITCH_WHEEL:
+						behavior.setValue(data1);
+						break;
+					case CONTROL_CHANGE: // SC: if CC then "channel" has values 0-15 for midi channels 1-16 
+						behavior.setValue(data2);
+						break;
+					default:
+						behavior.setValue(data1);
+				}
+			}
+			
+			if(instance.hasEventListener(MidiEvent.DATA)) {
+				
+				REUSABLE.command        = command;
+				REUSABLE.channel        = channel;
+				REUSABLE.data1          = data1;
+				REUSABLE.data2          = data2;
+				REUSABLE.midihash       = midihash;
+				instance.dispatchEvent(REUSABLE);
+				
+			}
+			
+			// this tells that the incoming midi is up
+			busy = false;
+		}
+		public static function txMessage(midihash:uint, value:Number):void {
+			
+			var bytes:ByteArray = new ByteArray();
+			
+			bytes[0] = ((midihash>>8)&0xFF);
+			bytes[1] = midihash&0xFF;
+			bytes[2] = value;
+			
+			PluginManager.modules['MIDI'].sendData(bytes);
+			
+		}  
+		
 		/**
 		 *  parameter changed
 		 **/
 		public static function _parChanged(event:ParameterEvent):void {
 			
-			Console.output(event.target + '/' + event.value);
-			// TODO 
-			
-			//event.
-			//controlTo.setMetaData(tag, _layerFrom.getParameters().getParameter(controlTo.name).getMetaData(tag));
-			//registerControl( controlTo,	controlTo.getMetaData(tag) as uint );				
+			// ok, change is not coming from midi controller, so we send to it to allow 2way communication
+			if(busy==false) {
+				var par:Parameter = event.target as Parameter;
+				Midi.txMessage(par.getMetaData('midi') as uint, event.value*127);
+			}
+						
 		}
 		
         private static function _backupControls(controls:Parameters):Dictionary {
@@ -300,31 +295,6 @@ package midi {
         	
         }
 		
-		/*public static function toXML():XML {	
-				
-			var xml:XML;
-			
-			for each (var layer:LayerImplementor in Display.layers) {
-				xml.appendChild(toLayerXML(layer));
-			}
-			
-			return xml;
-			
-			/*var controlsSet:XML = <controlsSet />;
-			for (var val:Object in _map) {
-				if (_map[val]) {
-					var v:XML = <control/>
-					//controlsSet[(_map[val].control as Parameter).getMetaData('midi')] = MIDI_HIGHLIGHT;
-					v.@ctrl = (_map[val].control as Parameter).name;
-					v.@prnt = (_map[val].control as Parameter).parent.id;
-					v.@ctrl = (_map[val].control
-					v.@midi = (_map[val].control as Parameter).getMetaData('midi');
-					controlsSet.appendChild(v);
-				}//controlsSet.appendChild("<val>"+_map[val]+"</val>");
-			}
-			return controlsSet;
-			
-		}*/
 		
 		/**
 		*	SC: to MIDI
@@ -349,13 +319,13 @@ package midi {
 						
 						var display:DisplayWindow = win as DisplayWindow;
 						// remote controls
-						/*remote = <remote/>;
+						remote = <remote/>;
 						for each(control in Display.getParameters() ) {
 							if(control.name!='channelMix') {
 								remote.appendChild(toControlXML(control));
 							}
 						}
-						xml.appendChild(remote);*/
+						xml.appendChild(remote);
 						
 						// local controls
 						local = <local/>;
@@ -458,9 +428,8 @@ package midi {
 			
 		}
 		
-		
 		/**
-		*	SC: load MIDI
+		*	SC: from MIDI
 		**/
 		public static function fromXML(x:XML):void {
 			
@@ -468,8 +437,6 @@ package midi {
 			
 			var layer:LayerImplementor;
 			var control:Parameter;
-			
-			//Console.output("prova"+x.toXMLString());
 			
 			for each(var xml:XML in midiXML.children()) {
 				
@@ -480,25 +447,23 @@ package midi {
 				// do parse xml		
 				if(window is DisplayWindow) {
 					
-					/*var display:DisplayWindow = window as DisplayWindow;
+					var display:DisplayWindow = window as DisplayWindow;
 					if(xml.hasOwnProperty('remote')) {
 						for each (control in Display.getParameters()) {
-							loadControlXML( control, xml.child('remote').child(control.name) );
+							fromControlXML( control, xml.child('remote').child(control.name) );
 						}
 					}
 					if(xml.hasOwnProperty('local')) {
 						for each (control in Display.getParameters()) {
-							loadControlXML( control, xml.child('local').child(control.name) );
+							//Console.output(control);
+							fromControlXML( control, xml.child('local').child(control.name) );
 						}
-					} */
+					}
 					
 				} else if(window is LayerWindow)  {
 					
-					for each (layer in Display.layers) {
-						
-						//var xml2:XML = new XML(xml.child('layer'+layer.index));
+					for each (layer in Display.layers)
 						fromLayerXML(layer,xml.layer.(@name == layer.index));
-					}
 					
 				} else if(window is SettingsWindow) {
 					
@@ -512,7 +477,6 @@ package midi {
 				
 			}					
 		}
-		
 				
 		public static function fromLayerXML(layer:LayerImplementor, xml:XMLList):void {
 			
@@ -521,7 +485,6 @@ package midi {
 			
 			// properties
 			for each (control in layer.getProperties()) {
-				//Console.output(xml.control.(@name == 'alpha').@midi);
 				fromControlXML( control, xml );
 			}
 			
@@ -544,6 +507,7 @@ package midi {
 		
 		public static function fromControlXML(control:Parameter, xml:XMLList):void {
 			
+			var controls:Dictionary = UserInterface.getAllControls();
 			if(xml) {
 				var hashXML:String = xml.control.(@name == control.name).@midi;
 
@@ -556,10 +520,12 @@ package midi {
 				// single
 				} else {
 					if(hashXML) {
-						//control.setMetaData(tag, midihash); tag=midi
-						// store hash
-						control.setMetaData(tag, uint(parseInt(hashXML)) );
 						// register control
+						//Midi.controlsSet[uic] = 
+						//	Midi.registerControl(control, uint(parseInt(hashXML)));
+						//control
+						//uic.transform.colorTransform = Midi.controlsSet[uic];
+						
 						registerControl(control, uint(parseInt(hashXML)) );
 					}
 				}

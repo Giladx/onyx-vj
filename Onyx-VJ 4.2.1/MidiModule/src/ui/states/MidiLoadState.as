@@ -81,7 +81,6 @@ package ui.states {
 			controls = UserInterface.getAllControls();
 			
 			// choose a directory
-			//AIR_ROOT.resolvePath(ONYX_LIBRARY_PATH);
 			var file:File = new File(AssetFile.resolvePath(ONYX_LIBRARY_PATH));
 			file.browseForOpen('Select the name and location of the MIDI file to load.');
 			file.addEventListener(Event.SELECT, action);
@@ -114,10 +113,7 @@ package ui.states {
 		 * 
 		 */
 		override public function terminate():void {
-			
-			//StateManager.resumeStates(ApplicationState.DISPLAY_RENDER);
 			StateManager.resumeStates(ApplicationState.KEYBOARD);
-			
 		}
 	}
 }

@@ -140,16 +140,7 @@ package module {
             StateManager.loadState(new MidiLearnState());
         }
         public function load():void {
-            StateManager.loadState(new MidiLoadState());
-            
-            //for (var i:Object in UserInterface.getAllControls()) {
-			//	Console.output((i as UserInterfaceControl).getParameter());
-			//}
-			
-			/*for (var i:Object in UserInterface.getAllControls()) {
-				(i as UserInterfaceControl).addEventListener(MouseEvent.MOUSE_DOWN, handler);
-			}*/
-            
+            StateManager.loadState(new MidiLoadState());           
         }
 		public function save():void {
             StateManager.loadState(new MidiSaveState());
@@ -193,9 +184,7 @@ package module {
 			while(conn.bytesAvailable>=3) {
 				buffer.clear();
 				conn.readBytes(buffer,0,3);
-				//buffer.
-				//Console.output('MIDI Module bytes loaded:' + buffer.bytesAvailable );
-				Midi.receiveMessage(buffer);
+				Midi.rxMessage(buffer);
 			}
 			
 			buffer = null;
@@ -204,19 +193,9 @@ package module {
         
 		public function sendData(bytes:ByteArray):void {
 			conn.writeBytes(bytes);
-       		Console.output('MIDI Module: sendData bytes:' + bytes.toString());
 			conn.flush();
+       		//Console.output('MIDI Module: sendData bytes:' + bytes.toString());
 		}
-		
-		/*private function handler(event:MouseEvent):void {
-			trace(event.currentTarget);
-		}	
-		public function highlight2():void {
-			for (var i:Object in UserInterface.getAllControls()) {
-				(i as UserInterfaceControl).transform.colorTransform = new ColorTransform(2,2,2,1);
-			}
-		}*/
-		
-		
+				
 	}
 }

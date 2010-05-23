@@ -37,11 +37,25 @@ package module {
 			
 			// add parameters
 			parameters.addParameters(
-				new ParameterString('host', 'host'),
+				new ParameterString('host', 'host','127.0.0.1'),
 				new ParameterExecuteFunction('connect', 'connect')
 			);
 			
 		}
+		
+		/**
+		 * 	
+		 */
+		public function set host(value:String):void {
+			_host = value;
+		}
+		
+		/**
+		 * 	
+		 */
+		public function get host():String {
+			return _host;
+		}	
 		
 		/**
 		 * 

@@ -88,7 +88,7 @@ package ui.window {
 		 * 	@private
 		 * 	Holds the folder objects
 		 */
-		private const folders:ScrollPane				= new ScrollPane(81, 173);
+		private const folders:ScrollPane				= new ScrollPane(81, 150);
 		
 		/**
 		 * 	@private
@@ -194,12 +194,15 @@ package ui.window {
 				
 				if ( query.path.substr( 0, 19 ) == "onyx-query://vdpong" )
 				{
-						createUserObjects( false );
-					
+					createUserObjects( false );
 				}
 				else
 				{
-					//AIR
+					//AIR or Camera?
+					//if ( query.path.substr( 0, 19 ) == "onyx-query://camera" )
+					//{
+					createUserObjects( false );
+					//}
 				}
 			}
 		}

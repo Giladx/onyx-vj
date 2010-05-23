@@ -86,7 +86,7 @@ package ui.window {
 		 * 	@private
 		 * 	Holds the folder objects
 		 */
-		private const folders:ScrollPane				= new ScrollPane(81, 173);
+		private const folders:ScrollPane				= new ScrollPane(81, 150);
 		
 		/**
 		 * 	@private
@@ -193,7 +193,6 @@ package ui.window {
 			addChild(buttonMicrophones);
 			
 			// query default folder
-			//AssetFile.queryDirectory('onyx-query://vdpong', updateList);
 			AssetFile.queryDirectory(ONYX_LIBRARY_PATH, updateList);
 		}
 		

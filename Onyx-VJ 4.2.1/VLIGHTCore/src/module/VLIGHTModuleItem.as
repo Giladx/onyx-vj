@@ -24,8 +24,15 @@ package module {
 		private var _timer:Timer;
 		private var _attempts:int;
 		
-		private var _refresh:int;	//[ms]
-		private var ef:Boolean;		//flag
+		private var _refresh:int = 250;		//[ms]
+		private var ef:Boolean;				//flag
+		
+		// sound properties
+		private var level:int;
+		private var low:int;
+		private var mid:int;
+		private var high:int;
+		private var fft:Array;
 		
 		public function VLIGHTModuleItem() {
 			
@@ -61,10 +68,9 @@ package module {
 		 * 
 		 */
 		override public function initialize():void {
-				
+			
 			conn     = new XMLSocket();
 			
-			_refresh 	= 1000;
 			_attempts 	= 0;
 			
 			conn.addEventListener(Event.CONNECT, handleSocketConnected);
@@ -89,14 +95,14 @@ package module {
 			connect();
 		}
 		public function connect():void {
-		
+			
 			// 10sec timeout
 			if(_attempts<10) {
 				_attempts += 1;
 				try{
 					Console.output('VLIGHT Module: attempt '+_attempts+' on '+_host+'@'+_port);
 					conn.connect(_host, int(_port));
-															
+					
 				} catch (e : SecurityError) {
 					_scheduleReconnect()
 				} finally {
@@ -132,18 +138,27 @@ package module {
 			Console.output('VLIGHT Module: connection lost');
 			_scheduleReconnect();
 		}
-	
+		
 		private function onData(event:DataEvent):void {
-			
-			trace(VLIGHT.hasEventListener(VLIGHTEvent.PEAK));
-			//var xml:XML = new XML(event.data);
+			//trace(VLIGHT.hasEventListener(VLIGHTEvent.PEAK));
+			var xml:XML = new XML(event.data);
 			conn.removeEventListener(DataEvent.DATA, onData);
 			//if(xml.name()=="sound")
-			//	Console.output(xml.attribute("a"));
+			//	Console.output(
+			level = xml.attribute("a");
 			///Console.output(event.data);
 			VLIGHT.dispatchEvent(new VLIGHTEvent(VLIGHTEvent.PEAK,1)); 
-			
 		}
-				
+		
+		public function getLevel():int {
+			return level;	
+		}
+		public function getPeaks():Array {
+			return new Array(low,mid,high);	
+		}
+		public function getFFT():Array {
+			return fft;	
+		}
+		
 	}
 }

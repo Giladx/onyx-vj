@@ -22,24 +22,18 @@ package peak {
 	[SWF(width='480', height='360', frameRate='24')]
 	final public class Strobo extends VLSpritePEAK {
 		
-		[Embed(source="..\\..\\assets\\flas\\library_as3_cs3.swf", symbol="rect")]
-		private var Strb:Class;
-		
-		private var mc:MovieClip;
-		
 		public function Strobo() {
 			super();
-			
-			mc = new Strb();
-			mc.x = 0;
-			mc.y = 0;
-			mc.width = 480;
-			mc.height = 360;
+			var shape:Shape;
+			shape = new Shape();
+			var graphics:Graphics	= shape.graphics;
+			graphics.clear();
+			graphics.beginFill( 0x00FF00 );
+			graphics.drawCircle(100, 100, 40);
+			graphics.endFill();
 						
-			addChild(mc);
-			
-			mc.play();
-			
+			addChild(shape);
+		
 			
 		}	
 		

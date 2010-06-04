@@ -59,6 +59,7 @@ package {
 				new Plugin('Color Filter',			ColorFilter,	'Color Filter'),
 				new Plugin('Distort',				Distort,		'Distort'),
 				new Plugin('FrameSkip', 			FrameSkip,		'Frame Skip'),	
+				new Plugin('ChromaKey', 			ChromaKey,		'Chroma Key'),	
 				
 				// transitions
 				new Plugin('Repeater Transition',	RepeaterTransition, 'Repeater Transition'),

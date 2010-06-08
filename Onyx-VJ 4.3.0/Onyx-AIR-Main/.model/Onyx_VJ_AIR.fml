@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<model xmlns="http://ns.adobe.com/Fiber/1.0">
+  <annotation name="ActionScriptGeneration">
+    <item name="FullyQualifyReferences">true</item>
+  </annotation>
+  <service name="VideoPong">
+    <annotation name="ActionScriptGeneration">
+      <item name="ServiceType">HTTPMultiService</item>
+      <item name="Package">services.videopong</item>
+      <item name="rootURL"></item>
+    </annotation>
+    <annotation name="ASFilesGenerated">
+      <item name="ASFilesGenerated">services/videopong/_Super_VideoPong.as~#~services/videopong/VideoPong.as~#~</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">HTTPService</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <function name="login" arguments="action:string,method:string,user:string,pass:string,passhashed:double" return-type="opaque">
+      <annotation name="ActionScriptGeneration">
+        <item name="method">POST</item>
+        <item name="url">http://www.videopong.net</item>
+        <item name="SerializationFilter">com.adobe.serializers.xml.XMLSerializationFilter</item>
+        <item name="contentType">application/x-www-form-urlencoded</item>
+        <item name="requestBodyParameter">false</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://www.videopong.net?action=onyxapi&amp;method=login&amp;user=username&amp;pass=password&amp;passhashed=0</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParamNames">action,method,user,pass,passhashed</item>
+        <item name="inputParams">string,string,string,string,double</item>
+        <item name="returnType">opaque</item>
+      </annotation>
+      <annotation name="analyze group">
+        <item name="analyzed">false</item>
+      </annotation>
+    </function>
+    <function name="getfolderstree" arguments="action:string,method:string,sessiontoken:string,e4x:string" return-type="opaque">
+      <annotation name="ActionScriptGeneration">
+        <item name="method">POST</item>
+        <item name="contentType">application/x-www-form-urlencoded</item>
+        <item name="requestBodyParameter">false</item>
+        <item name="url">http://www.videopong.net</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="completeURL">http://www.videopong.net?action=onyxapi&amp;method=getfolderstree&amp;sessiontoken=fw2z023z2&amp;e4x=1</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParamNames">action,method,sessiontoken,e4x</item>
+        <item name="inputParams">string,string,string,string</item>
+        <item name="returnType">opaque</item>
+      </annotation>
+    </function>
+  </service>
+</model>

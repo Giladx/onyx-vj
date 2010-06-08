@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" version="3">
+  <includeClasses>
+    <classEntry path="onyx.core.Onyx"/>
+    <classEntry path="onyx.display.OutputDisplay"/>
+    <classEntry path="onyx.jobs.Job"/>
+    <classEntry path="onyx.jobs.JobManager"/>
+    <classEntry path="onyx.jobs.LoadONXJob"/>
+    <classEntry path="onyx.jobs.StaggerONXJob"/>
+    <classEntry path="onyx.jobs.TimerJob"/>
+    <classEntry path="onyx.jobs.onx.LayerLoadSettings"/>
+    <classEntry path="onyx.ui.IUserInterfaceAdapter"/>
+    <classEntry path="onyx.ui.UserInterface"/>
+    <classEntry path="onyx.ui.UserInterfaceControl"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

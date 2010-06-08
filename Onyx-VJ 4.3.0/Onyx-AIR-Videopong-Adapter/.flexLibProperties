@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" version="3">
+  <includeClasses>
+    <classEntry path="services.videopong.VideoPong"/>
+    <classEntry path="onyx.display.ContentVideoPong"/>
+    <classEntry path="onyx.display.ContentMC"/>
+    <classEntry path="onyx.display.ContentTransition"/>
+    <classEntry path="onyx.display.ContentBase"/>
+    <classEntry path="onyx.asset.VideoPongProtocol"/>
+    <classEntry path="onyx.asset.vp.VPContentQuery"/>
+    <classEntry path="onyx.asset.vp.VPAdapter"/>
+    <classEntry path="onyx.asset.vp.VPDirectoryQuery"/>
+    <classEntry path="onyx.asset.vp.VPAsset"/>
+    <classEntry path="onyx.asset.VideoPongAsset"/>
+    <classEntry path="onyx.display.ContentCustom"/>
+    <classEntry path="onyx.display.ContentSprite"/>
+    <classEntry path="onyx.display.ContentMP3"/>
+    <classEntry path="onyx.display.ContentCustomTime"/>
+    <classEntry path="onyx.display.ContentFLV"/>
+    <classEntry path="onyx.asset.VideoPongThumbnail"/>
+    <classEntry path="onyx.asset.AssetDefaultFont"/>
+    <classEntry path="onyx.asset.air.AIRSaveBrowseQuery"/>
+    <classEntry path="onyx.asset.air.AIR_CONTEXT"/>
+    <classEntry path="onyx.asset.air.AIR_ROOT"/>
+    <classEntry path="onyx.asset.air.AIRSaveQuery"/>
+    <classEntry path="onyx.asset.air.AIRContentQuery"/>
+    <classEntry path="onyx.asset.air.AIRDirectoryQuery"/>
+    <classEntry path="onyx.asset.air.AIRAsset"/>
+    <classEntry path="onyx.asset.air.AIRReadQuery"/>
+    <classEntry path="onyx.asset.air.AIRAdapter"/>
+    <classEntry path="onyx.utils.file.getRelativePath"/>
+    <classEntry path="onyx.utils.file.writeTextFile"/>
+    <classEntry path="onyx.utils.file.readBinaryFile"/>
+    <classEntry path="onyx.utils.file.getDirectoryTree"/>
+    <classEntry path="onyx.utils.file.writeLogFile"/>
+    <classEntry path="onyx.utils.file.writeBinaryFile"/>
+    <classEntry path="onyx.utils.file.readTextFile"/>
+    <classEntry path="onyx.utils.file.filterFileArray"/>
+    <classEntry path="onyx.asset.vp.VP_ROOT"/>
+    <classEntry path="onyx.display.ContentONR"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

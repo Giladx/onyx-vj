@@ -65,13 +65,16 @@ package ui.controls.layer {
 			toggle.initialize(22, 11);
 			toggle.x	= 12;
 			
-			parameter.addEventListener(ParameterEvent.CHANGE, _controlHandler);
+			if ( parameter )
+			{
+				parameter.addEventListener(ParameterEvent.CHANGE, _controlHandler);
+				select(parameter.value);
+			}
 			toggle.addEventListener(MouseEvent.MOUSE_DOWN, _mouseHandler);
 						
 			addChild(toggle);
 			addChild(_current);
 			
-			select(parameter.value);
 		}
 		
 		/**

@@ -32,7 +32,7 @@
  */
 package library.patches {
 	
-	import com.andremichelle.Pixel;
+	import library.patches.com.andremichelle.Pixel;
 	
 	import flash.display.*;
 	import flash.events.MouseEvent;
@@ -44,9 +44,7 @@ package library.patches {
 	import onyx.display.*;
 	import onyx.plugin.*;
 	import onyx.parameter.*;
-	
-	import library.patches.LayerPixelRain;
-	
+		
 	/**
 	 * 	Draw bitmaps
 	 */
@@ -352,7 +350,9 @@ import onyx.parameter.Parameter;
 import onyx.parameter.Parameters;
 import onyx.plugin.*;
 
-final class LayerListener {
+import library.patches.LayerPixelRain;
+
+class LayerListener {
 	
 	public const frames:Array		= [];
 	

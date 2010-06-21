@@ -27,8 +27,6 @@ package library.patches {
 	import onyx.core.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
-
-	import library.patches.LayerCircleArt;
 	
 	[SWF(width='320', height='240', frameRate='24', backgroundColor='#FFFFFF')]
 	public class LayerCircleArt extends Patch 
@@ -403,6 +401,8 @@ import flash.display.BitmapData;
 import onyx.parameter.Parameter;
 import onyx.parameter.Parameters;
 import onyx.plugin.*;
+
+import library.patches.LayerCircleArt;
 
 final class LayerListener {
 	

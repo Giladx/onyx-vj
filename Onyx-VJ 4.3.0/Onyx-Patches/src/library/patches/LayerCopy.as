@@ -130,6 +130,8 @@ import onyx.parameter.Parameter;
 import onyx.parameter.Parameters;
 import onyx.plugin.*;
 
+import library.patches.LayerCopy;
+
 final class LayerListener {
 	
 	public const frames:Array		= [];

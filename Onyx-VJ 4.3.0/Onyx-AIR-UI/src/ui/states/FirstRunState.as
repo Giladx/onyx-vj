@@ -86,8 +86,9 @@ package ui.states {
 		
 			// no scale please thanks
 			// stage.align					= StageAlign..TOP;
-			stage.scaleMode 			= StageScaleMode.NO_SCALE;
-			//stage.nativeWindow.bounds	= (Screen.screens[0] as Screen).bounds;
+			// added possibility to scale for small resolution notebooks
+			//stage.scaleMode 			= StageScaleMode.NO_SCALE;
+			stage.nativeWindow.bounds	= (Screen.screens[0] as Screen).bounds;
 			
 			// slam the input monitor to 0,0
 			var window:NativeWindow		= stage.nativeWindow;

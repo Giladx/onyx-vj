@@ -92,16 +92,16 @@ package ui.window {
 				
 				// create control
 				var control:MenuButton = new MenuButton(reg, MENU_OPTIONS, 0xFFFFFFF);
-				control.x	= Math.floor(index / 2) * 81;
-				control.y	= (index++ % 2) * 18;
+				control.x	= Math.floor(index / 3) * 81;
+				control.y	= (index++ % 3) * 18;
 				
 				// add child
 				addChild(control);
 				
 			}
 			
-			quitButton.x	= Math.floor(index / 2) * 81;
-			quitButton.y	= (index % 2) * 18;
+			quitButton.x	= Math.floor(index / 3) * 81;
+			quitButton.y	= (index % 3) * 18;
 			addChild(quitButton);
 		}
 		

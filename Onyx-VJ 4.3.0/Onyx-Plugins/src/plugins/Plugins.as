@@ -74,6 +74,8 @@ package plugins {
 				
 				// visualizers
 				new Plugin('Basic',					BasicVisualizer, 'Visualizer'),
+				new Plugin('Smooth',                SmoothVisualizer, 'SmoothVisualizer'),
+				new Plugin('Isometric',             IsometricVisualizer, 'IsometricVisualizer'),
 				new Plugin('Circles',				CircleVisualizer, 'CircleVisualizer'),
 							
 				// macros

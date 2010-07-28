@@ -12,9 +12,9 @@
  * You may obtain a copy of the License at: http://creativecommons.org/licenses/by-nc-sa/3.0/us/
  *
  * Please visit http://www.onyx-vj.com for more information
- *
+ * 
  * Based on code by André Michelle (http://www.andre-michelle.com)
- *
+ * 
  */
 package plugins.visualizer {
 	
@@ -26,7 +26,7 @@ package plugins.visualizer {
 	import onyx.plugin.*;
 	
 	public final class IsometricVisualizer extends Visualizer {
-		
+
 		private var spectrum:Array ;
 		private var sprite:Sprite = new Sprite();
 		private var source:BitmapData = createDefaultBitmap();
@@ -39,11 +39,11 @@ package plugins.visualizer {
 		private var darken:ColorTransform;
 		
 		/**
-		 *      @constructor
+		 * 	@constructor
 		 */
-		public function IsometricVisualizer():void
+		public function IsometricVisualizer():void 
 		{
-			
+		
 			spectrum = SpectrumAnalyzer.getSpectrum(false);
 			
 			output = new BitmapData( DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0 );
@@ -65,12 +65,12 @@ package plugins.visualizer {
 		
 		
 		/**
-		 *
+		 * 
 		 */
-		override public function render(info:RenderInfo):void
+		override public function render(info:RenderInfo):void 
 		{
 			
-			var graphics:Graphics                   = sprite.graphics;
+			var graphics:Graphics			= sprite.graphics;
 			
 			graphics.clear();
 			
@@ -100,9 +100,9 @@ package plugins.visualizer {
 				
 				output.fillRect( rect, 0xff000000 | gradient[i] );
 			}
-			
+		
 			output.draw( output, displace, darken, null, null, true );
-			
+
 			source.draw( sprite );
 			
 			info.render( source );

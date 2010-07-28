@@ -1,4 +1,4 @@
-package library.patches.com.andremichelle { 
+package andremichelle { 
 	public class Pixel
 	{
 		public var sx: Number;

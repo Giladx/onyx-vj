@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -81,16 +82,22 @@ package ui.controls.layer {
 		 * 	@private
 		 */
 		private function _mouseHandler(event:MouseEvent):void {
-			parameter.value = !parameter.value;
-			select(parameter.value);
+			if ( parameter )
+			{
+				parameter.value = !parameter.value;
+				select(parameter.value);
+			}
 		}
 		
 		/**
 		 * 	@private
 		 */
 		private function _controlHandler(event:ParameterEvent):void {
-			event.value = !parameter.value;
-			select(event.value);
+			if ( parameter )
+			{
+				event.value = !parameter.value;
+				select(event.value);
+			}
 		}
 		
 		/**

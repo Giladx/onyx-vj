@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties mainApplicationPath="Main.as" projectUUID="0a3d88bc-793e-4a25-9d70-a40eca2df178" version="6">
+<actionScriptProperties analytics="false" mainApplicationPath="Main.as" projectUUID="0a3d88bc-793e-4a25-9d70-a40eca2df178" version="6">
   <compiler additionalCompilerArguments="-locale en_US" autoRSLOrdering="true" copyDependentFiles="false" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderLocation="DOCUMENTS/InstallPackage/root/library/patches" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath/>
     <libraryPath defaultLinkType="0">
@@ -29,18 +29,21 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="library/patches/LoopMachine.as"/>
+    <application path="library/patches/BlurShape.as"/>
+    <application path="library/patches/Lines.as"/>
     <application path="library/patches/LayerCopy.as"/>
     <application path="library/patches/FireBending.as"/>
-    <application path="library/patches/DrawingClip.as"/>
     <application path="library/patches/BasicText.as"/>
-    <application path="library/patches/LayerCircleArt.as"/>
-    <application path="library/patches/BatchassPerlin.as"/>
+    <application path="library/patches/WhirlFlower.as"/>
     <application path="library/patches/LayerPixelRain.as"/>
     <application path="library/patches/FunInTheSun.as"/>
+    <application path="library/patches/LoopMachine.as"/>
+    <application path="library/patches/DrawingClip.as"/>
+    <application path="library/patches/LayerCircleArt.as"/>
+    <application path="library/patches/BatchassPerlin.as"/>
     <application path="library/patches/CircleArt.as"/>
-    <application path="library/patches/ScreenShare.as"/>
     <application path="library/patches/DrawBranches.as"/>
+    <application path="library/patches/ScreenShare.as"/>
   </applications>
   <modules/>
   <buildCSSFiles/>

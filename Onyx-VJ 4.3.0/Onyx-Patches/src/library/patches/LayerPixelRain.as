@@ -32,7 +32,7 @@
  */
 package library.patches {
 	
-	import andremichelle.Pixel;
+	import com.andremichelle.Pixel;
 	
 	import flash.display.*;
 	import flash.events.MouseEvent;

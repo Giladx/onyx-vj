@@ -19,8 +19,8 @@
  */
 package library.patches
 {
-	import andremichelle.FPS;
-	import andremichelle.Particle;
+	import com.andremichelle.FPS;
+	import com.andremichelle.Particle;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -81,7 +81,7 @@ package library.patches
 			bitmap = new Bitmap( new BitmapData ( DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0 ), PixelSnapping.AUTO, false );
 			addChild( bitmap );
 			
-			//addChild( new FPS() );
+			addChild( new FPS() );
 		}
 		private function createParticles(): void
 		{

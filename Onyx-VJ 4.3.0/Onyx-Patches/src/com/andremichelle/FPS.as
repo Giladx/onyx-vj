@@ -1,4 +1,4 @@
-package andremichelle
+package com.andremichelle
 {
 	import flash.events.Event;
 	import flash.text.TextField;

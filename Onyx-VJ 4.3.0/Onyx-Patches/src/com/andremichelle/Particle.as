@@ -1,4 +1,4 @@
-package andremichelle
+package com.andremichelle
 {
 	public class Particle
 	{

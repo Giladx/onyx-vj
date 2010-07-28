@@ -13,7 +13,7 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package andremichelle {
+package com.andremichelle {
 	
 	import flash.display.BitmapData;
 	import flash.display.Shape;

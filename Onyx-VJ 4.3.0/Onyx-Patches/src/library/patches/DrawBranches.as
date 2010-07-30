@@ -15,7 +15,7 @@
  *  
  * Based on Branches code by Pierluigi PESENTI (http://blog.oaxoa.com/)
  * Adapted for Onyx-VJ 4 by Bruce LANE (http://www.batchass.fr)
- * version 4.0.510 last modified August 12, 2009
+ * 
  */
 package library.patches {
 	import flash.display.*;

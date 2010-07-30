@@ -1,0 +1,61 @@
+<languageVersion : 1.0;>
+
+kernel DisplacementMap
+<
+	namespace : "sk.yoz";
+	vendor : "Yoz";
+	version : 1;
+	description : "Anaglyphs with Pixel Bender";
+>
+{
+	input image4 src;
+	input image4 map;
+	output pixel4 dst;
+
+	parameter float dx
+	<
+		minValue: float(-1000.0);
+		maxValue: float(1000.0);
+		defaultValue: float(0.0);
+		description: "The amount of displacement on x axis.";
+	>;
+
+	parameter float dy
+	<
+		minValue: float(-1000.0);
+		maxValue: float(1000.0);
+		defaultValue: float(0.0);
+		description: "The amount of displacement on y axis.";
+	>;
+	
+	parameter float zBase
+	<
+		minValue: float(0.0);
+		maxValue: float(1);
+		defaultValue: float(0.5);
+		description: "The z center.";
+	>;
+	
+	parameter float3x3 matrixLeft
+	<
+		defaultValue: float3x3(0.0, 0.0, 0.0, 0.7, 0.0, 0.0, 0.3, 0.0, 0.0);
+		description: "The left glass matrix.";
+	>;
+	
+	parameter float3x3 matrixRight
+	<
+		defaultValue: float3x3(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
+		description: "The right glass matrix.";
+	>;
+	
+	void evaluatePixel()
+	{
+		float2 pos = outCoord();
+		float amount = zBase - sampleLinear(map, pos).x;
+		float4 left = sampleLinear(src, float2(pos.x + dx * amount, pos.y + dy * amount));
+		float4 right = sampleLinear(src, float2(pos.x - dx * amount, pos.y - dy * amount));
+		float3 res = matrixLeft * float3(left.r, left.g, left.b) + 
+					matrixRight * float3(right.r, right.g, right.b);
+		dst = float4(res.r, res.g, res.b, 1.0);
+	}
+}

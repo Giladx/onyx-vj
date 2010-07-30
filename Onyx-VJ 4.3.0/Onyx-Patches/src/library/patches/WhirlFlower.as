@@ -70,7 +70,7 @@ package library.patches
 			
 			con.x += (xpos - con.x) * .05;
 			con.y += (ypos - con.y) * .05;
-			info.source.copyPixels(img, DISPLAY_RECT, ONYX_POINT_IDENTITY);
+			info.source.draw(con);
 
 		}
 		

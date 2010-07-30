@@ -17,6 +17,7 @@ package library.patches {
 	import flash.geom.Point;
 	
 	import onyx.core.*;
+	import onyx.parameter.ParameterNumber;
 	import onyx.plugin.*;
 	
 	[SWF(width='460', height='368', frameRate='24', backgroundColor='#FFFFFF')]
@@ -31,16 +32,16 @@ package library.patches {
 		private var grad:Shape = new Shape();
 		private var offsets:Array = [new Point()];
 		
+		private var _speed:Number;
 		
 		public function BlurShape()
 		{
 			Console.output('BlurShape');
 			Console.output('Credits to http://wonderfl.net/user/faseer');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
-			/*parameters.addParameters(
-				new ParameterColor('lineColor', 'Color'),
-				new ParameterInteger( 'particlesnum', '# of particles', 1, 1000, _particlesnum )
-			)*/ 
+			parameters.addParameters(
+				new ParameterNumber( 'speed', 'speed', .01, 1, _speed )
+			) 
 			canvas = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT,false,0x000000);
 			drawHere = new BitmapData(canvas.width, canvas.height, false, 0x000000);//FFFFFF);
 			bitmap = new Bitmap(canvas);
@@ -71,10 +72,11 @@ package library.patches {
 		 */
 		override public function render(info:RenderInfo):void 
 		{
+			var source:BitmapData = info.source;
 			offsets[0].x++;
 			offsets[0].y++;
 			
-			var f:Number = Math.PI / 180 * .1;//.33;
+			var f:Number = Math.PI / 90 * _speed;//.33;
 			var fx:Number = offsets[0].x * f;
 			var fy:Number = offsets[0].y * f;
 			drawHere.perlinNoise( drawHere.width * Math.cos(fx), drawHere.height * Math.sin(fy), 1, 1, false, false, 7, false, offsets);
@@ -87,8 +89,19 @@ package library.patches {
 
 			canvas.draw(drawHere, mat);
 			canvas.colorTransform(drawHere.rect, new ColorTransform(Math.random()*0.4+0.6,Math.random()*0.4+0.6,Math.random()*0.4+0.6,1,0,0,0,0));
-			info.source.copyPixels(canvas, DISPLAY_RECT, ONYX_POINT_IDENTITY);
+			source.copyPixels(canvas, DISPLAY_RECT, ONYX_POINT_IDENTITY);
 		}
+
+		public function get speed():Number
+		{
+			return _speed;
+		}
+
+		public function set speed(value:Number):void
+		{
+			_speed = value;
+		}
+
 		
 	}
 }

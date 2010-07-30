@@ -62,6 +62,7 @@ package library.patches {
 			[[[0,1,0x8800f0,2],0,0,new Vector3D(0, -0.07, 0)]]
 		];
 		var difference:Number;
+		var gra:Shape;
 		
 		/**
 		 * 	@constructor
@@ -70,6 +71,7 @@ package library.patches {
 			Console.output('RampantGrowth');
 			Console.output('Credits to Edik RUZGA (http://wonderwhy-er.deviantart.com/)');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
+			gra = new Shape();
 			addEventListener( MouseEvent.MOUSE_DOWN, mouseDown );
 		}
 		private function mouseDown(event:MouseEvent):void 
@@ -93,6 +95,7 @@ package library.patches {
 		 */
 		override public function render(info:RenderInfo):void 
 		{
+			var source:BitmapData = info.source;
 			for (var i:int=0; i<treeData[5].length; i++) {
 				if (Math.random()<0.4) {
 					treeData[5].push([treeData[5][i][0],treeData[5][i][1]/3,treeData[5][i][2]/3,Utils3D.projectVector(matrixes.siblingOffsets[int(Math.random()*0.2*matrixes.siblingOffsets.length)],treeData[5][i][3])]);
@@ -121,12 +124,12 @@ package library.patches {
 			matrixes.transformMatrix.transformVectors(treeData[0], treeData[2]);
 			treeData[4].sort(compareLines);
 			Utils3D.projectVectors(matrixes.projectionMatrix, treeData[2], treeData[1], treeData[3]);
-			var gra:Shape = new Shape();
 			gra.graphics.clear();
 			for (i=0; i<treeData[4].length; i++) {
 				gra.graphics.drawGraphicsData(Vector.<IGraphicsData>([new GraphicsStroke(treeData[4][i][3]*(10-((treeData[2][treeData[4][i][0]*3+2]+treeData[2][treeData[4][i][1]*3+2])*0.5)),false,"normal",CapsStyle.ROUND,JointStyle.ROUND,3, new GraphicsSolidFill(treeData[4][i][2])),new GraphicsPath(Vector.<int>([1,2]),Vector.<Number>([200+treeData[1][treeData[4][i][0]*2],200+treeData[1][treeData[4][i][0]*2+1],200+treeData[1][treeData[4][i][1]*2],199+treeData[1][treeData[4][i][1]*2+1]]))]));
 			}
-			info.source.draw(gra);
+			//info.source.draw(gra);
+			source.draw(gra, info.matrix, null, null, null, true);
 
 
 		}

@@ -50,6 +50,7 @@ package library.patches
 		 */
 		override public function render(info:RenderInfo):void 
 		{
+			var source:BitmapData = info.source;
 			var radius:Number = 50;
 			xpos += radius - Math.random() * (radius * 2);
 			ypos += radius - Math.random() * (radius * 2);
@@ -70,8 +71,8 @@ package library.patches
 			
 			con.x += (xpos - con.x) * .05;
 			con.y += (ypos - con.y) * .05;
-			info.source.draw(con);
-
+			
+			source.draw(con, info.matrix, null, null, null, true);
 		}
 		
 		private function init(con:Sprite, img:BitmapData, n:int):void

@@ -40,6 +40,8 @@ package library.patches {
 		 */
 		private var _size:int			= 40;
 
+		private var _speed:int			= 60;
+
 		/**
 		 * 	@private
 		 */
@@ -48,7 +50,7 @@ package library.patches {
 		/**
 		 * 	@private
 		 */
-		private var timer:Timer		= new Timer(120);
+		private var timer:Timer			 = new Timer(_speed);;
 		
 		/**
 		 * 	@private
@@ -60,6 +62,24 @@ package library.patches {
 		 */
 		private var _font:Font;
 		
+		private var _showPreview:Boolean = true;
+		
+		/**
+		 * 	@private
+		 */
+		public function get speed():int
+		{
+			return _speed;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set speed(value:int):void
+		{
+			_speed = value;
+		}
+
 		/**
 		 * 	@constructor
 		 */
@@ -70,8 +90,10 @@ package library.patches {
 				new ParameterString('text', 'text'),
 				new ParameterColor('color', 'color'),
 				new ParameterInteger('size', 'size', 8, 100, 30),
+				new ParameterInteger('speed', 'speed', 8, 1000, _speed),
 				new ParameterExecuteFunction('start', 'typewriter'),
-				new ParameterBoolean('dropShadow', 'shadow')
+				new ParameterBoolean('dropShadow', 'shadow'),
+				new ParameterBoolean('showPreview', 'show preview')
 			);
 
 			label.autoSize 			= TextFieldAutoSize.LEFT,
@@ -97,7 +119,7 @@ package library.patches {
 		 * 
 		 */
 		public function set dropShadow(value:Boolean):void {
-			super.filters = (value) ? [new DropShadowFilter(2)] : [];
+			super.filters = (value) ? [new DropShadowFilter(4)] : [];
 		}
 		
 		public function get dropShadow():Boolean {
@@ -108,6 +130,7 @@ package library.patches {
 		 * 	
 		 */
 		public function start():void {
+			timer.delay = speed;
 			timer.addEventListener(TimerEvent.TIMER, _onTimer);
 			timer.start();
 			
@@ -119,7 +142,6 @@ package library.patches {
 		 */
 		private function _onTimer(event:TimerEvent):void {
 			label.text = tempText.substr(0, ++typeIndex);
-			
 			if (typeIndex >= tempText.length) {
 				timer.removeEventListener(TimerEvent.TIMER, _onTimer);
 				timer.stop();
@@ -130,11 +152,8 @@ package library.patches {
 		 * 	
 		 */
 		public function set text(value:String):void {
-			if (timer.running) {
-				tempText = value;
-			} else {
-				tempText = label.text = value;
-			}
+			tempText = value;
+			if (showPreview) label.text = value;
 		}
 		
 		/**
@@ -205,7 +224,25 @@ package library.patches {
 		 * 	
 		 */
 		override public function dispose():void {
-			timer.removeEventListener(TimerEvent.TIMER, _onTimer);
+			if (timer) timer.removeEventListener(TimerEvent.TIMER, _onTimer);
 		}
+
+		/**
+		 * 	@private
+		 */
+		public function get showPreview():Boolean
+		{
+			return _showPreview;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set showPreview(value:Boolean):void
+		{
+			_showPreview = value;
+			if ( _showPreview ) label.text = text else label.text = "";
+		}
+
 	}
 }

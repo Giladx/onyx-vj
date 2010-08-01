@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -40,12 +41,15 @@ package library.patches {
 		 */
 		private var _size:int			= 40;
 
-		private var _speed:int			= 60;
-
 		/**
 		 * 	@private
 		 */
 		private var tempText:String		= '';
+
+		/**
+		 * 	@private
+		 */
+		private var _speed:int			= 60;
 
 		/**
 		 * 	@private
@@ -64,22 +68,6 @@ package library.patches {
 		
 		private var _showPreview:Boolean = true;
 		
-		/**
-		 * 	@private
-		 */
-		public function get speed():int
-		{
-			return _speed;
-		}
-
-		/**
-		 * @private
-		 */
-		public function set speed(value:int):void
-		{
-			_speed = value;
-		}
-
 		/**
 		 * 	@constructor
 		 */
@@ -242,6 +230,22 @@ package library.patches {
 		{
 			_showPreview = value;
 			if ( _showPreview ) label.text = text else label.text = "";
+		}
+		
+		/**
+		 * 	get speed
+		 */
+		public function get speed():int
+		{
+			return _speed;
+		}
+		
+		/**
+		 * set speed
+		 */
+		public function set speed(value:int):void
+		{
+			_speed = value;
 		}
 
 	}

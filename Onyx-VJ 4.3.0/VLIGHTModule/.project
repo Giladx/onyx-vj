@@ -18,7 +18,7 @@
 		<link>
 			<name>bin-debug</name>
 			<type>2</type>
-			<locationURI>DOCUMENTS/4.2.1/InstallPackage/root/plugins/modules</locationURI>
+			<locationURI>DOCUMENTS/InstallPackage/root/plugins/modules</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

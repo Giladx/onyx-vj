@@ -34,7 +34,7 @@ package plugins {
 			
 				// modules
 				new Plugin('Recorder', 				Recorder, 			'Recorder'),
-				//new Plugin('Performance', 			PerformanceMonitor, 'Performance'),
+				new Plugin('Performance', 			PerformanceMonitor, 'Performance'),
 				
 				// bitmap filters
 				new Plugin('Chess',                 ChessFilter,    'Alpha chesstable effect'),

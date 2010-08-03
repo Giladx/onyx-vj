@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
@@ -54,6 +54,7 @@ package library.patches {
 		private var pallete:Bitmap;
 		private var shifts:Array;
 		private var shifts2:Array;
+		private var _waveDistance:int = 50;
 		
 		private const source:BitmapData	= createDefaultBitmap(); 		
 		/**
@@ -63,12 +64,14 @@ package library.patches {
 			Console.output('FireBending 4.0.503');
 			Console.output('Credits to Edik RUZGA');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
-			_color = 0xFF4400;
+			_color = 0xFF44FF;
 			parameters.addParameters(
-				new ParameterColor('color', 'color')
+				new ParameterColor('color', 'color'),
+				new ParameterInteger('waveDistance', 'wave distance', 1, 100, _waveDistance),
+				new ParameterExecuteFunction('clear', 'clear')
 			)
 
-			map = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT,false,0x888888);
+			map = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT,false,0x000000);
 			dm = new DisplacementMapFilter(new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT,false,0),
 				new Point(),BitmapDataChannel.BLUE,BitmapDataChannel.GREEN,50,50);
 			p = new Sprite();	
@@ -76,10 +79,8 @@ package library.patches {
 			shifts2 = [new Point(1,1),new Point(1,-1)];
 			bmp2 = new Bitmap( map );
 			addChild(bmp2);
-			/* bmp2.scaleX = 2;
-			bmp2.scaleY = 2; */ 
 			
-			for (var xx:int=0; xx<bmp2.bitmapData.width; xx++) 
+			/*for (var xx:int=0; xx<bmp2.bitmapData.width; xx++) 
 			{
 				for (var yy:int=0; yy<bmp2.bitmapData.height; yy++) 
 				{
@@ -90,7 +91,7 @@ package library.patches {
 					map.setPixel( xx, yy, int( 127 + dl + int( ( 127 + dl * Math.cos( ang ) * 127 ) << 8 ) ) );
 						
 				}
-			}
+			}*/
 			addEventListener( InteractionEvent.MOUSE_DOWN, mouseDown );
 			addEventListener( InteractionEvent.MOUSE_UP, mouseUp );
 			addEventListener( InteractionEvent.MOUSE_MOVE, mouseMove );
@@ -101,14 +102,28 @@ package library.patches {
 		public function get color():uint {
 			return _color;
 		}
+		/**
+		 * 	
+		 */
+		public function clear():void {
+			p.graphics.clear();
+		}
 		private function mouseDown(event:InteractionEvent):void 
 		 {
+			mx = event.localX; 
+			my = event.localY; 
+			lastX = mx;
+			lastY = my;
 			buttonMode=true;
 			addEventListener(InteractionEvent.MOUSE_UP, mouseUp);		 
 		} 
 		private function mouseUp(event:InteractionEvent):void 
 		 {
 			buttonMode=false;
+			mx = event.localX; 
+			my = event.localY; 
+			lastX = mx;
+			lastY = my;
 			removeEventListener(InteractionEvent.MOUSE_UP, mouseUp);
 		} 
 		private function mouseMove(event:InteractionEvent):void {
@@ -135,8 +150,8 @@ package library.patches {
 							new GraphicsPath(Vector.<int>([1,2]),
 							Vector.<Number>( [lastX, lastY, mx, my] ) )]));
 			}
-			dm.scaleX = ( mx - ( DISPLAY_WIDTH/2 ) ) / 5; 
-			dm.scaleY = ( my - ( DISPLAY_HEIGHT/2 ) ) / 5; 
+			dm.scaleX = ( mx - ( DISPLAY_WIDTH/2 ) ) / waveDistance; 
+			dm.scaleY = ( my - ( DISPLAY_HEIGHT/2 ) ) / waveDistance; 
 			lastX = mx;
 			lastY = my;
 			bmp2.bitmapData.draw(p);
@@ -151,5 +166,16 @@ package library.patches {
 			removeEventListener(InteractionEvent.MOUSE_DOWN, mouseDown);
 			removeEventListener(InteractionEvent.MOUSE_UP, mouseUp);
 		}
+
+		public function get waveDistance():int
+		{
+			return _waveDistance;
+		}
+
+		public function set waveDistance(value:int):void
+		{
+			_waveDistance = value;
+		}
+
 	}
 }

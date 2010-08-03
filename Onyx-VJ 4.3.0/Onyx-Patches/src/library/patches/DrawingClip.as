@@ -31,7 +31,6 @@
 package library.patches {
 	
 	import flash.display.*;
-	import flash.events.MouseEvent;
 	import flash.filters.BlurFilter;
 	import flash.geom.*;
 	
@@ -86,10 +85,10 @@ package library.patches {
 		/**
 		 * 	@private
 		 */
-		private function mouseDown(event:MouseEvent):void {
+		private function mouseDown(event:InteractionEvent):void {
 			
-			addEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
-			addEventListener(MouseEvent.MOUSE_UP, _mouseUp);
+			addEventListener(InteractionEvent.MOUSE_MOVE, _mouseMove);
+			addEventListener(InteractionEvent.MOUSE_UP, _mouseUp);
 			
 			last.x = event.localX;
 			last.y = event.localY;
@@ -100,11 +99,11 @@ package library.patches {
 		/**
 		 * 	@private
 		 */
-		private function _mouseMove(event:MouseEvent):void {
+		private function _mouseMove(event:InteractionEvent):void {
 			
 			switch (type) {
 				case 'circle':
-					graphics.drawCircle(event.localX, event.localY, size);
+					graphics.drawCircle(event.localX, event.localY, size * event.amount);
 					break;
 				case 'square':
 					graphics.drawRect(event.localX - size / 2, event.localY - size / 2, size, size);
@@ -155,9 +154,9 @@ package library.patches {
 		/**
 		 * 	@private
 		 */
-		private function _mouseUp(event:MouseEvent):void {
-			removeEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
-			removeEventListener(MouseEvent.MOUSE_UP, _mouseUp);
+		private function _mouseUp(event:InteractionEvent):void {
+			removeEventListener(InteractionEvent.MOUSE_MOVE, _mouseMove);
+			removeEventListener(InteractionEvent.MOUSE_UP, _mouseUp);
 		}
 		
 		/**
@@ -167,9 +166,9 @@ package library.patches {
 
 			source.dispose();
 			
-			removeEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
-			removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-			removeEventListener(MouseEvent.MOUSE_UP, _mouseUp);
+			removeEventListener(InteractionEvent.MOUSE_MOVE, _mouseMove);
+			removeEventListener(InteractionEvent.MOUSE_DOWN, mouseDown);
+			removeEventListener(InteractionEvent.MOUSE_UP, _mouseUp);
 
 		}
 	}

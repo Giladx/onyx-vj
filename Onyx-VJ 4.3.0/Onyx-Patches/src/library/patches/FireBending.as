@@ -19,12 +19,12 @@
  */
 package library.patches {
 	import flash.display.*;
-	import flash.events.*;
 	import flash.filters.*;
 	import flash.geom.*;
 	import flash.utils.ByteArray;
 	
 	import onyx.core.*;
+	import onyx.events.InteractionEvent;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 
@@ -91,9 +91,9 @@ package library.patches {
 						
 				}
 			}
-			addEventListener( MouseEvent.MOUSE_DOWN, mouseDown );
-			addEventListener( MouseEvent.MOUSE_UP, mouseUp );
-			addEventListener( MouseEvent.MOUSE_MOVE, mouseMove );
+			addEventListener( InteractionEvent.MOUSE_DOWN, mouseDown );
+			addEventListener( InteractionEvent.MOUSE_UP, mouseUp );
+			addEventListener( InteractionEvent.MOUSE_MOVE, mouseMove );
 		}
 		public function set color(value:uint):void {
 			_color = value;
@@ -101,17 +101,17 @@ package library.patches {
 		public function get color():uint {
 			return _color;
 		}
-		private function mouseDown(event:MouseEvent):void 
+		private function mouseDown(event:InteractionEvent):void 
 		 {
 			buttonMode=true;
-			addEventListener(MouseEvent.MOUSE_UP, mouseUp);		 
+			addEventListener(InteractionEvent.MOUSE_UP, mouseUp);		 
 		} 
-		private function mouseUp(event:MouseEvent):void 
+		private function mouseUp(event:InteractionEvent):void 
 		 {
 			buttonMode=false;
-			removeEventListener(MouseEvent.MOUSE_UP, mouseUp);
+			removeEventListener(InteractionEvent.MOUSE_UP, mouseUp);
 		} 
-		private function mouseMove(event:MouseEvent):void {
+		private function mouseMove(event:InteractionEvent):void {
 			mx = event.localX; 
 			my = event.localY; 
 		}
@@ -147,6 +147,9 @@ package library.patches {
 		
 		override public function dispose():void {
 			source.dispose();
+			removeEventListener(InteractionEvent.MOUSE_MOVE, mouseMove);
+			removeEventListener(InteractionEvent.MOUSE_DOWN, mouseDown);
+			removeEventListener(InteractionEvent.MOUSE_UP, mouseUp);
 		}
 	}
 }

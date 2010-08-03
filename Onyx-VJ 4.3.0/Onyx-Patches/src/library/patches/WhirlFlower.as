@@ -39,7 +39,7 @@ package library.patches
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
-	[SWF(width='460', height='368', frameRate='24', backgroundColor='#FFFFFF')]
+	[SWF(width='460', height='368', frameRate='5', backgroundColor='#FFFFFF')]
 	public class WhirlFlower extends Patch
 	{
 		/**
@@ -57,6 +57,8 @@ package library.patches
 		 */
 		private var petalIndex:int			= 0;
 		
+		private var _radius:Number = 50;
+
 		private var _maxPetals:int			= 40;
 		
 		private var img:BitmapData;
@@ -70,11 +72,11 @@ package library.patches
 			Console.output('Credits to Faseer (http://wonderfl.net/user/faseer)');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
 			parameters.addParameters(
-				new ParameterInteger('speed', 'speed', 8, 1000, _speed),
-				new ParameterInteger('maxPetals', 'max petals', 1, 1000, _maxPetals),
+				new ParameterInteger('speed', 'gen speed', 8, 10000, _speed),
+				new ParameterInteger('maxPetals', 'max petals', 1, 100000, _maxPetals),
+				new ParameterInteger('radius', 'radius', 1, 1000, _radius),
 				new ParameterExecuteFunction('start', 'generate')
 			);
-			createBG(0x333333);
 			
 			img = createImage();
 			
@@ -93,7 +95,6 @@ package library.patches
 			if (n>0)
 			{
 				var source:BitmapData = info.source;
-				var radius:Number = 50;
 				xpos += radius - Math.random() * (radius * 2);
 				ypos += radius - Math.random() * (radius * 2);
 				if (xpos < 240 - radius) xpos = 240 - radius;
@@ -107,7 +108,7 @@ package library.patches
 					s = con.getChildAt(i) as Sprite;
 					s.getChildAt(0).x = con.x - 240;
 					s.getChildAt(0).y = con.y - 240;
-					s.rotation += (con.x - 240) * i * .05;
+					s.rotation += (con.x - 240) * i * .005;
 				}
 				
 				con.x += (xpos - con.x) * .05;
@@ -141,6 +142,10 @@ package library.patches
 		 * 	
 		 */
 		public function start():void {
+			for (var i:int = 0; i < con.numChildren; ++i)
+			{
+				con.removeChildAt(i);
+			}
 			timer.delay = speed;
 			timer.addEventListener(TimerEvent.TIMER, _onTimer);
 			timer.start();
@@ -187,14 +192,7 @@ package library.patches
 			
 			return bd;
 		}
-		private function createBG(color:uint):Shape
-		{
-			var s:Shape = addChild(new Shape()) as Shape;
-			s.graphics.beginFill(color);
-			s.graphics.drawRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-			s.graphics.endFill();
-			return s;
-		}
+
 		/**
 		 * 	get speed
 		 */
@@ -226,5 +224,22 @@ package library.patches
 		{
 			_maxPetals = value;
 		}		
+
+		/**
+		 * 	@private
+		 */
+		public function get radius():Number
+		{
+			return _radius;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set radius(value:Number):void
+		{
+			_radius = value;
+		}
+
 	}
 }

@@ -65,7 +65,7 @@ package library.patches {
 
 		private function mouseDown(event:MouseEvent):void {
 			
-			addEventListener(MouseEvent.MOUSE_MOVE, _mouseMove);
+			addEventListener(InteractionEvent.MOUSE_MOVE, _mouseMove);
 			
 			last.x = event.localX;
 			last.y = event.localY;
@@ -113,6 +113,8 @@ package library.patches {
 			for each (var branch:Branch in branches) {
 				branch.dispose();
 			}
+			removeEventListener(InteractionEvent.MOUSE_MOVE, _mouseMove);
+			removeEventListener(InteractionEvent.MOUSE_DOWN, mouseDown);
 		}		
 	}// Class
 } //Package

@@ -38,7 +38,7 @@ package onyx.events {
 		/**
 		 * 	@param
 		 * 	How hard the item is being pressed -- defaults to 1 if it's a mouse interaction
-		 * 	0-1 if coming from a wacome event
+		 * 	0-1 if coming from a wacom event
 		 */
 		public var amount:Number	= 1;
 

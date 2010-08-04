@@ -112,6 +112,7 @@ package library.patches {
 		 {
 			mx = event.localX; 
 			my = event.localY; 
+			Console.output('amount:'+event.amount);
 			lastX = mx;
 			lastY = my;
 			buttonMode=true;

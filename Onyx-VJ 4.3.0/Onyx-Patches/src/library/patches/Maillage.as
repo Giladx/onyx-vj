@@ -43,36 +43,21 @@ package library.patches
 	
 	import onyx.core.RenderInfo;
 	import onyx.events.InteractionEvent;
-	import onyx.parameter.ParameterExecuteFunction;
-	import onyx.parameter.ParameterInteger;
-	import onyx.parameter.ParameterNumber;
-	import onyx.plugin.DISPLAY_HEIGHT;
-	import onyx.plugin.DISPLAY_RECT;
-	import onyx.plugin.DISPLAY_WIDTH;
-	import onyx.plugin.ONYX_POINT_IDENTITY;
-	import onyx.plugin.Patch;
-	import onyx.plugin.createDefaultBitmap;
+	import onyx.parameter.*;
+	import onyx.plugin.*;
 	
 	/**
 	 *  
 	 */
 	public class Maillage extends Patch 
 	{
-		/*public var generateBtn:Button;
-		public var loadBtn:Button;*/
-		/*public var pictureTxt:TextField;
-		public var celluleTxt:TextField;
-		public var colorTxt:TextField;
-		public var alphaTxt:TextField;*/
-		//public var comboMc:ComboBox;
-		
 		private var cellules:Vector.<Cellule> = new Vector.<Cellule>();
 		private var bd:BitmapData = createDefaultBitmap();
 		private var a:Number = 0;
 		private var txt:TextField;
 		private var _colorTransformCount:int = 30;
 		private var _alphaMultiplier:Number = .9;
-		private var _nbCells:int = 50;
+		private var _nbCells:int = 5000;
 		private var ct:ColorTransform = new ColorTransform();
 		private var pict:BitmapData	= createDefaultBitmap();
 		private const source:BitmapData	= createDefaultBitmap(); 		
@@ -87,8 +72,8 @@ package library.patches
 			parameters.addParameters(
 				new ParameterInteger('colorTransformCount', 'colorTransformCount', 1, 100, _colorTransformCount),
 				new ParameterNumber('alphaMultiplier', 'alphaMultiplier', 0.01, 1, _alphaMultiplier),
-				new ParameterInteger('nbCells', 'nbCells', 1, 1000000, _nbCells)/*,
-				new ParameterExecuteFunction('initAnim', 'start')*/
+				new ParameterInteger('nbCells', 'nbCells', 1, 1000000, _nbCells),
+				new ParameterExecuteFunction('initAnim', 'start')
 			);
 			
 			//j'instancie le CircleBorder pour q'il me prepare les coordonnées des pixels
@@ -101,9 +86,9 @@ package library.patches
 			addEventListener(InteractionEvent.MOUSE_DOWN, initAnim);
 		}
 		
-		public function initAnim(e:InteractionEvent ):void {
-			trace("initAnim");
-			bd.fillRect(bd.rect, 0x00FF0000);
+		public function initAnim( e:InteractionEvent = null ):void 
+		{
+			bd.fillRect(bd.rect, 0x00000000);
 			
 			ct.alphaMultiplier = alphaMultiplier;
 			
@@ -116,10 +101,11 @@ package library.patches
 			m.scale(scale,scale);
 			m.translate( -(_pict.width * scale - DISPLAY_WIDTH) / 2, 0);
 			
-			//pict = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0);
 			pict.draw(_pict, m);
 			
 			//j'instancie plein de cellule un peu partout
+			cellules.fixed = false;
+			cleanVector();
 			var i:int,initX:int,initY:int;
 			for (i = 0; i < nbCells; i++) {
 				initX = int(Math.round(Math.random() * bd.width));
@@ -129,7 +115,14 @@ package library.patches
 			cellules.fixed = true;
 			structureIsAlive = true;
 		}
-		
+		private function cleanVector():void
+		{
+			while ( cellules.length > 0 )
+			{
+				cellules.pop();
+			}	
+
+		}		
 		/**
 		 * 
 		 */
@@ -138,12 +131,12 @@ package library.patches
 			if (structureIsAlive)
 			{
 				var i:int;
-				var nb:int = cellules.length;
+				//var nb:int = cellules.length;
 				var b:Boolean = false;
 				var cellule:Cellule;
 				
 				//j'update tout les cellules
-				for (i = 0; i < nb; i++) {
+				for (i = 0; i < cellules.length; i++) {
 					cellule =  cellules[i] as Cellule;
 					cellules[i].update();
 					
@@ -154,20 +147,16 @@ package library.patches
 				
 				//si j'appliquais l'effet de transparence en continue, les petites cellules disparaitraient trop vite
 				//j'ai donc mis un compteur permettant de mieux controler cet effet
-				
 				colorTransformCount --;
 				if (colorTransformCount > 0) bd.colorTransform(bd.rect, ct);
-				else if (!structureIsAlive) {
-					
-					//si l'effet de degradé a fini d'être appliqué , et qu'aucune cellule n'est en vie, 
-					//on stop l'animation.
-					//removeEventListener(Event.ENTER_FRAME, update);
-				}
+
 				info.source.copyPixels(bd, DISPLAY_RECT, ONYX_POINT_IDENTITY);
 			}
 		}
 		override public function dispose():void 
 		{
+			cleanVector();
+			cellules = null;
 			removeEventListener(InteractionEvent.MOUSE_DOWN, initAnim);
 		}
 

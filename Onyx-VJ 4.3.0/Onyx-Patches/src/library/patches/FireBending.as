@@ -29,7 +29,7 @@ package library.patches {
 	import onyx.plugin.*;
 
 	
-	[SWF(width='320', height='240', frameRate='24', backgroundColor='#FFFFFF')]
+	/*[SWF(width='320', height='240', frameRate='24', backgroundColor='#FFFFFF')]*/
 	public class FireBending extends Patch 
 	{
 		protected var bd : BitmapData;
@@ -96,16 +96,19 @@ package library.patches {
 			addEventListener( InteractionEvent.MOUSE_UP, mouseUp );
 			addEventListener( InteractionEvent.MOUSE_MOVE, mouseMove );
 		}
-		public function set color(value:uint):void {
+		public function set color(value:uint):void 
+		{
 			_color = value;
 		}
-		public function get color():uint {
+		public function get color():uint 
+		{
 			return _color;
 		}
 		/**
 		 * 	
 		 */
-		public function clear():void {
+		public function clear():void 
+		{
 			p.graphics.clear();
 		}
 		private function mouseDown(event:InteractionEvent):void 
@@ -127,7 +130,8 @@ package library.patches {
 			lastY = my;
 			removeEventListener(InteractionEvent.MOUSE_UP, mouseUp);
 		} 
-		private function mouseMove(event:InteractionEvent):void {
+		private function mouseMove(event:InteractionEvent):void 
+		{
 			mx = event.localX; 
 			my = event.localY; 
 		}

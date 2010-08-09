@@ -33,7 +33,7 @@ package library.patches
 	public class Aerodynamic extends Patch 
 	{
 		private var BallBitmaps:Array = [];
-		private var b:MovieClip = new Ball();
+		private var b:Ball = new Ball();
 		private var m:Matrix = new Matrix();
 	
 		private var lastBmp:Bitmap = new Bitmap();
@@ -103,6 +103,7 @@ package library.patches
 			addChildAt(new Bitmap(viewPort),0);
 			
 			addEventListener( InteractionEvent.MOUSE_DOWN, move );
+			addEventListener( InteractionEvent.MOUSE_MOVE, mouseMove );
 		}	
 		/**
 		 * 	Render graphics
@@ -129,9 +130,8 @@ package library.patches
 					-day*p2+Math.max(p4,Math.round(day)*p3)*(Math.random()-0.5),
 					originalWidth-2));
 			}
-			mlx=mouseX;
-			mly=mouseY;
-			//parts.text = "Particles flying:"+ps.length;
+			mlx=mx;
+			mly=my;
 			var l:uint=ps.length;
 			viewPort.colorTransform(viewPort.rect,ct);
 			//viewPort.fillRect(viewPort.rect,0);
@@ -158,18 +158,38 @@ package library.patches
 			info.source.copyPixels(viewPort, DISPLAY_RECT, ONYX_POINT_IDENTITY);
 		}
 	
-		private function move(e:InteractionEvent):void{
+		private function move(e:InteractionEvent):void
+		{
 			mx = e.localX;
 			my = e.localY;
 			var dx:Number = mx-mlx;
 			var dy:Number = my-mly;
 			for(var j:uint=0;j<generate;j++){
 				var m:Number = Math.random();
-				ps.push(new ParticleBase2(mouseX-dx*m,mouseY-dy*m,
+				ps.push(new ParticleBase2(mx-dx*m,my-dy*m,
 					-dax*p2+Math.max(p4,Math.round(dax)*p3)*(Math.random()-0.5),
 					-day*p2+Math.max(p4,Math.round(day)*p3)*(Math.random()-0.5),
 					originalWidth-2));
 			}
 		}
+		private function mouseMove(event:InteractionEvent):void 
+		{
+			mx = event.localX; 
+			my = event.localY; 
+		}
  }
+}
+import flash.display.Sprite;
+import flash.filters.GlowFilter;
+
+class Ball extends Sprite
+{
+	public var realx:int;
+	public var realy:int;
+	public function Ball():void
+	{
+		graphics.beginFill(0xFF00FF);
+		graphics.drawCircle(0, 0, 3);
+		graphics.endFill();		
+	}
 }

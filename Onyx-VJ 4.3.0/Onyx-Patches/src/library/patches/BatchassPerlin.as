@@ -35,7 +35,7 @@ package library.patches {
 		private var _stitch:Boolean = false;
 		private var _fractal:Boolean = true;
 		private var _grayScale:Boolean = false;
-		private var _channels:int = 1;
+		private var _channels:int = 7;
 		private var _xSpeed:int = 2;
 		private var _ySpeed:int = 5;
 		private var point1:Point = new Point(0, 0);

@@ -188,7 +188,7 @@ package library.patches
 			sprite.addChild(bmp);
 			
 			// Create bitmap data for fading into black
-			blackBitmap = new BitmapData(sw2, sh2, false, 0xFF000000);
+			blackBitmap = new BitmapData(sw2, sh2, true, 0x00FF0000);
 			
 			// Bitmap is moved over into position then halved in size to run faster
 			m = new Matrix();

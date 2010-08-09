@@ -12,6 +12,9 @@ package library.patches {
 	import flash.filters.GlowFilter;
 	import flash.geom.ColorTransform;
 	
+	import onyx.core.*;
+	import onyx.events.InteractionEvent;
+	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
 	import org.papervision3d.core.effects.BitmapColorEffect;
@@ -42,7 +45,7 @@ package library.patches {
 		public function WaterFall() {
 /*			stage.frameRate = 30;
 			stage.quality = StageQuality.LOW;*/
-			_bg = Painter.createColorRect(DISPLAY_WIDTH, DISPLAY_HEIGHT, 0x000000);
+			_bg = Painter.createColorRect(DISPLAY_WIDTH, DISPLAY_HEIGHT, 0x00FF00);
 			addChild(_bg);
 			_texture = new Texture();
 			_texture.addImage("http://assets.wonderfl.net/images/related_images/1/15/15d5/15d555224e78afd2bb8f004fbdf8835cfec21f9d", "stone");
@@ -90,8 +93,8 @@ package library.patches {
 			onMoveCamera();
 			//シミュレーション開始
 			_waterView.startRendering();
-			addEventListener(Event.ENTER_FRAME, simulate);
 		}
+
 		/**
 		 * スクリーン座標を取得する
 		 */
@@ -154,7 +157,12 @@ package library.patches {
 		 * 水のシミュレーション
 		 * （色々処理をはしょってるので滑らかな地形以外ではバグります）
 		 */
-		private function simulate(...rest):void {
+		/**
+		 * 	Render graphics
+		 */
+		override public function render(info:RenderInfo):void 
+		{
+		//private function simulate(...rest):void {
 			var i:int, w:WaterDrop, px:Number, pz:Number, h:Number, vx:Number, vz:Number, ix:int, iz:int, per:Number;
 			//滝の水を追加しつづける
 			for (i = 0; i < 8; i++) addWater(Param.tapPosition.x + Math.random() * 160 - 80, Param.tapPosition.y, Param.tapPosition.z - Math.random() * 10).vz = Math.random() * -5 - 7;
@@ -210,6 +218,8 @@ package library.patches {
 			}
 			_effect.enterFrame();
 			_effect.bitmapData.unlock();
+			info.source.copyPixels( _effect.bitmapData, DISPLAY_RECT, ONYX_POINT_IDENTITY );
+
 		}
 	}
 }

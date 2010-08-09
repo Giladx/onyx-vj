@@ -160,8 +160,8 @@ package library.patches
 	
 		private function move(e:InteractionEvent):void
 		{
-			mx = e.localX;
-			my = e.localY;
+			//mx = e.localX;
+			//my = e.localY;
 			var dx:Number = mx-mlx;
 			var dy:Number = my-mly;
 			for(var j:uint=0;j<generate;j++){

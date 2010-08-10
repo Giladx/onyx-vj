@@ -14,6 +14,8 @@
  * Please visit http://www.onyx-vj.com for more information
  * To recompile the cpp file, follow instructions on:
  * http://insideria.com/2009/04/setting-up-adobe-alchemy.html
+ * 		alc-on;
+ * 		gcc menger.cpp -O3 -Wall -swc -o menger.swc
  * 
  * ray tracing a menger sponge
  * author 	   : frank reitberger
@@ -66,9 +68,11 @@ package library.patches
 
 		protected var rayLib		:Object;
 		private var mode            :int       = 1;
-		private var size            :int       = 230;
+		// must match exactly the values in menger.cpp
+		private var w            	:int       = 460;
+		private var h            	:int       = 380;
 		private var mtr             :Matrix    = new Matrix( 1, 0, 0, -1 );
-		private var rect            :Rectangle = new Rectangle( 0, 0, size, size );
+		private var rect            :Rectangle = new Rectangle( 0, 0, w, h );
 		private var upRect          :Rectangle = new Rectangle( 0, 0, 480, 480 );
         private var time			:Number    = 0;
 		private var prevTime		:int       = 0;
@@ -95,7 +99,7 @@ package library.patches
 		
 		public function Menger() {
 			
-			bmd 			  = new BitmapData( size, size, false, 0xFF0000 );
+			bmd 			  = new BitmapData( w, h, false, 0xFF0000 );
 			var bitmap:Bitmap = new Bitmap( bmd, PixelSnapping.AUTO, true );
 			bitmap.scaleX = bitmap.scaleY = 2.2;
 			
@@ -120,7 +124,7 @@ package library.patches
 			var ns :Namespace = new Namespace( "cmodule.menger");
 			alchemyMemory = (ns::gstate).ds;
 
-			var memPointer :int    = rayLib.allocMem( size, size );
+			var memPointer :int    = rayLib.allocMem( w, h );
 			alchemyMemory.position = memPointer;
 			
 		}
@@ -139,8 +143,8 @@ package library.patches
 	
 	            prevTime = getTimer();
 				
-				var ex:Number = 0.5 + sin(time * 0.5)  * acc;
-				var ey:Number = 0.5 + cos(time * 0.47) * acc;
+				var ex:Number = 0.5 + sin(time * 0.05)  * acc;
+				var ey:Number = 0.5 + cos(time * 0.047) * acc;
 				var ez:Number = -time * 0.3 + sin(time * 0.3 - 0.01);
 				
 				

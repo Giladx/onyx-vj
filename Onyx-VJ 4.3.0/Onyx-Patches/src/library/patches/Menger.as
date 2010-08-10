@@ -12,19 +12,17 @@
  * You may obtain a copy of the License at: http://creativecommons.org/licenses/by-nc-sa/3.0/us/
  *
  * Please visit http://www.onyx-vj.com for more information
+ * To recompile the cpp file, follow instructions on:
+ * http://insideria.com/2009/04/setting-up-adobe-alchemy.html
  * 
+ * ray tracing a menger sponge
+ * author 	   : frank reitberger
+ * contact    : frank@prinzipiell.com
+ * blog 	   : http://www.prinzipiell.com
+ * copyright 2010
+ * 
+ * Adapted by Bruce LANE (http://www.batchass.fr)
  */
-////////////////////////////////////////////////////
-//  ray tracing a menger sponge
-//
-//	author 	   : frank reitberger
-//	contact    : frank@prinzipiell.com
-//	blog 	   : http://www.prinzipiell.com
-// 
-//  copyright 2010
-/////////////////////////////////////////////////////
-
-
 
 package library.patches
 {
@@ -67,7 +65,6 @@ package library.patches
 		protected var alchemyMemory :ByteArray;
 
 		protected var rayLib		:Object;
-		private var panel           :panelClip;
 		private var mode            :int       = 1;
 		private var size            :int       = 230;
 		private var mtr             :Matrix    = new Matrix( 1, 0, 0, -1 );
@@ -102,12 +99,7 @@ package library.patches
 			var bitmap:Bitmap = new Bitmap( bmd, PixelSnapping.AUTO, true );
 			bitmap.scaleX = bitmap.scaleY = 2.2;
 			
-			panel             = new panelClip();
-			panel.y           = 464;
-			
 			addChild( bitmap );
-			addChild( panel );
-			
 			
 			///////////////////////////////////
 			// setup: raytracer
@@ -139,8 +131,6 @@ package library.patches
 		override public function render(info:RenderInfo):void {
 			if (bmd)
 			{
-				
-				//var source:BitmapData = info.source;
 				var tStamp:Number = time * 0.1;
 				
 	            sn    = sin(tStamp);
@@ -165,31 +155,9 @@ package library.patches
 				bmd.unlock( rect );
 				
 				info.source.draw(bmd, info.matrix, null, null, null, true);
-				cntFPS();
 			}
 			
 		}
 		
-		
-		// --------------------------------------------------------------------------------------------------
-		
-		///////////////////////////////////
-		// fps
-		///////////////////////////////////			
-		
-		public function cntFPS():void {
-
-			if ( getTimer() - 1000 > this.ms ) {
-				 
-				 this.ms 	    = getTimer();
-				 panel.fpsTxt.text = ( this.fs ).toString() + " FPS ";
-				 this.fs 	    = 0;
-			
-			} else {
-
-				++this.fs;
-			}
-			
-		}		
 	}
 }

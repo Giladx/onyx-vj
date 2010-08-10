@@ -8,8 +8,8 @@
 #include <math.h>
 
 
-const int screenWidth  = 230;
-const int screenHeight = 230;
+const int screenWidth  = 460;
+const int screenHeight = 380;
 
 int pixels[screenWidth*screenHeight];
 

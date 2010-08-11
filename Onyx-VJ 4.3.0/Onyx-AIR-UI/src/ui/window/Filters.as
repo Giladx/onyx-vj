@@ -112,8 +112,8 @@ package ui.window {
 			options.width				= 65;
 			
 			allButton		= new TextButton(options, 'ALL');
-			bitmapButton	= new TextButton(options, 'FILTER');
-			tempoButton		= new TextButton(options, 'FAV');
+			bitmapButton	= new TextButton(options, 'BITMAP');
+			tempoButton		= new TextButton(options, 'TEMPO');
 			
 			allButton.addEventListener(MouseEvent.MOUSE_DOWN, handler);
 			bitmapButton.addEventListener(MouseEvent.MOUSE_DOWN, handler);

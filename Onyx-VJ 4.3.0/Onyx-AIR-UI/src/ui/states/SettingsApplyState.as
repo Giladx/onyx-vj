@@ -39,7 +39,7 @@ package ui.states {
 		 */
 		override public function initialize():void {
 			
-			// SC: try to register default windows and status  here
+			// SC: try to register default windows and status here
 			WindowRegistration.register(
 				new WindowRegistration('FILE BROWSER',	Browser),
 				new WindowRegistration('CONSOLE',		ConsoleWindow),

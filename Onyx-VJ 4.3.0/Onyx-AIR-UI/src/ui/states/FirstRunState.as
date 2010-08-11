@@ -93,6 +93,9 @@ package ui.states {
 			var window:NativeWindow		= stage.nativeWindow;
 			window.x					= 0;
 			window.y					= 0;
+			//base these values on Onyx-AIR-Main Main.as: [SWF(width="1400", height="850",
+			window.width				= 1300; 
+			window.height				= 850;
 							
 			// activate the window
 			DISPLAY_STAGE.nativeWindow.activate();

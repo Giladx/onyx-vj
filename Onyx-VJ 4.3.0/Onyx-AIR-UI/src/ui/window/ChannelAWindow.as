@@ -15,26 +15,19 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
-		private const channelA:Bitmap	= new Bitmap(Display.channelA, PixelSnapping.ALWAYS, false);
-		
-		/**
-		 * 	@private
-		 */
-		private var maximizeButton:TextButton;
-		
-		private var _current:int = 0;
-		
+		private const channelA:Bitmap	= new Bitmap(Display.channelA, PixelSnapping.ALWAYS, true);
+				
 		/**
 		 * 	Constructor
 		 */
 		public function ChannelAWindow(reg:WindowRegistration):void {
 			
-			super(reg, true, 240, 200);
+			super(reg, true, 240, 230);
 			
 			channelA.x		= 5;
 			channelA.y		= 17;
 			channelA.width	= 230;
-			channelA.height	= 172;
+			channelA.height	= 192;
 			addChild(channelA);
 			
 			// make draggable

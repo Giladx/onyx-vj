@@ -130,6 +130,6 @@
 		</fileType>
 	</fileTypes>
 	
-	<supportedProfiles>extendedDesktop</supportedProfiles>
+	<supportedProfiles>extendedDesktop desktop</supportedProfiles>
 	
 </application>

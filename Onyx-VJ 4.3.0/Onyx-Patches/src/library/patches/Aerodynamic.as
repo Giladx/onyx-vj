@@ -32,13 +32,7 @@ package library.patches
 	[SWF(width='320', height='240', frameRate='24', backgroundColor='#FFFFFF')]
 	public class Aerodynamic extends Patch 
 	{
-		private var BallBitmaps:Array = [];
-		private var b:Ball = new Ball();
-		private var m:Matrix = new Matrix();
-	
 		private var lastBmp:Bitmap = new Bitmap();
-		private var originalWidth:Number = b.width;
-		private var originalHeight:Number = b.height;
 		private var torad:Number = Math.PI/180;
 		private var fade:Number=0.1;
 		private var p1:Number=0.9;
@@ -61,7 +55,14 @@ package library.patches
 		private var dp:Point = new Point();
 		private var viewPort:BitmapData = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT,true,0);
 		private var ps:Vector.<ParticleBase2> = new Vector.<ParticleBase2>();
+		private var _color:uint = 0x00DD44;
 		
+		private var BallBitmaps:Array = [];
+		private var b:Ball = new Ball( _color);
+		private var originalWidth:Number = b.width;
+		private var originalHeight:Number = b.height;
+		private var m:Matrix = new Matrix();
+	
 		/**
 		 * 	@constructor
 		 */
@@ -70,10 +71,9 @@ package library.patches
 			Console.output('Aerodynamic');
 			Console.output('Edik Ruzga (http://wonderwhy-er.deviantart.com)');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
-			/*parameters.addParameters(
-				new ParameterInteger( 'octaves', 'octaves', 1, 10, _octaves )
-
-			)*/ 
+			parameters.addParameters(
+				new ParameterColor('color', 'color')
+			) 
 			lastBmp.x=0;
 			lastBmp.width=0;
 			for(var i:uint=1;i<originalWidth;i++){
@@ -177,7 +177,17 @@ package library.patches
 			mx = event.localX; 
 			my = event.localY; 
 		}
- }
+		public function set color(value:uint):void 
+		{
+			_color = value;
+			b = null;
+			b = new Ball( _color);
+		}
+		public function get color():uint 
+		{
+			return _color;
+		}
+	}
 }
 import flash.display.Sprite;
 import flash.filters.GlowFilter;
@@ -186,9 +196,9 @@ class Ball extends Sprite
 {
 	public var realx:int;
 	public var realy:int;
-	public function Ball():void
+	public function Ball( color:uint ):void
 	{
-		graphics.beginFill(0xFF00FF);
+		graphics.beginFill( color );
 		graphics.drawCircle(0, 0, 3);
 		graphics.endFill();		
 	}

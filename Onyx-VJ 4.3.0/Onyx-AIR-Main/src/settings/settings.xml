@@ -15,8 +15,8 @@
 		<render>
 			<!-- the width / height of bitmaps -->
 			<bitmapData>
-				<width>320</width>
-				<height>240</height>
+				<width>480</width>
+				<height>360</height>
 			</bitmapData>
 		</render>
 		

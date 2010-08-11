@@ -89,7 +89,7 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		protected const data:BitmapData					= new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, _backgroundColor);
+		protected const data:BitmapData		= new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, _backgroundColor);
 		
 		/**
 		 * 	@constructor
@@ -346,9 +346,10 @@ package onyx.display {
 		/**
 		 * 	Sets visibility
 		 */
-		/*override public function set visible(value:Boolean):void {
+		// BL 20100811: uncommented
+		override public function set visible(value:Boolean):void {
 			// super.visible = __visible.dispatch(value);
-		}*/
+		}
 		 		
 		public function get channel():Boolean {
 			return false;

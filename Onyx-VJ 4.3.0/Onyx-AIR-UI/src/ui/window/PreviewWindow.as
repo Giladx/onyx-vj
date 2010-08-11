@@ -20,25 +20,8 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
-		private var bothButton:TextButton;
-		
-		/**
-		 * 	@private
-		 */
-		private var channelAButton:TextButton;
-		
-		/**
-		 * 	@private
-		 */
-		private var channelBButton:TextButton;
-		
-		/**
-		 * 	@private
-		 */
 		private var maximizeButton:TextButton;
 		
-		private var _current:int = 0;
-
 		/**
 		 * 	Constructor
 		 */
@@ -48,34 +31,19 @@ package ui.window {
 			
 			var options:UIOptions		= new UIOptions();
 			options.height				= 12,
-				options.width				= 65;
+			options.width				= 65;
 			
-			bothButton		= new TextButton(options, 'OUTPUT');
-			channelAButton	= new TextButton(options, 'CHANNEL A');
-			channelBButton		= new TextButton(options, 'CHANNEL B');
 			maximizeButton		= new TextButton(options, 'FULLSCREEN');
 			
-			bothButton.addEventListener(MouseEvent.MOUSE_DOWN, handler);
-			channelAButton.addEventListener(MouseEvent.MOUSE_DOWN, handler);
-			channelBButton.addEventListener(MouseEvent.MOUSE_DOWN, handler);
 			maximizeButton.addEventListener(MouseEvent.MOUSE_DOWN, handler);
 			
-			bothButton.x		= 4;
-			bothButton.y		= 17;
-			channelAButton.x	= 86;
-			channelAButton.y	= 17;
-			channelBButton.x	= 168;
-			channelBButton.y	= 17;
-			maximizeButton.x	= 250;
+			maximizeButton.x	= 4;
 			maximizeButton.y	= 17;
 			
 			// add
-			addChild(bothButton);
-			addChild(channelAButton);
-			addChild(channelBButton);
 			addChild(maximizeButton);
 			preview.x		= 5;
-			preview.y		= 30;
+			preview.y		= 25;
 			preview.width	= 480; //Math.min(480, DISPLAY_WIDTH);
 			preview.height	= 360; //Math.min(360, DISPLAY_HEIGHT);
 			addChild(preview);
@@ -147,17 +115,7 @@ package ui.window {
 		 */
 		private function handler(event:MouseEvent):void {
 			switch (event.currentTarget) {
-				case bothButton:
-					_current = 0;
-					break;
-				case channelAButton:
-					_current = 1;
-					break;
-				case channelBButton:
-					_current = 2;
-					break;
 				case maximizeButton:
-					_current = 0;
 					preview.width	= 1200; 
 					preview.height	= 760;
 					preview.parent.width = 1300;
@@ -186,14 +144,5 @@ package ui.window {
 			//
 			super.dispose();
 		}
-
-		/**
-		 * 	@private
-		 */
-		public function get current():int
-		{
-			return _current;
-		}
-
 	}
 }

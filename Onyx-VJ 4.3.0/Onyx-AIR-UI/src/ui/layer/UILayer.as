@@ -135,7 +135,8 @@ package ui.layer {
 		private const filename:Bitmap						= new Bitmap(new BitmapData(162, 7, true, 0), PixelSnapping.ALWAYS, false);
 		
 		/** @private **/
-		private var crossFaderToggle:CrossFaderToggle2;
+		// BL 20100811: private var crossFaderToggle:CrossFaderToggle2; 
+		private var crossFaderToggle:CrossFaderToggle; 
 		
 		/**
 		 * 	@private
@@ -321,8 +322,8 @@ package ui.layer {
 			btnVisible					= Factory.getNewInstance(LayerVisible);
 			btnVisible.initialize(props.getParameter('visible'));
 			
-			crossFaderToggle			= new CrossFaderToggle2();
-			crossFaderToggle.initialize(props.getParameter('channel'));
+			// BL 20100811: crossFaderToggle			= new CrossFaderToggle2();
+			crossFaderToggle			= new CrossFaderToggle(_layer);
 			
 			btnDelete.initialize(10, 10);
 			btnCopy.initialize(10, 10);

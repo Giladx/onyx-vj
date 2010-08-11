@@ -49,7 +49,9 @@ package ui.states {
 				new WindowRegistration('KEY MAPPING',	KeysWindow),
 				new WindowRegistration('SETTINGS',		SettingsWindow),
 				new WindowRegistration('VIDEOPONG',		VideopongWindow),
-				new WindowRegistration('PREVIEW',		PreviewWindow)
+				new WindowRegistration('PREVIEW',		PreviewWindow),
+				new WindowRegistration('CHANNEL A',		ChannelAWindow),
+				new WindowRegistration('CHANNEL B',		ChannelBWindow)
 			);
 			WindowState.register(
 				new WindowState('DEFAULT', [
@@ -62,7 +64,9 @@ package ui.states {
 					new WindowStateReg('SETTINGS',		200,	565),
 					new WindowStateReg('VIDEOPONG',		360,	565),
 					new WindowStateReg('RECORDER',		7,		756),
-					new WindowStateReg('PREVIEW',		775,	345)
+					new WindowStateReg('PREVIEW',		774,	565),
+					new WindowStateReg('CHANNEL A',		774,	345),
+					new WindowStateReg('CHANNEL B',		1000,	345)
 				])
 			)
 			

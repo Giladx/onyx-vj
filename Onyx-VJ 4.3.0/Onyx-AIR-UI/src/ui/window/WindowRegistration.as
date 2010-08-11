@@ -31,7 +31,9 @@ package ui.window {
 				new WindowRegistration('KEY MAPPING',	KeysWindow),
 				new WindowRegistration('SETTINGS',		SettingsWindow),
 				new WindowRegistration('VIDEOPONG',		VideopongWindow),
-				new WindowRegistration('PREVIEW',		PreviewWindow)
+			new WindowRegistration('PREVIEW',		PreviewWindow),
+			new WindowRegistration('CHANNELA',		ChannelAWindow),
+			new WindowRegistration('CHANNELB',		ChannelBWindow)
 			);
 		}*/
 		

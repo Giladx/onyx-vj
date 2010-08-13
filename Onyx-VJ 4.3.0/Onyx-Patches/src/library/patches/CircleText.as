@@ -43,7 +43,7 @@ package library.patches
 		private var my:Number = 0;
 		private var lastX:Number = 0;
 		private var lastY:Number = 0;
-		private var running:Boolean = false;
+		private var running:Boolean = true;
 		/**
 		 * 	@constructor
 		 */
@@ -59,14 +59,15 @@ package library.patches
 				new ParameterExecuteFunction('clear', 'clear')
 			)
 			addEventListener( InteractionEvent.MOUSE_MOVE, mouseMove );
-			tf.textColor = 0x000000;
-			tf.text = "Batchass \nintermédiaire!!!";
+			tf.textColor = 0xFF0000;
+			tf.text = "Batchass \nintermediaire!!!";
 			tf.autoSize = "left";
+			
 			//source = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT, false, 0xff9933);
 			source.draw(tf);
 			source.applyFilter(source, source.rect, new Point(), new BlurFilter());
 			source.draw(tf);
-			
+			addChild(tf);
 
 		}
 
@@ -76,7 +77,8 @@ package library.patches
 		override public function render(info:RenderInfo):void 
 		{
 			var sourceBD:BitmapData = info.source;
-			var circle:Circle = new Circle(sourceBD.getPixel(i, j));
+			//var circle:Circle = new Circle(sourceBD.getPixel(i, j));
+			var circle:Circle = new Circle(source.getPixel(i, j));
 			circle.realx = i * 10; circle.realy = j * 10;
 			circle.x = circle.realx + Math.random() * 300 - 150;
 			circle.y = circle.realy + Math.random() * 300 - 150;
@@ -96,9 +98,9 @@ package library.patches
 				i = 0;
 				if ( j++ >DISPLAY_HEIGHT ) running = false;
 			}
-			//source.draw(label, info.matrix, null, null, null, true);
+			sourceBD.draw(circle, info.matrix, null, null, null, true);
 			
-			//info.source.copyPixels( bmp2.bitmapData, DISPLAY_RECT, ONYX_POINT_IDENTITY );
+			info.source.copyPixels( sourceBD, DISPLAY_RECT, ONYX_POINT_IDENTITY );
 		} 
 		public function set color(value:uint):void 
 		{

@@ -48,8 +48,8 @@ package library.patches {
 			_bg = Painter.createColorRect(DISPLAY_WIDTH, DISPLAY_HEIGHT, 0x00FF00);
 			addChild(_bg);
 			_texture = new Texture();
-			_texture.addImage("http://assets.wonderfl.net/images/related_images/1/15/15d5/15d555224e78afd2bb8f004fbdf8835cfec21f9d", "stone");
-			_texture.addImage("http://assets.wonderfl.net/images/related_images/e/e5/e526/e52615ecac7d880ac41cbdd5a673cd973e283d33", "sky");
+			_texture.addImage("./images/rock.jpg", "stone");
+			_texture.addImage("./images/sky.jpg", "sky");
 			_texture.load(onReady, function():void{trace("error")});
 		}
 		private function onReady():void {
@@ -165,61 +165,64 @@ package library.patches {
 		//private function simulate(...rest):void {
 			var i:int, w:WaterDrop, px:Number, pz:Number, h:Number, vx:Number, vz:Number, ix:int, iz:int, per:Number;
 			//滝の水を追加しつづける
-			for (i = 0; i < 8; i++) addWater(Param.tapPosition.x + Math.random() * 160 - 80, Param.tapPosition.y, Param.tapPosition.z - Math.random() * 10).vz = Math.random() * -5 - 7;
-			//水を動かす
-			_effect.bitmapData.lock();
-			for each(w in _waters) {
-				if (w.isRemove) continue;
-				w.vy -= Param.gravity;
-				w.vx += Param.wind.x;
-				w.vz += Param.wind.y;
-				w.x += w.vx;
-				w.y += w.vy;
-				w.z += w.vz;
-				if (!w.isSplash && w.y <= Param.WATER_LEVEL + 1) {
-					w.isSplash = true;
-					_effect.addSmoke(calculateScreen(w.x, w.y, w.z));
-				}
-				//
-				px = w.x - Param.CENTER.x;
-				pz = w.z - Param.CENTER.z;
-				if (px * px + pz * pz > _terrain.radius) {
-					w.isRemove = true;
-					w.pixel.color = 0;
-					continue;
-				}
-				h = _terrain.getHeight(w.x, w.z);
-				if (w.y < h + 0.1) {
-					w.y = h + 0.1;
-					w.vy = 0;
-					vx = 0;
-					vz = 0;
-					for (ix = -1; ix <= 1; ix++) {
-						for (iz = -1; iz <= 1; iz++) {
-							if (ix == 0 && iz == 0) continue;
-							per = (h - _terrain.getHeight(ix + w.x, iz + w.z)) >> 1;
-							if (per > 0) {
-								vx += per * ix;
-								vz += per * iz;
+			if (_waterPixels &&_waterPixels.pixels ) 
+			{
+
+				for (i = 0; i < 8; i++) addWater(Param.tapPosition.x + Math.random() * 160 - 80, Param.tapPosition.y, Param.tapPosition.z - Math.random() * 10).vz = Math.random() * -5 - 7;
+				//水を動かす
+				_effect.bitmapData.lock();
+				for each(w in _waters) {
+					if (w.isRemove) continue;
+					w.vy -= Param.gravity;
+					w.vx += Param.wind.x;
+					w.vz += Param.wind.y;
+					w.x += w.vx;
+					w.y += w.vy;
+					w.z += w.vz;
+					if (!w.isSplash && w.y <= Param.WATER_LEVEL + 1) {
+						w.isSplash = true;
+						_effect.addSmoke(calculateScreen(w.x, w.y, w.z));
+					}
+					//
+					px = w.x - Param.CENTER.x;
+					pz = w.z - Param.CENTER.z;
+					if (px * px + pz * pz > _terrain.radius) {
+						w.isRemove = true;
+						w.pixel.color = 0;
+						continue;
+					}
+					h = _terrain.getHeight(w.x, w.z);
+					if (w.y < h + 0.1) {
+						w.y = h + 0.1;
+						w.vy = 0;
+						vx = 0;
+						vz = 0;
+						for (ix = -1; ix <= 1; ix++) {
+							for (iz = -1; iz <= 1; iz++) {
+								if (ix == 0 && iz == 0) continue;
+								per = (h - _terrain.getHeight(ix + w.x, iz + w.z)) >> 1;
+								if (per > 0) {
+									vx += per * ix;
+									vz += per * iz;
+								}
 							}
 						}
+						w.vx += vx + Math.random() - 0.5;
+						w.vz += vz + Math.random() - 0.5;
+						w.vx *= Param.friction;
+						w.vz *= Param.friction;
+					} else {
+						w.vx *= Param.airResistance;
+						w.vz *= Param.airResistance;
 					}
-					w.vx += vx + Math.random() - 0.5;
-					w.vz += vz + Math.random() - 0.5;
-					w.vx *= Param.friction;
-					w.vz *= Param.friction;
-				} else {
-					w.vx *= Param.airResistance;
-					w.vz *= Param.airResistance;
+					w.pixel.x = w.x;
+					w.pixel.y = w.y;
+					w.pixel.z = w.z;
 				}
-				w.pixel.x = w.x;
-				w.pixel.y = w.y;
-				w.pixel.z = w.z;
+				_effect.enterFrame();
+				_effect.bitmapData.unlock();
+				info.source.copyPixels( _effect.bitmapData, DISPLAY_RECT, ONYX_POINT_IDENTITY );
 			}
-			_effect.enterFrame();
-			_effect.bitmapData.unlock();
-			info.source.copyPixels( _effect.bitmapData, DISPLAY_RECT, ONYX_POINT_IDENTITY );
-
 		}
 	}
 }

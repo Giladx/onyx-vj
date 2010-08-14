@@ -20,6 +20,7 @@ package ui.states {
 	import flash.events.*;
 	import flash.filesystem.*;
 	import flash.geom.*;
+	import flash.system.Capabilities;
 	import flash.utils.*;
 	
 	import onyx.asset.*;
@@ -78,52 +79,61 @@ package ui.states {
 			
 			// store screens
 			const screens:Array			= Screen.screens;
+			const singleScreen:Boolean	= (screens.length === 1);
 
-			// if we have more than one screen present
-			if (screens.length > 1) {
-
-				// create a new window to put the output window
-				const options:NativeWindowInitOptions = new NativeWindowInitOptions();
-				options.systemChrome	= NativeWindowSystemChrome.NONE;
-				options.transparent		= false;
-				options.type			= NativeWindowType.LIGHTWEIGHT;
-				
-				// create the window
-				const displayWindow:NativeWindow	= new NativeWindow(options);
-				displayWindow.width				= DISPLAY_WIDTH;
-				displayWindow.height			= DISPLAY_HEIGHT;
-				displayWindow.alwaysInFront		= true;
-				
-				// no scale please thanks
-				const stage:Stage				= displayWindow.stage;
-				stage.align						= StageAlign.TOP_LEFT;
-				stage.scaleMode 				= StageScaleMode.NO_SCALE;
-				DISPLAY_STAGE.quality 			= stage.quality	= StageQuality.MEDIUM;
-				
-				// we need to put the new window onto the new screen
-				const screen:Screen		= screens[1];
-				displayWindow.bounds	= screen.bounds;
-				
-				// listen for a close
-				displayWindow.addEventListener(Event.CLOSING, quitHandler, false, 0, true);
-
-				// add the display to our new window
-				stage.addChild(Display as DisplayObject);
-
-				// add the right display object
-				const dsp:StartupDisplay	= new StartupDisplay();
-				stage.addChild(dsp);
-				
-				dsp.width					= DISPLAY_WIDTH;
-				dsp.height					= DISPLAY_HEIGHT;
-				
-				// turn on hardware accelleration for the output window
-				stage.fullScreenSourceRect	= new Rectangle(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-				stage.displayState			= StageDisplayState.FULL_SCREEN_INTERACTIVE;
-
-				displayWindow.activate();
+			// if we have more than one screen present, we create a fullscreen output window
+			// else we create a moveable window
+			
+			// create a new window to put the output window
+			const options:NativeWindowInitOptions = new NativeWindowInitOptions();
+			options.systemChrome	= singleScreen ? NativeWindowSystemChrome.ALTERNATE : NativeWindowSystemChrome.NONE;
+			options.transparent		= false;
+			options.type			= singleScreen ? NativeWindowType.UTILITY : NativeWindowType.LIGHTWEIGHT;
+			
+			// create the window
+			const displayWindow:NativeWindow	= new NativeWindow(options);
+			displayWindow.width				= DISPLAY_WIDTH;
+			displayWindow.height			= DISPLAY_HEIGHT;
+			displayWindow.alwaysInFront		= true;
+			
+			// no scale please thanks
+			const stage:Stage				= displayWindow.stage;
+			stage.align						= StageAlign.TOP_LEFT;
+			stage.scaleMode 				= StageScaleMode.NO_SCALE;
+			DISPLAY_STAGE.quality 			= stage.quality	= StageQuality.MEDIUM;
+			
+			// we need to put the new window onto the new screen
+			if (singleScreen)
+			{
+				//displayWindow.bounds = new Rectangle( 100, 100, Capabilities.screenResolutionX - 200, Capabilities.screenResolutionY - 200 );
 			}
+			else
+			{
+				const screen:Screen			= screens[1];
+				displayWindow.bounds		= screen.bounds;
+			}
+			
 
+			// listen for a close
+			displayWindow.addEventListener(Event.CLOSING, quitHandler, false, 0, true);
+
+			// add the display to our new window
+			stage.addChild(Display as DisplayObject);
+
+			// add the right display object
+			const dsp:StartupDisplay	= new StartupDisplay();
+			stage.addChild(dsp);
+			
+			dsp.width					= DISPLAY_WIDTH;
+			dsp.height					= DISPLAY_HEIGHT;
+			
+			// turn on hardware accelleration for the output window
+			stage.fullScreenSourceRect	= new Rectangle(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+			stage.displayState			= singleScreen ? StageDisplayState.NORMAL : StageDisplayState.FULL_SCREEN_INTERACTIVE;
+
+			displayWindow.activate();
+
+			
 			// kill the state
 			StateManager.removeState(this);
 		}

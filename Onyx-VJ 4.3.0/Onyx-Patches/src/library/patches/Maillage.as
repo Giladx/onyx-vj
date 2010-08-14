@@ -76,7 +76,7 @@ package library.patches
 				new ParameterExecuteFunction('initAnim', 'start')
 			);
 			
-			//j'instancie le CircleBorder pour q'il me prepare les coordonnées des pixels
+			//j'instancie le CircleBorder pour qu'il me prepare les coordonnées des pixels
 			//pas la peine de le mettre dans une variable , car je ne l'utilise pas dans cette classe
 			//autrement que pour le mettre en place.
 			new CircleBorder();

@@ -80,9 +80,7 @@ package library.patches
 			shape.graphics.endFill();
 			addChild(shape);			
 
-			//addChild( IMAGE_MAP_BMP );
-			
-			ANAGLYPH_SHADER.data.map.input = IMAGE_MAP_BD; //OK
+			ANAGLYPH_SHADER.data.map.input = IMAGE_MAP_BD;
 			filter = new ShaderFilter(ANAGLYPH_SHADER);
 			imageContainer.addChild( IMAGE_BMP );
 			

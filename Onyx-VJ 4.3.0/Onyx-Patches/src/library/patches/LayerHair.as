@@ -61,7 +61,7 @@ package library.patches
 			_count = 250;
 			_angle = 0;
 			
-			_canvasBD = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x00000000);
+			_canvasBD = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0x00000000);
 			this.addChild( new Bitmap( _canvasBD ));
 			
 		}

@@ -36,6 +36,8 @@ package library.patches
 	{
 		private	var tf:TextField = new TextField();
 		private const source:BitmapData	= createDefaultBitmap(); 		
+		private var bmp:Bitmap;
+		private var sprite:Sprite;
 		private var _color:uint;
 		private var i:int = 0;
 		private var j:int = 0;
@@ -44,6 +46,8 @@ package library.patches
 		private var lastX:Number = 0;
 		private var lastY:Number = 0;
 		private var running:Boolean = true;
+		private var sourceBitmap:Bitmap;
+
 		/**
 		 * 	@constructor
 		 */
@@ -60,15 +64,39 @@ package library.patches
 			)
 			addEventListener( InteractionEvent.MOUSE_MOVE, mouseMove );
 			tf.textColor = 0xFF0000;
-			tf.text = "Batchass \nintermediaire!!!";
+			tf.text = "Batchass à l'\nintermédiaire!!!";
 			tf.autoSize = "left";
 			
-			//source = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT, false, 0xff9933);
+			bmp = new Bitmap(new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x00000000));
+			sprite = new Sprite();
+			addChild(sprite);
+			sprite.addChild(bmp);
+			
 			source.draw(tf);
 			source.applyFilter(source, source.rect, new Point(), new BlurFilter());
 			source.draw(tf);
-			addChild(tf);
-
+			sourceBitmap = new Bitmap( source );
+			sprite.addChild(sourceBitmap);
+						
+			for(var i:int = 0; i < 3; i++)
+			{
+				for(var j:int = 0; j < 3; j++)
+				{
+					var circle:Circle = new Circle(source.getPixel(i, j));
+					circle.realx = i * 10; circle.realy = j * 10;
+					circle.x = circle.realx + Math.random() * 300 - 150;
+					circle.y = circle.realy + Math.random() * 300 - 150;
+					circle.alpha = 0;
+					
+					sprite.addChild(circle);
+					Tweener.addTween(
+						circle, {
+							x: circle.realx, y: circle.realy, alpha: 1, time: 1,
+							delay: Math.sqrt(i + j) * Math.random()
+						}
+					);
+				}
+			}		
 		}
 
 		/**
@@ -76,14 +104,13 @@ package library.patches
 		 */
 		override public function render(info:RenderInfo):void 
 		{
-			var sourceBD:BitmapData = info.source;
-			//var circle:Circle = new Circle(sourceBD.getPixel(i, j));
+			var sourceBD:BitmapData = bmp.bitmapData;
 			var circle:Circle = new Circle(source.getPixel(i, j));
 			circle.realx = i * 10; circle.realy = j * 10;
 			circle.x = circle.realx + Math.random() * 300 - 150;
 			circle.y = circle.realy + Math.random() * 300 - 150;
 			circle.alpha = 0;
-			addChild(circle);
+			sprite.addChild(circle);
 			Tweener.addTween(
 				circle, {
 					x: circle.realx, y: circle.realy, alpha: 1, time: 1,
@@ -100,7 +127,7 @@ package library.patches
 			}
 			sourceBD.draw(circle, info.matrix, null, null, null, true);
 			
-			info.source.copyPixels( sourceBD, DISPLAY_RECT, ONYX_POINT_IDENTITY );
+			info.render( sprite );
 		} 
 		public function set color(value:uint):void 
 		{

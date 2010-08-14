@@ -180,7 +180,7 @@ package library.patches
 			var sh2:int = Math.ceil(sh / 2);
 			
 			// Create the main bitmap to draw into (and half the size to run faster)
-			bmp = new Bitmap(new BitmapData(sw2, sh2, false, 0xFF000000));
+			bmp = new Bitmap(new BitmapData(sw2, sh2, true, 0xFF000000));
 			bmp.smoothing = true;
 			bmp.scaleX = bmp.scaleY = 2;
 			bmp.x = (canvasWidth - sw) / 2;

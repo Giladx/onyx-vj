@@ -71,8 +71,8 @@ package library.patches {
 				new ParameterExecuteFunction('clear', 'clear')
 			)
 
-			map = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT,false,0x000000);
-			dm = new DisplacementMapFilter(new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT,false,0),
+			map = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT,true,0x000000);
+			dm = new DisplacementMapFilter(new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT,true,0),
 				new Point(),BitmapDataChannel.BLUE,BitmapDataChannel.GREEN,50,50);
 			p = new Sprite();	
 			shifts = [new Point(),new Point()];

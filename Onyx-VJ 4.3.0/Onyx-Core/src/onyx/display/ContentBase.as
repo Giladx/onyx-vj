@@ -21,6 +21,8 @@ package onyx.display {
 	import flash.geom.*;
 	import flash.utils.*;
 	
+	import mx.graphics.shaderClasses.ExclusionShader;
+	
 	import onyx.core.*;
 	import onyx.events.*;
 	import onyx.parameter.*;
@@ -537,42 +539,50 @@ package onyx.display {
 		/**
 		 * 	Called by the parent layer every frame to render
 		 */
-		public function render(info:RenderInfo):void {
-			
-			if (_content) {
-				
-				if (renderDirty) {
-					buildMatrix(); 
-					renderDirty = false;
-				}
-				
-				if (colorDirty) {
-					colorMatrix.reset();
-					colorMatrix.adjustBrightness(_brightness);
-					colorMatrix.adjustContrast(_contrast);
-					colorMatrix.adjustHue(_hue);
-					colorMatrix.adjustSaturation(_saturation);
+		public function render(info:RenderInfo):void 
+		{
+			try
+			{
+				if (_content) {
 					
-					colorDirty = false;
-				}
-				
-				// clear 
-				_source.fillRect(DISPLAY_RECT, 0);
-				
-				// draw our content
-				_source.draw(_content, renderMatrix, null, null, null, true);
-				
-				// color adjustment
-				if (!(_saturation === 1 && _brightness === 0 && _contrast === 0 && _hue === 0)) {
-
-					// apply filter
-					_source.applyFilter(_source, DISPLAY_RECT, ONYX_POINT_IDENTITY, colorMatrix.filter);
+					if (renderDirty) {
+						buildMatrix(); 
+						renderDirty = false;
+					}
+					
+					if (colorDirty) {
+						colorMatrix.reset();
+						colorMatrix.adjustBrightness(_brightness);
+						colorMatrix.adjustContrast(_contrast);
+						colorMatrix.adjustHue(_hue);
+						colorMatrix.adjustSaturation(_saturation);
+						
+						colorDirty = false;
+					}
+					
+					// clear 
+					_source.fillRect(DISPLAY_RECT, 0);
+					
+					// draw our content
+					_source.draw(_content, renderMatrix, null, null, null, true);
+					
+					// color adjustment
+					if (!(_saturation === 1 && _brightness === 0 && _contrast === 0 && _hue === 0)) {
+	
+						// apply filter
+						_source.applyFilter(_source, DISPLAY_RECT, ONYX_POINT_IDENTITY, colorMatrix.filter);
+						
+					}
+					
+					// render filters
+					_filters.render(_source);
 					
 				}
 				
-				// render filters
-				_filters.render(_source);
-				
+			}
+			catch (e:Error)
+			{
+				trace("error in ContentBase.as, render:" + e.message);
 			}
 
 		}

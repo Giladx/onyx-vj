@@ -622,6 +622,10 @@ package onyx.display {
 			// unlock
 			data.unlock();
 			data.lock();
+			channelA.unlock();
+			channelA.lock();
+			channelB.unlock();
+			channelB.lock();
 
 		}
 		
@@ -630,6 +634,8 @@ package onyx.display {
 		 */
 		private function renderLayers():void {
 			
+			_channelA.lock();
+			_channelB.lock();
 			var count:int, layer:LayerImplementor;
 			
 			// loop through layers and render			
@@ -641,6 +647,7 @@ package onyx.display {
 				if (layer.visible) {
 					
 					var data:BitmapData	= layer.data;
+					// lock bitmapdata
 					data.lock();
 					
 					if (layer.channel) {
@@ -649,9 +656,12 @@ package onyx.display {
 						_channelA.draw(data, null, layer.getColorTransform(), layer.blendMode, null, false);
 					}
 					
+					// unlock bitmapdata
 					data.unlock();
 				}
 			}
+			_channelA.unlock();
+			_channelB.unlock();
 		}
 
 		/**

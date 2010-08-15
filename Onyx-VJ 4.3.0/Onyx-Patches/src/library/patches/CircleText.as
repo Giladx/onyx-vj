@@ -83,33 +83,6 @@ package library.patches
 			addChild(sprite);
 			sprite.addChild(bmp);
 			
-			source = new BitmapData(tf.width, tf.height, false, backColor);
-			source.draw(tf);
-			source.applyFilter(source, source.rect, new Point(), new BlurFilter());
-			source.draw(tf);
-			sourceBitmap = new Bitmap( source );
-			sprite.addChild(sourceBitmap);
-						
-			/*for(var i:int = 0; i < source.width; i++)
-			{
-				for(var j:int = 0; j < source.height; j++)
-				{
-					if (source.getPixel(i, j)) trace( i + ":" + source.getPixel(i, j) );
-					var circle:Circle = new Circle(source.getPixel(i, j));
-					circle.realx = i * 10; circle.realy = j * 10;
-					circle.x = circle.realx;// + Math.random() * 300 - 150;
-					circle.y = circle.realy;// + Math.random() * 300 - 150;
-					circle.alpha = 0.5;
-					
-					sprite.addChild(circle);
-					Tweener.addTween(
-						circle, {
-							x: circle.realx, y: circle.realy, alpha: 1, time: 1,
-							delay: Math.sqrt(i + j) * Math.random()
-						}
-					);
-				}
-			}	*/	
 		}
 
 		/**
@@ -121,7 +94,7 @@ package library.patches
 			{
 				lastX = mx;
 				lastY = my;
-				
+
 			}
 			info.render( sprite );		
 		} 
@@ -138,7 +111,7 @@ package library.patches
 				circle.realx = i * 10; circle.realy = j * 10;
 				circle.x = circle.realx + Math.random() * 300 - 150;
 				circle.y = circle.realy + Math.random() * 300 - 150;
-				circle.alpha = 0.2;
+				circle.alpha = 0.1;
 				sprite.addChild(circle);
 				Tweener.addTween(
 					circle, {
@@ -157,7 +130,6 @@ package library.patches
 					}
 				}
 				sourceBD.draw(circle, null, null, null, null, true);
-				
 			}
 			else
 			{
@@ -171,13 +143,6 @@ package library.patches
 		public function set text(value:String):void 
 		{
 			_text = value;
-			tf.textColor = color;
-			tf.text = _text;
-			if (source) source=null;
-			source = new BitmapData(tf.width, tf.height, false, backColor);
-			source.draw(tf);
-			source.applyFilter(source, source.rect, new Point(), new BlurFilter());
-			source.draw(tf);
 		}
 		
 		/**
@@ -203,6 +168,16 @@ package library.patches
 		}
 		public function run():void 
 		{
+			i = 0;
+			j = 0;
+			tf.text = _text;
+			tf.textColor = color;
+			source = new BitmapData(tf.width, tf.height, false, backColor);
+			source.draw(tf);
+			source.applyFilter(source, source.rect, new Point(), new BlurFilter());
+			source.draw(tf);
+			sourceBitmap = new Bitmap( source );
+			//sprite.addChild(sourceBitmap);
 			timer.delay = speed;
 			timer.addEventListener(TimerEvent.TIMER, _onTimer);
 			timer.start();

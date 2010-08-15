@@ -23,9 +23,11 @@ package library.patches
 	import caurina.transitions.Tweener;
 	
 	import flash.display.*;
+	import flash.events.TimerEvent;
 	import flash.filters.*;
 	import flash.geom.*;
 	import flash.text.*;
+	import flash.utils.Timer;
 	
 	import onyx.core.*;
 	import onyx.events.InteractionEvent;
@@ -38,7 +40,8 @@ package library.patches
 		private var source:BitmapData; 		
 		private var bmp:Bitmap;
 		private var sprite:Sprite;
-		private var _color:uint = 0xFFFF00;
+		private var _color:uint = 0x009661;
+		private var _backColor:uint = 0xFF9933;
 		private var i:int = 0;
 		private var j:int = 0;
 		private var mx:Number = 0;
@@ -48,6 +51,9 @@ package library.patches
 		private var running:Boolean = false;
 		private var sourceBitmap:Bitmap;
 		private var _text:String = "Hello !";
+		private var _speed:int			= 60;
+		private var timer:Timer			 = new Timer(_speed);;
+		
 		/**
 		 * 	@constructor
 		 */
@@ -58,30 +64,33 @@ package library.patches
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
 			_color = 0x0000FF;
 			parameters.addParameters(
-				new ParameterColor('color', 'color'),
+				new ParameterColor('backColor', 'back circle'),
+				new ParameterColor('color', 'text color'),
 				new ParameterString('text', 'text'),
+				new ParameterInteger('speed', 'speed', 8, 1000, _speed),
 				new ParameterExecuteFunction('run', 'run')
 			)
 			addEventListener( InteractionEvent.MOUSE_MOVE, mouseMove );
 			//tf.textColor = color;
 			tf.text = _text;
-			tf.textColor = 0xFF0000;
+			tf.textColor = color;
 			tf.autoSize = "left";
 
-			//bmp = new Bitmap(new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0x0000FF00));
-			bmp = new Bitmap(new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0xff9933));
+			//transparent background
+			bmp = new Bitmap(new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0x00000000));
+			//orange opaque background bmp = new Bitmap(new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0xff9933));
 			sprite = new Sprite();
 			addChild(sprite);
 			sprite.addChild(bmp);
 			
-			source = new BitmapData(tf.width, tf.height, false, 0xff9933);
+			source = new BitmapData(tf.width, tf.height, false, backColor);
 			source.draw(tf);
 			source.applyFilter(source, source.rect, new Point(), new BlurFilter());
 			source.draw(tf);
 			sourceBitmap = new Bitmap( source );
 			sprite.addChild(sourceBitmap);
 						
-			for(var i:int = 0; i < source.width; i++)
+			/*for(var i:int = 0; i < source.width; i++)
 			{
 				for(var j:int = 0; j < source.height; j++)
 				{
@@ -100,7 +109,7 @@ package library.patches
 						}
 					);
 				}
-			}		
+			}	*/	
 		}
 
 		/**
@@ -110,44 +119,72 @@ package library.patches
 		{
 			if ( running )
 			{
+				lastX = mx;
+				lastY = my;
+				
+			}
+			info.render( sprite );		
+		} 
+		
+		/**
+		 * 	@private
+		 */
+		private function _onTimer(event:TimerEvent):void 
+		{
+			if ( running )
+			{
 				var sourceBD:BitmapData = bmp.bitmapData;
 				var circle:Circle = new Circle(source.getPixel(i, j));
 				circle.realx = i * 10; circle.realy = j * 10;
 				circle.x = circle.realx + Math.random() * 300 - 150;
 				circle.y = circle.realy + Math.random() * 300 - 150;
-				circle.alpha = 0;
+				circle.alpha = 0.2;
 				sprite.addChild(circle);
 				Tweener.addTween(
 					circle, {
-						x: circle.realx, y: circle.realy, alpha: 1, time: 1,
+						x: circle.realx, y: circle.realy, alpha: 1, time: speed,
 						delay: Math.sqrt(i + j) * Math.random()
 					}
 				);
-	
-				lastX = mx;
-				lastY = my;
+				
 				if ( i++ >= source.width ) 
 				{
 					i = 0;
-					if ( j++ > source.height ) running = false;
+					if ( j++ >= source.height ) 
+					{
+						j = 0;
+						running = false;
+					}
 				}
-				sourceBD.draw(circle, info.matrix, null, null, null, true);
+				sourceBD.draw(circle, null, null, null, null, true);
 				
 			}
-			info.render( sprite );		
-		} 
+			else
+			{
+				timer.removeEventListener(TimerEvent.TIMER, _onTimer);
+				timer.stop();
+			}
+		}
 		/**
 		 * 	
 		 */
-		public function set text(value:String):void {
+		public function set text(value:String):void 
+		{
 			_text = value;
+			tf.textColor = color;
 			tf.text = _text;
+			if (source) source=null;
+			source = new BitmapData(tf.width, tf.height, false, backColor);
+			source.draw(tf);
+			source.applyFilter(source, source.rect, new Point(), new BlurFilter());
+			source.draw(tf);
 		}
 		
 		/**
 		 * 	
 		 */
-		public function get text():String {
+		public function get text():String 
+		{
 			return _text;
 		}
 
@@ -166,8 +203,37 @@ package library.patches
 		}
 		public function run():void 
 		{
+			timer.delay = speed;
+			timer.addEventListener(TimerEvent.TIMER, _onTimer);
+			timer.start();
 			running = true;
 		}
+		/**
+		 * 	get speed
+		 */
+		public function get speed():int
+		{
+			return _speed;
+		}
+		
+		/**
+		 * set speed
+		 */
+		public function set speed(value:int):void
+		{
+			_speed = value;
+		}
+
+		public function get backColor():uint
+		{
+			return _backColor;
+		}
+
+		public function set backColor(value:uint):void
+		{
+			_backColor = value;
+		}
+
 	}
 }
 

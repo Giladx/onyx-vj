@@ -62,12 +62,12 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
-		private var vpLoginTextControl:TextControl;
+		private var vpLoginTextControl:OneLineTextControl;
 		
 		/**
 		 * 	@private
 		 */
-		private var vpPwdTextControl:TextControl;
+		private var vpPwdTextControl:OneLineTextControl;
 		
 		/**
 		 * 	@private

@@ -22,7 +22,7 @@ package ui.window {
 		 */
 		public function ChannelAWindow(reg:WindowRegistration):void {
 			
-			super(reg, true, 240, 230);
+			super(reg, true, 240, 215);
 			
 			channelA.x		= 5;
 			channelA.y		= 17;

@@ -58,9 +58,9 @@ package library.patches
 		private var _color:uint = 0x00DD44;
 		
 		private var BallBitmaps:Array = [];
-		private var b:Ball = new Ball( _color);
-		private var originalWidth:Number = b.width;
-		private var originalHeight:Number = b.height;
+		private var b:Ball;
+		private var originalWidth:Number;
+		private var originalHeight:Number;
 		private var m:Matrix = new Matrix();
 	
 		/**
@@ -76,14 +76,15 @@ package library.patches
 			) 
 			lastBmp.x=0;
 			lastBmp.width=0;
+			b = new Ball( color);
+			originalWidth = b.width;
+			originalHeight = b.height;
 			for(var i:uint=1;i<originalWidth;i++){
 				var isc:Number = i;
 				for(var j:uint=0;j<361;j++){
 					
 					var bmd:BitmapData = new BitmapData(Math.ceil(isc),Math.ceil(isc),true,0);
 					//b.scaleX=b.scaleY = i/(1.5*(originalWidth);
-					//b.x = b.width
-					//b.y = 
 					m = new Matrix();
 					m.a = m.d = isc/originalWidth;
 					m.rotate(j*torad);
@@ -98,7 +99,6 @@ package library.patches
 				//lastBmp=bmp;
 				//addChild(bmp);
 			}
-			//Mouse.hide();
 			//var grad:Number = Math.PI/180;
 			addChildAt(new Bitmap(viewPort),0);
 			
@@ -160,8 +160,6 @@ package library.patches
 	
 		private function move(e:InteractionEvent):void
 		{
-			//mx = e.localX;
-			//my = e.localY;
 			var dx:Number = mx-mlx;
 			var dy:Number = my-mly;
 			for(var j:uint=0;j<generate;j++){
@@ -180,8 +178,6 @@ package library.patches
 		public function set color(value:uint):void 
 		{
 			_color = value;
-			b = null;
-			b = new Ball( _color);
 		}
 		public function get color():uint 
 		{
@@ -200,6 +196,7 @@ class Ball extends Sprite
 	{
 		graphics.beginFill( color );
 		graphics.drawCircle(0, 0, 3);
-		graphics.endFill();		
+		graphics.endFill();	
+		filters = [new GlowFilter(0xffffff, .5)];
 	}
 }

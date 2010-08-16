@@ -44,15 +44,15 @@ package library.patches
 		private var _backColor:uint = 0xFF9933;
 		private var i:int = 0;
 		private var j:int = 0;
-		private var mx:Number = 0;
-		private var my:Number = 0;
-		private var lastX:Number = 0;
-		private var lastY:Number = 0;
+		private var factor:int = 10;
+		private var padLeft:int;
+		private var padTop:int;
 		private var running:Boolean = false;
 		private var sourceBitmap:Bitmap;
 		private var _text:String = "Hello !";
 		private var _speed:int			= 60;
 		private var timer:Timer			 = new Timer(_speed);;
+		private var _font:Font;
 		
 		/**
 		 * 	@constructor
@@ -60,21 +60,23 @@ package library.patches
 		public function CircleText():void 
 		{
 			Console.output('CircleText');
-			Console.output('Credits to nitoyon');
+			Console.output('Credits to nitoyon (http://wonderfl.net/user/nitoyon)');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
-			_color = 0x0000FF;
+
 			parameters.addParameters(
-				new ParameterColor('backColor', 'back circle'),
-				new ParameterColor('color', 'text color'),
+				new ParameterColor('backColor', 'back circle', _backColor),
+				new ParameterColor('color', 'text color', _color),
+				new ParameterFont('font', 'font'),
 				new ParameterString('text', 'text'),
 				new ParameterInteger('speed', 'speed', 8, 1000, _speed),
 				new ParameterExecuteFunction('run', 'run')
 			)
-			addEventListener( InteractionEvent.MOUSE_MOVE, mouseMove );
-			//tf.textColor = color;
-			tf.text = _text;
-			tf.textColor = color;
-			tf.autoSize = "left";
+			tf.text 		= _text;
+			tf.textColor 	= color;
+			tf.autoSize 	= "left";
+			tf.embedFonts 	= true;
+			
+			font	= PluginManager.createFont('Times New Roman') || PluginManager.fonts[0];
 
 			//transparent background
 			bmp = new Bitmap(new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0x00000000));
@@ -90,15 +92,39 @@ package library.patches
 		 */
 		override public function render(info:RenderInfo):void 
 		{
-			if ( running )
-			{
-				lastX = mx;
-				lastY = my;
-
-			}
 			info.render( sprite );		
 		} 
 		
+		public function run():void
+		{
+			i = 0;
+			j = 0;
+			tf.text = _text;
+			if ( tf.text.length > 0 && tf.width > 0 )
+			{
+				var widthFactor:int = DISPLAY_WIDTH / tf.width;
+				var heightFactor:int = DISPLAY_HEIGHT / tf.height;
+				Console.output('CircleText: widthFactor: ' + widthFactor);
+				Console.output('CircleText: heightFactor: ' + heightFactor);
+
+				factor = Math.min( widthFactor, heightFactor );
+				Console.output('CircleText: factor: ' + factor);
+				padLeft = ( DISPLAY_WIDTH - ( tf.width * factor ) ) / 2 + factor / 2;
+				padTop = ( DISPLAY_HEIGHT - ( tf.height * factor ) ) / 2 + factor / 2;
+				Console.output('CircleText: targetWidth: ' + padLeft);
+				Console.output('CircleText: targetHeight: ' + padTop);
+				tf.textColor = color;
+				source = new BitmapData(tf.width, tf.height, false, backColor);
+				source.draw(tf);
+				source.applyFilter(source, source.rect, new Point(), new BlurFilter(2,2));
+				source.draw(tf);
+				timer.delay = speed;
+				timer.addEventListener(TimerEvent.TIMER, _onTimer);
+				timer.start();
+				running = true;
+				Console.output('CircleText: Running');
+			}
+		}
 		/**
 		 * 	@private
 		 */
@@ -107,11 +133,14 @@ package library.patches
 			if ( running )
 			{
 				var sourceBD:BitmapData = bmp.bitmapData;
-				var circle:Circle = new Circle(source.getPixel(i, j));
-				circle.realx = i * 10; circle.realy = j * 10;
-				circle.x = circle.realx + Math.random() * 300 - 150;
-				circle.y = circle.realy + Math.random() * 300 - 150;
-				circle.alpha = 0.1;
+				var circle:Circle = new Circle( source.getPixel(i, j), factor * .6 );
+				circle.realx = i * factor + padLeft; 
+				circle.realy = j * factor + padTop;
+				
+				circle.x = Math.random() * DISPLAY_WIDTH;
+				circle.y = Math.random() * DISPLAY_HEIGHT;
+
+				circle.alpha = 0;
 				sprite.addChild(circle);
 				Tweener.addTween(
 					circle, {
@@ -120,13 +149,14 @@ package library.patches
 					}
 				);
 				
-				if ( i++ >= source.width ) 
+				if ( i++ >= source.width-1 ) 
 				{
 					i = 0;
-					if ( j++ >= source.height ) 
+					if ( j++ >= source.height-1 ) 
 					{
 						j = 0;
 						running = false;
+						Console.output('CircleText: Done');
 					}
 				}
 				sourceBD.draw(circle, null, null, null, null, true);
@@ -161,28 +191,6 @@ package library.patches
 		{
 			return _color;
 		}
-		private function mouseMove(event:InteractionEvent):void 
-		{
-			mx = event.localX; 
-			my = event.localY; 
-		}
-		public function run():void 
-		{
-			i = 0;
-			j = 0;
-			tf.text = _text;
-			tf.textColor = color;
-			source = new BitmapData(tf.width, tf.height, false, backColor);
-			source.draw(tf);
-			source.applyFilter(source, source.rect, new Point(), new BlurFilter());
-			source.draw(tf);
-			sourceBitmap = new Bitmap( source );
-			//sprite.addChild(sourceBitmap);
-			timer.delay = speed;
-			timer.addEventListener(TimerEvent.TIMER, _onTimer);
-			timer.start();
-			running = true;
-		}
 		/**
 		 * 	get speed
 		 */
@@ -208,7 +216,28 @@ package library.patches
 		{
 			_backColor = value;
 		}
-
+		/**
+		 * 	
+		 */
+		public function set font(value:Font):void {
+			_font = value;
+			
+			if (value) {
+				
+				var format:TextFormat = tf.defaultTextFormat;
+				format.font = value.fontName;
+				
+				tf.defaultTextFormat = format;
+				tf.setTextFormat(format);
+			}
+		}
+		
+		/**
+		 * 	
+		 */
+		public function get font():Font {
+			return _font;
+		}
 	}
 }
 
@@ -217,34 +246,14 @@ import flash.display.Sprite;
 import caurina.transitions.Tweener;
 import flash.filters.GlowFilter;
 
-class Circle extends Sprite{
+class Circle extends Sprite
+{
 	public var realx:int;
 	public var realy:int;
-	public function Circle( color:uint ):void{
+	public function Circle( color:uint, size:int ):void
+	{
 		graphics.beginFill( color );
-		graphics.drawCircle( 0, 0, 6 );
+		graphics.drawCircle( 0, 0, size );
 		graphics.endFill();
-		mouseEnabled = true;
-		
-		var self:Circle = this;
-		addEventListener("mouseOver", function(e:*):void{
-			self.parent.addChild(self);
-			
-			filters = [new GlowFilter(0xffffff, 1.5)];
-			Tweener.addTween(self, {
-				x: realx + Math.random() * 40 - 20,
-				y: realy + Math.random() * 40 - 20,
-				time: .5,
-				onComplete: function():void{
-					Tweener.addTween(self, {
-						x: self.realx, y: self.realy, time: .5,
-						transition: 'easeOutSine',
-						onComplete: function():void{
-							filters = [];
-						}
-					});
-				}
-			});
-		});
 	}
 }

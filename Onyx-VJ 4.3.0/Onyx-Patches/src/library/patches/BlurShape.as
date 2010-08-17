@@ -32,15 +32,16 @@ package library.patches {
 		private var grad:Shape = new Shape();
 		private var offsets:Array = [new Point()];
 		
-		private var _speed:Number;
+		private var _speed:Number = .03;
 		
 		public function BlurShape()
 		{
 			Console.output('BlurShape');
 			Console.output('Credits to http://wonderfl.net/user/faseer');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
+			//ParameterNumber(name:String, display:String, min:Number, max:Number, defaultvalue:Number, multiplier:Number = 100, factor:Number = 1)
 			parameters.addParameters(
-				new ParameterNumber( 'speed', 'speed', .01, 1, _speed )
+				new ParameterNumber( 'speed', 'speed', .01, 1, _speed, 1000, 10 )
 			) 
 			canvas = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT,false,0x000000);
 			drawHere = new BitmapData(canvas.width, canvas.height, false, 0x000000);//FFFFFF);
@@ -76,7 +77,7 @@ package library.patches {
 			offsets[0].x++;
 			offsets[0].y++;
 			
-			var f:Number = Math.PI / 90 * _speed;//.33;
+			var f:Number = Math.PI / 180 * _speed;
 			var fx:Number = offsets[0].x * f;
 			var fy:Number = offsets[0].y * f;
 			drawHere.perlinNoise( drawHere.width * Math.cos(fx), drawHere.height * Math.sin(fy), 1, 1, false, false, 7, false, offsets);
@@ -100,6 +101,7 @@ package library.patches {
 		public function set speed(value:Number):void
 		{
 			_speed = value;
+			trace(_speed);
 		}
 
 		

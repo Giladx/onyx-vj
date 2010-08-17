@@ -57,7 +57,7 @@ package library.patches
 		private var txt:TextField;
 		private var _colorTransformCount:int = 30;
 		private var _alphaMultiplier:Number = .9;
-		private var _nbCells:int = 5000;
+		private var _nbCells:int = 500;
 		private var ct:ColorTransform = new ColorTransform();
 		private var pict:BitmapData	= createDefaultBitmap();
 		private const source:BitmapData	= createDefaultBitmap(); 		
@@ -117,10 +117,10 @@ package library.patches
 		}
 		private function cleanVector():void
 		{
-			while ( cellules.length > 0 )
+			/*while ( cellules.length > 0 )
 			{
 				cellules.pop();
-			}	
+			}*/	
 
 		}		
 		/**

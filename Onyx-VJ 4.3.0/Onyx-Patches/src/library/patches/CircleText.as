@@ -15,7 +15,7 @@
  *  
  * Downloaded from http://wonderfl.net/c/pOiZ, a fork from nitoyon's Hello World 2
  * Adapted for Onyx-VJ 4 by Bruce LANE (http://www.batchass.fr)
- * version 4.0.503 last modified March 6th 2009
+ * 
  */
 package library.patches 
 {
@@ -28,6 +28,8 @@ package library.patches
 	import flash.geom.*;
 	import flash.text.*;
 	import flash.utils.Timer;
+	
+	import fr.batchass.*;
 	
 	import onyx.core.*;
 	import onyx.events.InteractionEvent;
@@ -241,19 +243,3 @@ package library.patches
 	}
 }
 
-
-import flash.display.Sprite;
-import caurina.transitions.Tweener;
-import flash.filters.GlowFilter;
-
-class Circle extends Sprite
-{
-	public var realx:int;
-	public var realy:int;
-	public function Circle( color:uint, size:int ):void
-	{
-		graphics.beginFill( color );
-		graphics.drawCircle( 0, 0, size );
-		graphics.endFill();
-	}
-}

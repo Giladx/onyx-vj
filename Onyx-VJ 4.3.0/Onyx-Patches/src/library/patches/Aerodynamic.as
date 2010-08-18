@@ -24,6 +24,8 @@ package library.patches
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	
+	import fr.batchass.Circle;
+	
 	import onyx.core.*;
 	import onyx.events.InteractionEvent;
 	import onyx.parameter.*;
@@ -58,7 +60,7 @@ package library.patches
 		private var _color:uint = 0x00DD44;
 		
 		private var BallBitmaps:Array = [];
-		private var b:Ball;
+		private var b:Circle;
 		private var originalWidth:Number;
 		private var originalHeight:Number;
 		private var m:Matrix = new Matrix();
@@ -76,7 +78,7 @@ package library.patches
 			) 
 			lastBmp.x=0;
 			lastBmp.width=0;
-			b = new Ball( color);
+			b = new Circle( color, 6 );
 			originalWidth = b.width;
 			originalHeight = b.height;
 			for(var i:uint=1;i<originalWidth;i++){
@@ -183,20 +185,5 @@ package library.patches
 		{
 			return _color;
 		}
-	}
-}
-import flash.display.Sprite;
-import flash.filters.GlowFilter;
-
-class Ball extends Sprite
-{
-	public var realx:int;
-	public var realy:int;
-	public function Ball( color:uint ):void
-	{
-		graphics.beginFill( color );
-		graphics.drawCircle(0, 0, 3);
-		graphics.endFill();	
-		filters = [new GlowFilter(0xffffff, .5)];
 	}
 }

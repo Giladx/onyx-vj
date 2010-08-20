@@ -91,9 +91,13 @@ package ui.states {
 			for(i in Midi.controlsSet) {
 				if (i!='null') {
 					control						= i as UserInterfaceControl;
-					transform					= control.transform;
-					_storeTransform[control]	= Midi.controlsSet[control];
-					transform.colorTransform	= _storeTransform[control];
+					// BL: sometimes null
+					if ( control )
+					{
+						transform					= control.transform;
+						_storeTransform[control]	= Midi.controlsSet[control];
+						transform.colorTransform	= _storeTransform[control];
+					}
 				}
 			}
 						

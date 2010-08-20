@@ -81,7 +81,7 @@ package module {
 		public function connect():void {
             
             // 10sec timeout
-            if(_attempts<10) {
+            if(_attempts<3) {
             	_attempts += 1;
 	            try{
 	            	Console.output('MIDI Module: attempt '+_attempts+' on '+_host+'@'+_port);
@@ -90,7 +90,7 @@ package module {
 	            	_scheduleReconnect()
 	            }
 	       	} else {
-	       		Console.output('MIDI Module: network down');
+	       		Console.output('MIDI Module: could not connect');
 	       		_attempts = 0;
 	       	}
 	       	

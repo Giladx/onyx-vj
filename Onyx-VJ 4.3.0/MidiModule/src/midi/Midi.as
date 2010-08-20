@@ -84,7 +84,6 @@ package midi {
 			if (instance) {
 				throw new Error('');
 			}
-			Console.output( "Midi constructor" );
 						
 			_map = new Dictionary(false);
 			
@@ -216,7 +215,6 @@ package midi {
 			// this avoid loops on 2way communication: this tells that changes in parameter's value are coming from midi
 			// so we avoid (see private _parChange()) to send back signal to midi controller in loop
 			busy = true;
-			Console.output( "rxMessage:" +data.toString() );
 			
 			var status:uint      = data.readUnsignedByte();
 			var command:uint     = status&0xF0;
@@ -225,6 +223,7 @@ package midi {
 			var data2:uint       = data.readUnsignedByte();
 			
 			var midihash:uint    = ((status<<8)&0xFF00) | data1&0xFF; // SC: was ((status<<8)&0xFF00);
+			Console.output( "rx: status " + status + " command " + command + " channel " + channel + " data1 " + data1  + " data2 " + data2 + " midihash " + midihash  );
 			
 			var behavior:IMidiControlBehavior = _map[midihash]; 
 			

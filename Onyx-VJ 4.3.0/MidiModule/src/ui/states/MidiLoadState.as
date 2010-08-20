@@ -19,6 +19,7 @@ package ui.states {
 	import flash.events.Event;
 	import flash.filesystem.*;
 	import flash.geom.*;
+	import flash.net.FileFilter;
 	import flash.utils.*;
 	
 	import midi.Midi;
@@ -32,6 +33,7 @@ package ui.states {
 	import onyx.utils.string.*;
 	
 	import ui.styles.*;
+	
 	import utils.*;
 	
 	/**
@@ -82,7 +84,8 @@ package ui.states {
 			
 			// choose a directory
 			var file:File = new File(AssetFile.resolvePath(ONYX_LIBRARY_PATH));
-			file.browseForOpen('Select the name and location of the MIDI file to load.');
+			var midFilter:FileFilter = new FileFilter("Midi assignments", "*.mid;*.onm");
+			file.browseForOpen( 'Select the name and location of the MIDI file to load.', [midFilter] );
 			file.addEventListener(Event.SELECT, action);
 			file.addEventListener(Event.CANCEL, action);
 			
@@ -98,8 +101,8 @@ package ui.states {
 			if (event.type === Event.SELECT) {
 				var file:File = event.currentTarget as File;
 				
-				if (file.type !== '.mid') {
-					file = new File(file.nativePath + '.mid');
+				if (file.type !== '.onm') {
+					file = new File(file.nativePath + '.onm');
 				}
 				
 				Midi.fromXML(new XML(readTextFile(file)));

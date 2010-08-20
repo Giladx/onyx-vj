@@ -59,6 +59,8 @@ package {
 		 */
 		public function Main():void {
 			
+			//global error handling for uncaught errors
+			loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, uncaughtErrorHandler);
 			// register classes for re-use
 			Factory.registerClass(ButtonControl);
 			Factory.registerClass(ColorPicker);
@@ -152,5 +154,34 @@ package {
 		private function closeChildren(event:Event):void {
 			StateManager.loadState(new QuitState());
 		}
+		
+				
+		private function uncaughtErrorHandler(event:UncaughtErrorEvent):void
+		{
+			var errorMessage:String; 
+			if (event.error is Error)
+			{
+				var error:Error = event.error as Error;
+				errorMessage = "global Error:" + error.message;
+				Console.output( errorMessage );
+			}
+			else if (event.error is ErrorEvent)
+			{
+				var errorEvent:ErrorEvent = event.error as ErrorEvent;
+				errorMessage = "global ErrorEvent:" + errorEvent.text;
+				Console.output( errorMessage );
+	
+			}
+			else
+			{
+				errorMessage = "global other error:" + event.toString();
+				Console.output( errorMessage );
+			}
+			event.preventDefault();
+			writeTextFile(new File(AssetFile.resolvePath('logs/errors.log')), errorMessage);
+		}
+
+		
+		
 	}
 }

@@ -21,6 +21,7 @@ package ui.window {
 		 * 	@private
 		 */
 		private var maximizeButton:TextButton;
+		private var maximized:Boolean = false;
 		
 		/**
 		 * 	Constructor
@@ -33,12 +34,12 @@ package ui.window {
 			options.height				= 12,
 			options.width				= 65;
 			
-			maximizeButton		= new TextButton(options, 'FULLSCREEN');
+			maximizeButton		= new TextButton(options, 'Toggle size');
 			
 			maximizeButton.addEventListener(MouseEvent.MOUSE_DOWN, handler);
 			
 			maximizeButton.x	= 4;
-			maximizeButton.y	= 17;
+			maximizeButton.y	= 12;
 			
 			// add
 			addChild(maximizeButton);
@@ -116,12 +117,26 @@ package ui.window {
 		private function handler(event:MouseEvent):void {
 			switch (event.currentTarget) {
 				case maximizeButton:
-					preview.width	= 1200; 
-					preview.height	= 760;
-					preview.parent.width = 1300;
-					preview.parent.height = 800;
-					preview.parent.x = 10;
-					preview.parent.y = 10;
+					if ( maximized )
+					{
+						maximized 		= false;
+						preview.width	= 480; 
+						preview.height	= 360;
+						preview.parent.width = 580;
+						preview.parent.height = 400;
+
+					}
+					else
+					{
+						maximized 		= true;
+						preview.width	= 1200; 
+						preview.height	= 760;
+						preview.parent.width = 1300;
+						preview.parent.height = 800;
+						preview.parent.x = 10;
+						preview.parent.y = 10;
+						
+					}
 					
 					break;
 			}

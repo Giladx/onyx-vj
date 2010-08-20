@@ -260,7 +260,7 @@ package ui.file {
 				Console.error(e);
 			}
 			
-			if (display && display.source) {
+			if (display && display.source && display.source.width && display.source.height) {
 				
 				var matrix:Matrix			= new Matrix();
 				var bmp:BitmapData			= new BitmapData(THUMB_WIDTH, THUMB_HEIGHT, false, 0x2e3943);

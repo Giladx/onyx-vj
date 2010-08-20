@@ -54,15 +54,15 @@
 			public function CrossFaderToggle(layer:LayerImplementor):void {
 				
 				_current	= Factory.getNewInstance(ui.text.TextField),
-					_layer		= layer,
+				_layer		= layer,
 					
-					toggleA.initialize(11, 11);
+				toggleA.initialize(11, 11);
 				toggleB.initialize(11, 11);
 				
 				_current.width		= 11,
-					_current.height		= 11,
-					_current.y			= 1,
-					_current.textColor	= 0xCCCCCC;
+				_current.height		= 11,
+				_current.y			= 1,
+				_current.textColor	= 0xCCCCCC;
 				
 				toggleA.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 				toggleB.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
@@ -90,7 +90,7 @@
 			private function select():void {
 				if (_layer.channel) {
 					_current.text	= 'B',
-						_current.x		= 25;
+					_current.x		= 25;
 					
 					addChild(_current);
 					addChild(toggleA);
@@ -98,7 +98,7 @@
 					removeChild(toggleB);
 				} else {
 					_current.text	= 'A',
-						_current.x		= 14;
+					_current.x		= 14;
 					
 					addChild(_current);
 					addChild(toggleB);

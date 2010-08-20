@@ -123,10 +123,10 @@ package ui.window {
 			vpLoginBtn				= new TextButton(options, 'login to vp'),
 				
 			// videopong controls
-			vpLoginTextControl = Factory.getNewInstance(TextControl);
+			vpLoginTextControl = Factory.getNewInstance(OneLineTextControl);
 			vpLoginTextControl.initialize( parameters.getParameter('vpusername'), options);
 			
-			vpPwdTextControl = Factory.getNewInstance(TextControl);
+			vpPwdTextControl = Factory.getNewInstance(OneLineTextControl);
 			vpPwdTextControl.initialize( parameters.getParameter('vppwd'), options);
 			
 			
@@ -186,10 +186,12 @@ package ui.window {
 			
 			if (bg) {
 				var source:BitmapData	= bg.bitmapData;
+				source.lock();
 				vpInfoLabel = new StaticText();
 				vpInfoLabel.text = 'You are logged in as ' + event.text;
 				Console.output( vpInfoLabel.text );
 				source.draw(vpInfoLabel, new Matrix(1, 0, 0, 1, 8, 75));
+				source.unlock();
 			}
 			event.stopPropagation();
 		}

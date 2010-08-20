@@ -18,7 +18,6 @@
     <classEntry path="onyx.display.ContentCustomTime"/>
     <classEntry path="onyx.display.ContentFLV"/>
     <classEntry path="onyx.asset.VideoPongThumbnail"/>
-    <classEntry path="onyx.asset.AssetDefaultFont"/>
     <classEntry path="onyx.asset.air.AIRSaveBrowseQuery"/>
     <classEntry path="onyx.asset.air.AIR_CONTEXT"/>
     <classEntry path="onyx.asset.air.AIR_ROOT"/>

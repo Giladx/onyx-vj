@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -103,7 +104,7 @@ package onyx.display {
 			
 			// render both content files
 			oldContent.render(null);
-			newContent.render(null);
+			if ( newContent ) newContent.render(null); //BL: newContent can be null (on loading a MIX file with 1 layer on existing 2 layer with blur transition
 			
 			// render transition
 			_transition.render(_source, oldContent.source, newContent.source, ratio);

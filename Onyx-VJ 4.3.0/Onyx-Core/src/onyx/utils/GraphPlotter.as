@@ -105,7 +105,9 @@ package onyx.utils {
 			_minText.y			= height - 20;
 			_currentText.y		= (height / 2) - 10;
 			_currentText.selectable = _minText.selectable = _maxText.selectable = false;
-			_currentText.textColor	= _minText.textColor = _maxText.textColor = color;
+			_currentText.textColor	= 0x0000FF;
+			_currentText.backgroundColor = 0xFFFF00;
+			_minText.textColor = _maxText.textColor = color;
 			_currentText.x = _minText.x = _maxText.x = labelOffsetX;
 			
 			var x:Number = 0;

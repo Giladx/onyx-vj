@@ -44,7 +44,7 @@ package onyx.parameter {
 	 * 		// constructor
 	 *  	public function SomeFilter():void {
 	 * 			parameters = new Parameters(this,
-	 * 				new ParameterIntegernteger(
+	 * 				new ParameterInteger(
 	 * 					'value',
 	 * 					'display value',
 	 * 					0,					-- minimum value

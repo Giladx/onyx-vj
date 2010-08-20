@@ -23,8 +23,8 @@ package onyx.parameter {
 		/**
 		 * 	@constructor
 		 */
-		public function ParameterColor(property:String, display:String):void {
-			super(property, display, 0);
+		public function ParameterColor(property:String, display:String, defaultValue:uint = 0):void {
+			super(property, display, defaultValue);
 		}
 		
 		/**

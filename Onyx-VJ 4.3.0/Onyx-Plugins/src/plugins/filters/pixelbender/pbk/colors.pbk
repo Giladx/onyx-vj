@@ -1,0 +1,49 @@
+/*****************************************************************************
+ *
+ * colors
+ *
+ * author Bruce Lane ( http://www.Batchass.fr )
+ * copyright 2010
+ *
+ *****************************************************************************/
+<languageVersion : 1.0;>
+
+kernel colors
+<   namespace : "batchass.fr";
+    vendor : "Bruce Lane";
+    version : 1;
+    description : "Changes color"; 
+>
+{
+   parameter float redMultiplier
+   < minValue: -1.0;
+     maxValue: 1.0;
+     defaultValue: 0.0;
+     description:  "red";
+   >;
+   parameter float greenMultiplier
+   < minValue: -1.0;
+     maxValue: 1.0;
+     defaultValue: 0.0;
+     description:  "green";
+   >;
+   parameter float blueMultiplier
+   < minValue: -1.0;
+     maxValue: 1.0;
+     defaultValue: 0.0;
+     description:  "blue";
+   >;
+
+ 	input image4 src;
+    output pixel4 dst;
+   
+   void evaluatePixel()
+   {
+        pixel4 pixel = sampleNearest(src,outCoord());
+
+        pixel.r += redMultiplier;
+        pixel.g += greenMultiplier;
+        pixel.b += blueMultiplier;
+        dst = pixel;
+   }
+}

@@ -13,6 +13,7 @@
  *
  * Please visit http://www.onyx-vj.com for more information
  * Thanks to Thibault Imbert for JPG encoding optimization (http://www.bytearray.org/?p=775)
+ * Alchemy version is faster check JpgRecorderModule
  * 
  */
 package onyx.utils.bitmap

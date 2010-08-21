@@ -64,7 +64,7 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		private var __visible:ParameterBoolean;
+		private var __visible:ParameterBoolean	= new ParameterBoolean("visible", "visible", 0);
 		
 		/**
 		 * 	@private
@@ -730,6 +730,7 @@ package onyx.display {
 		 * 	Sets visibility
 		 */
 		override public function set visible(value:Boolean):void {
+			// BL: in case of main output filter(not a layer filter) __visible is null
 			super.visible = __visible.dispatch(value);
 		}
 		 		

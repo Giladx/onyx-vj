@@ -107,7 +107,7 @@ package ui.window {
 		 */
 		public function VideopongWindow(reg:WindowRegistration):void {
 			
-			super(reg, true, 150, 184);
+			super(reg, true, 150, 92);
 			
 			init();
 		}

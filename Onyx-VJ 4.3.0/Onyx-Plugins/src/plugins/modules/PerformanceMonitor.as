@@ -1,10 +1,11 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
- * All rights rescerved.
+ * All rights reserved.
  *
  * Licensed under the CREATIVE COMMONS Attribution-Noncommercial-Share Alike 3.0
  * You may not use this file except in compliance with the License.
@@ -28,7 +29,7 @@ package plugins.modules {
 		 */
 		public function PerformanceMonitor():void {
 			super(
-				new ModuleInterfaceOptions(PerformanceMonitorUI, 200, 200, 614, 318)
+				new ModuleInterfaceOptions(PerformanceMonitorUI, 152, 92)
 			)
 		}
 	}
@@ -56,7 +57,7 @@ final class PerformanceMonitorUI extends Sprite implements IDisposable {
 	/**
 	 * 	@private
 	 */
-	private var _fps:GraphPlotter		= new GraphPlotter(0, 0xFFFFFF, 50);
+	private var _fps:GraphPlotter		= new GraphPlotter(0, 0xFFFFFF, 94);
 	
 	/**
 	 * 	@private
@@ -93,6 +94,6 @@ final class PerformanceMonitorUI extends Sprite implements IDisposable {
 		removeEventListener(Event.ENTER_FRAME, _onFrame);
 		
 		_memory = null,
-			_fps	= null;
+		_fps	= null;
 	}
 }

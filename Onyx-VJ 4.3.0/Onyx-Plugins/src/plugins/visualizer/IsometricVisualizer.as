@@ -47,7 +47,7 @@ package plugins.visualizer {
 			spectrum = SpectrumAnalyzer.getSpectrum(false);
 			
 			output = new BitmapData( DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0 );
-			peaks = new BitmapData( DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0 );
+			peaks = new BitmapData( DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0xFF000000 );
 			
 			displace = new Matrix();
 			displace.tx = 2;

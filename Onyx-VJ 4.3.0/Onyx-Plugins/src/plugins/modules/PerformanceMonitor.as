@@ -57,7 +57,7 @@ final class PerformanceMonitorUI extends Sprite implements IDisposable {
 	/**
 	 * 	@private
 	 */
-	private var _fps:GraphPlotter		= new GraphPlotter(0, 0xFFFFFF, 94);
+	private var _fps:GraphPlotter		= new GraphPlotter(0, 0xFFFFFF, 74);
 	
 	/**
 	 * 	@private

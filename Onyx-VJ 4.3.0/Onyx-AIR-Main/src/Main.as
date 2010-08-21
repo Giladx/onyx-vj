@@ -162,7 +162,7 @@ package {
 			if (event.error is Error)
 			{
 				var error:Error = event.error as Error;
-				errorMessage = "global Error:" + error.message;
+				errorMessage = "Global Error: " + error.message + "\nType: " + error.name + "\nStack: " + error.getStackTrace();
 				Console.output( errorMessage );
 			}
 			else if (event.error is ErrorEvent)

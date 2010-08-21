@@ -12,9 +12,12 @@
  * You may obtain a copy of the License at: http://creativecommons.org/licenses/by-nc-sa/3.0/us/
  *
  * Please visit http://www.onyx-vj.com for more information
+ * Alchemy version by Mateusz Malczak ( http://segfaultlabs.com )
  * 
  */
 package module {
+	
+	import cmodule.jpegencoder.CLibInit;
 	
 	import flash.display.BitmapData;
 	import flash.display.MovieClip;
@@ -23,6 +26,7 @@ package module {
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
 	import flash.utils.ByteArray;
+	import flash.utils.getTimer;
 	
 	import onyx.asset.*;
 	import onyx.core.*;
@@ -30,18 +34,12 @@ package module {
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	import onyx.utils.bitmap.JPGEncoder;
-	
-	
+		
 	/**
 	 * 
 	 */
 	public final class JpgRecModule extends Module {
-		
-		/**
-		 * 	@private
-		 */
-		//private const frames:Array		= [];
-		
+				
 		/**
 		 * 	@private
 		 */
@@ -56,7 +54,10 @@ package module {
 		 * 
 		 */
 		public var currentFrame:int		= 0;
-		
+
+		private var lib : Object; //alchemy library 
+		private var timer:uint;
+
 		/**
 		 * 	@constructor
 		 */
@@ -72,6 +73,9 @@ package module {
 				new ParameterStatus('status', 'status')
 			);
 			
+			// init alchemy object
+			var init:CLibInit = new CLibInit(); //get library obejct
+			lib = init.init(); // initialize library exported class  
 		}
 		
 		/**
@@ -87,30 +91,13 @@ package module {
 			// if it's recording
 			if (value) {
 				
-				// clear all frames
-				//frames.splice(0, frames.length);
-				
 				// add listener
 				Display.addEventListener(DisplayEvent.DISPLAY_RENDER, saveFrame);
 				
 			} else {
 				
 				// remove listener
-				Display.removeEventListener(DisplayEvent.DISPLAY_RENDER, saveFrame);
-				
-				// build bytes
-				/*var file:ONRFile		= new ONRFile();
-				file.setFrames(frames);*/
-				
-				// pause states
-				//Display.pause(true);
-				
-				// pause keyboard
-				//StateManager.pauseStates(ApplicationState.KEYBOARD);
-				
-				// save
-				//AssetFile.browseForSave(saveHandler, 'Where do you want to save the file to?', file.toByteArray(), 'onr');
-				
+				Display.removeEventListener(DisplayEvent.DISPLAY_RENDER, saveFrame);				
 			}
 			
 			// 
@@ -122,10 +109,7 @@ package module {
 		 * 	@private
 		 */
 		private function saveHandler(... args:Array):void {
-			
-			// resume states
-			//Display.pause(false);
-			
+						
 			// resume
 			StateManager.resumeStates(ApplicationState.KEYBOARD);
 			
@@ -142,10 +126,7 @@ package module {
 		 * 	@private
 		 */
 		private function saveFrame(event:Event):void {
-			
-			// save the frame
-			// frames.push(Display.source.clone());
-			
+						
 			// update frames
 			parameters.getParameter('status').value = currentFrame + ' frames';
 			
@@ -155,7 +136,7 @@ package module {
 			jpgFile.addEventListener( IOErrorEvent.IO_ERROR, ioErrorHandler );
 			stream.addEventListener( IOErrorEvent.IO_ERROR, ioErrorHandler );
 			stream.open( jpgFile, FileMode.WRITE );
-			stream.writeBytes( encodeJPG( Display.source.clone() ) );
+			stream.writeBytes( alchemySync( Display.source.clone() ) );
 			stream.close();
 			
 			if (currentFrame >= maxframes) {
@@ -164,16 +145,31 @@ package module {
 			
 		}
 		//jpg encoding
-		private function encodeJPG( bd:BitmapData ):ByteArray
+		/*private function encodeJPG( bd:BitmapData ):ByteArray
 		{
 			var jpgEncoder:JPGEncoder = new JPGEncoder();
 			var bytes:ByteArray = jpgEncoder.encode(bd);
 			return bytes;
-		} 
+		} */
 		private function ioErrorHandler( event:IOErrorEvent ):void
 		{
 			Console.output( 'JpgRecorderModule, An IO Error has occured: ' + event.text );
 		}    
+		private function alchemySync( bd:BitmapData ):ByteArray
+		{
+			var ba:ByteArray;
+			ba = bd.getPixels( bd.rect );
+			ba.position = 0;
+			var baout:ByteArray = new ByteArray();
+			
+			//timer = getTimer();
+			
+			lib.encode( ba, baout, bd.width, bd.height, 80 );
+			
+			//timer = flash.utils.getTimer() - timer;
+			//Console.output( 'JPEG compression time (alchemy sync) : ' + timer + 'ms\nJPEG size : ' + baout.length );
+			return baout;
+		}
 		
 	}
 }

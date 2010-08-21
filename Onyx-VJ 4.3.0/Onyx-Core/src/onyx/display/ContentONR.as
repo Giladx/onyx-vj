@@ -127,7 +127,7 @@ package onyx.display {
 				bytes.readBytes(data, 0, next - current);	
 								
 				// uncompress
-				data.uncompress();
+				//data.uncompress();
 				
 				// set pixels
 				bmp.setPixels(bmp.rect, data);

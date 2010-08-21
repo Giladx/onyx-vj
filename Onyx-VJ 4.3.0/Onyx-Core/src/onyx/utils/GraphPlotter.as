@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -91,7 +92,7 @@ package onyx.utils {
 		/**
 		 * 	@constructor
 		 */
-		public function GraphPlotter(initValue:Number = 0, color:uint = 0xFFFF00, labelOffsetX:int = 0, width:int = 194, height:int = 182):void {
+		public function GraphPlotter(initValue:Number = 0, color:uint = 0xFFFF00, labelOffsetX:int = 104, width:int = 64, height:int = 45):void {
 
 			_width	= width;
 			_height = height;
@@ -105,8 +106,7 @@ package onyx.utils {
 			_minText.y			= height - 20;
 			_currentText.y		= (height / 2) - 10;
 			_currentText.selectable = _minText.selectable = _maxText.selectable = false;
-			_currentText.textColor	= 0x0000FF;
-			_currentText.backgroundColor = 0xFFFF00;
+			_currentText.textColor	= color && 0x00FF00;
 			_minText.textColor = _maxText.textColor = color;
 			_currentText.x = _minText.x = _maxText.x = labelOffsetX;
 			
@@ -135,8 +135,8 @@ package onyx.utils {
 			maxX = Math.max(x, maxX);
 			minX = Math.min(x, minX);
 			
-			_minText.text = minY.toFixed(2);
-			_maxText.text = maxY.toFixed(2);
+			_minText.text = minY.toFixed(0);
+			_maxText.text = maxY.toFixed(0);
 		}
 		
 		/**
@@ -150,7 +150,7 @@ package onyx.utils {
 			// calculate the x / y
 			_calc(x, y);
 			
-			_currentText.text			= value.toFixed(2);
+			_currentText.text			= value.toFixed(0);
 
 			// draw
 			_graph.graphics.lineTo(x, y);

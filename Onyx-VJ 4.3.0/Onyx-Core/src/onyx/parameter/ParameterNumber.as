@@ -36,7 +36,7 @@ package onyx.parameter {
 		
 		/**
 		 * 	Multiplier
-		 * 	100 will make 0.1 appear as 100 in the ui
+		 * 	100 will make 0.1 appear as 10 in the ui
 		 */
 		public var multiplier:Number;
 		

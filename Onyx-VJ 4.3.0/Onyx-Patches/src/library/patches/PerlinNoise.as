@@ -26,7 +26,7 @@ package library.patches {
 	import onyx.plugin.*;
 	
 	[SWF(width='320', height='240', frameRate='24', backgroundColor='#FFFFFF')]
-	public class BatchassPerlin extends Patch 
+	public class PerlinNoise extends Patch 
 	{
 		private var _baseX:int = 200;
 		private var _baseY:int = 25;
@@ -45,7 +45,7 @@ package library.patches {
 		/**
 		 * 	@constructor
 		 */
-		public function BatchassPerlin():void {
+		public function PerlinNoise():void {
 			Console.output('Batchass Perlin Noise 4.0.504');
 			Console.output('Credits to Bruce LANE (http://www.batchass.fr)');
 			parameters.addParameters(

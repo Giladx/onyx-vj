@@ -56,11 +56,7 @@ package ui.window {
 		 */
 		private var buttonXML:TextButton;
 		
-		/**
-		 * 	@private
-		 */
-		private var buttonCheckForUpdate:TextButton;
-		
+
 		/**
 		 * 	@private
 		 */
@@ -125,8 +121,6 @@ package ui.window {
 
 			// controls for display
 			buttonXML				= new TextButton(options, 'save mix file'),
-			buttonCheckForUpdate	= new TextButton(options, 'check'),
-			buttonUpdate			= new TextButton(options, 'update'),
 			
 			// transition controls
 			durationSlider			= Factory.getNewInstance(SliderV);
@@ -148,9 +142,7 @@ package ui.window {
 				tapTempo,						75,		33,
 				transitionDropDown,				8,		95,
 				durationSlider,					75,		95,
-				buttonXML,						8,		129,
-				buttonUpdate,					8,		161,
-				buttonCheckForUpdate,			75,		161
+				buttonXML,						8,		129
 			);
 			
 			
@@ -182,13 +174,7 @@ package ui.window {
                         
 			// xml
 			buttonXML.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-			
-			// check for update
-			buttonCheckForUpdate.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-                        
-			// update
-			buttonUpdate.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-                        
+			                       
 			// start the timer
 			Tempo.addEventListener(TempoEvent.CLICK, _onTempo);
 			
@@ -210,12 +196,6 @@ package ui.window {
 			switch (event.currentTarget) {
 				case buttonXML:
 					saveMix();
-					break;
-				case buttonCheckForUpdate:
-					OnyxAIRUpdate.checkForUpdate();
-					break;
-				case buttonUpdate:
-					OnyxAIRUpdate.downloadUpdate();
 					break;
 			}
 			event.stopPropagation();

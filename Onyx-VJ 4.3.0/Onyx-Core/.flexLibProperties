@@ -31,7 +31,6 @@
     <classEntry path="onyx.core.ISerializable"/>
     <classEntry path="onyx.core.ITempo"/>
     <classEntry path="onyx.core.ITimeObject"/>
-    <classEntry path="onyx.core.ONRFile"/>
     <classEntry path="onyx.core.Onyx"/>
     <classEntry path="onyx.core.PluginArray"/>
     <classEntry path="onyx.core.PluginBase"/>

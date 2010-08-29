@@ -11,6 +11,7 @@
  * You may obtain a copy of the License at: http://creativecommons.org/licenses/by-nc-sa/3.0/us/
  *
  * Please visit http://www.onyx-vj.com for more information
+ * free font from http://www.miniml.com/
  * 
  */
 package onyx.asset {

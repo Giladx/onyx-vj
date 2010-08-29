@@ -3,6 +3,7 @@
   <includeClasses>
     <classEntry path="onyx.asset.AssetDefaultFont"/>
     <classEntry path="onyx.asset.AssetFile"/>
+    <classEntry path="onyx.asset.AssetInputFont"/>
     <classEntry path="onyx.asset.AssetQuery"/>
     <classEntry path="onyx.asset.CameraAsset"/>
     <classEntry path="onyx.asset.CameraProtocol"/>

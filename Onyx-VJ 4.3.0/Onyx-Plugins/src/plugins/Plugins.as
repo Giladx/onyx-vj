@@ -33,7 +33,6 @@ package plugins {
 			addPlugins(
 			
 				// modules
-				new Plugin('Recorder', 				Recorder, 			'Recorder'),
 				new Plugin('Performance', 			PerformanceMonitor, 'Performance'),
 				
 				// bitmap filters

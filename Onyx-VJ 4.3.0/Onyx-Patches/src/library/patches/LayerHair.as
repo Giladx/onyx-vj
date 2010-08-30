@@ -146,7 +146,8 @@ package library.patches
 					}
 				}
 			}
-		} 		/**
+		}
+		/**
 		 * 	@private
 		 * 	If multiple layers are listening to the same layer, combine the stored frames
 		 */

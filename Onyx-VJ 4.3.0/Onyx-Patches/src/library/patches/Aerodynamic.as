@@ -78,7 +78,7 @@ package library.patches
 			) 
 			lastBmp.x=0;
 			lastBmp.width=0;
-			b = new Circle( color, 6 );
+			b = new Circle( color, 2 );
 			originalWidth = b.width;
 			originalHeight = b.height;
 			for(var i:uint=1;i<originalWidth;i++){

@@ -20,6 +20,7 @@ package module {
 	
 	import com.zeropointnine.SimpleFlvWriter;
 	
+	import flash.desktop.NotificationType;
 	import flash.display.BitmapData;
 	import flash.display.FrameLabel;
 	import flash.display.MovieClip;
@@ -46,6 +47,10 @@ package module {
 		 */
 		private var recording:Boolean		= false;
 		
+		private var _realtime:Boolean		= false;
+
+		private const frames:Array		= [];
+		
 		/**
 		 * 
 		 */
@@ -67,8 +72,9 @@ package module {
 			
 			// add parameters
 			parameters.addParameters(
-				new ParameterInteger('maxframes', 'max frames', 24, 600, maxframes),
+				new ParameterInteger('maxframes', 'max frames', 24, 6000, maxframes),
 				new ParameterBoolean('record', 'record'),
+				new ParameterBoolean('realtime', 'realtime'),
 				new ParameterStatus('status', 'status')
 			);
 			
@@ -82,23 +88,43 @@ package module {
 			this.recording	= value;
 			
 			// pause?
-			//Display.pause(!value);
+			if ( !realtime ) Display.pause(!value);
 			
 			// if it's recording
-			if (value) {
+			if (value) 
+			{
+				// clear all frames
+				if ( !realtime ) frames.splice(0, frames.length);
 				
+				var date:Date = new Date();
+				var dateFilename:String = date.getHours() + 'h' + date.getMinutes() + 'mn' + date.getSeconds() + (realtime ? "realtime" : "notrealtime");
 				// FLV file open
-				var flvFile:File = new File( AssetFile.resolvePath( 'library/recorded/' + currentFrame++ +'.flv' ) );
+				var flvFile:File = new File( AssetFile.resolvePath( 'library/recorded/' + dateFilename +'.flv' ) );
 				myWriter = SimpleFlvWriter.getInstance();
-				myWriter.createFile(flvFile, DISPLAY_WIDTH, DISPLAY_HEIGHT, DISPLAY_STAGE.frameRate );//,  120);
+				myWriter.createFile( flvFile, DISPLAY_WIDTH, DISPLAY_HEIGHT, DISPLAY_STAGE.frameRate );
 				// add listener
 				Display.addEventListener(DisplayEvent.DISPLAY_RENDER, saveFrame);
 				
-			} else {
-				
-				myWriter.closeFile();
+			} 
+			else 
+			{
 				// remove listener
 				Display.removeEventListener(DisplayEvent.DISPLAY_RENDER, saveFrame);				
+				if ( realtime ) 
+				{
+					for ( var i:int=0; i < ( frames.length -1 ); i++ )
+					{
+						myWriter.saveFrame( frames.shift() );
+					}
+					
+					frames.splice( 0, frames.length );
+					// resume states
+					Display.pause(false);
+					
+				}
+				
+				myWriter.closeFile();
+				currentFrame = 0;
 			}
 			
 			// 
@@ -128,14 +154,22 @@ package module {
 		 */
 		private function saveFrame(event:Event):void {
 						
+			// save the frame
+			if ( realtime )
+			{
+				frames.push(Display.source.clone());
+			}
+			else
+			{
+				myWriter.saveFrame( Display.source.clone() );
+			}
 			// update frames
-			parameters.getParameter('status').value = currentFrame + ' frames';
-			
-			myWriter.saveFrame( Display.source.clone() );
+			parameters.getParameter('status').value = currentFrame++ + ' frames';
 			
 			if (currentFrame >= maxframes) {
 				record = false;	
 			}
+			
 			
 		}
 
@@ -144,6 +178,22 @@ package module {
 			Console.output( 'FlvRecorderModule, An IO Error has occured: ' + event.text );
 		}    
 
-		
+		/**
+		 * 	@private
+		 */
+		public function get realtime():Boolean
+		{
+			return _realtime;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set realtime(value:Boolean):void
+		{
+			_realtime = value;
+		}
+
+
 	}
 }

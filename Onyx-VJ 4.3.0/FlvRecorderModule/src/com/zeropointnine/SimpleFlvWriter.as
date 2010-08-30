@@ -24,10 +24,10 @@ myWriter.closeFile();
 
 package com.zeropointnine
 {
+	import flash.display.BitmapData;
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
-	import flash.display.BitmapData;
 	import flash.utils.ByteArray;
 	
 	public class SimpleFlvWriter
@@ -47,7 +47,6 @@ package com.zeropointnine
 		private var iteration:int = 0;
 		private var bmp:BitmapData;
 		
-		
 		public static function getInstance():SimpleFlvWriter 
 		{
 			if(SimpleFlvWriter._instance == null) 
@@ -59,7 +58,7 @@ package com.zeropointnine
 		{
 		}
 		
-		public function createFile(pFile:File, pWidth:int, pHeight:int, pFramesPerSecond:Number, pDurationInSeconds:Number=0):void
+		public function createFile(pFile:File, pWidth:int, pHeight:int, pFramesPerSecond:Number, pDurationInSeconds:Number=120):void
 		{
 			/*
 			Parameters:

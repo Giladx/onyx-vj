@@ -177,7 +177,6 @@ package module {
             
             var n:int 				= event.bytesLoaded;
             var buffer:ByteArray 	= new ByteArray();
-			       		
 
             // SC: TODO...n==3 very restrictive due to startup errors!!
            // if(n==3)

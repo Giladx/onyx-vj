@@ -104,6 +104,8 @@ package midi {
 
 		public static function registerControl(control:Parameter, midihash:uint):ColorTransform {
 			
+			Console.output( "registerControl, midihash: " + midihash );
+
 			if(control && midihash) {
              	// check if already have this midihash
 				for (var val:Object in _map) {
@@ -223,7 +225,7 @@ package midi {
 			var data2:uint       = data.readUnsignedByte();
 			
 			var midihash:uint    = ((status<<8)&0xFF00) | data1&0xFF; // SC: was ((status<<8)&0xFF00);
-			Console.output( "rx: status " + status + " command " + command + " channel " + channel + " data1 " + data1  + " data2 " + data2 + " midihash " + midihash  );
+			Console.output( "rx stat " + status + " cmd " + command + " chn " + channel + " d1 " + data1  + " d2 " + data2 + " hash " + midihash  );
 			
 			var behavior:IMidiControlBehavior = _map[midihash]; 
 			
@@ -276,7 +278,7 @@ package midi {
 		 *  parameter changed
 		 **/
 		public static function _parChanged(event:ParameterEvent):void {
-			
+		
 			// ok, change is not coming from midi controller, so we send to it to allow 2way communication
 			if(busy==false) {
 				var par:Parameter = event.target as Parameter;

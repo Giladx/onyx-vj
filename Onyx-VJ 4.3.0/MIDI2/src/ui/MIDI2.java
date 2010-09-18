@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  * 
@@ -110,8 +111,6 @@ public class MIDI2 extends JFrame implements Observer {
 	
 	private String 		labelServer;
 	private String 		labelMIDI;
-	
-	private int			ctrlnumber;
 	
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -536,51 +535,12 @@ public class MIDI2 extends JFrame implements Observer {
 		if(o instanceof MonitoringReceiver) {
 			if(isServerRunning) {
 				if(arg instanceof ShortMessage) {
-					
-					//if ( ((ShortMessage)arg).getData2() != 0) {
-					if ( ((ShortMessage)arg).getStatus() == 153) {
-						labelServer = ((ShortMessage)arg).getStatus()+" d1 "+((ShortMessage)arg).getData1();
-						labelMIDI	= "d2 " +((ShortMessage)arg).getData2();
-						statusLabel.setText(labelServer+ " / " +labelMIDI );
-						server.broadcastMessage(((MidiMessage)arg).getMessage());	
-					}
-				}
+					server.broadcastMessage(((MidiMessage)arg).getMessage());	
+				}	
 			}
 		} else if(o instanceof TcpClient) {
 			if(arg instanceof ShortMessage) {
-				//noteon= 153
-				//korg es1 if (d1=0x62) d2=control number(0x63=edit1) and take next line
-				// for value: if (d1=0x06) d2=0x0 to 0x7F 
-				//if ( ((ShortMessage)arg).getData2() != 0) {
-				if ( (((ShortMessage)arg).getStatus() & 0xF0) == ShortMessage.NOTE_ON ) {
-					labelServer = "noteOn "+((ShortMessage)arg).getStatus()+" d1 "+((ShortMessage)arg).getData1();
-					labelMIDI	= " d2 " +((ShortMessage)arg).getData2();
-					statusLabel.setText(labelServer+ labelMIDI );
-					outputReceiver.send((ShortMessage)arg,-1);	
-				} else if ( ( ((ShortMessage)arg).getStatus() & 0xF0) == ShortMessage.CONTROL_CHANGE ) {
-					int d1 = ((ShortMessage)arg).getData1();
-					if ( d1 == 98 ) ctrlnumber = ((ShortMessage)arg).getData2();
-					if ( d1 == 6 ) {
-						int d2 = ((ShortMessage)arg).getData2();
-						labelServer = "dataentry "+((ShortMessage)arg).getStatus()+" cc "+ctrlnumber;
-						labelMIDI	= " d2 " +d2;
-						statusLabel.setText(labelServer+ labelMIDI );
-						
-						ShortMessage midiMsg = new ShortMessage() ;
-					
-						//midiMsg.setMessage( ShortMessage.CONTROL_CHANGE, ctrlnumber, d2);
-						try {
-							midiMsg.setMessage( ShortMessage.CONTROL_CHANGE, ctrlnumber, d2);
-						} catch (InvalidMidiDataException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						//((ShortMessage)arg).
-						outputReceiver.send( midiMsg,-1 );
-						
-					}
-				}
-				
+				outputReceiver.send((ShortMessage)arg,-1);
 //				System.out.println(((ShortMessage)arg).getStatus()+" "+
 //						((ShortMessage)arg).getData1()+" "+
 //						((ShortMessage)arg).getData2());

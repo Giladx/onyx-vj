@@ -44,6 +44,7 @@ public class TcpClient extends Observable implements Runnable {
     
     byte[] messageBuffer;
     byte[] backupBuffer;
+	private long time =  System.currentTimeMillis();
     
     /**
      * Constructor for the TcpClient.  Initializes the TcpClient properties.
@@ -81,16 +82,13 @@ public class TcpClient extends Observable implements Runnable {
     	messageBuffer 	= new byte[3];
     	backupBuffer 	= new byte[3];
     	ShortMessage message 	= new ShortMessage();
-    	
+       	
     	while(count<MAX_COUNT) {
     		
     		try {
     			backupBuffer = messageBuffer;
     			in.read(messageBuffer);
-    			//BL shows input
-    	    	System.out.println(messageBuffer); 
-
-
+ 
     			message.setMessage(	messageBuffer[0]&0xF0,
     								messageBuffer[0]&0x0F,
     								messageBuffer[1],
@@ -105,9 +103,13 @@ public class TcpClient extends Observable implements Runnable {
     			if(backupBuffer==messageBuffer)	count++;
     			else  							count=0;
     			
-				setChanged();
-    	    	notifyObservers(message);
-    	    	clearChanged();
+    		   	if ( System.currentTimeMillis() > time + 1000 )	
+    	    	{
+    		   		time =  System.currentTimeMillis();
+					setChanged();
+	    	    	notifyObservers(message);
+	    	    	clearChanged();
+    	    	}
 	        }
 	        
     	}

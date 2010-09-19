@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -32,6 +33,8 @@ package midi {
 	import ui.states.*;
 	import ui.styles.*;
 	import ui.window.*;
+	
+	import flash.utils.getTimer;
 					
 	final public class Midi extends Module {
 		
@@ -74,7 +77,12 @@ package midi {
 		 * 	Busy flag
 		 */
 		private static var busy:Boolean;
-		        
+		
+		/**
+		 * 	time measurement
+		 */
+		private static var timer:uint = getTimer();
+
 		/**
 		 * 	@constructor
 		 */
@@ -225,7 +233,11 @@ package midi {
 			var data2:uint       = data.readUnsignedByte();
 			
 			var midihash:uint    = ((status<<8)&0xFF00) | data1&0xFF; // SC: was ((status<<8)&0xFF00);
-			Console.output( "rx stat " + status + " cmd " + command + " chn " + channel + " d1 " + data1  + " d2 " + data2 + " hash " + midihash  );
+			
+			timer = getTimer() - timer;
+			
+
+			Console.output( timer + " stat " + status + " cmd " + command + " chn " + channel + " d1 " + data1  + " d2 " + data2 + " hash " + midihash  );
 			
 			var behavior:IMidiControlBehavior = _map[midihash]; 
 			
@@ -235,7 +247,7 @@ package midi {
 					case NOTE_OFF:
 						break;
 					case NOTE_ON:
-						behavior.setValue(data1);
+						behavior.setValue(data2);// BL: D1: note D2: velocity for values
 						break;
 					case PITCH_WHEEL:
 						behavior.setValue(data1);

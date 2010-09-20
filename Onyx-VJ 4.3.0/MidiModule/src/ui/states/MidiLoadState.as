@@ -101,9 +101,9 @@ package ui.states {
 			if (event.type === Event.SELECT) {
 				var file:File = event.currentTarget as File;
 				
-				if (file.type !== '.onm') {
+				/*if (file.type !== '.onm') {
 					file = new File(file.nativePath + '.onm');
-				}
+				}*/
 				
 				Midi.fromXML(new XML(readTextFile(file)));
 									

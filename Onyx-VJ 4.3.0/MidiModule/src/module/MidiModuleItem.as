@@ -191,8 +191,14 @@ package module {
         }
         
 		public function sendData(bytes:ByteArray):void {
-			conn.writeBytes(bytes);
-			conn.flush();
+			// BL: added if connected because onyx sends data even if midi2 not loaded
+			// on .onx file load
+			if ( connected )
+			{
+				conn.writeBytes(bytes);
+				conn.flush();
+			}
+			
        		//Console.output('MIDI Module: sendData bytes:' + bytes.toString());
 		}
 				

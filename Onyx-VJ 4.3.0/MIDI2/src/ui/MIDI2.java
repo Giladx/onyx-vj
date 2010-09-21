@@ -1,9 +1,8 @@
 /**
- * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
- * Bruce Lane
  *
  * All rights reserved.
  * 
@@ -19,56 +18,55 @@
  */
 package ui;
 
-import java.awt.Image;
-import java.awt.FlowLayout;
-import java.awt.Toolkit;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.MenuItem;
 import java.awt.Point;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-//import java.awt.SystemTray;
-//import java.awt.TrayIcon;
-import java.awt.PopupMenu;
-import java.awt.MenuItem;
-import java.awt.AWTException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
-import javax.sound.midi.Transmitter;
-import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
+import javax.sound.midi.Transmitter;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-
 import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.SwingUtilities;
 
 import midi.MonitoringReceiver;
-import tcp.*;
+import ui.ConsoleFrame;
+import tcp.TcpClient;
+import tcp.TcpServer;
 
 public class MIDI2 extends JFrame implements Observer {
 	
@@ -81,11 +79,11 @@ public class MIDI2 extends JFrame implements Observer {
 	private MidiDevice.Info 	inputInfo[];
 	private MidiDevice.Info 	outputInfo[];
 	private TcpServer 			server;
-	private MidiDevice 			inputPort;
+	private MidiDevice 			inputPort;  //  @jve:decl-index=0:
 	private MidiDevice 			outputPort;
 	private Transmitter 		inputTransmitter;
 	private Receiver 			outputReceiver;
-	private MonitoringReceiver 	inputReceiver;
+	private MonitoringReceiver 	inputRxTx;
 	
 	private JPanel 		midiPanel;
 	private JButton 	serverButton;
@@ -105,17 +103,28 @@ public class MIDI2 extends JFrame implements Observer {
 	private JComboBox 	midiInList;
 	private JLabel 		midiInLabel;
 	private JPanel 		tcpPanel;
-
-	//private SystemTray 	tray = null;
-	//private TrayIcon 	trayIcon = null;
+	private JButton 	testButton;
 	
-	private String 		labelServer;
-	private String 		labelMIDI;
+	private SystemTray 	tray = null;
+	private TrayIcon 	trayIcon = null;
+	
+	private String 		labelServer;  //  @jve:decl-index=0:
+	private String 		labelMIDI;  //  @jve:decl-index=0:
+	
 	
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				MIDI2 inst = new MIDI2();
+				ConsoleFrame cf = new ConsoleFrame( "MIDI2 Console", 
+	    				true, 
+	    				false, 
+	    				"", 
+	    				0, 
+	    				0, 
+	    				400,
+	    				200, 
+	    				0);
 				inst.setLocationRelativeTo(null);
 				inst.setVisible(true);
 				inst.setResizable(false);
@@ -149,7 +158,7 @@ public class MIDI2 extends JFrame implements Observer {
         inputInfo 	= filterInputDevices(info, true);
         outputInfo 	= filterOutputDevices(info, true);
         midiInDevices = new ArrayList<String>();
-        for(int i = 0; i < inputInfo.length; i++) {
+        for(int i = 0; i<inputInfo.length; i++) {
         	midiInDevices.add(inputInfo[i].getName());
         }
         midiOutDevices = new ArrayList<String>();
@@ -163,29 +172,29 @@ public class MIDI2 extends JFrame implements Observer {
 		
 		this.addWindowListener(new MainJFrameListener());
 		
-		/*if(SystemTray.isSupported()) {
-	        // tray = SystemTray.getSystemTray();
+		if(SystemTray.isSupported()) {
+	         tray = SystemTray.getSystemTray();
 	         Image image = new ImageIcon(getClass().getClassLoader().getResource("images/arrow_switch.png")).getImage();
 	 	    
 	         ActionListener actionListener = new ActionListener() {
 	             public void actionPerformed(ActionEvent e) {
-	            	 //trayIcon.setToolTip("MIDI2: "+statusLabel.getText());	            	
+	            	 trayIcon.setToolTip("MIDI2: "+statusLabel.getText());	            	
 	             }
 	         };
 	         
 	         ActionListener aboutListener = new ActionListener() {
 	             public void actionPerformed(ActionEvent e) {
-	            	 //trayIcon.displayMessage("MIDI/TCP 2Way Proxy",
-	            	 //					"� Stefano Cottafavi 2008 \n" +
-	            	 //					"Credits: Mike Craighton, FLOSC project",
-	            	 //					TrayIcon.MessageType.INFO);
+	            	 trayIcon.displayMessage("MIDI/TCP 2Way Proxy",
+	            	 					"� Stefano Cottafavi 2008 \n" +
+	            	 					"Credits: Mike Craighton, FLOSC project",
+	            	 					TrayIcon.MessageType.INFO);
 	             }
 	         };
 	         
 	         ActionListener exitListener = new ActionListener() {
 	             public void actionPerformed(ActionEvent e) {
 	            	 disconnectAll();
-	            	 //tray.remove(trayIcon);
+	            	 tray.remove(trayIcon);
 	                 System.exit(0);
 	             }
 	         };
@@ -196,7 +205,7 @@ public class MIDI2 extends JFrame implements Observer {
 	            		 if(e.getClickCount()>=2) {
 	            			 setVisible(true);
 	            			 setState(JFrame.NORMAL);
-				     		 //tray.remove(trayIcon);
+				     		 tray.remove(trayIcon);
 	            		 } else {
 	            			 
 	            		 }
@@ -225,9 +234,9 @@ public class MIDI2 extends JFrame implements Observer {
 	         popup.add(aboutItem);
 	         popup.add(exitItem);
 	         	         
-	         //trayIcon = new TrayIcon(image, "MIDI2", popup);
-	         //trayIcon.addActionListener(actionListener);
-	         //trayIcon.addMouseListener(mouseListener);
+	         trayIcon = new TrayIcon(image, "MIDI2", popup);
+	         trayIcon.addActionListener(actionListener);
+	         trayIcon.addMouseListener(mouseListener);
 	         
 	         // start iconified
 //	         try {
@@ -242,7 +251,7 @@ public class MIDI2 extends JFrame implements Observer {
 	     // the application state has changed - update the image
 //	     if (trayIcon != null) {
 //	         trayIcon.setImage(updatedImage);
-//	     }*/
+//	     }
 	     
 		try {
 			FlowLayout thisLayout = new FlowLayout();
@@ -253,7 +262,7 @@ public class MIDI2 extends JFrame implements Observer {
 			
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			
-			this.setTitle(" MIDI2");
+			this.setTitle("MIDI2");
 			{
 				midiPanel = new JPanel();
 				BoxLayout midiWayPanelLayout = new BoxLayout(midiPanel, javax.swing.BoxLayout.Y_AXIS);
@@ -272,7 +281,7 @@ public class MIDI2 extends JFrame implements Observer {
 					midiWayPanel.setLayout(jPanel1Layout);
 					midiWayPanel.setPreferredSize(new java.awt.Dimension(198, 19));
 					jPanel1Layout.setVgap(0);
-					//jPanel1Layout.setAlignOnBaseline(true);
+					jPanel1Layout.setAlignOnBaseline(true);
 					jPanel1Layout.setAlignment(FlowLayout.LEFT);
 					jPanel1Layout.setHgap(3);
 					{
@@ -309,7 +318,7 @@ public class MIDI2 extends JFrame implements Observer {
 					midiInPanel = new JPanel();
 					FlowLayout jPanel3Layout = new FlowLayout();
 					jPanel3Layout.setAlignment(FlowLayout.RIGHT);
-					//jPanel3Layout.setAlignOnBaseline(true);
+					jPanel3Layout.setAlignOnBaseline(true);
 					jPanel3Layout.setVgap(0);
 					midiInPanel.setLayout(jPanel3Layout);
 					midiPanel.add(midiInPanel);
@@ -338,7 +347,7 @@ public class MIDI2 extends JFrame implements Observer {
 					midiPanel.add(midiOutPanel);
 					FlowLayout jPanel4Layout = new FlowLayout();
 					jPanel4Layout.setAlignment(FlowLayout.RIGHT);
-					//jPanel4Layout.setAlignOnBaseline(true);
+					jPanel4Layout.setAlignOnBaseline(true);
 					jPanel4Layout.setVgap(0);
 					midiOutPanel.setLayout(jPanel4Layout);
 					{
@@ -436,6 +445,19 @@ public class MIDI2 extends JFrame implements Observer {
 					midiButton.setEnabled(false);
 					midiButton.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/keyboard.png")));
 				}
+//				{
+//					testButton = new JButton();
+//					buttonPanel.add(testButton);
+//					testButton.setText("T");
+//					testButton.setFont(new java.awt.Font("Tahoma",0,10));
+//					testButton.setPreferredSize(new java.awt.Dimension(24, 24));
+//					testButton.setBorder(BorderFactory.createCompoundBorder(
+//							null, 
+//							BorderFactory.createEtchedBorder(BevelBorder.LOWERED)));
+//					testButton.addActionListener(new TestListener());
+//					testButton.setEnabled(true);
+//					//testButton.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/keyboard.png")));
+//				}
 			}
 			{
 				statusPanel = new JPanel();
@@ -534,16 +556,13 @@ public class MIDI2 extends JFrame implements Observer {
 	{
 		if(o instanceof MonitoringReceiver) {
 			if(isServerRunning) {
-				if(arg instanceof ShortMessage) {
-					server.broadcastMessage(((MidiMessage)arg).getMessage());	
-				}	
+				System.out.println(((ShortMessage)arg).getStatus()+" "+((ShortMessage)arg).getData1()+" "+((ShortMessage)arg).getData2());
+				server.broadcastMessage(((MidiMessage)arg).getMessage());	
 			}
 		} else if(o instanceof TcpClient) {
 			if(arg instanceof ShortMessage) {
 				outputReceiver.send((ShortMessage)arg,-1);
-//				System.out.println(((ShortMessage)arg).getStatus()+" "+
-//						((ShortMessage)arg).getData1()+" "+
-//						((ShortMessage)arg).getData2());
+				//System.out.println(((ShortMessage)arg).getStatus()+" "+((ShortMessage)arg).getData1()+" "+((ShortMessage)arg).getData2());
 			} else {
 				labelServer = (String)arg;
 				statusLabel.setText(labelServer+ " / " +labelMIDI );
@@ -651,6 +670,15 @@ public class MIDI2 extends JFrame implements Observer {
 		}
 	}
 	
+	public class TestListener implements ActionListener {		
+		public void actionPerformed(ActionEvent event) {
+		
+			if(isMidiConnected) {
+				//MidiCommon.testFader(outputReceiver); // TEST 2WAY
+				//MonitoringReceiver.testFader();
+			}
+		}
+	}
 	private void connectToSelectedDevice() 
 	{
 		// Determine the IN device chosen.
@@ -660,9 +688,15 @@ public class MIDI2 extends JFrame implements Observer {
 			inputPort = MidiSystem.getMidiDevice(inputDeviceInfo);
 			inputPort.open();
 			inputTransmitter = inputPort.getTransmitter();
-			inputReceiver = new MonitoringReceiver();
-			inputReceiver.addObserver(this);
-			inputTransmitter.setReceiver(inputReceiver);
+			inputRxTx = new MonitoringReceiver();
+			inputRxTx.addObserver(this);
+			inputTransmitter.setReceiver(inputRxTx);
+			
+			//outputPort = MidiSystem.getMidiDevice(inputDeviceInfo);
+			//outputPort.open();
+			//outputReceiver = inputPort.getReceiver();
+			//inputRxTx.setReceiver(outputReceiver);
+						
 		} catch (MidiUnavailableException e) {
 			e.printStackTrace();
 		}
@@ -676,6 +710,7 @@ public class MIDI2 extends JFrame implements Observer {
 				outputPort = MidiSystem.getMidiDevice(outputDeviceInfo);
 				outputPort.open();
 				outputReceiver = outputPort.getReceiver();
+				
 			} catch (MidiUnavailableException e) {
 				e.printStackTrace();
 			}
@@ -691,9 +726,9 @@ public class MIDI2 extends JFrame implements Observer {
 				inputPort = null;
 			}
 		}
-		if(inputReceiver != null) {
-			inputReceiver.close();
-			inputReceiver = null;
+		if(inputRxTx != null) {
+			inputRxTx.close();
+			inputRxTx = null;
 		}
 		if(inputTransmitter != null) {
 			inputTransmitter.close();
@@ -787,9 +822,9 @@ public class MIDI2 extends JFrame implements Observer {
 				inputPort = null;
 			}
 		}
-		if(inputReceiver != null) {
-			inputReceiver.close();
-			inputReceiver = null;
+		if(inputRxTx != null) {
+			inputRxTx.close();
+			inputRxTx = null;
 		}
 		if(inputTransmitter != null) {
 			inputTransmitter.close();

@@ -13,14 +13,14 @@
  */
 package tcp;
 
-import java.io.*;
-import java.net.*;
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.util.Observable;
 
-//import javax.sound.midi.MidiMessage;
-import javax.sound.midi.ShortMessage;
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.ShortMessage;
 
 /**
  * TCP client for the TcpServer.
@@ -35,7 +35,7 @@ import javax.sound.midi.InvalidMidiDataException;
 
 public class TcpClient extends Observable implements Runnable {
 	
-	private int MAX_COUNT = 100000;
+	private int MAX_COUNT = 1000;
     private Socket socket;          // socket for connection
     private TcpServer server;      	// server to which the client is connected
     private String ip;              // the ip of this client
@@ -44,7 +44,6 @@ public class TcpClient extends Observable implements Runnable {
     
     byte[] messageBuffer;
     byte[] backupBuffer;
-	private long time =  System.currentTimeMillis();
     
     /**
      * Constructor for the TcpClient.  Initializes the TcpClient properties.
@@ -77,39 +76,39 @@ public class TcpClient extends Observable implements Runnable {
     	notifyObservers("Server started: "+server.clients.size()+ " clients");
     	clearChanged();
     	
-    	// TODO: usare byte[0] con # di bytes a seguire
     	int count 				= 0;
-    	messageBuffer 	= new byte[3];
-    	backupBuffer 	= new byte[3];
+    	messageBuffer 			= new byte[3];
+    	backupBuffer 			= new byte[3];
     	ShortMessage message 	= new ShortMessage();
-       	
+    	
     	while(count<MAX_COUNT) {
     		
+    		// workaround for the network breakdown
+        	if(socket.isClosed())
+        		count=MAX_COUNT;
+        	
     		try {
     			backupBuffer = messageBuffer;
     			in.read(messageBuffer);
- 
-    			message.setMessage(	messageBuffer[0]&0xF0,
-    								messageBuffer[0]&0x0F,
-    								messageBuffer[1],
-    								messageBuffer[2]);
-    				
+    			message.setMessage(	messageBuffer[0]&0xF0, 	// ShortMessage.CONTROL_CHANGE
+    								messageBuffer[0]&0x0F, 	// 0
+    								messageBuffer[1],		// 0
+    								messageBuffer[2]);		// 60
     		} catch(IOException ioe) {
 	        	ioe.printStackTrace();
 	        	count=MAX_COUNT;
     		} catch(InvalidMidiDataException ioe) {
+    			// this is thrown on each swf drop on layer
+    			ioe.printStackTrace();
+    			//count=MAX_COUNT;
     		} finally {
     			
     			if(backupBuffer==messageBuffer)	count++;
     			else  							count=0;
     			
-    		   	if ( System.currentTimeMillis() > time + 1000 )	
-    	    	{
-    		   		time =  System.currentTimeMillis();
-					setChanged();
-	    	    	notifyObservers(message);
-	    	    	clearChanged();
-    	    	}
+				setChanged();
+    	    	notifyObservers(message);
+    	    	clearChanged();
 	        }
 	        
     	}
@@ -137,8 +136,6 @@ public class TcpClient extends Observable implements Runnable {
      */
     public void send(byte[] message) {
     	try {
-    		// send length
-    		//out.write(message.length);
     		out.write(message);
     	} catch(IOException e) {	
     	}

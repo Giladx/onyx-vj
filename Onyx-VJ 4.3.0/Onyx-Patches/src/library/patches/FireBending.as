@@ -13,7 +13,7 @@
  *
  * Please visit http://www.onyx-vj.com for more information
  *  
- * Based on FireBending code by Edik RUZGA
+ * Based on FireBending code by Edik RUZGA (http://www.wonderwhy-er.com)
  * Adapted for Onyx-VJ 4 by Bruce LANE (http://www.batchass.fr)
  * version 4.0.503 last modified March 6th 2009
  */

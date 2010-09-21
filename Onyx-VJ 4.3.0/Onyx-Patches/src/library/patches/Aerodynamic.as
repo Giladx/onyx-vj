@@ -13,7 +13,7 @@
  *
  * Please visit http://www.onyx-vj.com for more information
  * plug-in for Onyx-VJ 4 by Bruce LANE (http://www.batchass.fr)
- * based on Aerodynamic Cursor 2.0 by Edik Ruzga (http://wonderwhy-er.deviantart.com)
+ * based on Aerodynamic Cursor 2.0 by Edik Ruzga (http://www.wonderwhy-er.com)
  */
 package library.patches 
 {

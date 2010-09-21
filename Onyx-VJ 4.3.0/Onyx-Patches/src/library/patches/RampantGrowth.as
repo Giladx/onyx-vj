@@ -13,7 +13,7 @@
  *
  * Please visit http://www.onyx-vj.com for more information
  *  
- * Based on Rampant Growth 3D code by Edik RUZGA
+ * Based on Rampant Growth 3D code by Edik RUZGA (http://www.wonderwhy-er.com)
  * Adapted for Onyx-VJ 4 by Bruce LANE (http://www.batchass.fr)
  * 
  */

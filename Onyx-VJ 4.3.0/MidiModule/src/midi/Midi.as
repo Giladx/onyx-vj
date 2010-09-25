@@ -237,7 +237,7 @@ package midi {
 			timer = getTimer() - timer;
 			
 
-			Console.output( timer + " stat " + status + " cmd " + command + " chn " + channel + " d1 " + data1  + " d2 " + data2 + " hash " + midihash  );
+			//Console.output( timer + " stat " + status + " cmd " + command + " chn " + channel + " d1 " + data1  + " d2 " + data2 + " hash " + midihash  );
 			
 			var behavior:IMidiControlBehavior = _map[midihash]; 
 			

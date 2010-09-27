@@ -14,7 +14,7 @@
  * 
  */
 package onyx.display {
-
+	
 	import flash.display.*;
 	import flash.events.*;
 	import flash.geom.*;
@@ -34,7 +34,7 @@ package onyx.display {
 	[Event(name="layer_loaded",		type="onyx.events.LayerEvent")]
 	[Event(name="layer_moved",		type="onyx.events.LayerEvent")]
 	[Event(name="progress",			type="flash.events.Event")]
-
+	
 	/**
 	 * 	Layer is the base media for all video objects
 	 */
@@ -67,8 +67,8 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
-		//private var _channel:Boolean;
-
+		private var _channel:Boolean;
+		
 		/**
 		 * 	@private
 		 * 	Controls
@@ -88,7 +88,7 @@ package onyx.display {
 			// store layers to display
 			// ugly, but better
 			this._display	= display;
-
+			
 			// add parameters
 			layerProperties.addParameters(
 				new ParameterNumber('alpha', 'alpha', 0, 1, 1),
@@ -119,9 +119,7 @@ package onyx.display {
 				new ParameterNumber('saturation', 'saturation', 0, 2, 1),
 				new ParameterNumber('hue', 'hue', -180, 180, 0, 1, 1),
 				
-				new ParameterBoolean('visible', 'visible', 1),
-				
-				new ParameterBoolean('channel', 'channel')
+				new ParameterBoolean('visible', 'visible', 1)
 			)
 		}
 		
@@ -134,7 +132,7 @@ package onyx.display {
 			//if (DEBUG::SPLASHTIME==0) Console.output('LayerImplementor, LOADING ' + path);
 			// query
 			AssetFile.queryContent(path, loadStatus, this, settings || new LayerSettings(), transition);
-												
+			
 		}
 		
 		/**
@@ -146,7 +144,7 @@ package onyx.display {
 			// if it's a progress event, pass it on
 			if (event is ProgressEvent) {
 				//if (DEBUG::SPLASHTIME==0) Console.output('LOADING ' + Math.floor((event as ProgressEvent).bytesLoaded / (event as ProgressEvent).bytesTotal * 100) + '% (' + Math.floor((event as ProgressEvent).bytesTotal / 1024) + ' kb)');
-
+				
 				super.dispatchEvent(event);
 				return;
 			}
@@ -155,7 +153,7 @@ package onyx.display {
 			if (event is ErrorEvent) {
 				
 				Console.output('Error loading layer');
-				 
+				
 			} else {
 				
 				// if a transition was loaded, load the transition with the layer
@@ -165,20 +163,20 @@ package onyx.display {
 					if (content is ContentTransition) {
 						(content as ContentTransition).endTransition();
 					}
-						
+					
 					// create a new transition
 					content = new ContentTransition(this, transition, this.content, content);
-
+					
 					// here we need to dispatch that our old filters went away
 					for each (var filter:Filter in content.filters) {
 						super.dispatchEvent(new FilterEvent(FilterEvent.FILTER_REMOVED, filter));
 					}
-
+					
 				}
-
+				
 				// pass the content on
 				_createContent(content, settings);
-
+				
 			}
 		}
 		
@@ -187,12 +185,12 @@ package onyx.display {
 		 * 	Initializes Content
 		 */
 		private function _createContent(content:Content, settings:LayerSettings):void {
-
+			
 			// get rid of earlier content
 			if (!(content is ContentTransition)) {
 				_destroyContent();
 			}
-
+			
 			// store content
 			this.content = content;
 			
@@ -202,18 +200,18 @@ package onyx.display {
 			content.addEventListener(FilterEvent.FILTER_MOVED,			super.dispatchEvent);
 			content.addEventListener(FilterEvent.FILTER_REMOVED,		super.dispatchEvent);
 			content.addEventListener(TransitionEvent.TRANSITION_END,	_endTransition);
-
+			
 			// apply settings & midi
 			if (settings) {
 				settings.apply(content);
 			}
-                        
+			
 			// render first frame
 			content.render(null);
 			
 			// dispatch a "i'm loaded" event if it's not a transition
 			if (!(content is ContentTransition)) {
-			
+				
 				// dispatch a load event
 				super.dispatchEvent(new LayerEvent(LayerEvent.LAYER_LOADED));
 				
@@ -231,7 +229,7 @@ package onyx.display {
 				
 				// destroys the earlier content
 				content.removeEventListener(TransitionEvent.TRANSITION_END, _endTransition);
-
+				
 				// dispatch an unload event
 				super.dispatchEvent(
 					new LayerEvent(LayerEvent.LAYER_UNLOADED)
@@ -240,10 +238,10 @@ package onyx.display {
 				// fill rect
 				data.fillRect(DISPLAY_RECT, 0);
 				data.lock();
-
+				
 				// blow it up
 				content.dispose();
-	
+				
 				// removes listener forwarding
 				content.removeEventListener(FilterEvent.FILTER_ADDED,	super.dispatchEvent);
 				content.removeEventListener(FilterEvent.FILTER_MOVED,		super.dispatchEvent);
@@ -261,9 +259,9 @@ package onyx.display {
 			
 			// create the content
 			_createContent(event.content, null);
-
+			
 		}
-		        
+		
 		/**
 		 * 	Sets time
 		 */
@@ -298,42 +296,42 @@ package onyx.display {
 		public function getParameters():Parameters {
 			return content.getParameters();
 		}
-
+		
 		/**
 		 * 	Gets the framerate of the movie adjusted to it's own time rate
 		 */
 		public function get framerate():Number {
 			return content.framerate;
 		}
-
+		
 		/**
 		 * 	Sets the framerate
 		 */
 		public function set framerate(value:Number):void {
 			content.framerate = value;
 		}
-
+		
 		/**
 		 * 	Gets the start loop point
 		 */
 		public function get loopStart():Number {
 			return content.loopStart;
 		}
-
+		
 		/**
 		 * 	Sets the start loop point
 		 */
 		public function set loopStart(value:Number):void {
 			content.loopStart = value;
 		}
-
+		
 		/**
 		 * 	Gets the start marker
 		 */
 		public function get loopEnd():Number {
 			return content.loopEnd;
 		}
-
+		
 		/**
 		 * 	Sets the right loop point for the video
 		 * 	@param		Percentage for the end loop point
@@ -341,7 +339,7 @@ package onyx.display {
 		public function set loopEnd(value:Number):void {
 			content.loopEnd = value;
 		}
-
+		
 		/**
 		 * 	Pauses the layer
 		 *	@param		True to pause, false to unpause
@@ -356,7 +354,7 @@ package onyx.display {
 		public function set alpha(value:Number):void {
 			content.alpha = value;
 		}
-
+		
 		/**
 		 * 	Gets alpha of current content
 		 */
@@ -370,28 +368,28 @@ package onyx.display {
 		public function set blendMode(value:String):void {
 			content.blendMode = value;
 		}
-
+		
 		/**
 		 * 	Sets the x of current content
 		 */
 		public function set x(value:Number):void {
 			content.x = value;
 		}
-
+		
 		/**
 		 * 	Sets the y of current content
 		 */
 		public function set y(value:Number):void {
 			content.y = value;
 		}
-
+		
 		/**
 		 * 	Sets scaleX for current content
 		 */
 		public function set scaleX(value:Number):void {
 			content.scaleX = value;
 		}
-
+		
 		/**
 		 * 	Sets scaleY for current content
 		 */
@@ -405,14 +403,14 @@ package onyx.display {
 		public function get scaleX():Number {
 			return content.scaleX;
 		}
-
+		
 		/**
 		 * 	Gets scaleY for current content
 		 */
 		public function get scaleY():Number {
 			return content.scaleY;
 		}
-
+		
 		/**
 		 * 	Gets x for current content
 		 */
@@ -447,7 +445,7 @@ package onyx.display {
 		public function set anchorY(value:Number):void {
 			content.anchorY = value;
 		}
-
+		
 		/**
 		 * 	Gets y for current content
 		 */
@@ -461,7 +459,7 @@ package onyx.display {
 		public function get rotation():Number {
 			return content.rotation / (Math.PI / 180);
 		}
-
+		
 		/**
 		 * 	Sets content rotation
 		 */
@@ -577,7 +575,7 @@ package onyx.display {
 		public function get visible():Boolean {
 			return content.visible;
 		}
-
+		
 		/**
 		 * 	Sets the visibility
 		 */
@@ -591,20 +589,20 @@ package onyx.display {
 		public function toXML():XML {
 			
 			const xml:XML = <layer path={path} index={index}/>;
-
+			
 			// create properties
 			xml.appendChild(layerProperties.toXML('properties'));
-            
+			
 			// add filters xml
 			if(path) {
-			     xml.appendChild(content.filters.toXML());
+				xml.appendChild(content.filters.toXML());
 			}
 			
 			// add parameters xml
 			if ( content.getParameters() ) {
 				xml.appendChild(content.getParameters().toXML());
 			}
-
+			
 			return xml;
 		}
 		
@@ -612,14 +610,14 @@ package onyx.display {
 		 * 	Sets whether the channel is A or B
 		 */
 		public function set channel(value:Boolean):void {
-			content.channel = value;
+			_channel = value;
 		}
-				
+		
 		/**
 		 * 	Returns whether the channel is on channel A or B 
 		 */
 		public function get channel():Boolean {
-			return content.channel;
+			return _channel;
 		}
 		
 		/**
@@ -690,16 +688,16 @@ package onyx.display {
 			
 			// disposes content
 			if (content) {
-
+				
 				// change target (performance)
 				layerProperties.setNewTarget(this);
-
+				
 				// destroy the content
 				_destroyContent();
-
+				
 				// set content to nothing					
 				content			= NULL_LAYER;
-
+				
 			}
 		}
 	}

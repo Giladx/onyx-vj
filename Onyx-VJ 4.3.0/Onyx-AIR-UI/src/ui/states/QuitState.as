@@ -192,7 +192,7 @@ package ui.states {
 						
 			label.text	=	'*  THANKS FOR USING ONYX-VJ  *\nVERSION ' + VERSION + '\n\n' + 
 							'*  THE ONYX TEAM  *\n' +
-							'DANIEL HAI\nSTEFANO COTTAFAVI\n\n*  CONSIDER DONATING  *\nhttp://www.onyx-vj.com\n\nCLOSING MODULES ...';
+							'DANIEL HAI\nSTEFANO COTTAFAVI\nBRUCE LANE\n\n*  CONSIDER DONATING  *\nhttp://www.onyx-vj.com\n\nCLOSING MODULES ...';
 			
 			// listen for updates
 			var console:Console	= Console.getInstance();

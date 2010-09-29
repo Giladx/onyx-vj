@@ -109,7 +109,7 @@ package ui.states {
 			}
 			else
 			{
-				const screen:Screen			= screens[1];
+				const screen:Screen			= screens[1];	
 				displayWindow.bounds		= screen.bounds;
 			}
 			
@@ -121,11 +121,12 @@ package ui.states {
 			stage.addChild(Display as DisplayObject);
 
 			// add the right display object
-			const dsp:StartupDisplay	= new StartupDisplay();
-			stage.addChild(dsp);
+			// BL removed it!
+			//const dsp:StartupDisplay	= new StartupDisplay();
+			//stage.addChild(dsp);
 			
-			dsp.width					= DISPLAY_WIDTH;
-			dsp.height					= DISPLAY_HEIGHT;
+			//dsp.width					= DISPLAY_WIDTH;
+			//dsp.height					= DISPLAY_HEIGHT;
 			
 			// turn on hardware accelleration for the output window
 			stage.fullScreenSourceRect	= new Rectangle(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
@@ -160,10 +161,36 @@ package ui.states {
 			if (core.hasOwnProperty('render')) {
 				
 				list = core.render;
-
-				if (list.hasOwnProperty('bitmapData')) {
+				
+				/*if (list.hasOwnProperty('bitmapData'))
+				{
 					Onyx.initialize(DISPLAY_STAGE, list.bitmapData.width, list.bitmapData.height, list.quality || StageQuality.MEDIUM);
+				}*/
+				
+				//BL adapt bounds to real screen size
+				const screens:Array			= Screen.screens;
+				const singleScreen:Boolean	= (screens.length === 1);
+				if ( !singleScreen )
+				{
+					
+					const screen:Screen		= screens[1];
+					const targetWidth:int 	= 320;
+					const ratio:int 		= screen.bounds.width / targetWidth;
+					const newWidth:int		= screen.bounds.width / ratio;
+					const newHeight:int		= screen.bounds.height / ratio;
+					Onyx.initialize(DISPLAY_STAGE, newWidth, newHeight, list.quality || StageQuality.MEDIUM);
+					
 				}
+				else
+				{
+					// only one screen
+					if (list.hasOwnProperty('bitmapData'))
+					{
+						Onyx.initialize(DISPLAY_STAGE, list.bitmapData.width, list.bitmapData.height, list.quality || StageQuality.MEDIUM);
+					}
+				}
+					
+				
 				
 			}
 

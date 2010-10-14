@@ -42,7 +42,7 @@ package symbols {
 			super();
 			
 			getParameters().addParameters(
-				new ParameterInteger('bands', 'bands', 2, 256, 16)
+				//new ParameterArray('bands','bands',new Array(8,16,32,64,128,256),_bands)
 			);
 			
 			// add event listener
@@ -58,6 +58,7 @@ package symbols {
 		}
 					
 		public function onSound(e:Event):void {
+			
 		}
 
 		override public function dispose():void {

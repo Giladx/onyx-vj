@@ -85,6 +85,12 @@ package onyx.core {
 			// dispatch a client-side net status event
 			dispatchEvent(NET_STATUS);
 		}
-
+		
+		public function onLastSecond(info:Object):void {
+		}
+		
+		// 2010.10.13 SC: callback functions have to be added as 
+		// needed for all custom metadata tags that a stream (flv)
+		// could carry
 	}
 }

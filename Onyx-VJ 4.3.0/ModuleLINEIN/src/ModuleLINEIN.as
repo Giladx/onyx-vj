@@ -50,6 +50,8 @@ class InnerLINEIN extends Module {
 	protected var soundOutputCh:SoundChannel;
 	
 	public var bytes:ByteArray;
+	public var bytesL:ByteArray;
+	public var bytesR:ByteArray;
 	
 	private var _enable:Boolean;
 	private var _level:Number;
@@ -81,6 +83,8 @@ class InnerLINEIN extends Module {
 		_level			= 1;
 		soundRecording 	= new ByteArray();
 		bytes 			= new ByteArray();
+		bytesL 			= new ByteArray();
+		bytesR 			= new ByteArray();
 		
 		// init			
 		super(new ModuleInterfaceOptions(null, 140, 110));
@@ -237,7 +241,12 @@ class InnerLINEIN extends Module {
 		
 		// FFT, waveform, both
 		bytes.clear();
+		bytesL.clear();
+		bytesR.clear();
 		SoundMixer.computeSpectrum( bytes, true, 0 );
+		bytes.readBytes(bytesL,0,1024);
+		bytes.readBytes(bytesR,0,1024);
+		
 		slevel = mic.activityLevel;
 		
 		// update the level's label to track current level
@@ -249,13 +258,9 @@ class InnerLINEIN extends Module {
 	}
 
 	// TODO
-	private function shrinkFFT(ni:int,nf:int,data:ByteArray):ByteArray {
-		var out:ByteArray = new ByteArray;
-		var ntimes:Number = ni/nf;
-		for (var i:int = 0; i < ntimes; i++) {
-			//out[i] =
-		}
-		return out;
-	}
+	// http://code.compartmental.net/2007/03/21/fft-averages/
+	// HP: input is always 256 bands per channel 
+	
+	
 	
 }

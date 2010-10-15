@@ -9,11 +9,13 @@ package FFT {
 	import flash.utils.*;
 	
 	import onyx.core.*;
+	import onyx.events.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
+	import services.sound.*;
+	
 	import symbols.*;
-	import services.sound.ID;
 
 	[SWF(width='480', height='360', frameRate='24')]
 	final public class Monitor extends SoundSpriteFFT {
@@ -23,14 +25,10 @@ package FFT {
 		
 		private var floatL:Array = new Array();
 		private var floatR:Array = new Array();
-		
-		private var mod:Object;
-		
+	
 		public function Monitor() {
 			super();
 				
-			mod = PluginManager.modules[ID]; // shortcut to the module
-			
 			for(var j:int=0; j<16; j++) {
 				for(var i:int=0; i<16; i++) {
 					var format:TextFormat = new TextFormat();
@@ -62,16 +60,17 @@ package FFT {
 		}	
 		
 		// do some peak interaction here
-		override public function onSound(e:Event):void {
-			var ba:ByteArray = mod.bytes;
+		override public function onPeak(l:Array,r:Array):void {
+			//var ba:ByteArray = mod.bytes;
 			//mod.averageFFT(mod.floatL,bands,'lin');
 			//floatR = mod.averageFFT(mod.floatR,bands,'lin');
-			for(var j:int=0;j<2;j++) {
+			//for(var j:int=0;j<2;j++) {
 				for(var i:int=0; i<256; i++) {
-					var f:Number = ba.readFloat();
-					(tArray[j][i] as TextField).text = f.toString();
+					//var f:Number = ba.readFloat();
+					(tArray[0][i] as TextField).text = l[i].toString();
+					(tArray[1][i] as TextField).text = r[i].toString();
 				}
-			}
+			//}
 		}
 		
 		private function onEnterFrame():void {

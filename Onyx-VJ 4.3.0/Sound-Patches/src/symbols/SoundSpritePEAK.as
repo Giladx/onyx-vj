@@ -26,12 +26,12 @@ package symbols {
 	import onyx.plugin.*;
 	import onyx.events.*;
 	
-	import services.sound.ID;
+	import services.sound.*;
 	
 	/**
 	 * 	Basic/common VLIGHT's patches functionality
 	 */
-	public class SoundSpritePEAK extends SoundSprite implements ISound {
+	public class SoundSpritePEAK extends SoundImplementer {
 				
 		private var _sync:String	= 'level';
 		private var _level:int 		= 50;
@@ -49,7 +49,7 @@ package symbols {
 			);
 			
 			// add event listener
-			PluginManager.modules[ID].LINEIN.addEventListener(SndEvent.SOUND, onPeak);
+			//PluginManager.modules[ID].LINEIN.addEventListener(SndEvent.SOUND, onSndEvent);
 										
 		}
 		
@@ -67,12 +67,8 @@ package symbols {
 			return _level;
 		}
 		
-		public function onPeak(e:Event):void {
-			//(e.clone() as VLIGHTEvent).val);
+		override public function onPeak(l:Array,r:Array):void {
 		}
-					
-		override public function dispose():void {
-			PluginManager.modules[ID].LINEIN.removeEventListener(SndEvent.SOUND, onPeak);
-		}
+
 	}
 }

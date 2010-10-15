@@ -25,12 +25,12 @@ package symbols {
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
-	import services.sound.ID;
+	import services.sound.*;
 	
 	/**
 	 * 	Sound patches with FFT functionality
 	 */
-	public class SoundSpriteFFT extends SoundSprite {
+	public class SoundSpriteFFT extends SoundImplementer {
 		
 		private var _bands:int 	= 16;
 				
@@ -44,9 +44,6 @@ package symbols {
 			getParameters().addParameters(
 				new ParameterArray('bands','bands',new Array(8,16,32,64,128,256),_bands)
 			);
-			
-			// add event listener
-			PluginManager.modules[ID].LINEIN.addEventListener("sound", onSound);
 						
 		}
 		
@@ -57,12 +54,5 @@ package symbols {
 			return _bands;
 		}
 					
-		public function onSound(e:Event):void {
-			
-		}
-
-		override public function dispose():void {
-			PluginManager.modules[ID].LINEIN.removeEventListener("sound", onSound);
-		}
 	}
 }

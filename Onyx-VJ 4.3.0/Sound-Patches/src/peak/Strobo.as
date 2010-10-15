@@ -8,11 +8,11 @@ package peak {
 	import flash.utils.*;
 	
 	import onyx.core.*;
+	import onyx.events.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
-	import onyx.events.*;
 	
-	import services.sound.ID;
+	import services.sound.*;
 	
 	import symbols.*;
 	
@@ -28,20 +28,20 @@ package peak {
 		private var _duty:int	= 50;
 		
 		public function Strobo() {
-			
+					
 			super();
 			
-			getParameters().addParameters(
+			/*getParameters().addParameters(
 				//new ParameterInteger('period','period [ms]',0,10000,_period,1,100),
 				//new ParameterInteger('duty','duty [%]',0,100,_duty,1,1)
-			);
+			);*/
 			
 			mc = new Strb() as MovieClip;
 			mc.addEventListener(Event.ENTER_FRAME, _onEnterFrame);
 			mc.gotoAndStop(mc.totalFrames);
 										
 			addChild(mc);
-			
+						
 		}	
 				
 		public function set period(value:int):void {
@@ -59,10 +59,8 @@ package peak {
 		}
 		
 		// do some peak interaction here
-		override public function onPeak(e:Event):void {
-			var slevel:int = PluginManager.modules[ID].slevel;
-			//Console.output(slevel+"/"+super.level);
-			if(slevel>=super.level)
+		override public function onPeak(l:Array,r:Array):void {
+			if(mod.SP.slevel>=super.level)
 				mc.gotoAndPlay(1);
 		}
 		

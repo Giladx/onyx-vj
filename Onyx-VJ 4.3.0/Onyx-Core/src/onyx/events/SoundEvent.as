@@ -25,27 +25,30 @@ package onyx.events {
 	/**
 	 * 	Sound event
 	 */
-	final public class SndEvent extends Event {
+	final public class SoundEvent extends Event {
 		
 		public static const SOUND:String 	= 'sound';
 		public static const FFT:String 		= 'sound_fft';
 		public static const WAVE:String 	= 'sound_wave';
 		
 		public var data:ByteArray;
+		public var lr:Array;
+		//public var r:Array;
 		
 		/**
 		 * 
 		 */
-		public function SndEvent(type:String, data:ByteArray):void {
+		public function SoundEvent(type:String,lr:Array):void {
 			super(type);
-			this.data = data; 
+			this.lr = lr[0];
+			//this.r = lr[1]; 
 		}
 		
 		/**
 		 * 
 		 */
 		override public function clone():Event {
-			return new SndEvent(type,data);
+			return new SoundEvent(type,lr);
 		}
 		
 	}

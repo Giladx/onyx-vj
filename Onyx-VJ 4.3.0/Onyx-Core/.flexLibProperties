@@ -29,7 +29,7 @@
     <classEntry path="onyx.core.IFilterObject"/>
     <classEntry path="onyx.core.IRenderObject"/>
     <classEntry path="onyx.core.ISerializable"/>
-    <classEntry path="onyx.core.ISound"/>
+    <classEntry path="onyx.core.ISoundImplementer"/>
     <classEntry path="onyx.core.ITempo"/>
     <classEntry path="onyx.core.ITimeObject"/>
     <classEntry path="onyx.core.Onyx"/>
@@ -72,7 +72,6 @@
     <classEntry path="onyx.events.JobEvent"/>
     <classEntry path="onyx.events.LayerEvent"/>
     <classEntry path="onyx.events.ParameterEvent"/>
-    <classEntry path="onyx.events.SndEvent"/>
     <classEntry path="onyx.events.TelnetEvent"/>
     <classEntry path="onyx.events.TempoEvent"/>
     <classEntry path="onyx.events.TransitionEvent"/>
@@ -168,6 +167,8 @@
     <classEntry path="onyx.utils.string.substituteBlanks"/>
     <classEntry path="services.sound.ID"/>
     <classEntry path="services.sound.ISoundControlBehavior"/>
+    <classEntry path="services.sound.SoundImplementer"/>
+    <classEntry path="services.sound.SoundProvider"/>
   </includeClasses>
   <includeResources>
     <resourceEntry destPath="assets/camera.png" sourcePath="assets/camera.png"/>

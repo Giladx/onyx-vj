@@ -24,7 +24,9 @@ package onyx.plugin {
 	import onyx.plugin.*;
 	import onyx.tween.*;
 	import onyx.tween.easing.*;
-		
+	
+	import services.sound.*;
+	
 	use namespace onyx_ns;
 	
 	/**
@@ -33,7 +35,9 @@ package onyx.plugin {
 	 * 	@see onyx.plugin.Filter
 	 * 
 	 */
-	public class SoundFilter extends Filter implements ISound {
+	public class SoundFilter extends Filter implements ISoundImplementer {
+		
+		public var mod:Object = PluginManager.modules[ID];
 		
 		/**
 		 * 	@constructor
@@ -43,9 +47,9 @@ package onyx.plugin {
 			// add params
 			//parameters.addParameters(snapControl, delayControl);
 			parameters.addParameters(
-				new ParameterInteger('bass', 'bass', 0, 100, 30),
+				/*new ParameterInteger('bass', 'bass', 0, 100, 30),
 				new ParameterInteger('mid', 'mid', 0, 100, 30),
-				new ParameterInteger('high', 'high', 0, 100, 30)
+				new ParameterInteger('high', 'high', 0, 100, 30)*/
 			);
 			
 			
@@ -54,16 +58,17 @@ package onyx.plugin {
 		
 		override public function initialize():void {
 			// add event listener
-			PluginManager.modules["LINEIN"].LINEIN.addEventListener("sound", onPeak);
+			mod.SP.addEventListener(SoundEvent.SOUND, _onSndEvent);
 		}
 		
-		public function onPeak(e:Event):void {
-			//(e.clone() as VLIGHTEvent).val);
+		private function _onSndEvent(e:SoundEvent):void {
+			onPeak(e.lr[0],e.lr[1]);
 		}
 		
-		public function onSound(e:SndEvent):void {			
+		public function onPeak(l:Array,r:Array):void {
 		}
 		
+				
 		/**
 		 * 
 		 */
@@ -77,21 +82,15 @@ package onyx.plugin {
 		 * 	Dispose
 		 */
 		override public function dispose():void {
-
-			PluginManager.modules["LINEIN"].LINEIN.removeEventListener("sound", onPeak);
-			super.dispose();
-			
+			mod.SP.removeEventListener(SoundEvent.SOUND, _onSndEvent);
 		}
 		
 		/**
 		 * 
 		 */
 		final override onyx_ns function clean():void {
-
 			// remove listener
-			
 			//GLOBAL_TEMPO_CONTROL.removeEventListener(ParameterEvent.CHANGE, _globalTempoHandler);
-
 		}
 	}
 }

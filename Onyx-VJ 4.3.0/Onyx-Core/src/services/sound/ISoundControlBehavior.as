@@ -16,8 +16,6 @@
 package services.sound {
 	
 	public interface ISoundControlBehavior {
-		
 		function setValue(value:int):void;
-		
 	}
 }

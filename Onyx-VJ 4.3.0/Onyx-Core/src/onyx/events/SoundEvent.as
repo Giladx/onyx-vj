@@ -40,8 +40,7 @@ package onyx.events {
 		 */
 		public function SoundEvent(type:String,lr:Array):void {
 			super(type);
-			this.lr = lr[0];
-			//this.r = lr[1]; 
+			this.lr = lr; 
 		}
 		
 		/**

@@ -1,7 +1,5 @@
 package peak {
-	
-	import core.ID;
-	
+		
 	import flash.display.*;
 	import flash.events.*;
 	import flash.filters.*;
@@ -12,9 +10,11 @@ package peak {
 	import onyx.core.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
+	import onyx.events.*;
+	
+	import services.sound.ID;
 	
 	import symbols.*;
-	import events.SoundEvent;
 	
 	[SWF(width='480', height='360', frameRate='24')]
 	final public class Strobo extends SoundSpritePEAK {

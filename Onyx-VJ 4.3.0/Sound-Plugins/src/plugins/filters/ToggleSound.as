@@ -5,9 +5,10 @@ package plugins.filters {
 	import onyx.plugin.PluginManager;
 	import onyx.parameter.*;
 	
-	import plugin.SoundFilter;
-	import events.SoundEvent;
-	import core.ID;
+	import onyx.plugin.SoundFilter;
+	import onyx.events.*;
+	
+	import services.sound.ID;
 	
 	public class ToggleSound extends SoundFilter {
 		

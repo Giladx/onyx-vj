@@ -26,6 +26,8 @@ package plugins {
 	import plugins.fonts.*;
 	import plugins.modules.*;
 	
+	import services.sound.ID;
+	
 	final public class Plugins extends PluginLoader {
 
 		public function Plugins():void {
@@ -34,6 +36,7 @@ package plugins {
 			
 				// modules
 				new Plugin('Performance', 			PerformanceMonitor, 'Performance'),
+				new Plugin(ID, 						ModuleLINEIN, 		'LINEINModule'),
 				
 				// bitmap filters
 				new Plugin('Chess',                 ChessFilter,    'Alpha chesstable effect'),

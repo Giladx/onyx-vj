@@ -29,6 +29,7 @@
     <classEntry path="onyx.core.IFilterObject"/>
     <classEntry path="onyx.core.IRenderObject"/>
     <classEntry path="onyx.core.ISerializable"/>
+    <classEntry path="onyx.core.ISound"/>
     <classEntry path="onyx.core.ITempo"/>
     <classEntry path="onyx.core.ITimeObject"/>
     <classEntry path="onyx.core.Onyx"/>
@@ -166,6 +167,7 @@
     <classEntry path="onyx.utils.string.removePath"/>
     <classEntry path="onyx.utils.string.substituteBlanks"/>
     <classEntry path="services.sound.ID"/>
+    <classEntry path="services.sound.ISoundControlBehavior"/>
   </includeClasses>
   <includeResources>
     <resourceEntry destPath="assets/camera.png" sourcePath="assets/camera.png"/>

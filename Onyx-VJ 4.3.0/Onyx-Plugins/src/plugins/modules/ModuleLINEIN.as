@@ -1,22 +1,20 @@
 package plugins.modules {
 		
-	import onyx.core.*;
-		
-	import onyx.events.SndEvent;
-	
 	import flash.display.Stage;
 	import flash.events.*;
 	import flash.media.*;
 	import flash.net.*;
 	import flash.ui.Keyboard;
 	import flash.utils.*;
-	import flash.utils.ByteArray;
 	
 	import onyx.asset.*;
 	import onyx.core.*;
+	import onyx.events.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	import onyx.ui.*;
+	
+	import services.sound.SoundProvider;
 	
 	import ui.states.*;
 	
@@ -26,13 +24,7 @@ package plugins.modules {
 	public final class ModuleLINEIN extends Module {
 				
 		public const LINEIN:EventDispatcher = new EventDispatcher();
-		
-		protected var mic:Microphone;
-		protected var soundRecording:ByteArray;
-		
-		protected var soundOutput:Sound;
-		protected var soundOutputCh:SoundChannel;
-		
+				
 		public var bytes:ByteArray;
 		public var bytesL:ByteArray;
 		public var bytesR:ByteArray;
@@ -57,6 +49,9 @@ package plugins.modules {
 		public var slevel:Number;
 		private var _activity:Number = 2;
 		
+		
+		public var SP:SoundProvider = SoundProvider.getInstance();
+		
 		public function ModuleLINEIN()	{
 			
 			// default audio source 
@@ -67,7 +62,6 @@ package plugins.modules {
 			
 			_enable			= false;
 			_level			= 1;
-			soundRecording 	= new ByteArray();
 			bytes 			= new ByteArray();
 			bytesL 			= new ByteArray();
 			bytesR 			= new ByteArray();
@@ -92,7 +86,6 @@ package plugins.modules {
 			);
 			
 			//addEventListener(KeyboardEvent.KEY_DOWN, _onKeyDown);
-			SoundMixer.bufferTime=0;
 			
 		}
 		
@@ -129,9 +122,10 @@ package plugins.modules {
 					myTimer.addEventListener("timer", _onTimer);
 					myTimer.start();
 				} else {
-					mic = Microphone.getMicrophone(0);
-					mic.addEventListener(SampleDataEvent.SAMPLE_DATA, gotMicData);
+					SP.mic = Microphone.getMicrophone(0);
+					SP.activate();
 				}
+				SP.addEventListener(SoundEvent.SOUND, _onActivity);
 			} else {
 				if(_source=="stream") {
 					myTimer.stop();
@@ -141,9 +135,10 @@ package plugins.modules {
 					_sch = null;
 					_sfx = null;
 				} else {
-					mic.removeEventListener(SampleDataEvent.SAMPLE_DATA, gotMicData);
-					mic = null;
+					SP.deactivate();
+					SP.mic = null;
 				}
+				SP.removeEventListener(SoundEvent.SOUND, _onActivity);
 			}
 			_enable = value;
 		}
@@ -160,8 +155,7 @@ package plugins.modules {
 		
 		public function set level(value:Number):void {
 			_level = value;
-			if(soundOutputCh)
-				soundOutputCh.soundTransform = new SoundTransform(_level,0);
+			SP.level();
 		}
 		public function get level():Number {
 			return _level;
@@ -196,80 +190,13 @@ package plugins.modules {
 		private function _onTimer(e:Event):void {
 			SoundMixer.computeSpectrum( bytes, true, 0 );
 			slevel = (_sch.leftPeak + _sch.rightPeak)*100/2;
-			LINEIN.dispatchEvent(new SndEvent(SndEvent.SOUND,bytes));
+			LINEIN.dispatchEvent(new SoundEvent(SoundEvent.SOUND,new Array([],[])));
 		}
 		
-		private function gotMicData(micData:SampleDataEvent):void {
-			soundRecording.clear();
-			soundRecording.writeBytes(micData.data);
-			soundRecording.position = 0;
-			
-			soundOutput = new Sound();
-			soundOutput.addEventListener(SampleDataEvent.SAMPLE_DATA, playSound);
-			soundOutputCh = soundOutput.play();
-			soundOutputCh.soundTransform = new SoundTransform(_level,0);
-			
-		}
+		// update the level's label to track current level
+		private function _onActivity(e:Event):void {
+			parameters.getParameter('activity').value = SP.slevel;
+		}		
 		
-		private function playSound(soundOutput:SampleDataEvent):void {			
-			
-			if (!soundRecording.bytesAvailable > 0)
-				return;
-			for (var i:int = 0; i < 8192; i++) {
-				var sample:Number = 0;
-				if (soundRecording.bytesAvailable > 0)
-					sample = soundRecording.readFloat();
-				soundOutput.data.writeFloat(sample); 
-				soundOutput.data.writeFloat(sample);
-			}   
-			
-			
-			this.soundOutput.removeEventListener(SampleDataEvent.SAMPLE_DATA, playSound);
-			this.soundOutput = null;
-			
-			// FFT, waveform, both
-			//bytes.clear();
-			bytes.clear();
-			SoundMixer.computeSpectrum( bytes, true, 0 );
-			//bytes.readBytes(bytesL,0,1024);
-			//bytes.readBytes(bytesR,0,1024);
-			/*for(i=0; i<256; i++) {
-			floatL[i] = bytes.readFloat();
-			//floatR.push(bytesR.readFloat());
-			}*/
-			slevel = mic.activityLevel;
-			
-			// update the level's label to track current level
-			//parameters.getParameter('activity').display = slevel.toString();
-			parameters.getParameter('activity').value = slevel;
-			
-			LINEIN.dispatchEvent(new SndEvent(SndEvent.SOUND,bytes));
-			
-		}
-		
-		// TODO
-		// http://code.compartmental.net/2007/03/21/fft-averages/
-		// HP: input is always 256 bands per channel 
-		public function averageFFT(bandsIn:Array,nOut:int,type:String):Array {
-			
-			var bandsOut:Array 	= new Array;
-			var nIn:int 		= bandsIn.length;
-			var avgWidth:int 	= nIn/nOut;
-			
-			for(var i:int=0; i<nOut; i++) {
-				var avg:Number = 0;
-				var j:int;
-				for(j=0; j<avgWidth;j++) {
-					var offset:int = j + i*avgWidth;
-					if (offset<nIn)
-						avg += bandsIn[offset];
-					else 
-						break;
-				}
-				avg /= j;
-				bandsOut[i] = avg;
-			}	
-			return bandsOut;
-		}			
 	}
 }

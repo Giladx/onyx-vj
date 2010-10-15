@@ -10,18 +10,18 @@ package plugins.filters {
 	
 	import services.sound.ID;
 	
-	public class ToggleSound extends SoundFilter {
+	public class AlphaSound extends SoundFilter {
 		
 		private var _sync:String	= 'level';
-		private var _level:int 		= 50;
+		private var _sens:Number		= 150;
 		
-		public function ToggleSound():void {
+		public function AlphaSound():void {
 			
 			super();
 				
 			parameters.addParameters(
 				new ParameterArray('sync','mode',new Array('level'/*,'low','mid','high'*/),_sync),
-				new ParameterInteger('level', 'level', 0, 100, _level, 1, 5)
+				new ParameterNumber('sens', 'sens', 0, 400, _sens, 1, 10)
 			);
 			
 		}
@@ -33,21 +33,16 @@ package plugins.filters {
 			return _sync;
 		}
 		
-		public function set level(value:int):void {
-			_level = value;
+		public function set sens(value:Number):void {
+			_sens = value;
 		}
-		public function get level():int {
-			return _level;
+		public function get sens():Number {
+			return _sens;
 		}
 		
 		// do some peak interaction here
 		override public function onPeak(l:Array,r:Array):void {
-			var slevel:int = PluginManager.modules[ID].slevel;
-			Console.output('test');
-			if(slevel>=_level)
-				content.visible = true;
-			else
-				content.visible = false;
+			content.alpha = mod.SP.slevel/100 * _sens/100;
 		}
 		
 	}

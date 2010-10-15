@@ -25,7 +25,8 @@ package plugins {
 			
 			addPlugins(
 				// sound filters 
-				new Plugin('ToggleSound', ToggleSound, 'ToggleSound')
+				new Plugin('AlphaSound', 	AlphaSound, 	'AlphaSound'),
+				new Plugin('ToggleSound', 	ToggleSound, 	'ToggleSound')
 								
 			);
 			

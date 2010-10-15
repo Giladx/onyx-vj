@@ -71,6 +71,7 @@
     <classEntry path="onyx.events.JobEvent"/>
     <classEntry path="onyx.events.LayerEvent"/>
     <classEntry path="onyx.events.ParameterEvent"/>
+    <classEntry path="onyx.events.SndEvent"/>
     <classEntry path="onyx.events.TelnetEvent"/>
     <classEntry path="onyx.events.TempoEvent"/>
     <classEntry path="onyx.events.TransitionEvent"/>
@@ -125,6 +126,7 @@
     <classEntry path="onyx.plugin.Plugin"/>
     <classEntry path="onyx.plugin.PluginLoader"/>
     <classEntry path="onyx.plugin.PluginManager"/>
+    <classEntry path="onyx.plugin.SoundFilter"/>
     <classEntry path="onyx.plugin.Tempo"/>
     <classEntry path="onyx.plugin.TempoFilter"/>
     <classEntry path="onyx.plugin.TimePatch"/>
@@ -163,6 +165,7 @@
     <classEntry path="onyx.utils.string.removeExtensionOnly"/>
     <classEntry path="onyx.utils.string.removePath"/>
     <classEntry path="onyx.utils.string.substituteBlanks"/>
+    <classEntry path="services.sound.ID"/>
   </includeClasses>
   <includeResources>
     <resourceEntry destPath="assets/camera.png" sourcePath="assets/camera.png"/>

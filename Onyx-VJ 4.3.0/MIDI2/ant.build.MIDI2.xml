@@ -19,9 +19,10 @@
     <target name="dist" depends="compile" description="generate the JAR" >
         
         <delete file="MANIFEST.MF"/>
-        <delete file="MIDI2.jar"/>
+        <delete file="MIDI2_${version.num}.jar"/>
         
-		<property name="version.num" value="1.00"/>
+    	<property name="onyx.num" value="4.3.0"/>
+		<property name="version.num" value="1.0.2"/>
         <buildnumber file="build.num"/>
 	 
 		<manifest file="MANIFEST.MF">
@@ -31,11 +32,11 @@
                  value="${version.num}-b${build.number}"/> 
         </manifest>
         
-        <jar jarfile="MIDI2.jar" 
+        <jar jarfile="MIDI2_${version.num}.jar" 
             basedir="${bin}"
 			manifest="MANIFEST.MF"/>
 		
-		<copy todir="..\InstallerPackage" file="MIDI2.jar"/>
+		<copy todir="..\${onyx.num}\InstallPackage\root\bin" file="MIDI2_${version.num}.jar"/>
 		
 	</target>
 	    	    

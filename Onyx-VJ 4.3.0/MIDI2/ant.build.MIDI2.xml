@@ -38,23 +38,10 @@
 		<copy todir="..\InstallerPackage" file="MIDI2.jar"/>
 		
 	</target>
-	
-	<target name="kickstart" depends="dist" description="generate the EXE">	
-		<taskdef name="kickstart" 
-           classname="it.sauronsoftware.kickstart.ant.KickstartTask"
-           classpath="..\kickstart\lib\kickstart.jar" /> 
-        <kickstart name="MIDI2"
-            type="gui"
-            jar="MIDI2.jar"
-            exe="..\InstallerPackage\MIDI2.exe"
-            icon="${src}\images\arrow_switch.ico"/>  			
-    </target>
-    	    
+	    	    
     <target name="clean" description="clean up" >
-        	
         <!-- Delete the ${bin} and ${dist} directory trees -->
         <delete dir="${bin}"/>
-		
     </target>
 	
 </project>

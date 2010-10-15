@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="javadoc">
-    <target name="javadoc">
-        <javadoc access="public" author="true" classpath="." destdir="D:/apache2triad/htdocs/www.stefanocottafavi.com/javadoc/midi" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="swf9.types,swf9.util,swf9.tag,swf9,swf9.types.filter,swf9.types.video,util" source="1.6" sourcepath="G:\com;src" splitindex="true" use="true" version="true"/>
-    </target>
-</project>

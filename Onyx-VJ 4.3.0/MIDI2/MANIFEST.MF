@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Ant-Version: Apache Ant 1.7.0
-Created-By: 10.0-b19 (Sun Microsystems Inc.)
-Built-By: cotta
+Ant-Version: Apache Ant 1.7.1
+Created-By: 14.2-b01 (Sun Microsystems Inc.)
+Built-By: Cotta
 Main-Class: ui.MIDI2
-Implementation-Version: 1.00-b34
+Implementation-Version: 1.00-b35
 

@@ -31,12 +31,6 @@ public class MonitoringReceiver extends Observable implements Receiver,Transmitt
 
 		boolean isValid = false;
 		byte 	data[] 	= theMessage.getMessage();
-		//    	byte message[] 	= new byte[3];
-		//    	System.arraycopy(data, 0, message, 0, data.length);
-		//    	    	
-		//    	setChanged();
-		//    	notifyObservers(theMessage);
-		//    	clearChanged();
 
 		if (data.length==3) {
 			byte message[] = new byte[3];
@@ -51,68 +45,58 @@ public class MonitoringReceiver extends Observable implements Receiver,Transmitt
 			int data1 		= data[1];
 			int data2 		= data[2];
 			
-			if ( data1==0 && data2==0 ) {
-				//System.out.println("OnyxMonitoringReceiver: datas==0, we send nothing");
-			} else {
-				//System.out.println("OnyxMonitoringReceiver:"+stat+" d1 "+data1+" d2 "+data2);
-				//filter what is sent
-				//noteon= 153 (channel 10)
-				//korg es1 if (d1=0x62) d2=control number(0x63=edit1) and take next line
-				// for value: if (d1=0x06) d2=0x0 to 0x7F 
-				if ( cmd == ShortMessage.NOTE_ON ) {
+			switch(cmd) {
+				case ShortMessage.CONTROL_CHANGE: 
+					System.out.println("Sending controlChange " + cmd + " chan "+chan+" d1 "+data1+" d2 "+data2);
+					/*if((data1>=0&&data1<=127)&&(data2>=0&&data2<=127)) {
+						// if first message is 98 then store d2 for next message
+						if ( data1 == 98 ) {
+							ctrlnumber = data2;
+							//System.out.println( "data1 == 98, ctrlnumber:"+ctrlnumber );
+						}
+						// if data1 == 6 it is the second message
+						if ( data1 == 6 & data2 > 0 ) {
+							//System.out.println( "dataentry d1 == 6, d2:"+data2 );
+							//System.out.println("Sending cc " + cmd + " chan "+chan+" d1(ctrl#) "+ctrlnumber+" d2 "+data2);
+							try {
+								messageToSend.setMessage( ShortMessage.CONTROL_CHANGE,
+										chan,
+										ctrlnumber,
+										data2);
+							} catch (InvalidMidiDataException e) {
+								System.out.println( "error messageToSend.setMessage:"+e.getMessage() );
+								e.printStackTrace();
+							}     	
+						}
+					}*/
+					try {
+						messageToSend.setMessage( ShortMessage.CONTROL_CHANGE,chan,data1,data2);
+					} catch (InvalidMidiDataException e) {
+						System.out.println( "error messageToSend.setMessage:"+e.getMessage() );
+						e.printStackTrace();
+					}
+					isValid = true;
+					break;
+				case ShortMessage.NOTE_ON:
 					System.out.println("Sending noteOn " + cmd + " chan "+chan+" d1 "+data1+" d2 "+data2);
 					try {
-						messageToSend.setMessage( 	ShortMessage.NOTE_ON,
-								chan,
-								data1,
-								data2);
+						messageToSend.setMessage(ShortMessage.NOTE_ON,chan,data1,data2);
 					} catch (InvalidMidiDataException e) {
 						System.out.println( "error messageToSend.setMessage:"+e.getMessage() );
 						e.printStackTrace();
 					}     	
 					isValid = true;
-				} else if ( cmd == ShortMessage.CONTROL_CHANGE ) {
-					// if first message is 98 then store d2 for next message
-					if ( data1 == 98 ) {
-						ctrlnumber = data2;
-						//System.out.println( "data1 == 98, ctrlnumber:"+ctrlnumber );
-					}
-					// if data1 == 6 it is the second message
-					if ( data1 == 6 & data2 > 0 ) {
-						//System.out.println( "dataentry d1 == 6, d2:"+data2 );
-						try {
-							messageToSend.setMessage( 	ShortMessage.CONTROL_CHANGE,
-									chan,
-									ctrlnumber,
-									data2);
-						} catch (InvalidMidiDataException e) {
-							System.out.println( "error messageToSend.setMessage:"+e.getMessage() );
-							e.printStackTrace();
-						}     	
-						//System.out.println("Sending cc " + cmd + " chan "+chan+" d1(ctrl#) "+ctrlnumber+" d2 "+data2);
-						isValid = true;
-					} else {
-						
-						
-						/// SC: BYPASS!!!!
-						isValid = true;
-					}
-					
-				}
 			}
-			System.out.println("FromMIDI: cc " + cmd + " chan "+chan+" d1(ctrl#) "+ctrlnumber+" d1(RAW) "+data1+" d2 "+data2);
-			
+				
 			// send only at certain intervals	
     		if ( System.currentTimeMillis() > time + 100 ) {
-    			
-    			if ( isValid == true ) {
+    			if(isValid) {
     				isValid = false;
     				time =  System.currentTimeMillis();
     				setChanged();
     				notifyObservers(messageToSend);
     				clearChanged();	
     			}
-    			
     		}
     		
 		}

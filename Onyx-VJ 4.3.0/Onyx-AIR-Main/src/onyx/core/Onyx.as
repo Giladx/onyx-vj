@@ -74,7 +74,8 @@ package onyx.core {
 								
 								plugin.registerData('bitmap', object is IBitmapFilter);
 								plugin.registerData('tempo', object is TempoFilter);
-
+								plugin.registerData('sound', object is SoundFilter);
+								
 								PluginManager.registerFilter(plugin);
 																
 							// register transition

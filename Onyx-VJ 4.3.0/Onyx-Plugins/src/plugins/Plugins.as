@@ -27,6 +27,7 @@ package plugins {
 	import plugins.modules.*;
 	
 	import services.sound.ID;
+	import services.midi.*;
 	
 	final public class Plugins extends PluginLoader {
 
@@ -37,8 +38,11 @@ package plugins {
 				// modules
 				new Plugin('Performance', 			PerformanceMonitor, 'Performance'),
 				new Plugin(ID, 						ModuleLINEIN, 		'LINEINModule'),
+				//new Plugin(Midi.ID, 				ModuleMIDI, 		'MIDI'),
 				
 				// bitmap filters
+				//new Plugin('ASCII', 				ASCIIfy, 		'ASCII'),
+				
 				new Plugin('Chess',                 ChessFilter,    'Alpha chesstable effect'),
 				new Plugin('Erode',					Erode,			'Erode'),
 				new Plugin('Bounce',				BounceFilter,	'Bounce'),
@@ -107,7 +111,8 @@ package plugins {
 				new Garamond,
 				new TimesNewRoman(),
 				new Verdana(),
-				new Plague()
+				new Plague(),
+				new Courier()
 				
 			);
 			

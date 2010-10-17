@@ -2,16 +2,35 @@ package ui.window {
 	
 	import flash.display.*;
 	import flash.events.*;
+	import flash.text.TextField;
 	
 	import onyx.core.*;
 	import onyx.events.*;
+	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
+	import ui.controls.DropDown;
 	import ui.controls.TextButton;
 	import ui.controls.UIOptions;
 	import ui.core.DragManager;
 	
-	public final class PreviewWindow extends Window {
+	public final class PreviewWindow extends Window implements IParameterObject {
+		
+		private var _pw:int;
+		private var _ph:int;
+		private var _ppw:int;
+		private var _pph:int;
+		
+		private var _modes:Array = ['SINGLE','SPLIT','PIP'];
+		private var _mode:String = 'SINGLE';
+		
+		/**
+		 * 	@private
+		 * 	returns controls
+		 */
+		private const parameters:Parameters	= new Parameters(this as IParameterObject,
+			new ParameterArray('mode', 'mode', _modes , _mode )
+		);
 		
 		/**
 		 * 	@private
@@ -27,9 +46,10 @@ package ui.window {
 		private var maximizeButton:TextButton;
 		private var maximized:Boolean = false;
 		
-		private var toggleA:TextButton;
-		private var toggleB:TextButton;
-		
+		//private var toggleA:TextButton;
+		//private var toggleB:TextButton;
+		private var modeDropDown:DropDown;
+				
 		/**
 		 * 	Constructor
 		 */
@@ -40,30 +60,38 @@ package ui.window {
 			var options:UIOptions		= new UIOptions();
 			options.height				= 12,
 			options.width				= 65;
+			options.label				= false;
 			
 			maximizeButton	= new TextButton(options, 'Toggle size');
-			toggleA			= new TextButton(options, 'CH A');
-			toggleB			= new TextButton(options, 'CH B');
+			//toggleA			= new TextButton(options, 'CH A');
+			//toggleB			= new TextButton(options, 'CH B');
+			modeDropDown	= new DropDown();
+			modeDropDown.initialize(getParameters().getParameter('mode'),options);
+			
 			
 			maximizeButton.addEventListener(MouseEvent.MOUSE_DOWN, handler);
-			toggleA.addEventListener(MouseEvent.MOUSE_DOWN, handler);
+			/*toggleA.addEventListener(MouseEvent.MOUSE_DOWN, handler);
 			toggleA.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, handlerCh);
 			toggleA.addEventListener(MouseEvent.MOUSE_UP, handlerCh);
 			toggleB.addEventListener(MouseEvent.MOUSE_DOWN, handler);
 			toggleB.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, handlerCh);
-			toggleB.addEventListener(MouseEvent.MOUSE_UP, handlerCh);
+			toggleB.addEventListener(MouseEvent.MOUSE_UP, handlerCh);*/
+			//mode.addEventListener(MouseEvent.MOUSE_DOWN, handler);
 			
 			maximizeButton.x	= 4,
 			maximizeButton.y	= 18;
-			toggleA.x 			= 72,
+			/*toggleA.x 			= 72,
 			toggleA.y 			= 18;
 			toggleB.x 			= 140,
-			toggleB.y 			= 18;
+			toggleB.y 			= 18;*/
+			modeDropDown.x 		= 72, // 208
+			modeDropDown.y 		= 18;
 			
 			// add
 			addChild(maximizeButton);
-			addChild(toggleA);
-			addChild(toggleB);
+			//addChild(toggleA);
+			//addChild(toggleB);
+			addChild(modeDropDown);
 			
 			preview.x		= 5;
 			preview.y		= 35;
@@ -71,6 +99,7 @@ package ui.window {
 			preview.height	= 360; //Math.min(360, DISPLAY_HEIGHT);
 			addChild(preview);
 			
+			channelA.visible  = false;
 			channelA.alpha  = 1;
 			channelA.x		= 5;
 			channelA.y		= 35;
@@ -78,9 +107,10 @@ package ui.window {
 			channelA.height	= 180;
 			addChild(channelA);
 			
+			channelB.visible  = false;
 			channelB.alpha  = 1;
-			channelB.x		= 5;
-			channelB.y		= 215;
+			channelB.x		= 245;
+			channelB.y		= 35;
 			channelB.width	= 240;
 			channelB.height	= 180;
 			addChild(channelB);
@@ -90,19 +120,58 @@ package ui.window {
 			addEventListener(MouseEvent.RIGHT_MOUSE_DOWN,	mouseHandler);
 			addEventListener(MouseEvent.MIDDLE_MOUSE_DOWN,	mouseHandler);
 			
+			/*channelA.bitmapData.draw(new TextField({
+					text:'CH A',
+					color: 0xFFFFFF
+				}));*/
 			
 			// make draggable
 			DragManager.setDraggable(this);
 			
 		}
 		
+		public function getParameters():Parameters {
+			return parameters;
+		}
+		
+		public function get mode():String {
+			return _mode;	
+		}
+		public function set mode(value:String):void {
+			//Console.output(value);
+			switch(value) {
+				case _modes[0]: // SINGLE
+					channelA.visible = false;
+					channelB.visible = false;
+					preview.x		= 5;
+					preview.y		= 35;
+					preview.width	= 480; //Math.min(480, DISPLAY_WIDTH);
+					preview.height	= 360; //Math.min(360, DISPLAY_HEIGHT);
+					break;
+				case _modes[1]: // SPLIT
+					channelA.visible = true;
+					channelB.visible = true;
+					with(preview){x	= 5, 	y = 215,	width = 240, height	= 180};
+					with(channelA){x = 5,	y = 35, 	width = 240, height = 180};
+					with(channelB)(x = 245,	y = 35, 	width = 240, height	= 180);
+					break;
+				case _modes[2]: // PIP
+					channelA.visible = true;
+					channelB.visible = true;
+					with(preview){x = 5,	y = 35,	width = 480,	height = 360};
+					with(channelA){x = 5,	y = 305,	width = 120,	height = 90};
+					with(channelB){x = 365,	y = 305,	width = 120,	height = 90};
+			}
+			_mode = value;
+		} 
+		
 		private function handlerCh(event:MouseEvent):void {
 			switch(event.type) {
 				case MouseEvent.MOUSE_WHEEL:
-					if((event.currentTarget.parent as TextButton).label=='CH A')
+					/*if((event.currentTarget.parent as TextButton).label.text=='CH A')
 						channelA.alpha += event.delta/100; 
-					else if((event.currentTarget.parent as TextButton).label=='CH B')
-						channelB.alpha += event.delta/100;
+					else if((event.currentTarget.parent as TextButton).label.text=='CH B')
+						channelB.alpha += event.delta/100;*/
 					break;
 				case MouseEvent.RIGHT_MOUSE_DOWN:
 					Console.output(event.target);
@@ -165,6 +234,7 @@ package ui.window {
 					break;
 			}
 		}
+		
 		/**
 		 * handles clicks on buttons
 		 */
@@ -173,13 +243,17 @@ package ui.window {
 				case maximizeButton:
 					if ( maximized ) {
 						maximized 		= false;
-						preview.width	= 480; 
-						preview.height	= 360;
-						preview.parent.width = 580;
-						preview.parent.height = 400;
+						preview.width	= _pw; 
+						preview.height	= _ph;
+						preview.parent.width = _ppw;
+						preview.parent.height = _pph;
 
 					} else	{
 						maximized 		= true;
+						_pw = preview.width;
+						_ph = preview.height;
+						_ppw = preview.parent.width;
+						_pph = preview.parent.height;
 						preview.width	= 1200; 
 						preview.height	= 760;
 						preview.parent.width = 1300;
@@ -188,12 +262,12 @@ package ui.window {
 						preview.parent.y = 10;
 					}
 					break;
-				case toggleA:
+				/*case toggleA:
 					channelA.visible = !channelA.visible;
 					break;
 				case toggleB:
 					channelB.visible = !channelB.visible;
-					break;
+					break;*/
 			}
 		}		
 		/**

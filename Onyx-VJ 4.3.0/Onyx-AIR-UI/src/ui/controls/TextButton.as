@@ -23,14 +23,14 @@ package ui.controls {
 	 */
 	public final class TextButton extends UIObject {
 		
-		public var label:String;
+		//private var _label:String;
 		
 		/**
 		 * 	@constsructor
 		 */
 		public function TextButton(options:UIOptions, name:String, textColor:uint = TEXT_LABEL):void {
 			
-			label = name;
+			//_label = name;
 			
 			const options:UIOptions = options || UI_OPTIONS;
 			const width:int	= options.width;
@@ -48,5 +48,13 @@ package ui.controls {
 			// add a button
 			addChild(btn);
 		}
+		
+		/*public function get label():String {
+			return label;
+		}
+		
+		public function set label(value:String):void {
+			_label = value;
+		}*/
 	}
 }

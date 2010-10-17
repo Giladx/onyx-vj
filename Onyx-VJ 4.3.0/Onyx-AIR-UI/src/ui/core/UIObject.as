@@ -41,7 +41,7 @@ package ui.core {
 		/**
 		 * 	@private
 		 */
-		private var label:flash.text.TextField;
+		private var _label:flash.text.TextField;
 		
 		/**
 		 * 	@constructor
@@ -153,40 +153,44 @@ package ui.core {
 		/**
 		 * 	Adds a label to the control
 		 */
-		final protected function addLabel(name:String, width:int, height:int, offsetY:int = -8, offsetX:int = 0, align:String = null, color:uint = TEXT_LABEL):void {
+		final public function addLabel(name:String, width:int, height:int, offsetY:int = -8, offsetX:int = 0, align:String = null, color:uint = TEXT_LABEL):void {
 			
-			if (label && contains(label)) {
-				removeChild(label);
+			if (_label && contains(_label)) {
+				removeChild(_label);
 			}
 			
 			switch (align) {
 				case 'left':
-					label						= Factory.getNewInstance(ui.text.TextField);
-					label.x						= offsetX,
-					label.y						= offsetY,
-					label.width					= width,
-					label.height				= 12;
-					label.textColor				= color,
-					label.text					= name.toUpperCase(),
-					label.mouseEnabled			= false,
+					_label						= Factory.getNewInstance(ui.text.TextField);
+					_label.x						= offsetX,
+					_label.y						= offsetY,
+					_label.width					= width,
+					_label.height				= 12;
+					_label.textColor				= color,
+					_label.text					= name.toUpperCase(),
+					_label.mouseEnabled			= false,
 					
-					super.addChild(label);
+					super.addChild(_label);
 					break;
 				default:
 				
-					label						= Factory.getNewInstance(ui.text.TextFieldCenter);
-					label.x						= offsetX,
-					label.y						= offsetY,
-					label.width					= width + 3,
-					label.height				= height,
-					label.textColor				= color,
-					label.text					= name.toUpperCase(),
-					label.mouseEnabled			= false;
+					_label						= Factory.getNewInstance(ui.text.TextFieldCenter);
+					_label.x						= offsetX,
+					_label.y						= offsetY,
+					_label.width					= width + 3,
+					_label.height				= height,
+					_label.textColor				= color,
+					_label.text					= name.toUpperCase(),
+					_label.mouseEnabled			= false;
 		
-					super.addChild(label);
+					super.addChild(_label);
 
 					break;
 			}
 		}
+		
+		/*public function get label():flash.text.TextField {
+			return _label;
+		}*/
 	}
 }

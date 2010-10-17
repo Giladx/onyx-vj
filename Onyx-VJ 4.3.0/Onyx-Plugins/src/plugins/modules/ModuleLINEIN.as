@@ -16,8 +16,6 @@ package plugins.modules {
 	
 	import services.sound.SoundProvider;
 	
-	import ui.states.*;
-	
 	/**
 	 *  
 	 */
@@ -69,7 +67,7 @@ package plugins.modules {
 			floatR 			= new Array();
 			
 			// init			
-			super(new ModuleInterfaceOptions(null, 140, 110));
+			super(new ModuleInterfaceOptions(null,150,184,338,565,false));
 			
 			parameters.addParameters(
 				new ParameterString('host', 'host'),

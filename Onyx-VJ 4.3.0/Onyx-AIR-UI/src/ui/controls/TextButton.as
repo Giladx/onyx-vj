@@ -23,10 +23,14 @@ package ui.controls {
 	 */
 	public final class TextButton extends UIObject {
 		
+		public var label:String;
+		
 		/**
 		 * 	@constsructor
 		 */
 		public function TextButton(options:UIOptions, name:String, textColor:uint = TEXT_LABEL):void {
+			
+			label = name;
 			
 			const options:UIOptions = options || UI_OPTIONS;
 			const width:int	= options.width;

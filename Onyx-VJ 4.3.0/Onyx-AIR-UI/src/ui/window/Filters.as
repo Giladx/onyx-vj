@@ -66,6 +66,11 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
+		private const soundFilters:Array	= [];
+		
+		/**
+		 * 	@private
+		 */
 		private const allFilters:Array		= [];
 		
 		/**
@@ -89,6 +94,11 @@ package ui.window {
 		private var tempoButton:TextButton;
 		
 		/**
+		 * 	@private
+		 */
+		private var soundButton:TextButton;
+		
+		/**
 		 * 	@constructor
 		 */
 		public function Filters(reg:WindowRegistration):void {
@@ -109,22 +119,26 @@ package ui.window {
 			// draw stuff
 			var options:UIOptions		= new UIOptions();
 			options.height				= 12,
-			options.width				= 65;
+			options.width				= 55;
 			
 			allButton		= new TextButton(options, 'ALL');
 			bitmapButton	= new TextButton(options, 'BITMAP');
 			tempoButton		= new TextButton(options, 'TEMPO');
+			soundButton		= new TextButton(options, 'SOUND');
 			
 			allButton.addEventListener(MouseEvent.MOUSE_DOWN, handler);
 			bitmapButton.addEventListener(MouseEvent.MOUSE_DOWN, handler);
 			tempoButton.addEventListener(MouseEvent.MOUSE_DOWN, handler);
+			soundButton.addEventListener(MouseEvent.MOUSE_DOWN, handler);
 			
 			allButton.x		= 4,
 			allButton.y		= 17,
-			bitmapButton.x	= 86,
+			bitmapButton.x	= 74,
 			bitmapButton.y	= 17,
-			tempoButton.x	= 168,
+			tempoButton.x	= 130,
 			tempoButton.y	= 17,
+			soundButton.x	= 186,
+			soundButton.y	= 17,
 			pane.x			= 4,
 			pane.y			= 30;
 
@@ -132,6 +146,7 @@ package ui.window {
 			addChild(allButton);
 			addChild(bitmapButton);
 			addChild(tempoButton);
+			addChild(soundButton);
 			addChild(pane);
 
 			// register filters
@@ -139,16 +154,18 @@ package ui.window {
 				if (plugin.getData('bitmap')) {
 					bitmapFilters.push(plugin);
 				}
-				
 				if (plugin.getData('tempo')) {
 					tempoFilters.push(plugin);
 				}
-				
+				if (plugin.getData('sound')) {
+					soundFilters.push(plugin);
+				}
 				allFilters.push(plugin);
 			}
 			
 			bitmapFilters.sortOn('name');
 			tempoFilters.sortOn('name');
+			soundFilters.sortOn('name');
 			allFilters.sortOn('name');
 
 			current = allFilters;
@@ -171,6 +188,9 @@ package ui.window {
 					break;
 				case tempoButton:
 					current = tempoFilters;
+					break;
+				case soundButton:
+					current = soundFilters;
 					break;
 			}
 			
@@ -318,10 +338,12 @@ package ui.window {
 			allButton.removeEventListener(MouseEvent.MOUSE_DOWN, handler);
 			bitmapButton.removeEventListener(MouseEvent.MOUSE_DOWN, handler);
 			tempoButton.removeEventListener(MouseEvent.MOUSE_DOWN, handler);
-
+			soundButton.removeEventListener(MouseEvent.MOUSE_DOWN, handler);
+			
 			allButton		= null,
 			bitmapButton	= null,
 			tempoButton		= null;
+			soundButton		= null;
 			
 			super.dispose();
 		}

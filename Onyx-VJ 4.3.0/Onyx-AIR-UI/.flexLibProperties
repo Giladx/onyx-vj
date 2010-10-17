@@ -12,6 +12,7 @@
     <classEntry path="onyx.ui.IUserInterfaceAdapter"/>
     <classEntry path="onyx.ui.UserInterface"/>
     <classEntry path="onyx.ui.UserInterfaceControl"/>
+    <classEntry path="ui.window.MidiWindow"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -151,10 +151,10 @@ package ui.window {
 			// draw things onto the background
 			if (bg) {
 				var source:BitmapData	= bg.bitmapData;
-				source.fillRect(new Rectangle(4, 25, 149, 1), 0xFF445463);
-				source.fillRect(new Rectangle(4, 81, 149, 1), 0xFF445463);
-				source.fillRect(new Rectangle(4, 123, 149, 1), 0xFF445463);
-				source.fillRect(new Rectangle(4, 155, 149, 1), 0xFF445463);
+				source.fillRect(new Rectangle(4, 25, 145, 1), 0xFF445463);
+				source.fillRect(new Rectangle(4, 81, 145, 1), 0xFF445463);
+				source.fillRect(new Rectangle(4, 123, 145, 1), 0xFF445463);
+				source.fillRect(new Rectangle(4, 155, 145, 1), 0xFF445463);
 				
 				var label:StaticText		= new StaticText();
 				

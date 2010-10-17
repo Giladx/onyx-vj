@@ -32,6 +32,8 @@ package {
 	import onyx.plugin.*;
 	import onyx.utils.file.*;
 	
+	import services.midi.MidiProvider;
+	
 	import ui.controls.*;
 	import ui.controls.layer.*;
 	import ui.core.*;
@@ -87,7 +89,7 @@ package {
 			// store stage
 			DISPLAY_STAGE		= this.stage;
 			Tempo				= new TempoImplementer();
-			
+						
 			// quit on close
 			stage.nativeWindow.addEventListener(Event.CLOSE, closeChildren);
 			NativeApplication.nativeApplication.addEventListener(Event.EXITING, closeChildren);

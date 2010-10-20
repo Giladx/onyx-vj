@@ -50,19 +50,22 @@ package library.patches
 		
 		public function MotionDetection()
 		{
-			// setup
-			setup();
-			resize();
-			
-			// loop
-			addEventListener(Event.ENTER_FRAME, loop);
-			
-			// add VideoTracker class to the screen to visually see the movement in the video
-			addChild(_tracking);
-			
-			// add tracker to the screen if you want to visually see
-			// where the position of the motion tracking is
-			addChild(_tracker);
+			if ( Camera )
+			{
+				// setup
+				setup();
+				resize();
+				
+				// loop
+				addEventListener(Event.ENTER_FRAME, loop);
+				
+				// add VideoTracker class to the screen to visually see the movement in the video
+				addChild(_tracking);
+				
+				// add tracker to the screen if you want to visually see
+				// where the position of the motion tracking is
+				addChild(_tracker);
+			}
 		}
 		
 		// main setup

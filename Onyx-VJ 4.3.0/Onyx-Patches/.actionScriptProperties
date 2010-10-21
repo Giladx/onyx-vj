@@ -30,35 +30,31 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="library/patches/WaterFall.as"/>
+    <application path="library/patches/PerlinNoise.as"/>
+    <application path="library/patches/BlurShape.as"/>
+    <application path="library/patches/FireBending.as"/>
+    <application path="library/patches/LayerCopy.as"/>
+    <application path="library/patches/FunInTheSun.as"/>
+    <application path="library/patches/WhirlFlower.as"/>
+    <application path="library/patches/LayerHair.as"/>
+    <application path="library/patches/PV3DSphere.as"/>
+    <application path="library/patches/LoopMachine.as"/>
+    <application path="library/patches/CircleText.as"/>
+    <application path="library/patches/MotionDetection.as"/>
+    <application path="library/patches/ScreenShare.as"/>
     <application path="library/patches/DrawBranches.as"/>
     <application path="library/patches/ToneWheelApplication.as"/>
-    <application path="library/patches/BlurShape.as"/>
-    <application path="library/patches/LayerPixelRain.as"/>
-    <application path="library/patches/Nutsu.as"/>
-    <application path="library/patches/LayerAnaglyphs.as"/>
-    <application path="library/patches/LayerCopy.as"/>
-    <application path="library/patches/WhirlFlower.as"/>
-    <application path="library/patches/FireBending.as"/>
-    <application path="library/patches/FunInTheSun.as"/>
-    <application path="library/patches/CircleArt.as"/>
-    <application path="library/patches/CircleText.as"/>
-    <application path="library/patches/Anaglyphs.as"/>
-    <application path="library/patches/Imagination.as"/>
-    <application path="library/patches/PerlinNoise.as"/>
     <application path="library/patches/Lines.as"/>
-    <application path="library/patches/LoopMachine.as"/>
-    <application path="library/patches/LayerHair.as"/>
-    <application path="library/patches/DrawingClip.as"/>
-    <application path="library/patches/Menger.as"/>
-    <application path="library/patches/Maillage.as"/>
-    <application path="library/patches/LayerFur.as"/>
+    <application path="library/patches/LooseGlowLine.as"/>
     <application path="library/patches/BasicText.as"/>
-    <application path="library/patches/MotionDetection.as"/>
-    <application path="library/patches/Aerodynamic.as"/>
     <application path="library/patches/RampantGrowth.as"/>
+    <application path="library/patches/LayerPixelRain.as"/>
+    <application path="library/patches/LayerFur.as"/>
+    <application path="library/patches/Imagination.as"/>
+    <application path="library/patches/DrawingClip.as"/>
     <application path="library/patches/LayerCircleArt.as"/>
-    <application path="library/patches/ScreenShare.as"/>
+    <application path="library/patches/CircleArt.as"/>
+    <application path="library/patches/Nutsu.as"/>
   </applications>
   <modules/>
   <buildCSSFiles/>

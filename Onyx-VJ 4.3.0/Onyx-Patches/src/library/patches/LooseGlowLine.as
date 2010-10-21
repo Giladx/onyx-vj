@@ -66,6 +66,9 @@ package library.patches
 		private var _ct:ColorTransform;
 		private var _hsv:ColorHSV;
 		
+		private var mx:int;
+		private var my:int;
+		
 		/**
 		 * 	@constructor
 		 */
@@ -82,7 +85,7 @@ package library.patches
 			_circleBmd = new BitmapData(50, 50, true, 0)
 			_circleBmd.draw(sp);
 			//
-			_canvas = new BitmapData(500, 500, false, 0)
+			_canvas = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0)
 			_bm= new Bitmap( _canvas );
 			_bm.x = _bm.y = -25;
 			_bm.filters = [_blure];
@@ -101,8 +104,9 @@ package library.patches
 			addChild(rotObj);
 			rotObj.x = _centerX;
 			rotObj.y = _centerY;
-			addEventListener(MouseEvent.MOUSE_DOWN, onDown);
-			addEventListener(MouseEvent.MOUSE_UP, onUp);
+			addEventListener( InteractionEvent.MOUSE_DOWN, onDown );
+			addEventListener( InteractionEvent.MOUSE_MOVE, mouseMove );
+			addEventListener( InteractionEvent.MOUSE_UP, onUp);
 			graphics.lineStyle(1, 0);
 		}
 		
@@ -113,7 +117,7 @@ package library.patches
 		{
 		//private function update(e:Event):void{
 
-			var mPoint:Point = new Point(mouseX, mouseY);
+			var mPoint:Point = new Point(mx, my);
 			var cPoint:Point = new Point(_centerX, _centerY);
 			rotObj.rotation += (mPoint.y - cPoint.y) * 0.05;
 			_r = rotObj.rotation;
@@ -135,23 +139,26 @@ package library.patches
 
 		}
 		
-		private function onDown(event:MouseEvent):void{
+		private function onDown(event:InteractionEvent):void{
 			_isMouseDown = true;
-			var rad:Number = Math.atan2(mouseY - _centerY, event.localX - _centerX);
-			_p.x = _centerX + Math.cos(rad) * (event.localX - _centerX);
-			_p.y = _centerY + Math.sin(rad) * (event.localX - _centerX);
+			var rad:Number = Math.atan2(my - _centerY, mx - _centerX);
+			_p.x = _centerX + Math.cos(rad) * (mx - _centerX);
+			_p.y = _centerY + Math.sin(rad) * (mx - _centerX);
 			rotObj.rotation = rad * 180 / Math.PI;
 			//
 			graphics.moveTo(_p.x, _p.y);
-			//addEventListener(Event.ENTER_FRAME, update);
 		}
-		private function onUp(e:MouseEvent):void{
+		private function onUp(event:InteractionEvent):void{
 			_isMouseDown = false;
 			graphics.clear();
 			graphics.lineStyle(1, 0);
 			graphics.moveTo(_p.x, _p.y);
-			//removeEventListener(Event.ENTER_FRAME, update);
 			rotObj.rotation = 0;
+		}
+		private function mouseMove(event:InteractionEvent):void 
+		{
+			mx = event.localX; 
+			my = event.localY; 
 		}
 	}
 }

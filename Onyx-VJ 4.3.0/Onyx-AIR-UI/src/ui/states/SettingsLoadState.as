@@ -172,7 +172,6 @@ package ui.states {
 				const singleScreen:Boolean	= (screens.length === 1);
 				if ( !singleScreen )
 				{
-					
 					const screen:Screen		= screens[1];
 					const targetWidth:int 	= 320;
 					const ratio:int 		= screen.bounds.width / targetWidth;
@@ -188,10 +187,7 @@ package ui.states {
 					{
 						Onyx.initialize(DISPLAY_STAGE, list.bitmapData.width, list.bitmapData.height, list.quality || StageQuality.MEDIUM);
 					}
-				}
-					
-				
-				
+				}					
 			}
 
 			// add custom order for blendmodes

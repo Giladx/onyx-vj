@@ -53,6 +53,9 @@ package symbols {
 		public function get bands():int {
 			return _bands;
 		}
-					
+			
+		override public function onPeak(l:Array,r:Array):void {
+		}
+		
 	}
 }

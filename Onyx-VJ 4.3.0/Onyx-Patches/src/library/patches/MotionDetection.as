@@ -54,17 +54,20 @@ package library.patches
 			{
 				// setup
 				setup();
-				resize();
-				
-				// loop
-				addEventListener(Event.ENTER_FRAME, loop);
-				
-				// add VideoTracker class to the screen to visually see the movement in the video
-				addChild(_tracking);
-				
-				// add tracker to the screen if you want to visually see
-				// where the position of the motion tracking is
-				addChild(_tracker);
+				if ( _camera )
+				{
+					resize();
+					
+					// loop
+					addEventListener(Event.ENTER_FRAME, loop);
+					
+					// add VideoTracker class to the screen to visually see the movement in the video
+					addChild(_tracking);
+					
+					// add tracker to the screen if you want to visually see
+					// where the position of the motion tracking is
+					addChild(_tracker);
+				}
 			}
 		}
 		
@@ -73,14 +76,17 @@ package library.patches
 		{
 			// setup camera
 			_camera	= Camera.getCamera();
-			_camera.setMode(_w, _h, 15);
-			
-			// setup video and attach the camera
-			_video	= new Video(_w, _h);
-			_video.attachCamera(_camera);
-			
-			// setup the tracking class with the video as the source
-			_tracking	= new VideoTracker(_video);
+			if ( _camera )
+			{
+				_camera.setMode(_w, _h, 15);
+				
+				// setup video and attach the camera
+				_video	= new Video(_w, _h);
+				_video.attachCamera(_camera);
+				
+				// setup the tracking class with the video as the source
+				_tracking	= new VideoTracker(_video);
+			}
 		}
 		
 		// update motion detection and render all elements

@@ -85,23 +85,23 @@ package library.patches
 			_circleBmd = new BitmapData(50, 50, true, 0)
 			_circleBmd.draw(sp);
 			//
-			_canvas = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0)
+			_canvas = createDefaultBitmap();
 			_bm= new Bitmap( _canvas );
 			_bm.x = _bm.y = -25;
 			_bm.filters = [_blure];
-			addChild(_bm);
+			_canvas.draw(_bm);
 			//
 			_glowBmd = _canvas.clone();
 			_glowBm = new Bitmap(_glowBmd);
 			_glowBm.filters = [_blure];
 			_glowBm.blendMode = "add";
 			_glowBm.x = _glowBm.y = -25;
-			addChild(_glowBm);
+			_canvas.draw(_glowBm);
 			//
 			_ct= new ColorTransform();
 			_hsv = new ColorHSV(0, .9, .99);
 			//
-			addChild(rotObj);
+			_canvas.draw(rotObj);
 			rotObj.x = _centerX;
 			rotObj.y = _centerY;
 			addEventListener( InteractionEvent.MOUSE_DOWN, onDown );
@@ -115,8 +115,6 @@ package library.patches
 		 */
 		override public function render(info:RenderInfo):void 
 		{
-		//private function update(e:Event):void{
-
 			var mPoint:Point = new Point(mx, my);
 			var cPoint:Point = new Point(_centerX, _centerY);
 			rotObj.rotation += (mPoint.y - cPoint.y) * 0.05;

@@ -43,7 +43,6 @@ package library.patches
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
-	[SWF(width='320', height='240', frameRate='24', backgroundColor='#FFFFFF')]
 	public class LooseGlowLine extends Patch
 	{
 		
@@ -54,7 +53,6 @@ package library.patches
 		private var _centerX:Number = DISPLAY_WIDTH / 2;
 		private var _centerY:Number = DISPLAY_HEIGHT / 2;
 		private var _p:Point = new Point(_centerX, _centerY);
-		private var _isMouseDown:Boolean;
 		
 		private var _circleBmd:BitmapData;
 		private var _canvas:BitmapData;
@@ -66,8 +64,8 @@ package library.patches
 		private var _ct:ColorTransform;
 		private var _hsv:ColorHSV;
 		
-		private var mx:int;
-		private var my:int;
+		private var mx:int = _centerX + 10;
+		private var my:int = _centerY + 10;
 		
 		/**
 		 * 	@constructor
@@ -85,28 +83,26 @@ package library.patches
 			_circleBmd = new BitmapData(50, 50, true, 0)
 			_circleBmd.draw(sp);
 			//
-			_canvas = createDefaultBitmap();
+			_canvas = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0);
+
 			_bm= new Bitmap( _canvas );
 			_bm.x = _bm.y = -25;
 			_bm.filters = [_blure];
-			_canvas.draw(_bm);
+			addChild(_bm);
 			//
 			_glowBmd = _canvas.clone();
 			_glowBm = new Bitmap(_glowBmd);
 			_glowBm.filters = [_blure];
 			_glowBm.blendMode = "add";
 			_glowBm.x = _glowBm.y = -25;
-			_canvas.draw(_glowBm);
+			addChild(_glowBm);
 			//
 			_ct= new ColorTransform();
 			_hsv = new ColorHSV(0, .9, .99);
 			//
-			_canvas.draw(rotObj);
 			rotObj.x = _centerX;
 			rotObj.y = _centerY;
-			addEventListener( InteractionEvent.MOUSE_DOWN, onDown );
 			addEventListener( InteractionEvent.MOUSE_MOVE, mouseMove );
-			addEventListener( InteractionEvent.MOUSE_UP, onUp);
 			graphics.lineStyle(1, 0);
 		}
 		
@@ -121,38 +117,21 @@ package library.patches
 			_r = rotObj.rotation;
 			_rad = _r * Math.PI / 180;
 			
-			if(_isMouseDown){
-				_p.x = _centerX + Math.cos(_rad) * (mPoint.x - cPoint.x);
-				_p.y = _centerY + Math.sin(_rad) * (mPoint.x - cPoint.x);
-				_canvas.copyPixels(_circleBmd, _circleBmd.rect, _p);
-				_canvas.colorTransform(_canvas.rect, _ct);
-				_glowBmd.copyPixels(_canvas, _canvas.rect, new Point());
-				//
-				_ct.redMultiplier = (_hsv.value >> 16 & 0xff) / 255;
-				_ct.greenMultiplier = (_hsv.value >> 8 & 0xff) / 255;
-				_ct.blueMultiplier = (_hsv.value & 0xff) / 255;
-				_hsv.h += 1;
-			}
-			info.source.copyPixels( _canvas, DISPLAY_RECT, ONYX_POINT_IDENTITY );
-
+			_p.x = _centerX + Math.cos(_rad) * (mPoint.x - cPoint.x);
+			_p.y = _centerY + Math.sin(_rad) * (mPoint.x - cPoint.x);
+		
+			_canvas.copyPixels(_circleBmd, _circleBmd.rect, _p);
+			_canvas.colorTransform(_canvas.rect, _ct);
+			_glowBmd.copyPixels(_canvas, _canvas.rect, new Point());
+			//
+			_ct.redMultiplier = (_hsv.value >> 16 & 0xff) / 255;
+			_ct.greenMultiplier = (_hsv.value >> 8 & 0xff) / 255;
+			_ct.blueMultiplier = (_hsv.value & 0xff) / 255;
+			_hsv.h += 1;
+			
+			info.source.copyPixels( _glowBmd, DISPLAY_RECT, ONYX_POINT_IDENTITY );
 		}
 		
-		private function onDown(event:InteractionEvent):void{
-			_isMouseDown = true;
-			var rad:Number = Math.atan2(my - _centerY, mx - _centerX);
-			_p.x = _centerX + Math.cos(rad) * (mx - _centerX);
-			_p.y = _centerY + Math.sin(rad) * (mx - _centerX);
-			rotObj.rotation = rad * 180 / Math.PI;
-			//
-			graphics.moveTo(_p.x, _p.y);
-		}
-		private function onUp(event:InteractionEvent):void{
-			_isMouseDown = false;
-			graphics.clear();
-			graphics.lineStyle(1, 0);
-			graphics.moveTo(_p.x, _p.y);
-			rotObj.rotation = 0;
-		}
 		private function mouseMove(event:InteractionEvent):void 
 		{
 			mx = event.localX; 

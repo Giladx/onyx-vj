@@ -166,17 +166,27 @@ package ui.states {
 				{
 					Onyx.initialize(DISPLAY_STAGE, list.bitmapData.width, list.bitmapData.height, list.quality || StageQuality.MEDIUM);
 				}*/
-				
+				var targetWidth:int 	= 320;
+				var ratio:int 			= 1;
+				var newWidth:int		= 320;
+				var newHeight:int		= 240;
+				if (list.hasOwnProperty('bitmapData'))
+				{
+					targetWidth = list.bitmapData.width;
+					newWidth	= targetWidth;
+					newHeight	= list.bitmapData.height;
+				}
 				//BL adapt bounds to real screen size
 				const screens:Array			= Screen.screens;
 				const singleScreen:Boolean	= (screens.length === 1);
 				if ( !singleScreen )
 				{
 					const screen:Screen		= screens[1];
-					const targetWidth:int 	= 320;
-					const ratio:int 		= screen.bounds.width / targetWidth;
-					const newWidth:int		= screen.bounds.width / ratio;
-					const newHeight:int		= screen.bounds.height / ratio;
+					ratio 					= screen.bounds.width / targetWidth;
+					newWidth				= screen.bounds.width / ratio;
+					newHeight				= screen.bounds.height / ratio;
+					
+					
 					Onyx.initialize(DISPLAY_STAGE, newWidth, newHeight, list.quality || StageQuality.MEDIUM);
 					
 				}
@@ -185,7 +195,7 @@ package ui.states {
 					// only one screen
 					if (list.hasOwnProperty('bitmapData'))
 					{
-						Onyx.initialize(DISPLAY_STAGE, list.bitmapData.width, list.bitmapData.height, list.quality || StageQuality.MEDIUM);
+						Onyx.initialize(DISPLAY_STAGE, newWidth, newHeight , list.quality || StageQuality.MEDIUM);
 					}
 				}					
 			}

@@ -49,8 +49,7 @@ package plugins.filters {
 		public var lock:Boolean				= false;
 		
 		private const _tlX:ParameterInteger = new ParameterInteger('topLeftX', 'topX', -DISPLAY_WIDTH * 2, DISPLAY_WIDTH *  3, 0);
-		private const _tlY:ParameterInteger = new ParameterInteger('topLeftX', 'topX', -DISPLAY_WIDTH * 2, DISPLAY_WIDTH *  3, 0);
-
+		private const _tlY:ParameterInteger = new ParameterInteger('topLeftY', 'topY', -DISPLAY_WIDTH * 2, DISPLAY_WIDTH *  3, 0);
 		private const _trX:ParameterInteger = new ParameterInteger('topRightX', 'topX', -DISPLAY_WIDTH * 2, DISPLAY_WIDTH *  3, DISPLAY_WIDTH);
 		private const _trY:ParameterInteger = new ParameterInteger('topRightY', 'topY', -DISPLAY_HEIGHT * 2, DISPLAY_HEIGHT * 3, 0);
 		private const _blX:ParameterInteger = new ParameterInteger('bottomLeftX', 'bottomX', -DISPLAY_WIDTH * 2, DISPLAY_WIDTH *  3, 0);
@@ -102,7 +101,7 @@ package plugins.filters {
 		}
 		
 		public function set topLeftY(value:Number):void {
-			distortion.topLeft.y = _tlY.dispatch(value);;
+			distortion.topLeft.y = _tlY.dispatch(value);
 		}
 		
 		public function set topRightY(value:Number):void {

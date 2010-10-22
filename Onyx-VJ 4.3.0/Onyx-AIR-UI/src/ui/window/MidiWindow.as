@@ -73,7 +73,7 @@ package ui.window {
 		private function init():void {
 			
 			var options:UIOptions	= new UIOptions( true, true, null, 40, 12 );
-			var options2:UIOptions	= new UIOptions( true, true, null, 60, 12 );
+			var options2:UIOptions	= new UIOptions( true, true, null, 48, 12 );
 			
 			// controls for display
 			t1 = new TextControl();
@@ -88,9 +88,9 @@ package ui.window {
 			
 			// add controls
 			addChildren(
-				t1,		4,		29,
-				t2,		52,		29,
-				bc,     52,		29,
+				t1,		4,		35,
+				t2,		52,		35,
+				bc,     100,	35,
 				b1,		8,		49,
 				b2,		52,		49,
 				b3,		96,		49
@@ -104,6 +104,15 @@ package ui.window {
 			if (bg) {
 				var source:BitmapData	= bg.bitmapData;
 				source.fillRect(new Rectangle(4, 25, 145, 1), 0xFF445463);
+				
+				var label:StaticText		= new StaticText();
+				
+				label.text	= 'PROXY';
+				source.draw(label, new Matrix(1, 0, 0, 1, 4, 17));
+				
+				label.text	= 'ACTION';
+				source.draw(label, new Matrix(1, 0, 0, 1, 4, 73));
+				
 			}
 		}
 		

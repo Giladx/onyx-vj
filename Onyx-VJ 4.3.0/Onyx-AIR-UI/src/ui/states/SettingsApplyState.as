@@ -52,8 +52,8 @@ package ui.states {
 				new WindowRegistration('SETTINGS',		SettingsWindow),
 				new WindowRegistration('VIDEOPONG',		VideopongWindow),
 				new WindowRegistration('PREVIEW',		PreviewWindow),
-				new WindowRegistration('CHANNEL A',		ChannelAWindow),
-				new WindowRegistration('CHANNEL B',		ChannelBWindow),
+				/*new WindowRegistration('CHANNEL A',		ChannelAWindow),
+				new WindowRegistration('CHANNEL B',		ChannelBWindow),*/
 				new WindowRegistration('MIDI',			MidiWindow)
 			);
 			WindowState.register(
@@ -68,9 +68,9 @@ package ui.states {
 					new WindowStateReg('MIDI',			269,	565),
 					new WindowStateReg('VIDEOPONG',		360,	565),
 					new WindowStateReg('RECORDER',		7,		756),
-					new WindowStateReg('PREVIEW',		774,	345),
+					new WindowStateReg('PREVIEW',		774,	345)/*,
 					new WindowStateReg('CHANNEL A',		774,	345, false),
-					new WindowStateReg('CHANNEL B',		1000,	345, false)
+					new WindowStateReg('CHANNEL B',		1000,	345, false)*/
 					
 				])
 			)

@@ -16,20 +16,24 @@
 package ui.states {
 	
 	import flash.events.*;
+	import flash.filesystem.File;
 	import flash.utils.*;
 	
+	import onyx.asset.AssetFile;
 	import onyx.core.*;
 	import onyx.display.*;
+	import onyx.jobs.LoadONXJob;
 	import onyx.plugin.*;
+	import onyx.utils.updater.OnyxAIRUpdate;
 	
 	import ui.window.*;
-	import onyx.utils.updater.OnyxAIRUpdate;
 	
 	/**
 	 * 
 	 */
 	public final class PauseState extends ApplicationState {
 		
+		public static var useTransition:Transition;
 		/**
 		 * 	@private
 		 */
@@ -74,6 +78,15 @@ package ui.states {
 				
 				//check for update or update if downloaded
 				OnyxAIRUpdate.checkForUpdate();
+				
+				//load default.onx
+				var defaultFile:File = new File( AssetFile.resolvePath( 'library/default.onx' ) );
+				if ( defaultFile.exists )
+				{
+					const layer:LayerImplementor = (Display as OutputDisplay).getLayerAt(0) as LayerImplementor;
+					(Display as OutputDisplay).load(defaultFile.url, layer, useTransition);
+					
+				}
 				
 				// remove this
 				StateManager.removeState(this);

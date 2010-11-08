@@ -16,11 +16,10 @@
  */
 package midi {
 	
-	import events.MidiEvent;
-	
 	import flash.filesystem.*;
 	import flash.geom.*;
 	import flash.utils.*;
+	import flash.utils.getTimer;
 	
 	import onyx.core.*;
 	import onyx.display.*;
@@ -33,8 +32,6 @@ package midi {
 	import ui.states.*;
 	import ui.styles.*;
 	import ui.window.*;
-	
-	import flash.utils.getTimer;
 					
 	final public class Midi extends Module {
 		

@@ -29,7 +29,6 @@ package ui.states {
 	import onyx.ui.*;
 	
 	import ui.styles.*;
-	import events.*;
 	import midi.*;
 	
 	public final class MidiLearnState extends ApplicationState {

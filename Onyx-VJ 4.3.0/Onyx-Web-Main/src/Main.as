@@ -24,6 +24,8 @@ package {
 	import flash.utils.*;
 	
 	import onyx.asset.*;
+	import onyx.asset.vp.VPAsset;
+	import onyx.asset.vp.VPContentQuery;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.parameter.*;
@@ -135,6 +137,7 @@ package {
 		private function start():void {
 			
 			const setup:ShowOnyxState = StateManager.getStates('startup')[0];
+			const useTransition:Transition;
 			
 			// remove the startup state
 			StateManager.removeState(setup);
@@ -143,10 +146,15 @@ package {
 			StateManager.loadState(new KeyListenerState());		// listen for keyboard
 			Display.pause(false);
 			
-			//KO Security.allowDomain( 'https://www.videopong.net' );
-			//KO Security.allowInsecureDomain( 'https://www.videopong.net' );
-			if ( vp.sessiontoken ) vp.loadFoldersAndAssets();
 			
+			// load default.onx
+			var path:String = "https://www.videopong.net/api/get_startupxml/replacethissessiontoken/foo.onx";
+			const layer:LayerImplementor = (Display as OutputDisplay).getLayerAt(0) as LayerImplementor;			
+			
+			(Display as OutputDisplay).load( path, layer, useTransition );
+			
+			//load folders from videopong
+			if ( vp.sessiontoken ) vp.loadFoldersAndAssets();
 		}
 		
 		/**

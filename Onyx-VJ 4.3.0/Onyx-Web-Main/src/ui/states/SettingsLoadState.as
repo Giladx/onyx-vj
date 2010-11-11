@@ -20,8 +20,7 @@ package ui.states {
 	import flash.errors.IOError;
 	import flash.events.*;
 	import flash.geom.*;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
+	import flash.net.*;
 	import flash.utils.*;
 	
 	import onyx.asset.*;

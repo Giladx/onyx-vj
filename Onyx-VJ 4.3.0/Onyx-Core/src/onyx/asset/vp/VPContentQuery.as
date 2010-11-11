@@ -131,9 +131,6 @@ package onyx.asset.vp {
 					} 
 					else 
 					{
-						//useless and AIR gives an error with Security.allowDomain( 'www.videopong.net' );
-						//useless and AIR gives an error with Security.allowInsecureDomain( 'www.videopong.net' );
-						
 						var sessionReplace:RegExp = /replacethissessiontoken/gi; // g:global i:ignore case
 						var pathWithSessiontoken:String = path.replace( sessionReplace, vp.sessiontoken );
 						//if ( DEBUG::SPLASHTIME==0 ) Console.output('VPContentQuery, LOADING ' + pathWithSessiontoken);

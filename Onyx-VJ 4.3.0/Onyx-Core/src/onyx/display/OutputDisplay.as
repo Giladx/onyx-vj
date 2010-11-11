@@ -356,8 +356,8 @@ package onyx.display {
 		 * 	@param	origin:Layer
 		 * 	@param	transition:Transition
 		 */
-		public function load(path:String, origin:LayerImplementor, transition:Transition):void {
-			
+		public function load(path:String, origin:LayerImplementor, transition:Transition):void 
+		{
 			// tell listeners we're loading a mix
 			super.dispatchEvent(new DisplayEvent(DisplayEvent.MIX_LOADING));
 			

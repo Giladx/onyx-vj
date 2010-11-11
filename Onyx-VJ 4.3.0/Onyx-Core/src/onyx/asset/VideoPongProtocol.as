@@ -78,6 +78,7 @@ package onyx.asset {
 					
 					for each ( var asset:XML in assetsList )
 					{
+						//Console.output( asset.@name + '_'+asset.@url + ''+asset.@thumb_url );
 						var vpAsset:AssetFile = new VPAsset( asset.@name, asset.@url, asset.@thumb_url );
 						list.push( vpAsset );
 					}

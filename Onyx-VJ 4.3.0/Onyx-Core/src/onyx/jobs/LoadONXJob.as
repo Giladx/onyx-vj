@@ -27,6 +27,8 @@ package onyx.jobs {
 	import onyx.jobs.onx.*;
 	import onyx.plugin.*;
 	
+	import services.videopong.VideoPong;
+	
 	/**
 	 * 
 	 */
@@ -57,28 +59,102 @@ package onyx.jobs {
 		/**
 		 * 	@constructor
 		 */
-		public function LoadONXJob(display:IDisplay, layer:LayerImplementor, transition:Transition):void {
-			
+		public function LoadONXJob(display:IDisplay, layer:LayerImplementor, transition:Transition):void 
+		{
 			_display	= display,
 			_origin		= layer,
-			_transition = transition;
-			
+			_transition = transition;	
 		}
 		
 		/**
 		 * 	
 		 */
 		override public function initialize(...args):void {
+			var path:String = args[0];
+			if ( path.substr( 0, 21 ).toLowerCase() == 'https://www.videopong' )
+			{
+				// load vp onx file
+				const vp:VideoPong = VideoPong.getInstance();
+				var sessionReplace:RegExp = /replacethissessiontoken/gi; // g:global i:ignore case
+				var pathWithSessiontoken:String = path.replace( sessionReplace, vp.sessiontoken );
+				var loader:URLLoader = new URLLoader();
+				loader.addEventListener(Event.COMPLETE, onOnxRead);
+				loader.addEventListener(IOErrorEvent.IO_ERROR, onOnxRead);
+				
+				loader.load(new URLRequest( pathWithSessiontoken + '&appkey=' + vp.appkey ));
+			}
+			else
+			{
+				AssetFile.queryFile(args[0], onRead);
+			}
 			
-			AssetFile.queryFile(args[0], onRead);
-
+		}
+		/**
+		 * 	@private
+		 */
+		private function onOnxRead(event:Event):void 
+		{
+			var loader:URLLoader = event.currentTarget as URLLoader;
+			loader.removeEventListener(Event.COMPLETE, onOnxRead);
+			loader.removeEventListener(IOErrorEvent.IO_ERROR, onOnxRead);
+			
+			if ( !(event is IOErrorEvent) ) 
+			{
+				try 
+				{
+					const xml:XML				= new XML(loader.data);
+					
+					const layers:Array		= _display.layers;
+					const index:int			= layers.indexOf(_origin);
+					const jobs:Array		= [];
+					
+					// load xml
+					_display.loadXML(xml.display);
+					
+					// loop through layers and apply settings
+					for each (var layerXML:XML in xml.display.layers.*) 
+					{
+						var layer:LayerImplementor = (String(layerXML.@index).length > 0) ? layers[int(layerXML.@index)] : layers[index++];
+						
+						// valid layer, load it
+						if (layer) {
+							
+							var settings:LayerSettings	= new LayerSettings();
+							settings.loadFromXML(layerXML[0]);
+							
+							var job:LayerLoadSettings	= new LayerLoadSettings();
+							job.layer					= layer;
+							job.settings				= settings;
+							
+							jobs.push(job);
+							
+							// break out
+						} else {
+							break;
+						}
+					}
+	
+				} catch (e:Error) {
+					Console.error(e);
+				}
+				
+				if (_transition) {
+					loadStagger(jobs);
+				} else {
+					loadImmediately(jobs);
+				}
+			}
+			else
+			{
+				Console.output( 'LoadONXJob, onOnxRead, IO Error loading: ' + (event as IOErrorEvent).text );
+			}
 		}
 		
 		/**
 		 * 	@private
 		 */
-		private function onRead(data:String):void {
-
+		private function onRead(data:String):void 
+		{
 			try {
 				
 				const xml:XML				= new XML(data);

@@ -43,7 +43,6 @@ package onyx.asset.vp {
 		private var settings:LayerSettings;
 		private var transition:Transition;
 		private const bytes:ByteArray = new ByteArray();
-		//private var url:String;
 		private var extension:String;
 		private var tens:String = '0';
 		private const vp:VideoPong = VideoPong.getInstance();
@@ -52,7 +51,6 @@ package onyx.asset.vp {
 		 * 
 		 */
 		public function VPContentQuery(path:String, callback:Function, layer:Layer, settings:LayerSettings, transition:Transition):void {
-			
 			//
 			super(path, callback);
 			
@@ -78,7 +76,9 @@ package onyx.asset.vp {
 		 * 
 		 */
 		internal function loadContent():void {
-			
+			// find extension from the path
+			var extension:String = path.substr( path.lastIndexOf('.') + 1, 3 );
+
 			// depending on the extension, do different things
 			switch ( extension ) { 
 				
@@ -111,7 +111,7 @@ package onyx.asset.vp {
 					);
 					
 					break;
-				
+
 				// load a loader if we're any other type of file
 				case 'swf':
 					
@@ -155,7 +155,6 @@ package onyx.asset.vp {
 			{
 				tens = ten;
 				Console.output('LOADING ' + Math.floor(event.bytesLoaded / event.bytesTotal * 100) + '% (' + Math.floor(event.bytesTotal / 1024) + ' kb)');
-				//Console.output('appkey=' + vp.appkey );
 			}
 			//this.layer..path =  'LOADING ' + Math.floor(event.bytesLoaded / event.bytesTotal * 100) + '% (' + Math.floor(event.bytesTotal / 1024) + ' kb)';
 		}	
@@ -251,7 +250,8 @@ package onyx.asset.vp {
 			else
 			{ 
 				// get the classname
-				//Videopong swfs:  flash.display::AVM1Movie
+				//Videopong swfs:  flash.display::AVM1Movie, should be flash.display::MovieClip(AVM2Movie) now...
+				//Console.output( 'QualifiedClassName: ' + getQualifiedClassName(info.content));
 				if (getQualifiedClassName(info.content) === 'flash.display::MovieClip') {
 					
 					var reg:ContentRegistration = ContentMC.registration(path);

@@ -51,7 +51,8 @@ package onyx.asset {
 		/**
 		 * 
 		 */
-		public static function queryDirectory(path:String, callback:Function):void {
+		public static function queryDirectory(path:String, callback:Function):void 
+		{
 			
 			if (path.substr(0, 13).toLowerCase() === 'onyx-query://') {	
 				

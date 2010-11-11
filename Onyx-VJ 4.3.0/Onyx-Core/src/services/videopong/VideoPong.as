@@ -108,9 +108,7 @@ package services.videopong
 		
 		public function loadFoldersAndAssets():void
 		{
-			//var url:String = 'http://www.videopong.net/api/getfolderstreeassets/' + sessiontoken;
 			var url:String = domain + '/api/getfolderstreeassets/' + sessiontoken;
-			//Console.output( 'Videopong loading folders with url: ' + domain + '/api/getfolderstreeassets/' );  
 			var request:URLRequest = new URLRequest( url );
 			
 			var loader:URLLoader = new URLLoader();

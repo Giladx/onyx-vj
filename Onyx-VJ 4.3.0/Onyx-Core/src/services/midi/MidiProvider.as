@@ -27,8 +27,6 @@ package services.midi {
 	import onyx.plugin.*;
 	import onyx.ui.*;
 	
-	import ui.states.*;
-	
 	/**
 	 *  
 	 */

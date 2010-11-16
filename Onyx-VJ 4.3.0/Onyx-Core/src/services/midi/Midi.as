@@ -17,7 +17,6 @@ package services.midi {
 	
 	import onyx.events.MidiEvent;
 	
-	import flash.filesystem.*;
 	import flash.geom.*;
 	import flash.utils.*;
 	import flash.events.*;
@@ -29,11 +28,7 @@ package services.midi {
 	import onyx.plugin.*;
 	import onyx.ui.*;
 	import onyx.utils.string.*;
-	
-	import ui.states.*;
-	import ui.styles.*;
-	import ui.window.*;
-					
+						
 	final public class Midi extends Module {
 		
 		public static const NOTE_OFF:int                  = 0x80;//128

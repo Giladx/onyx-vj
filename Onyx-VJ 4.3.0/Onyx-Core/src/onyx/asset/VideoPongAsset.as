@@ -69,7 +69,6 @@ package onyx.asset {
 		 * 
 		 */
 		override public function get path():String {
-			trace(subFolder);
 			return 'onyx-query://vdpong/' + subFolder + videopong;
 		}
 		

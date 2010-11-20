@@ -61,7 +61,6 @@ package onyx.asset {
 						//Console.output( 'VideoPongProtocol, subfolders exist, we first add the up one folder button to return to: ' + subFolder );
 						list.push( new VideoPongAsset( '', true ) );
 						assetsList = folders.listfolders.folder.(@foldername==suffix).asset;
-						trace(assetsList.length());
 					}
 				}
 				else

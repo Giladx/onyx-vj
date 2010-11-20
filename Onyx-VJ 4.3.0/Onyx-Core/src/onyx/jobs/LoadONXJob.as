@@ -71,23 +71,32 @@ package onyx.jobs {
 		 */
 		override public function initialize(...args):void {
 			var path:String = args[0];
-			if ( path.substr( 0, 21 ).toLowerCase() == 'https://www.videopong' )
+			switch ( path.substr( 0, 16 ).toLowerCase() )
 			{
-				// load vp onx file
-				const vp:VideoPong = VideoPong.getInstance();
-				var sessionReplace:RegExp = /replacethissessiontoken/gi; // g:global i:ignore case
-				var pathWithSessiontoken:String = path.replace( sessionReplace, vp.sessiontoken );
-				var loader:URLLoader = new URLLoader();
-				loader.addEventListener(Event.COMPLETE, onOnxRead);
-				loader.addEventListener(IOErrorEvent.IO_ERROR, onOnxRead);
-				
-				loader.load(new URLRequest( pathWithSessiontoken + '&appkey=' + vp.appkey ));
-			}
-			else
-			{
-				AssetFile.queryFile(args[0], onRead);
-			}
-			
+				case 'https://www.vide':
+					// load vp onx file
+					const vp:VideoPong = VideoPong.getInstance();
+					var sessionReplace:RegExp = /replacethissessiontoken/gi; // g:global i:ignore case
+					var pathWithSessiontoken:String = path.replace( sessionReplace, vp.sessiontoken );
+					var loader:URLLoader = new URLLoader();
+					loader.addEventListener(Event.COMPLETE, onOnxRead);
+					loader.addEventListener(IOErrorEvent.IO_ERROR, onOnxRead);
+					
+					loader.load(new URLRequest( pathWithSessiontoken + '&appkey=' + vp.appkey ));
+					break;
+				case 'http://www.batch':
+				case 'http://batchass.':
+				case 'http://localhost':
+					var loader:URLLoader = new URLLoader();
+					loader.addEventListener(Event.COMPLETE, onOnxRead);
+					loader.addEventListener(IOErrorEvent.IO_ERROR, onOnxRead);
+					
+					loader.load(new URLRequest( path ));
+					break;
+				default:
+					AssetFile.queryFile(args[0], onRead);
+					break;
+			}		
 		}
 		/**
 		 * 	@private

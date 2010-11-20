@@ -124,6 +124,7 @@
     <classEntry path="onyx.plugin.ONYX_POINT_IDENTITY"/>
     <classEntry path="onyx.plugin.ONYX_TEMPOS"/>
     <classEntry path="onyx.plugin.ONYX_TEMPOS_WITHGLOBAL"/>
+    <classEntry path="onyx.plugin.ONYX_WEBSITE"/>
     <classEntry path="onyx.plugin.Patch"/>
     <classEntry path="onyx.plugin.PixelBlenderFilter"/>
     <classEntry path="onyx.plugin.Plugin"/>

@@ -17,11 +17,12 @@ package ui.window {
 	
 	import flash.display.*;
 	import flash.events.*;
-	import flash.text.TextFieldType;
 	import flash.system.System;
+	import flash.text.TextFieldType;
 	
 	import onyx.core.*;
 	import onyx.events.*;
+	import onyx.plugin.ONYX_WEBSITE;
 	import onyx.utils.*;
 	
 	import ui.states.*;
@@ -76,9 +77,18 @@ package ui.window {
 			_text.thickness				= 0;
 			
 			_text.htmlText = '<font size="28" color="#DCC697" face="DefaultFont"><b>ONYX ' + VERSION + '</b></font><br>';
-			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="21" COLOR="#e4eaef" KERNING="0">Videopong edition</font></textformat><br/>';
-			/*_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="7" COLOR="#e4eaef" KERNING="0">COPYRIGHT 2003-2010: WWW.ONYX-VJ.COM</font></textformat><br/>';
-			_text.htmlText += 'COPYRIGHT 2003-2010: WWW.ONYX-VJ.COM<br/>';*/
+			switch ( ONYX_WEBSITE )
+			{
+				case 'v':
+					_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="21" COLOR="#e4eaef" KERNING="0">Videopong edition</font></textformat><br/>';
+					break;
+				case 'b':
+					_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="21" COLOR="#e4eaef" KERNING="0">Batchass edition</font></textformat><br/>';
+					break;
+				default:
+					_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="21" COLOR="#e4eaef" KERNING="0">Web edition</font></textformat><br/>';
+					break;
+			}		
 			
 			addChild(_text);
 			

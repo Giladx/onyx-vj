@@ -44,11 +44,6 @@ package {
 	public final class Main extends Sprite {
 		
 		/**
-		 * 	VideoPong instance
-		 */
-		private const vp:VideoPong = VideoPong.getInstance();
-
-		/**
 		 * 	@private
 		 */
 		private const states:Array	= [
@@ -77,8 +72,6 @@ package {
 			Factory.registerClass(TextField);
 			Factory.registerClass(TextFieldCenter);
 			
-			// get the sessiontoken from flashvars
-			vp.sessiontoken = root.loaderInfo.parameters.sessiontoken;
 			// init
 			init();
 			
@@ -93,6 +86,24 @@ package {
 			DISPLAY_STAGE		= this.stage;
 			Tempo				= new TempoImplementer();
 			
+			// find originating domain where SWF was loaded
+			var ldrURL:String = loaderInfo.loaderURL;
+			switch ( ldrURL.substr( 0, 16 ).toLowerCase() )
+			{
+				case 'https://www.vide':
+					ONYX_WEBSITE = 'v';
+					break;
+				case 'http://www.batch':
+				case 'http://batchass.':
+					ONYX_WEBSITE = 'b';
+					break;
+				case 'http://localhost':
+					ONYX_WEBSITE = 'l';
+					break;
+				default:
+					ONYX_WEBSITE = 'o';
+					break;
+			}				
 			// check first run and setup
 			checkFirstRun();
 		}
@@ -134,10 +145,9 @@ package {
 		/**
 		 * 	@private
 		 */
-		private function start():void {
-			
+		private function start():void 
+		{	
 			const setup:ShowOnyxState = StateManager.getStates('startup')[0];
-			const useTransition:Transition;
 			
 			// remove the startup state
 			StateManager.removeState(setup);
@@ -146,17 +156,47 @@ package {
 			StateManager.loadState(new KeyListenerState());		// listen for keyboard
 			Display.pause(false);
 			
-			
-			// load default.onx
-			var path:String = "https://www.videopong.net/api/get_startupxml/replacethissessiontoken/foo.onx";
-			const layer:LayerImplementor = (Display as OutputDisplay).getLayerAt(0) as LayerImplementor;			
-			
-			(Display as OutputDisplay).load( path, layer, useTransition );
-			
-			//load folders from videopong
-			if ( vp.sessiontoken ) vp.loadFoldersAndAssets();
+			//load onx mix into layers
+			loadDefaultOnx();
 		}
 		
+		/**
+		 * 	@private
+		 */
+		private function loadDefaultOnx():void 
+		{
+			var path:String = '';
+			switch ( ONYX_WEBSITE )
+			{
+				case 'v':
+					const vp:VideoPong = VideoPong.getInstance();
+					// get the sessiontoken from flashvars
+					vp.sessiontoken = root.loaderInfo.parameters.sessiontoken;
+					// load default.onx
+					path = 'https://www.videopong.net/api/get_startupxml/replacethissessiontoken/default.onx';
+					
+					//load folders from videopong
+					if ( vp.sessiontoken ) vp.loadFoldersAndAssets();
+					break;
+				case 'b':
+					// load default.onx
+					path = 'http://www.batchass.fr/onyx/default.onx';
+					break;
+				case 'l':
+					// load default.onx
+					path = 'http://localhost/onyx-web-main/default.onx';		
+					break;
+				default:
+					break;
+			}		
+			if ( path.length > 0 )
+			{
+				const useTransition:Transition;
+				const layer:LayerImplementor = (Display as OutputDisplay).getLayerAt(0) as LayerImplementor;			
+				
+				(Display as OutputDisplay).load( path, layer, useTransition );	
+			}
+		}
 		/**
 		 * 	@private
 		 */

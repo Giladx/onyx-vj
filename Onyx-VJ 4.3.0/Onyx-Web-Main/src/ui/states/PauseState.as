@@ -18,7 +18,6 @@ package ui.states {
 	import flash.events.*;
 	import flash.utils.*;
 	
-	import onyx.asset.vp.VPAsset;
 	import onyx.core.*;
 	import onyx.display.*;
 	import onyx.plugin.*;

@@ -23,8 +23,8 @@ package ui.states {
 	import flash.system.*;
 	
 	import onyx.asset.*;
+	import onyx.asset.http.HTTPAdapter;
 	import onyx.asset.vp.*;
-
 	import onyx.core.*;
 	import onyx.plugin.*;
 	
@@ -74,7 +74,16 @@ package ui.states {
 		 * 	@private
 		 */
 		private function checkAppFolders():void {
-			Onyx.initializeAdapters(new VPAdapter(), new UserInterfaceAPI());
+			switch ( ONYX_WEBSITE )
+			{
+				case 'v':
+					Onyx.initializeAdapters(new VPAdapter(), new UserInterfaceAPI());
+					break;
+				default:
+					Onyx.initializeAdapters(new HTTPAdapter(), new UserInterfaceAPI());
+					break;
+			}		
+
 			StateManager.removeState(this);
 		}
 

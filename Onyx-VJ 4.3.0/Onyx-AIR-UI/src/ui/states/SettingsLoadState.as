@@ -162,10 +162,6 @@ package ui.states {
 				
 				list = core.render;
 				
-				/*if (list.hasOwnProperty('bitmapData'))
-				{
-					Onyx.initialize(DISPLAY_STAGE, list.bitmapData.width, list.bitmapData.height, list.quality || StageQuality.MEDIUM);
-				}*/
 				var targetWidth:int 	= 320;
 				var ratio:int 			= 1;
 				var newWidth:int		= 320;

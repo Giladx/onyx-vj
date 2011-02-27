@@ -1,23 +1,76 @@
 package onyx.system {
+	import flash.desktop.*;
+	import flash.events.ProgressEvent;
+	import flash.filesystem.*;
+	import flash.system.Capabilities;
 	
-	//import flash.desktop.*;
-	//import flash.filesystem.*;
+	import onyx.core.Console;
 	
-	// 2010.06.11 SC: TODO
-	public class NativeAppLauncher {
+	public class NativeAppLauncher 
+	{
 		
-		//public static var nativeProcess:NativeProcess;
+		private var nativeProcess:NativeProcess;
+		private var pathToExe:String;
 		
-		public function NativeAppLauncher() {
+		// 2010.06.11 SC: TODO "apps/bin/VCTRLv1.5"
+		public function NativeAppLauncher(exeFilename:String) 
+		{
+			pathToExe = exeFilename;
+			if (NativeProcess.isSupported)
+			{
+				checkExe();
+			}
+			else
+			{
+				Console.output("NativeProcess not supported.");
+			}
+		}
+		public function checkExe():void
+		{	 
+			var folder:File = File.applicationStorageDirectory.resolvePath( 'native' );
+			var folderPath:String = folder.nativePath.toString();
+			// creates folder if it does not exists
+			if (!folder.exists) 
+			{
+				Console.output('Creating folder: ' + folderPath);
+				// create the directory
+				folder.createDirectory();
+			}
 			
-			//var info:NativeProcessStartupInfo = new NativeProcessStartupInfo();
+			var file:File = File.applicationStorageDirectory.resolvePath( 'native' + File.separator + pathToExe );
 			
-			//info.executable = new File("apps/bin/VCTRLv1.5");
-			//info.workingDirectory = new File("/");
+			if( file.exists )
+			{
+				launchExe(file)
+			}
+
+		}
+		public function launchExe(file:File):void
+		{	 			
+			var nativeProcessStartupInfo:NativeProcessStartupInfo = new NativeProcessStartupInfo();
+			nativeProcessStartupInfo.executable = file;
+			//KO nativeProcessStartupInfo.workingDirectory = new File("/");
 			
-			//nativeProcess = new NativeProcess();
+			nativeProcess = new NativeProcess();
+			nativeProcess.start(nativeProcessStartupInfo);
 			
-			//nativeProcess.start(info);
+			nativeProcess.addEventListener(ProgressEvent.STANDARD_OUTPUT_DATA, onOutputData);
+			nativeProcess.addEventListener(ProgressEvent.STANDARD_INPUT_PROGRESS, inputProgressListener);
+		}
+		public function writeData(text:String):void
+		{
+			nativeProcess.standardInput.writeUTFBytes(text + "\n");
+		}
+		public function inputProgressListener(event:ProgressEvent):void
+		{
+			nativeProcess.closeInput();
+		}
+		public function onOutputData(event:ProgressEvent):String
+		{
+			var receivedText:String = nativeProcess.standardOutput.readUTFBytes(nativeProcess.standardOutput.bytesAvailable)
+			Console.output(receivedText);
+			//needed? launchExe();
+			return receivedText;
 		}
 	}
 }

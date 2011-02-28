@@ -2,8 +2,8 @@
 <flexLibProperties includeAllClasses="false" version="3">
   <includeClasses>
     <classEntry path="onyx.core.ONRFile"/>
+    <classEntry path="onyx.system.NativeAppLauncher"/>
   </includeClasses>
-  <includeResources>
-  </includeResources>
+  <includeResources/>
   <namespaceManifests/>
 </flexLibProperties>

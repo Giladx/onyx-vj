@@ -1,21 +1,29 @@
 package onyx.system {
 	import flash.desktop.*;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.events.IEventDispatcher;
+	import flash.events.IOErrorEvent;
+	import flash.events.NativeProcessExitEvent;
 	import flash.events.ProgressEvent;
 	import flash.filesystem.*;
 	import flash.system.Capabilities;
 	
 	import onyx.core.Console;
 	
-	public class NativeAppLauncher 
+	public class NativeAppLauncher implements IEventDispatcher
 	{
-		
+		private var dispatcher:EventDispatcher;
 		private var nativeProcess:NativeProcess;
 		private var pathToExe:String;
-		private var receivedText:String = 'AppLaunch';
-		private var cnt:int = 0;
+		private var receivedText:String = '';
+		private var isExeValid:Boolean = false;
+		private var file:File;
+
 		// 2010.06.11 SC: TODO "apps/bin/VCTRLv1.5"
 		public function NativeAppLauncher(exeFilename:String) 
 		{
+			dispatcher = new EventDispatcher(this);
 			pathToExe = exeFilename;
 			if (NativeProcess.isSupported)
 			{
@@ -38,29 +46,44 @@ package onyx.system {
 				folder.createDirectory();
 			}
 			
-			var file:File = File.applicationStorageDirectory.resolvePath( 'native' + File.separator + pathToExe );
+			file = File.applicationStorageDirectory.resolvePath( 'native' + File.separator + pathToExe );
 			
 			if( file.exists )
 			{
-				launchExe(file);
+				isExeValid = true;
 			}
 			
 		}
-		public function launchExe(file:File):void
-		{	 			
-			var nativeProcessStartupInfo:NativeProcessStartupInfo = new NativeProcessStartupInfo();
-			nativeProcessStartupInfo.executable = file;
-			//KO nativeProcessStartupInfo.workingDirectory = new File("/");
-			
-			nativeProcess = new NativeProcess();
-			nativeProcess.start(nativeProcessStartupInfo);
-			
-			nativeProcess.addEventListener(ProgressEvent.STANDARD_OUTPUT_DATA, onOutputData);
-			nativeProcess.addEventListener(ProgressEvent.STANDARD_INPUT_PROGRESS, inputProgressListener);
+		public function launchExe():void
+		{	 	
+			if ( isExeValid )
+			{
+				var nativeProcessStartupInfo:NativeProcessStartupInfo = new NativeProcessStartupInfo();
+				nativeProcessStartupInfo.executable = file;
+				
+				nativeProcess = new NativeProcess();
+				nativeProcess.start(nativeProcessStartupInfo);
+				
+				//nativeProcess.addEventListener(ProgressEvent.SOCKET_DATA, onOutputData);
+				nativeProcess.addEventListener(ProgressEvent.STANDARD_OUTPUT_DATA, onOutputData);
+				nativeProcess.addEventListener(ProgressEvent.STANDARD_INPUT_PROGRESS, inputProgressListener);
+				nativeProcess.addEventListener(NativeProcessExitEvent.EXIT, onExit);
+				nativeProcess.addEventListener(IOErrorEvent.STANDARD_OUTPUT_IO_ERROR, onIOError);
+				nativeProcess.addEventListener(IOErrorEvent.STANDARD_ERROR_IO_ERROR, onIOError);
+				dispatchEvent( new Event(Event.ACTIVATE) );
+			}
 		}
 		public function writeData(text:String):void
 		{
-			nativeProcess.standardInput.writeUTFBytes(text + "\n");
+			if (nativeProcess.running)
+			{
+				nativeProcess.standardInput.writeUTFBytes(text + "\n");
+			}
+			else
+			{
+				Console.output(pathToExe + " is not running");
+			}
+			
 		}
 		public function inputProgressListener(event:ProgressEvent):void
 		{
@@ -68,15 +91,43 @@ package onyx.system {
 		}
 		public function onOutputData(event:ProgressEvent):void
 		{
-			cnt++;
 			receivedText = nativeProcess.standardOutput.readUTFBytes(nativeProcess.standardOutput.bytesAvailable)
-			Console.output(receivedText + cnt.toString());
-			//needed? launchExe();
-			
+			Console.output(receivedText);
+			dispatchEvent( new Event(Event.CHANGE) );
 		}
+		
 		public function readAppOutput():String
 		{
 			return receivedText;
+		}
+		public function onExit(event:NativeProcessExitEvent):void
+		{
+			dispatchEvent( new Event(Event.CLOSE) );
+			Console.output("Process exited with " + event.exitCode);
+		}
+		
+		public function onIOError(event:IOErrorEvent):void
+		{
+			Console.output(event.toString());
+		}
+		public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void{
+			dispatcher.addEventListener(type, listener, useCapture, priority);
+		}
+		
+		public function dispatchEvent(evt:Event):Boolean{
+			return dispatcher.dispatchEvent(evt);
+		}
+		
+		public function hasEventListener(type:String):Boolean{
+			return dispatcher.hasEventListener(type);
+		}
+		
+		public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void{
+			dispatcher.removeEventListener(type, listener, useCapture);
+		}
+		
+		public function willTrigger(type:String):Boolean {
+			return dispatcher.willTrigger(type);
 		}
 	}
 }

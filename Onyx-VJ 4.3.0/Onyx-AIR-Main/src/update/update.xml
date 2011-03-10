@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>  
 <update xmlns="http://ns.adobe.com/air/framework/update/description/1.0">  
-<version>4.3.1</version>  
+<version>4.3.2</version>  
 <url>http://www.batchass.fr/onyx-vj/update/Onyx-VJ.air</url>  
 <description><![CDATA[ 
-New in version 4.3.1: 
-* new patches
+New in version 4.3.2: 
+* fullscreen
 ]]></description>  
 </update>  

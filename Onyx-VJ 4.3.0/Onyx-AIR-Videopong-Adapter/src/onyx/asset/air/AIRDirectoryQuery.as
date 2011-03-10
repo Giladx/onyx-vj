@@ -101,7 +101,7 @@ package onyx.asset.air {
 		 *  @private
 		 */
 		private function valid(file:File):Boolean {
-			switch (file.extension) {
+			switch (file.extension.toLowerCase()) {
 				case 'onr':
 				case 'swf':
 				case 'onx':

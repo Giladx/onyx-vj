@@ -78,7 +78,7 @@ package onyx.asset.air {
 			// AIR_ROOT.nativePath: e:\SelectedFolderForLibrary\Onyx-VJ
 			
 			// depending on the extension, do different things
-			switch (file.extension) {
+			switch (file.extension.toLowerCase()) {
 				
 				// Netstream objects
 				case 'mp4':

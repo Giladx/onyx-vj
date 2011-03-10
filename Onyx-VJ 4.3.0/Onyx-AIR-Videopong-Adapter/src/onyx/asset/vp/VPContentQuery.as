@@ -86,7 +86,7 @@ package onyx.asset.vp {
 		internal function loadContent():void {
 			
 			// depending on the extension, do different things
-			switch ( extension ) { 
+			switch ( extension.toLowerCase() ) { 
 				
 				// Netstream objects
 				case 'mp4':

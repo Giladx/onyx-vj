@@ -44,7 +44,7 @@ package onyx.core {
 		/**
 		 * 	@private
 		 */
-		private static const SPECTRUM_LENGTH:int		= 255;
+		public static const SPECTRUM_LENGTH:int		= 255;
 
 		/**
 		 * 	@private

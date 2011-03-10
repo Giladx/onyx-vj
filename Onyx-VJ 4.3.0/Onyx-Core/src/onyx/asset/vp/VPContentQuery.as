@@ -77,7 +77,7 @@ package onyx.asset.vp {
 		 */
 		internal function loadContent():void {
 			// find extension from the path
-			var extension:String = path.substr( path.lastIndexOf('.') + 1, 3 );
+			var extension:String = path.substr( path.lastIndexOf('.') + 1, 3 ).toLowerCase();
 
 			// depending on the extension, do different things
 			switch ( extension ) { 

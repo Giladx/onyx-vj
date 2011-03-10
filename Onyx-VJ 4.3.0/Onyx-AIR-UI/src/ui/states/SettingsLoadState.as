@@ -178,10 +178,11 @@ package ui.states {
 				if ( !singleScreen )
 				{
 					const screen:Screen		= screens[1];
+					if (targetWidth > screen.bounds.width) targetWidth = screen.bounds.width;
 					ratio 					= screen.bounds.width / targetWidth;
 					newWidth				= screen.bounds.width / ratio;
 					newHeight				= screen.bounds.height / ratio;
-					
+					if (newHeight > screen.bounds.height) newHeight = screen.bounds.height;
 					
 					Onyx.initialize(DISPLAY_STAGE, newWidth, newHeight, list.quality || StageQuality.MEDIUM);
 					

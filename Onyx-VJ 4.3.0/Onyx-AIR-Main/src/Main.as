@@ -42,7 +42,7 @@ package {
 	import ui.window.*;
 
 	//report the width and height values in Onyx-AIR-UI FirstRunState.as: window.width = 1400;
-	[SWF(width="1300", height="850", backgroundColor="#141515", frameRate='25', systemChrome='none')]
+	[SWF(width="1284", height="830", backgroundColor="#141515", frameRate='25', systemChrome='none')]
 	public final class Main extends Sprite {
 		
 		/**
@@ -93,7 +93,6 @@ package {
 			// quit on close
 			stage.nativeWindow.addEventListener(Event.CLOSE, closeChildren);
 			NativeApplication.nativeApplication.addEventListener(Event.EXITING, closeChildren);
-			
 			// check first run and setup
 			checkFirstRun();
 		}
@@ -147,6 +146,7 @@ package {
 			
 			// load default states
 			StateManager.loadState(new KeyListenerState());		// listen for keyboard
+			
 			Display.pause(false);
 		}
 		

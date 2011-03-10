@@ -88,14 +88,14 @@ package ui.states {
 			// no scale please thanks
 			stage.scaleMode 			= StageScaleMode.NO_SCALE;
 			stage.nativeWindow.bounds	= (Screen.screens[0] as Screen).bounds;
-			
+			stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 			// slam the input monitor to 0,0
 			var window:NativeWindow		= stage.nativeWindow;
 			window.x					= 0;
 			window.y					= 0;
 			//base these values on Onyx-AIR-Main Main.as: [SWF(width="1400", height="850",
-			window.width				= 1300; 
-			window.height				= 850;
+			window.width				= 1284; 
+			window.height				= 830;
 							
 			// activate the window
 			DISPLAY_STAGE.nativeWindow.activate();

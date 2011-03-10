@@ -87,7 +87,7 @@ package onyx.system {
 		}
 		public function inputProgressListener(event:ProgressEvent):void
 		{
-			nativeProcess.closeInput();
+			//nativeProcess.closeInput();
 		}
 		public function onOutputData(event:ProgressEvent):void
 		{

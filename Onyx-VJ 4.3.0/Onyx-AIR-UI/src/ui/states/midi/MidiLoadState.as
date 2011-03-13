@@ -22,6 +22,7 @@ package ui.states.midi {
 	import flash.utils.*;
 	
 	import services.midi.*;
+	import services.midi.events.*;
 	
 	import onyx.asset.*;
 	import onyx.core.*;

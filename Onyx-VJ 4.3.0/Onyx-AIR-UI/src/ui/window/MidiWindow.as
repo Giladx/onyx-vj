@@ -61,12 +61,12 @@ package ui.window {
 			//DragManager.setDraggable(this);
 			
 			// load MIDI provider
-			MidiP = new MidiProvider();
+			MP = new MidiProvider();
 			host = '127.0.0.1';
 			port = '10000';
-			MidiP.host = host;
-			MidiP.port = port;
-			MidiP.connect();
+			MP.host = host;
+			MP.port = port;
+			MP.connect();
 			
 		}
 		
@@ -274,8 +274,8 @@ package ui.window {
 				
 			} else {
 				
-				if(	control.getMetaData(Midi.ID)!=null && control.getMetaData(Midi.ID)!=0 ) {
-					xml.@midi = control.getMetaData(Midi.ID);
+				if(	control.getMetaData(services.midi.ID)!=null && control.getMetaData(services.midi.ID)!=0 ) {
+					xml.@midi = control.getMetaData(services.midi.ID);
 				}
 				
 			}

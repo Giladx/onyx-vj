@@ -27,9 +27,10 @@ package ui.states.midi {
 	import onyx.plugin.*;
 	import onyx.ui.*;
 		
-	import ui.styles.midi.*;
+	import services.midi.ui.styles.*;
 	
 	import services.midi.*;
+	import services.midi.events.*;
 	
 	public final class MidiLearnState extends ApplicationState {
 		
@@ -92,7 +93,8 @@ package ui.states.midi {
 					control						= i as UserInterfaceControl;
 					transform					= control.transform;
 					_storeTransform[control]	= Midi.controlsSet[control];
-					transform.colorTransform	= _storeTransform[control];
+					// TODO : 
+					//transform.colorTransform	= _storeTransform[control];
 				}
 			}
 						
@@ -146,7 +148,7 @@ package ui.states.midi {
 			Midi.controlsSet[_control] = 
 				Midi.registerControl(_control.getParameter(), event.midihash);
 			
-			_control.transform.colorTransform = Midi.controlsSet[_control];
+			//_control.transform.colorTransform = Midi.controlsSet[_control];
 			
 			// reset and wait for another midi control
 			_control.removeEventListener(KeyboardEvent.KEY_DOWN, _onKey);
@@ -177,10 +179,10 @@ package ui.states.midi {
 			if(event.charCode == 127) {
 				
 				// if mapped
-				if(_control.getParameter().getMetaData(Midi.ID)) {
+				if(_control.getParameter().getMetaData(services.midi.ID)) {
 					
 					Midi.controlsSet[_control] = MIDI_HIGHLIGHT;
-					Midi.unregisterControl(_control.getParameter().getMetaData(Midi.ID) as uint);
+					Midi.unregisterControl(_control.getParameter().getMetaData(services.midi.ID) as uint);
 					
 					StateManager.removeState(this);
 					initialize();

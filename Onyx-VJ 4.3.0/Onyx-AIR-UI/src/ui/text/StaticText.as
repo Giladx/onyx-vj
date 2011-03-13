@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2003-2008 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2011 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
+ * Bruce Lane
  *
  * All rights reserved.
  *
@@ -19,13 +20,14 @@ package ui.text {
 	
 	import ui.styles.TEXT_DEFAULT;
 
-	public final class StaticText extends flash.text.TextField {
-		
+	public final class StaticText extends flash.text.TextField 
+	{
 		/**
 		 * 	@constructor
 		 *  example: on GLOBAL TEMPO label
 		 */
-		public function StaticText():void {
+		public function StaticText():void 
+		{
 			
 			super.autoSize			= TextFieldAutoSize.LEFT,
 			super.selectable		= false,
@@ -37,7 +39,6 @@ package ui.text {
 			super.antiAliasType		= AntiAliasType.NORMAL,
 			super.textColor			= 0xb3c4d2,
 			super.text				= text;
-			
 		}
 	}
 }

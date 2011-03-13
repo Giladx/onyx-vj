@@ -108,7 +108,6 @@ package plugins {
 				// fonts
 				new Arial(),
 				new Impact(),
-				new Garamond,
 				new TimesNewRoman(),
 				new Verdana(),
 				new Plague(),

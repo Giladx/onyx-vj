@@ -130,63 +130,70 @@ package ui.states {
 		private function checkAppFolders(folder:File):void {
 			
 			var dispatched:Boolean = false;
-			
-			// folder already exists, don't do anything, just write out the location
-			if (!folder.exists) {
-				
-				Console.output('Creating: ', folder.name);
-				
-				// create the directory
-				folder.createDirectory();
-				
-			}
-			
-			// initialize all the adapters
-			Onyx.initializeAdapters(new VPAdapter(folder.nativePath), new UserInterfaceAPI());
-			Onyx.initializeAdapters(new AIRAdapter(folder.nativePath), new UserInterfaceAPI());
-			
-			// need to verify all the files exist
-			var appDirectory:File	= new File('app:/root/');
-			if ( !appDirectory.exists )
+			try
 			{
-				Console.output( "FirstRunState, Error does not exist: " + appDirectory.nativePath );
-			}
-			else
-			{
-				Console.output( "FirstRunState, app:/root/ exist: " + appDirectory.nativePath );
-				var copyFiles:Array		= getDirectoryTree(appDirectory, filter);
-				
-				// loop and copy folders
-				for each (var file:File in copyFiles) {
+				// folder already exists, don't do anything, just write out the location
+				if (!folder.exists) {
 					
-					var path:String		= getRelativePath(appDirectory, file);
-					var dest:File		= folder.resolvePath(path);
+					Console.output('Creating: ', folder.name);
 					
-					// check for disabled file
-					var disIndex:int	= path.lastIndexOf(dest.type);
-					if (disIndex >= 0) {
-						var disFile:File	= folder.resolvePath(path.substr(0, disIndex) + '-disabled' + dest.type);
-						if (disFile.exists) {
-							continue;
-						}
-					}
+					// create the directory
+					folder.createDirectory();
 					
-					// check for new file
-					if (!dest.exists || dest.modificationDate < file.modificationDate) {
-						
-						// output only one
-						if (!dispatched) {
-							Console.output('*  COPYING DEFAULT FILES  *\n');
-							dispatched = true;
-						}
-						
-						Console.output('FirstRunState, Copying: ', path);
-						file.copyTo(dest, true);
-					}
 				}
-				// now create the ini file
-				writeTextFile(INIT_FILE, folder.nativePath);
 				
+				// initialize all the adapters
+				Onyx.initializeAdapters(new VPAdapter(folder.nativePath), new UserInterfaceAPI());
+				Onyx.initializeAdapters(new AIRAdapter(folder.nativePath), new UserInterfaceAPI());
+				
+				// need to verify all the files exist
+				var appDirectory:File	= new File('app:/root/');
+				if ( !appDirectory.exists )
+				{
+					Console.output( "FirstRunState, Error does not exist: " + appDirectory.nativePath );
+				}
+				else
+				{
+					Console.output( "FirstRunState, app:/root/ exist: " + appDirectory.nativePath );
+					var copyFiles:Array		= getDirectoryTree(appDirectory, filter);
+					
+					// loop and copy folders
+					for each (var file:File in copyFiles) {
+						
+						var path:String		= getRelativePath(appDirectory, file);
+						var dest:File		= folder.resolvePath(path);
+						
+						// check for disabled file
+						var disIndex:int	= path.lastIndexOf(dest.type);
+						if (disIndex >= 0) {
+							var disFile:File	= folder.resolvePath(path.substr(0, disIndex) + '-disabled' + dest.type);
+							if (disFile.exists) {
+								continue;
+							}
+						}
+						
+						// check for new file
+						if (!dest.exists || dest.modificationDate < file.modificationDate) {
+							
+							// output only one
+							if (!dispatched) {
+								Console.output('*  COPYING DEFAULT FILES  *\n');
+								dispatched = true;
+							}
+							
+							Console.output('FirstRunState, Copying: ', path);
+							file.copyTo(dest, true);
+						}
+					}
+					// now create the ini file
+					writeTextFile(INIT_FILE, folder.nativePath);
+					
+				}
+				
+			}
+			catch ( e:Error )
+			{	
+				Console.output( 'Error checkAppFolders file operations: ' + e.message );
 			}
 			
 			

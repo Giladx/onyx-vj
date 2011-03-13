@@ -15,7 +15,7 @@
  */
 package services.midi {
 	
-	import onyx.events.MidiEvent;
+	import services.midi.events.MidiEvent;
 	
 	import flash.geom.*;
 	import flash.utils.*;
@@ -29,6 +29,8 @@ package services.midi {
 	import onyx.ui.*;
 	import onyx.utils.string.*;
 						
+	import services.midi.ui.styles.*;
+	
 	final public class Midi extends Module {
 		
 		public static const NOTE_OFF:int                  = 0x80;//128
@@ -45,9 +47,7 @@ package services.midi {
 		 */
 		public static const instance:Midi 		= new Midi();
 		private static const REUSABLE:MidiEvent	= new MidiEvent(MidiEvent.DATA);
-		
-		public static const ID:String	= 'MIDI';
-		
+				
 		/**
 		 * 	Move layer's MIDI
 		 */
@@ -117,7 +117,7 @@ package services.midi {
 				for (var val:Object in _map) {
 					if(val==midihash.toString() ) {
 						if (_map[val]) {
-//							controlsSet[(_map[val].control as Parameter).getMetaData(ID)] = MIDI_HIGHLIGHT;
+							//controlsSet[(_map[val].control as Parameter).getMetaData(ID)] = MIDI_HIGHLIGHT;
 							unregisterControl(midihash);
 						}
 					}
@@ -157,7 +157,7 @@ package services.midi {
 						break;
 				}	
 				//do style
-				return null;//MIDI_HIGHLIGHT_SET;	
+				return null; MIDI_HIGHLIGHT_SET;	
             }
             // error
             return null;

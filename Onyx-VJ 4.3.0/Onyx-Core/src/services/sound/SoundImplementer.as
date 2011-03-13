@@ -40,8 +40,6 @@ package services.sound {
 		 */
 		private var parameters:Parameters	= new Parameters(this as IParameterObject);
 		
-		//private var _silence:int 	= 10;
-		//private var _amp:int 		= 10;
 		//public var SP:SoundProvider = PluginManager.modules[ID].SP;
 		public var mod:Object = PluginManager.modules[ID];
 		
@@ -55,19 +53,12 @@ package services.sound {
 			
 			// add event listener
 			mod.SP.addEventListener('sound', _onSndEvent);
-			//SP.addEventListener(SndEvent.SOUND, _onSndEvent);
 
 		}
 		
-		/*public function set silence(value:int):void {
-			_silence = value;
-		}
-		public function get silence():int {
-			return _silence;
-		}*/
-		
-		private function _onSndEvent(e:Event):void {
-			onPeak(mod.SP.floatLR[0],mod.SP.floatLR[0]);
+		private function _onSndEvent(e:Object):void {
+			//onPeak(mod.SP.floatLR[0],mod.SP.floatLR[0]);
+			onPeak(e.lr[0],e.lr[1]);
 		}
 		
 		public function onPeak(l:Array,r:Array):void {

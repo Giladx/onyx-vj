@@ -9,6 +9,7 @@ package services.sound
 	
 	import onyx.core.*;
 	import onyx.events.*;
+	import services.sound.events.*;
 	
 	public class SoundProvider extends EventDispatcher {
 		
@@ -22,6 +23,7 @@ package services.sound
 		
 		public var bytes:ByteArray;
 		public var floatLR:Array;
+		public var bandsLR:Array;
 		
 		public var slevel:Number;
 		
@@ -37,6 +39,7 @@ package services.sound
 			
 			bytes 			= new ByteArray();
 			floatLR 		= new Array(new Array(),new Array());
+			bandsLR 		= new Array(new Array(),new Array());
 			
 			soundRecording 	= new ByteArray();
 			
@@ -96,6 +99,7 @@ package services.sound
 					floatLR[j][i] = bytes.readFloat();
 			}
 			floatLR[1] = floatLR[0]; // duplicate L channel for speed
+			bandsLR[0] = averageFFT(floatLR[0],16,'lin');
 			
 			slevel = mic.activityLevel;
 					
@@ -103,6 +107,22 @@ package services.sound
 
 		}
 		
+		
+		// FFT
+		private var _timeSize:int		= 256;
+		private var _sampleRate:int 	= 44100;
+		private var _bandWidth:Number 	= (2/_timeSize)*(_sampleRate/2);
+		
+		public function freqToIndex(freq:int):int {
+			// special case: freq is lower than the bandwidth of spectrum[0]
+			if(freq<_bandWidth/2) return 0;
+			// special case: freq is within the bandwidth of spectrum[512]
+			if(freq>_sampleRate/2 - _bandWidth/2) return 512;
+			// all other cases
+			var fraction:Number = freq/_sampleRate;
+			var i:int = Math.round(_timeSize * fraction);
+			return i;
+		}
 		
 		// TODO
 		// http://code.compartmental.net/2007/03/21/fft-averages/

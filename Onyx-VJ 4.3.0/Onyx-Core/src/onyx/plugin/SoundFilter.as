@@ -26,8 +26,12 @@ package onyx.plugin {
 	import onyx.tween.easing.*;
 	
 	import services.sound.*;
+	import services.sound.events.*;
 	
 	use namespace onyx_ns;
+	
+	
+	// 2011.03.13 SC : TODO !!!!
 	
 	/**
 	 * 	Base Sound Filter class.  Extend this class if you'd like your filter to respond to the sound.

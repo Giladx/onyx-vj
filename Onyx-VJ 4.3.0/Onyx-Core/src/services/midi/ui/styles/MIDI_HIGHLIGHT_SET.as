@@ -13,11 +13,10 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package onyx.plugin {
+package services.midi.ui.styles {
+
+	import flash.geom.ColorTransform;
 	
-	import onyx.core.*;
-	import services.midi.*;
-	
-	public var MidiP:MidiProvider;
-	
+	public const MIDI_HIGHLIGHT_SET:ColorTransform = new ColorTransform(1,1,1,.5,80,160,80);
+
 }

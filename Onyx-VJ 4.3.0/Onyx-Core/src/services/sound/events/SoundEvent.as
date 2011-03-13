@@ -13,7 +13,7 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package onyx.events {
+package services.sound.events {
 	
 	import flash.events.Event;
 	import flash.utils.ByteArray;

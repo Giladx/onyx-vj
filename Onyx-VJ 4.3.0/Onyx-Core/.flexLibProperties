@@ -71,9 +71,7 @@
     <classEntry path="onyx.events.InteractionEvent"/>
     <classEntry path="onyx.events.JobEvent"/>
     <classEntry path="onyx.events.LayerEvent"/>
-    <classEntry path="onyx.events.MidiEvent"/>
     <classEntry path="onyx.events.ParameterEvent"/>
-    <classEntry path="onyx.events.SoundEvent"/>
     <classEntry path="onyx.events.TelnetEvent"/>
     <classEntry path="onyx.events.TempoEvent"/>
     <classEntry path="onyx.events.TransitionEvent"/>
@@ -117,7 +115,6 @@
     <classEntry path="onyx.plugin.IBitmapFilter"/>
     <classEntry path="onyx.plugin.Layer"/>
     <classEntry path="onyx.plugin.Macro"/>
-    <classEntry path="onyx.plugin.MidiP"/>
     <classEntry path="onyx.plugin.Module"/>
     <classEntry path="onyx.plugin.ModuleInterfaceOptions"/>
     <classEntry path="onyx.plugin.ONYX_LIBRARY_PATH"/>
@@ -170,15 +167,22 @@
     <classEntry path="onyx.utils.string.removePath"/>
     <classEntry path="onyx.utils.string.substituteBlanks"/>
     <classEntry path="services.midi.ExecuteBehavior"/>
+    <classEntry path="services.midi.ID"/>
     <classEntry path="services.midi.IMidiControlBehavior"/>
+    <classEntry path="services.midi.MP"/>
     <classEntry path="services.midi.Midi"/>
     <classEntry path="services.midi.MidiProvider"/>
     <classEntry path="services.midi.NumericBehavior"/>
     <classEntry path="services.midi.NumericRange"/>
+    <classEntry path="services.midi.events.MidiEvent"/>
+    <classEntry path="services.midi.ui.styles.MIDI_HIGHLIGHT"/>
+    <classEntry path="services.midi.ui.styles.MIDI_HIGHLIGHT_CONFLICT"/>
+    <classEntry path="services.midi.ui.styles.MIDI_HIGHLIGHT_SET"/>
     <classEntry path="services.sound.ID"/>
     <classEntry path="services.sound.ISoundControlBehavior"/>
     <classEntry path="services.sound.SoundImplementer"/>
     <classEntry path="services.sound.SoundProvider"/>
+    <classEntry path="services.sound.events.SoundEvent"/>
   </includeClasses>
   <includeResources>
     <resourceEntry destPath="assets/camera.png" sourcePath="assets/camera.png"/>

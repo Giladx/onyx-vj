@@ -20,14 +20,14 @@ package plugins {
 	import plugins.assets.*;
 	import plugins.filters.*;
 	import plugins.filters.tempo.*;
+	import plugins.fonts.*;
+	import plugins.macros.*;
+	import plugins.modules.*;
 	import plugins.transitions.*;
 	import plugins.visualizer.*;
-	import plugins.macros.*;
-	import plugins.fonts.*;
-	import plugins.modules.*;
 	
-	import services.sound.ID;
 	import services.midi.*;
+	import services.sound.*;
 	
 	final public class Plugins extends PluginLoader {
 
@@ -37,8 +37,10 @@ package plugins {
 			
 				// modules
 				new Plugin('Performance', 			PerformanceMonitor, 'Performance'),
-				new Plugin(ID, 						ModuleLINEIN, 		'LINEINModule'),
-				//new Plugin(Midi.ID, 				ModuleMIDI, 		'MIDI'),
+				//new Plugin(services.sound.ID, 		ModuleLINEIN, 		'LINEINModule'),
+				
+				// 2011.03.13 SC : no more module, now we have a MIDI window in UI
+				//new Plugin(services.midi.ID, 		ModuleMIDI, 		'MIDI'),
 				
 				// bitmap filters
 				//new Plugin('ASCII', 				ASCIIfy, 		'ASCII'),
@@ -108,6 +110,7 @@ package plugins {
 				// fonts
 				new Arial(),
 				new Impact(),
+				//new Garamond(),
 				new TimesNewRoman(),
 				new Verdana(),
 				new Plague(),

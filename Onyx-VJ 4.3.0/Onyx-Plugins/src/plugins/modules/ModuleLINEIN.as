@@ -15,6 +15,7 @@ package plugins.modules {
 	import onyx.ui.*;
 	
 	import services.sound.SoundProvider;
+	import services.sound.events.*;
 	
 	/**
 	 *  
@@ -54,7 +55,8 @@ package plugins.modules {
 			
 			// default audio source 
 			_source = 'line in';
-			// streaming server 
+			
+			// 2011.03.13 SC : TBD in test,  streaming server 
 			_host 	= 'localhost'; 	//192.168.1.66'; //'127.0.0.1'; // default to localhost    test on 192.168.1.66
 			_port 	= '8080';		// default port for http streaming	
 			
@@ -185,6 +187,8 @@ package plugins.modules {
 		}
 		*///////
 		
+		
+		// 2011.03.13 SC : not used yet
 		private function _onTimer(e:Event):void {
 			SoundMixer.computeSpectrum( bytes, true, 0 );
 			slevel = (_sch.leftPeak + _sch.rightPeak)*100/2;

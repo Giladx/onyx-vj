@@ -19,7 +19,7 @@
 		<link>
 			<name>bin-debug</name>
 			<type>2</type>
-			<location>E:/projects/onyx4.3.0/InstallPackage/root/sdk</location>
+			<locationURI>DOCUMENTS/InstallPackage/root/sdk</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

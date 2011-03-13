@@ -22,7 +22,7 @@ package ui.styles {
 	import onyx.asset.*;
 	import onyx.core.Console;
 	
-	public const TEXT_DEFAULT:TextFormat = new TextFormat(new AssetDefaultFont().fontName, 7, 0xe4eaef);
+	public const TEXT_DEFAULT:TextFormat = new TextFormat(new AssetPixelFont().fontName, 7, 0xe4eaef);
 	
 	TEXT_DEFAULT.leading		= 3;
 }

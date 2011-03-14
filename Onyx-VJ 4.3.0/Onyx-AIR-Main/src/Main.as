@@ -31,9 +31,7 @@ package {
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	import onyx.utils.file.*;
-	
-	import services.midi.MidiProvider;
-	
+		
 	import ui.controls.*;
 	import ui.controls.layer.*;
 	import ui.core.*;

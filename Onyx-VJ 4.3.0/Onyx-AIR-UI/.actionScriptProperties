@@ -9,6 +9,7 @@
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="3" linkType="1" path="/Onyx-Core/bin-debug/Onyx-Core.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/Onyx-AIR-Core/bin-debug/Onyx-AIR-Core.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/Onyx-AIR-Videopong-Adapter/bin-debug/Onyx-AIR-Videopong-Adapter.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>

@@ -52,6 +52,10 @@ package ui.window {
 			
 		);
 		
+		public function connect():void {
+			MP.connect();
+		}
+		
 		public function MidiWindow(reg:WindowRegistration)  {
 			super(reg, true, 150, 184);
 			
@@ -141,11 +145,9 @@ package ui.window {
 		
 		override public function dispose():void {
 			
-			//
 			b1.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			b2.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			b3.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-			
 			// remove
 			super.dispose();
 			

@@ -48,7 +48,7 @@ package ui.states.midi {
 		 * 	@private
 		 * 	Store the transformations for all UIControls
 		 */
-		private var _storeTransform:Dictionary;
+		//private var _storeTransform:Dictionary;
 		
 		/**
 		 * 	@constructor
@@ -56,6 +56,8 @@ package ui.states.midi {
 		public function MidiLearnState():void {
 			super('MidiLearnState');							
 		}
+		
+		public var controls:Dictionary = UserInterface.getAllControls();
 		
 		/**
 		 * 	initialize
@@ -67,34 +69,27 @@ package ui.states.midi {
 				Console.output('reloaded');
 				StateManager.loadState(this);
 			}
-			
-			var controls:Dictionary = UserInterface.getAllControls();
-			
+						
 			var i:Object;
 			var control:UserInterfaceControl;
 			var transform:Transform;
 			
-			_storeTransform = new Dictionary(true);
+			//if(_storeTransform)
+			//	_storeTransform = new Dictionary(true);
 			
-			if(!Midi.controlsSet) {
+			if(!Midi.controlsSet)
 				Midi.controlsSet = new Dictionary(true);
-			}
 
 			// Highlight all the controls
-			for(i in controls) {
-				control 					= i as UserInterfaceControl;
-				transform					= control.transform;
-				_storeTransform[control] 	= transform.colorTransform;
-				transform.colorTransform	= MIDI_HIGHLIGHT;
+			for (i in controls) {
+				(i as UserInterfaceControl).transform.colorTransform = 
+					MIDI_HIGHLIGHT;
 			}		
 			// Highlight already set
 			for(i in Midi.controlsSet) {
 				if (i!='null') {
-					control						= i as UserInterfaceControl;
-					transform					= control.transform;
-					_storeTransform[control]	= Midi.controlsSet[control];
-					// TODO : 
-					//transform.colorTransform	= _storeTransform[control];
+					(i as UserInterfaceControl).transform.colorTransform = 
+						Midi.controlsSet[control];
 				}
 			}
 						
@@ -128,9 +123,9 @@ package ui.states.midi {
 				_unHighlight();
 				
 				// re-highlight the selected control
-				var transform:Transform		= _control.transform;
-				_storeTransform[_control]	= transform.colorTransform;
-				transform.colorTransform	= MIDI_HIGHLIGHT;
+				//var transform:Transform		= _control.transform;
+				//_storeTransform[_control]	= transform.colorTransform;
+				_control.transform.colorTransform	= MIDI_HIGHLIGHT;
 							
 			} else {
 				// Clicked outside any control - abort learning
@@ -148,7 +143,7 @@ package ui.states.midi {
 			Midi.controlsSet[_control] = 
 				Midi.registerControl(_control.getParameter(), event.midihash);
 			
-			//_control.transform.colorTransform = Midi.controlsSet[_control];
+			_control.transform.colorTransform = Midi.controlsSet[_control];
 			
 			// reset and wait for another midi control
 			_control.removeEventListener(KeyboardEvent.KEY_DOWN, _onKey);
@@ -163,11 +158,10 @@ package ui.states.midi {
 			
 			DISPLAY_STAGE.removeEventListener(MouseEvent.MOUSE_DOWN, _onControlSelect, true);
 			Midi.instance.removeEventListener(MidiEvent.DATA, _onMidi);
-				
 			_unHighlight();
 	   		
-	   		_storeTransform = null;
-	   		
+	   		//_storeTransform = null;	
+			
 		}
 		
 		/**
@@ -198,16 +192,18 @@ package ui.states.midi {
     	 */
 		private function _unHighlight():void {
 			
-			var controls:Dictionary 			= UserInterface.getAllControls();
+			//var controls:Dictionary = UserInterface.getAllControls();
+			var control:UserInterfaceControl
+			var i:Object;
 			
-			for (var i:Object in controls) {
-				var control:UserInterfaceControl = i as UserInterfaceControl;
-				var color:ColorTransform	= _storeTransform[control];
-				if (color) {
-					var transform:Transform		= control.transform;
-					transform.colorTransform	= new ColorTransform(1,1,1,1);
-					delete _storeTransform[control];
-				}
+			for (i in controls) {
+				control = i as UserInterfaceControl;
+				//var color:ColorTransform	= _storeTransform[control];
+				//if (color) {
+					//var transform:Transform		= control.transform;
+					control.transform.colorTransform	= new ColorTransform(1,1,1,1);
+					//delete _storeTransform[control];
+				//}
 			} 
 			
 		}

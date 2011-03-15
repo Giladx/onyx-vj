@@ -130,36 +130,36 @@ package ui.states {
 		private function checkAppFolders(folder:File):void {
 			
 			var dispatched:Boolean = false;
-			try
+			// folder already exists, don't do anything, just write out the location
+			if (!folder.exists) {
+				
+				Console.output('Creating: ', folder.name);
+				
+				// create the directory
+				folder.createDirectory();
+				
+			}
+			
+			// initialize all the adapters
+			Onyx.initializeAdapters(new VPAdapter(folder.nativePath), new UserInterfaceAPI());
+			Onyx.initializeAdapters(new AIRAdapter(folder.nativePath), new UserInterfaceAPI());
+			
+			// need to verify all the files exist
+			var appDirectory:File	= new File('app:/root/');
+			if ( !appDirectory.exists )
 			{
-				// folder already exists, don't do anything, just write out the location
-				if (!folder.exists) {
-					
-					Console.output('Creating: ', folder.name);
-					
-					// create the directory
-					folder.createDirectory();
-					
-				}
+				Console.output( "FirstRunState, Error does not exist: " + appDirectory.nativePath );
+			}
+			else
+			{
+				Console.output( "FirstRunState, app:/root/ exist: " + appDirectory.nativePath );
+				var copyFiles:Array		= getDirectoryTree(appDirectory, filter);
 				
-				// initialize all the adapters
-				Onyx.initializeAdapters(new VPAdapter(folder.nativePath), new UserInterfaceAPI());
-				Onyx.initializeAdapters(new AIRAdapter(folder.nativePath), new UserInterfaceAPI());
-				
-				// need to verify all the files exist
-				var appDirectory:File	= new File('app:/root/');
-				if ( !appDirectory.exists )
+				// loop and copy folders
+				for each (var file:File in copyFiles) 
 				{
-					Console.output( "FirstRunState, Error does not exist: " + appDirectory.nativePath );
-				}
-				else
-				{
-					Console.output( "FirstRunState, app:/root/ exist: " + appDirectory.nativePath );
-					var copyFiles:Array		= getDirectoryTree(appDirectory, filter);
-					
-					// loop and copy folders
-					for each (var file:File in copyFiles) {
-						
+					try
+					{
 						var path:String		= getRelativePath(appDirectory, file);
 						var dest:File		= folder.resolvePath(path);
 						
@@ -185,18 +185,17 @@ package ui.states {
 							file.copyTo(dest, true);
 						}
 					}
-					// now create the ini file
-					writeTextFile(INIT_FILE, folder.nativePath);
-					
+					catch ( e:Error )
+					{	
+						Console.output( 'Error checkAppFolders file operations: ' + e.message );
+					}
+
 				}
+				// now create the ini file
+				writeTextFile(INIT_FILE, folder.nativePath);
 				
-			}
-			catch ( e:Error )
-			{	
-				Console.output( 'Error checkAppFolders file operations: ' + e.message );
-			}
-			
-			
+			}			
+		
 			// kill the state
 			StateManager.removeState(this);
 		}

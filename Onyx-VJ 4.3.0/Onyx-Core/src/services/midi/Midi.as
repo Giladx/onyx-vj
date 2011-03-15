@@ -157,7 +157,7 @@ package services.midi {
 						break;
 				}	
 				//do style
-				return null; MIDI_HIGHLIGHT_SET;	
+				return MIDI_HIGHLIGHT_SET;	
             }
             // error
             return null;

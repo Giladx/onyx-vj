@@ -48,17 +48,15 @@ package services.midi {
 		/**
 		 * 	@constructor
 		 */		
-		public function MidiProvider():void {
-						
-			init();
-					
+		public function MidiProvider():void {		
+			init();	
 		}
 		
 		
 		/**
 		 * 
 		 */
-		public function init():void {
+		private function init():void {
 			
 			_attempts = 0;
 			conn = new Socket();		
@@ -67,8 +65,6 @@ package services.midi {
 			conn.addEventListener(ProgressEvent.SOCKET_DATA, handleProgress);
 			conn.addEventListener(IOErrorEvent.IO_ERROR, handleSocketIOError);
 			conn.addEventListener(SecurityErrorEvent.SECURITY_ERROR, handleSocketSecurityError);
-			// connect
-			//connect();
 			
 		}
 		
@@ -102,25 +98,6 @@ package services.midi {
 			_timer.addEventListener(TimerEvent.TIMER, _reconnect);
 			_timer.start();
 		}
-		
-		
-		/**
-		 * 	@public
-		 */
-		/*public function set host(value:String):void {
-			_host = value;
-		}
-		public function get host():String {
-			return _host;
-		}
-		
-		public function set port(value:String):void {
-			_port = value;
-		}
-		public function get port():String {
-			return _port;
-		}*/
-		
 		
 				
 		/**

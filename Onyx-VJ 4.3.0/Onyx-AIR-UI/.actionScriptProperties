@@ -14,7 +14,7 @@
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
-  <applications>
+<applications>
     <application path="Onyx-UI-AIR-Core.as"/>
   </applications>
   <modules/>

@@ -88,7 +88,7 @@ package ui.states.midi {
 			// Highlight already set
 			for(i in Midi.controlsSet) {
 				if (i!='null') {
-					(i as UserInterfaceControl).transform.colorTransform = MIDI_HIGHLIGHT_SET;//BL: was Midi.controlsSet[control];
+					(i as UserInterfaceControl).transform.colorTransform = Midi.controlsSet[control];
 				}
 			}
 						

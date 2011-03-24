@@ -17,6 +17,7 @@ package onyx.system {
 		private var nativeProcess:NativeProcess;
 		private var pathToExe:String;
 		private var receivedText:String = '';
+		private var commandText:String = '';
 		private var isExeValid:Boolean = false;
 		private var file:File;
 
@@ -64,7 +65,6 @@ package onyx.system {
 				nativeProcess = new NativeProcess();
 				nativeProcess.start(nativeProcessStartupInfo);
 				
-				//nativeProcess.addEventListener(ProgressEvent.SOCKET_DATA, onOutputData);
 				nativeProcess.addEventListener(ProgressEvent.STANDARD_OUTPUT_DATA, onOutputData);
 				nativeProcess.addEventListener(ProgressEvent.STANDARD_INPUT_PROGRESS, inputProgressListener);
 				nativeProcess.addEventListener(NativeProcessExitEvent.EXIT, onExit);
@@ -87,18 +87,25 @@ package onyx.system {
 		}
 		public function inputProgressListener(event:ProgressEvent):void
 		{
+			//Console.output("inputProgressListener");
 			//nativeProcess.closeInput();
 		}
 		public function onOutputData(event:ProgressEvent):void
 		{
-			receivedText = nativeProcess.standardOutput.readUTFBytes(nativeProcess.standardOutput.bytesAvailable)
+			receivedText = nativeProcess.standardOutput.readUTFBytes(nativeProcess.standardOutput.bytesAvailable);
 			Console.output(receivedText);
-			dispatchEvent( new Event(Event.CHANGE) );
+			 
+			if ( receivedText.indexOf('!') > -1)
+			{
+				commandText = receivedText.substr(1);
+				dispatchEvent( new Event(Event.CHANGE) );
+				
+			}
 		}
 		
 		public function readAppOutput():String
 		{
-			return receivedText;
+			return commandText;
 		}
 		public function onExit(event:NativeProcessExitEvent):void
 		{
@@ -110,23 +117,28 @@ package onyx.system {
 		{
 			Console.output(event.toString());
 		}
-		public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void{
+		public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void
+		{
 			dispatcher.addEventListener(type, listener, useCapture, priority);
 		}
 		
-		public function dispatchEvent(evt:Event):Boolean{
+		public function dispatchEvent(evt:Event):Boolean
+		{
 			return dispatcher.dispatchEvent(evt);
 		}
 		
-		public function hasEventListener(type:String):Boolean{
+		public function hasEventListener(type:String):Boolean
+		{
 			return dispatcher.hasEventListener(type);
 		}
 		
-		public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void{
+		public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void
+		{
 			dispatcher.removeEventListener(type, listener, useCapture);
 		}
 		
-		public function willTrigger(type:String):Boolean {
+		public function willTrigger(type:String):Boolean 
+		{
 			return dispatcher.willTrigger(type);
 		}
 	}

@@ -2,6 +2,7 @@
 <flexLibProperties includeAllClasses="false" version="3">
   <includeClasses>
     <classEntry path="onyx.core.ONRFile"/>
+    <classEntry path="onyx.log.writeLogFile"/>
     <classEntry path="onyx.system.NativeAppLauncher"/>
   </includeClasses>
   <includeResources/>

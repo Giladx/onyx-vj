@@ -75,7 +75,7 @@ package onyx.system {
 		}
 		public function writeData(text:String):void
 		{
-			if (nativeProcess.running)
+			if (nativeProcess && nativeProcess.running)
 			{
 				nativeProcess.standardInput.writeUTFBytes(text + "\n");
 			}

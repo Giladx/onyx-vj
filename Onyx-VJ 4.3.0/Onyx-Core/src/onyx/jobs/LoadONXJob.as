@@ -71,6 +71,7 @@ package onyx.jobs {
 		 */
 		override public function initialize(...args):void {
 			var path:String = args[0];
+			var loader:URLLoader;
 			switch ( path.substr( 0, 16 ).toLowerCase() )
 			{
 				case 'https://www.vide':
@@ -78,7 +79,7 @@ package onyx.jobs {
 					const vp:VideoPong = VideoPong.getInstance();
 					var sessionReplace:RegExp = /replacethissessiontoken/gi; // g:global i:ignore case
 					var pathWithSessiontoken:String = path.replace( sessionReplace, vp.sessiontoken );
-					var loader:URLLoader = new URLLoader();
+					loader = new URLLoader();
 					loader.addEventListener(Event.COMPLETE, onOnxRead);
 					loader.addEventListener(IOErrorEvent.IO_ERROR, onOnxRead);
 					
@@ -87,7 +88,7 @@ package onyx.jobs {
 				case 'http://www.batch':
 				case 'http://batchass.':
 				case 'http://localhost':
-					var loader:URLLoader = new URLLoader();
+					loader = new URLLoader();
 					loader.addEventListener(Event.COMPLETE, onOnxRead);
 					loader.addEventListener(IOErrorEvent.IO_ERROR, onOnxRead);
 					

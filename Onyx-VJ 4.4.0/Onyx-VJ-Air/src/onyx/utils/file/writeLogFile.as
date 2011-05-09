@@ -21,16 +21,19 @@ package onyx.utils.file {
 	/**
 	 * 	Simple utility to write a log file synchronously
 	 */
-	public function writeLogFile( contents:String ):void {
-		
-		var file:File = File.applicationStorageDirectory.resolvePath( "onyx.log" );
-		var fileMode:String = FileMode.WRITE;
+	public function writeLogFile( text:String, clear:Boolean=false ):void
+	{
+		var now:Date = new Date();
+		var hour:String = now.hours.toString();
+		var file:File = File.applicationStorageDirectory.resolvePath( hour + ".log" );
+		var fileMode:String = ( clear ? FileMode.WRITE : FileMode.APPEND );
 		
 		var fileStream:FileStream = new FileStream();
 		fileStream.open( file, fileMode );
 		
-		fileStream.writeMultiByte( contents + "\n", File.systemCharset );
+		fileStream.writeMultiByte( text + "\n", File.systemCharset );
 		fileStream.close();
-		trace( contents );
-	}
+		trace( text );
+		
+	} 
 }

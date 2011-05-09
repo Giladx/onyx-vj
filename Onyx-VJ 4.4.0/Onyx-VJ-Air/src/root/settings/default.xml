@@ -1,14 +1,9 @@
 <settings>
 
-	<!-- META DATA -->
 	<metadata>
 		<version>4.4.0</version>
 	</metadata>
 
-	<init>
-		<startupFolder>c:\projects\onyx\binaries\onyx\video</startupFolder>
-	</init>
-	
 	<!-- CORE SETTINGS FOR RENDERING -->
 	<core>
 
@@ -19,11 +14,6 @@
 				<height>360</height>
 			</bitmapData>
 		</render>
-		
-		<!-- midi settings -->
-		<midi>
-			<enabled>true</enabled>
-		</midi>
 		
 		<!-- custom ordering of blendmodes for blendmode controls -->
 		<blendModes>
@@ -39,25 +29,39 @@
 			<difference/>
 			<invert/>
 		</blendModes>
-		
-		<!-- videopong settings -->
-		<videopong>
-			<login>YourName</login>
-			<pwd>YourPwd</pwd>
+
+		<cameras>
+			<camera>
+				<name>DEFAULT</name>
+				<width>320</width>
+				<height>240</height>
+				<frameRate>30</frameRate>
+			</camera>
+			<!--	ADD MORE CAMERAS IF YOUR CAMERA DOES NOT SUPPORT DEFAULT SIZES
+				(IF YOU HAVE AN HD CAPTURE CARD)
+			<camera>
+				<name>Avermedia Camera</name>
+				<width>640</width>
+				<height>480</height>
+				<frameRate>29.97</frameRate>
+			</camera>
+			-->
+		</cameras>
+		<razuna>
+      		<login>onyxvj</login>
+      		<pwd>null</pwd>
+    	</razuna>
+    	<videopong>
+			<login>null</login>
+			<pwd>null</pwd>
 			<domain>https://www.videopong.net</domain>
+			<appkey>onyxair</appkey>
 		</videopong>
 		
 	</core>
 	
 	<!-- UI STATES -->
 	<ui>
-	
-		<!-- LOCATION OF THE PREVIEW WINDOW -->
-		<preview>
-			<display>auto</display>
-			<x>0</x>
-			<y>0</y>
-		</preview>
 		
 		<!-- COLOR SWATCH SETTINGS -->
 		<swatch>
@@ -74,6 +78,7 @@
 		</swatch>
 		
 		<keys>
+
 			<!-- BASE UI MACROS -->
 			<key code="37">SELECTLAYERPREVIOUS</key>
 			<key code="39">SELECTLAYERNEXT</key>
@@ -87,6 +92,12 @@
 			<key code="69">SELECTPAGE2</key>
 			<key code="38">SELECTFILTERUP</key>
 			<key code="40">SELECTFILTERDOWN</key>
+			
+			<key code="65">DISPLAYFADE</key>
+			<key code="83">DISPLAYFADECHOPDOWN</key>
+			<key code="68">DISPLAYFADECHOPUP</key>
+			<key code="70">DISPLAYFADEMULTIPLY</key>
+			<key code="71">DISPLAYFADESCREEN</key>
 			
 			<key code="90">MUTELAYER0</key>
 			<key code="88">MUTELAYER1</key>
@@ -107,26 +118,15 @@
 			<key code="117">RANDOM MOVESCALE</key>
 			<key code="118">RANDOM 3DDISTORT</key>
 			<key code="119">RANDOM 3DDISTORT2</key>
-			<key code="120">RANDOM FRAMEMACRO</key>
+			<key code="120">RANDOM FRAMERATE</key>
+			<key code="122">RANDOM FRAME</key>
 			<key code="123">RESETALL</key>
 			
-			<!--
-			<key code="122">FRAMERATE DECREASE</key>
-			<key code="123">FRAMERATE INCREASE</key>
-			-->
+			<key code="73">FRAMERATE DECREASE</key>
+			<key code="79">FRAMERATE INCREASE</key>
+			<key code="80">RESETALLFRAMERATE</key>
+
 		</keys>
 		
-		<!-- THE DIFFERENT INTERFACE STATES -->
-		<states startup-state="DEFAULT">
-			 <!-- SEQUENCE -->
-			 <state>
-			 	<name>SEQUENCE</name>
-			 	<windows>
-					<window x="6" y="318">FILE BROWSER</window>
-			 		<window x="4" y="4">SEQUENCE</window>
-					<window x="412" y="318">FILTERS</window>
-			 	</windows>
-			 </state>
-		</states>
 	</ui>
 </settings>

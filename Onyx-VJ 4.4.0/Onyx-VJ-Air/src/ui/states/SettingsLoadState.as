@@ -51,13 +51,21 @@ package ui.states {
 			
 			Console.output('*  LOADING SETTINGS  *\n');
 			
-			try {
-				var file:File		= new File(AssetFile.resolvePath('settings/settings.xml'));
+			try 
+			{
+				var file:File = new File(AssetFile.resolvePath('settings/settings.xml'));
+				writeLogFile('try loading: ' + AssetFile.resolvePath('settings/settings.xml'));
 				
 				// load settings file
-				if (!file.exists) {
+				if (!file.exists) 
+				{
+					writeLogFile('does not exist: ' + AssetFile.resolvePath('settings/settings.xml'));
+					writeLogFile('try loading: ' + AssetFile.resolvePath('settings/default.xml'));
+
 					file = new File(AssetFile.resolvePath('settings/default.xml'));
-					if (!file.exists) {
+					if (!file.exists) 
+					{
+						writeLogFile('does not exist: ' + AssetFile.resolvePath('settings/default.xml'));
 						throw new Error('Settings file doesn\'t exist');
 					}
 				}
@@ -68,8 +76,10 @@ package ui.states {
 				// create display width/height
 				applyCoreSettings();
 				
-			} catch (e:Error) {
-
+			} 
+			catch (e:Error) 
+			{
+				writeLogFile('ERROR LOADING SETTINGS FILE:\n' + e.message);
 				Console.output('ERROR LOADING SETTINGS FILE:\n', e.message);
 
 			}

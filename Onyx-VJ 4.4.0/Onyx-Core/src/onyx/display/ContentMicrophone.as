@@ -81,8 +81,11 @@ package onyx.display {
 		//Mic
 		private function onMicActivity(event:ActivityEvent):void
 		{
-			level = _mic.activityLevel;
-			trace("activating=" + event.activating + ", activityLevel=" + _mic.activityLevel);
+			if (_mic)
+			{
+				level = _mic.activityLevel;
+				trace("activating=" + event.activating + ", activityLevel=" + _mic.activityLevel);
+			}
 			
 		}
 		
@@ -172,6 +175,8 @@ package onyx.display {
 			
 			super.dispose();
 			
+			_mic.removeEventListener(ActivityEvent.ACTIVITY, this.onMicActivity);
+			_mic.removeEventListener(StatusEvent.STATUS, this.onMicStatus);
 			_mic		= null;
 		}
 	}

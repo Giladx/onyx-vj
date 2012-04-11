@@ -16,8 +16,8 @@
  */
 package ui.states {
 	
-	import com.reyco1.multiuser.MultiUserSession;
-	import com.reyco1.multiuser.data.UserObject;
+	/*import com.reyco1.multiuser.MultiUserSession;
+	import com.reyco1.multiuser.data.UserObject;*/
 	//import com.reyco1.multiuser.debug.Logger;
 	
 	import flash.events.MouseEvent;
@@ -41,7 +41,7 @@ package ui.states {
 		private const DEVKEY:String   = "batchass"; // you can get a key from here : http://labs.adobe.com/technologies/cirrus/
 		private const SERV_KEY:String = SERVER + DEVKEY;
 		
-		private var connection:MultiUserSession;
+		//private var connection:MultiUserSession;
 		private var myName:String;
 		private var myColor:uint;
 		private var cursors:Object = {};		
@@ -159,7 +159,7 @@ package ui.states {
 		override public function initialize():void 
 		{
 			Console.output("initialize");
-			connection = new MultiUserSession(SERV_KEY, "multiuser/test"); 		// create a new instance of MultiUserSession
+			/*connection = new MultiUserSession(SERV_KEY, "multiuser/test"); 		// create a new instance of MultiUserSession
 			connection.onConnect 		= handleConnect;						// set the method to be executed when connected
 			connection.onUserAdded 		= handleUserAdded;						// set the method to be executed once a user has connected
 			connection.onUserRemoved 	= handleUserRemoved;					// set the method to be executed once a user has disconnected
@@ -168,9 +168,9 @@ package ui.states {
 			myName  = "Onyx_" + Math.round(Math.random()*100);					// my name
 			myColor = Math.random()*0xFFFFFF;									// my color
 			
-			connection.connect(myName, {color:myColor});						// connect using my name and color variables
+			connection.connect(myName, {color:myColor});*/						// connect using my name and color variables
 		}
-		protected function handleConnect(user:UserObject):void					// method should expect a UserObject
+		/*protected function handleConnect(user:UserObject):void					// method should expect a UserObject
 		{
 			Console.output("I'm connected: " + user.name + ", total: " + connection.userCount); 
 			addEventListener(MouseEvent.MOUSE_MOVE, sendMyData);
@@ -200,7 +200,7 @@ package ui.states {
 		protected function handleGetObject(peerID:String, data:Object):void
 		{
 			cursors[peerID].update(data.x, data.y);								// update user cursor
-		}			
+		}*/			
 		/**
 		 * 
 		 */

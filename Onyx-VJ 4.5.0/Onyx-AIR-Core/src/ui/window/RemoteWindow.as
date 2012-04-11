@@ -16,8 +16,7 @@
  */
 
 package ui.window {
-	
-	import com.reyco1.multiuser.DirectLanConnection;
+		
 	
 	import flash.display.Sprite;
 	import flash.events.*;
@@ -31,6 +30,8 @@ package ui.window {
 	import onyx.tween.Tween;
 	import onyx.tween.TweenProperty;
 	import onyx.utils.string.*;
+	
+	import services.remote.DirectLanConnection;
 	
 	import ui.controls.*;
 	import ui.core.*;
@@ -48,6 +49,7 @@ package ui.window {
 		 */
 		private var pane:ScrollPane;
 		private var sendBtn:TextButton;
+		private var layersBtn:TextButton;
 
 		private var dlc:DirectLanConnection;
 		private var tween:Tween;
@@ -78,7 +80,7 @@ package ui.window {
 		private function init():void 
 		{
 			var index:int = 0;			
-			pane		= new ScrollPane(242, 196);
+			pane		= new ScrollPane(242, 100);
 			pane.x		= 3;
 			pane.y		= 18;
 			addChild(pane);
@@ -86,11 +88,16 @@ package ui.window {
 			var options:UIOptions	= new UIOptions( true, true, null, 60, 12 );
 			sendBtn					= new TextButton(options, 'send'),
 			sendBtn.addEventListener(MouseEvent.MOUSE_DOWN, sendMsg);
-			pane.addChild(sendBtn).y = (index++ * 10);
+			pane.addChild(sendBtn).y = (index++ * 30);
+			
+			
+			layersBtn				= new TextButton(options, 'layers'),
+			layersBtn.addEventListener(MouseEvent.MOUSE_DOWN, layersMsg);
+			pane.addChild(layersBtn).y = (index++ * 30);
 			
 			dlc = new DirectLanConnection();
 			dlc.onConnect = handleConnect;
-			dlc.onDataRecieve = handleGotData;
+			dlc.onDataReceive = handleGotData;
 			
 			dlc.connect("60000");
 			timer.addEventListener(TimerEvent.TIMER, onTimer);
@@ -108,14 +115,17 @@ package ui.window {
 			var layer:Layer	= (UIObject.selection as UILayer).layer;
 			dlc.sendData( {type:"layer", value:layer.index} );
 		}
-		private function handleGotData(data:Object):void
+		private function handleGotData(dataReceived:Object):void
 		{
 			Console.output("dlc.received:");
-			if ( data.type )
+			if ( dataReceived.type && dataReceived.value )
 			{
-				Console.output(data.type.toString());
-				switch ( data.type.toString() ) 
+				Console.output(dataReceived.type.toString(),":", dataReceived.value.toString());
+				switch ( dataReceived.type.toString() ) 
 				{ 
+					case "exitbtn":
+						layerButtonsCreated = false;
+						break;
 					case "layerbtn":
 						layerButtonsCreated = true;
 						break;
@@ -143,13 +153,27 @@ package ui.window {
 						break;
 					case "cycle-blendmode-up":
 						var layer:Layer	= (UIObject.selection as UILayer).layer;
-						layer.blendMode	= BlendModes[Math.max(BlendModes.indexOf(layer.blendMode)-1,0)];						break;
+						layer.blendMode	= BlendModes[Math.max(BlendModes.indexOf(layer.blendMode)-1,0)];	
+						break;
 					case "select-layer":
-						selectedLayer = data.value;
+						selectedLayer = dataReceived.value;
 						UILayer.selectLayer(selectedLayer);
+						var layer:Layer = Display.getLayerAt(selectedLayer);
+						dlc.sendData( {type:"path", value:layer.path} );
+						dlc.sendData( {type:"filters", value:layer.filters.length} );
+						//layer.filters.length>0
+						//layer.filters[0].name = "BOUNCE"
+						//layer.filters[0].
+						break;
+					case "fade-black":
+						new Tween(
+							Display,
+							500,
+							new TweenProperty('brightness', Display.brightness, (Display.brightness < 0) ? 0 : -1)
+						)
 						break;
 					case "mute-layer":
-						index = data.value;
+						index = dataReceived.value;
 						selectedLayer = index;
 						var layer:Layer = Display.getLayerAt(selectedLayer);
 						if (layer.visible) {
@@ -168,6 +192,86 @@ package ui.window {
 							);
 						}
 						break;
+					case "rotation":
+						var layer:Layer	= (UIObject.selection as UILayer).layer;
+						
+						var rTween:Tween = new Tween(
+							layer,
+							250,
+							new TweenProperty('rotation', layer.rotation, dataReceived.value)
+						);
+						break;
+					case "alpha":
+						var layer:Layer	= (UIObject.selection as UILayer).layer;
+						
+						var rTween:Tween = new Tween(
+							layer,
+							25,
+							new TweenProperty('alpha', layer.alpha, dataReceived.value/100)
+						);
+						break;
+					case "bounce":
+						var layer:Layer	= (UIObject.selection as UILayer).layer;
+						
+						/*const totalTime:int	= layer.totalTime;
+						const time:int		= layer.time * totalTime;
+						const start:int		= layer.loopStart * totalTime;
+						const end:int		= layer.loopEnd	* totalTime;
+						const frame:int		= layer.framerate * Display.frameRate * 2;
+						
+						if (time + frame > end || time + frame < start) {*/
+							layer.framerate	*= -1;
+						//}
+						break;
+					case "x":
+						var layer:Layer	= (UIObject.selection as UILayer).layer;
+						
+						var rTween:Tween = new Tween(
+							layer,
+							25,
+							new TweenProperty('x', layer.x, dataReceived.value)
+						);
+						break;
+					//layer.content onyx.display.ContentCustom
+					//layer.content.customParameters
+					//layer.content.customParameters.length
+					//layer.content.customParameters[6].value //6 rotx
+					case "y":
+						var layer:Layer	= (UIObject.selection as UILayer).layer;
+						
+						var rTween:Tween = new Tween(
+							layer,
+							25,
+							new TweenProperty('y', layer.y, dataReceived.value)
+						);
+						break;
+					case "brightness":
+						var layer:Layer	= (UIObject.selection as UILayer).layer;
+						
+						var rTween:Tween = new Tween(
+							layer,
+							25,
+							new TweenProperty('brightness', layer.brightness, dataReceived.value/100)
+						);
+						break;
+					case "contrast":
+						var layer:Layer	= (UIObject.selection as UILayer).layer;
+						
+						var rTween:Tween = new Tween(
+							layer,
+							25,
+							new TweenProperty('contrast', layer.contrast, dataReceived.value/100)
+						);
+						break;
+					case "saturation":
+						var layer:Layer	= (UIObject.selection as UILayer).layer;
+						
+						var rTween:Tween = new Tween(
+							layer,
+							25,
+							new TweenProperty('saturation', layer.saturation, dataReceived.value/100)
+						);
+						break;
 					default: 
 						
 						break;
@@ -184,7 +288,14 @@ package ui.window {
 			switch (event.currentTarget) {
 				case sendBtn:
 					dlc.sendData( {type:"msg", value:"sent from onyx"} );
-					//dlc.sendData( {type:"layers", value:Display.layers.length} );
+					break;
+			}
+			event.stopPropagation();
+		}
+		private function layersMsg(event:MouseEvent):void {
+			switch (event.currentTarget) {
+				case sendBtn:
+					dlc.sendData( {type:"layers", value:Display.layers.length} );
 					break;
 			}
 			event.stopPropagation();

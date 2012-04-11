@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<update xmlns="http://ns.adobe.com/air/framework/update/description/2.6">  
+<version>4.4.0</version> 
+<versionNumber>4.4.0</versionNumber>   
+<url>http://www.batchass.fr/onyx-vj/update/Onyx-VJ.air</url>  
+<description><![CDATA[ 
+if autoupdate fails please uninstall and reinstall from http://www.batchass.fr/onyx-vj/update/Onyx-VJ.air
+New in version 4.4.0: 
+* AIR 2.6 needed
+]]></description>  
+</update>  

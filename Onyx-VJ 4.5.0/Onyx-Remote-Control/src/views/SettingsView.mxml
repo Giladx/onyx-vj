@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		backgroundColor="#000000"
+		title="Onyx-VJ Remote" 
+		xmlns:components="components.*">
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;
+			protected function handleConnect(event:MouseEvent):void
+			{
+			if(( FlexGlobals.topLevelApplication.cnx && !FlexGlobals.topLevelApplication.cnx.isConnected) || FlexGlobals.topLevelApplication.cnx == null)
+			{
+				if ( codeInput.text != "" )
+				{
+					FlexGlobals.topLevelApplication.cnx.connect("60000");	
+					connectBtn.label = "Disconnect";
+				}
+			}
+			else
+			{
+				FlexGlobals.topLevelApplication.cnx.close();
+				connectBtn.label = "Connect";
+				FlexGlobals.topLevelApplication.connStatus.connected = false;
+			}
+			}
+		]]>
+	</fx:Script>
+
+	<s:HGroup id="connexionGroup">
+	<s:TextInput id="codeInput" width="80" height="50" text="60000"/>
+	<s:Button id="connectBtn" width="90" height="50" label="Connect" mouseDown="handleConnect(event)"/>
+	<s:BusyIndicator visible="false" id="busyCursor" />				
+	</s:HGroup>
+</s:View>

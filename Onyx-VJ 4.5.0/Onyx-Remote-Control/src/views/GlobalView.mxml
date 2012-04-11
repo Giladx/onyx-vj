@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		backgroundColor="#000000"
+		xmlns:components="org.corlan.components.*"		
+		title="Global" xmlns:components1="components.*">
+<!--		creationComplete="init()" -->
+
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;		
+			import spark.events.ViewNavigatorEvent;
+			
+			private var i:int;			
+			
+			protected function onViewActivate(event:ViewNavigatorEvent):void
+			{
+				if (data && data.type)
+				{
+					switch ( data.type.toString() ) 
+					{ 
+						case "msg":
+							status.text 	= data.value;
+							break;
+						default: 
+							
+							break;
+					}
+				}
+			}
+			
+			protected function handleAutoXFadeClick(event:MouseEvent):void
+			{
+				FlexGlobals.topLevelApplication.cnx.sendData( {type:"toggle-cross-fader", value:1}  );
+			}
+			
+			protected function handleAutoXFadeRelease(event:MouseEvent):void
+			{
+				//cnx.sendData( {type:"toggle-cross-fader", value:0}  );
+			}
+			protected function handleFrameRateUpClick(event:MouseEvent):void
+			{
+				FlexGlobals.topLevelApplication.cnx.sendData( {type:"frame-rate-increase", value:1}  );
+			}
+			
+			protected function handleFrameRateDownClick(event:MouseEvent):void
+			{
+				FlexGlobals.topLevelApplication.cnx.sendData( {type:"frame-rate-decrease", value:0}  );
+			}
+			protected function handleFadeBlackClick(event:MouseEvent):void
+			{
+				FlexGlobals.topLevelApplication.cnx.sendData( {type:"fade-black", value:1}  );
+			}
+			
+			protected function handleFadeBlackRelease(event:MouseEvent):void
+			{
+			}
+	
+		]]>
+	</fx:Script>
+	<s:Group height="188" width="300" top="3" left="3" right="0">
+		<s:VGroup>
+			<!--<s:Image source="{bd}"/>-->
+			<s:Label id="status" width="299" text="{data}" color="0xAAAAAA"/>
+			
+			<!--<s:HGroup id="connexionGroup">
+			<s:TextInput id="codeInput" width="80" height="50" text="60000"/>
+			<s:Button id="connectBtn" width="90" height="50" label="Connect"
+			mouseDown="handleConnect(event)"/>
+			<s:BusyIndicator visible="false" id="busyCursor" />				
+			</s:HGroup>-->
+			<s:HGroup>
+				<s:Button id="xFadeBtn" x="10" y="10" label="xFade"
+						  mouseDown="handleAutoXFadeClick(event)" mouseUp="handleAutoXFadeRelease(event)"/>
+				<s:Button id="FrameRateUpBtn" x="10" y="10" label="FPS +"
+						  mouseDown="handleFrameRateUpClick(event)" />
+			</s:HGroup>
+			<s:HGroup>
+				<s:Button id="FrameRateDownBtn" x="10" y="10" label="FPS -"
+						  mouseDown="handleFrameRateDownClick(event)"/>
+				<s:Button id="FadeBlackBtn" x="10" y="10" label="Fade Black"
+						  mouseDown="handleFadeBlackClick(event)" mouseUp="handleFadeBlackRelease(event)"/>
+			</s:HGroup>
+			
+		</s:VGroup>
+	</s:Group>
+	
+</s:View>

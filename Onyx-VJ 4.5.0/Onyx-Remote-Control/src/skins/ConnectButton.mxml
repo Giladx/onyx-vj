@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:Group x="0" y="0">
+		<s:Rect height="87" width="115" x="0.5" y="0.5">
+			<s:fill>
+				<s:SolidColor color.over="#FF9300"/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke caps="none" joints="miter" miterLimit="10" weight="1"/>
+			</s:stroke>
+		</s:Rect>
+		<s:Rect height="55" radiusX="5" radiusY="5" width="55" x="30.5" y="9.5">
+			<s:fill>
+				<s:SolidColor color="#C6C6C6"/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke caps="none" joints="miter" miterLimit="10" weight="1"/>
+			</s:stroke>
+		</s:Rect>
+		<s:RichText ai:aa="2" color="#FFFFFF" columnCount="1" fontSize="14" d:id="15" kerning="on" tabStops="S36 S72" text="Connect To" d:userLabel="Connect To" flm:variant="11" whiteSpaceCollapse="preserve" x="21" y="68" color.over="#000000" tabStops.over="S0 S50"/>
+		<s:Path data="M 46.266 19.298 L 27.5 1.178 L 27.5 14.061 L 0.5 14.061 L 0.5 26.061 L 27.5 26.061 L 27.5 38.732 L 46.266 19.298 Z" winding="nonZero" x="35" y="17.439">
+			<s:fill>
+				<s:SolidColor color.over="#FF9300"/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke caps="none" joints="miter" miterLimit="10" weight="1" color.over="#FF9300"/>
+			</s:stroke>
+		</s:Path>
+		<s:Line x="115" y="0" yTo="87" xTo="0">
+			<s:stroke>
+				<s:SolidColorStroke caps="none" color="#373737" joints="miter" miterLimit="10" weight="1"/>
+			</s:stroke>
+		</s:Line>
+	</s:Group>
+</s:Skin>

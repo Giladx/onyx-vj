@@ -50,7 +50,7 @@ package {
 		public var currentPixel:int=0;
 		
 		public var mouseDown:Boolean = false;
-		[Embed(source='../assets/trianglesCercle.png' )]  
+		[Embed(source='../assets/imgthe-fountain2.jpg' )]  
 		private const ImageB: Class;
 		private const sourceBMP:BitmapData = Bitmap( new ImageB() ).bitmapData;
 		private var mx:Number = 0;

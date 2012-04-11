@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<actionScriptProperties analytics="false" mainApplicationPath="ElectroCardiogram.as" projectUUID="8ef2289f-1ea7-4a79-a265-5e94b4866f20" version="10">
+  <compiler additionalCompilerArguments="-locale en_US --define DEBUG::SPLASHTIME 0 -swf-version=15 -default-frame-rate=60" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderLocation="C:/Users/b.lane/AppData/Roaming/Onyx-VJ/Local Store/Onyx-VJ/library/Onyx-Patches-Debug" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+    <compilerSourcePath/>
+    <libraryPath defaultLinkType="0">
+      <libraryPathEntry kind="4" path="">
+        <excludedEntries>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_charts.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="1" linkType="1" path="${PROJECT_FRAMEWORKS}/locale/{locale}"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/advancedgrids.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/qtp.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_air.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/charts.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/framework.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/mx/mx.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/netmon.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/spark.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/sparkskins.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/rpc.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/videoPlayer.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/qtp_air.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/datavisualization.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/spark_dmv.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flash-integration.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_dmv.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_flashflexkit.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_agent.swc" useDefaultLinkType="false"/>
+        </excludedEntries>
+      </libraryPathEntry>
+      <libraryPathEntry kind="1" linkType="1" path="${DOCUMENTS}/InstallPackage/root/sdk"/>
+      <libraryPathEntry kind="1" linkType="1" path="libs"/>
+    </libraryPath>
+    <sourceAttachmentPath/>
+  </compiler>
+  <applications>
+    <application path="ElectroCardiogram.as"/>
+    <application path="AbstractPainting.as"/>
+    <application path="LayerInfinity.as"/>
+    <application path="Fountain.as"/>
+    <application path="Dots3d.as"/>
+    <application path="ImageDots.as"/>
+    <application path="LightTune.as"/>
+    <application path="Dice.as"/>
+    <application path="Forest.as"/>
+    <application path="PuyoDot.as"/>
+    <application path="LayerPixelRain.as"/>
+    <application path="DisplacementMap.as"/>
+    <application path="ElasticImage.as"/>
+    <application path="LooseGlowLine.as"/>
+    <application path="FunInTheSun.as"/>
+    <application path="PerlinParticle3d.as"/>
+    <application path="VerticalLines.as"/>
+    <application path="LayerHair.as"/>
+    <application path="Gravias.as"/>
+    <application path="LayerFur.as"/>
+    <application path="Fire.as"/>
+    <application path="Triangles.as"/>
+    <application path="HelloSpace.as"/>
+    <application path="RuttEtra.as"/>
+    <application path="CircleArt.as"/>
+    <application path="Wave.as"/>
+    <application path="Gas.as"/>
+    <application path="Shock.as"/>
+    <application path="BallSphere.as"/>
+    <application path="Trick.as"/>
+    <application path="UnkoField.as"/>
+    <application path="Lightning.as"/>
+    <application path="WaveParticle.as"/>
+    <application path="LayerPixelDistortion.as"/>
+    <application path="Obstacles.as"/>
+    <application path="RuttEtraIzer.as"/>
+    <application path="ForceField.as"/>
+    <application path="RotatingRainbow.as"/>
+    <application path="BulletHeaven.as"/>
+    <application path="Nemo.as"/>
+    <application path="CircleText.as"/>
+    <application path="WaterFx.as"/>
+    <application path="Sakura.as"/>
+    <application path="CircleParticle.as"/>
+    <application path="NeuronFight.as"/>
+    <application path="Poplaryy.as"/>
+    <application path="LayerCopy.as"/>
+    <application path="PixelDistortion.as"/>
+    <application path="PV3DSphere.as"/>
+    <application path="Silhouette.as"/>
+    <application path="Imagination.as"/>
+    <application path="Nutsu.as"/>
+    <application path="Tenorion.as"/>
+    <application path="Spaghetti.as"/>
+    <application path="FormativeParticles.as"/>
+    <application path="WhirlFlower.as"/>
+    <application path="LayerWater.as"/>
+    <application path="LayerCircleArt.as"/>
+    <application path="LayerRuttEtraIzer.as"/>
+    <application path="Lines.as"/>
+    <application path="MappingLight.as"/>
+  </applications>
+  <modules/>
+  <buildCSSFiles/>
+  <flashCatalyst validateFlashCatalystCompatibility="false"/>
+</actionScriptProperties>

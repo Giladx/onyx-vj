@@ -67,7 +67,7 @@ package
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
 			parameters.addParameters(
 				
-				new ParameterInteger( 'randomizer', 'random size', 1, 300, 35 )
+				new ParameterInteger( 'randomizer', 'random size', 1, 300, 235 )
 			);
 			randomizer = _randomizer;
 			init();
@@ -85,7 +85,7 @@ package
 			
 			_canvasBD = new BitmapData( DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0x00FFFFFF)
 			_canvasBMP = new Bitmap( _canvasBD, "auto", true );
-			addChild( _canvasBMP );
+			//addChild( _canvasBMP );
 			
 			_circle = new Shape();
 			
@@ -116,7 +116,8 @@ package
 		override public function render(info:RenderInfo):void 
 		{
 			//bmp2.bitmapData
-			info.source.copyPixels( _canvasBD, DISPLAY_RECT, ONYX_POINT_IDENTITY );
+			//info.source.copyPixels( _canvasBD, DISPLAY_RECT, ONYX_POINT_IDENTITY );
+			info.render( _canvasBMP );		
 		} 
 		
 		override public function dispose():void {
@@ -287,7 +288,7 @@ package
 			var i:uint;
 			var tmx:Number = Math.random() * _randomizer;
 			var tmy:Number = Math.random() * _randomizer;
-			mx += tmx; 
+			/*mx += tmx; 
 			 
 			if ( mx > DISPLAY_WIDTH ) 
 			{
@@ -295,7 +296,11 @@ package
 				my += tmy;
 			}
 			if ( my < 1 ) my = DISPLAY_HEIGHT;
-
+			*/
+			mx += tmx; 
+			my -= tmy; 
+			if ( mx > DISPLAY_WIDTH ) mx = 0;
+			if ( my < 1 ) my = DISPLAY_HEIGHT;
 			
 			for (i = 0; i < _loopCount; i++) {
 				drawCircle( mx, my );

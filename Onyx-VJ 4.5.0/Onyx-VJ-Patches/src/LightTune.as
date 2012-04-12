@@ -32,12 +32,8 @@ package {
 			Console.output('LightTune v 0.0.1');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
 
-			/*graphics.beginFill(0x000000);
-			graphics.drawRect(0, 0, 465, 465);
-			graphics.endFill();*/
 			var rect:Rectangle = new Rectangle(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 			light = new LT(rect);
-			//addChild(light);
 			light.start();
 			addEventListener(MouseEvent.MOUSE_DOWN, click, false, 0, true);
 		}

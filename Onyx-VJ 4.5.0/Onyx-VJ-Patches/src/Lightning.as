@@ -4,10 +4,6 @@
  * Downloaded from: http://wonderfl.net/c/sQD3
  */
 
-
-
-
-
 package 
 {    
 	import flash.display.Bitmap;
@@ -35,6 +31,7 @@ package
 		private var _glow:BitmapData;
 		private var mx:Number = 320;
 		private var my:Number = 240;
+		private var sprite:Sprite;
 		
 		private var _rad:Number = 0.0;
 		
@@ -45,23 +42,25 @@ package
 		
 		private function init():void
 		{
-			_p = new Point( DISPLAY_WIDTH,DISPLAY_HEIGHT-DISPLAY_HEIGHT );
+			sprite = new Sprite();
+			
+			_p = new Point( DISPLAY_WIDTH/2,DISPLAY_HEIGHT/2 );
 			//_p = new Point( W/2,H/2 );
 			_sp = new Sprite();
 			_sp.filters = [new GlowFilter(0xC9E6FC, 1, 10, 10, 4, 3, false, false)];
 			_ctf = new ColorTransform(0.9, 0.96, 1, 0.9);
-			_canvas = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT,false,0);
+			_canvas = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT,true,0);
 			
 			var bm:Bitmap = new Bitmap(_canvas, "auto", true);
-			_glow = new BitmapData(DISPLAY_WIDTH / RANGE, DISPLAY_HEIGHT / RANGE, false, 0);
+			_glow = new BitmapData(DISPLAY_WIDTH / RANGE, DISPLAY_HEIGHT / RANGE, true, 0);
 			
 			var glowBm:Bitmap = new Bitmap(_glow, "never", true);
 			glowBm.blendMode = "add";
 			glowBm.scaleX = RANGE;
 			glowBm.scaleY = RANGE;
 			
-			addChild(bm);
-			addChild(glowBm);
+			sprite.addChild(bm);
+			sprite.addChild(glowBm);
 		}
 		private function mouseDown(event:InteractionEvent):void 
 		{
@@ -101,7 +100,7 @@ package
 			_canvas.colorTransform(_canvas.rect, _ctf);
 			_canvas.draw(_sp);
 			_glow.draw(_canvas, new Matrix(1 / RANGE, 0, 0, 1 / RANGE));
-			info.source.copyPixels(_glow, DISPLAY_RECT, ONYX_POINT_IDENTITY);
+			info.render(sprite);
 
 		}
 	}

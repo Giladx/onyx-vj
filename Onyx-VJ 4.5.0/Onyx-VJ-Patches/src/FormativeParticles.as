@@ -25,16 +25,13 @@ package {
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
-	/**
-	 * PRESS ANY KEY
-	 */
 	public class FormativeParticles extends Patch 
 	{
 		public static const RECT:Rectangle = new Rectangle(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 		public static const ZERO_POINT:Point = new Point();
 		
 		private var _color:uint = 0x009661;
-		private var _text:String = "EKKOSYSTEM";
+		private var _text:String = "e";
 		
 		private var _textField:TextField;
 		private var _tmp1:BitmapData;
@@ -53,14 +50,15 @@ package {
 			
 			parameters.addParameters(
 				new ParameterColor('color', 'text color', _color),
-				new ParameterString('text', 'text')
+				new ParameterString('text', 'letter')
 			)
 			graphics.beginFill(0x0);
 			graphics.drawRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 			graphics.endFill();
 			
 			_textField = new TextField();
-			var fmt:TextFormat = new TextFormat('_sans', 500, 0xffffff);
+			//var fmt:TextFormat = new TextFormat('_sans', 500, 0xffffff);
+			var fmt:TextFormat = new TextFormat('_sans', 400, 0x116c3a);
 			_textField.defaultTextFormat = fmt;
 			_textField.width = DISPLAY_WIDTH;
 			_textField.height = DISPLAY_HEIGHT;
@@ -165,7 +163,7 @@ class ParticleField extends BitmapData {
 		super(forceMap.width, forceMap.height, true, 0x0);
 		_forceMap = forceMap;
 		_particles = new Vector.<Particle>();
-		for (var i:int = 0; i < 5000; i++) {
+		for (var i:int = 0; i < 300; i++) {
 			var p:Particle = new Particle(Math.random() * DISPLAY_WIDTH, Math.random() * DISPLAY_HEIGHT);
 			var a:Number = Math.random() * Math.PI * 2;
 			p.vx = Math.cos(a) * 0.5;
@@ -210,7 +208,8 @@ class ParticleField extends BitmapData {
 					p.y = DISPLAY_HEIGHT - (p.y - DISPLAY_HEIGHT);
 					p.vy *= -1;
 				}
-				setPixel32(p.x, p.y, 0xffffffff);
+				setPixel32(p.x, p.y, 0xff76e9ab);
+				//setPixel32(p.x, p.y, 0xffffffff);
 			}
 		}
 		unlock();

@@ -29,7 +29,7 @@ package {
 		private const GRID_CELLS:Number = 30;
 		private const CELL_SIZE:Number = 350;
 		private var sigl:SiGLCore = new SiGLCore(VS, VS);
-		private var treeModifier:Number = 0;
+		private var treeModifier:Number = 2;//0;
 		private var randomness:Number = 0.5;
 		private var camSpeed:Number = 0.25;
 		private var cam:SiGLMatrix = new SiGLMatrix;
@@ -82,7 +82,7 @@ package {
 			projxy(tv);
 			
 			mtx.createGradientBox(VS, VS, -Math.PI/2 + camrz/180*Math.PI, -HVS + tv.x, -HVS + tv.y);
-			sprite.graphics.beginGradientFill("linear",[0xffffff,0xf0f0f0,0xffffff],[1,1,1],[128,132,160],mtx,"pad","rgb",0);
+			sprite.graphics.beginGradientFill("linear",[0x0d6b38,0xf0f0f0,0xf2ba33],[1,1,1],[128,132,160],mtx,"pad","rgb",0);
 			sprite.graphics.drawRect(-HVS, -HVS, VS, VS);
 			sprite.graphics.endFill();
 			
@@ -172,6 +172,8 @@ package {
 					p1.w<0 || p2.w<0 ||
 					p1.w > p1.z || p2.w > p2.z
 					;
+				
+				lines.push(Line.alloc(p1.x, p1.y, t1, p2.x, p2.y, t2, midZ, color, alpha));
 				
 				if(thickness > minThickness) {
 					sigl.r(221, Vector3D.Y_AXIS);

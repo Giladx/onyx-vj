@@ -55,9 +55,17 @@ package {
 		private const sourceBMP:BitmapData = Bitmap( new ImageB() ).bitmapData;
 		private var mx:Number = 0;
 		private var my:Number = 0;
+		private var _color:uint = 0xFFFFFF00;
 		
 		public function Gravias() 
 		{			
+			Console.output('Gravias');
+			Console.output('Credits to Edik Ruzga ( http://wonderfl.net/user/wonderwhyer )');
+			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
+			
+			parameters.addParameters(
+				new ParameterColor('color', 'pixel color', _color)
+			)
 			pictureX = (DISPLAY_WIDTH-sourceBMP.width)/2;
 			pictureY = (DISPLAY_HEIGHT-sourceBMP.height)/2;
 			matrix = new Array();
@@ -162,7 +170,8 @@ package {
 					
 					
 					//drawing pixel interpolating color between what it should be and yellow
-					view.setPixel32(pixel.x,pixel.y,InterpolateColor(pixel.color,0xFF352b5c,pixel.h));
+					view.setPixel32(pixel.x,pixel.y,InterpolateColor(pixel.color,_color,pixel.h));
+					//blue view.setPixel32(pixel.x,pixel.y,InterpolateColor(pixel.color,0xFF352b5c,pixel.h));
 				}
 			
 				view.unlock();
@@ -188,7 +197,14 @@ package {
 			activePoints.splice(0);
 			currentPixel=0;
 		}
-		
+		public function set color(value:uint):void 
+		{
+			_color = value;
+		}
+		public function get color():uint 
+		{
+			return _color;
+		}		
 	}
 }
 import flash.geom.ColorTransform;

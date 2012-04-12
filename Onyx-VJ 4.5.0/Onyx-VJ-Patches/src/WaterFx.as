@@ -40,7 +40,7 @@ package {
 		private var water:WaterEffect;
 		private var faded:Boolean = true;
 		public function WaterFx() {
-			var bd:BitmapData = new AssetForPixelDistortion();		
+			var bd:BitmapData = new AssetForWaterFx();		
 			graphics.beginFill(0x000000);
 			graphics.drawRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 			graphics.endFill();

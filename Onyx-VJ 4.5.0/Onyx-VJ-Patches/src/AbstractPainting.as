@@ -33,7 +33,6 @@ package
 		//-------------------------------------------------------
 		private const DOTS_MAX:Number = 50; // ï¼‘ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã§ä¿æŒã™ã‚‹é ‚ç‚¹æ•°        
 		private const FRICTION:Number = 0.98;         
-		private const EDGE_COLOR:uint = 0x666666; // å¤ªã„ãƒ©ã‚¤ãƒ³ã®ã‚¨ãƒƒã‚¸ã‚«ãƒ©ãƒ¼        
 		
 		//-------------------------------------------------------
 		//  vars
@@ -52,18 +51,27 @@ package
 		
 		private var _canvas:BitmapData; //ã€€æç”»å…ˆ
 		private var _holder:Sprite;     // æç”»ã—ãŸãƒ“ãƒƒãƒˆãƒžãƒƒãƒ—ã®ã„ã‚Œã‚‚ã®
+		private var _color:uint = 0xFFFFFF00;
+		private var _edge_color:uint = 0x006600; // å¤ªã„ãƒ©ã‚¤ãƒ³ã®ã‚¨ãƒƒã‚¸ã‚«ãƒ©ãƒ¼        
 		
 		public function AbstractPainting()
 		{
-
+			Console.output('AbstractPainting');
+			Console.output('Credits to George0rwell ( http://wonderfl.net/user/George0rwell )');
+			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
+			
+			parameters.addParameters(
+				new ParameterColor('color', 'draw color', _color),
+				new ParameterColor('edge_color', 'edge color', _edge_color)
+			)
 			_startX = DISPLAY_WIDTH/2;
 			_startY = DISPLAY_HEIGHT/2;
 			
-			var source:Bitmap = new Bitmap(new AssetForBallSphere());
+			var source:Bitmap = new Bitmap(new AssetForAbstractPainting());
 			source.width  = DISPLAY_WIDTH;
 			source.height = DISPLAY_HEIGHT;
 			
-			_drawImage = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT, true, 0x000);
+			_drawImage = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT, true, 0x0077FF);
 			_drawImage.draw(source);
 			
 			_layerA = new Sprite();// ä¸Šã®ãƒ¬ã‚¤ãƒ¤ãƒ¼
@@ -84,7 +92,7 @@ package
 			_holder.z = 300;
 			addChild(_holder);
 			
-			_canvas = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT,false,0xEEEEEE);
+			_canvas = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT,true,0);
 			var canvasBitmap:Bitmap = new Bitmap(_canvas,"auto",true);
 			canvasBitmap.x = -232;
 			_holder.addChild(canvasBitmap);
@@ -209,14 +217,14 @@ package
 					{
 						_layerA.graphics.beginFill(color,0.4);
 						_layerA.graphics.moveTo(mx,my);                                            
-						_layerA.graphics.lineStyle(0.2, EDGE_COLOR, 0);
+						_layerA.graphics.lineStyle(0.2, edge_color, 0);
 						_layerA.graphics.moveTo(dot.x + cosA, dot.y + sinA);
 						_layerA.graphics.lineTo(dot.x - cosA, dot.y - sinA);
-						_layerA.graphics.lineStyle(0.2, EDGE_COLOR, 0.2);                    
+						_layerA.graphics.lineStyle(0.2, edge_color, 0.2);                    
 						_layerA.graphics.lineTo(dotB.x - cosB, dotB.y - sinB);
-						_layerA.graphics.lineStyle(0.2, EDGE_COLOR, 0);
+						_layerA.graphics.lineStyle(0.2, edge_color, 0);
 						_layerA.graphics.lineTo(dotB.x + cosB, dotB.y + sinB);
-						_layerA.graphics.lineStyle(0.2, EDGE_COLOR, 0.2);    
+						_layerA.graphics.lineStyle(0.2, edge_color, 0.2);    
 						_layerA.graphics.lineTo(dot.x + cosA, dot.y + sinA);
 						
 						_layerA.graphics.moveTo(mx, my);
@@ -242,7 +250,22 @@ package
 				_layerA.graphics.drawCircle(px,py,r);
 			}
 		}
-		
+		public function set color(value:uint):void 
+		{
+			_color = value;
+		}
+		public function get color():uint 
+		{
+			return _color;
+		}	
+		public function set edge_color(value:uint):void 
+		{
+			_edge_color = value;
+		}
+		public function get edge_color():uint 
+		{
+			return _edge_color;
+		}	
 	}
 }
 import flash.display.DisplayObject;

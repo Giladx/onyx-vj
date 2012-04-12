@@ -26,7 +26,7 @@ package
 	{
 		private var PV:PVUnkoField;
 		private var sprite:Sprite;
-		private var _size:int = 40;
+		private var _size:int = 15;
 		private var _rx:int = 270;
 		private var _ry:int = 270;
 		private var _rz:int = 270;
@@ -153,7 +153,7 @@ import org.papervision3d.view.layer.BitmapEffectLayer;
 
 class PVUnkoField extends BasicView 
 {
-	private var _size:int = 40;
+	private var _size:int = 15;
 	private var _text:String = "EKKOSYSTEM";
 	private var _root:DisplayObject3D;
 	private var _defaultForm:Boolean;
@@ -329,11 +329,15 @@ class PVUnkoField extends BasicView
 	private function defaultPosition():void
 	{
 		_defaultForm = true;
-		for (var i:int = 0, n:int = _pixelList.length; i < n; ++i) 
+		if (_pixelList)
 		{
-			var px:Pixel3D = _pixelList[i];
-			var pxd:PxData = _textPosList[i];
-			TweenMax.to(px, 0.7, { x: pxd.x, y: pxd.y, z: 0, ease: Quintic.easeOut, delay: 0.0005 * i, overwrite: true });
+			for (var i:int = 0, n:int = _pixelList.length; i < n; ++i) 
+			{
+				var px:Pixel3D = _pixelList[i];
+				var pxd:PxData = _textPosList[i];
+				TweenMax.to(px, 0.7, { x: pxd.x, y: pxd.y, z: 0, ease: Quintic.easeOut, delay: 0.0005 * i, overwrite: true });
+			}
+			
 		}
 	}
 	public function get my():Number

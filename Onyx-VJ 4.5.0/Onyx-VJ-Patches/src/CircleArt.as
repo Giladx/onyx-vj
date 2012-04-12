@@ -51,7 +51,8 @@ package
 		
 		private var _drawTimer:Timer;
 		private const source:BitmapData	= createDefaultBitmap(); 		
-		[Embed(source='../assets/boulePiquante.png' )] private const ImageB: Class;
+		//[Embed(source='../assets/boulePiquante.png' )] private const ImageB: Class;
+		[Embed(source='../assets/tree.jpg' )] private const ImageB: Class;
 		private const _sourceBD:BitmapData = Bitmap( new ImageB() ).bitmapData;
 		private var mx:int = 0;
 		private var my:int = 0;

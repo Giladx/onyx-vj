@@ -5,14 +5,14 @@
  */
 
 package {
-	import flash.display.*;
-	import flash.events.*;
-	import flash.filters.ShaderFilter;
-	import flash.net.*;
-	import flash.system.LoaderContext;
-	
+    import flash.display.*;
+    import flash.events.*;
+    import flash.filters.ShaderFilter;
+    import flash.net.*;
+    import flash.system.LoaderContext;
+
 	public class Quaternion extends Sprite {
-		
+
 		public static const asShader:Vector.<String> = Vector.<String>([
 			"pQEAAACkEgBDb2xvdXJSb3RhdGVGaWx0ZXKgDG5hbWVzcGFjZQAAoAx2ZW5kb3IA",
 			"SldCIFNvZnR3YXJlAKAIdmVyc2lvbgACAKAMZGVzY3JpcHRpb24AY29sb3VyIHJv",
@@ -37,34 +37,17 @@ package {
 		public var filter:ShaderFilter, shader:Shader;
 		public var bIncreasing:Boolean, fMagnitude:Number;
 		
-		function Quaternion() {
-			Make();
-		}
+		public function Quaternion():void {
+
+			var bd:BitmapData=new AssetForPixelDistortion();   
+			var bitmap :Bitmap = new Bitmap( bd );
+			addChild( bitmap );
 		
-		public function Make():void {
-			
-			var loader :Loader = new Loader;
-			loader.load(new URLRequest(
-				'http://assets.wonderfl.net/images/related_images/c/cf/cf1f/cf1fd3623e30ac888f91916d71f4d02e72bc933b'),
-				new LoaderContext( true )
-			);
-			
-			loader.contentLoaderInfo.addEventListener(
-				Event.COMPLETE, function(e :Event) :void {
-					var bd :BitmapData 
-					= new BitmapData(stage.stageWidth,stage.stageHeight);
-					var bitmap :Bitmap = new Bitmap( bd );
-					bd.draw( loader );
-					addChild( bitmap );
-				});
-			
-			
-			
 			var dec:Base64Decoder = new Base64Decoder;
 			dec.decode(asShader.join(""));
 			filter = new ShaderFilter(shader = new Shader(dec.drain()));
-			stage.addEventListener(MouseEvent.MOUSE_MOVE, Move);
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, Down);
+			addEventListener(MouseEvent.MOUSE_MOVE, Move);
+			addEventListener(MouseEvent.MOUSE_DOWN, Down);
 			bIncreasing = false;
 			fMagnitude = 0;
 		}
@@ -75,11 +58,11 @@ package {
 		}
 		
 		public function Move(ev:MouseEvent):void {
-			shader.data.center.value = [ev.stageX, ev.stageY];
+			shader.data.center.value = [300, 200];
 			fMagnitude = Math.min(fMagnitude + 0.05, 5);
 			UpdateShader();
 		}
-		
+
 		public function Down(ev:MouseEvent):void {
 			fMagnitude = 0;
 			UpdateShader();
@@ -266,63 +249,62 @@ class Base64Decoder
 			64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64
 		];
 }
-	
 
 /*
 <languageVersion: 1.0;>
 // CrossProductFilter: A filter that uses a cross product.
 kernel ColourRotateFilter
 <   namespace : "";
-vendor : "JWB Software";
-version : 2;
-description : "colour rotation shader"; >
+    vendor : "JWB Software";
+    version : 2;
+    description : "colour rotation shader"; >
 {
-parameter float2 center
-<
-minValue:float2(0.0, 0.0);
-maxValue:float2(465, 465);
-defaultValue:float2(232.5, 232.5);
->;
+    parameter float2 center
+    <
+        minValue:float2(0.0, 0.0);
+        maxValue:float2(465, 465);
+        defaultValue:float2(232.5, 232.5);
+    >;
 
-parameter float magnitude
-<
-minValue:float(0.0);
-maxValue:float(5.0);
-defaultValue:float(1.0);
->;
+    parameter float magnitude
+    <
+        minValue:float(0.0);
+        maxValue:float(5.0);
+        defaultValue:float(1.0);
+    >;
 
-input image4 src;
-output float4 dst;
+    input image4 src;
+    output float4 dst;
+    
+    // evaluatePixel(): The function of the filter that actually does the 
+    //                  processing of the image.  This function is called once 
+    //                  for each pixel of the output image.
+    void
+    evaluatePixel()
+    {
+        float4 col = sampleNearest(src, outCoord());
+        float2 diff = center - outCoord();
 
-// evaluatePixel(): The function of the filter that actually does the 
-//                  processing of the image.  This function is called once 
-//                  for each pixel of the output image.
-void
-evaluatePixel()
-{
-float4 col = sampleNearest(src, outCoord());
-float2 diff = center - outCoord();
+        float angle = length(diff);
+        float rec = 1.0 / angle;
+        diff = diff * rec;
+        angle = angle * 0.002 * magnitude;
 
-float angle = length(diff);
-float rec = 1.0 / angle;
-diff = diff * rec;
-angle = angle * 0.002 * magnitude;
+        float myCos = cos(angle);
+        float mySin = sin(angle);
+        float3 imag = float3(mySin * diff.x, mySin * diff.y, 0);
 
-float myCos = cos(angle);
-float mySin = sin(angle);
-float3 imag = float3(mySin * diff.x, mySin * diff.y, 0);
+        float3 ortho = col.xyz;
+        ortho = ortho * 2.0 - float3(1.0, 1.0, 1.0);
 
-float3 ortho = col.xyz;
-ortho = ortho * 2.0 - float3(1.0, 1.0, 1.0);
+        float3 myCross = cross(ortho, imag);
+        float myDot = dot(ortho, imag);
+        float qReal = -myDot;
+        float3 qImag = myCos * ortho + myCross;
+        ortho = qReal * imag + myCos * qImag - cross(imag, qImag);
 
-float3 myCross = cross(ortho, imag);
-float myDot = dot(ortho, imag);
-float qReal = -myDot;
-float3 qImag = myCos * ortho + myCross;
-ortho = qReal * imag + myCos * qImag - cross(imag, qImag);
-
-ortho = (ortho + float3(1.0, 1.0, 1.0)) * 0.5;
-dst = float4(ortho.x, ortho.y, ortho.z, 1.0);
-}
+        ortho = (ortho + float3(1.0, 1.0, 1.0)) * 0.5;
+        dst = float4(ortho.x, ortho.y, ortho.z, 1.0);
+    }
 }
 */

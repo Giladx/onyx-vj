@@ -1,347 +1,310 @@
 /**
- * Copyright yonatan ( http://wonderfl.net/user/yonatan )
+ * Copyright John_Blackburne ( http://wonderfl.net/user/John_Blackburne )
  * MIT License ( http://www.opensource.org/licenses/mit-license.php )
- * Downloaded from: http://wonderfl.net/c/w2cx
+ * Downloaded from: http://wonderfl.net/c/5ls1
  */
 
-// forked from yonatan's foggy forest/orchard
-// forked from yonatan's fake infinity
-// forked from yonatan's 1089 more trees
 package {
-	import flash.display.*;
-	import flash.events.*;
-	import flash.geom.*;
-	import flash.utils.*;
+    import flash.display.*;
+    import flash.events.*;
+    import flash.filters.ShaderFilter;
+    import flash.net.*;
+    import flash.system.LoaderContext;
+
+	public class Main extends Sprite {
+
+		public static const asShader:Vector.<String> = Vector.<String>([
+			"pQEAAACkEgBDb2xvdXJSb3RhdGVGaWx0ZXKgDG5hbWVzcGFjZQAAoAx2ZW5kb3IA",
+			"SldCIFNvZnR3YXJlAKAIdmVyc2lvbgACAKAMZGVzY3JpcHRpb24AY29sb3VyIHJv",
+			"dGF0aW9uIHNoYWRlcgChAQIAAAxfT3V0Q29vcmQAoQECAAADY2VudGVyAKICbWlu",
+			"VmFsdWUAAAAAAAAAAACiAm1heFZhbHVlAEPogABD6IAAogJkZWZhdWx0VmFsdWUA",
+			"Q2iAAENogAChAQEBAAhtYWduaXR1ZGUAogFtaW5WYWx1ZQAAAAAAogFtYXhWYWx1",
+			"ZQBAoAAAogFkZWZhdWx0VmFsdWUAP4AAAKMABHNyYwChAgQCAA9kc3QAMAMA8QAA",
+			"EAAdBADzAwAbAB0BAGEAALAAAgEAYQAAEAAdAwDBAQBgACQBAEEDABAAHQEAIAEA",
+			"QAAyAQBAP4AAAAQBABABAIAAAwEAEAEAQAAdAQBAAQDAAB0DADEDABAAAwMAMQEA",
+			"UAAdAwDBAwCwADIBABA7AxJvHQMAIAEAgAADAwAgAQDAAB0BABADAIAAAwEAEAEA",
+			"AAAdAQAgAQDAAA0BABABAIAAHQMAIAEAwAAMAQAQAQCAAB0DABABAMAAHQUA4gQA",
+			"GAAyAQAQQAAAAB0GAOIFABgAAwYA4gEA/AAyBwCAP4AAADIHAEA/gAAAMgcAID+A",
+			"AAAdCADiBgAYAAIIAOIHABgAHQUA4ggAGAAdAQAQAwDAAAMBABADAAAAHQYAgAEA",
+			"wAAdAQAQAwDAAAMBABADAEAAHQYAQAEAwAAyAQAQAAAAAB0GACABAMAAHQcA4gYA",
+			"GAAdBgDiBQAYACcGAOIHABgAHQgA4gYAGAAdBgDiBQAYACYGAOIHABgAHQEAEAYA",
+			"AAAyBQAQAAAAAAIFABABAMAAHQYAgAUAwAAdBgByAwCoAAMGAHIFABgAHQkA4gYA",
+			"bAABCQDiCAAYAB0GAHIJABgAHQkA4gYAAAADCQDiBwAYAB0KAOIDAKgAAwoA4gYA",
+			"bAAdCwDiCQAYAAELAOIKABgAHQkA4gcAGAAnCQDiBgBsAB0KAOILABgAAgoA4gkA",
+			"GAAdBQDiCgAYADIJAIA/gAAAMgkAQD+AAAAyCQAgP4AAAB0KAOIFABgAAQoA4gkA",
+			"GAAyBQAQPwAAAB0JAOIKABgAAwkA4gUA/AAdBQDiCQAYAB0JAIAFAAAAHQkAQAUA",
+			"QAAdCQAgBQCAADIFABA/gAAAHQkAEAUAwAAdAgDzCQAbAA=="]);
+		public var filter:ShaderFilter, shader:Shader;
+		public var bIncreasing:Boolean, fMagnitude:Number;
+		
+		public function Main():void {
+
+			var bd:BitmapData=new AssetForPixelDistortion();   
+			var bitmap :Bitmap = new Bitmap( bd );
+			addChild( bitmap );
+		
+			var dec:Base64Decoder = new Base64Decoder;
+			dec.decode(asShader.join(""));
+			filter = new ShaderFilter(shader = new Shader(dec.drain()));
+			addEventListener(MouseEvent.MOUSE_MOVE, Move);
+			addEventListener(MouseEvent.MOUSE_DOWN, Down);
+			bIncreasing = false;
+			fMagnitude = 0;
+		}
+		
+		public function UpdateShader():void {
+			shader.data.magnitude.value = [fMagnitude];
+			filters = [filter];
+		}
+		
+		public function Move(ev:MouseEvent):void {
+			shader.data.center.value = [300, 200];
+			fMagnitude = Math.min(fMagnitude + 0.05, 5);
+			UpdateShader();
+		}
+
+		public function Down(ev:MouseEvent):void {
+			fMagnitude = 0;
+			UpdateShader();
+		}
+	}
+}
+import flash.utils.ByteArray;
+
+class Base64Decoder
+{
+	//--------------------------------------------------------------------------
+	//
+	//  Constructor
+	//
+	//--------------------------------------------------------------------------
 	
-	import onyx.core.*;
-	import onyx.parameter.*;
-	import onyx.plugin.*;
-	
-	public class Main extends Patch 
+	/**
+	 * Constructor.
+	 *  
+	 *  @langversion 3.0
+	 *  @playerversion Flash 9
+	 *  @playerversion AIR 1.1
+	 *  @productversion Flex 3
+	 */
+	public function Base64Decoder()
 	{
-		public static const VS:int = DISPLAY_WIDTH; // viewport size
-		public static const HVS:int = VS/2;
-		public static const SS:int = DISPLAY_HEIGHT; // stage size
-		public static const HSS:int = SS/2;
-		private const LINE_WIDTH_FACTOR:Number = 0.5;
-		private const BRANCH_SCALE:Number = 0.85;//0.74;
-		private const INIT_SIZE:Number = 120;
-		private const GRID_CELLS:Number = 30;
-		private const CELL_SIZE:Number = 350;
-		private var sigl:SiGLCore = new SiGLCore(VS, VS);
-		private var treeModifier:Number = 0;
-		private var randomness:Number = 0.5;
-		private var camSpeed:Number = 0.25;
-		private var cam:SiGLMatrix = new SiGLMatrix;
-		private var lastFrameTime:int = 0;
-		private var minThickness:Number = 2;
-		private var targetFPS:int = 24;
-		private var maskAlpha:Number = 0.5;//1;
-		private var mtx:Matrix = new Matrix; // temp matrix
-		private var tv:Vector3D = new Vector3D;
-		private var ui:Sprite = new Sprite;
-		private var lines:Vector.<Line> = new Vector.<Line>;
-		private var sprite:Sprite;
-		
-		public function Main() {
-			x = y = HSS;
-			sigl.setZRange(-1000, 1000 + GRID_CELLS/2 * CELL_SIZE);
-			sprite = new Sprite();
-			addChild(sprite);
-			
-
-		}
-		override public function render(info:RenderInfo):void 
-		{			
-		
-			var t:int = getTimer();
-			var renderTime:int = t - lastFrameTime;
-			lastFrameTime = t;
-			var timeDiff:Number = Math.abs(renderTime - 1000/targetFPS);
-			if(timeDiff > 200/targetFPS) { // don't adjust unless we have to (reduces flicker)
-				minThickness *= (renderTime > 1000/targetFPS) ? 1.1 : 0.9;
-				if(minThickness < 1.5) minThickness = 1.5;
-			}
-			sprite.graphics.clear();
-			
-			var cx:Number = Math.sin(t/(5678/camSpeed)) * 1500;
-			var cz:Number = Math.cos(t/(4567/camSpeed)) * 1500;
-			var cy:Number = Math.cos(t/(3456/camSpeed)) * 500 - 500;
-			var camrz:Number = 15 * Math.sin(t/(3456/2/camSpeed));
-			cam.id().prependTranslation(cx, cy, cz);
-			cam.lookAt(cx,cy,cz, 0,-INIT_SIZE/BRANCH_SCALE,0, 0,1,0, 1);
-			cam.appendRotation(camrz, Vector3D.Z_AXIS);
-			sigl.setCameraMatrix(cam);
-			
-			tv.setTo(-cx, 0, -cz);
-			tv.normalize();
-			tv.scaleBy(sigl.zFar);
-			tv.x += cx;
-			tv.z += cz;
-			sigl.id().m(sigl.projectionMatrix).t(tv.x, tv.y, tv.z);
-			projxy(tv);
-			
-			mtx.createGradientBox(VS, VS, -Math.PI/2 + camrz/180*Math.PI, -HVS + tv.x, -HVS + tv.y);
-			sprite.graphics.beginGradientFill("linear",[0x0d6b38,0xf0f0f0,0xf2ba33],[1,1,1],[128,132,160],mtx,"pad","rgb",0);
-			sprite.graphics.drawRect(-HVS, -HVS, VS, VS);
-			sprite.graphics.endFill();
-			
-			sigl.id().m(sigl.modelViewProjectionMatrix); // work in projected space, no need to transform in projxy()...
-			var rnd:Number = 0;
-			var i:int = 0;
-			var halfSide:Number = GRID_CELLS/2 * CELL_SIZE;
-			for(var x:int = -halfSide; x <= halfSide; x += CELL_SIZE) {
-				for(var z:int = -halfSide; z <= halfSide; z += CELL_SIZE) {
-					rnd = (rnd * 1664525 + 1013904223) & 0xffffffff;
-					var r1:Number = rnd/0xffffffff * randomness;
-					rnd = (rnd * 1664525 + 1013904223) & 0xffffffff;
-					var r2:Number = rnd/0xffffffff * randomness;
-					var h:Number = r1 * 0.5 + 0.75;
-					var w:Number = (1-r1) * 0.5 + 0.75;
-					sigl.push().t(x + CELL_SIZE * 0.75 * r1, 0, z + CELL_SIZE * 0.75 * r2).r(rnd, Vector3D.Y_AXIS).s(w,h,w);
-					tree(INIT_SIZE);
-					sigl.pop();
-				}
-			}
-			
-			lines.sort(Line.comparator);
-			for(i=0; i<lines.length; i++) {
-				lines[i].draw(sprite.graphics);
-				Line.free(lines[i]);
-			}
-			lines.length = 0;
-			
-			sprite.graphics.lineStyle();
-			sprite.graphics.beginFill(0xa0a0a0, 0.5);
-			sprite.graphics.drawRect(-HSS, -HSS, SS, SS);
-			sprite.graphics.drawRect(-HVS, -HVS, VS, VS);
-			sprite.graphics.endFill();
-			info.render( sprite );		
-		}
-		
-		private function projxy(v:Vector3D):void {
-			sigl.matrix.copyColumnTo(3, v);
-			v.x /= v.w;
-			v.y /= v.w;
-		}
-		private var p1:Vector3D = new Vector3D, p2:Vector3D = new Vector3D;
-		private function tree(size:Number):void {
-			sigl.push();
-			projxy(p1);
-			var limit:Number = size/BRANCH_SCALE / (1 - BRANCH_SCALE);
-			var xl:Number = HVS+limit/p1.w;
-			var yl:Number = HVS+limit/p1.w;
-			if(p1.z > sigl.zNear-limit && p1.z < sigl.zFar//+limit
-				&& p1.x > -xl && p1.x < xl
-				&& p1.y > -yl && p1.y < yl
-			) {
-				size *= BRANCH_SCALE;
-				sigl.t(0, -size, 0);
-				projxy(p2);
-				var midZ:Number = (p1.w+p2.w) * 0.5;
-				var thickness:Number = size * LINE_WIDTH_FACTOR / midZ;
-				// crude clipping
-				var cs:Number = HVS + thickness * 0.5;
-				
-				var alpha:Number = 1;//Math.min(1, thickness-minThickness+1);//thickness/minThickness-1;
-				var r:Number, g:Number, b:Number;
-				var color:uint;
-				var t1:Number = 0.5 * size * LINE_WIDTH_FACTOR / p1.w;
-				var t2:Number = 0.5 * size * LINE_WIDTH_FACTOR / p2.w * BRANCH_SCALE;
-				var fog:Number = (1-Math.pow(1-p2.z/sigl.zFar, 3));
-				if(thickness <= minThickness) {
-					t1 *= 5;
-					t2 *= 5;
-					p2.x -= (p1.x-p2.x)*3;
-					p2.y -= (p1.y-p2.y)*3;
-					r = fog * 0.9 + (1-fog) * 0.10;
-					g = fog * 0.9 + (1-fog) * 0.25;
-					b = fog * 0.9 + (1-fog) * 0.20;
-				} else {
-					r = fog * 0.9 + (1-fog) * 0.20;
-					g = fog * 0.9 + (1-fog) * 0.15;
-					b = fog * 0.9 + (1-fog) * 0.10;
-				}
-				color = (r*255<<16) + (g*255<<8) + b*255;
-				
-				var isClipped:Boolean = 
-					(p1.x < -cs && p2.x < -cs) || 
-					(p1.x > cs && p2.x > cs) || 
-					(p1.y < -cs && p2.y < -cs) || 
-					(p1.y > cs && p2.y > cs) || 
-					p1.w<0 || p2.w<0 ||
-					p1.w > p1.z || p2.w > p2.z
-					;
-				
-				lines.push(Line.alloc(p1.x, p1.y, t1, p2.x, p2.y, t2, midZ, color, alpha));
-				
-				if(thickness > minThickness) {
-					sigl.r(221, Vector3D.Y_AXIS);
-					tree(size);
-					var s:Number  = 0.7;
-					sigl.t(0,size*-treeModifier,0).r(40, Vector3D.X_AXIS).s(1.33,0.5,1.33);
-					tree(size/BRANCH_SCALE*0.66);
-				}
-			}
-			sigl.pop();
-		}
+		super();
+		data = new ByteArray();
 	}
-}
-
-import flash.display.*;
-import flash.geom.*;
-
-class Line {
-	static private var _freeList:Vector.<Line> = new Vector.<Line>();
-	public var x1:Number, y1:Number, t1:Number, x2:Number, y2:Number, t2:Number, z:Number, color:Number, alpha:Number;
-	public static function free(line:Line):void { _freeList.push(line); }
-	public static function alloc(x1:Number, y1:Number, t1:Number, x2:Number, y2:Number, t2:Number, z:Number, color:Number, alpha:Number):Line {
-		var l:Line = _freeList.pop() || new Line();
-		l.x1 = x1; l.y1 = y1; l.t1 = t1; l.x2 = x2; l.y2 = y2; l.t2 = t2; l.z = z; l.color = color; l.alpha = alpha;
-		return l;
-	}
-	public static function comparator(a:Line, b:Line):Number { return a.z > b.z ? -1 : 1; }
 	
-	private var cmd:Vector.<int> = new <int> [1, 2, 2, 2];
-	private var coord:Vector.<Number> = new Vector.<Number>(8,true);
-	public function draw(g:Graphics):void {
-		var dx:Number = x2-x1;
-		var dy:Number = y2-y1;
-		var len:Number = Math.sqrt(dx*dx+dy*dy);
-		dx /= len;
-		dy /= len;
-		var dxt1:Number = dx*t1, dxt2:Number = dx*t2, dyt1:Number = dy*t1, dyt2:Number = dy*t2;
-		coord[0] = x1-dyt1; coord[1] = y1+dxt1;
-		coord[2] = x1+dyt1; coord[3] = y1-dxt1;
-		coord[4] = x2+dyt2; coord[5] = y2-dxt2;
-		coord[6] = x2-dyt2; coord[7] = y2+dxt2;
-		g.beginFill(color,alpha);
-		g.drawPath(cmd, coord); 
-		g.endFill();
-	}
-}
-
-// useful stuff by keim_at_Si (probably from the boolean crystals demo - http://wonderfl.net/c/vpLs )
-/** SiGLCore provides basic matrix operations. */
-class SiGLCore {
-	// variables ----------------------------------------
-	public var modelViewMatrix:SiGLMatrix = new SiGLMatrix(), projectionMatrix:SiGLMatrix = new SiGLMatrix();
-	public var viewWidth:Number, viewHeight:Number, pointSpriteFieldScale:Point = new Point();
-	public var defaultCameraMatrix:SiGLMatrix = new SiGLMatrix(), matrix:SiGLMatrix = modelViewMatrix;
-	private var _mvpMatrix:SiGLMatrix = new SiGLMatrix(), _mvpdir:Boolean, _2d:Number, _2r:Number;
-	private var _mag:Number, _zNear:Number, _zFar:Number, _fieldOfView:Number, _fl:Number, _alignTopLeft:Boolean = false;
-	// properties ----------------------------------------
-	public function get modelViewProjectionMatrix() : SiGLMatrix {
-		if (_mvpdir) {
-			_mvpMatrix.copyFrom(projectionMatrix);
-			_mvpMatrix.prepend(modelViewMatrix);
-			_mvpdir = false;
+	//--------------------------------------------------------------------------
+	//
+	//  Methods
+	//
+	//--------------------------------------------------------------------------
+	
+	/**
+	 * Decodes a Base64 encoded String and adds the result to an internal
+	 * buffer. Subsequent calls to this method add on to the internal
+	 * buffer. After all data have been encoded, call <code>toByteArray()</code>
+	 * to obtain a decoded <code>flash.utils.ByteArray</code>.
+	 * 
+	 * @param encoded The Base64 encoded String to decode.
+	 *  
+	 *  @langversion 3.0
+	 *  @playerversion Flash 9
+	 *  @playerversion AIR 1.1
+	 *  @productversion Flex 3
+	 */
+	public function decode(encoded:String):void
+	{
+		for (var i:uint = 0; i < encoded.length; ++i)
+		{
+			var c:Number = encoded.charCodeAt(i);
+			
+			if (c == ESCAPE_CHAR_CODE)
+				work[count++] = -1;
+			else if (inverse[c] != 64)
+				work[count++] = inverse[c];
+			else
+				continue;
+			
+			if (count == 4)
+			{
+				count = 0;
+				data.writeByte((work[0] << 2) | ((work[1] & 0xFF) >> 4));
+				filled++;
+				
+				if (work[2] == -1)
+					break;
+				
+				data.writeByte((work[1] << 4) | ((work[2] & 0xFF) >> 2));
+				filled++;
+				
+				if (work[3] == -1)
+					break;
+				
+				data.writeByte((work[2] << 6) | work[3]);
+				filled++;
+			}
 		}
-		return _mvpMatrix;
 	}
-	public function get focalLength() : Number { return _fl; }
-	public function get zNear() : Number { return _zNear; }
-	public function get zFar() : Number { return _zFar; }
-	public function get align() : String { return (_alignTopLeft) ? "topLeft" : "center"; }
-	public function set align(mode:String) : void { _alignTopLeft = (mode == "topLeft"); _updateProjectionMatrix(); }
-	public function get matrixMode() : String { return (matrix === projectionMatrix) ? "projection" : "modelView"; }
-	public function set matrixMode(mode:String) : void { matrix = (mode == "projection") ? projectionMatrix : modelViewMatrix; }
-	public function get angleMode() : String { return (_2r == 1) ? "radian" : "degree"; }
-	public function set angleMode(mode:String) : void { _2d = (mode == "radian") ? 57.29577951308232 : 1; _2r = (mode == "radian") ? 1 : 0.017453292519943295; }
-	public function get fieldOfView() : Number { return _fieldOfView / _2r; }
-	public function set fieldOfView(fov:Number) : void { _fieldOfView = fov * _2r; _updateProjectionMatrix(); }
-	public function get magnification() : Number { return _mag; }
-	public function set magnification(mag:Number) : void { _mag = mag; _updateProjectionMatrix(); }
-	// constructor ----------------------------------------
-	function SiGLCore(width:Number=1, height:Number=1) {
-		viewWidth = width; viewHeight = height;
-		angleMode = "degree"; _mag = 1;
-		_zNear = -1000; _zFar = 200;
-		modelViewMatrix.identity();
-		_mvpdir = true;
-		this.fieldOfView = 60;
+	
+	/**
+	 * @private
+	 */
+	public function drain():ByteArray
+	{
+		var result:ByteArray = new ByteArray();
+		
+		var oldPosition:uint = data.position;    
+		data.position = 0;      // technically, shouldn't need to set this, but carrying over from previous implementation
+		result.writeBytes(data, 0, data.length);                
+		data.position = oldPosition;
+		result.position = 0;
+		
+		filled = 0;
+		return result;
 	}
-	// matrix operations ----------------------------------------
-	public function forceUpdateMatrix() : SiGLCore { _mvpdir = true; return this; }
-	public function setZRange(zNear:Number=-100, zFar:Number=100) : SiGLCore { _zNear = zNear; _zFar = zFar; _updateProjectionMatrix(); return this; }
-	public function clear() : SiGLCore { matrix.clear(); _mvpdir = true; return this; }
-	public function id() : SiGLCore { matrix.id(); _mvpdir = true; return this; }
-	public function push() : SiGLCore { matrix.push(); return this; }
-	public function pop() : SiGLCore { matrix.pop(); _mvpdir = true; return this; }
-	public function rem() : SiGLCore { matrix.rem(); _mvpdir = true; return this; }
-	public function r(a:Number, axis:Vector3D, pivot:Vector3D = null) : SiGLCore { matrix.prependRotation(a*_2d, axis, pivot); matrix._invdir = _mvpdir = true; return this; }
-	public function s(x:Number, y:Number, z:Number=1) : SiGLCore { matrix.prependScale(x, y, z); matrix._invdir = _mvpdir = true; return this; }
-	public function t(x:Number, y:Number, z:Number=0) : SiGLCore { matrix.prependTranslation(x, y, z); matrix._invdir = _mvpdir = true; return this; }
-	public function m(mat:Matrix3D) : SiGLCore { matrix.prepend(mat); matrix._invdir = _mvpdir = true; return this; }
-	public function re(x:Number, y:Number, z:Number) : SiGLCore { matrix.prependRotationXYZ(x*_2r, y*_2r, z*_2r); _mvpdir = true; return this; }
-	public function setCameraMatrix(mat:Matrix3D=null) : SiGLCore { projectionMatrix.rem().prepend(mat || defaultCameraMatrix); _mvpdir = true; return this; }
-	private function _updateProjectionMatrix() : void {
-		var wh:Number = viewWidth / viewHeight, rev:Number = (_alignTopLeft)?-1:1;
-		_fl = (viewHeight * 0.5) / Math.tan(_fieldOfView * 0.5);
-		if (_zNear <= -_fl) _zNear = -_fl + 0.001;
-		projectionMatrix.clear().perspectiveFieldOfView(_fieldOfView, wh, _zNear+_fl, _zFar+_fl, -1);
-		pointSpriteFieldScale.setTo(projectionMatrix.rawData[0] * _fl, projectionMatrix.rawData[5] * _fl);
-		projectionMatrix.push();
-		defaultCameraMatrix.identity();
-		defaultCameraMatrix.prependTranslation(0, 0, -_fl);
-		if (_alignTopLeft) defaultCameraMatrix.prependTranslation(viewWidth* 0.5, -viewHeight * 0.5, 0);
-		defaultCameraMatrix.prependScale(_mag, _mag * rev, _mag * rev);
-		setCameraMatrix();
+	
+	/**
+	 * @private
+	 */
+	public function flush():ByteArray
+	{
+		if (count > 0)
+		{
+			throw new Error("partialBlockDropped:"+[ count ]);
+		}
+		return drain();
 	}
-	public function copyFrom(v:Vector.<Number>, i:uint = 0, t:Boolean = false) : SiGLCore { matrix.copyRawDataFrom(v, i, t); matrix._invdir = _mvpdir = true; return this; }
-	public function copyTo(v:Vector.<Number>, i:uint = 0, t:Boolean = false) : SiGLCore { matrix.copyRawDataTo(v, i, t); return this; }
+	
+	/**
+	 * Clears all buffers and resets the decoder to its initial state.
+	 *  
+	 *  @langversion 3.0
+	 *  @playerversion Flash 9
+	 *  @playerversion AIR 1.1
+	 *  @productversion Flex 3
+	 */
+	public function reset():void
+	{
+		data = new ByteArray();
+		count = 0;
+		filled = 0;
+	}
+	
+	/**
+	 * Returns the current buffer as a decoded <code>flash.utils.ByteArray</code>.
+	 * Note that calling this method also clears the buffer and resets the 
+	 * decoder to its initial state.
+	 * 
+	 * @return The decoded <code>flash.utils.ByteArray</code>.
+	 *  
+	 *  @langversion 3.0
+	 *  @playerversion Flash 9
+	 *  @playerversion AIR 1.1
+	 *  @productversion Flex 3
+	 */
+	public function toByteArray():ByteArray
+	{
+		var result:ByteArray = flush();
+		reset();
+		return result;
+	}
+	
+	public function toString():String
+	{
+		var result:ByteArray = flush();
+		reset();
+		return result.toString();
+	}
+	
+	//--------------------------------------------------------------------------
+	//
+	//  Private Variables
+	//
+	//--------------------------------------------------------------------------
+	
+	private var count:int = 0;
+	private var data:ByteArray;
+	private var filled:int = 0;
+	private var work:Array = [0, 0, 0, 0];
+	
+	private static const ESCAPE_CHAR_CODE:Number = 61; // The '=' char
+	
+	private static const inverse:Array =
+		[
+			64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+			64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+			64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 62, 64, 64, 64, 63,
+			52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 64, 64, 64, 64, 64, 64,
+			64, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+			15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 64, 64, 64, 64, 64,
+			64, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+			41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 64, 64, 64, 64, 64,
+			64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+			64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+			64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+			64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+			64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+			64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+			64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
+			64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64
+		];
 }
 
+/*
+<languageVersion: 1.0;>
+// CrossProductFilter: A filter that uses a cross product.
+kernel ColourRotateFilter
+<   namespace : "";
+    vendor : "JWB Software";
+    version : 2;
+    description : "colour rotation shader"; >
+{
+    parameter float2 center
+    <
+        minValue:float2(0.0, 0.0);
+        maxValue:float2(465, 465);
+        defaultValue:float2(232.5, 232.5);
+    >;
 
-/** SiGLMatrix is extention of Matrix3D with push/pop operation */
-class SiGLMatrix extends Matrix3D {
-	internal var _invdir:Boolean = false, _inv:Matrix3D = new Matrix3D(), _stac:Vector.<Matrix3D> = new Vector.<Matrix3D>();
-	static private var _tv:Vector.<Number> = new Vector.<Number>(16, true), _tm:Matrix3D = new Matrix3D();
-	static private var _in:Vector.<Number> = new Vector.<Number>(4, true), _out:Vector.<Number> = new Vector.<Number>(4, true);
-	public var sp:int = 0;
-	public function get inverted() : Matrix3D { if (_invdir) { _inv.copyFrom(this); _inv.invert(); _invdir = false; } return _inv; }
-	public function forceUpdateInvertedMatrix() : SiGLMatrix { _invdir=true; return this; }
-	public function clear() : SiGLMatrix { sp = 0; return id(); }
-	public function id() : SiGLMatrix { identity(); _inv.identity(); return this; }
-	public function push() : SiGLMatrix {
-		if(_stac.length == sp) _stac.push(new Matrix3D());
-		_stac[sp++].copyFrom(this);
-		return this; 
-	}
-	public function pop() : SiGLMatrix {
-		this.copyFrom(_stac[--sp]);
-		_invdir=true;
-		return this;
-	}
-	public function rem() : SiGLMatrix { this.copyFrom(_stac[sp-1]); _invdir=true; return this; }
-	public function prependRotationXYZ(rx:Number, ry:Number, rz:Number) : SiGLMatrix {
-		var sx:Number = Math.sin(rx), sy:Number = Math.sin(ry), sz:Number = Math.sin(rz), 
-			cx:Number = Math.cos(rx), cy:Number = Math.cos(ry), cz:Number = Math.cos(rz);
-		_tv[0] = cz*cy; _tv[1] = sz*cy; _tv[2] = -sy; _tv[4] = -sz*cx+cz*sy*sx; _tv[5] = cz*cx+sz*sy*sx;
-		_tv[6] = cy*sx; _tv[8] = sz*sx+cz*sy*cx; _tv[9] = -cz*sx+sz*sy*cx;
-		_tv[10] = cy*cx; _tv[14] = _tv[13] = _tv[12] = _tv[11] = _tv[7] = _tv[3] = 0; _tv[15] = 1;
-		_tm.copyRawDataFrom(_tv); prepend(_tm); _invdir=true;
-		return this;
-	}
-	public function lookAt(cx:Number, cy:Number, cz:Number, tx:Number=0, ty:Number=0, tz:Number=0, ux:Number=0, uy:Number=1, uz:Number=0, w:Number=0) : SiGLMatrix {
-		var dx:Number=tx-cx, dy:Number=ty-cy, dz:Number=tz-cz, dl:Number=-1/Math.sqrt(dx*dx+dy*dy+dz*dz), 
-			rx:Number=dy*uz-dz*uy, ry:Number=dz*ux-dx*uz, rz:Number=dx*uy-dy*ux, rl:Number= 1/Math.sqrt(rx*rx+ry*ry+rz*rz);
-		_tv[0]  = (rx*=rl); _tv[4]  = (ry*=rl); _tv[8]  = (rz*=rl); _tv[12] = -(cx*rx+cy*ry+cz*rz) * w;
-		_tv[2]  = (dx*=dl); _tv[6]  = (dy*=dl); _tv[10] = (dz*=dl); _tv[14] = -(cx*dx+cy*dy+cz*dz) * w;
-		_tv[1]  = (ux=dy*rz-dz*ry); _tv[5]  = (uy=dz*rx-dx*rz); _tv[9]  = (uz=dx*ry-dy*rx); _tv[13] = -(cx*ux+cy*uy+cz*uz) * w;
-		_tv[3] = _tv[7] = _tv[11] = 0; _tv[15] = 1; copyRawDataFrom(_tv); _invdir=true;
-		return this;
-	}
-	public function perspectiveFieldOfView(fieldOfViewY:Number, aspectRatio:Number, zNear:Number, zFar:Number, lh:Number=1.0) : void {
-		var yScale:Number = 1.0 / Math.tan(fieldOfViewY * 0.5), xScale:Number = yScale / aspectRatio;
-		// The matrix from adobe's PerspectiveMatrix3D one is what http://msdn.microsoft.com/en-us/library/windows/desktop/bb153308%28v=vs.85%29.aspx 
-		// calls "compliant", but this one seems to produce a transformed w that works for my projxy(). I'm not really sure why. This might be wrong.
-		var n:Number = 1/((Forest.HVS) / Math.tan(fieldOfViewY * 0.5));
-		this.copyRawDataFrom(Vector.<Number>([xScale,0,0,0,0,yScale,0,0,0,0,zFar/(zFar-0)*lh,n*lh,0,0,0,0]));
-	}
-	public function transform(vector:Vector3D) : Vector3D {
-		_in[0] = vector.x; _in[1] = vector.y; _in[2] = vector.z; _in[3] = vector.w;
-		transformVectors(_in, _out); vector.setTo(_out[0], _out[1], _out[2]); vector.w = _out[3];
-		return vector;
-	}
+    parameter float magnitude
+    <
+        minValue:float(0.0);
+        maxValue:float(5.0);
+        defaultValue:float(1.0);
+    >;
+
+    input image4 src;
+    output float4 dst;
+    
+    // evaluatePixel(): The function of the filter that actually does the 
+    //                  processing of the image.  This function is called once 
+    //                  for each pixel of the output image.
+    void
+    evaluatePixel()
+    {
+        float4 col = sampleNearest(src, outCoord());
+        float2 diff = center - outCoord();
+
+        float angle = length(diff);
+        float rec = 1.0 / angle;
+        diff = diff * rec;
+        angle = angle * 0.002 * magnitude;
+
+        float myCos = cos(angle);
+        float mySin = sin(angle);
+        float3 imag = float3(mySin * diff.x, mySin * diff.y, 0);
+
+        float3 ortho = col.xyz;
+        ortho = ortho * 2.0 - float3(1.0, 1.0, 1.0);
+
+        float3 myCross = cross(ortho, imag);
+        float myDot = dot(ortho, imag);
+        float qReal = -myDot;
+        float3 qImag = myCos * ortho + myCross;
+        ortho = qReal * imag + myCos * qImag - cross(imag, qImag);
+
+        ortho = (ortho + float3(1.0, 1.0, 1.0)) * 0.5;
+        dst = float4(ortho.x, ortho.y, ortho.z, 1.0);
+    }
 }
+*/

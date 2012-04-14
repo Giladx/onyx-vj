@@ -32,13 +32,13 @@ package
 		private static const COS2:Number=Math.cos(RADIAN * 2);
 		
 		// è??å??ç?Œæ??åº?ç??åƒ?ç??
-		private static const N_BLUR_IMG:int=20;
+		private static const N_BLUR_IMG:int=5;
 		private static const BLUR_RANGE:int=140;
 		private static const STEP:Number=BLUR_RANGE / N_BLUR_IMG;
 		
 		// å??ãƒ?é??ã??ãƒ?ä??å?ƒ
-		private static const CENTER_X:int=465 >> 1;
-		private static const CENTER_Y:int=465 >> 1;
+		private static const CENTER_X:int=DISPLAY_WIDTH >> 1;
+		private static const CENTER_Y:int=DISPLAY_HEIGHT >> 1;
 		private static const W:int=465;
 		private static const H:int=465;
 		
@@ -59,10 +59,21 @@ package
 		private var camera_calc_flug:int;
 		private var sprite:Sprite;
 		private var mx:int = 0;
+		private var _rx:int = 22;
+		private var _ry:int = 150;
+		private var _rz:int = 150;
 		
 		// ã??ãƒ?ã??ãƒ?ãƒ?ã??ã??
 		public function BallSphere()
 		{
+			Console.output('BallSphere v 0.0.11');
+			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
+			
+			parameters.addParameters(
+				new ParameterInteger( 'rx', 'rotation x', 0, 360, _rx ),
+				new ParameterInteger( 'ry', 'rotation y', 0, 360, _ry ),
+				new ParameterInteger( 'rz', 'rotation z', 0, 360, _rz )
+			);
 			sprite = new Sprite();
 			addChild(sprite);
 			var ballImg:BitmapData=new AssetForBallSphere();   
@@ -118,8 +129,9 @@ package
 		{
 			// ã‚«ãƒ¡ãƒ©ã®ç§»å‹•
 			theta+=4 * (mx / DISPLAY_WIDTH - 0.5);
-			camera.x=camera_radius * Math.sin(RADIAN * theta);
-			camera.z=camera_radius * Math.cos(RADIAN * theta);
+			camera.x=camera_radius * Math.sin(RADIAN * rx);
+			camera.y=camera_radius * Math.cos(RADIAN * ry);
+			camera.z=camera_radius * Math.cos(RADIAN * rz);
 			
 			// åŠå¾„è¨ˆç®— (å¤§ãããªã£ãŸã‚Šå°ã•ããªã£ãŸã‚Š)
 			if (camera_calc_flug == 1)
@@ -206,6 +218,35 @@ package
 				sprite.setChildIndex(ball, i)
 			}
 			info.render( sprite );	
+		}
+		public function get rz():int
+		{
+			return _rz;
+		}
+		
+		public function set rz(value:int):void
+		{
+			_rz = value;
+		}
+		
+		public function get ry():int
+		{
+			return _ry;
+		}
+		
+		public function set ry(value:int):void
+		{
+			_ry = value;
+		}
+		
+		public function get rx():int
+		{
+			return _rx;
+		}
+		
+		public function set rx(value:int):void
+		{
+			_rx = value;
 		}
 	}
 }

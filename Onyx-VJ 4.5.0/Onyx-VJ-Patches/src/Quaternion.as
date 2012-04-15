@@ -64,7 +64,9 @@ package {
 		}
 
 		public function Down(ev:MouseEvent):void {
-			fMagnitude = 0;
+			//fMagnitude = 0;
+			shader.data.center.value = [300, 200];
+			fMagnitude = Math.min(fMagnitude + 0.05, 5);
 			UpdateShader();
 		}
 	}

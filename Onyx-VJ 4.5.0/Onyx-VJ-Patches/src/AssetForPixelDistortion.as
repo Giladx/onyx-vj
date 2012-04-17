@@ -4,7 +4,7 @@ package {
 	
 	[ExcludeSDK]
 	
-	[Embed(source='../assets/ekkobleu.jpg')]
+	[Embed(source='../assets/jumble960.jpg')]
 	public final class AssetForPixelDistortion extends BitmapData {
 		
 		/**

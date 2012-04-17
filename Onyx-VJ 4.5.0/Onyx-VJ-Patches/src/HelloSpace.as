@@ -30,7 +30,7 @@ package {
 		// 1/4 ã??æ??ç??ã??ã??ã??ã??ã?? Matrix
 		private var mtx:Matrix = new Matrix(0.25, 0, 0, 0.25);
 		private var mtx3d:Matrix3D = new Matrix3D();
-		private var canvas:BitmapData = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x000000);;
+		private var canvas:BitmapData = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x000000);
 		private var counter:int = 0;
 		private var moveCounter:int = 0;
 		private var f:Boolean = false;
@@ -41,13 +41,22 @@ package {
 		private var xys:Vector.<Number>;
 		private var xysRandom:Vector.<Number> = new Vector.<Number>();
 		private var canvasBMP:Bitmap;
+		private var _font:Font;
+		private var _text:String = "JUMBLE\nGROOVE";
+		private var _color:uint;
 		
 		public function HelloSpace()
 		{
 			Console.output('HelloSpace (from http://wonderfl.net/c/gMAn)');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
-			// BitmapData ã??ã??ã??ã??ã??ã??æ??ç??ã??ã??åº?æ??ã?? points ã??æ??ç??ã??ã??
-			var bmd:BitmapData = createBitmapData("EKKOSYSTEM");
+			parameters.addParameters(
+				new ParameterFont('font', 'font'),
+				new ParameterString('text', 'text'),
+				new ParameterColor('color', 'color')
+			);
+			font	= PluginManager.createFont('Impact') || PluginManager.fonts[0];
+			// BitmapData 
+			var bmd:BitmapData = createBitmapData(text);
 			initParticles(bmd);
 			
 			canvasBMP = new Bitmap( canvas, "auto", true );
@@ -57,7 +66,7 @@ package {
 			proj.fieldOfView = 90;
 			projMat = proj.toMatrix3D();			
 			// å??ã??ã??ã??ã??ã??ã?? BitmapData ã??å??æ??å??ã??ã??
-			canvasGlow = new BitmapData(DISPLAY_WIDTH / 4, DISPLAY_HEIGHT / 4, false, 0x000000);
+			canvasGlow = new BitmapData(DISPLAY_WIDTH / 4, DISPLAY_HEIGHT / 4, true, 0x000000);
 			var bmp:Bitmap = new Bitmap(canvasGlow, PixelSnapping.NEVER, true);
 			bmp.scaleX = bmp.scaleY = 4;
 			bmp.smoothing = true;
@@ -108,17 +117,17 @@ package {
 			counter++;
 			info.render( canvasBMP );
 		}		
-		private static function createBitmapData(letters:String):BitmapData{
+		private function createBitmapData(letters:String):BitmapData{
 			var fmt:TextFormat = new TextFormat();
 			fmt.size = 50;
-			
+			fmt.font = font.fontName;
 			var tf:TextField = new TextField();
 			tf.defaultTextFormat = fmt;
 			tf.autoSize = "left";
 			tf.textColor = 0xffffff;
 			tf.text = letters;
 			
-			var bmd:BitmapData = new BitmapData(tf.textWidth, tf.textHeight, false, 0x000000);
+			var bmd:BitmapData = new BitmapData(tf.textWidth, tf.textHeight, true, 0x000000);
 			var mtx:Matrix = new Matrix();
 			bmd.draw(tf, mtx);
 			
@@ -136,6 +145,36 @@ package {
 					}
 				}
 			}
+		}
+		public function set text(value:String):void 
+		{		
+			_text = value;		
+		}
+		public function get text():String {
+			return _text;
+		}
+		
+		public function set color(value:uint):void {
+			_color = value;
+		}
+		public function get color():uint {
+			return _color;
+		}
+		public function set font(value:Font):void {
+			_font = value;
+			
+			/*if (value) {
+				
+				var format:TextFormat = label.defaultTextFormat;
+				format.font = value.fontName;
+				
+				label.defaultTextFormat = format;
+				label.setTextFormat(format);
+			}*/
+		}
+
+		public function get font():Font {
+			return _font;
 		}
 	}
 }

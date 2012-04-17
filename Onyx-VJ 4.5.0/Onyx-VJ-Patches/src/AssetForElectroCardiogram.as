@@ -4,7 +4,7 @@ package {
 	
 	[ExcludeSDK]
 	
-	[Embed(source='../assets/ekkotexte.png')]
+	[Embed(source='../assets/swap3.png')]
 	public final class AssetForElectroCardiogram extends BitmapData {
 		
 		/**

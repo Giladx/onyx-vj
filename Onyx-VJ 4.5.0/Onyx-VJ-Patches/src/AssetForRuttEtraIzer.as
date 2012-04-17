@@ -4,8 +4,8 @@ package {
 	
 	[ExcludeSDK]
 	
-	[Embed(source='../assets/wh217x123.png')]
-	//[Embed(source='../assets/swap3.png')]
+	//[Embed(source='../assets/wh217x123.png')]
+	[Embed(source='../assets/swap3.png')]
 	public final class AssetForRuttEtraIzer extends BitmapData {
 		
 		/**

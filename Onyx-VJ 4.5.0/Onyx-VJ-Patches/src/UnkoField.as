@@ -26,11 +26,11 @@ package
 	{
 		private var PV:PVUnkoField;
 		private var sprite:Sprite;
-		private var _size:int = 15;
-		private var _rx:int = 270;
-		private var _ry:int = 270;
-		private var _rz:int = 270;
-		private var _text:String = "EKKOSYSTEM";
+		private var _size:int = 30;
+		private var _rx:int = 360;
+		private var _ry:int = 234;
+		private var _rz:int = 180;
+		private var _text:String = "JUMBLE\nGROOVE";
 
 		public function UnkoField() 
 		{
@@ -153,8 +153,8 @@ import org.papervision3d.view.layer.BitmapEffectLayer;
 
 class PVUnkoField extends BasicView 
 {
-	private var _size:int = 15;
-	private var _text:String = "EKKOSYSTEM";
+	private var _size:int = 30;
+	private var _text:String = "JUMBLE\nGROOVE";
 	private var _root:DisplayObject3D;
 	private var _defaultForm:Boolean;
 	private var _pixelList:Array;
@@ -162,9 +162,9 @@ class PVUnkoField extends BasicView
 	private var _mx:Number = 0;
 	private var _my:Number = 0;
 	private var middle:int = DISPLAY_WIDTH/2;
-	private var _rx:int = 270;
-	private var _ry:int = 270;
-	private var _rz:int = 270;
+	private var _rx:int = 360;
+	private var _ry:int = 234;
+	private var _rz:int = 180;
 	
 	public function PVUnkoField() 
 	{
@@ -267,7 +267,7 @@ class PVUnkoField extends BasicView
 	private function getTextPos():Array
 	{
 		var tf:TextField = new TextField();
-		tf.defaultTextFormat = new TextFormat("_sans", _size, 0xFFFFFF, true);
+		tf.defaultTextFormat = new TextFormat("_sans", _size, 0x8a0b1e, true);
 		tf.autoSize = TextFieldAutoSize.LEFT;
 		tf.text = text;
 		
@@ -285,11 +285,11 @@ class PVUnkoField extends BasicView
 					switch (i % 3) 
 					{
 						case 0:
-							color = 0xFFFFFFFF;
+							color = 0xFF552729;
 							//color = 0xFFEF8080;
 							break;
 						case 1:
-							color = 0xFF444444;
+							color = 0xFFf9d938;
 							//color = 0xFF80EF80;
 							break;
 						case 2:
@@ -297,7 +297,7 @@ class PVUnkoField extends BasicView
 							//color = 0xFF8080EF;
 							break;
 					}
-					result.push(new PxData(i  - n * 0.5, j - m * 0.5, color));
+					result.push(new PxData( 25 + i  - n * 0.5, j - m * 0.5, color));
 				}
 			}
 		}

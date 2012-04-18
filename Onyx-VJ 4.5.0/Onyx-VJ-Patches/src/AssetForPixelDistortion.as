@@ -4,14 +4,14 @@ package {
 	
 	[ExcludeSDK]
 	
-	[Embed(source='../assets/jumble960.jpg')]
+	[Embed(source='../assets/jesus800.png')]
 	public final class AssetForPixelDistortion extends BitmapData {
 		
 		/**
 		 * 
 		 */
 		public function AssetForPixelDistortion() {
-			super(800, 758);
+			super(800, 600);
 		}
 		
 	}

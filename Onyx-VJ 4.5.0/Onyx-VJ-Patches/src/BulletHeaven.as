@@ -38,8 +38,8 @@ package
 		//Ã?Æ?â??Ã?Æ?Â?Ã?Æ?â??Ã?â?šÂ?Ã?â?šÂ?Ã?Æ?Â?Ã?Æ?ÂªÃ?â?šÂ?Ã?Æ?Ë?
 		private var _particles:Vector.<Particle>;
 		private var _bulletBitmapData:Vector.<Particle>;
-		private var mx:Number = 0;
-		private var my:Number = 0;
+		private var mx:int = 320;
+		private var my:int = 240;
 		private var _enemy:Particle;
 		
 		public var bulletBD:BitmapData;

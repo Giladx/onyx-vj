@@ -1,39 +1,35 @@
 /**
- * 25-Line ActionScript Contest Entry
- *
- * Project: Fire
- * Author:  Bruce Jawn   (http://bruce-lab.blogspot.com/)
- * Date:    2009-1-10
+ * Copyright saharan ( http://wonderfl.net/user/saharan )
+ * MIT License ( http://www.opensource.org/licenses/mit-license.php )
+ * Downloaded from: http://wonderfl.net/c/pTKv
  */
-package
-{
+
+package {
 	import flash.display.*;
 	import flash.events.*;
-	import flash.filters.*;
-	import flash.geom.*;
-	import flash.text.*;
-	import flash.utils.*;
+	import flash.net.*;
+	import flash.system.LoaderContext;
 	
 	import onyx.core.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
-	public class LayerWater extends Patch implements IRenderObject, IParameterObject
-	{
+	/**
+	 * Water 3D
+	 *
+	 * ãƒ»è§£èª¬ã‚³ãƒ¡ãƒ³ãƒˆã‚’ã¡ã‚‡ã£ã¨å…¥ã‚Œã¾ã—ãŸ
+	 * 
+	 * Click&Drag:Make wave
+	 * 
+	 * @author saharan
+	 */
+	public class Water3D extends Patch {
 		private const NUM_DETAILS:int = 48;
 		private const INV_NUM_DETAILS:Number = 1 / NUM_DETAILS;
 		private const MESH_SIZE:Number = 100;
 		private var count:uint;
 		private var bmd:BitmapData;
-		private var lastTime:int;
-		
-		public var delay:int	= 0;
-		public var blend:String	= 'normal';
-		public var time:int		= 150;
-		
-		public var layer:Layer;
-		
-		private var frames:Array	= [];
+		//private var loader:Loader;
 		private var vertices:Vector.<Vertex>;
 		private var transformedVertices:Vector.<Number>;
 		private var indices:Vector.<int>;
@@ -47,25 +43,16 @@ package
 		private var moy:int = 240;
 		private var sprite:Sprite;
 		
-		public function LayerWater():void
+		public function Water3D():void
 		{
-			Console.output('LayerWater');
-			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
-			parameters.addParameters(
-				new ParameterLayer('layer', 'layer'),
-				new ParameterInteger('time', 'time', 20, 5000, time),
-				new ParameterInteger('delay', 'delay', 0, 24, 0),			
-				new ParameterExecuteFunction('capture', 'capture')
-			);			
-
 			sprite = new Sprite();			
 			width2 = DISPLAY_WIDTH / 2;
 			height2 = DISPLAY_HEIGHT / 2;
-			
+
 			count = 0;
-			
+
 			bmd = new AssetForWater3D();
-			
+
 			addEventListener( MouseEvent.MOUSE_DOWN, onClick );
 			addEventListener(MouseEvent.MOUSE_UP,
 				function(e:Event = null):void {
@@ -75,10 +62,10 @@ package
 				function(e:MouseEvent = null):void {
 					mox = e.localX; 
 					moy = e.localY; 
-					
+
 					if (press) drag();
 				});
-			
+
 			vertices = new Vector.<Vertex>(NUM_DETAILS * NUM_DETAILS, true);
 			transformedVertices = new Vector.<Number>(NUM_DETAILS * NUM_DETAILS * 2, true);
 			indices = new Vector.<int>();
@@ -108,73 +95,22 @@ package
 					velocity[i][j] = 0;
 				}
 			}
-		} 
+		}
 		private function onClick(event:MouseEvent):void {
 			mox = event.localX; 
 			moy = event.localY; 
 			press = true;
-		}
-		public function capture():void 
+		}	
+		override public function render(info:RenderInfo):void 
 		{
-			if (layer && layer.source) 
-			{
-				var source:BitmapData	= layer.source;
-				var matrix:Matrix = new Matrix();
-				
-				source.draw(layer.source, matrix, null, null, null, true);			
-				
-				bmd = source.clone();
-			}
+			count++;
+			move();
+			setMesh();
+			transformVertices();
+			draw();
+			info.render( sprite );
 		}
-		/**
-		 * 
-		 */
-		override public function render(info:RenderInfo):void {
-			
-			var timer:int	= getTimer();
-			var ms:int		= timer - lastTime;
-			if (ms >= time) {
-				var ratio:Number = 1;
-				lastTime = timer;
-				capture();
-			} else {
-				ratio = ms / time; 
-			}
-			
-			if (layer && layer.source) 
-			{
-				/*bmd = info.source;
-				var matrix:Matrix = new Matrix();
-				bmd.draw(layer.source, matrix, null, null, null, true);	*/
-				
-				if (delay > 0) 
-				{				
-					frames.push(layer.source.clone());
-					if (frames.length > 100) 
-					{
-						var b:BitmapData = frames.shift() as BitmapData;
-						b.dispose();
-					}
-				}
-				
-				count++;
-				move();
-				setMesh();
-				transformVertices();
-				draw();
-				info.render( sprite );
-			}			
-		}
-		private function draw():void 
-		{
-			sprite.graphics.clear();
-			/*sprite.graphics.beginFill(0x202020);
-			sprite.graphics.drawRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-			sprite.graphics.endFill();*/
-			sprite.graphics.beginBitmapFill(bmd);
-			sprite.graphics.drawTriangles(transformedVertices, indices, uvt, TriangleCulling.POSITIVE);
-			sprite.graphics.endFill();
-		}		
+		
 		private function setMesh():void {
 			for (var i:int = 2; i < NUM_DETAILS - 2; i++) {
 				for (var j:int = 2; j < NUM_DETAILS - 2; j++) {
@@ -204,6 +140,8 @@ package
 			
 			var i:int;
 			var j:int;
+			/*var mmx:Number = mx / DISPLAY_WIDTH * NUM_DETAILS;
+			var mmy:Number = (1 - my / DISPLAY_HEIGHT) * NUM_DETAILS;*/
 			for (i = 1; i < NUM_DETAILS - 1; i++) {
 				for (j = 1; j < NUM_DETAILS - 1; j++) {
 					heights[i][j] += velocity[i][j];
@@ -234,6 +172,16 @@ package
 					}
 				}
 			}
+		}
+		
+		private function draw():void {
+			sprite.graphics.clear();
+			sprite.graphics.beginFill(0x202020);
+			sprite.graphics.drawRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+			sprite.graphics.endFill();
+			sprite.graphics.beginBitmapFill(bmd);
+			sprite.graphics.drawTriangles(transformedVertices, indices, uvt, TriangleCulling.POSITIVE);
+			sprite.graphics.endFill();
 		}
 		
 		private function getIndex(x:int, y:int):int {
@@ -267,20 +215,9 @@ package
 				}
 			}
 		}
-		/**
-		 * 
-		 */
-		override public function dispose():void 
-		{
-			while (frames.length) 
-			{
-				var data:BitmapData = frames.shift() as BitmapData;
-				data.dispose();
-			}
-		}
-		
 	}
 }
+
 class Vertex {
 	public var x:Number;
 	public var y:Number;

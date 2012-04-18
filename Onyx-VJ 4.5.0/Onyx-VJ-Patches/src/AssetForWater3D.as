@@ -4,14 +4,14 @@ package {
 	
 	[ExcludeSDK]
 	
-	[Embed(source='../assets/flower.jpg')]
-	public final class AssetForAbstractPainting extends BitmapData {
+	[Embed(source='../assets/AssetForWater3D.jpg')]
+	public final class AssetForWater3D extends BitmapData {
 		
 		/**
 		 * 
 		 */
-		public function AssetForAbstractPainting() {
-			super(800, 801);
+		public function AssetForWater3D() {
+			super(200, 200);
 		}
 		
 	}

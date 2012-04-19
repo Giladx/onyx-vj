@@ -11,16 +11,18 @@
 
 package 
 {
-	import flash.text.*;
+	import flash.display.*;
+	import flash.events.*;
 	import flash.filters.*;
 	import flash.geom.*;
-	import flash.events.*;
-	import flash.display.*;
+	import flash.text.*;
 	
-	[SWF(frameRate = 60)]
+	import onyx.core.*;
+	import onyx.parameter.*;
+	import onyx.plugin.*;
 	
-	
-	final public class HardStir extends Sprite {
+	final public class HardStir extends Patch
+	{
 		public static const GRAVITY:Number = 0.0;
 		public static const RANGE:Number = 36;//å½±éŸ¿åŠå¾„
 		public static const RANGE2:Number = RANGE * RANGE;//å½±éŸ¿åŠå¾„ã®äºŒä¹—
@@ -28,7 +30,7 @@ package
 		public static const PRESSURE:Number = 2;//åœ§åŠ›ä¿‚æ•°
 		public static const VISCOSITY:Number = 0.08;
 		
-		public static const DIV:uint = Math.ceil(465 / RANGE ); //æ¨ªæ–¹å‘ã®åˆ†å‰²æ•°
+		public static const DIV:uint = Math.ceil(DISPLAY_WIDTH / RANGE ); //æ¨ªæ–¹å‘ã®åˆ†å‰²æ•°
 		public static const DIV2:uint = DIV * DIV;
 		private var map:Vector.<Vector.<Particle>>;
 		private var imgIn:BitmapData;
@@ -44,14 +46,10 @@ package
 		private var tmp:BitmapData;
 		
 		private var imgVec:Vector.<uint>;
-		//private var numParticles:uint;
 		private const blur1:BlurFilter = new BlurFilter(6,6,2);
-		//private const ct:ColorTransform = new ColorTransform(7,7,16);
-		//private const blur2:BlurFilter = new BlurFilter(4, 4, 2);
-		//private var count:int;
+
 		private var press:Boolean;
 		private var dmf:DisplacementMapFilter;
-		//private var text:Label;
 		
 		private const origin:Point = new Point();
 		private var rect:Rectangle;
@@ -60,15 +58,15 @@ package
 		public function HardStir() 
 		{
 			opaqueBackground = 0;
-			scrollRect = new Rectangle(0,0,465,465);
-			imgIn = new BitmapData(465, 465, false, 0);
+			scrollRect = new Rectangle(0,0,DISPLAY_WIDTH,DISPLAY_HEIGHT);
+			imgIn = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0);
 			imgIn.perlinNoise(120,120,3,0xbada55 * Math.random(),false,true,5,true);
 			
 			brush = new BitmapData(32,32,true,0);
 			brush.fillRect( new Rectangle(8,8,16,16),0xffffffff);
 			brush.applyFilter( brush,brush.rect,origin,new BlurFilter(6,6,2));
 			
-			imgOut = new BitmapData(465, 465, true, 0);
+			imgOut = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0);
 			
 			rect = imgOut.rect;
 			
@@ -84,16 +82,9 @@ package
 			addEventListener(MouseEvent.MOUSE_DOWN, function(e:MouseEvent):void {press = true;});
 			addEventListener(MouseEvent.MOUSE_UP, function(e:MouseEvent):void {press = false;});
 			addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
-			addEventListener(Event.ENTER_FRAME, frame);
-			
 			
 			tabChildren = false;
 			mouseChildren = false;
-			//stage.quality = "low";
-			//stage.addChild( new Stats ).opaqueBackground = 0;
-			//text = new Label( stage, 75, 0, "numParticles: " + numParticles );
-			
-			//stage.removeChildAt(0)
 			
 			map = new Vector.<Vector.<Particle>>(DIV2,true);
 			for(var i:int = DIV2; --i>-1; ) map[i] = new Vector.<Particle>();
@@ -106,7 +97,8 @@ package
 			
 		}
 		
-		private function frame(e:Event):void {
+		override public function render(info:RenderInfo):void 
+		{
 			
 			//  imgVec.length = 0;
 			// imgVec.length = vecSize;
@@ -141,6 +133,7 @@ package
 			imgIn.draw(imgOut,null,null,"layer");
 			this.filters = [blur1]
 			imgIn.unlock();
+			info.render(imgIn);
 		}
 		
 		private function onMouseMove(event:MouseEvent):void
@@ -159,16 +152,16 @@ package
 		private function addParticles( count:int ):void {
 			if ( last == null )
 			{
-				first = new Particle(465 * Math.random(), 465 * Math.random());
+				first = new Particle(DISPLAY_WIDTH * Math.random(), DISPLAY_HEIGHT * Math.random());
 				last = first;
 			} else {
-				last = last.next = new Particle(465 * Math.random(), 465 * Math.random());
+				last = last.next = new Particle(DISPLAY_WIDTH * Math.random(), DISPLAY_HEIGHT * Math.random());
 			}
 			//last.move();
 			
 			while ( count-- > 0 )
 			{
-				last = last.next = new Particle(465 * Math.random(), 465 * Math.random());
+				last = last.next = new Particle(DISPLAY_WIDTH * Math.random(), DISPLAY_HEIGHT * Math.random());
 				//last.move();
 			}
 			//  text.text = "numParticles: " + numParticles;
@@ -298,6 +291,9 @@ package
 import flash.display.BitmapData;
 import flash.geom.Point;
 import flash.geom.Rectangle;
+
+import onyx.plugin.DISPLAY_HEIGHT;
+import onyx.plugin.DISPLAY_WIDTH;
 
 
 final class Neighbor {
@@ -479,13 +475,13 @@ final class Particle {
 		//  vx *= 0.99;
 		//  vy *= 0.99;
 		if(x < 0){ vx = -vx; x = 0 }
-		else if(x > 463){ vx = -vx; x = 463 }
+		else if(x > DISPLAY_WIDTH-2){ vx = -vx; x = DISPLAY_WIDTH-2 }
 		//while(x < 0){ x += 464 }
 		//while(x > 464){ x -= 464 }
 		
 		
 		if(y < 0){ vy = -vy; y = 0 }
-		else if(y > 463){ vy = - vy; y = 463 }    
+		else if(y > DISPLAY_HEIGHT-2){ vy = - vy; y = DISPLAY_HEIGHT-2 }    
 		
 		// mapX = x / SPH.RANGE;
 		// mapY = y / SPH.RANGE;    

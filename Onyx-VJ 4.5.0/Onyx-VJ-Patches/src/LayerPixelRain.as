@@ -338,7 +338,11 @@ package
 			
 			graphics.clear();
 			register(_layer, this, false);		
-			
+			while (frames.length) 
+			{
+				var data:BitmapData = frames.shift() as BitmapData;
+				data.dispose();
+			}
 		}
 	}
 }

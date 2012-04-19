@@ -20,16 +20,16 @@ package
 	
 	public class LayerWater extends Patch implements IRenderObject, IParameterObject
 	{
-		private const NUM_DETAILS:int = 48;
-		private const INV_NUM_DETAILS:Number = 1 / NUM_DETAILS;
-		private const MESH_SIZE:Number = 100;
+		private var num_details:int = 48;//48;
+		private var inv_num_details:Number = 1 / num_details;
+		private var _mesh_size:Number = 200;//100;
 		private var count:uint;
 		private var bmd:BitmapData;
 		private var lastTime:int;
 		
 		public var delay:int	= 0;
 		public var blend:String	= 'normal';
-		public var time:int		= 150;
+		public var time:int		= 100;
 		
 		public var layer:Layer;
 		
@@ -53,8 +53,9 @@ package
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
 			parameters.addParameters(
 				new ParameterLayer('layer', 'layer'),
-				new ParameterInteger('time', 'time', 20, 5000, time),
-				new ParameterInteger('delay', 'delay', 0, 24, 0),			
+				new ParameterInteger('time', 'time', 1, 2000, time),
+				new ParameterInteger('delay', 'delay', 0, 24, 0),						
+				new ParameterInteger('mesh_size', 'mesh_size', 1, 500, mesh_size),			
 				new ParameterExecuteFunction('capture', 'capture')
 			);			
 
@@ -64,8 +65,9 @@ package
 			
 			count = 0;
 			
-			bmd = new AssetForWater3D();
-			
+			//bmd = new AssetForWater3D();
+			bmd = createDefaultBitmap();
+			Console.output("LayerWater, bmd.width: "+bmd.width);
 			addEventListener( MouseEvent.MOUSE_DOWN, onClick );
 			addEventListener(MouseEvent.MOUSE_UP,
 				function(e:Event = null):void {
@@ -79,18 +81,18 @@ package
 					if (press) drag();
 				});
 			
-			vertices = new Vector.<Vertex>(NUM_DETAILS * NUM_DETAILS, true);
-			transformedVertices = new Vector.<Number>(NUM_DETAILS * NUM_DETAILS * 2, true);
+			vertices = new Vector.<Vertex>(num_details * num_details, true);
+			transformedVertices = new Vector.<Number>(num_details * num_details * 2, true);
 			indices = new Vector.<int>();
-			uvt = new Vector.<Number>(NUM_DETAILS * NUM_DETAILS * 2, true);
+			uvt = new Vector.<Number>(num_details * num_details * 2, true);
 			var i:int;
 			var j:int;
 			// é ‚ç‚¹åˆæœŸåŒ–ã€‚å¤–å´2ã¤åˆ†ã¯è¡¨ç¤ºã—ãªã„ã®ã§ç„¡é§„ãªå‡¦ç†ï¼†ãƒ¡ãƒ¢ãƒªã«ãƒ»ãƒ»ãƒ»
-			for (i = 2; i < NUM_DETAILS - 2; i++) {
-				for (j = 2; j < NUM_DETAILS - 2; j++) {
+			for (i = 2; i < num_details - 2; i++) {
+				for (j = 2; j < num_details - 2; j++) {
 					vertices[getIndex(j, i)] = new Vertex(
-						(j - (NUM_DETAILS - 1) * 0.5) / NUM_DETAILS * MESH_SIZE, 0,
-						(i - (NUM_DETAILS - 1) * 0.5) / NUM_DETAILS * MESH_SIZE);
+						(j - (num_details - 1) * 0.5) / num_details * mesh_size, 0,
+						(i - (num_details - 1) * 0.5) / num_details * mesh_size);
 					if (i != 2 && j != 2) {
 						indices.push(getIndex(i - 1, j - 1), getIndex(i, j - 1), getIndex(i, j));
 						indices.push(getIndex(i - 1, j - 1), getIndex(i, j), getIndex(i - 1, j));
@@ -98,17 +100,18 @@ package
 				}
 			}
 			// æ°´é¢é–¢ä¿‚åˆæœŸåŒ–
-			heights = new Vector.<Vector.<Number>>(NUM_DETAILS, true);
-			velocity = new Vector.<Vector.<Number>>(NUM_DETAILS, true);
-			for (i = 0; i < NUM_DETAILS; i++) {
-				heights[i] = new Vector.<Number>(NUM_DETAILS, true);
-				velocity[i] = new Vector.<Number>(NUM_DETAILS, true);
-				for (j = 0; j < NUM_DETAILS; j++) {
+			heights = new Vector.<Vector.<Number>>(num_details, true);
+			velocity = new Vector.<Vector.<Number>>(num_details, true);
+			for (i = 0; i < num_details; i++) {
+				heights[i] = new Vector.<Number>(num_details, true);
+				velocity[i] = new Vector.<Number>(num_details, true);
+				for (j = 0; j < num_details; j++) {
 					heights[i][j] = 0;
 					velocity[i][j] = 0;
 				}
 			}
 		} 
+
 		private function onClick(event:MouseEvent):void {
 			mox = event.localX; 
 			moy = event.localY; 
@@ -121,32 +124,30 @@ package
 				var source:BitmapData	= layer.source;
 				var matrix:Matrix = new Matrix();
 				
-				source.draw(layer.source, matrix, null, null, null, true);			
-				
+				source.draw(layer.source, matrix, null, null, null, true);	
 				bmd = source.clone();
 			}
 		}
 		/**
 		 * 
 		 */
-		override public function render(info:RenderInfo):void {
-			
+		override public function render(info:RenderInfo):void 
+		{			
 			var timer:int	= getTimer();
 			var ms:int		= timer - lastTime;
-			if (ms >= time) {
+			if (ms >= time) 
+			{
 				var ratio:Number = 1;
 				lastTime = timer;
 				capture();
-			} else {
+			} 
+			else
+			{
 				ratio = ms / time; 
 			}
 			
 			if (layer && layer.source) 
-			{
-				/*bmd = info.source;
-				var matrix:Matrix = new Matrix();
-				bmd.draw(layer.source, matrix, null, null, null, true);	*/
-				
+			{				
 				if (delay > 0) 
 				{				
 					frames.push(layer.source.clone());
@@ -168,16 +169,13 @@ package
 		private function draw():void 
 		{
 			sprite.graphics.clear();
-			/*sprite.graphics.beginFill(0x202020);
-			sprite.graphics.drawRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-			sprite.graphics.endFill();*/
 			sprite.graphics.beginBitmapFill(bmd);
 			sprite.graphics.drawTriangles(transformedVertices, indices, uvt, TriangleCulling.POSITIVE);
 			sprite.graphics.endFill();
 		}		
 		private function setMesh():void {
-			for (var i:int = 2; i < NUM_DETAILS - 2; i++) {
-				for (var j:int = 2; j < NUM_DETAILS - 2; j++) {
+			for (var i:int = 2; i < num_details - 2; i++) {
+				for (var j:int = 2; j < num_details - 2; j++) {
 					const index:int = getIndex(i, j);
 					vertices[index].y = heights[i][j] * 0.15;
 					
@@ -192,8 +190,8 @@ package
 					nx *= len;
 					ny *= len;
 					// ã¡ã‚‡ã£ã¨å¼ã‚’å¤‰æ›´ã—ã¦å¹³é¢ã§ã‚‚ãƒ†ã‚¯ã‚¹ãƒãƒ£ãŒè¦‹ãˆã‚‹ã‚ˆã†ã«
-					uvt[index * 2] = nx * 0.5 + 0.5 + ((i - NUM_DETAILS * 0.5) * INV_NUM_DETAILS * 0.25);
-					uvt[index * 2 + 1] = ny * 0.5 + 0.5 + ((NUM_DETAILS * 0.5 - j) * INV_NUM_DETAILS * 0.25);
+					uvt[index * 2] = nx * 0.5 + 0.5 + ((i - num_details * 0.5) * inv_num_details * 0.25);
+					uvt[index * 2 + 1] = ny * 0.5 + 0.5 + ((num_details * 0.5 - j) * inv_num_details * 0.25);
 				}
 			}
 		}
@@ -204,15 +202,15 @@ package
 			
 			var i:int;
 			var j:int;
-			for (i = 1; i < NUM_DETAILS - 1; i++) {
-				for (j = 1; j < NUM_DETAILS - 1; j++) {
+			for (i = 1; i < num_details - 1; i++) {
+				for (j = 1; j < num_details - 1; j++) {
 					heights[i][j] += velocity[i][j];
 					if (heights[i][j] > 100) heights[i][j] = 100;
 					else if (heights[i][j] < -100) heights[i][j] = -100;
 				}
 			}
-			for (i = 1; i < NUM_DETAILS - 1; i++) {
-				for (j = 1; j < NUM_DETAILS - 1; j++) {
+			for (i = 1; i < num_details - 1; i++) {
+				for (j = 1; j < num_details - 1; j++) {
 					velocity[i][j] = (velocity[i][j] +
 						(heights[i - 1][j] + heights[i][j - 1] + heights[i + 1][j] +
 							heights[i][j + 1] - heights[i][j] * 4) * 0.5) * 0.95;
@@ -223,11 +221,11 @@ package
 		public function drag():void {
 			var i:int;
 			var j:int;
-			var mmx:Number = mox / DISPLAY_WIDTH * NUM_DETAILS;
-			var mmy:Number = (1 - moy / DISPLAY_HEIGHT) * NUM_DETAILS;
-			for (i = mmx - 3; i < NUM_DETAILS - 1 && mmx + 3; i++) {
-				for (j = mmy - 3; j < NUM_DETAILS - 1 && mmy + 3; j++) {
-					if (i > 1 && j > 1 && i < NUM_DETAILS - 1 && j < NUM_DETAILS - 1) {
+			var mmx:Number = mox / DISPLAY_WIDTH * num_details;
+			var mmy:Number = (1 - moy / DISPLAY_HEIGHT) * num_details;
+			for (i = mmx - 3; i < num_details - 1 && mmx + 3; i++) {
+				for (j = mmy - 3; j < num_details - 1 && mmy + 3; j++) {
+					if (i > 1 && j > 1 && i < num_details - 1 && j < num_details - 1) {
 						var len:Number = 3 - Math.sqrt((mmx - i) * (mmx - i) + (mmy - j) * (mmy - j));
 						if (len < 0) len = 0;
 						velocity[i][j] -= len * (press ? 1 : 5);
@@ -237,7 +235,7 @@ package
 		}
 		
 		private function getIndex(x:int, y:int):int {
-			return y * NUM_DETAILS + x;
+			return y * num_details + x;
 		}
 		
 		private function transformVertices():void {
@@ -256,16 +254,26 @@ package
 					var z:Number = sin * v.y + cos * v.z;
 					// ã??ã??ã??ã??ã??ã??ã??ã??å??æ??ã??ã??ã??ã??ã??ã??ã??ã??(ã??ã??ã??ã??ã??é??ã??)
 					z = 1 / (z + 60);
+					//z = 1 / (z + 100);
 					// ç??æ??ã??ã??ã??ã??ã??ã??ã??ã??å??æ??
 					x *= z;
 					y *= z;
 					// ã??ã??ã?ªã??ã??åº?æ??ã??æ??ã??ã??
-					x = x * 232.5 + 232.5;
-					y = y * 232.5 + 182.5;
+					x = x * DISPLAY_WIDTH/2 + DISPLAY_WIDTH/2;//232.5 + 232.5;
+					y = y * DISPLAY_HEIGHT/2 + DISPLAY_HEIGHT/2; //232.5 + 182.5;
 					transformedVertices[i * 2] = x;
 					transformedVertices[i * 2 + 1] = y;
 				}
 			}
+		}
+		public function get mesh_size():Number
+		{
+			return _mesh_size;
+		}
+		
+		public function set mesh_size(value:Number):void
+		{
+			_mesh_size = value;
 		}
 		/**
 		 * 

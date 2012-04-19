@@ -53,8 +53,8 @@ package
 		private var _canvasBMP:Bitmap;
 		private var _drawTimer:Timer;
 		private var _sourceBD:BitmapData = createDefaultBitmap();
-		private var mx:Number = 0;
-		private var my:Number = 0;
+		private var mx:int = 0;
+		private var my:int = 0;
 		
 		public function LayerFur()
 		{
@@ -131,12 +131,12 @@ package
 							var t:Number;
 							
 							var shape:Shape = new Shape();
-							/*var tmx:Number = Math.random() * 20;
-							var tmy:Number = Math.random() * 20;
-							mx += tmx; 
-							my -= tmy; 
+							mx += Math.random() * _sourceBD.width/2;
+							my += Math.random() * _sourceBD.height/2;
+							
 							if ( mx > DISPLAY_WIDTH ) mx = 0;
-							if ( my < 1 ) my = DISPLAY_HEIGHT;*/
+							if ( my < 1 ) my = DISPLAY_HEIGHT;
+							
 							shape.graphics.moveTo( nodes[ 0 ], nodes[ 1 ] );
 							for ( i = 0; i < tot; i+=2 )
 							{	

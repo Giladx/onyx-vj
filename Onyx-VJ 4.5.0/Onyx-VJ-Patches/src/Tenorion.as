@@ -18,7 +18,7 @@ package {
     public class Tenorion extends Patch {
         public var notes :Vector.<int> = Vector.<int>([36,48,60,72, 43,48,55,60, 65,67,70,72, 77,79,82,84]);
         public var length:Vector.<int> = Vector.<int>([ 1, 1, 1, 1,  1, 1, 1, 1,  4, 4, 4, 4,  4, 4, 4, 4]);
-		private var _speed:int			= 600;
+		private var _speed:int			= 60;
 		private var eventTriggerID:int	= 0;
 		private var timer:Timer			= new Timer(_speed);;
 		private var running:Boolean = false;
@@ -38,7 +38,7 @@ package {
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
 			
 			parameters.addParameters(
-				new ParameterInteger('speed', 'speed', 8, 1000, _speed),
+				new ParameterInteger('speed', 'speed', 8, 600, _speed),
 				new ParameterExecuteFunction('run', 'run')
 			)
             // start streaming
@@ -51,6 +51,7 @@ package {
         }
 		public function run():void
 		{
+			eventTriggerID = 0;
 			timer.delay = speed;
 			timer.addEventListener(TimerEvent.TIMER, onTimer);
 			timer.start();
@@ -91,19 +92,20 @@ import onyx.plugin.*;
 class MatrixPad extends Bitmap {
     public var sequences:Vector.<int> = new Vector.<int>(16);
     private var canvas:Shape = new Shape();
-    private var buffer:BitmapData = new BitmapData(320,320, true, 0);
+    private var buffer:BitmapData = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT, true, 0);
     private var padOn:BitmapData  = _pad(0x303050, 0x6060a0);
     private var padOff:BitmapData = _pad(0x303050, 0x202040);
     private var pt:Point = new Point();
     private var colt:ColorTransform = new ColorTransform(1,1,1,0.1)
-    private var _squareWidth:int = 320/16;
+    private var _squareWidth:int = DISPLAY_WIDTH/16;
+    private var _squareHeight:int = DISPLAY_HEIGHT/16;
     
     public function MatrixPad() {
-        super(new BitmapData(320, 320, false, 0));
+        super(new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0));
         var i:int;
         for (i=0; i<256; i++) {
             pt.x = (i&15)*squareWidth;//20;
-            pt.y = (i&240)*1.25;
+            pt.y = (i&240)*3;//1.25;
             buffer.copyPixels(padOff, padOff.rect, pt);
             bitmapData.copyPixels(padOff, padOff.rect, pt);
         }
@@ -112,6 +114,16 @@ class MatrixPad extends Bitmap {
     }
     
     
+	public function get squareHeight():int
+	{
+		return _squareHeight;
+	}
+
+	public function set squareHeight(value:int):void
+	{
+		_squareHeight = value;
+	}
+
 	public function get squareWidth():int
 	{
 		return _squareWidth;
@@ -123,12 +135,13 @@ class MatrixPad extends Bitmap {
 	}
 
     private function _pad(border:int, face:int) : BitmapData {
-		squareWidth = 320/16;
-        var pix:BitmapData = new BitmapData(squareWidth, squareWidth, false, 0);
+		squareWidth = DISPLAY_WIDTH/16;
+		squareHeight = DISPLAY_HEIGHT/16;
+        var pix:BitmapData = new BitmapData(squareWidth, squareHeight, false, 0);
         canvas.graphics.clear();
         canvas.graphics.lineStyle(1, border);
         canvas.graphics.beginFill(face);
-        canvas.graphics.drawRect(1, 1, squareWidth-3, squareWidth-3);
+        canvas.graphics.drawRect(1, 1, squareWidth-3, squareHeight-3);
         canvas.graphics.endFill();
         pix.draw(canvas);
         return pix;
@@ -142,11 +155,15 @@ class MatrixPad extends Bitmap {
     
     
     public function onClick(mx:int,my:int) : void {
-        if (mx>=0 && mx<320 && my>=0 && my<320) {
-            var track:int = 15-int(my*0.05), beat:int = int(mx*0.05);
+        if (mx>=0 && mx<DISPLAY_WIDTH && my>=0 && my<DISPLAY_HEIGHT) 
+		{
+            //var track:int = 15-int(my*0.05), beat:int = int(mx*0.05);
+            //var track:int = 15-int(my*0.02), beat:int = int(mx*0.02);
+            var track:int = 15-int(my/DISPLAY_HEIGHT*16)
+			var beat:int = int(mx/DISPLAY_WIDTH*16);
             sequences[track] ^= 1<<beat;
             pt.x = beat*squareWidth;
-            pt.y = (15-track)*squareWidth;
+            pt.y = (15-track)*squareHeight;
             if (sequences[track] & (1<<beat)) buffer.copyPixels(padOn, padOn.rect, pt);
             else buffer.copyPixels(padOff, padOff.rect, pt);
         }
@@ -154,6 +171,6 @@ class MatrixPad extends Bitmap {
     
     
     public function beat(beat16th:int) : void {
-        for (pt.x=beat16th*squareWidth, pt.y=0; pt.y<320; pt.y+=squareWidth) bitmapData.copyPixels(padOn, padOn.rect, pt);
+        for (pt.x=beat16th*squareWidth, pt.y=0; pt.y<DISPLAY_HEIGHT; pt.y+=squareHeight) bitmapData.copyPixels(padOn, padOn.rect, pt);
     }
 }

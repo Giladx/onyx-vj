@@ -264,9 +264,9 @@ package
 		 * @param			evt:MouseEvent
 		 * @description	
 		**/
-		private function startDraw(evt:MouseEvent) : void {
-			mx = evt.localX; 
-			my = evt.localY; 
+		private function startDraw(event:MouseEvent) : void {
+			mx = event.localX; 
+			my = event.localY; 
 			
 		}
 		

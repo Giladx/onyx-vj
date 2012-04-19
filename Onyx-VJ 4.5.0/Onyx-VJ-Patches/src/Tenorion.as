@@ -105,7 +105,7 @@ class MatrixPad extends Bitmap {
         var i:int;
         for (i=0; i<256; i++) {
             pt.x = (i&15)*squareWidth;//20;
-            pt.y = (i&240)*3;//1.25;
+            pt.y = (i&240)*_squareHeight/16;//3;//1.25;
             buffer.copyPixels(padOff, padOff.rect, pt);
             bitmapData.copyPixels(padOff, padOff.rect, pt);
         }

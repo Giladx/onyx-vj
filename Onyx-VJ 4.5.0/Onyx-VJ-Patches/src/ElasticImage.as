@@ -8,8 +8,6 @@ package
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.display.Loader;
-	import flash.display.LoaderInfo;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -36,17 +34,15 @@ package
 		private var _vertices:Vector.<Number>;
 		private var _indices:Vector.<int>;
 		private var _uvtData:Vector.<Number>;
+		private var sprite:Sprite;
+		private var mx:int = 10;
+		private var my:int = 10;
 		
 		
-		public function ElasticImage() {
-			var loader:Loader = new Loader();
-			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, _onImageLoaded);
-			loader.load(new URLRequest('http://saqoo.sh/a/tmp/Saqoosha256.png'), new LoaderContext(true));
-		}
-		
-		
-		private function _onImageLoaded(e:Event):void {
-			_image = Bitmap(LoaderInfo(e.target).content).bitmapData;
+		public function ElasticImage() 
+		{
+			sprite = new Sprite();
+			_image = new AssetForElasticImage(); 
 			_onClickRebuild();
 			
 			addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
@@ -79,13 +75,15 @@ package
 		
 		
 		private function _onMouseDown(e:MouseEvent):void {
+			mx = e.localX;
+			my = e.localY;
 			addEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
 			addEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
 			
 			var minDist:Number = Number.MAX_VALUE;
 			for each (var a:Anchor in _anchors) {
-				var dx:Number = mouseX - a.x;
-				var dy:Number = mouseY - a.y;
+				var dx:Number = mx - a.x;
+				var dy:Number = my - a.y;
 				var d:Number = dx * dx + dy * dy;
 				if (d < minDist) {
 					_dragging = a;
@@ -93,14 +91,16 @@ package
 				}
 			}
 			_retargetAnchors(_dragging);
-			_dragging.x = mouseX;
-			_dragging.y = mouseY;
+			_dragging.x = mx;
+			_dragging.y = my;
 		}
 		
 		
 		private function _onMouseMove(e:MouseEvent):void {
-			_dragging.x = mouseX;
-			_dragging.y = mouseY;
+			mx = e.localX;
+			my = e.localY;
+			_dragging.x = mx;
+			_dragging.y = my;
 		}
 		
 		
@@ -155,7 +155,7 @@ package
 		{
 			var a:Anchor;
 			var index:int = 0;
-			var drag:Number = 10;//_dragSlider.value;
+			var drag:Number = 1;//_dragSlider.value;
 			if (_anchors)
 			{
 				for (var i:int = 0, n:int = _anchors.length; i < n; i++) {
@@ -171,10 +171,10 @@ package
 			}
 			if (_image)
 			{
-				graphics.clear();
-				graphics.beginBitmapFill(_image);
-				graphics.drawTriangles(_vertices, _indices, _uvtData);
-				graphics.endFill();
+				sprite.graphics.clear();
+				sprite.graphics.beginBitmapFill(_image);
+				sprite.graphics.drawTriangles(_vertices, _indices, _uvtData);
+				sprite.graphics.endFill();
 				/*if (_debugCheckBox.selected) {
 					for each (a in _anchors) {
 						if (a.target) {
@@ -188,7 +188,7 @@ package
 						graphics.endFill();
 					}
 				}*/
-				info.render(_image);
+				info.render(sprite);
 				
 			}
 		}

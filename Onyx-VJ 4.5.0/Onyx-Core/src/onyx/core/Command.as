@@ -108,7 +108,7 @@ package onyx.core {
 				// dispatch the start-up motd
 				default:
 					text =	_createHeader('<b>ONYX ' + VERSION + '</b>', 21) + 
-							'COPYRIGHT 2003-2010: WWW.ONYX-VJ.COM' ;/*+
+							'COPYRIGHT 2003-2012: WWW.ONYX-VJ.COM' ;/*+
 							'<br>TYPE "HELP" OR "HELP COMMANDS" FOR MORE COMMANDS.' ;*/
 					break;
 			}
@@ -134,6 +134,13 @@ package onyx.core {
 		 */		
 		private static function res():String {
 			return 'RESOLUTION: ' + DISPLAY_STAGE.stageWidth + 'x' + DISPLAY_STAGE.stageHeight;
+		}
+
+		/**
+		 * 	Gets bpm
+		 */		
+		private static function bpm():String {
+			return 'BPM: ' + (1000/Tempo.delay)*60;
 		}
 		/**
 		 * 	@private

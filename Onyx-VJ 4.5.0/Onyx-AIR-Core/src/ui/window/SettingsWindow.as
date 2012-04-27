@@ -75,6 +75,11 @@ package ui.window {
 		/**
 		 * 	@private
 		 */
+		private var bpmSlider:SliderV;
+		
+		/**
+		 * 	@private
+		 */
 		private var tempoSlider:SliderV;
 				
 		/**
@@ -107,7 +112,6 @@ package ui.window {
 		 */
 		public function SettingsWindow(reg:WindowRegistration):void {
 			
-			//super(reg, true, 150, 184);
 			super(reg, true, 150, 150);
 
 			init();
@@ -118,7 +122,7 @@ package ui.window {
 		 */
 		private function init():void {
 			
-			var options:UIOptions	= new UIOptions( true, true, null, 60, 12 );
+			var options:UIOptions	= new UIOptions( true, true, null, 52, 12 );
 
 			// controls for display
 			buttonXML				= new TextButton(options, 'save mix file'),
@@ -136,11 +140,14 @@ package ui.window {
 			);
 			tempoDropDown			= Factory.getNewInstance(DropDown);
 			tempoDropDown.initialize(Tempo.getParameter('snapTempo'), options);
+			bpmSlider			= Factory.getNewInstance(SliderV);
+			bpmSlider.initialize(Tempo.getParameter('delay'), options);
 			
 			// add controls
 			addChildren(
 				tempoDropDown,					8,		40,
 				tapTempo,						75,		33,
+				bpmSlider,						8,		60,
 				transitionDropDown,				8,		95,
 				durationSlider,					75,		95,
 				buttonXML,						8,		129

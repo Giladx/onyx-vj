@@ -74,7 +74,7 @@ package {
 			this._createPalette(this._currentFireColor = 0);
 			
 			this.addEventListener(Event.ENTER_FRAME, this._update);
-			this.stage.addEventListener(MouseEvent.CLICK, this._onClick);
+			this.stage.addEventListener(MouseEvent.MOUSE_DOWN, this._onClick);
 		}
 		
 		private function _onClick(e:MouseEvent):void {

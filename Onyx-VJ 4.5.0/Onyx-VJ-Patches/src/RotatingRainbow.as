@@ -56,7 +56,7 @@ package {
 				sprite.addChild(sh);
 				_balls.push(sh);
 			}
-			addEventListener(MouseEvent.CLICK, stageClick);
+			addEventListener(MouseEvent.MOUSE_DOWN, stageClick);
 		}
 		
 		override public function render(info:RenderInfo):void 

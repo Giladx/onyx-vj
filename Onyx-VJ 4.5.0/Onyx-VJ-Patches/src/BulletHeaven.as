@@ -81,7 +81,7 @@ package
 			_bulletImg.y = _bulletImg.height / 2;
 			
 			addEventListener( MouseEvent.MOUSE_MOVE, mouseMove );
-			addEventListener( MouseEvent.CLICK, onClick);
+			addEventListener( MouseEvent.MOUSE_DOWN, onClick);
 		}
 		private var _radius:Number = 0;
 		private var colorHSV:ColorHSV;

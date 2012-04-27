@@ -44,7 +44,7 @@ package
 			fire.graphics.drawRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 			canvas = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x0);
 			addEventListener( MouseEvent.MOUSE_MOVE, mouseMove );
-			addEventListener( MouseEvent.CLICK, mouseMove);
+			addEventListener( MouseEvent.MOUSE_DOWN, mouseMove);
 		} 
 		override public function render(info:RenderInfo):void 
 		{

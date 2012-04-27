@@ -180,6 +180,12 @@ package
 			_canvas.unlock();
 			info.source.copyPixels( _canvas, DISPLAY_RECT, ONYX_POINT_IDENTITY );
 		}
+		override public function dispose():void 
+		{
+			
+			_canvas.dispose();
+			_particles = null;
+		}	
 	}
 }
 import flash.display.BitmapData

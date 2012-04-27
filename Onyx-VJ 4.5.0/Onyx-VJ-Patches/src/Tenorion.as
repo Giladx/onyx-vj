@@ -22,6 +22,7 @@ package {
 		private var eventTriggerID:int	= 0;
 		private var timer:Timer			= new Timer(_speed);;
 		private var running:Boolean = false;
+		private var _useTapTempo:Boolean = true;
      
         // beat counter
         public var beatCounter:int;
@@ -39,6 +40,7 @@ package {
 			
 			parameters.addParameters(
 				new ParameterInteger('speed', 'speed', 8, 600, _speed),
+				new ParameterBoolean( 'useTapTempo', 'use tap tempo', 1 ),
 				new ParameterExecuteFunction('run', 'run')
 			)
             // start streaming
@@ -49,10 +51,28 @@ package {
 				x = y = 72;
 			}
         }
+
+		public function get useTapTempo():Boolean
+		{
+			return _useTapTempo;
+		}
+
+		public function set useTapTempo(value:Boolean):void
+		{
+			_useTapTempo = value;
+		}
+
 		public function run():void
 		{
 			eventTriggerID = 0;
-			timer.delay = speed;
+			if ( useTapTempo )
+			{
+				timer.delay = Tempo.delay;
+			}
+			else
+			{
+				timer.delay = speed;
+			}
 			timer.addEventListener(TimerEvent.TIMER, onTimer);
 			timer.start();
 			running = true;

@@ -250,6 +250,14 @@ package
 				_layerA.graphics.drawCircle(px,py,r);
 			}
 		}
+		override public function dispose():void 
+		{
+			
+			
+			_drawImage.dispose();
+			_canvas.dispose();
+			
+		}	
 		public function set color(value:uint):void 
 		{
 			_color = value;

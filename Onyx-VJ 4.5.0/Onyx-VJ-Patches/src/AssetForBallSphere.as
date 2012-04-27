@@ -5,7 +5,7 @@ package {
 	[ExcludeSDK]
 	
 	//[Embed(source='../assets/ekkoballsphere50.png')]
-	[Embed(source='../assets/boulePoilue50.png')]
+	[Embed(source='../assets/ballsphere.png')]
 	public final class AssetForBallSphere extends BitmapData {
 		
 		/**

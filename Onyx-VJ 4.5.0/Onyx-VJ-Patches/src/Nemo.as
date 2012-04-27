@@ -45,7 +45,7 @@ package {
 		{
 			var txt:TextField = new TextField();
 			txt.autoSize = "left";
-			txt.text = "Warehouse\n4/2/2012";
+			txt.text = "Jumble Groove";
 			txt.setTextFormat(new TextFormat("Calibri", 60,0xff0000,true));
 			
 			var temp:BitmapData = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0xffffff);

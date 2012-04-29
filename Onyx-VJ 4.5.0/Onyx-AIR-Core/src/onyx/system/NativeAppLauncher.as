@@ -98,8 +98,11 @@ package onyx.system {
 			if ( receivedText.indexOf('!') > -1)
 			{
 				commandText = receivedText.substr(1);
-				dispatchEvent( new Event(Event.CHANGE) );
-				
+				dispatchEvent( new Event(Event.CHANGE) );				
+			}
+			else
+			{
+				Console.output( "receivedText:" + receivedText );
 			}
 		}
 		

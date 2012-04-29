@@ -51,6 +51,8 @@ package ui.window {
 		private var pane:ScrollPane;
 		private var connectBtn:TextButton;
 		private var outputBtn:TextButton;
+		private var resetBtn:TextButton;
+		private var lightAllBtn:TextButton;
 		
 		private var tween:Tween;
 		private var index:int = 0;
@@ -92,12 +94,19 @@ package ui.window {
 			var options:UIOptions	= new UIOptions( true, true, null, 60, 12 );
 			connectBtn					= new TextButton(options, 'connect'),
 			connectBtn.addEventListener(MouseEvent.MOUSE_DOWN, start);
-			pane.addChild(connectBtn).y = (index++ * 30);
-			
+			pane.addChild(connectBtn).y = (index++ * 15);		
 			
 			outputBtn				= new TextButton(options, 'outp launchpad'),
 			outputBtn.addEventListener(MouseEvent.MOUSE_DOWN, outpMsg);
-			pane.addChild(outputBtn).y = (index++ * 30);
+			pane.addChild(outputBtn).y = (index++ * 15);
+			
+			resetBtn				= new TextButton(options, 'reset btns'),
+			resetBtn.addEventListener(MouseEvent.MOUSE_DOWN, reset);
+			pane.addChild(resetBtn).y = (index++ * 15);
+			
+			lightAllBtn				= new TextButton(options, 'light all'),
+			lightAllBtn.addEventListener(MouseEvent.MOUSE_DOWN, lightAll);
+			pane.addChild(lightAllBtn).y = (index++ * 15);
 			
 			appLauncher = new NativeAppLauncher(pathToExe);
 			appLauncher.addEventListener( Event.ACTIVATE, activate );
@@ -114,9 +123,14 @@ package ui.window {
 		}
 		private function outpMsg(event:MouseEvent):void 
 		{
+			appLauncher.writeData('list');
 			appLauncher.writeData('outp launchpad');
-			appLauncher.writeData('inpt launchpad');
-			appLauncher.writeData('176,0,127');
+			appLauncher.writeData('inpt loop');
+			appLauncher.writeData('144,64,29');
+			appLauncher.writeData('144,65,29');
+			appLauncher.writeData('144,66,29');
+			appLauncher.writeData('144,67,29');
+			appLauncher.writeData('144,96,29');			
 			event.stopPropagation();
 		}
 		/*public function write():void 
@@ -124,13 +138,15 @@ package ui.window {
 			appLauncher.writeData(tempText);
 			if (tempText == 'outp launchpad') tempText = 'inpt loop';
 		}*/
-		public function reset():void 
+		public function reset(event:MouseEvent):void 
 		{			
 			appLauncher.writeData('176,0,0');
+			event.stopPropagation();
 		}
-		public function lightAll():void 
+		public function lightAll(event:MouseEvent):void 
 		{			
 			appLauncher.writeData('176,0,127');
+			event.stopPropagation();
 		}
 		public function dutyCycle():void 
 		{	
@@ -154,174 +170,15 @@ package ui.window {
 		}
 		private function lightPad( padIndex:uint, color:uint):void
 		{
-			appLauncher.writeData('144,' + padIndex + ',' + color);
+			appLauncher.writeData('144,' + padIndex + ',29' );
 		}
 		private function onTimer(event:TimerEvent):void 
 		{
 			
 			var layer:Layer	= (UIObject.selection as UILayer).layer;
-			
+			//dutyCycle();
 		}
-		private function handleGotData(dataReceived:Object):void
-		{
-			Console.output("dlc.received:");
-			if ( dataReceived.type && dataReceived.value )
-			{
-				Console.output(dataReceived.type.toString(),":", dataReceived.value.toString());
-				switch ( dataReceived.type.toString() ) 
-				{ 
-					case "exitbtn":
-						
-						break;
-					case "layerbtn":
-						
-						break;
-					case "cnx":
-						//dlc.sendData( {type:"layers", value:Display.layers.length} );
-						break;
-					case "toggle-cross-fader":
-						const property:TweenProperty = (Display.channelMix > .5) ? new TweenProperty('channelMix', Display.channelMix, 0) : new TweenProperty('channelMix', Display.channelMix, 1);
-						
-						new Tween( Display, 4000, property );
-						break;
-					case "frame-rate-increase":
-						for each (var layer:Layer in Display.layers) {
-						layer.framerate += .5;
-					}
-						break;
-					case "frame-rate-decrease":
-						for each (var layer:Layer in Display.layers) {
-						layer.framerate -= .5;
-					}
-						break;
-					case "cycle-blendmode-down":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
-						layer.blendMode	= BlendModes[Math.min(BlendModes.indexOf(layer.blendMode)+1, BlendModes.length - 1)];
-						break;
-					case "cycle-blendmode-up":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
-						layer.blendMode	= BlendModes[Math.max(BlendModes.indexOf(layer.blendMode)-1,0)];	
-						break;
-					case "select-layer":
-						selectedLayer = dataReceived.value;
-						UILayer.selectLayer(selectedLayer);
-						var layer:Layer = Display.getLayerAt(selectedLayer);
-						
-						break;
-					case "fade-black":
-						new Tween(
-							Display,
-							500,
-							new TweenProperty('brightness', Display.brightness, (Display.brightness < 0) ? 0 : -1)
-						)
-						break;
-					case "mute-layer":
-						index = dataReceived.value;
-						selectedLayer = index;
-						var layer:Layer = Display.getLayerAt(selectedLayer);
-						if (layer.visible) {
-							tween = new Tween(
-								layer,
-								250,
-								new TweenProperty('alpha', layer.alpha, 0)
-							);
-							tween.addEventListener(Event.COMPLETE, tweenFinish);
-						} else {
-							layer.visible = true;
-							tween = new Tween(
-								layer,
-								250,
-								new TweenProperty('alpha', 0, 1)
-							);
-						}
-						break;
-					case "rotation":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
-						
-						var rTween:Tween = new Tween(
-							layer,
-							250,
-							new TweenProperty('rotation', layer.rotation, dataReceived.value)
-						);
-						break;
-					case "alpha":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
-						
-						var rTween:Tween = new Tween(
-							layer,
-							25,
-							new TweenProperty('alpha', layer.alpha, dataReceived.value/100)
-						);
-						break;
-					case "bounce":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
-						
-						/*const totalTime:int	= layer.totalTime;
-						const time:int		= layer.time * totalTime;
-						const start:int		= layer.loopStart * totalTime;
-						const end:int		= layer.loopEnd	* totalTime;
-						const frame:int		= layer.framerate * Display.frameRate * 2;
-						
-						if (time + frame > end || time + frame < start) {*/
-						layer.framerate	*= -1;
-						//}
-						break;
-					case "x":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
-						
-						var rTween:Tween = new Tween(
-							layer,
-							25,
-							new TweenProperty('x', layer.x, dataReceived.value)
-						);
-						break;
-					//layer.content onyx.display.ContentCustom
-					//layer.content.customParameters
-					//layer.content.customParameters.length
-					//layer.content.customParameters[6].value //6 rotx
-					case "y":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
-						
-						var rTween:Tween = new Tween(
-							layer,
-							25,
-							new TweenProperty('y', layer.y, dataReceived.value)
-						);
-						break;
-					case "brightness":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
-						
-						var rTween:Tween = new Tween(
-							layer,
-							25,
-							new TweenProperty('brightness', layer.brightness, dataReceived.value/100)
-						);
-						break;
-					case "contrast":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
-						
-						var rTween:Tween = new Tween(
-							layer,
-							25,
-							new TweenProperty('contrast', layer.contrast, dataReceived.value/100)
-						);
-						break;
-					case "saturation":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
-						
-						var rTween:Tween = new Tween(
-							layer,
-							25,
-							new TweenProperty('saturation', layer.saturation, dataReceived.value/100)
-						);
-						break;
-					default: 
-						
-						break;
-				}
-				
-			}
-		}
+
 		private function tweenFinish(event:Event):void {
 			tween.removeEventListener(Event.COMPLETE, tweenFinish);
 			var layer:Layer = Display.getLayerAt(selectedLayer);
@@ -339,7 +196,208 @@ package ui.window {
 		{
 			var cmd:String = appLauncher.readAppOutput();
 			var data1:uint = uint(cmd);
-			trace("change" + data1);	
+			var x:uint = Math.abs(data1-36)/4;
+			var y:uint = Math.abs(data1-36)%4;
+			var pos:uint = y + ((x)*8);
+			appLauncher.writeData('144,' + data1 + ',58' );
+			//3 = red, 5=low red, 30=mid orange,
+			trace("change:" + data1+" x:" + x +" y:" + y +" pos:" + pos);	
+			switch ( data1 ) 
+			{ 
+				// 1st line: layer select
+				case 64:
+				case 65:
+				case 66:
+				case 67:
+				case 96:
+					if ( selectedLayer != data1-64 )
+					{						
+						appLauncher.writeData('144,64,29');
+						appLauncher.writeData('144,65,29');
+						appLauncher.writeData('144,66,29');
+						appLauncher.writeData('144,67,29');
+						appLauncher.writeData('144,96,29');
+						selectedLayer = data1-64;
+						if ( selectedLayer > 3 ) selectedLayer = 4;
+						UILayer.selectLayer(selectedLayer);
+						var layer:Layer = Display.getLayerAt(selectedLayer);
+						appLauncher.writeData('144,' + data1 + ',' + 60);
+						if (layer.visible) 
+						{
+							
+						}
+						else
+						{
+							
+						}
+					}
+					break;	
+				// go to A
+				case 97:
+					if ( Display.channelMix > 0 ) Display.channelMix -= 0.03;
+					break;
+				// go to B
+				case 98:
+					if ( Display.channelMix < 1 ) Display.channelMix += 0.03;
+					break;
+				// switch A/B
+				case 99:
+					const property:TweenProperty = (Display.channelMix > .5) ? new TweenProperty('channelMix', Display.channelMix, 0) : new TweenProperty('channelMix', Display.channelMix, 1);					
+					new Tween( Display, 4000, property );
+					break;
+				//2nd line visibility
+				case 60:
+				case 61:
+				case 62:
+				case 63:
+				case 92:
+					index = data1 - 60;
+					selectedLayer = index;
+					if ( selectedLayer > 3 ) selectedLayer = 4;
+					var layer:Layer = Display.getLayerAt(selectedLayer);
+					
+					trace(layer.channel);// = true;
+					layer.pause(true);
+					if (layer.visible)
+					{
+						appLauncher.writeData('144,'+data1+',13');
+						tween = new Tween(
+							layer,
+							250,
+							new TweenProperty('alpha', layer.alpha, 0)
+						);
+						tween.addEventListener(Event.COMPLETE, tweenFinish);
+					} 
+					else 
+					{
+						appLauncher.writeData('144,'+data1+',60');
+						layer.visible = true;
+						tween = new Tween(
+							layer,
+							250,
+							new TweenProperty('alpha', 0, 1)
+						);
+					}
+					break;
+				case 95:
+					if (Display.brightness < 0)
+					{
+						appLauncher.writeData('144,95,60');
+					}
+					else
+					{
+						appLauncher.writeData('144,95,13');
+					}
+					new Tween(
+						Display,
+						500,
+						new TweenProperty('brightness', Display.brightness, (Display.brightness < 0) ? 0 : -1)
+					)
+					break;
+				case 104:
+					for each (var layer:Layer in Display.layers) {
+					layer.framerate += .5;
+				}
+					break;
+				case 105:
+					for each (var layer:Layer in Display.layers) {
+					layer.framerate -= .5;
+				}
+					break;
+				case "cycle-blendmode-down":
+					var layer:Layer	= (UIObject.selection as UILayer).layer;
+					layer.blendMode	= BlendModes[Math.min(BlendModes.indexOf(layer.blendMode)+1, BlendModes.length - 1)];
+					break;
+				case "cycle-blendmode-up":
+					var layer:Layer	= (UIObject.selection as UILayer).layer;
+					layer.blendMode	= BlendModes[Math.max(BlendModes.indexOf(layer.blendMode)-1,0)];	
+					break;
+				
+				
+				/*case "rotation":
+					var layer:Layer	= (UIObject.selection as UILayer).layer;
+					
+					var rTween:Tween = new Tween(
+						layer,
+						250,
+						new TweenProperty('rotation', layer.rotation, dataReceived.value)
+					);
+					break;
+				case "alpha":
+					var layer:Layer	= (UIObject.selection as UILayer).layer;
+					
+					var rTween:Tween = new Tween(
+						layer,
+						25,
+						new TweenProperty('alpha', layer.alpha, dataReceived.value/100)
+					);
+					break;*/
+				case "bounce":
+					var layer:Layer	= (UIObject.selection as UILayer).layer;
+					
+					/*const totalTime:int	= layer.totalTime;
+					const time:int		= layer.time * totalTime;
+					const start:int		= layer.loopStart * totalTime;
+					const end:int		= layer.loopEnd	* totalTime;
+					const frame:int		= layer.framerate * Display.frameRate * 2;
+					
+					if (time + frame > end || time + frame < start) {*/
+					layer.framerate	*= -1;
+					//}
+					break;
+				/*case "x":
+					var layer:Layer	= (UIObject.selection as UILayer).layer;
+					
+					var rTween:Tween = new Tween(
+						layer,
+						25,
+						new TweenProperty('x', layer.x, dataReceived.value)
+					);
+					break;*/
+				//layer.content onyx.display.ContentCustom
+				//layer.content.customParameters
+				//layer.content.customParameters.length
+				//layer.content.customParameters[6].value //6 rotx
+				/*case "y":
+					var layer:Layer	= (UIObject.selection as UILayer).layer;
+					
+					var rTween:Tween = new Tween(
+						layer,
+						25,
+						new TweenProperty('y', layer.y, dataReceived.value)
+					);
+					break;
+				case "brightness":
+					var layer:Layer	= (UIObject.selection as UILayer).layer;
+					
+					var rTween:Tween = new Tween(
+						layer,
+						25,
+						new TweenProperty('brightness', layer.brightness, dataReceived.value/100)
+					);
+					break;
+				case "contrast":
+					var layer:Layer	= (UIObject.selection as UILayer).layer;
+					
+					var rTween:Tween = new Tween(
+						layer,
+						25,
+						new TweenProperty('contrast', layer.contrast, dataReceived.value/100)
+					);
+					break;
+				case "saturation":
+					var layer:Layer	= (UIObject.selection as UILayer).layer;
+					
+					var rTween:Tween = new Tween(
+						layer,
+						25,
+						new TweenProperty('saturation', layer.saturation, dataReceived.value/100)
+					);
+					break;*/
+				default: 
+					
+					break;
+			}
 		}
 		
 		private function activate(evt:Event):void

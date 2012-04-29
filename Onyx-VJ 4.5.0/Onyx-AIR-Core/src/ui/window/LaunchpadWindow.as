@@ -16,7 +16,7 @@
  */
 
 package ui.window {
-		
+	
 	
 	import flash.display.Sprite;
 	import flash.events.*;
@@ -27,6 +27,7 @@ package ui.window {
 	import onyx.display.BlendModes;
 	import onyx.display.OutputDisplay;
 	import onyx.plugin.*;
+	import onyx.system.NativeAppLauncher;
 	import onyx.tween.Tween;
 	import onyx.tween.TweenProperty;
 	import onyx.utils.string.*;
@@ -42,29 +43,32 @@ package ui.window {
 	/**
 	 * 	Remote Mapping Window
 	 */
-	public final class RemoteWindow extends Window {
+	public final class LaunchpadWindow extends Window {
 		
 		/**
 		 * 	@private
 		 */
 		private var pane:ScrollPane;
-		private var sendBtn:TextButton;
-		private var layersBtn:TextButton;
-
-		private var dlc:DirectLanConnection;
+		private var connectBtn:TextButton;
+		private var outputBtn:TextButton;
+		
 		private var tween:Tween;
 		private var index:int = 0;
 		private var selectedLayer:int = 0;
 		private var timer:Timer = new Timer(1000);
-		private var layerButtonsCreated:Boolean = false;
+		private var pathToExe:String = 'MidiPipe.exe';
+		private var tempText:String	= 'outp launchpad';
+		private var appLauncher:NativeAppLauncher;		
+		private var numerator:uint = 1;
+		private var denominator:uint = 3;
 
 		/**
 		 * 	@Constructor
 		 */
-		public function RemoteWindow(reg:WindowRegistration):void {
+		public function LaunchpadWindow(reg:WindowRegistration):void {
 			
 			// position & create
-			super(reg, true, 160, 117);
+			super(reg, true, 260, 217);
 			
 			// show controls
 			init();
@@ -86,34 +90,77 @@ package ui.window {
 			addChild(pane);
 			
 			var options:UIOptions	= new UIOptions( true, true, null, 60, 12 );
-			sendBtn					= new TextButton(options, 'send'),
-			sendBtn.addEventListener(MouseEvent.MOUSE_DOWN, sendMsg);
-			pane.addChild(sendBtn).y = (index++ * 30);
+			connectBtn					= new TextButton(options, 'connect'),
+			connectBtn.addEventListener(MouseEvent.MOUSE_DOWN, start);
+			pane.addChild(connectBtn).y = (index++ * 30);
 			
 			
-			layersBtn				= new TextButton(options, 'layers'),
-			layersBtn.addEventListener(MouseEvent.MOUSE_DOWN, layersMsg);
-			pane.addChild(layersBtn).y = (index++ * 30);
+			outputBtn				= new TextButton(options, 'outp launchpad'),
+			outputBtn.addEventListener(MouseEvent.MOUSE_DOWN, outpMsg);
+			pane.addChild(outputBtn).y = (index++ * 30);
 			
-			dlc = new DirectLanConnection();
-			dlc.onConnect = handleConnect;
-			dlc.onDataReceive = handleGotData;
+			appLauncher = new NativeAppLauncher(pathToExe);
+			appLauncher.addEventListener( Event.ACTIVATE, activate );
+			appLauncher.addEventListener( Event.CLOSE, closed );
+			appLauncher.addEventListener( Event.CHANGE, change );
 			
-			dlc.connect("60000");
 			timer.addEventListener(TimerEvent.TIMER, onTimer);
 			timer.start();
 		}
-		private function handleConnect(info:Object):void
+		public function start(event:MouseEvent):void 
 		{
-			trace(dlc.port);
-			Console.output("dlc.port:" + dlc.port);
-			
+			appLauncher.launchExe();
+			event.stopPropagation();
+		}
+		private function outpMsg(event:MouseEvent):void 
+		{
+			appLauncher.writeData('outp launchpad');
+			appLauncher.writeData('inpt launchpad');
+			appLauncher.writeData('176,0,127');
+			event.stopPropagation();
+		}
+		/*public function write():void 
+		{			
+			appLauncher.writeData(tempText);
+			if (tempText == 'outp launchpad') tempText = 'inpt loop';
+		}*/
+		public function reset():void 
+		{			
+			appLauncher.writeData('176,0,0');
+		}
+		public function lightAll():void 
+		{			
+			appLauncher.writeData('176,0,127');
+		}
+		public function dutyCycle():void 
+		{	
+			if (numerator++>7) numerator = 1;
+			if (denominator++>17) denominator = 3;
+			var duty:uint = (16 * (numerator - 1)) + (denominator - 3);
+			//if (duty > 127) duty = 0;
+			appLauncher.writeData('176,30,' + duty);
+		}
+		public function gradient():void
+		{
+			for (var red:uint=0;red<8;red++)
+			{
+				for (var green:uint=0;green<8;green++)
+				{
+					var colour:uint = 12 + red + (green*16);
+					var pos:uint = red + ((green)*16);
+					appLauncher.writeData('144,' + pos + ',' + colour);
+				}	
+			}
+		}
+		private function lightPad( padIndex:uint, color:uint):void
+		{
+			appLauncher.writeData('144,' + padIndex + ',' + color);
 		}
 		private function onTimer(event:TimerEvent):void 
 		{
-			if ( !layerButtonsCreated ) dlc.sendData( {type:"layers", value:Display.layers.length} );
+			
 			var layer:Layer	= (UIObject.selection as UILayer).layer;
-			dlc.sendData( {type:"layer", value:layer.index} );
+			
 		}
 		private function handleGotData(dataReceived:Object):void
 		{
@@ -124,13 +171,13 @@ package ui.window {
 				switch ( dataReceived.type.toString() ) 
 				{ 
 					case "exitbtn":
-						layerButtonsCreated = false;
+						
 						break;
 					case "layerbtn":
-						layerButtonsCreated = true;
+						
 						break;
 					case "cnx":
-						dlc.sendData( {type:"layers", value:Display.layers.length} );
+						//dlc.sendData( {type:"layers", value:Display.layers.length} );
 						break;
 					case "toggle-cross-fader":
 						const property:TweenProperty = (Display.channelMix > .5) ? new TweenProperty('channelMix', Display.channelMix, 0) : new TweenProperty('channelMix', Display.channelMix, 1);
@@ -139,13 +186,13 @@ package ui.window {
 						break;
 					case "frame-rate-increase":
 						for each (var layer:Layer in Display.layers) {
-							layer.framerate += .5;
-						}
+						layer.framerate += .5;
+					}
 						break;
 					case "frame-rate-decrease":
 						for each (var layer:Layer in Display.layers) {
-							layer.framerate -= .5;
-						}
+						layer.framerate -= .5;
+					}
 						break;
 					case "cycle-blendmode-down":
 						var layer:Layer	= (UIObject.selection as UILayer).layer;
@@ -159,11 +206,7 @@ package ui.window {
 						selectedLayer = dataReceived.value;
 						UILayer.selectLayer(selectedLayer);
 						var layer:Layer = Display.getLayerAt(selectedLayer);
-						dlc.sendData( {type:"path", value:layer.path} );
-						dlc.sendData( {type:"filters", value:layer.filters.length} );
-						//layer.filters.length>0
-						//layer.filters[0].name = "BOUNCE"
-						//layer.filters[0].
+						
 						break;
 					case "fade-black":
 						new Tween(
@@ -220,7 +263,7 @@ package ui.window {
 						const frame:int		= layer.framerate * Display.frameRate * 2;
 						
 						if (time + frame > end || time + frame < start) {*/
-							layer.framerate	*= -1;
+						layer.framerate	*= -1;
 						//}
 						break;
 					case "x":
@@ -286,21 +329,29 @@ package ui.window {
 		}
 		private function sendMsg(event:MouseEvent):void {
 			switch (event.currentTarget) {
-				case sendBtn:
-					dlc.sendData( {type:"msg", value:"sent from onyx"} );
+				case connectBtn:
+					
 					break;
 			}
 			event.stopPropagation();
 		}
-		private function layersMsg(event:MouseEvent):void {
-			switch (event.currentTarget) {
-				case sendBtn:
-					dlc.sendData( {type:"layers", value:Display.layers.length} );
-					break;
-			}
-			event.stopPropagation();
+		public function change(evt:Event):void 
+		{
+			var cmd:String = appLauncher.readAppOutput();
+			var data1:uint = uint(cmd);
+			trace("change" + data1);	
 		}
 		
+		private function activate(evt:Event):void
+		{
+			trace("activate");
+			//running = true;
+		}
+		private function closed(evt:Event):void
+		{
+			trace("closed");
+			//running = false;
+		}
 		/**
 		 * 
 		 */

@@ -21,6 +21,7 @@ package ui.window {
 	import flash.display.Sprite;
 	import flash.events.*;
 	import flash.ui.*;
+	import flash.utils.Dictionary;
 	import flash.utils.Timer;
 	
 	import onyx.core.*;
@@ -64,6 +65,20 @@ package ui.window {
 		private var numerator:uint = 1;
 		private var denominator:uint = 3;
 
+		private const OFF:uint = 12;
+		private const REDLOW:uint = 13;
+		private const REDFULL:uint = 15;
+		private const AMBERLOW:uint = 29;
+		private const AMBERFULL:uint = 63;
+		private const YELLOW:uint = 62;
+		private const GREENLOW:uint = 28;
+		private const GREENFULL:uint = 60;
+		
+		private var fadeFilter:Filter;
+		private var fadeFilterActive:Boolean = false;
+		private var randomBlendActive:Boolean = false;
+		private var hashCurrentBlendModes:Dictionary;
+		
 		/**
 		 * 	@Constructor
 		 */
@@ -92,7 +107,7 @@ package ui.window {
 			addChild(pane);
 			
 			var options:UIOptions	= new UIOptions( true, true, null, 60, 12 );
-			connectBtn					= new TextButton(options, 'connect'),
+			connectBtn				= new TextButton(options, 'connect'),
 			connectBtn.addEventListener(MouseEvent.MOUSE_DOWN, start);
 			pane.addChild(connectBtn).y = (index++ * 15);		
 			
@@ -126,11 +141,11 @@ package ui.window {
 			appLauncher.writeData('list');
 			appLauncher.writeData('outp launchpad');
 			appLauncher.writeData('inpt loop');
-			appLauncher.writeData('144,64,29');
-			appLauncher.writeData('144,65,29');
-			appLauncher.writeData('144,66,29');
-			appLauncher.writeData('144,67,29');
-			appLauncher.writeData('144,96,29');			
+			appLauncher.writeData('144,64,'+AMBERLOW);
+			appLauncher.writeData('144,65,'+AMBERLOW);
+			appLauncher.writeData('144,66,'+AMBERLOW);
+			appLauncher.writeData('144,67,'+AMBERLOW);
+			appLauncher.writeData('144,96,'+AMBERLOW);			
 			event.stopPropagation();
 		}
 		/*public function write():void 
@@ -170,7 +185,7 @@ package ui.window {
 		}
 		private function lightPad( padIndex:uint, color:uint):void
 		{
-			appLauncher.writeData('144,' + padIndex + ',29' );
+			appLauncher.writeData('144,' + padIndex + ','+AMBERLOW );
 		}
 		private function onTimer(event:TimerEvent):void 
 		{
@@ -196,12 +211,12 @@ package ui.window {
 		{
 			var cmd:String = appLauncher.readAppOutput();
 			var data1:uint = uint(cmd);
-			var x:uint = Math.abs(data1-36)/4;
+			/*var x:uint = Math.abs(data1-36)/4;
 			var y:uint = Math.abs(data1-36)%4;
-			var pos:uint = y + ((x)*8);
-			appLauncher.writeData('144,' + data1 + ',58' );
+			var pos:uint = y + ((x)*8);*/
+			appLauncher.writeData('144,' + data1 + ',' + GREENLOW );
 			//3 = red, 5=low red, 30=mid orange,
-			trace("change:" + data1+" x:" + x +" y:" + y +" pos:" + pos);	
+			//trace("change:" + data1+" x:" + x +" y:" + y +" pos:" + pos);	
 			switch ( data1 ) 
 			{ 
 				// 1st line: layer select
@@ -212,23 +227,24 @@ package ui.window {
 				case 96:
 					if ( selectedLayer != data1-64 )
 					{						
-						appLauncher.writeData('144,64,29');
-						appLauncher.writeData('144,65,29');
-						appLauncher.writeData('144,66,29');
-						appLauncher.writeData('144,67,29');
-						appLauncher.writeData('144,96,29');
+						appLauncher.writeData('144,64,'+AMBERLOW);
+						appLauncher.writeData('144,65,'+AMBERLOW);
+						appLauncher.writeData('144,66,'+AMBERLOW);
+						appLauncher.writeData('144,67,'+AMBERLOW);
+						appLauncher.writeData('144,96,'+AMBERLOW);
 						selectedLayer = data1-64;
 						if ( selectedLayer > 3 ) selectedLayer = 4;
 						UILayer.selectLayer(selectedLayer);
 						var layer:Layer = Display.getLayerAt(selectedLayer);
-						appLauncher.writeData('144,' + data1 + ',' + 60);
+						appLauncher.writeData('144,' + data1 + ',' + GREENFULL);
 						if (layer.visible) 
 						{
-							
-						}
-						else
+							appLauncher.writeData('144,'+(data1-4)+','+GREENFULL);
+						
+						} 
+						else 
 						{
-							
+							appLauncher.writeData('144,'+(data1-4)+','+REDLOW);	
 						}
 					}
 					break;	
@@ -257,10 +273,10 @@ package ui.window {
 					var layer:Layer = Display.getLayerAt(selectedLayer);
 					
 					trace(layer.channel);// = true;
-					layer.pause(true);
+					
 					if (layer.visible)
 					{
-						appLauncher.writeData('144,'+data1+',13');
+						appLauncher.writeData('144,'+data1+','+REDLOW);
 						tween = new Tween(
 							layer,
 							250,
@@ -270,7 +286,7 @@ package ui.window {
 					} 
 					else 
 					{
-						appLauncher.writeData('144,'+data1+',60');
+						appLauncher.writeData('144,'+data1+','+GREENFULL);
 						layer.visible = true;
 						tween = new Tween(
 							layer,
@@ -279,14 +295,48 @@ package ui.window {
 						);
 					}
 					break;
+				// fade chopDown
+				case 93:
+					if ( fadeFilterActive == false ) 
+					{
+						fadeFilterActive = true;
+						fadeFilter = PluginManager.createFilter('ECHO') as Filter;
+						fadeFilter.setParameterValue('feedBlend', 'darken');
+						fadeFilter.setParameterValue('feedAlpha', .7);
+						Display.addFilter(fadeFilter);						
+					}
+					else
+					{			
+						fadeFilterActive = false;
+						Display.removeFilter(fadeFilter);
+						fadeFilter = null;
+					}
+					break;
+				// fade chopUp
+				case 94:
+					if ( fadeFilterActive == false ) 
+					{
+						fadeFilterActive = true;
+						fadeFilter = PluginManager.createFilter('ECHO') as Filter;
+						fadeFilter.setParameterValue('feedBlend', 'lighten');
+						fadeFilter.setParameterValue('feedAlpha', .7);
+						Display.addFilter(fadeFilter);						
+					}
+					else
+					{			
+						fadeFilterActive = false;
+						Display.removeFilter(fadeFilter);
+						fadeFilter = null;
+					}
+					break;
 				case 95:
 					if (Display.brightness < 0)
 					{
-						appLauncher.writeData('144,95,60');
+						appLauncher.writeData('144,95,'+GREENFULL);
 					}
 					else
 					{
-						appLauncher.writeData('144,95,13');
+						appLauncher.writeData('144,95,'+REDLOW);
 					}
 					new Tween(
 						Display,
@@ -294,14 +344,131 @@ package ui.window {
 						new TweenProperty('brightness', Display.brightness, (Display.brightness < 0) ? 0 : -1)
 					)
 					break;
+				//3rd line: pause
+				case 56:
+				case 57:
+				case 58:
+				case 59:
+				case 88:
+					index = data1 - 56;
+					selectedLayer = index;
+					if ( selectedLayer > 3 ) selectedLayer = 4;
+					var layer:Layer = Display.getLayerAt(selectedLayer);
+					if (layer.paused) 
+					{
+						layer.pause(false);
+						appLauncher.writeData('144,'+data1+','+GREENFULL);						
+					}
+					else
+					{
+						layer.pause(true);
+						appLauncher.writeData('144,'+data1+','+REDLOW);						
+					}
+					break;
+				// fade screen
+				case 89:
+					if ( fadeFilterActive == false ) 
+					{
+						fadeFilterActive = true;
+						fadeFilter = PluginManager.createFilter('ECHO') as Filter;
+						fadeFilter.setParameterValue('feedBlend', 'screen');
+						fadeFilter.setParameterValue('feedAlpha', .6);
+						Display.addFilter(fadeFilter);						
+					}
+					else
+					{			
+						fadeFilterActive = false;
+						Display.removeFilter(fadeFilter);
+						fadeFilter = null;
+					}
+					break;
+				// fade multiply
+				case 90:
+					if ( fadeFilterActive == false ) 
+					{
+						fadeFilterActive = true;
+						fadeFilter = PluginManager.createFilter('ECHO') as Filter;
+						fadeFilter.setParameterValue('feedBlend', 'multiply');
+						fadeFilter.setParameterValue('feedAlpha', .6);
+						Display.addFilter(fadeFilter);						
+					}
+					else
+					{			
+						fadeFilterActive = false;
+						Display.removeFilter(fadeFilter);
+						fadeFilter = null;
+					}
+					break;
+				// random blend
+				case 91:
+					if ( randomBlendActive == false ) 
+					{
+						randomBlendActive = true;
+						Display.addEventListener(Event.ENTER_FRAME, randomBlend);
+						
+						hashCurrentBlendModes = new Dictionary(true);
+						
+						for each (var layer:Layer in Display.layers) {
+							hashCurrentBlendModes[layer]		= layer.blendMode;
+						}					
+					}
+					else
+					{			
+						randomBlendActive = false;
+						Display.removeEventListener(Event.ENTER_FRAME, randomBlend);
+						
+						for each (var layer:Layer in Display.layers) {
+							layer.blendMode = hashCurrentBlendModes[layer] || 'normal';
+							layer.alpha		= 1;
+							delete hashCurrentBlendModes[layer];
+						}
+						hashCurrentBlendModes = null;
+					}
+					break;
+				
+				//4th line: bounce
+				case 52:
+				case 53:
+				case 54:
+				case 55:
+				case 84:
+					index = data1 - 52;
+					selectedLayer = index;
+					if ( selectedLayer > 3 ) selectedLayer = 4;
+					var layer:Layer = Display.getLayerAt(selectedLayer);
+					layer.framerate	*= -1;
+					break;
+				//5th line: channel AB
+				case 48:
+				case 49:
+				case 50:
+				case 51:
+				case 80:
+					index = data1 - 48;
+					selectedLayer = index;
+					if ( selectedLayer > 3 ) selectedLayer = 4;
+					var layer:Layer = Display.getLayerAt(selectedLayer);
+					
+					if (layer.channel == true) 
+					{
+						layer.channel = false;
+						appLauncher.writeData('144,'+data1+','+GREENFULL);						
+					}
+					else
+					{
+						layer.channel = true;
+						appLauncher.writeData('144,'+data1+','+REDLOW);						
+					}
+					break;
+				// framerate
 				case 104:
 					for each (var layer:Layer in Display.layers) {
-					layer.framerate += .5;
+					layer.framerate += .1;
 				}
 					break;
 				case 105:
 					for each (var layer:Layer in Display.layers) {
-					layer.framerate -= .5;
+					layer.framerate -= .1;
 				}
 					break;
 				case "cycle-blendmode-down":
@@ -399,7 +566,12 @@ package ui.window {
 					break;
 			}
 		}
-		
+		private function randomBlend(event:Event):void {
+			for each (var layer:Layer in Display.layers) {
+				layer.blendMode = BlendModes[Math.floor(Math.random() * BlendModes.length)];
+				layer.alpha		= .8;
+			}
+		}
 		private function activate(evt:Event):void
 		{
 			trace("activate");

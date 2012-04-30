@@ -102,7 +102,8 @@ package onyx.system {
 			}
 			else
 			{
-				Console.output( "receivedText:" + receivedText );
+				commandText = receivedText;
+				Console.output( "not !, receivedText:" + receivedText );
 			}
 		}
 		

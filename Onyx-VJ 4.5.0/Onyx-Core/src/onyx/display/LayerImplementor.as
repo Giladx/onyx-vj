@@ -44,6 +44,10 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
+		private var _paused:Boolean = false;	
+		/**
+		 * 	@private
+		 */
 		private static const LAYER_RENDER:LayerEvent	= new LayerEvent(LayerEvent.LAYER_RENDER);
 		
 		/**
@@ -345,9 +349,15 @@ package onyx.display {
 		 *	@param		True to pause, false to unpause
 		 */
 		public function pause(b:Boolean):void {
+			_paused = b;
 			content.pause(b);
 		}
-		
+		/**
+		 * 	Return paused
+		 */
+		public function get paused():Boolean {
+			return _paused;
+		}		
 		/**
 		 * 	Sets alpha of current content
 		 */

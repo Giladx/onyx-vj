@@ -33,7 +33,12 @@ package onyx.display {
 	/**
 	 * 	Base Display class
 	 */
-	final public class OutputDisplay extends Sprite implements IDisplay {
+	final public class OutputDisplay extends Sprite implements IDisplay 
+	{
+		/**
+		 * 	@private
+		 */
+		private var _paused:Boolean = false;
 		
 		/**
 		 * 	@private
@@ -492,16 +497,23 @@ package onyx.display {
 		/**
 		 * 
 		 */
-		public function pause(value:Boolean):void {
-			
-			if (value) {
+		public function pause(value:Boolean):void 
+		{
+			_paused = value;
+			if (_paused) {
 				DISPLAY_STAGE.removeEventListener(Event.ENTER_FRAME, _render);
 			} else {
 				DISPLAY_STAGE.addEventListener(Event.ENTER_FRAME, _render);
 			}
 
 		}
-		
+		/**
+		 * 	Return paused
+		 */
+		public function get paused():Boolean 
+		{
+			return _paused;
+		}
 		/**
 		 * 	@private
 		 */

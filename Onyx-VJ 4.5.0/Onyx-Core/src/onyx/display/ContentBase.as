@@ -99,9 +99,9 @@ package onyx.display {
 		protected const colorTransform:ColorTransform	= new ColorTransform();
 		
 		/**
-		 * 	@protecte
+		 * 	@protected
 		 */
-		protected var _paused:Boolean;
+		protected var _paused:Boolean = false;
 
 		/**
 		 * 	@private
@@ -516,6 +516,13 @@ package onyx.display {
 			_paused = v;
 		}
 		
+		
+		/**
+		 * 	Return paused
+		 */
+		final public function get paused():Boolean {
+			return _paused;
+		}		
 		/**
 		 * 
 		 */

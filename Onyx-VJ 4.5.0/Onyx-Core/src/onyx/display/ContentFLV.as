@@ -183,13 +183,14 @@ package onyx.display {
 		 * 
 		 */
 		override public function pause(value:Boolean):void {
-			if (value) {
+			_paused = value;
+			if (_paused) {
 				_stream.pause();
 			} else {
 				_stream.resume();
 			}
 		}
-
+		
 		/**
 		 * 
 		 */

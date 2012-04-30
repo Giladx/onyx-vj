@@ -26,6 +26,12 @@ package onyx.display {
 	internal final class ContentNull implements Content {
 		
 		/**
+		 * 	Return paused
+		 */
+		public function get paused():Boolean {
+			return false;
+		}
+		/**
 		 * 
 		 */
 		final public function getColorTransform():ColorTransform {

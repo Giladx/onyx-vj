@@ -89,6 +89,11 @@ package onyx.display {
 		/**
 		 * 	@private
 		 */
+		private var _paused:Boolean = false;	
+		
+		/**
+		 * 	@private
+		 */
 		protected const data:BitmapData		= new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, _backgroundColor);
 		
 		/**
@@ -230,16 +235,22 @@ package onyx.display {
 		/**
 		 * 
 		 */
-		public function pause(value:Boolean):void {
-			
-			if (value) {
+		public function pause(value:Boolean):void 
+		{
+			_paused = value;
+			if (_paused) {
 				DISPLAY_STAGE.removeEventListener(Event.ENTER_FRAME, _render);
 			} else {
 				DISPLAY_STAGE.addEventListener(Event.ENTER_FRAME, _render);
 			}
 
 		}
-		
+		/**
+		 * 	Return paused
+		 */
+		public function get paused():Boolean {
+			return _paused;
+		}	
 		/**
 		 * 	@private
 		 */

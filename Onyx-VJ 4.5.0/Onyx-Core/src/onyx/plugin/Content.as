@@ -66,6 +66,7 @@ package onyx.plugin {
 		function set visible(value:Boolean):void;
 		
 		function pause(value:Boolean):void;
+		function get paused():Boolean;
 
 		function get brightness():Number;
 		function set brightness(value:Number):void;

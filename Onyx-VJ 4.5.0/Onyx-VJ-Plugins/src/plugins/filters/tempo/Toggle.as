@@ -13,30 +13,35 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package plugins.filters.tempo {
+package plugins.filters.tempo 
+{
 	
 	import flash.events.Event;
 	
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
-	public final class Toggle extends TempoFilter {
+	public final class Toggle extends TempoFilter 
+	{
 		
-		public var seed:int			= 50;
+		//public var seed:int			= 50;
+		private var toggle:Boolean = false;
 		
 		public function Toggle():void {
 
-			parameters.addParameters(
+			/*parameters.addParameters(
 				new ParameterInteger('seed',	'seed', 0, 100, 50)
-			)
+			)*/
 		}
 		
 		/**
 		 * 
 		 */
-		override protected function onTrigger(beat:int, event:Event):void {
+		override protected function onTrigger(beat:int, event:Event):void 
+		{
 			// SC: similar to Blink effect but on visibility instead of alpha
-			content.visible = (Math.random() * 100 > seed) ? true : false; 
+			toggle = !toggle;
+			content.visible = toggle;//(Math.random() * 100 > seed) ? true : false; 
 		}
 	}
 }

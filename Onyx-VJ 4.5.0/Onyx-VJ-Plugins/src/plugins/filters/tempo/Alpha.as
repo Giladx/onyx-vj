@@ -29,7 +29,7 @@ package plugins.filters.tempo {
 		public var min:Number		= 0;
 		public var max:Number		= 1;
 		public var seed:Number		= 1;
-		public var smooth:Boolean	= true;
+		public var smooth:Boolean	= false;
 		
 		/**
 		 * 	@constructor

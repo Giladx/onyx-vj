@@ -67,7 +67,8 @@ package plugins {
 				new Plugin('Color Filter',			ColorFilter,	'Color Filter'),
 				new Plugin('Distort',				Distort,		'Distort'),
 				new Plugin('FrameSkip', 			FrameSkip,		'Frame Skip'),	
-				new Plugin('BurstEcho', 			BurstEcho,		'BurstEcho'),	
+				new Plugin('HalftoneFilter', 		HalftoneFilter,	'HalftoneFilter'),	
+				//new Plugin('BurstEcho', 			BurstEcho,		'BurstEcho'),	
 
 				// bitmap filters - tempo
 				new Plugin('Alpha Effect', 			Alpha,			'Randomizes the alpha'),

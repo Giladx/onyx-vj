@@ -4,7 +4,7 @@ package {
 	
 	[ExcludeSDK]
 	
-	[Embed(source='../assets/jumble960.jpg')]
+	[Embed(source='../assets/flower.jpg')]
 	public final class AssetForElasticImage extends BitmapData {
 		
 		/**

@@ -14,6 +14,7 @@ package
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.filters.BlurFilter;
 	import flash.filters.ColorMatrixFilter;
@@ -57,40 +58,52 @@ package
 		
 		private var _drawMatrix:Matrix = new Matrix(DRAW_SCALE, 0, 0, DRAW_SCALE, 0, 0);
 		private var _drawColor:ColorTransform = new ColorTransform(0.1, 0.1, 0.1);
+		private var color:ColorHSV = new ColorHSV(0, 0.5); 
+		private var sprite:Sprite;
+		private var mx:Number = 320;
+		private var my:Number = 240;
 		
 		public function ForceField() 
 		{
+			sprite = new Sprite();
 			_timer = new Timer(500, 0);
 			_timer.addEventListener(TimerEvent.TIMER, _onTimer);
 			_timer.start();
-			_forcemap = new BitmapData(DISPLAY_WIDTH * MAP_SCALE, DISPLAY_HEIGHT * MAP_SCALE, false, 0x0);
+			_forcemap = new BitmapData(DISPLAY_WIDTH * MAP_SCALE, DISPLAY_HEIGHT * MAP_SCALE, true, 0x0);
 			addChild(new Bitmap(_forcemap));
 			
 			_particles = new Vector.<Particle>();
 			
 			_fade = new BitmapData(DISPLAY_WIDTH * DRAW_SCALE, DISPLAY_HEIGHT * DRAW_SCALE, false, 0x0);
-			var bm:Bitmap = addChild(new Bitmap(_fade, PixelSnapping.AUTO, true)) as Bitmap;
+			var bm:Bitmap = sprite.addChild(new Bitmap(_fade, PixelSnapping.AUTO, true)) as Bitmap;
 			bm.scaleX = bm.scaleY = 1 / DRAW_SCALE;
 			
 			_canvas = addChild(new Shape()) as Shape;
 			_canvas.blendMode = BlendMode.ADD;
+			addEventListener( MouseEvent.MOUSE_DOWN, onDown );
+			addEventListener( MouseEvent.MOUSE_MOVE, onDown );
+
 		}
-		
-		private function _onTimer(e:TimerEvent = null):void {
+		private function onDown(e:MouseEvent):void 
+		{
+			mx = e.localX; 
+			my = e.localY; 			
+		}	
+		private function _onTimer(e:TimerEvent = null):void
+		{
 			var t:int = getTimer();
 			_offsets[0].x = t / 20;
 			_offsets[1].y = t / 35;
 			_forcemap.perlinNoise(150, 150, 2, _seed, true, true, 3, false, _offsets);
 		}
 		
-		private var color:ColorHSV = new ColorHSV(0, 0.5); 
 		override public function render(info:RenderInfo):void 
 		{
 			var n:int = 10;
 			while (n--) {
 				var a:Number = getTimer() / 1000 + Math.random() * Math.PI;
 				color.h = (getTimer() / 20000) * 360;
-				var p:Particle = new Particle(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2, Math.cos(a), Math.sin(a), color.value);
+				var p:Particle = new Particle(mx, my, Math.cos(a), Math.sin(a), color.value);
 				_particles.push(p);
 			}
 			
@@ -127,7 +140,7 @@ package
 				_onTimer();
 			}
 			_count++;
-			info.render(_canvas);
+			info.render(sprite);
 		}
 	}
 }
@@ -144,10 +157,10 @@ class Particle {
 	public var life:Number = 1;
 	public var color:uint = 0xffffff;
 	public function Particle(x:Number = 0, y:Number = 0, vx:Number = 0, vy:Number = 0, color:uint = 0xffffff) {
-		x = px = x;
-		y = py = y;
-		vx = vx;
-		vy = vy;
-		color = color;
+		this.x = this.px = x;
+		this.y = this.py = y;
+		this.vx = vx;
+		this.vy = vy;
+		this.color = color;
 	}
 }

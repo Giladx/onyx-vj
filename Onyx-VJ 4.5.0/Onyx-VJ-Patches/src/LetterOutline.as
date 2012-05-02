@@ -221,8 +221,6 @@ package
 	}
 }
 
-
-
 import flash.display.*;
 import flash.text.*;
 class SimpleText extends Sprite {
@@ -240,101 +238,5 @@ class SimpleText extends Sprite {
 		txt.scaleX = txt.scaleY = fontSize / 8;
 		
 		addChild(txt);
-	}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/////  WONDERFL TRACE /////
-
-import flash.display.Sprite;
-import flash.display.Stage;
-import flash.text.TextField;
-import flash.text.TextFormat;
-
-
-function inittrace(s:Stage):void
-{
-	WTrace.initTrace(s);
-}
-
-//global trace function
-var trace:Function;
-
-//wtreace class
-class WTrace
-{
-	private static var FONT:String = "Fixedsys";
-	private static var SIZE:Number = 12;
-	private static var TextFields:Array = [];
-	private static var trace_stage:Stage;
-	
-	public static function initTrace(stg:Stage):void
-	{
-		trace_stage = stg;
-		trace = wtrace;
-	}
-	
-	private static function scrollup():void
-	{
-		// maximum number of lines: 100
-		if (TextFields.length > 100) 
-		{
-			var removeme:TextField = TextFields.shift();
-			trace_stage.removeChild(removeme);
-			removeme = null;
-		}
-		for(var x:Number=0;x<TextFields.length;x++)
-		{
-			(TextFields[x] as TextField).y -= SIZE*1.2;
-		}
-	}
-	
-	public static function clear():void {
-		while(TextFields.length > 0){
-			
-			trace_stage.removeChild(TextFields.shift());
-			
-		}
-		
-	}
-	
-	
-	public static function wtrace(... args):void
-	{
-		
-		var s:String="";
-		var tracefield:TextField;
-		
-		for (var i:int;i < args.length;i++)
-		{
-			// imitating flash:
-			// putting a space between the parameters
-			if (i != 0) s+=" ";
-			s+=args[i].toString();
-			
-		}
-		
-		
-		tracefield= new TextField();
-		tracefield.autoSize = "left";
-		tracefield.text = s;
-		tracefield.y = trace_stage.stageHeight - 20;
-		
-		var tf:TextFormat = new TextFormat(FONT, SIZE);
-		tracefield.setTextFormat(tf);
-		trace_stage.addChild(tracefield);
-		scrollup();                      
-		TextFields.push(tracefield);
-		
 	}
 }

@@ -40,7 +40,7 @@ package {
 		private var xysRandom:Vector.<Number> = new Vector.<Number>();
 		private var canvasBMP:Bitmap;
 		private var _font:Font;
-		private var _text:String = "JUMBLE\nGROOVE";
+		private var _text:String = "K21";
 		private var _color:uint=0x005599;
 		
 		public function HelloSpace()

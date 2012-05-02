@@ -20,6 +20,7 @@ package
 	
 	public class Shock extends Patch
 	{
+		private var sprite:Sprite;
 		private var cnt:int = 0;
 		private var trail:Bitmap;
 		private var ovals:Array;
@@ -29,10 +30,10 @@ package
 		
 		public function Shock():void
 		{
-			
-			trail = new Bitmap(new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0));
+			sprite = new Sprite();
+			trail = new Bitmap(new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0));
 			trail.filters = [new BlurFilter( 6,6,3 ) ];
-			addChild(trail);
+			sprite.addChild(trail);
 	
 			ovals = new Array(101);
 			color= 0xffffff * Math.random();
@@ -41,7 +42,7 @@ package
 				ovals[t] = new Sprite();
 				var p:TextField = new TextField();
 				ovals[t].addChild(p);
-				addChild(ovals[t]);
+				sprite.addChild(ovals[t]);
 			}
 			ovals[0].y = -2 * t * Math.sin(my / 200 - 0.5) + 250;
 			addEventListener( MouseEvent.MOUSE_DOWN, mouseCap );
@@ -56,7 +57,7 @@ package
 		override public function render(info:RenderInfo):void  
 		{
 			cnt++;
-			//trail.bitmapData.draw(stage);
+			trail.bitmapData.draw(sprite);
 			for (var t:Number = 1; t < 101; t++)
 			{
 				ovals[t].getChildAt(0).x = Math.sin(t / (5000) * Math.PI * cnt) * t * 2;
@@ -72,7 +73,7 @@ package
 			{
 				color = Math.random() * 0xffffff;
 			}
-			info.source.copyPixels(trail.bitmapData, DISPLAY_RECT, ONYX_POINT_IDENTITY);
+			info.render(sprite);
 		} //end of function
 
 	} //end of class

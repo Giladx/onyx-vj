@@ -117,6 +117,7 @@ package
 			for (y = 0; y < _numSegments; y++) {
 				for (x = 0; x < _numSegments; x++) {
 					var index:int = y * _numSegments + x;
+					if ( index >= _anchors.length ) index = _anchors.length - 1;
 					var a:Anchor = _anchors[index];
 					if (a == origin) continue;
 					var dx:int = a.x - origin.x;

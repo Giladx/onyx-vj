@@ -27,7 +27,7 @@ package
 		private var PV:PVUnkoField;
 		private var sprite:Sprite;
 		private var _size:int = 30;
-		private var _text:String = "JUMBLE\nGROOVE";
+		private var _text:String = "Batchass\nvj set";
 		private var _rx:int = 360;
 		private var _ry:int = 234;
 		private var _rz:int = 180;
@@ -154,7 +154,7 @@ import org.papervision3d.view.layer.BitmapEffectLayer;
 class PVUnkoField extends BasicView 
 {
 	private var _size:int = 30;
-	private var _text:String = "JUMBLE\nGROOVE";
+	private var _text:String = "Batchass\nvj set";
 	private var _root:DisplayObject3D;
 	private var _defaultForm:Boolean;
 	private var _pixelList:Array;

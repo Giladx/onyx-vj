@@ -73,11 +73,14 @@ package ui.window {
 		private const YELLOW:uint = 62;
 		private const GREENLOW:uint = 28;
 		private const GREENFULL:uint = 60;
+		private const amountW:int = DISPLAY_WIDTH / 2.5;
+		private const amountH:int = DISPLAY_HEIGHT / 2.5;
 		
 		private var fadeFilter:Filter;
 		private var fadeFilterActive:Boolean = false;
 		private var randomBlendActive:Boolean = false;
 		private var hashCurrentBlendModes:Dictionary;
+		private var randomDistortActive:Boolean = false;
 		
 		/**
 		 * 	@Constructor
@@ -209,15 +212,22 @@ package ui.window {
 		}
 		public function change(evt:Event):void 
 		{
-			var cmd:String = appLauncher.readAppOutput();
-			var data1:uint = uint(cmd);
+			var rcvd:String = appLauncher.readAppOutput();
+			var rcvdInt:int = int(rcvd);
+			var channel:int = rcvdInt & 0xf; 
+			var cmd:int = rcvdInt & 0xf0; 
+			var noteon:int = (rcvdInt>> 8) & 0xff; 
+			var velocity:int = (rcvdInt>> 16) & 0xff; 
+				
+			
+			//var data1:uint = uint(noteon);
 			/*var x:uint = Math.abs(data1-36)/4;
 			var y:uint = Math.abs(data1-36)%4;
 			var pos:uint = y + ((x)*8);*/
-			appLauncher.writeData('144,' + data1 + ',' + GREENLOW );
+			appLauncher.writeData('144,' + noteon + ',' + velocity );
 			//3 = red, 5=low red, 30=mid orange,
-			//trace("change:" + data1+" x:" + x +" y:" + y +" pos:" + pos);	
-			switch ( data1 ) 
+			trace("change:" + noteon);	
+			switch ( noteon ) 
 			{ 
 				// 1st line: layer select
 				case 64:
@@ -225,26 +235,26 @@ package ui.window {
 				case 66:
 				case 67:
 				case 96:
-					if ( selectedLayer != data1-64 )
+					if ( selectedLayer != noteon-64 )
 					{						
 						appLauncher.writeData('144,64,'+AMBERLOW);
 						appLauncher.writeData('144,65,'+AMBERLOW);
 						appLauncher.writeData('144,66,'+AMBERLOW);
 						appLauncher.writeData('144,67,'+AMBERLOW);
 						appLauncher.writeData('144,96,'+AMBERLOW);
-						selectedLayer = data1-64;
+						selectedLayer = noteon-64;
 						if ( selectedLayer > 3 ) selectedLayer = 4;
 						UILayer.selectLayer(selectedLayer);
 						var layer:Layer = Display.getLayerAt(selectedLayer);
-						appLauncher.writeData('144,' + data1 + ',' + GREENFULL);
+						appLauncher.writeData('144,' + noteon + ',' + GREENFULL);
 						if (layer.visible) 
 						{
-							appLauncher.writeData('144,'+(data1-4)+','+GREENFULL);
+							appLauncher.writeData('144,'+(noteon-4)+','+GREENFULL);
 						
 						} 
 						else 
 						{
-							appLauncher.writeData('144,'+(data1-4)+','+REDLOW);	
+							appLauncher.writeData('144,'+(noteon-4)+','+REDLOW);	
 						}
 					}
 					break;	
@@ -267,7 +277,7 @@ package ui.window {
 				case 62:
 				case 63:
 				case 92:
-					index = data1 - 60;
+					index = noteon - 60;
 					selectedLayer = index;
 					if ( selectedLayer > 3 ) selectedLayer = 4;
 					var layer:Layer = Display.getLayerAt(selectedLayer);
@@ -276,7 +286,7 @@ package ui.window {
 					
 					if (layer.visible)
 					{
-						appLauncher.writeData('144,'+data1+','+REDLOW);
+						appLauncher.writeData('144,'+noteon+','+REDLOW);
 						tween = new Tween(
 							layer,
 							250,
@@ -286,7 +296,7 @@ package ui.window {
 					} 
 					else 
 					{
-						appLauncher.writeData('144,'+data1+','+GREENFULL);
+						appLauncher.writeData('144,'+noteon+','+GREENFULL);
 						layer.visible = true;
 						tween = new Tween(
 							layer,
@@ -350,19 +360,19 @@ package ui.window {
 				case 58:
 				case 59:
 				case 88:
-					index = data1 - 56;
+					index = noteon - 56;
 					selectedLayer = index;
 					if ( selectedLayer > 3 ) selectedLayer = 4;
 					var layer:Layer = Display.getLayerAt(selectedLayer);
 					if (layer.paused) 
 					{
 						layer.pause(false);
-						appLauncher.writeData('144,'+data1+','+GREENFULL);						
+						appLauncher.writeData('144,'+noteon+','+GREENFULL);						
 					}
 					else
 					{
 						layer.pause(true);
-						appLauncher.writeData('144,'+data1+','+REDLOW);						
+						appLauncher.writeData('144,'+noteon+','+REDLOW);						
 					}
 					break;
 				// fade screen
@@ -432,11 +442,101 @@ package ui.window {
 				case 54:
 				case 55:
 				case 84:
-					index = data1 - 52;
+					index = noteon - 52;
 					selectedLayer = index;
 					if ( selectedLayer > 3 ) selectedLayer = 4;
 					var layer:Layer = Display.getLayerAt(selectedLayer);
 					layer.framerate	*= -1;
+					break;
+				// random 3D distort
+				case 85:				
+					randomDistortActive = true;
+					var filters:Array, filter:Filter, plugin:Plugin;
+					
+					plugin = PluginManager.getFilterDefinition('DISTORT');
+					
+					if (plugin) {
+						
+						for each (var layer:Layer in Display.loadedLayers) {
+							
+							if (layer.path) {
+								filter	= null;
+								filters = layer.filters;
+								
+								for each (var test:Filter in filters) {
+									if (test.name === 'DISTORT') {
+										filter = test;
+										break;
+									}
+								}
+								
+								if (!filter) {
+									filter = plugin.createNewInstance() as Filter;
+									layer.addFilter(filter);
+								}
+								
+								new Tween(
+									filter,
+									300,
+									new TweenProperty('bottomLeftX',	filter.getParameterValue('bottomLeftX'), (Math.random() * -amountW)),
+									new TweenProperty('topLeftX',		filter.getParameterValue('topLeftX'), (Math.random() * -amountW)),
+									new TweenProperty('bottomRightX',	filter.getParameterValue('bottomRightX'), DISPLAY_WIDTH + (Math.random() * amountW)),
+									new TweenProperty('topRightX',		filter.getParameterValue('topRightX'), DISPLAY_WIDTH + (Math.random() * amountW)),
+									new TweenProperty('bottomLeftY',	filter.getParameterValue('bottomLeftY'), DISPLAY_HEIGHT + (Math.random() * amountH)),
+									new TweenProperty('topLeftY',		filter.getParameterValue('topLeftY'), (Math.random() * -amountH)),
+									new TweenProperty('bottomRightY',	filter.getParameterValue('bottomRightY'), DISPLAY_HEIGHT + (Math.random() * amountH)),
+									new TweenProperty('topRightY',		filter.getParameterValue('topRightY'), (Math.random() * -amountH))
+								)
+								
+							}
+						}
+					}	
+					break;
+				case 86:		
+					if ( randomDistortActive == true )
+					{
+						
+						randomDistortActive = false;
+						var filter:Filter, test:Filter, filters:Array;
+						
+						for each (var layer:Layer in Display.layers) {
+							new Tween(
+								layer,
+								600,
+								new TweenProperty('x', layer.x, 0),
+								new TweenProperty('y', layer.y, 0),
+								new TweenProperty('scaleX', layer.scaleX, 1),
+								new TweenProperty('scaleY', layer.scaleY, 1)
+							)
+							
+							filter	= null;
+							filters = layer.filters;
+							
+							for each (test in filters) {
+								if (test.name === 'DISTORT') {
+									filter = test;
+									break;
+								}
+							}
+							
+							if (filter) {
+								
+								new Tween(
+									filter,
+									300,
+									new TweenProperty('bottomLeftX',	filter.getParameterValue('bottomLeftX'), 0),
+									new TweenProperty('topLeftX',		filter.getParameterValue('topLeftX'), 0),
+									new TweenProperty('bottomRightX',	filter.getParameterValue('bottomRightX'), DISPLAY_WIDTH),
+									new TweenProperty('topRightX',		filter.getParameterValue('topRightX'), DISPLAY_WIDTH),
+									new TweenProperty('bottomLeftY',	filter.getParameterValue('bottomLeftY'), DISPLAY_HEIGHT),
+									new TweenProperty('topLeftY',		filter.getParameterValue('topLeftY'), 0),
+									new TweenProperty('bottomRightY',	filter.getParameterValue('bottomRightY'), DISPLAY_HEIGHT),
+									new TweenProperty('topRightY',		filter.getParameterValue('topRightY'), 0)
+								)
+								
+							}
+						}
+					}
 					break;
 				//5th line: channel AB
 				case 48:
@@ -444,7 +544,7 @@ package ui.window {
 				case 50:
 				case 51:
 				case 80:
-					index = data1 - 48;
+					index = noteon - 48;
 					selectedLayer = index;
 					if ( selectedLayer > 3 ) selectedLayer = 4;
 					var layer:Layer = Display.getLayerAt(selectedLayer);
@@ -452,12 +552,12 @@ package ui.window {
 					if (layer.channel == true) 
 					{
 						layer.channel = false;
-						appLauncher.writeData('144,'+data1+','+GREENFULL);						
+						appLauncher.writeData('144,'+noteon+','+GREENFULL);						
 					}
 					else
 					{
 						layer.channel = true;
-						appLauncher.writeData('144,'+data1+','+REDLOW);						
+						appLauncher.writeData('144,'+noteon+','+REDLOW);						
 					}
 					break;
 				// framerate

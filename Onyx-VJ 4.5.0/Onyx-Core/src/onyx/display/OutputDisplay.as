@@ -182,7 +182,7 @@ package onyx.display {
 				new ParameterPlugin('channelBlend', 'transition', PluginManager.transitions, channelBlend),
 				new ParameterColor('backgroundColor', 'BACKGROUND'),
 				new ParameterNumber('channelMix', 'channelMix', 0, 1, 0),
-				new ParameterInteger('framerate', 'framerate', 12, 60, 25),
+				new ParameterInteger('framerate', 'framerate', 12, 60, 40),
 				__brightness,
 				__contrast,
 				__saturation,

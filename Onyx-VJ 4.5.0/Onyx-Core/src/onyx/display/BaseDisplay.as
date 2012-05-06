@@ -119,7 +119,7 @@ package onyx.display {
 			// add parameters
 			parameters.addParameters(
 				new ParameterColor('backgroundColor', 'BACKGROUND'),
-				new ParameterInteger('framerate', 'framerate', 12, 60, 25),
+				new ParameterInteger('framerate', 'framerate', 12, 60, 40),
 				new ParameterNumber('brightness', 'brightness', -1, 1, 0),
 				new ParameterNumber('contrast', 'contrast', -1, 1, 0),
 				new ParameterNumber('saturation', 'saturation', 0, 2, 1),

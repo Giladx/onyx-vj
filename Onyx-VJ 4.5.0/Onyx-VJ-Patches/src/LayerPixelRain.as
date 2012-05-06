@@ -337,11 +337,14 @@ package
 			removeEventListener(MouseEvent.MOUSE_UP, _mouseUp);
 			
 			graphics.clear();
-			register(_layer, this, false);		
-			while (frames.length) 
+			register(_layer, this, false);	
+			if (frames)
 			{
-				var data:BitmapData = frames.shift() as BitmapData;
-				data.dispose();
+				while (frames.length) 
+				{
+					var data:BitmapData = frames.shift() as BitmapData;
+					data.dispose();
+				}
 			}
 		}
 	}

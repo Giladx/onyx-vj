@@ -31,7 +31,6 @@ package
 		public  var alt:int, larg:int;
 		public  var blur:Array;
 		private var sprite:Sprite;
-		private var timer:Timer;
 		private var resolution:int = 4;
 		
 		public function TreeRoots() 

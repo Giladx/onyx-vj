@@ -44,7 +44,7 @@ package plugins.visualizer {
 		public var c:uint=0;
 		public var steps:uint = 8;
 		public var dots:Vector.<Dot>;
-		public var bf:BlurFilter = new BlurFilter(1.5,1.5,1);
+		public var bf:BlurFilter = new BlurFilter(2.5,2.5,1);
 		
 		/**
 		 * 	@constructor

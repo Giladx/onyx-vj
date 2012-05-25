@@ -66,7 +66,6 @@ package plugins.visualizer {
 		override public function render(info:RenderInfo):void 
 		{
 			var array:Array = SpectrumAnalyzer.getSpectrum(true);
-			SpectrumAnalyzer.leftPeak
 			var i:int = 0;
 			var arraytotal:Number = 0;
 			

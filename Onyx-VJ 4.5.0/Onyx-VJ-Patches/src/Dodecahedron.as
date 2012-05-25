@@ -19,7 +19,7 @@ package {
 	import flash.geom.*;
 	import flash.text.*;
 	import flash.utils.*;
-	//[SWF(width='465', height='465', backgroundColor='#000000', frameRate='30')]
+
 	public class Dodecahedron extends Sprite {
 		private const WIDTH:int = 465;
 		// 3D renders
@@ -36,9 +36,10 @@ package {
 		private var _depth:BitmapData;
 		private var _ssao :BitmapData;
 		private var _mask :BitmapData;
+		private var blur:BlurFilter = new BlurFilter(64, 64);
+		private var colt:ColorTransform = new ColorTransform(-8, -8, -8, 1, 255, 255, 255, 0);
 		
 		// motions
-		private var clicked:Boolean = false;
 		private var frame:int = 0;
 		
 		// entry point
@@ -60,7 +61,6 @@ package {
 			addChild(gl).visible = false;
 			with(addChild(new Bitmap(_screen))) { x = y = 7; }
 			addEventListener("enterFrame", _onEnterFrame);
-			addEventListener(MouseEvent.MOUSE_DOWN, _onClick);
 			
 			// register meshes
 			ss.primitive("tetra",  SolidFactory.tetrahedron (new Mesh(), 1, 0));  // 4vertices/4triangles
@@ -94,15 +94,9 @@ package {
 			_ssao.threshold(_depth, _depth.rect, _depth.rect.topLeft, "==", 0, 0, 255);
 			
 			// draw
-			_screen.fillRect(_screen.rect, 0xFFFFFF);//FFFFFF!?!
+			_screen.fillRect(_screen.rect, 0xFFFFFF);
 			_screen.draw(gl.renderSolid(struct[0], _light), _matbuf);
-			if (!clicked) _screen.draw(_ssao, null, colt, "multiply");
-			//_screen.draw(_depth);
 		}
-		private var blur:BlurFilter = new BlurFilter(64, 64);
-		private var colt:ColorTransform = new ColorTransform(-8, -8, -8, 1, 255, 255, 255, 0);
-		
-		private function _onClick(e:Event) : void { clicked = !clicked; }
 	}
 }
 

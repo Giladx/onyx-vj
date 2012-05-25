@@ -70,11 +70,11 @@ package
 			_timer.addEventListener(TimerEvent.TIMER, _onTimer);
 			_timer.start();
 			_forcemap = new BitmapData(DISPLAY_WIDTH * MAP_SCALE, DISPLAY_HEIGHT * MAP_SCALE, true, 0x0);
-			addChild(new Bitmap(_forcemap));
+			//addChild(new Bitmap(_forcemap));
 			
 			_particles = new Vector.<Particle>();
 			
-			_fade = new BitmapData(DISPLAY_WIDTH * DRAW_SCALE, DISPLAY_HEIGHT * DRAW_SCALE, false, 0x0);
+			_fade = new BitmapData(DISPLAY_WIDTH * DRAW_SCALE, DISPLAY_HEIGHT * DRAW_SCALE, true, 0x0);
 			var bm:Bitmap = sprite.addChild(new Bitmap(_fade, PixelSnapping.AUTO, true)) as Bitmap;
 			bm.scaleX = bm.scaleY = 1 / DRAW_SCALE;
 			

@@ -27,7 +27,7 @@ package
 		public  var alt:int, larg:int;
 		public  var blur:Array;
 		private var sprite:Sprite;
-		private var timer:Timer
+		private var timer:Timer;
 		
 		public function AuralSynapse() 
 		{

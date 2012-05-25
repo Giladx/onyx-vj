@@ -54,8 +54,8 @@ package {
 		
 		override public function render(info:RenderInfo):void 
 		{
-			var h:Number = 1 + Math.random() * 40;
-			var w:Number = 1 + Math.random() * 40;
+			var h:Number = 1 + Math.random() * 140;
+			var w:Number = 1 + Math.random() * 140;
 			
 			screen.lock()
 			rect.x = 60*(Math.random() -0.5)+mx - h*0.5;

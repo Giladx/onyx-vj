@@ -19,8 +19,6 @@ package
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import flash.text.TextField;
-	import flash.text.TextFieldAutoSize;
 	
 	import frocessing.color.ColorHSV;
 	
@@ -30,12 +28,8 @@ package
 	
 	public class BulletHeaven extends Patch 
 	{
-		
-		//Ã?Â?Â?Ã?Â?Â?Ã?Æ?â?œÃ?Æ?Æ?Ã?Æ?Ë?Ã?Æ?Å?Ã?Æ?Æ?Ã?Æ?â??Ã?â?šÂ?Ã?Æ?Â?Ã?Æ?Æ?Ã?â?šÂ?Ã?Æ?Â?
 		private var _bulletImg:Bitmap;
-		//Ã?â?šÂ?Ã?Æ?Â?Ã?Æ?Â?Ã?Æ?Â?Ã?â?šÂ?
 		private var _canvas:BitmapData;
-		//Ã?Æ?â??Ã?Æ?Â?Ã?Æ?â??Ã?â?šÂ?Ã?â?šÂ?Ã?Æ?Â?Ã?Æ?ÂªÃ?â?šÂ?Ã?Æ?Ë?
 		private var _particles:Vector.<Particle>;
 		private var _bulletBitmapData:Vector.<Particle>;
 		private var mx:int = 320;
@@ -51,16 +45,12 @@ package
 		public function BulletHeaven()
 		{
 			colorHSV = new ColorHSV(360, 1, 1);
-			//Ã?â?šÂ?Ã?Æ?Â?Ã?Æ?Â?Ã?Æ?Â?Ã?â?šÂ?Ã?Â?Â?Ã?â??Å?Ã?Ë?Â?
-			_canvas = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x000000);
+			_canvas = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0x00);
 			var cb:Bitmap = new Bitmap(_canvas);
 			addChild(cb);
 			
 			_particles = new Vector.<Particle>();
-			
-			
-			//Ã?Â?Â?Ã?Â?Â?BitmapÃ?Â?Â?Ã?â??Å?Ã?Ë?Â?
-			//ShapeÃ?Â?Â?Ã?â??â??Ã?â?šâ??Ã?â?ºÂ?Ã?Â?Â?Ã?â??â?š
+
 			var shape:Shape = new Shape();
 			var g:Graphics = shape.graphics;
 			g.beginFill(0xfffff, 0.5);
@@ -68,15 +58,12 @@ package
 			g.beginFill(0xffffff);
 			g.drawCircle(16, 16, 8);
 			g.endFill();
-			//BitmapDataÃ?Â?Â?draw()
 			var data:BitmapData = new BitmapData(shape.width, shape.height, true, 0xFFFFFF);
 			data.draw(shape);
 			staticBD = bulletBD = data;
 			_enemy = new Particle(0,0,0,0)//bulletBD.width, bulletBD.height);
 			
-			//BitmapÃ?â??Å?Ã?Ë?Â?
 			_bulletImg = new Bitmap(data);
-			//Ã?Â?Â?Ã?Â?Æ?Ã?â?šâ??(0,0)Ã?Â?Â?Ã?Â?Â?Ã?Â?Â?Ã?â??â?š
 			_bulletImg.x = _bulletImg.width / 2;
 			_bulletImg.y = _bulletImg.height / 2;
 			
@@ -88,11 +75,11 @@ package
 		private function onClick(event:MouseEvent):void {
 			mx = event.localX; 
 			my = event.localY; 
-			if(drawMode=="copyPixels"){
+			/*if(drawMode=="copyPixels"){
 				drawMode = "draw";
 			}else{
 				drawMode = "copyPixels";
-			}
+			}*/
 		}		
 		private function mouseMove(event:MouseEvent):void {
 			mx = event.localX; 
@@ -100,21 +87,17 @@ package
 		}		
 		override public function render(info:RenderInfo):void 
 		{
-			//bmp2.bitmapData
- 			_canvas.lock();
+			_canvas.lock();
 			var cr:Rectangle = new Rectangle(0, 0, _canvas.width, _canvas.height);
 			var ct:ColorTransform = new ColorTransform (0.8, 0.8, 0.9);
 			_canvas.colorTransform(cr, ct);
 			
-			
-			//Ã?Â?Â?Ã?Â?Â?Ã?â??Å?Ã?Ë?Â?Ã?Â?Â?Ã?â??â??Ã?â?šâ??Ã?Æ?Å?Ã?â?šÂ?Ã?â?šÂ?Ã?Â?Â?Ã?Â?Â?Ã?Â?â?œÃ?â?šÂ?Ã?Â?Â?Ã?Â?Â?Ã?â??â??
 			//_enemy.ax 
 			_enemy.vx = (mx - _enemy.x) * 0.1;
 			_enemy.vy = (my - _enemy.y) * 0.1;
 			_enemy.x += _enemy.vx;
 			_enemy.y += _enemy.vy;
 			
-			//Ã?Â?Â?Ã?Â?Â?Ã?â??Å?Ã?Ë?Â?
 			for (var i:int = 0; i < 10; i++ )
 			{
 				colorHSV.h -= 0.1
@@ -132,7 +115,6 @@ package
 			
 			var removedParticles:Vector.<Particle> = new Vector.<Particle>();
 			
-			//Ã?Â?Â?Ã?Â?Â?Ã?Â?Â?Ã?â??â??
 			for each(var p:Particle in _particles)
 			{
 				p.x += p.vx;
@@ -141,7 +123,6 @@ package
 				p.vy += p.ay;
 				p.time ++;
 				
-				//Ã?â??Â?Ã?Â?Â?Ã?Â?â??Ã?Â?Â?Ã?â??ÂºÃ?Â?Å?Ã?â?šâ??removedParticlesÃ?Â?Â?Ã?â??Â?Ã?Å?Â?
 				if (p.x < 0 || p.x > DISPLAY_WIDTH || p.y < 0 || p.y > DISPLAY_HEIGHT)
 				{
 					removedParticles.push(p);
@@ -149,7 +130,6 @@ package
 				}
 				else if (p.time > 0)
 				{
-					//Ã?Â?Â?Ã?Â?Â?Ã?Â?â??Ã?ÂºÂ?Ã?Â?â??Ã?â?ºÂ?
 					p.time = 0;
 					var radius:Number = Math.atan2(p.vy, p.vx);
 					var speed:Number = Math.sqrt(p.vx * p.vx + p.vy * p.vy );
@@ -160,17 +140,13 @@ package
 				var matrix:Matrix = new Matrix();
 				matrix.tx = p.x - _bulletImg.width * 0.5;
 				matrix.ty = p.y - _bulletImg.height * 0.5;
-				//Ã?Â?Â?Ã?Â?Â?Ã?Â?Â?Ã?â??Â?Ã?â??â?šÃ?Â?â??Ã?â??ÂªÃ?Â?Â?Ã?Æ?Å?Ã?Æ?Ë?Ã?Æ?Â?Ã?Æ?Â?Ã?Æ?Æ?Ã?â?šÂ?Ã?Â?Â?(Ã?Â?Â?Ã?Â?â??Ã?Â?â??Ã?â?šË?Ã?Â?â??Ã?â?šâ?šÃ?Â?ÂªÃ?Â?â?žÃ?Â?Å?Ã?Â?Âª)
 				if(drawMode=="draw"){
-					//drawÃ?â?šâ??Ã?Â?Â?Ã?â??Â?
 					_canvas.draw(_bulletImg,matrix);
 				}else{
-					//copyPixelsÃ?â?šâ??Ã?Â?Â?Ã?â??Â?
 					_canvas.copyPixels(p.image, bulletBD.rect, new Point(p.x-16, p.y-16));
 				}
 			}
 			
-			//Ã?Â?â?žÃ?â?šâ??Ã?Â?ÂªÃ?Â?â?žÃ?Â?Â?Ã?â?šâ??_particlesÃ?Â?â??Ã?â?šâ??Ã?Â?Ë?Ã?Â?â??Ã?â??â?š
 			for each(var removedP:Particle in removedParticles)
 			{
 				var index:int = _particles.indexOf(removedP);
@@ -189,7 +165,7 @@ package
 	}
 }
 import flash.display.BitmapData
-	import flash.filters.ColorMatrixFilter;
+import flash.filters.ColorMatrixFilter;
 import flash.geom.Point;
 class Particle
 {

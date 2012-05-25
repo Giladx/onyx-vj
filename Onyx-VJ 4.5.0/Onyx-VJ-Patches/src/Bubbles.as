@@ -32,10 +32,7 @@ package
 			
 			makeBalls();
 			_grid = new CollisionGrid(DISPLAY_WIDTH, DISPLAY_HEIGHT, _grid_size);
-			
-			_grid.drawGrid(graphics);			
-		}
-		
+		}	
 
 		override public function render(info:RenderInfo):void 
 		{
@@ -306,23 +303,6 @@ class CollisionGrid extends EventDispatcher
 		_numRows = Math.ceil(_height / _gridSize);
 		_numCells = _numCols * _numRows;
 	}    
-	
-	public function drawGrid(graphics:Graphics):void
-	{
-		// ã??ã?ªã??ã??ã??è??ã??ç??ã??æ??ã??
-		graphics.lineStyle(0, .5 , 0);
-		
-		for (var i:int = 0; i <= _width; i += _gridSize)
-		{
-			graphics.moveTo(i, 0);
-			graphics.lineTo(i, _height);
-		}
-		for (i = 0; i <= _height; i += _gridSize)
-		{
-			graphics.moveTo(0, i);
-			graphics.lineTo(_width, i);
-		}            
-	}
 	
 	public function check(objects:Vector.<DisplayObject>):void
 	{

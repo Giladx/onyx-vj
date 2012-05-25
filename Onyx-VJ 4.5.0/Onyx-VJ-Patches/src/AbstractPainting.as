@@ -9,7 +9,6 @@
 
 package 
 {
-	import __AS3__.vec.Vector;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -18,9 +17,8 @@ package
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.geom.ColorTransform;
-	import flash.net.URLRequest;
-	import flash.system.LoaderContext;
 	import flash.utils.Timer;
+	import __AS3__.vec.Vector;
 	
 	import onyx.core.*;
 	import onyx.parameter.*;

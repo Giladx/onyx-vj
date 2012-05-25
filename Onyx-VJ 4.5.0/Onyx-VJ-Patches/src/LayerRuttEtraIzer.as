@@ -29,6 +29,7 @@ package
 		private var _rx:int = 22;
 		private var _ry:int = 150;
 		private var _rz:int = 150;
+
 		/**
 		 * 	@private
 		 * 	If multiple layers are listening to the same layer, combine the stored frames
@@ -321,6 +322,7 @@ class PVRuttEtraIzer extends BasicView
 	private var yrot:Number = 0;
 	private var timer:Timer;
 	private var analysis:Array;
+	private var al:int;
 	private var yr:int = 0;
 	private var _rx:int = 270;
 	private var _ry:int = 270;
@@ -339,6 +341,8 @@ class PVRuttEtraIzer extends BasicView
 		shader = new GouraudShader(light, 0xFFFFFF,0x404040);
 		
 		lines = new Lines3D();
+		analysis = SpectrumAnalyzer.getSpectrum(true);
+		al = analysis.length;
 		
 		drawLines();
 		camera.fov = 30;
@@ -419,7 +423,7 @@ class PVRuttEtraIzer extends BasicView
 		{
 			if ( bmpd && bmpd is IBitmapDrawable )
 			{
-				for(var xr:int = 0; xr < _imageWidth ; xr+= scanStep) 
+				for(var xr:int = 0; xr < _imageWidth ; xr++)//= scanStep) 
 				{
 					var color:Number = bmpd.getPixel(xr, yr);
 					var red:int = (color >> 16 & 0xFF);					
@@ -440,14 +444,9 @@ class PVRuttEtraIzer extends BasicView
 				if ( yr < 0 )
 				{
 					timer.stop();
-					//Console.output("timer stopped");
+
 				}				
-/*				yr += scanStep;
-				if ( yr >= _imageHeight )
-				{
-					timer.stop();
-					//Console.output("timer stopped");
-				}				*/
+
 			}			
 		}
 		catch (err:Error) 
@@ -491,18 +490,20 @@ class PVRuttEtraIzer extends BasicView
 		i = 0;
 		j = 0;
 		var nbLinesHoriz:int = _imageWidth / scanStep;
-		var factor:int = nbLinesHoriz / (analysis.length + 1);
+		var factor:int = nbLinesHoriz / (al + 1);
 		
 		var count:Number = SpectrumAnalyzer.leftPeak + SpectrumAnalyzer.rightPeak;
 		for each ( var line:Line3D in lines.lines) 
 		{
 			line.v0.z = analysis[j] * count * _soundMultiplier;
 			line.v1.z = analysis[j] * count * _soundMultiplier;
-			if ( i++ > factor ) 
+			/*if ( i++ > factor ) 
 			{
 				i = 0;
 				if ( j < analysis.length - 1 ) j++;
-			}
+			}*/
+			if ( j < al - 1 ) j++ else j = 0;
+			if ( j > _imageWidth - 1 ) j = 0;
 		}
 		//writeLogFile( 'LayerRuttEtraIzer, count' + count );
 		lines.rotationX = rx;

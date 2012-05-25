@@ -39,7 +39,6 @@ package
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
-	[SWF(width='460', height='368', frameRate='5', backgroundColor='#FFFFFF')]
 	public class WhirlFlower extends Patch
 	{
 		/**
@@ -60,11 +59,14 @@ package
 		private var _radius:Number = 50;
 
 		private var _maxPetals:int			= 40;
+		private var _large:Boolean = false;
 		
 		private var img:BitmapData;
 		private var con:Sprite;
-		private var xpos:Number = 240;
-		private var ypos:Number = 240;
+		private var xpos:int;
+		private var ypos:int;
+		private var xmid:int;
+		private var ymid:int;
 		
 		public function WhirlFlower() 
 		{
@@ -75,17 +77,21 @@ package
 				new ParameterInteger('speed', 'gen speed', 8, 10000, _speed),
 				new ParameterInteger('maxPetals', 'max petals', 1, 100000, _maxPetals),
 				new ParameterInteger('radius', 'radius', 1, 1000, _radius),
+				new ParameterBoolean('large', 'large'),
 				new ParameterExecuteFunction('start', 'generate')
 			);
 			
 			img = createImage();
-			
-			con = createContainer(xpos, ypos);
-			
-			//init(con, img, 20);
+			xmid = DISPLAY_WIDTH / 2;
+			xpos = xmid;
+			ymid = DISPLAY_HEIGHT / 2;
+			ypos = ymid;
+			con = new Sprite();		
+			con.x = xpos;
+			con.y = ypos;			
 			super.x;
 		}
-		
+
 		/**
 		 * 	Render graphics
 		 */
@@ -97,18 +103,28 @@ package
 				var source:BitmapData = info.source;
 				xpos += radius - Math.random() * (radius * 2);
 				ypos += radius - Math.random() * (radius * 2);
-				if (xpos < 240 - radius) xpos = 240 - radius;
-				else if (xpos > 240 + radius) xpos = 240 + radius;
-				if (ypos < 240 - radius) ypos = 240 - radius;
-				else if (ypos > 240 + radius) ypos = 240 + radius;
+				if (xpos < xmid - radius) xpos = xmid - radius;
+				else if (xpos > xmid + radius) xpos = xmid + radius;
+				if (ypos < ymid - radius) ypos = ymid - radius;
+				else if (ypos > ymid + radius) ypos = ymid + radius;
 				
 				var s:Sprite;
 				for (var i:int = 0; i < n; ++i)
 				{
 					s = con.getChildAt(i) as Sprite;
-					s.getChildAt(0).x = con.x - 240;
-					s.getChildAt(0).y = con.y - 240;
-					s.rotation += (con.x - 240) * i * .005;
+					if (large)
+					{
+						s.getChildAt(0).x = con.x;
+						s.getChildAt(0).y = con.y;
+						
+					}
+					else
+					{
+						s.getChildAt(0).x = con.x - xmid;
+						s.getChildAt(0).y = con.y - ymid;
+						
+					}
+					s.rotation += (con.x - xmid) * i * .005;
 				}
 				
 				con.x += (xpos - con.x) * .05;
@@ -165,14 +181,7 @@ package
 			}
 		}
 		
-		
-		private function createContainer(x:Number, y:Number):Sprite
-		{
-			var s:Sprite = addChild(new Sprite()) as Sprite;
-			s.x = x;
-			s.y = y;
-			return s;
-		}
+
 		private function createImage():BitmapData
 		{
 			var w:int = 50, h:int = 200;
@@ -207,6 +216,16 @@ package
 		public function set speed(value:int):void
 		{
 			_speed = value;
+		}
+		
+		public function get large():Boolean
+		{
+			return _large;
+		}
+
+		public function set large(value:Boolean):void
+		{
+			_large = value;
 		}
 		
 		/**

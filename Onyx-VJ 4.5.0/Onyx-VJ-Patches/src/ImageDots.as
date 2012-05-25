@@ -45,7 +45,7 @@ package
 		public var perlinOffset : Number = MAX_DISPLACE;
 		private var bmpd:BitmapData;
 		private var sprite:Sprite;
-		private var _text:String = "Nekra\ndamage";
+		private var _text:String = "Batchass";
 		
 		public function ImageDots()
 		{

@@ -5,7 +5,7 @@ package {
 	[ExcludeSDK]
 	
 	//[Embed(source='../assets/wh217x123.png')]
-	[Embed(source='../assets/crossover.jpg')]
+	[Embed(source='../assets/warehouse.jpg')]
 	public final class AssetForRuttEtraIzer extends BitmapData {
 		
 		/**
@@ -13,7 +13,7 @@ package {
 		 */
 		public function AssetForRuttEtraIzer() {
 			//super(100, 25);
-			super(142, 59);
+			super(180, 171);
 		}
 		
 	}

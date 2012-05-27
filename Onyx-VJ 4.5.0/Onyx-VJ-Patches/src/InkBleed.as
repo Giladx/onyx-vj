@@ -270,7 +270,7 @@ package
 			var absorbMap:BitmapData = new BitmapData(_cw, _ch, false, 0);
 			absorbMap.perlinNoise(_cw/2, _ch/2, 5, _cw/2 * Math.random(), true, true, 1, true);
 			absorbMap.colorTransform(absorbMap.rect, new ColorTransform(.2, .2, .2));
-			var maxCapMap:BitmapData = new BitmapData(_cw, _ch, false, 0xffffff);
+			var maxCapMap:BitmapData = new BitmapData(_cw, _ch, false, 0xff00ff);
 			maxCapMap.perlinNoise(_cw, _ch, 5, _cw/2 * Math.random(), true, true, 1, true);
 			maxCapMap.colorTransform(maxCapMap.rect, new ColorTransform(1.8, 1.8, 1.8));
 			var d:Dot, i:int = _pnum;

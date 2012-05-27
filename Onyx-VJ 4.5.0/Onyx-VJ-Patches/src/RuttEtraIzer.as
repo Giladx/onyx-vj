@@ -15,6 +15,7 @@ package
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
+	
 	public class RuttEtraIzer extends Patch
 	{
 		private var PV:PVRuttEtraIzer;
@@ -22,6 +23,7 @@ package
 		private var _scale:Number = 6;
 		private var sprite:Sprite;
 		private var _scanStep:int = 2;
+		private var _factor:int = 3;
 		private var _size:int = 4;
 		private var _soundMultiplier:int = 15;
 		private var _rx:int = 22;
@@ -37,6 +39,7 @@ package
 				new ParameterNumber( 'scale', 'scale:', 1, 30, _scale ),
 				new ParameterInteger( 'size', 'size:', 1, 10, _size ),
 				new ParameterInteger( 'scanStep', 'scanStep:', 1, 10, _scanStep ),
+				new ParameterInteger( 'factor', 'factor:', 1, 10, _factor ),
 				new ParameterNumber( 'depth', 'depth:', .0001, 3, _depth ),
 				new ParameterInteger( 'rx', 'rotation x', 0, 360, _rx ),
 				new ParameterInteger( 'ry', 'rotation y', 0, 360, _ry ),
@@ -143,6 +146,17 @@ package
 		{			
 			info.render( sprite );		
 		}
+
+		public function get factor():int
+		{
+			return _factor;
+		}
+
+		public function set factor(value:int):void
+		{
+			PV.factor = _factor = value;
+		}
+
 	}
 }
 
@@ -166,6 +180,8 @@ import org.papervision3d.materials.special.LineMaterial;
 import org.papervision3d.objects.primitives.Sphere;
 import org.papervision3d.view.BasicView;
 
+import services.sound.SoundProvider;
+
 class PVRuttEtraIzer extends BasicView
 {
 	private var light : PointLight3D;
@@ -178,6 +194,7 @@ class PVRuttEtraIzer extends BasicView
 	private var lineThickness:Number = 2.0;
 	private var opacity:Number = 1.0;
 	private var _depth:Number = .02;
+	private var _factor:int = 3;
 	private var autoRotate:Boolean = false;
 	private var _soundMultiplier:int = 15;
 	private var _imageWidth:int = 50;
@@ -201,6 +218,7 @@ class PVRuttEtraIzer extends BasicView
 	private var _rz:int = 270;
 	private var i:int;
 	private var j:int;
+	private var sp:SoundProvider;
 
 	public function PVRuttEtraIzer() 
 	{
@@ -224,13 +242,15 @@ class PVRuttEtraIzer extends BasicView
 		scene.addChild( lines );
 		analysis = SpectrumAnalyzer.getSpectrum(true);
 		al = analysis.length;
+		sp = SoundProvider.getInstance();
+		sp.activate();
 		addEventListener( Event.ENTER_FRAME, enterFrame );
 	}	
 
 	private function loop(evt:TimerEvent):void 
 	{
 		
-		for(var xr:int = 0; xr < _imageWidth ; xr++)// xr+= scanStep) 
+		for(var xr:int = 0; xr < _imageWidth ; xr++)// xr+= scanStep)
 		{
 			var color:Number = bmpd.getPixel(xr, yr);
 			var red:int = (color >> 16 & 0xFF);					
@@ -274,6 +294,17 @@ class PVRuttEtraIzer extends BasicView
 		drawLines();
 	}
 	
+	public function get factor():int
+	{
+		return _factor;
+	}
+	
+	public function set factor(value:int):void
+	{
+		_factor = value;
+		
+	}
+	
 	private function getBrightness(r:int,g:int,b:int):Number 
 	{
 		return ( 0.34 * r + 0.5 * g + 0.16 * b );
@@ -284,16 +315,18 @@ class PVRuttEtraIzer extends BasicView
 		i = 0;
 		j = 0;
 		var nbLinesHoriz:int = _imageWidth / scanStep;
-		var factor:int = nbLinesHoriz / (al + 1);
+		//var factor:int = nbLinesHoriz / (al + 1);
 		
 		var count:Number = SpectrumAnalyzer.leftPeak + SpectrumAnalyzer.rightPeak;
 		//var fct:int = analysis.length / (lines.lines.length + 1);
 		for each ( var line:Line3D in lines.lines) 
 		{
-			var a:Number = analysis[j];
+			var a:Number = analysis[j/factor];
 			if (count<0.1) 
 			{
-				count = Math.random();
+				count = Math.random()*0.5;
+				//count = sp.slevel / 100;
+				//trace( count + " c-l " + sp.slevel );
 				a = Math.random();
 			}
 			

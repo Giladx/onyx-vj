@@ -4,14 +4,15 @@ package {
 	
 	[ExcludeSDK]
 	
-	[Embed(source='../assets/flower.jpg')]
+	//[Embed(source='../assets/flower.jpg')]
+	[Embed(source='../assets/wh.png')]
 	public final class AssetForElasticImage extends BitmapData {
 		
 		/**
 		 * 
 		 */
 		public function AssetForElasticImage() {
-			super(960, 386);
+			super(80, 63);
 		}
 		
 	}

@@ -45,7 +45,7 @@ package
 				circulos[i] = new Brilho(Math.random() * larg, Math.random() * alt, blur);
 				sprite.addChild(circulos[i]);
 			}
-			timer = new Timer(30);
+			timer = new Timer(40);
 			timer.addEventListener(TimerEvent.TIMER, onTimer);
 			timer.start();
 		}
@@ -57,6 +57,9 @@ package
 		override public function render(info:RenderInfo):void 
 		{
 			info.render( sprite );
+		}
+		override public function dispose():void {
+			
 		}
 	}
 }

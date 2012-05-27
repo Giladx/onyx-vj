@@ -37,7 +37,7 @@ package {
 		public var filter:ShaderFilter, shader:Shader;
 		public var bIncreasing:Boolean, fMagnitude:Number;
 		
-		public function Quaternion():void {
+		public function Quaternion():void { 
 
 			var bd:BitmapData=new AssetForPixelDistortion();   
 			var bitmap :Bitmap = new Bitmap( bd );

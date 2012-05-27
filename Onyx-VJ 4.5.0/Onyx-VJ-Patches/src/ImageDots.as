@@ -45,7 +45,7 @@ package
 		public var perlinOffset : Number = MAX_DISPLACE;
 		private var bmpd:BitmapData;
 		private var sprite:Sprite;
-		private var _text:String = "Batchass";
+		private var _text:String = "warehouse";
 		
 		public function ImageDots()
 		{
@@ -152,7 +152,7 @@ package
 			tf.defaultTextFormat = format;
 			tf.text = _text;
 			tf.autoSize = "left";
-			bmpdText = new BitmapData(tf.width, tf.height, true, 0);
+			bmpdText = new BitmapData(tf.width+70, tf.height+70, true, 0);
 			bmpdText.draw(tf);
 		}
 		public function get text():String
@@ -165,6 +165,11 @@ package
 			_text = value;
 			_createText();
 			_createParticles();
+		}
+		override public function dispose():void {
+			bmpd.dispose();
+			bmpdPerlin.dispose();
+			bmpdText.dispose();
 		}
 	}
 }

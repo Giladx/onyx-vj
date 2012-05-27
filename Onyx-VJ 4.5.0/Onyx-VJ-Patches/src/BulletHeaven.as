@@ -160,6 +160,7 @@ package
 		{
 			
 			_canvas.dispose();
+			bulletBD.dispose();
 			_particles = null;
 		}	
 	}

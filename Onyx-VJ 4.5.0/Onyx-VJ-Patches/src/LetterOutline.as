@@ -30,7 +30,7 @@ package
 		private var drawTimer:Timer = null;
 		private var sprite:Sprite;
 		private var _size:int = 30;
-		private var _text:String = "K21";
+		private var _text:String = "warehouse";
 		private var _font:Font;
 		
 		public function LetterOutline()

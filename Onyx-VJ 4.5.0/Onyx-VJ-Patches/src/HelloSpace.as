@@ -40,7 +40,7 @@ package {
 		private var xysRandom:Vector.<Number> = new Vector.<Number>();
 		private var canvasBMP:Bitmap;
 		private var _font:Font;
-		private var _text:String = "K21";
+		private var _text:String = "warehouse";
 		private var _color:uint=0x005599;
 		
 		public function HelloSpace()
@@ -193,6 +193,10 @@ package {
 
 		public function get font():Font {
 			return _font;
+		}
+		override public function dispose():void {
+			canvas.dispose();
+			canvasGlow.dispose();
 		}
 	}
 }

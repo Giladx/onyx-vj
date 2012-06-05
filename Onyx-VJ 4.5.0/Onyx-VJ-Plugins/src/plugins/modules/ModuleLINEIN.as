@@ -111,7 +111,7 @@ package plugins.modules {
 		///////
 		public function set enable(value:Boolean):void {
 			if(value) { 
-				if(_source=="stream") {
+				if(_source=="stream") { 
 					_sfx = new Sound();
 					_ctx = new SoundLoaderContext(0, false);
 					_url = new URLRequest("http://"+_host+":"+_port+"/stream");

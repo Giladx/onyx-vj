@@ -25,7 +25,7 @@ package services.sound
 		public var floatLR:Array;
 		public var bandsLR:Array;
 		
-		public var slevel:Number;
+		public var slevel:Number = 0;
 		
 		private var _level:Number;
 		
@@ -36,6 +36,9 @@ package services.sound
 				throw new Error('');
 			
 			_level			= 1;
+			
+			mic = Microphone.getMicrophone();
+			mic.setUseEchoSuppression(true);
 			
 			bytes 			= new ByteArray();
 			floatLR 		= new Array(new Array(),new Array());
@@ -52,10 +55,10 @@ package services.sound
 		}
 		
 		public function activate():void {
-			mic.addEventListener(SampleDataEvent.SAMPLE_DATA, gotMicData);
+			if (mic) mic.addEventListener(SampleDataEvent.SAMPLE_DATA, gotMicData);
 		} 
 		public function deactivate():void {
-			mic.removeEventListener(SampleDataEvent.SAMPLE_DATA, gotMicData);
+			if (mic) mic.removeEventListener(SampleDataEvent.SAMPLE_DATA, gotMicData);
 		}
 		
 		public function level():void {

@@ -155,6 +155,7 @@
     <classEntry path="onyx.ui.UserInterfaceControl"/>
     <classEntry path="onyx.utils.GCTester"/>
     <classEntry path="onyx.utils.GraphPlotter"/>
+    <classEntry path="onyx.utils.HtmlEntities"/>
     <classEntry path="onyx.utils.array.swap"/>
     <classEntry path="onyx.utils.bitmap.DistortImage"/>
     <classEntry path="onyx.utils.bitmap.Distortion"/>

@@ -26,19 +26,19 @@ package onyx.asset {
 		 */
 		public function getProtocolList(path:String):Array 
 		{
-			//Console.output( '--------------------------------\nVideoPongProtocol, start of getProtocolList' );
+			Console.output( '--------------------------------\nVideoPongProtocol, start of getProtocolList, token:' + vp.sessiontoken.substr(0,4) + " user " + vp.username );
 			const list:Array = [];
 			// must login first
 			var folders:XML = vp.folders;
 			if ( folders )
 			{
-				trace(folders.toString().substr(0,550));
+				//trace(folders.toString().substr(0,550));
 				var response:uint = folders..ResponseCode;//0 if ok
 				//select only folders for the path eg:onyx-query://vdpong/all
 				var folderList:XMLList;
 				var subFolder:String = '';
 				var assetsList:XMLList;
-				//Console.output( 'VideoPongProtocol, path: ' + path );
+				Console.output( 'VideoPongProtocol, path: ' + path );
 				if ( path.length > 20 )
 				{
 					var suffix:String = path.substr(20);
@@ -65,7 +65,7 @@ package onyx.asset {
 				}
 				else
 				{
-					//Console.output( 'VideoPongProtocol, root folder.' );
+					Console.output( 'VideoPongProtocol, root folder.' );
 					folderList = folders.listfolders.folder;
 					assetsList = folders.listfolders.asset;
 					//OK all folders: var folderList:XMLList = folders..folder;
@@ -73,7 +73,7 @@ package onyx.asset {
 				// get assets from the selected folder
 				if ( assetsList.length() >0 )
 				{
-					//if ( DEBUG::SPLASHTIME==0 ) Console.output( 'VideoPongProtocol, number of assets: ' + assetsList.length() );
+					if ( DEBUG::SPLASHTIME==0 ) Console.output( 'VideoPongProtocol, number of assets: ' + assetsList.length() );
 					
 					for each ( var asset:XML in assetsList )
 					{

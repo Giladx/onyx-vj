@@ -207,6 +207,12 @@ package ui.window {
 					break;
 				case 'vpdomain':
 					_text.text = 'Videopong domain: ' + vp.domain;
+					break;
+				case 'vpuser':
+					_text.text = 'Videopong user: ' + vp.username;
+					break;
+				case 'vpappkey':
+					_text.text = 'Videopong appkey: ' + vp.appkey;
 				
 					break;
 				case 'vpsessiontoken':

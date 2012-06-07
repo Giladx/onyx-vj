@@ -274,7 +274,7 @@ package ui.window {
 					
 					break;
 				case buttonVideoPong:
-				
+					Console.output('onyx-query://vdpong');
 					AssetFile.queryDirectory('onyx-query://vdpong', updateList);
 					
 					break;

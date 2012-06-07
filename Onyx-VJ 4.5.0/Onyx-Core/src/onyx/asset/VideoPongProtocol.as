@@ -27,7 +27,7 @@ package onyx.asset {
 		 */
 		public function getProtocolList(path:String):Array 
 		{
-			Console.output( '--------------------------------\nVideoPongProtocol, start of getProtocolList, token:' + vp.sessiontoken.substr(0,4) + " user " + vp.username );
+			//Console.output( '--------------------------------\nVideoPongProtocol, start of getProtocolList, token:' + vp.sessiontoken.substr(0,4) + " user " + vp.username );
 			const list:Array = [];
 			// must login first
 			var folders:XML = vp.folders;
@@ -39,7 +39,7 @@ package onyx.asset {
 				var folderList:XMLList;
 				var subFolder:String = '';
 				var assetsList:XMLList;
-				Console.output( 'VideoPongProtocol, path: ' + path );
+				//Console.output( 'VideoPongProtocol, path: ' + path );
 				if ( path.length > 20 )
 				{
 					var suffix:String = path.substr(20);
@@ -53,13 +53,15 @@ package onyx.asset {
 						//add up folder button
 						subFolder = suffix.substr( 0, suffix.indexOf('/') );
 						//Console.output( 'VideoPongProtocol, no subfolders, we add the up one folder button to return to: ' + subFolder );
-						var decodedSFName:String = HtmlEntities.decode(subFolder);
-						list.push( new VideoPongAsset( '', true, decodedSFName  ) );
+						/*var decodedSFName:String = HtmlEntities.decode(subFolder);
+						list.push( new VideoPongAsset( '', true, decodedSFName ) );*/
+						list.push( new VideoPongAsset( '', true, subFolder ) );
 						assetsList = folders.listfolders.folder.(@foldername==subFolder).subfolder.folder.(@foldername==currentFolder).asset;
 					}
 					else
 					{
-						subFolder = HtmlEntities.decode(folders.listfolders.folder.(@foldername==suffix).@foldername + '/');
+						//subFolder = HtmlEntities.decode(folders.listfolders.folder.(@foldername==suffix).@foldername + '/');
+						subFolder = folders.listfolders.folder.(@foldername==suffix).@foldername + '/';
 						//Console.output( 'VideoPongProtocol, subfolders exist, we first add the up one folder button to return to: ' + subFolder );
 						list.push( new VideoPongAsset( '', true ) );
 						assetsList = folders.listfolders.folder.(@foldername==suffix).asset;
@@ -67,7 +69,7 @@ package onyx.asset {
 				}
 				else
 				{
-					Console.output( 'VideoPongProtocol, root folder.' );
+					//Console.output( 'VideoPongProtocol, root folder.' );
 					folderList = folders.listfolders.folder;
 					assetsList = folders.listfolders.asset;
 					//OK all folders: var folderList:XMLList = folders..folder;
@@ -75,7 +77,7 @@ package onyx.asset {
 				// get assets from the selected folder
 				if ( assetsList.length() >0 )
 				{
-					if ( DEBUG::SPLASHTIME==0 ) Console.output( 'VideoPongProtocol, number of assets: ' + assetsList.length() );
+					//if ( DEBUG::SPLASHTIME==0 ) Console.output( 'VideoPongProtocol, number of assets: ' + assetsList.length() );
 					
 					for each ( var asset:XML in assetsList )
 					{
@@ -89,9 +91,10 @@ package onyx.asset {
 				//loop on resulting xmllist
 				for each ( var folder:XML in folderList )
 				{
-					var decodedFolderName:String = HtmlEntities.decode(folder.@foldername);
+					/*var decodedFolderName:String = HtmlEntities.decode(folder.@foldername);
 					var decodedSubFolderName:String = HtmlEntities.decode(subFolder);
-					list.push( new VideoPongAsset( decodedFolderName, true, decodedSubFolderName ) );
+					list.push( new VideoPongAsset( decodedFolderName, true, decodedSubFolderName ) );*/
+					list.push( new VideoPongAsset( folder.@foldername, true, subFolder ) );
 				}
 			}
 			else

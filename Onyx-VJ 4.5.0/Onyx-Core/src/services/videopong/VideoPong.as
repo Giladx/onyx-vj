@@ -106,7 +106,7 @@ package services.videopong
 				loginResponse = res..ResponseCode;//0 if ok 1 if not then it is a guest
 				sessiontoken = res..SessionToken;
 				fullUserName = res..UserName;
-				Console.output( 'Videopong login ok: ' + fullUserName + " loginResponse:" + loginResponse + " session:" + sessiontoken.substr(0,4) );
+				Console.output( 'Videopong login ok: ' + fullUserName);// + " loginResponse:" + loginResponse + " session:" + sessiontoken.substr(0,4) );
 				var tEvent:TextEvent = new TextEvent("loggedin");
 				tEvent.text = fullUserName;
 				dispatchEvent( tEvent );
@@ -120,7 +120,7 @@ package services.videopong
 		{
 			var url:String = domain + '/api/getfolderstreeassets/' + sessiontoken;
 			var request:URLRequest = new URLRequest( url );
-			Console.output( 'loadFoldersAndAssets: ' + url );
+			//Console.output( 'loadFoldersAndAssets: ' + url );
 			
 			var loader:URLLoader = new URLLoader();
 			loader.addEventListener( Event.COMPLETE, foldersTreeHandler );
@@ -129,8 +129,8 @@ package services.videopong
 		}
 		public function foldersTreeHandler( event:Event ):void
 		{
-			Console.output( 'Videopong foldersTreeHandler response from loader, event:' + event.type );
-			Console.output( 'foldersTreeHandler event:' + event.toString() );
+			/*Console.output( 'Videopong foldersTreeHandler response from loader, event:' + event.type );
+			Console.output( 'foldersTreeHandler event:' + event.toString() );*/
 			if (event is ErrorEvent) 
 			{
 				Console.output( 'Videopong foldersTree error: ' + (event as IOErrorEvent).text );
@@ -138,21 +138,32 @@ package services.videopong
 			else
 			{
 				resultToDecode = event.currentTarget.data;
-				Console.output( 'foldersTreeHandler result length:' + resultToDecode.length );
+				//Console.output( 'foldersTreeHandler result length:' + resultToDecode.length );
 				arrayOfTextToDecode = resultToDecode.split( 'folderid' );
 				
 				// problem too long? 
-				//folders = XML(HtmlEntities.decode(result));
+				//folders = XML(HtmlEntities.decode(resultToDecode));
+				folders = XML(resultToDecode);
+				folderResponse = folders..ResponseCode;//0 if ok
+				Console.output( "Videopong folders loaded" ); 
+				
+				if ( folderResponse == 0 ) 
+				{
+					var tEvent:TextEvent = new TextEvent("foldersloaded");
+					tEvent.text = "Folders and assets tree loaded";
+					dispatchEvent( tEvent );
+					//AssetFile.queryDirectory('onyx-query://vdpong', updateList);
+				}
 				// decode shorter strings
-				timer = new Timer(12000);
+				/*timer = new Timer(12000);
 				if (!timer.running)
 				{
 					timer.addEventListener(TimerEvent.TIMER, decode);
 					timer.start();				
-				}
+				}*/
 			}
 		}
-		private function decode(event:Event):void 
+		/*private function decode(event:Event):void 
 		{		
 			var tempToDecode:String = arrayOfTextToDecode.shift();
 			Console.output( "tempToDecode:" + tempToDecode); 
@@ -168,8 +179,8 @@ package services.videopong
 				timer.stop();
 				saveFolders();
 			}
-		}
-		private function saveFolders(): void 
+		}*/
+		/*private function saveFolders(): void 
 		{		
 			Console.output( "saveFolders: " + tempStr.substr(0,15) ); 
 			Console.output( "saveFolders l: " + tempStr.length ); 
@@ -185,14 +196,14 @@ package services.videopong
 				dispatchEvent( tEvent );
 				//AssetFile.queryDirectory('onyx-query://vdpong', updateList);
 			}
-		}
+		}*/
 			
 		/**
 		 * getAssets based on folderId
 		 */
 		public function vpGetAssets( folderId:String ):XMLList {
 			var assetsList:XMLList;
-			Console.output( "Videopong folderId:" + folderId); 
+			//Console.output( "Videopong folderId:" + folderId); 
 			assetsList = assets.asset.(@folderid == folderId);
 			return assetsList;
 		}		
@@ -205,19 +216,19 @@ package services.videopong
 		}	
 		public function get folders():XML
 		{
-			Console.output( "Videopong get folders" + _folders.toString().substr(0,10) ); 
+			//Console.output( "Videopong get folders" + _folders.toString().substr(0,10) ); 
 			return _folders;
 		}
 		
 		public function set folders(value:XML):void
 		{
-			Console.output( "Videopong set folders" + value.toString().substr(0,10)); 
+			//Console.output( "Videopong set folders" + value.toString().substr(0,10)); 
 			_folders = value;
 		}
 		
 		public function get sessionToken():String
 		{
-			Console.output( "Videopong get folders" ); 
+			//Console.output( "Videopong get folders" ); 
 			return sessiontoken;
 		}
 		
@@ -228,7 +239,7 @@ package services.videopong
 		
 		public function get domain():String
 		{
-			Console.output( "Videopong get domain:" + _domain ); 
+			//Console.output( "Videopong get domain:" + _domain ); 
 			return _domain;
 		}
 		
@@ -266,19 +277,19 @@ package services.videopong
 		}
 		public function get appkey():String
 		{
-			Console.output( "Videopong get appkey" + _appkey); 
+			//Console.output( "Videopong get appkey" + _appkey); 
 			return _appkey;
 		}
 		
 		public function set appkey(value:String):void
 		{
-			Console.output( "Videopong set appkey" + value); 
+			//Console.output( "Videopong set appkey" + value); 
 			_appkey = value;
 		}
 		
 		public function get folderResponse():uint
 		{
-			Console.output( "Videopong get folderResponse" ); 
+			//Console.output( "Videopong get folderResponse" ); 
 			return _folderResponse;
 		}
 		
@@ -289,7 +300,7 @@ package services.videopong
 		
 		public function get loginResponse():uint
 		{
-			Console.output( "Videopong get loginResponse" ); 
+			//Console.output( "Videopong get loginResponse" ); 
 			return _loginResponse;
 		}
 		
@@ -300,7 +311,7 @@ package services.videopong
 		
 		public function get sessiontoken():String
 		{
-			if (_sessiontoken)
+			/*if (_sessiontoken)
 			{
 				Console.output( "Videopong get sessiontoken:" + _sessiontoken.substr(0,4) ); 
 				
@@ -309,7 +320,7 @@ package services.videopong
 			{
 				Console.output( "Videopong get sessiontoken is null"  ); 
 				
-			}
+			}*/
 			return _sessiontoken;
 		}
 		
@@ -320,7 +331,7 @@ package services.videopong
 		
 		public function get assets():XML
 		{
-			Console.output( "Videopong get assets" ); 
+			//Console.output( "Videopong get assets" ); 
 			return _assets;
 		}
 		

@@ -6,6 +6,7 @@ package onyx.asset {
 	import onyx.core.Console;
 	import onyx.display.*;
 	import onyx.plugin.*;
+	import onyx.utils.HtmlEntities;
 	
 	import services.videopong.VideoPong;
 	
@@ -52,12 +53,13 @@ package onyx.asset {
 						//add up folder button
 						subFolder = suffix.substr( 0, suffix.indexOf('/') );
 						//Console.output( 'VideoPongProtocol, no subfolders, we add the up one folder button to return to: ' + subFolder );
-						list.push( new VideoPongAsset( '', true, subFolder  ) );
+						var decodedSFName:String = HtmlEntities.decode(subFolder);
+						list.push( new VideoPongAsset( '', true, decodedSFName  ) );
 						assetsList = folders.listfolders.folder.(@foldername==subFolder).subfolder.folder.(@foldername==currentFolder).asset;
 					}
 					else
 					{
-						subFolder = folders.listfolders.folder.(@foldername==suffix).@foldername + '/';
+						subFolder = HtmlEntities.decode(folders.listfolders.folder.(@foldername==suffix).@foldername + '/');
 						//Console.output( 'VideoPongProtocol, subfolders exist, we first add the up one folder button to return to: ' + subFolder );
 						list.push( new VideoPongAsset( '', true ) );
 						assetsList = folders.listfolders.folder.(@foldername==suffix).asset;
@@ -78,14 +80,18 @@ package onyx.asset {
 					for each ( var asset:XML in assetsList )
 					{
 						//Console.output( asset.@name + '_'+asset.@url + ''+asset.@thumb_url );
-						var vpAsset:AssetFile = new VPAsset( asset.@name, asset.@url, asset.@thumb_url );
+						
+						var decodedAssetName:String = HtmlEntities.decode(asset.@name);
+						var vpAsset:AssetFile = new VPAsset( decodedAssetName, asset.@url, asset.@thumb_url );
 						list.push( vpAsset );
 					}
 				}
 				//loop on resulting xmllist
 				for each ( var folder:XML in folderList )
 				{
-					list.push( new VideoPongAsset( folder.@foldername, true, subFolder ) );
+					var decodedFolderName:String = HtmlEntities.decode(folder.@foldername);
+					var decodedSubFolderName:String = HtmlEntities.decode(subFolder);
+					list.push( new VideoPongAsset( decodedFolderName, true, decodedSubFolderName ) );
 				}
 			}
 			else

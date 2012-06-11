@@ -88,8 +88,6 @@ package plugins.visualizer
 			prevBeat = 0.0;
 			
 			output = new BitmapData( DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0 );
-			
-			startTime = getTimer();
 		}
 		
 		override public function render(info:RenderInfo):void 

@@ -96,7 +96,6 @@ package plugins {
 				new Plugin('CircleSound', 			CircleSoundVisualizer, 'CircleSound'),
 				new Plugin('Vertical', 				VerticalVisualizer, 'Vertical'),
 				new Plugin('Wave', 					WaveVisualizer, 'Wave'),
-				new Plugin('Draw', 					DrawVisualizer, 'Draw'),
 				new Plugin('ScrollingLine', 		ScrollingLineVisualizer, 'ScrollingLine'),
 							
 				// macros

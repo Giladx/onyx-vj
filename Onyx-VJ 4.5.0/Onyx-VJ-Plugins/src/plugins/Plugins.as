@@ -68,6 +68,7 @@ package plugins {
 				new Plugin('Distort',				Distort,		'Distort'),
 				new Plugin('FrameSkip', 			FrameSkip,		'Frame Skip'),	
 				new Plugin('HalftoneFilter', 		HalftoneFilter,	'HalftoneFilter'),	
+				new Plugin('Rotate', 				Rotate,			'Rotate'),	
 				//new Plugin('BurstEcho', 			BurstEcho,		'BurstEcho'),	
 
 				// bitmap filters - tempo

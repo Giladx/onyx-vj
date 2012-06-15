@@ -153,6 +153,7 @@
     <classEntry path="onyx.ui.IUserInterfaceAdapter"/>
     <classEntry path="onyx.ui.UserInterface"/>
     <classEntry path="onyx.ui.UserInterfaceControl"/>
+    <classEntry path="onyx.utils.Base64Decoder"/>
     <classEntry path="onyx.utils.GCTester"/>
     <classEntry path="onyx.utils.GraphPlotter"/>
     <classEntry path="onyx.utils.HtmlEntities"/>

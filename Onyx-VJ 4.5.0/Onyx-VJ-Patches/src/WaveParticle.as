@@ -31,12 +31,10 @@ package {
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
-	//[SWF(backgroundColor="#0473B2", width="465", height="465", frameRate="30")]
-	
 	public class WaveParticle extends Patch 
 	{
 		private var loader:FontLoader;
-		private var background:Background;
+		//private var background:Background;
 		private var se:SoundEffect;
 		private var container:Sprite;
 		private var wave:Wave;
@@ -49,11 +47,11 @@ package {
 		private function init():void {
 			Console.output('WaveParticle from bbbluevelvet ( http://wonderfl.net/user/bbbluevelvet )');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
-			background = new Background();
-			addChild(background);
+			/*background = new Background();
+			addChild(background);*/
 			//
 			container = new Sprite();
-			addChild(container);
+			//addChild(container);
 			//
 			wave = new Wave(new Rectangle(0, 0, 465, 300));
 			container.addChild(wave);
@@ -75,8 +73,8 @@ package {
 			var sh:uint = DISPLAY_HEIGHT;
 			var cx:uint = uint(sw/2);
 			var cy:uint = uint(sh/2);
-			background.width = sw;
-			background.height = sh;
+			/*background.width = sw;
+			background.height = sh;*/
 			if (wave) {
 				wave.scaleX = sw/465;
 				wave.y = cy - 50;
@@ -591,7 +589,7 @@ class Label extends Sprite {
 //////////////////////////////////////////////////
 // Backgroundã‚¯ãƒ©ã‚¹
 //////////////////////////////////////////////////
-
+/*
 import flash.display.Shape;
 import flash.geom.Rectangle;
 import flash.geom.Matrix;
@@ -616,4 +614,4 @@ class Background extends Shape {
 		graphics.endFill();
 	}
 	
-}
+}*/

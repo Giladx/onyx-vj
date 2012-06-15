@@ -12,21 +12,17 @@ package plugins.filters {
 	import flash.geom.Point;
 	import flash.media.*;
 	import flash.net.*;
+	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
 	
 	import onyx.core.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
-	
-	import plugins.assets.AssetBadReception;
-	
+		
 	use namespace onyx_ns;
 	
 	public final class BadReception extends Filter implements IBitmapFilter {
 		
-		//protected var holder:Sprite;
-		//protected var video:Video;
-		//protected var testPattern:Loader;
 		protected var noise:BitmapData;
 		
 		protected var shader:Shader;
@@ -35,11 +31,13 @@ package plugins.filters {
 		protected var smoothRandomNoise:BitmapData;
 		protected var pointers:Vector.<Point>;
 		protected var rands:Vector.<Number>;
+		[Embed(source='../filters/pixelbender/badreception.pbj', mimeType='application/octet-stream')]
+		private var AssetBadReception:Class;
 		
 		public function BadReception() {
-			noise = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0);
+			noise = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0);
 			
-			smoothRandomNoise = new BitmapData(300, 10, false, 0);
+			smoothRandomNoise = new BitmapData(300, 10, true, 0);
 			smoothRandomNoise.perlinNoise(Math.random()*100, Math.random()*100, 4,
 				int((new Date()).date) * int(1000*Math.random()), true, true, 7);
 			pointers = new Vector.<Point>(12);
@@ -49,7 +47,7 @@ package plugins.filters {
 					Math.random()*smoothRandomNoise.width,
 					Math.random()*smoothRandomNoise.height));
 
-			shader = new AssetBadReception();
+			shader = new Shader( new AssetBadReception() as ByteArray );
 			shaderFilter = new ShaderFilter(shader);
 			shader.data.noiseImage.input = noise;
 			shader.data.srcImage.input = noise; 

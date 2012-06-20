@@ -4,14 +4,14 @@ package {
 	
 	[ExcludeSDK]
 	
-	[Embed(source='../assets/swap3.png')]
+	[Embed(source='../assets/arbremarron.jpg')]
 	public final class AssetForElectroCardiogram extends BitmapData {
 		
 		/**
 		 * 
 		 */
 		public function AssetForElectroCardiogram() {
-			super(600, 46);
+			super(800, 532);
 		}
 		
 	}

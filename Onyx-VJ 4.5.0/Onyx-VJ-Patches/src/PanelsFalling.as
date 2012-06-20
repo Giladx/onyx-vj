@@ -15,12 +15,12 @@ package {
 	import flash.geom.PerspectiveProjection;
 	import flash.utils.getTimer;
 	
-	[SWF(backgroundColor="#000000", frameRate="60", width="475", height="475")]
+	import onyx.core.*;
+	import onyx.parameter.*;
+	import onyx.plugin.*;
 	
-	
-	public class PanelsFalling extends Sprite {
-		
-		
+	public class PanelsFalling extends Patch {
+				
 		private var _canvas:Canvas;
 		
 		private var _color:ColorHSV;
@@ -67,18 +67,26 @@ package {
 			_px = cx;
 			_py = cy;
 		}
+		override public function render(info:RenderInfo):void 
+		{
+			
+			info.render( _canvas );		
+		}
 	}
 }
-
-import org.libspark.betweenas3.BetweenAS3;
-import org.libspark.betweenas3.easing.Circ;
-import org.libspark.betweenas3.tweens.ITween;
 
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.PixelSnapping;
 import flash.display.Shape;
 import flash.display.Sprite;
+
+import onyx.plugin.DISPLAY_HEIGHT;
+import onyx.plugin.DISPLAY_WIDTH;
+
+import org.libspark.betweenas3.BetweenAS3;
+import org.libspark.betweenas3.easing.Circ;
+import org.libspark.betweenas3.tweens.ITween;
 
 
 class Canvas extends Sprite {
@@ -107,10 +115,10 @@ class Canvas extends Sprite {
 		p.draw(s);
 		s.graphics.clear();
 		s.graphics.beginBitmapFill(p);
-		s.graphics.drawRect(0, 0, 475 + 5, 475);
+		s.graphics.drawRect(0, 0, DISPLAY_WIDTH + 5, DISPLAY_HEIGHT);
 		s.graphics.endFill();
 		
-		b = new BitmapData(475 + 5, 475, true, 0x0);
+		b = new BitmapData(DISPLAY_WIDTH + 5, DISPLAY_HEIGHT, true, 0x0);
 		b.draw(s);
 		_grid = addChild(new Bitmap(b, PixelSnapping.ALWAYS, false)) as Bitmap;
 		

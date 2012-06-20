@@ -45,7 +45,7 @@ package
 		public function BulletHeaven()
 		{
 			colorHSV = new ColorHSV(360, 1, 1);
-			_canvas = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0x00);
+			_canvas = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x00);
 			var cb:Bitmap = new Bitmap(_canvas);
 			addChild(cb);
 			

@@ -18,49 +18,36 @@
 
 package {
 	
-	import flash.display.BlendMode;
-	import flash.display.Sprite;
-	import flash.display.StageAlign;
-	import flash.display.StageScaleMode;
-	import flash.events.Event;
-	import flash.events.ProgressEvent;
+	import flash.display.*;
+	import flash.events.*;
 	import flash.geom.Rectangle;
 	
 	import onyx.core.*;
-	import onyx.events.InteractionEvent;
+	import onyx.events.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
 	public class WaveParticle extends Patch 
 	{
-		private var loader:FontLoader;
-		//private var background:Background;
-		private var se:SoundEffect;
 		private var container:Sprite;
 		private var wave:Wave;
 		private var light:Light;
 		
 		public function WaveParticle() {
-			init();
-		}
 		
-		private function init():void {
 			Console.output('WaveParticle from bbbluevelvet ( http://wonderfl.net/user/bbbluevelvet )');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
-			/*background = new Background();
-			addChild(background);*/
-			//
+
 			container = new Sprite();
-			//addChild(container);
-			//
+
 			wave = new Wave(new Rectangle(0, 0, 465, 300));
 			container.addChild(wave);
 			wave.y = 182;
-			//
+			
 			light = new Light(new Rectangle(0, 0, 465, 465));
 			container.addChild(light);
 			light.y = 0;
-			//
+			
 			resize();
 		}
 		override public function render(info:RenderInfo):void 
@@ -73,8 +60,7 @@ package {
 			var sh:uint = DISPLAY_HEIGHT;
 			var cx:uint = uint(sw/2);
 			var cy:uint = uint(sh/2);
-			/*background.width = sw;
-			background.height = sh;*/
+
 			if (wave) {
 				wave.scaleX = sw/465;
 				wave.y = cy - 50;
@@ -326,292 +312,3 @@ class Particle extends Sprite {
 	
 }
 
-
-//////////////////////////////////////////////////
-// SoundEffectã‚¯ãƒ©ã‚¹
-//////////////////////////////////////////////////
-
-import flash.events.EventDispatcher;
-import flash.events.Event;
-import flash.events.ProgressEvent;
-import flash.media.Sound;
-import flash.media.SoundChannel;
-import flash.media.SoundTransform;
-import flash.net.URLRequest;
-import flash.events.IOErrorEvent;
-
-class SoundEffect extends EventDispatcher {
-	public var id:String;
-	private var sound:Sound;
-	private var channel:SoundChannel;
-	private var level:Number;
-	private var _volume:Number = 1;
-	private var looping:Boolean = false;
-	public var initialized:Boolean = false;
-	public var playing:Boolean = false;
-	
-	public function SoundEffect() {
-	}
-	
-	public function init(Snd:Class, lv:Number = 1):void {
-		sound = new Snd();
-		level = lv;
-	}
-	public function load(filePath:String, lv:Number = 1):void {
-		sound = new Sound();
-		sound.addEventListener(IOErrorEvent.IO_ERROR, ioerror, false, 0, true);
-		sound.addEventListener(ProgressEvent.PROGRESS, progress, false, 0, true);
-		sound.addEventListener(Event.COMPLETE, initialize, false, 0, true);
-		try {
-			sound.load(new URLRequest(filePath));
-		} catch (err:Error) {
-			trace(err.message);
-		}
-		level = lv;
-	}
-	private function ioerror(evt:IOErrorEvent):void {
-		trace(evt.text);
-	}
-	private function progress(evt:ProgressEvent):void {
-		dispatchEvent(evt);
-	}
-	private function initialize(evt:Event):void {
-		initialized = true;
-		channel = sound.play();
-		channel.stop();
-		dispatchEvent(evt);
-	}
-	public function play(loop:Boolean = false):void {
-		playing = true;
-		if (channel) channel.stop();
-		looping = loop;
-		channel = sound.play();
-		var transform:SoundTransform = channel.soundTransform;
-		transform.volume = level*volume;
-		channel.soundTransform = transform;
-		if (looping) {
-			channel.addEventListener(Event.SOUND_COMPLETE, complete, false, 0, true);
-		}
-	}
-	public function stop():void {
-		playing = false;
-		if (channel) {
-			channel.stop();
-			channel.removeEventListener(Event.SOUND_COMPLETE, complete);
-		}
-	}
-	public function get volume():Number {
-		return _volume;
-	}
-	public function set volume(value:Number):void {
-		_volume = value;
-		if (channel) {
-			var transform:SoundTransform = channel.soundTransform;
-			transform.volume = level*_volume;
-			channel.soundTransform = transform;
-		}
-	}
-	private function complete(evt:Event):void {
-		channel.removeEventListener(Event.SOUND_COMPLETE, complete);
-		if (looping) {
-			channel = sound.play(0);
-			channel.addEventListener(Event.SOUND_COMPLETE, complete, false, 0, true);
-			var transform:SoundTransform = channel.soundTransform;
-			transform.volume = level*volume;
-			channel.soundTransform = transform;
-		} else {
-			playing = false;
-		}
-	}
-	
-}
-
-
-//////////////////////////////////////////////////
-// FontLoaderã‚¯ãƒ©ã‚¹
-//////////////////////////////////////////////////
-
-import flash.events.EventDispatcher;
-import flash.display.Loader;
-import flash.display.LoaderInfo;
-import flash.net.URLRequest;
-import flash.text.Font;
-import flash.events.Event;
-import flash.events.ProgressEvent;
-import flash.events.IOErrorEvent;
-import flash.events.HTTPStatusEvent;
-import flash.events.SecurityErrorEvent;
-import flash.system.ApplicationDomain;
-import flash.system.SecurityDomain;
-import flash.system.LoaderContext;
-import flash.utils.getDefinitionByName;
-
-class FontLoader extends EventDispatcher {
-	public var id:uint;
-	private var loader:Loader;
-	private var info:LoaderInfo;
-	private var _className:String;
-	private var _font:Font;
-	private var _fontName:String;
-	private var embeded:Boolean = false;
-	public static const IO_ERROR:String = IOErrorEvent.IO_ERROR;
-	public static const HTTP_STATUS:String = HTTPStatusEvent.HTTP_STATUS;
-	public static const SECURITY_ERROR:String = SecurityErrorEvent.SECURITY_ERROR;
-	public static const INIT:String = Event.INIT;
-	public static const COMPLETE:String = Event.COMPLETE;
-	
-	public function FontLoader() {
-		loader = new Loader();
-		info = loader.contentLoaderInfo;
-	}
-	
-	public function load(file:String, name:String, e:Boolean = false):void {
-		_className = name;
-		embeded = e;
-		info.addEventListener(ProgressEvent.PROGRESS, progress, false, 0, true);
-		info.addEventListener(IOErrorEvent.IO_ERROR, ioerror, false, 0, true);
-		info.addEventListener(HTTPStatusEvent.HTTP_STATUS, httpstatus, false, 0, true);
-		info.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityerror, false, 0, true);
-		info.addEventListener(Event.INIT, initialize, false, 0, true);
-		info.addEventListener(Event.COMPLETE, complete, false, 0, true);
-		try {
-			var context:LoaderContext = new LoaderContext();
-			context.applicationDomain = ApplicationDomain.currentDomain;
-			context.securityDomain = SecurityDomain.currentDomain;
-			loader.load(new URLRequest(file), context);
-		} catch (err:Error) {
-			trace(err.message);
-		}
-	}
-	public function unload():void {
-		loader.unload();
-	}
-	private function progress(evt:ProgressEvent):void {
-		dispatchEvent(evt);
-	}
-	private function ioerror(evt:IOErrorEvent):void {
-		loader.unload();
-		dispatchEvent(new Event(FontLoader.IO_ERROR));
-	}
-	private function httpstatus(evt:HTTPStatusEvent):void {
-		dispatchEvent(new Event(FontLoader.HTTP_STATUS));
-	}
-	private function securityerror(evt:SecurityErrorEvent):void {
-		dispatchEvent(new Event(FontLoader.SECURITY_ERROR));
-	}
-	private function initialize(evt:Event):void {
-		dispatchEvent(new Event(FontLoader.INIT));
-	}
-	private function complete(evt:Event):void {
-		info.removeEventListener(IOErrorEvent.IO_ERROR, ioerror);
-		info.removeEventListener(HTTPStatusEvent.HTTP_STATUS, httpstatus);
-		info.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, securityerror);
-		info.removeEventListener(Event.INIT, initialize);
-		info.removeEventListener(Event.COMPLETE, complete);
-		var FontClass:Class = Class(ApplicationDomain.currentDomain.getDefinition(className));
-		if (!embeded) {
-			Font.registerFont(FontClass);
-			_font = Font(new FontClass());
-		} else {
-			var document:Object = new FontClass();
-			_font = document.font;
-		}
-		_fontName = _font.fontName;
-		dispatchEvent(new Event(FontLoader.COMPLETE));
-	}
-	public function get className():String {
-		return _className;
-	}
-	public function get font():Font {
-		return _font;
-	}
-	public function get fontName():String {
-		return _fontName;
-	}
-	
-}
-//////////////////////////////////////////////////
-// Labelã‚¯ãƒ©ã‚¹
-//////////////////////////////////////////////////
-
-import flash.display.Sprite;
-import flash.text.TextField;
-import flash.text.TextFieldType;
-import flash.text.TextFieldAutoSize;
-import flash.text.AntiAliasType;
-import flash.text.TextFormat;
-import flash.text.TextFormatAlign;
-
-class Label extends Sprite {
-	private var txt:TextField;
-	private static var fontType:String = "Myriad Pro Semibold";
-	private var _width:uint = 20;
-	private var _height:uint = 20;
-	private var size:uint = 12;
-	public static const LEFT:String = TextFormatAlign.LEFT;
-	public static const CENTER:String = TextFormatAlign.CENTER;
-	public static const RIGHT:String = TextFormatAlign.RIGHT;
-	
-	public function Label(w:uint, h:uint, s:uint = 12, align:String = LEFT) {
-		_width = w;
-		_height = h;
-		size = s;
-		draw(align);
-	}
-	
-	private function draw(align:String):void {
-		txt = new TextField();
-		addChild(txt);
-		txt.width = _width;
-		txt.height = _height;
-		txt.autoSize = align;
-		txt.type = TextFieldType.DYNAMIC;
-		txt.selectable = false;
-		txt.embedFonts = true;
-		txt.antiAliasType = AntiAliasType.ADVANCED;
-		var tf:TextFormat = new TextFormat();
-		tf.font = fontType;
-		tf.size = size;
-		tf.align = align;
-		txt.defaultTextFormat = tf;
-		textColor = 0x000000;
-	}
-	public function set text(param:String):void {
-		txt.text = param;
-	}
-	public function set textColor(param:uint):void {
-		txt.textColor = param;
-	}
-	
-}
-
-
-//////////////////////////////////////////////////
-// Backgroundã‚¯ãƒ©ã‚¹
-//////////////////////////////////////////////////
-/*
-import flash.display.Shape;
-import flash.geom.Rectangle;
-import flash.geom.Matrix;
-import flash.display.GradientType;
-import flash.display.SpreadMethod;
-import flash.display.InterpolationMethod;
-
-class Background extends Shape {
-	private static var colors:Array = [0xE0F5FA, 0x067AC2, 0x0D1944];
-	private static var alphas:Array = [1, 1, 1];
-	private static var ratios:Array = [0, 153, 255];
-	
-	public function Background() {
-		draw();
-	}
-	
-	private function draw():void {
-		var matrix:Matrix = new Matrix();
-		matrix.createGradientBox(1600, 1600, 0, - 560, - 800);
-		graphics.beginGradientFill(GradientType.RADIAL, colors, alphas, ratios, matrix, SpreadMethod.PAD, InterpolationMethod.RGB, 0);
-		graphics.drawRect(0, 0, 800, 600);
-		graphics.endFill();
-	}
-	
-}*/

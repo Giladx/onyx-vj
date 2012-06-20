@@ -28,6 +28,8 @@ package {
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
 	
+	import onyx.core.*;
+	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
 	public class TextOnFire extends Patch {
@@ -36,6 +38,7 @@ package {
 		
 		private var _fireColor:BitmapData;
 		private var _currentFireColor:int;
+		private var _clr:int = 0x116633;
 		
 		private var _canvas:Sprite;
 		private var _grey:BitmapData;
@@ -46,57 +49,57 @@ package {
 		private var _fire:BitmapData;
 		private var _palette:Array;
 		private var _zeroArray:Array;
+		private var tf:TextField = new TextField();
+		private var format:TextFormat = new TextFormat('Verdana', 80, clr, true);
+		private var _text:String = 'ekkosystem';
 		
 		public function TextOnFire() {
 			
-			var loader:Loader = new Loader();
-			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, this._onLoaded);
-			loader.load(new URLRequest('http://saqoosha.net/lab/Moyasu/srcview/source/fire-color.png'), new LoaderContext(true));
-		}
-		
-		private function _onLoaded(e:Event):void {
-			this._fireColor = Bitmap(LoaderInfo(e.target).loader.content).bitmapData;
+			parameters.addParameters(
+				new ParameterString('text', 'text')
+			);
 			
-			this._canvas = new Sprite();
-			this._canvas.graphics.beginFill(0x0, 0);
-			this._canvas.graphics.drawRect(0, 0, 465, 465);
-			this._canvas.graphics.endFill();
-			this._canvas.addChild(this._createEmitter());
+			_fireColor = new AssetForBallSphere();  
 			
-			this._grey = new BitmapData(465, 465, false, 0x0);
-			this._spread = new ConvolutionFilter(3, 3, [0, 1, 0,  1, 1, 1,  0, 1, 0], 5);
-			this._cooling = new BitmapData(465, 465, false, 0x0);
-			this._offset = [new Point(), new Point()];
-			this._fire = new BitmapData(465, 465, false, 0x0);
-			this.addChild(new Bitmap(this._fire));
+			_canvas = new Sprite();
+			_canvas.graphics.beginFill(0x0, 0);
+			_canvas.graphics.drawRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+			_canvas.graphics.endFill();
+			_canvas.addChild(_createEmitter());
 			
-			this._createCooling(0.16);
-			this._createPalette(this._currentFireColor = 0);
+			_grey = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x0);
+			_spread = new ConvolutionFilter(3, 3, [0, 1, 0,  1, 1, 1,  0, 1, 0], 5);
+			_cooling = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x0);
+			_offset = [new Point(), new Point()];
+			_fire = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x0);
+			//addChild(new Bitmap(_fire));
 			
-			this.addEventListener(Event.ENTER_FRAME, this._update);
-			this.stage.addEventListener(MouseEvent.MOUSE_DOWN, this._onClick);
+			_createCooling(0.16);
+			_createPalette(_currentFireColor = 0);
+			
+			addEventListener(MouseEvent.MOUSE_DOWN, _onClick);
 		}
 		
 		private function _onClick(e:MouseEvent):void {
-			if (++this._currentFireColor == int(this._fireColor.height / 32)) {
-				this._currentFireColor = 0;
+			if (++_currentFireColor == int(_fireColor.height / 32)) {
+				_currentFireColor = 0;
 			}
-			this._createPalette(this._currentFireColor);
+			_createPalette(_currentFireColor);
 		}
 		
 		private function _createEmitter():DisplayObject {
-			var tf:TextField = new TextField();
+			
 			tf.selectable = false;
 			tf.autoSize = TextFieldAutoSize.LEFT;
-			tf.defaultTextFormat = new TextFormat('Verdana', 80, 0xffffff, true);
-			tf.text = 'Wonderfl';
-			tf.x = (465 - tf.width) / 2;
-			tf.y = (465 - tf.height) / 2;
+			tf.defaultTextFormat = new TextFormat('Verdana', 80, clr, true);
+			tf.text = text;
+			tf.x = (DISPLAY_WIDTH - tf.width) / 2;
+			tf.y = (DISPLAY_HEIGHT - tf.height) / 2;
 			return tf;
 		}
 		
 		private function _createCooling(a:Number):void {
-			this._color = new ColorMatrixFilter([
+			_color = new ColorMatrixFilter([
 				a, 0, 0, 0, 0,
 				0, a, 0, 0, 0,
 				0, 0, a, 0, 0,
@@ -105,24 +108,46 @@ package {
 		}
 		
 		private function _createPalette(idx:int):void {
-			this._palette = [];
-			this._zeroArray = [];
+			_palette = [];
+			_zeroArray = [];
 			for (var i:int = 0; i < 256; i++) {
-				this._palette.push(this._fireColor.getPixel(i, idx * 32));
-				this._zeroArray.push(0);
+				_palette.push(_fireColor.getPixel(i, idx * 32));
+				_zeroArray.push(0);
 			}
 		}
 		
-		private function _update(e:Event):void {
-			this._grey.draw(this._canvas);
-			this._grey.applyFilter(this._grey, this._grey.rect, ZERO_POINT, this._spread);
-			this._cooling.perlinNoise(50, 50, 2, 982374, false, false, 0, true, this._offset);
-			this._offset[0].x += 2.0;
-			this._offset[1].y += 2.0;
-			this._cooling.applyFilter(this._cooling, this._cooling.rect, ZERO_POINT, this._color);
-			this._grey.draw(this._cooling, null, null, BlendMode.SUBTRACT);
-			this._grey.scroll(0, -3);
-			this._fire.paletteMap(this._grey, this._grey.rect, ZERO_POINT, this._palette, this._zeroArray, this._zeroArray, this._zeroArray);
+		override public function render(info:RenderInfo):void {
+			_grey.draw(_canvas);
+			_grey.applyFilter(_grey, _grey.rect, ZERO_POINT, _spread);
+			_cooling.perlinNoise(50, 50, 2, 982374, false, false, 0, true, _offset);
+			_offset[0].x += 2.0;
+			_offset[1].y += 2.0;
+			_cooling.applyFilter(_cooling, _cooling.rect, ZERO_POINT, _color);
+			_grey.draw(_cooling, null, null, BlendMode.SUBTRACT);
+			_grey.scroll(0, -3);
+			_fire.paletteMap(_grey, _grey.rect, ZERO_POINT, _palette, _zeroArray, _zeroArray, _zeroArray);
+			info.render(_grey);
+		}
+
+		public function get text():String
+		{
+			return _text;
+		}
+
+		public function set text(value:String):void
+		{
+			_text = value;
+			tf.text = _text;
+			tf.defaultTextFormat = format;		
+		}
+		public function set clr(value:uint):void {
+			_clr = value;
+			format = new TextFormat('Verdana', 80, _clr, true);
+			tf.defaultTextFormat = format;	
+		}
+
+		public function get clr():uint {
+			return _clr;
 		}
 	}
 }

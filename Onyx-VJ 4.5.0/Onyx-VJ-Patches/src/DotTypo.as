@@ -29,7 +29,7 @@ package{
 		public function DotTypo():void{
 			var tf:TextField = new TextField();
 			tf.textColor = 0x000000;
-			tf.text = "mystic\nlabyrinth";
+			tf.text = "ekkosystem";
 			tf.autoSize = "left";
 			
 			bd = new BitmapData(tf.width, tf.height, false, 0xFFFFFF);

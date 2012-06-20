@@ -49,7 +49,7 @@ package
 		private var padTop:int;
 		private var running:Boolean = false;
 		private var sourceBitmap:Bitmap;
-		private var _text:String = "warehouse";
+		private var _text:String = "ekkosystem";
 		private var _speed:int			= 1;
 		private var timer:Timer			 = new Timer(_speed);
 		private var _font:Font;

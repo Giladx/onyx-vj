@@ -43,18 +43,20 @@ package {
 		private var _phongMap:Array;
 		private var mx:int=320;
 		private var my:int=240;
+		private var _color:uint = 0x118844;
 		
 		public function Wave() {
+			parameters.addParameters(
+				new ParameterColor('color', 'color')
+			);
 			_canvas = new BitmapData(DISPLAY_WIDTH / SCALE, DISPLAY_HEIGHT / SCALE, false, 0x0);
 			_final = _canvas.clone();
 			var bm:Bitmap = addChild(new Bitmap(_final)) as Bitmap;
 			bm.scaleX = bm.scaleY = SCALE;
-			//			_target = addChild(new Sprite()) as Sprite;
 			_target = new Sprite();
 			var sh:Shape = _target.addChild(new Shape()) as Shape;
 			var g:Graphics = sh.graphics;
 			g.beginFill(0xffffff);
-			//			g.drawRect(-50, -50, 100, 100);
 			g.drawEllipse(-50, -50, 100, 100);
 			g.endFill();
 			sh.x = 320;
@@ -89,7 +91,8 @@ package {
 				_waveMap.push((c << 16) | (c << 8) | c);
 			}
 			
-			_phongMap = _createPhongMap(0xffffff, 20, 0x00aaff, 0x00000);
+			//_phongMap = _createPhongMap(0xffffff, 20, 0x00aaff, 0x00000);
+			_phongMap = _createPhongMap(0xffffff, 20, color, 0x00);
 			addEventListener( MouseEvent.MOUSE_MOVE, mouseMove );
 		}
 		private function mouseMove(event:MouseEvent):void 
@@ -138,7 +141,14 @@ package {
 			info.render(_final);
 
 		}
+		public function set color(value:uint):void {
+			_color = value;
+			_phongMap = _createPhongMap(0xffffff, 20, color, 0x00);
+		}
 		
+		public function get color():uint {
+			return _color;
+		}
 	}
 	
 }

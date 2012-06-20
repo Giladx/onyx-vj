@@ -29,14 +29,14 @@ package {
 }
 
 function isClick(event:MouseEvent):void{
-	Text.text = "ç”Ÿæˆä¸­...";  
+	//Text.text = "ç”Ÿæˆä¸­...";  
 	bLoad = false;
 	startLoad();     
 }
 
 import flash.display.*; 
 import flash.events.*
-	import flash.text.TextField;     
+import flash.text.TextField;     
 import flash.geom.*;
 import flash.utils.getTimer;
 import flash.net.*; 

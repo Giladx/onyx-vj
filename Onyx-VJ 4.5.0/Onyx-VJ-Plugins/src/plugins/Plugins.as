@@ -70,6 +70,8 @@ package plugins {
 				new Plugin('HalftoneFilter', 		HalftoneFilter,	'HalftoneFilter'),	
 				new Plugin('Rotate', 				Rotate,			'Rotate'),	
 				new Plugin('BadReception', 			BadReception,	'BadReception'),	
+				new Plugin('GLFilter', 				GLFilter,		'GLFilter'),	
+				new Plugin('AutoXFade', 			AutoXFade,		'AutoXFade'),	
 				//new Plugin('BurstEcho', 			BurstEcho,		'BurstEcho'),	
 
 				// bitmap filters - tempo

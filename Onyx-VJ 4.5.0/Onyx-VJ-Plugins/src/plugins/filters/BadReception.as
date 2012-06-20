@@ -31,6 +31,7 @@ package plugins.filters {
 		protected var smoothRandomNoise:BitmapData;
 		protected var pointers:Vector.<Point>;
 		protected var rands:Vector.<Number>;
+		
 		[Embed(source='../filters/pixelbender/badreception.pbj', mimeType='application/octet-stream')]
 		private var AssetBadReception:Class;
 		

@@ -57,11 +57,6 @@
     <classEntry path="services.midi.ui.styles.MIDI_HIGHLIGHT"/>
     <classEntry path="services.midi.ui.styles.MIDI_HIGHLIGHT_CONFLICT"/>
     <classEntry path="services.midi.ui.styles.MIDI_HIGHLIGHT_SET"/>
-    <classEntry path="services.sound.ID"/>
-    <classEntry path="services.sound.ISoundControlBehavior"/>
-    <classEntry path="services.sound.SoundImplementer"/>
-    <classEntry path="services.sound.SoundProvider"/>
-    <classEntry path="services.sound.events.SoundEvent"/>
     <classEntry path="services.videopong.VideoPong"/>
     <classEntry path="ui.assets.AssetBitmap"/>
     <classEntry path="ui.assets.AssetColorPicker"/>
@@ -176,6 +171,7 @@
     <classEntry path="ui.states.KeyListenerState"/>
     <classEntry path="ui.states.LayerMoveState"/>
     <classEntry path="ui.states.QuitState"/>
+    <classEntry path="ui.states.RemoteListenerState"/>
     <classEntry path="ui.states.SaveMixState"/>
     <classEntry path="ui.states.SettingsLoadState"/>
     <classEntry path="ui.states.ShowOnyxState"/>
@@ -217,19 +213,19 @@
     <classEntry path="ui.window.DisplayWindow"/>
     <classEntry path="ui.window.Filters"/>
     <classEntry path="ui.window.KeysWindow"/>
+    <classEntry path="ui.window.LaunchpadWindow"/>
     <classEntry path="ui.window.LayerWindow"/>
     <classEntry path="ui.window.MidiWindow"/>
     <classEntry path="ui.window.ModuleWindow"/>
     <classEntry path="ui.window.PatchWindow"/>
     <classEntry path="ui.window.PreviewWindow"/>
+    <classEntry path="ui.window.RemoteWindow"/>
     <classEntry path="ui.window.SettingsWindow"/>
     <classEntry path="ui.window.VideopongWindow"/>
     <classEntry path="ui.window.Window"/>
     <classEntry path="ui.window.WindowRegistration"/>
     <classEntry path="ui.window.WindowState"/>
     <classEntry path="ui.window.WindowStateReg"/>
-    <classEntry path="ui.window.RemoteWindow"/>
-    <classEntry path="ui.states.RemoteListenerState"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -20,12 +20,15 @@ package ui.window {
 	
 	import flash.display.Sprite;
 	import flash.events.*;
+	import flash.filesystem.File;
 	import flash.ui.*;
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
 	
+	import onyx.asset.AssetFile;
 	import onyx.core.*;
 	import onyx.display.BlendModes;
+	import onyx.display.LayerImplementor;
 	import onyx.display.OutputDisplay;
 	import onyx.plugin.*;
 	import onyx.system.NativeAppLauncher;
@@ -81,6 +84,7 @@ package ui.window {
 		private var randomBlendActive:Boolean = false;
 		private var hashCurrentBlendModes:Dictionary;
 		private var randomDistortActive:Boolean = false;
+		public static var useTransition:Transition;
 		
 		/**
 		 * 	@Constructor
@@ -538,6 +542,23 @@ package ui.window {
 						}
 					}
 					break;
+				//saturation b&w
+				case 87:	
+					Console.output("saturation:",Display.saturation);
+					if (Display.saturation < 1)
+					{
+						appLauncher.writeData('144,86,'+GREENFULL);
+					}
+					else
+					{
+						appLauncher.writeData('144,86,'+REDLOW);
+					}
+					new Tween(
+						Display,
+						500,
+						new TweenProperty('saturation', Display.saturation, (Display.saturation < 1) ? 1 : 0)
+					)
+					break;
 				//5th line: channel AB
 				case 48:
 				case 49:
@@ -570,6 +591,24 @@ package ui.window {
 					for each (var layer:Layer in Display.layers) {
 					layer.framerate -= .1;
 				}
+					break;
+				// 6th line: load onx
+				case 44:
+				case 45:
+				case 46:
+				case 47:
+				case 76:
+				case 77:
+				case 78:
+				case 79:
+					//load default.onx
+					var defaultFile:File = new File( AssetFile.resolvePath( 'library/' + noteon + '.onx' ) );
+					if ( defaultFile.exists )
+					{
+						const li:LayerImplementor = (Display as OutputDisplay).getLayerAt(0) as LayerImplementor;
+						(Display as OutputDisplay).load(defaultFile.url, li, useTransition);
+					
+					}				
 					break;
 				case "cycle-blendmode-down":
 					var layer:Layer	= (UIObject.selection as UILayer).layer;

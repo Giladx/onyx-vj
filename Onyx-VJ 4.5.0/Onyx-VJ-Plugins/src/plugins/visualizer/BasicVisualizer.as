@@ -41,15 +41,10 @@ package plugins.visualizer {
 		
 		public var height:int		= 200;
 		private var shape:Shape	= new Shape();
-		private var customParameters:Parameters;
 		
 		public function BasicVisualizer():void 
 		{
-			// create base parameters
-			customParameters = new Parameters(this);
-			customParameters.addParameters(
-				new ParameterInteger('height', 'height', 100, 300, height)
-			);
+
 			Console.output('BasicVisualizer version 0.0.2');
 		}
 		

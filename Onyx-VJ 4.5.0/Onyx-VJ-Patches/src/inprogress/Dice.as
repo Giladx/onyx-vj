@@ -4,7 +4,7 @@
  * Downloaded from: http://wonderfl.net/c/zRh0
  */
 
-package 
+package inprogress 
 {
 	/*Each of the faces of the cube is created in the function 
 	*createSqr(). This also puts white eyes on each of the 
@@ -53,7 +53,6 @@ package
 		
 		public function Dice():void 
 		{
-			
 			hex.addChild(arrangeSqr(1, 0, 0, -uniH,0 , 0));
 			hex.addChild(arrangeSqr(5, uniH, 0, 0, -90, 0));
 			hex.addChild(arrangeSqr(6, 0, 0, uniH, -180, 0));

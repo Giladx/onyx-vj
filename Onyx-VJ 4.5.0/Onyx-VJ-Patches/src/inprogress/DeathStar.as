@@ -9,7 +9,7 @@
 â†‘â†“ã§ã‚²ã‚¸ã‚²ã‚¸ãƒã‚¤ãƒ³ãƒˆå¤‰æ›´
 */
 
-package 
+package inprogress 
 {    
 	import flash.display.*;
 	import flash.events.*;

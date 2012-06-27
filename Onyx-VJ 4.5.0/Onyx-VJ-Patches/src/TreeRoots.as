@@ -35,6 +35,7 @@ package
 		
 		public function TreeRoots() 
 		{
+			Console.output('TreeRoots adapted by Bruce LANE (http://www.batchass.fr)');
 			sprite = new Sprite();
 			var scrTreeRoots:TreeRoot = new TreeRoot(DISPLAY_WIDTH, DISPLAY_HEIGHT, resolution);
 			scrTreeRoots.cacheAsBitmap = true;

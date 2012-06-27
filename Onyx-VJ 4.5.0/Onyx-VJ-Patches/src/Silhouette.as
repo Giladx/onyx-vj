@@ -35,8 +35,7 @@ package {
 		
 		public function Silhouette() 
 		{
-			Console.output('HelloSpace (from http://wonderfl.net/c/vZ0Z)');
-			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
+			Console.output('Silhouette adapted by Bruce LANE (http://www.batchass.fr)');
 			
 			screen = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT,true,0);
 			pic = new Bitmap(screen);

@@ -4,7 +4,7 @@
  * Downloaded from: http://wonderfl.net/c/foPH
  */
 
-package 
+package inprogress 
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;

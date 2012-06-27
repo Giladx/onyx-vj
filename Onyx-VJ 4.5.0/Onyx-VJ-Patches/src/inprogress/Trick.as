@@ -6,7 +6,7 @@
 
 // forked from bradsedito's [ff]: Metaball
 
-package 
+package inprogress 
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -40,6 +40,7 @@ package
 		
 		public function Trick():void 
 		{
+			Console.output('Trick adapted by Bruce LANE (http://www.batchass.fr)');
 			container = new Sprite();
 			container.scaleX = container.scaleY = 6;
 			_bmpData = new BitmapData(480,360);

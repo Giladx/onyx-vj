@@ -13,7 +13,7 @@
 // forked from nutsu's SketchSample2
 // forked from nutsu's SketchSample1
 // forked from nutsu's PaintSample
-package 
+package inprogress 
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;

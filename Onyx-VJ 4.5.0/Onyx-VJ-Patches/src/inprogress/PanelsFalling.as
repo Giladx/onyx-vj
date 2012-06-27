@@ -4,7 +4,7 @@
  * Downloaded from: http://wonderfl.net/c/cXkO
  */
 
-package {
+package inprogress {
 	import frocessing.color.ColorHSV;
 	
 	import flash.display.Sprite;

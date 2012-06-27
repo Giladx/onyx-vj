@@ -17,7 +17,7 @@
  * Adapted for Onyx-VJ 4 by Bruce LANE (http://www.batchass.fr)
  * 
  */
-package 
+package inprogress 
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;

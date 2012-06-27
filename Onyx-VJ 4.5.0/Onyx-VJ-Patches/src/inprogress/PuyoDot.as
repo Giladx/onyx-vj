@@ -5,7 +5,7 @@
  */
 
 // forked from tail_y's PuyoDot
-package 
+package inprogress 
 {
 	
 	import flash.display.Bitmap;

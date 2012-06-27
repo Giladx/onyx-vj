@@ -35,6 +35,7 @@ package
 		
 		public function Spaghetti() 
 		{
+			Console.output('Spaghetti adapted by Bruce LANE (http://www.batchass.fr)');
 			spr = new Sprite();
 			ChaseList = new Array();
 			for (var i:int = 0; i < lines; i++) {

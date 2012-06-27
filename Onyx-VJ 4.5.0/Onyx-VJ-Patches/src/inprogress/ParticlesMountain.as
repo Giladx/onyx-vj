@@ -19,7 +19,7 @@
 
 //ã€€----------------------------------ã€€
 
-package {
+package inprogress {
 	import adobe.utils.CustomActions;
 	
 	import flash.display.Bitmap;

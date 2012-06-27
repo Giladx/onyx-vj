@@ -4,7 +4,7 @@
  * Downloaded from: http://wonderfl.net/c/7YCf
  */
 
-package 
+package inprogress 
 {
 	
 	import flash.display.*;

@@ -5,7 +5,7 @@
  */
 
 // forked from termat's Delaunayä¸‰è§’åˆ†å‰²
-package
+package inprogress
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -40,8 +40,10 @@ package
 		}
 		
 		private function onClick(e:MouseEvent):void {
-			addNode(e.localX,e.localY);
-			numNodes++;
+			if(numNodes<6){
+				numNodes++;
+				addNode(e.localX,e.localY)
+			}
 		}
 		
 		private function addNode(x:Number,y:Number):void{

@@ -13,7 +13,7 @@ Bezier fource.
 ã“ã‚Œè¦‹ãŸã‚‰ãªã‚“ã ã‹ãªã¤ã‹ã—ãã¦ã€ã‚€ã‹ã—ã®ã‚„ã¤ã‚’Wonderflã¸
 http://wonderfl.net/code/22347143956fe1042cd37277dc2ef3ba8308cd87
 */
-package {
+package inprogress {
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.geom.ColorTransform;

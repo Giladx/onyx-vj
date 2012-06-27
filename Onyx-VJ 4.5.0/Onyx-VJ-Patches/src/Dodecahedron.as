@@ -19,13 +19,17 @@ package {
 	import flash.geom.*;
 	import flash.text.*;
 	import flash.utils.*;
+	
+	import onyx.core.*;
+	import onyx.parameter.*;
+	import onyx.plugin.*;
 
-	public class Dodecahedron extends Sprite {
-		private const WIDTH:int = 465;
+	public class Dodecahedron extends Patch {
+		//private const WIDTH:int = 465;
 		// 3D renders
 		private var _materials:Vector.<Material> = new Vector.<Material>();
 		private var _light:Light = new Light(100,0.5,0.25);
-		private var _screen:BitmapData = new BitmapData(WIDTH, WIDTH, true, 0);
+		private var _screen:BitmapData = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0);
 		private var _matbuf:Matrix = new Matrix(1, 0, 0, 1, 225, 225);
 		private var gl:Render3D = new Render3D(300,1);
 		private var ss:StructureSynth = new StructureSynth();
@@ -38,18 +42,23 @@ package {
 		private var _mask :BitmapData;
 		private var blur:BlurFilter = new BlurFilter(64, 64);
 		private var colt:ColorTransform = new ColorTransform(-8, -8, -8, 1, 255, 255, 255, 0);
+		private var _mousex:int = 320;
+		private var _mousey:int = 240;
 		
 		// motions
 		private var frame:int = 0;
 		
 		// entry point
-		function Dodecahedron()
+		public function Dodecahedron()
 		{
-			
+			parameters.addParameters(
+				new ParameterInteger( 'mousex', 'mousex:', 1, DISPLAY_WIDTH, _mousex ),
+				new ParameterInteger( 'mousey', 'mousey:', 1, DISPLAY_HEIGHT, _mousey )
+			);
 			camera = new Vector3D(0, 0, -50);
-			_depth = new BitmapData(WIDTH, WIDTH, false, 0);
-			_ssao  = new BitmapData(WIDTH, WIDTH, false, 0);
-			_mask  = new BitmapData(WIDTH, WIDTH, false, 0);
+			_depth = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0);
+			_ssao  = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0);
+			_mask  = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0);
 			
 			
 			_materials.push((new Material()).setColor(0xff8080, 64, 192, 8, 40),
@@ -58,9 +67,8 @@ package {
 				(new Material()).setColor(0x80c0c0, 64, 192, 8, 40),
 				(new Material()).setColor(0x8080ff, 64, 192, 8, 40));
 			
-			addChild(gl).visible = false;
+			//addChild(gl).visible = false;
 			with(addChild(new Bitmap(_screen))) { x = y = 7; }
-			addEventListener("enterFrame", _onEnterFrame);
 			
 			// register meshes
 			ss.primitive("tetra",  SolidFactory.tetrahedron (new Mesh(), 1, 0));  // 4vertices/4triangles
@@ -75,13 +83,15 @@ package {
 			ss.rule("s4ry", "", "{s1.5}icosa{z2x2}s4rz{y2z2}s4ry");
 			ss.rule("s4rz", "", "{s1.5}icosa{z2x2}s4rz");
 			struct[0] = new ProjectionMesh(ss.exec(new Mesh(_materials)).updateFaces());
+			addEventListener( MouseEvent.MOUSE_DOWN, mouseDown );
+			addEventListener( MouseEvent.MOUSE_MOVE, mouseDown );
 		}
 		
-		private function _onEnterFrame(e:Event) : void {
+		override public function render(info:RenderInfo):void {
 			frame++;
 			
 			// projection
-			_light.transformBy(gl.id().tv(camera).rx((400-mouseY)*0.25).ry((232-mouseX)*0.75).matrix);
+			_light.transformBy(gl.id().tv(camera).rx((400-mousex)*0.25).ry((232-mousey)*0.75).matrix);
 			gl.push().rx(frame).project(struct[0]).pop();
 			struct[0].nearZ = -10;
 			struct[0].farZ = -80;
@@ -96,6 +106,35 @@ package {
 			// draw
 			_screen.fillRect(_screen.rect, 0xFFFFFF);
 			_screen.draw(gl.renderSolid(struct[0], _light), _matbuf);
+			info.render( _screen );
+		}
+		public function get mousey():int
+		{
+			return _mousey;
+		}
+		
+		public function set mousey(value:int):void
+		{
+			_mousey = value;
+		}
+		
+		public function get mousex():int
+		{
+			return _mousex;
+		}
+		
+		public function set mousex(value:int):void
+		{
+			_mousex = value;
+		}
+		
+		private function mouseDown(event:MouseEvent):void 
+		{
+			mousex = event.localX; 
+			mousey = event.localY; 
+		}
+		override public function dispose():void {
+			_screen.dispose();
 		}
 	}
 }

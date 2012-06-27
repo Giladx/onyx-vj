@@ -54,6 +54,7 @@ package {
 		private var _text:String = 'ekkosystem';
 		
 		public function TextOnFire() {
+			Console.output('TextOnFire adapted by Bruce LANE (http://www.batchass.fr)');
 			
 			parameters.addParameters(
 				new ParameterString('text', 'text')
@@ -62,9 +63,9 @@ package {
 			_fireColor = new AssetForBallSphere();  
 			
 			_canvas = new Sprite();
-			_canvas.graphics.beginFill(0x0, 0);
+			/*_canvas.graphics.beginFill(0x0, 0);
 			_canvas.graphics.drawRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-			_canvas.graphics.endFill();
+			_canvas.graphics.endFill();*/
 			_canvas.addChild(_createEmitter());
 			
 			_grey = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x0);

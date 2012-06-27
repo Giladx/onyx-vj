@@ -14,7 +14,7 @@
 // è§£èª¬ãªã©:http://game.g.hatena.ne.jp/Nao_u/20091229
 //
 // é«˜é€ŸåŒ–ã—ãŸã‘ã©ã‚ˆãã‚ã‹ã‚“ã­
-package {     
+package inprogress {     
 	import flash.display.Sprite;     
 	import flash.events.*;     
 	

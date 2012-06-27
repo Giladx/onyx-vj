@@ -19,6 +19,8 @@ package {
 
 		public function SpacePirateTransmission() 
 		{
+			Console.output('SpacePirateTransmission adapted by Bruce LANE (http://www.batchass.fr)');
+
 			sprite = new Sprite();
 			sprite.addChild(new Background());
 			

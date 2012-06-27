@@ -46,6 +46,7 @@ package {
 		private var _color:uint = 0x118844;
 		
 		public function Wave() {
+			Console.output('Wave adapted by Bruce LANE (http://www.batchass.fr)');
 			parameters.addParameters(
 				new ParameterColor('color', 'color')
 			);

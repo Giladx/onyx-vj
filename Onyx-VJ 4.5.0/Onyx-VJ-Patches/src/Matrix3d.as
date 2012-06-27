@@ -20,7 +20,6 @@ Task:
 - make a UI to to customize this
 */
 package {
-	import com.bit101.components.*;
 	import flash.display.*;
 	import flash.net.*;
 	import flash.system.*;
@@ -46,7 +45,6 @@ package {
 		private var m3Text:Text;
 		
 		public function Matrix3D() {
-			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
 			addChild(back);
 			front.contentLoaderInfo.addEventListener(Event.COMPLETE, recalc);

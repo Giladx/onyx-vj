@@ -4,7 +4,7 @@
  * Downloaded from: http://wonderfl.net/c/j8jS
  */
 
-package {
+package inprogress {
 	import flash.display.*;
 	import flash.events.*;
 	import flash.ui.ContextMenu;
@@ -32,6 +32,7 @@ package {
 		
 		public function StableFluids() 
 		{
+			Console.output('StableFluids adapted by Bruce LANE (http://www.batchass.fr)');
 			sprite = new Sprite();
 			
 			addEventListener(MouseEvent.MOUSE_DOWN, MouseDown );

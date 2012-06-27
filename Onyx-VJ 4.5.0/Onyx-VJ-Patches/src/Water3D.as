@@ -45,6 +45,7 @@ package {
 		
 		public function Water3D():void
 		{
+			Console.output('Water3D adapted by Bruce LANE (http://www.batchass.fr)');
 			sprite = new Sprite();			
 			width2 = DISPLAY_WIDTH / 2;
 			height2 = DISPLAY_HEIGHT / 2;

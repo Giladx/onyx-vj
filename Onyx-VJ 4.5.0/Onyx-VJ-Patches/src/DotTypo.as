@@ -27,6 +27,9 @@ package{
 		private var canvas:Sprite;
 		
 		public function DotTypo():void{
+			parameters.addParameters(
+				new ParameterExecuteFunction('create', 'Create')
+			) 
 			var tf:TextField = new TextField();
 			tf.textColor = 0x000000;
 			tf.text = "ekkosystem";
@@ -37,8 +40,7 @@ package{
 			
 			canvas = new Sprite();
 			
-			
-			var a:Array = new Array();
+			//var a:Array = new Array();
 			for(var i:int = 0; i < bd.width; i++){
 				for(var j:int = 0; j < bd.height; j++){
 					Tweener.addTween(randomize(canvas.addChild(new Rect(bd.getPixel(i, j)))), 
@@ -55,6 +57,16 @@ package{
 				}
 			}
 		}
+		public function create():void
+		{
+			
+		}
+		private function randomize(d:DisplayObject):DisplayObject{
+			d.x = Math.random() * DISPLAY_WIDTH;
+			d.y = Math.random() * DISPLAY_HEIGHT;
+			d.alpha = 0;
+			return d;
+		}
 		/**
 		 * 	Render graphics
 		 */
@@ -62,12 +74,6 @@ package{
 		{
 			info.render( canvas );		
 		} 
-		private function randomize(d:DisplayObject):DisplayObject{
-			d.x = Math.random() * DISPLAY_WIDTH;
-			d.y = Math.random() * DISPLAY_HEIGHT;
-			d.alpha = 0;
-			return d;
-		}
 	}
 }
 

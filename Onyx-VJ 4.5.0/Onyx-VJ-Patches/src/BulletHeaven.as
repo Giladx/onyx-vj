@@ -75,11 +75,6 @@ package
 		private function onClick(event:MouseEvent):void {
 			mx = event.localX; 
 			my = event.localY; 
-			/*if(drawMode=="copyPixels"){
-				drawMode = "draw";
-			}else{
-				drawMode = "copyPixels";
-			}*/
 		}		
 		private function mouseMove(event:MouseEvent):void {
 			mx = event.localX; 

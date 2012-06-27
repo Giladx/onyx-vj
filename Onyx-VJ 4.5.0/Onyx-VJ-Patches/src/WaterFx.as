@@ -40,6 +40,7 @@ package {
 		private var water:WaterEffect;
 		private var faded:Boolean = true;
 		public function WaterFx() {
+			Console.output('WaterFx adapted by Bruce LANE (http://www.batchass.fr)');
 			var bd:BitmapData = new AssetForWaterFx();		
 			graphics.beginFill(0x000000);
 			graphics.drawRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);

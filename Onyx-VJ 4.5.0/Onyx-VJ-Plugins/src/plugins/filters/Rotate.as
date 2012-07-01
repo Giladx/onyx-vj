@@ -12,7 +12,7 @@ package plugins.filters {
 		private var rot:Number				= 0;
 		public var rotate:Boolean			= true;
 		public var rotspeed:Number			= 0.007;
-		private var _boostSpeed:Number		= 0.0;
+		private var _boostSpeed:Number		= 1.0;
 		private var previousTime:Number     = 0.0;
 		private var _boostDelay:int    	 	= 10;
 		
@@ -25,7 +25,7 @@ package plugins.filters {
 				new ParameterBoolean('rotate', 'rotate'),
 				new ParameterNumber('rotspeed', 'rotspd', -1, 1, 0.007, 1000),
 				new ParameterInteger('boostDelay', 'boostDelay', 3, 5000, 10, 100),
-				new ParameterNumber('boostSpeed', 'boostSpeed', -1, 1, 0.0, 1000)
+				new ParameterNumber('boostSpeed', 'boostSpeed', -1, 1, 1.0, 1000)
 			);
 		}
 		
@@ -39,9 +39,11 @@ package plugins.filters {
 				rot += boostSpeed;
 				previousTime = time;
 			}
-			
-			if (rotate) {
-				rot += rotspeed;
+			else
+			{
+				if (rotate) {
+					rot += rotspeed;
+				}			
 			}
 			content.rotation = rot ;		
 		}

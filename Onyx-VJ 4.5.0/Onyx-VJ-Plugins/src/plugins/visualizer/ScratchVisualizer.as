@@ -31,6 +31,7 @@ package plugins.visualizer {
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
 						
 		}
+		
 		public function load():void
 		{
 			mLoadedSong = new soundClass() as Sound;

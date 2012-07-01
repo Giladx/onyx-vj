@@ -101,6 +101,7 @@ package plugins {
 				new Plugin('Vertical', 				VerticalVisualizer, 'Vertical'),
 				new Plugin('Wave', 					WaveVisualizer, 'Wave'),
 				new Plugin('ScrollingLine', 		ScrollingLineVisualizer, 'ScrollingLine'),
+				new Plugin('Equalizer3D', 			Equalizer3D, 'Equalizer3D'),
 				//new Plugin('ScratchVisualizer', 	ScratchVisualizer, 'ScratchVisualizer'),
 							
 				// macros

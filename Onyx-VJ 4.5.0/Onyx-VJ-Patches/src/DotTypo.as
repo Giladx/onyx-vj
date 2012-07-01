@@ -32,7 +32,7 @@ package{
 			) 
 			var tf:TextField = new TextField();
 			tf.textColor = 0x000000;
-			tf.text = "ekkosystem";
+			tf.text = "servietzki";
 			tf.autoSize = "left";
 			
 			bd = new BitmapData(tf.width, tf.height, false, 0xFFFFFF);

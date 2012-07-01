@@ -28,19 +28,19 @@ package
 		public static const NUM_STARS:int = 200;
 		private var _con:Constellation;        
 		private var _display:BitmapData;
-		private var _blur:BlurFilter = new BlurFilter(12,12, 2); 
+		private var _blur:BlurFilter = new BlurFilter(36,36, 2); 
 		private var _ct:ColorTransform = new ColorTransform(1, 1, 1, .90);
 		private var _pt:Point = new Point();
 		private var _hsv:ColorHSV;
-		private var mx:Number = 320;
-		private var my:Number = 240;
+		private var mx:int = 320;
+		private var my:int = 240;
 		
 		public function NeuronFight() 
 		{
 			_hsv = new ColorHSV();
-			_display = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x000000); 
-			//addChild(new Bitmap(_display));
+			_display = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0x000000); 
 			addEventListener( MouseEvent.MOUSE_DOWN, mouseDown );
+			addEventListener( MouseEvent.MOUSE_MOVE, mouseDown );
 			initConstellation();
 		}
 		
@@ -108,13 +108,13 @@ class Star extends Shape {
 		this.id = id;
 		this.numStars = numStars;
 		
-		age = int(Math.random() * 500.0);
+		age = int(Math.random() * 1500.0);
 		
 		connected = new Vector.<Boolean>(numStars, true);
 		for (var i:int = 0; i < numStars; i++) connected[i] = false;
 		
 		minD = 20.0;
-		maxD = 60.0;
+		maxD = 100.0;
 	}
 	
 	public function setTarget(x:Number = 0.0, y:Number = 0.0):void 
@@ -162,8 +162,8 @@ class Star extends Shape {
 					if (d2 < maxD * maxD && inside > 1 && s.inside > 1) {
 						var p:Point = this.globalToLocal(new Point(s.x, s.y));
 						linePoint.x = p.x;
-						linePoint.y  = p.y;
-						graphics.lineStyle(0, 0x061861, (maxD - Math.sqrt(d2)) / 150);
+						linePoint.y = p.y;
+						graphics.lineStyle(10, 0x061861, (maxD - Math.sqrt(d2)) / 150);
 						graphics.moveTo(0, 0);
 						graphics.lineTo(linePoint.x, linePoint.y);
 					}
@@ -189,9 +189,9 @@ class Star extends Shape {
 		
 		var rad:Number = diameter / 2.0;
 		if (x < rad) x = rad;
-		if (x > 465 - rad) x = (465 - rad);
+		if (x > DISPLAY_WIDTH - rad) x = (DISPLAY_WIDTH - rad);
 		if (y < rad) y = rad;
-		if (y > 465 - rad) y = (465 - rad);
+		if (y > DISPLAY_HEIGHT - rad) y = (DISPLAY_HEIGHT - rad);
 		
 		xv *= 0.85;
 		yv *= 0.85;

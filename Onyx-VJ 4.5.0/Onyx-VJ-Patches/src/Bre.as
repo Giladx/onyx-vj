@@ -43,6 +43,8 @@ package {
 		private var ratio:Number = 0;
 		
 		private var grad:Gradation;
+		private var mx:int = 320;
+		private var my:int = 240;
 		
 		public function Bre():void {
 			
@@ -67,9 +69,14 @@ package {
 			mouseTrail();
 			createBg();
 
-		}
-		//************************************************************
-
+			addEventListener( MouseEvent.MOUSE_DOWN, startDraw );
+			addEventListener( MouseEvent.MOUSE_MOVE, startDraw );
+		}//ctor
+		private function startDraw(evt:MouseEvent) : void 
+		{
+			mx = evt.localX; 
+			my = evt.localY; 		
+		}		
 		private function mouseTrail():void {
 			
 			trail = addChild(new Sprite()) as Sprite;
@@ -100,8 +107,8 @@ package {
 		}
 		
 		private function trailoop():void {
-			vx += (mouseX - trail.x) * SPRING;
-			vy += (mouseY - trail.y) * SPRING;
+			vx += (mx - trail.x) * SPRING;
+			vy += (my - trail.y) * SPRING;
 			vx *= FRICTION;
 			vy *= FRICTION;
 			trail.x += int(vx);
@@ -129,8 +136,8 @@ package {
 				var num:Number = 0;
 				p.scaleY = num = ratio * 7;
 				p.scaleX = num;
-				p.x += (p._x * ratio + (mouseX) - p.x) / 10;
-				p.y += (p._y * ratio +( mouseY) - p.y) / 10;
+				p.x += (p._x * ratio + (mx) - p.x) / 10;
+				p.y += (p._y * ratio +( my) - p.y) / 10;
 				canvas.setPixel(p.x, p.y, grad.getColor(i /PARTICLE_NUM)); 
 				i++;
 			}

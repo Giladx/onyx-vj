@@ -27,7 +27,7 @@ package
 		private var PV:PVUnkoField;
 		private var sprite:Sprite;
 		private var _size:int = 30;
-		private var _text:String = "ekkosystem";
+		private var _text:String = "batchass";
 		private var _rx:int = 360;
 		private var _ry:int = 234;
 		private var _rz:int = 180;

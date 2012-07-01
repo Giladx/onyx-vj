@@ -17,273 +17,235 @@
 package inprogress {     
 	import flash.display.Sprite;     
 	import flash.events.*;     
+	import flash.display.*; 
+	import flash.events.*
+	import flash.geom.*;
+	import flash.utils.getTimer;
+	import flash.net.*; 
+	import flash.filters.*;
 	
 	public class DrawShader extends Sprite {     
-		public function DrawShader() {     
-			Main = this;     
-			startLoad();     
-			addEventListener(Event.ENTER_FRAME,update);      
-			addEventListener(MouseEvent.MOUSE_DOWN, isClick );        
-		}     
-	}     
-}
-
-function isClick(event:MouseEvent):void{
-	//Text.text = "ç”Ÿæˆä¸­...";  
-	bLoad = false;
-	startLoad();     
-}
-
-import flash.display.*; 
-import flash.events.*
-import flash.text.TextField;     
-import flash.geom.*;
-import flash.utils.getTimer;
-import flash.net.*; 
-import flash.filters.*;
-
-var Main:Sprite;     
-var SCREEN_W:Number = 465;
-var SCREEN_H:Number = 465;
-var Text:TextField    
-var View: Bitmap; 
-var BmpData: BitmapData; 
-var BmpData2: BitmapData; 
-var BmpDataMono: BitmapData; 
-var BmpDataEdge: BitmapData; 
-var BmpDataTmp: BitmapData; 
-
-var BITMAP_W:int = SCREEN_W;
-var BITMAP_H:int = SCREEN_H;
-var loaderA:Loader; 
-var loaderB:Loader; 
-var bLoad:Boolean = false;
-var No:int = 0;
-
-function startLoad():void{     
-	loaderA = new Loader(); 
 	
-	
-	var url:String;
-	switch(No){
-		case  0: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090326/20090326044849.jpg"; break;
-		case  1: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090913/20090913133305.jpg"; break;
-		case  2: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090817/20090817090823.jpg"; break;
-		case  3: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090817/20080716105600.jpg"; break;
-		case  4: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090326/20090326042031.jpg"; break;
-		case  5: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090817/20090327043047.jpg"; break;
-		case  6: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090326/20080810100737.jpg"; break;
-		case  7: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090817/20080809101700.jpg"; break;
-		case  8: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090326/20090327102950.jpg"; break;
-		case  9: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090326/20090327090702.jpg"; break;
-		case 10: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090326/20080716102900.jpg"; break;
-		case 11: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090326/20090327091952.jpg"; break;
-		case 12: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090913/20090913133218.jpg"; break;
-		case 13: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090326/20090327043118.jpg"; break;
-		case 14: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090326/20090326052814.jpg"; break;
-		case 15: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090326/20080810090405.jpg"; break;
-		case 16: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090326/20080106055925.jpg"; break;
-		case 17: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090326/20080106044103.jpg"; break;
-		case 18: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090817/20090817091054.jpg"; break;
-		case 19: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090817/20091004065300.jpg"; break;
-		case 20: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090817/20091004070000.jpg"; break;
-		case 21: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090817/20090815193507.jpg"; break;
-		case 22: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090817/20090326084145.jpg"; break;
-		case 23: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090817/20090326072406.jpg"; break;
-		case 24: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090817/20080810113647.jpg"; break;
-		case 25: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090817/20080716105000.jpg"; break;
-		case 26: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090817/20080115004653.jpg"; break;
-		case 27: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090817/20080716101100.jpg"; break;
-		case 28: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090817/20080716111200.jpg"; break;
-	}
-	No++;
-	if( No == 29 ) No = 0;
-	loaderA.load( new URLRequest(url) );
-	loaderA.contentLoaderInfo.addEventListener( Event.COMPLETE, loadComplete ); 
-}
-
-
-function loadComplete(e:Event):void { 
-	/* BL NECESSARY but Error #3226: Cannot import a SWF file when LoaderContext.allowCodeImport is false.
-	loaderB = new Loader(); 
-	loaderB.contentLoaderInfo.addEventListener(Event.INIT, initialize); 
-	loaderB.loadBytes(loaderA.contentLoaderInfo.bytes); */
-}
-
-function initialize(event:Event):void 
-{ 
-	var loader:Loader = loaderB;
-	BmpData = new BitmapData(BITMAP_W, BITMAP_W, false); 
-	BmpData.draw(loader);
-	View = new Bitmap(BmpData); 
-	View.scaleX = 1.0;
-	View.scaleY = 1.0;
-	Main.addChild(View);      
-	
-	BmpData2 = new BitmapData(loader.width, loader.height, false); 
-	BmpDataMono = new BitmapData(loader.width, loader.height, false); 
-	BmpDataEdge = new BitmapData(loader.width, loader.height, false); 
-	BmpDataTmp  = new BitmapData(loader.width, loader.height, false); 
-	
-	
-	
-	Text = new TextField();     
-	Text.text = "ç”»åƒå¤‰æ›ä¸­ãƒ»ãƒ»ãƒ»ã—ã°ã‚‰ããŠå¾…ã¡ãã ã•ã„";   
-	Text.autoSize = "left";
-	Main.addChild(Text);      
-	
-	Cnt=0;
-	bLoad = true;
-} 
-
-var Cnt:int;
-function update(e :Event):void{     
-	if( bLoad == false ){
-		return;
-	}
-	Cnt++;
-	if( Cnt == 3 ){
-		var time:int = getTimer(); 
-		var cont:Number = 64;
-		var mul:Number = 128 + cont;
+		private var Main:Sprite;     
+		private var SCREEN_W:Number = 465;
+		private var SCREEN_H:Number = 465;
+		private var View: Bitmap; 
+		private var BmpData: BitmapData; 
+		private var BmpData2: BitmapData; 
+		private var BmpDataMono: BitmapData; 
+		private var BmpDataEdge: BitmapData; 
+		private var BmpDataTmp: BitmapData; 
+		
+		private var BITMAP_W:int = SCREEN_W;
+		private var BITMAP_H:int = SCREEN_H;
+		private var loaderA:Loader; 
+		private var loaderB:Loader; 
+		private var bLoad:Boolean = false;
+		private var No:int = 0;
+		private var Cnt:int;
+		
+		public function DrawShader():void{     
+			
+			loaderA = new Loader(); 
+			
+			var url:String;
+			switch(No){
+				case  0: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090326/20090326044849.jpg"; break;
+			}
+			No++;
+			if( No == 29 ) No = 0;
+			loaderA.load( new URLRequest(url) );
+			loaderA.contentLoaderInfo.addEventListener( Event.COMPLETE, loadComplete ); 
+		}
+		
+		
+		private function loadComplete(e:Event):void { 
+			/* BL NECESSARY but Error #3226: Cannot import a SWF file when LoaderContext.allowCodeImport is false. */
+			loaderB = new Loader(); 
+			loaderB.contentLoaderInfo.addEventListener(Event.INIT, initialize); 
+			loaderB.loadBytes(loaderA.contentLoaderInfo.bytes);
+		}
+		
+		private function initialize(event:Event):void 
+		{ 
+			var loader:Loader = loaderB;
+			BmpData = new BitmapData(BITMAP_W, BITMAP_W, false); 
+			BmpData.draw(loader);
+			View = new Bitmap(BmpData); 
+			View.scaleX = 1.0;
+			View.scaleY = 1.0;
+			addChild(View);      
+			
+			BmpData2 = new BitmapData(loader.width, loader.height, false); 
+			BmpDataMono = new BitmapData(loader.width, loader.height, false); 
+			BmpDataEdge = new BitmapData(loader.width, loader.height, false); 
+			BmpDataTmp  = new BitmapData(loader.width, loader.height, false);       
+			
+			Cnt=0;
+			bLoad = true;
+			addEventListener(Event.ENTER_FRAME,update);     
+		} 
+		
+		
+		private function update(e :Event):void{     
+			if( bLoad == false ){
+				return;
+			}
+			Cnt++;
+			if( Cnt == 3 ){
+				var time:int = getTimer(); 
+				var cont:Number = 64;
+				var mul:Number = 128 + cont;
+				
+				
+				FilterMono( BmpData, BmpDataMono );
+				var endTime:int = getTimer() - time;
+				trace( "FilterMono:" + endTime + "[ms]"); 
+				time = getTimer();
+				FilterEdge( BmpDataMono, BmpDataEdge );
+				endTime = getTimer() - time;
+				time = getTimer();
+				trace( "FilterEdge:" + endTime + "[ms]"); 
+				Filter3( BmpData, BmpData2);
+				endTime = getTimer() - time;
+				trace( "Filter3:" + endTime + "[ms]"); 
+				time = getTimer();
+				Filter3( BmpData2, BmpData );
+				endTime = getTimer() - time;
+				trace( "Filter3:" + endTime + "[ms]"); 
+				time = getTimer();
+				BmpData.draw(BmpDataEdge, null, null, BlendMode.MULTIPLY);
+				
+				endTime = getTimer() - time;
+				trace( "end:" + endTime + "[ms]");   
+			}
+		}  
+		
 		
 		// ãƒ¢ãƒŽã‚¯ãƒ­ç”»åƒã‚’ç”Ÿæˆ
-		FilterMono( BmpData, BmpDataMono );
-		// ãƒ¢ãƒŽã‚¯ãƒ­ç”»åƒã‹ã‚‰ã‚¨ãƒƒã‚¸æŠ½å‡ºç”»åƒã‚’ç”Ÿæˆ
-		FilterEdge( BmpDataMono, BmpDataEdge );
-		// å…ƒçµµã‹ã‚‰ã¼ã‹ã—ç”»åƒã‚’ç”Ÿæˆ(11x11ã‚’2ãƒ‘ã‚¹)
-		Filter3( BmpData, BmpData2);
-		Filter3( BmpData2, BmpData );
-		
-		// ã¼ã‹ã—ãŸç”»åƒã«ã‚¨ãƒƒã‚¸æŠ½å‡ºç”»åƒã‚’ä¹—ç®—
-		BmpData.draw(BmpDataEdge, null, null, BlendMode.MULTIPLY);
-		
-		var endTime:int = getTimer() - time;
-		Text.text = "ç”Ÿæˆæ™‚é–“ï¼š" + endTime + "[ms]";   
-	}
-}  
-
-
-// ãƒ¢ãƒŽã‚¯ãƒ­ç”»åƒã‚’ç”Ÿæˆ
-function FilterMono( inBmp:BitmapData, outBmp:BitmapData):void{
-	var cmf : ColorMatrixFilter = new ColorMatrixFilter([
-		0.298912, 0.586611, 0.114477, 0, 0,
-		0.298912, 0.586611, 0.114477, 0, 0,
-		0.298912, 0.586611, 0.114477, 0, 0,
-		0.298912, 0.586611, 0.114477, 0, 0
-	]);
-	
-	outBmp.lock();
-	outBmp.applyFilter(inBmp, inBmp.rect, new Point(), cmf);
-	outBmp.unlock(); 
-}
-
-
-// ã‚¨ãƒƒã‚¸æŠ½å‡ºç”»åƒã‚’ç”Ÿæˆ
-function FilterEdge( inBmp:BitmapData, outBmp:BitmapData):void{
-	var i : uint;
-	
-	var cf1 : ConvolutionFilter = new ConvolutionFilter(3, 3, [
-		-1, 0, 1,
-		-2, 0, 2,
-		-1, 0, 1
-	], 1, 127);
-	var cf2 : ConvolutionFilter = new ConvolutionFilter(3, 3, [
-		-1, -2, -1,
-		0, 0, 0,
-		1, 2, 1
-	], 1, 127); 
-	var mSquare : Array = new Array(256);
-	for(i = 0;i < 256;i++){
-		mSquare[i] = Math.min((i - 127) * (i - 127) / 40, 255);
-	}
-	var m : Array = new Array(256);
-	for(i = 0;i < 255;i++)m[i] = 0xffffff;
-	m[255] = 0x737373;
-	
-	var zero : Array = new Array(256);
-	for(i = 0;i < 255;i++)zero[i] = 0;
-	
-	outBmp.lock();
-	var tempB: BitmapData = inBmp.clone();
-	outBmp.applyFilter(inBmp, inBmp.rect, new Point(), cf1);
-	outBmp.paletteMap(outBmp, outBmp.rect, new Point(), zero, zero, mSquare); // 2ä¹—
-	tempB.applyFilter(inBmp, inBmp.rect, new Point(), cf2);
-	tempB.paletteMap(tempB, tempB.rect, new Point(), zero, zero, mSquare); // 2ä¹—
-	
-	outBmp.draw(tempB, null, null, BlendMode.ADD);
-	tempB.dispose();
-	outBmp.paletteMap(outBmp, outBmp.rect, new Point(), zero, zero, m);
-	outBmp.unlock();
-	
-	// MedianFilter
-	// @see http://www.adobe.com/cfusion/exchange/index.cfm?event=extensionDetail&extid=1744024
-	// @see http://wonderfl.net/code/040577c9daacfcf99cb4d343ca91575a1107179f
-	var median : ShaderFilter = new ShaderFilter(new MedianSimpleShader());
-	BmpDataTmp.applyFilter(outBmp, outBmp.rect, new Point(), median);
-	
-	// ã¼ã‹ã—(å°‘ã—æ”¹å¤‰)
-	var blur : ConvolutionFilter = new ConvolutionFilter(5, 5, [
-		0.16, 0.4, 0.4, 0.4, 0.16,
-		0.4, 1, 1, 1, 0.4,
-		0.4, 1, 1, 1, 0.4,
-		0.4, 1, 1, 1, 0.4,
-		0.16, 0.4, 0.4, 0.4, 0.16
-	],
-		0.16 + 0.4 + 0.4 + 0.4 + 0.16 +
-		0.4 + 1 + 1 + 1 + 0.4 +
-		0.4 + 1 + 1 + 1 + 0.4 +
-		0.4 + 1 + 1 + 1 + 0.4 + 
-		0.16 + 0.4 + 0.4 + 0.4 + 0.16
-	);
-	outBmp.applyFilter(BmpDataTmp, BmpDataTmp.rect, new Point(), blur);
-}
-
-// ã¼ã‹ã—ãƒ•ã‚£ãƒ«ã‚¿(ãƒã‚¤ãƒ©ãƒ†ãƒ©ãƒ«ãƒ•ã‚£ãƒ«ã‚¿ã£ã½ã„æ„Ÿã˜)
-// ãƒã‚¤ãƒ©ãƒ†ãƒ©ãƒ«ãƒ•ã‚£ãƒ«ã‚¿ã‚’å½“ã¦ãŸã‚‰æ™‚é–“ã‹ã‹ã‚‹ä¸Šã«åˆ¥ç‰©ã«ãªã£ãŸãƒ»ãƒ»
-function Filter3( inBmp:BitmapData, outBmp:BitmapData):void{
-	
-	// @see http://www.adobe.com/cfusion/exchange/index.cfm?event=extensionDetail&loc=en_us&extid=1789025
-	//    var bilateral : ShaderFilter = new ShaderFilter(new BilateralBlurShader());
-	//    outBmp.applyFilter(inBmp, inBmp.rect, new Point(), bilateral);
-	var b:Color = new Color(0);
-	var col:Color = new Color(0);
-	var c:Color = new Color( 0 );
-	var sum:Number = 0;
-	var s:Number = 0;
-	var w:Number = 0;
-	
-	inBmp.lock(); 
-	outBmp.lock(); 
-	for( var x:int=0; x<BITMAP_W; x++ ){ 
-		for( var y:int=0; y<BITMAP_H; y++ ){ 
-			sum = 0;
-			col.r = col.g = col.b = 0;
-			b.set( inBmp.getPixel(x, y) );
+		private function FilterMono( inBmp:BitmapData, outBmp:BitmapData):void{
+			var cmf : ColorMatrixFilter = new ColorMatrixFilter([
+				0.298912, 0.586611, 0.114477, 0, 0,
+				0.298912, 0.586611, 0.114477, 0, 0,
+				0.298912, 0.586611, 0.114477, 0, 0,
+				0.298912, 0.586611, 0.114477, 0, 0
+			]);
 			
-			for( var lx:int=-5; lx<=5; lx++ ){ 
-				for( var ly:int=-5; ly<=5; ly++ ){ 
-					c.set( inBmp.getPixel(x+lx, y+ly) );
-					
-					s = c.g - b.g;
-					if( s < 0 ) s = -s;   
-					w = 1 - s*s*s;      
-					col.r += c.r * w;
-					col.g += c.g * w;
-					col.b += c.b * w;
-					sum += w;
-				}
-			}
-			var mul:Number = 1.0 / sum;
-			col.r *= mul;
-			col.g *= mul;
-			col.b *= mul;
-			outBmp.setPixel(x, y, col.getInt() ); 
+			outBmp.lock();
+			outBmp.applyFilter(inBmp, inBmp.rect, new Point(), cmf);
+			outBmp.unlock(); 
 		}
-	} 
-	inBmp.unlock();
-	outBmp.unlock();
+		
+		
+		// ã‚¨ãƒƒã‚¸æŠ½å‡ºç”»åƒã‚’ç”Ÿæˆ
+		private function FilterEdge( inBmp:BitmapData, outBmp:BitmapData):void{
+			var i : uint;
+			
+			var cf1 : ConvolutionFilter = new ConvolutionFilter(3, 3, [
+				-1, 0, 1,
+				-2, 0, 2,
+				-1, 0, 1
+			], 1, 127);
+			var cf2 : ConvolutionFilter = new ConvolutionFilter(3, 3, [
+				-1, -2, -1,
+				0, 0, 0,
+				1, 2, 1
+			], 1, 127); 
+			var mSquare : Array = new Array(256);
+			for(i = 0;i < 256;i++){
+				mSquare[i] = Math.min((i - 127) * (i - 127) / 40, 255);
+			}
+			var m : Array = new Array(256);
+			for(i = 0;i < 255;i++)m[i] = 0xffffff;
+			m[255] = 0x737373;
+			
+			var zero : Array = new Array(256);
+			for(i = 0;i < 255;i++)zero[i] = 0;
+			
+			outBmp.lock();
+			var tempB: BitmapData = inBmp.clone();
+			outBmp.applyFilter(inBmp, inBmp.rect, new Point(), cf1);
+			outBmp.paletteMap(outBmp, outBmp.rect, new Point(), zero, zero, mSquare); // 2ä¹—
+			tempB.applyFilter(inBmp, inBmp.rect, new Point(), cf2);
+			tempB.paletteMap(tempB, tempB.rect, new Point(), zero, zero, mSquare); // 2ä¹—
+			
+			outBmp.draw(tempB, null, null, BlendMode.ADD);
+			tempB.dispose();
+			outBmp.paletteMap(outBmp, outBmp.rect, new Point(), zero, zero, m);
+			outBmp.unlock();
+			
+			// MedianFilter
+			// @see http://www.adobe.com/cfusion/exchange/index.cfm?event=extensionDetail&extid=1744024
+			// @see http://wonderfl.net/code/040577c9daacfcf99cb4d343ca91575a1107179f
+			var median : ShaderFilter = new ShaderFilter(new MedianSimpleShader());
+			BmpDataTmp.applyFilter(outBmp, outBmp.rect, new Point(), median);
+			
+			// ã¼ã‹ã—(å°‘ã—æ”¹å¤‰)
+			var blur : ConvolutionFilter = new ConvolutionFilter(5, 5, [
+				0.16, 0.4, 0.4, 0.4, 0.16,
+				0.4, 1, 1, 1, 0.4,
+				0.4, 1, 1, 1, 0.4,
+				0.4, 1, 1, 1, 0.4,
+				0.16, 0.4, 0.4, 0.4, 0.16
+			],
+				0.16 + 0.4 + 0.4 + 0.4 + 0.16 +
+				0.4 + 1 + 1 + 1 + 0.4 +
+				0.4 + 1 + 1 + 1 + 0.4 +
+				0.4 + 1 + 1 + 1 + 0.4 + 
+				0.16 + 0.4 + 0.4 + 0.4 + 0.16
+			);
+			outBmp.applyFilter(BmpDataTmp, BmpDataTmp.rect, new Point(), blur);
+		}
+		
+		// ã¼ã‹ã—ãƒ•ã‚£ãƒ«ã‚¿(ãƒã‚¤ãƒ©ãƒ†ãƒ©ãƒ«ãƒ•ã‚£ãƒ«ã‚¿ã£ã½ã„æ„Ÿã˜)
+		// ãƒã‚¤ãƒ©ãƒ†ãƒ©ãƒ«ãƒ•ã‚£ãƒ«ã‚¿ã‚’å½“ã¦ãŸã‚‰æ™‚é–“ã‹ã‹ã‚‹ä¸Šã«åˆ¥ç‰©ã«ãªã£ãŸãƒ»ãƒ»
+		private function Filter3( inBmp:BitmapData, outBmp:BitmapData):void{
+			
+			// @see http://www.adobe.com/cfusion/exchange/index.cfm?event=extensionDetail&loc=en_us&extid=1789025
+			//    var bilateral : ShaderFilter = new ShaderFilter(new BilateralBlurShader());
+			//    outBmp.applyFilter(inBmp, inBmp.rect, new Point(), bilateral);
+			var b:Color = new Color(0);
+			var col:Color = new Color(0);
+			var c:Color = new Color( 0 );
+			var sum:Number = 0;
+			var s:Number = 0;
+			var w:Number = 0;
+			
+			inBmp.lock(); 
+			outBmp.lock(); 
+			for( var x:int=0; x<BITMAP_W; x++ ){ 
+				for( var y:int=0; y<BITMAP_H; y++ ){ 
+					sum = 0;
+					col.r = col.g = col.b = 0;
+					b.set( inBmp.getPixel(x, y) );
+					
+					for( var lx:int=-5; lx<=5; lx++ ){ 
+						for( var ly:int=-5; ly<=5; ly++ ){ 
+							c.set( inBmp.getPixel(x+lx, y+ly) );
+							
+							s = c.g - b.g;
+							if( s < 0 ) s = -s;   
+							w = 1 - s*s*s;      
+							col.r += c.r * w;
+							col.g += c.g * w;
+							col.b += c.b * w;
+							sum += w;
+						}
+					}
+					var mul:Number = 1.0 / sum;
+					col.r *= mul;
+					col.g *= mul;
+					col.b *= mul;
+					outBmp.setPixel(x, y, col.getInt() ); 
+				}
+			} 
+			inBmp.unlock();
+			outBmp.unlock();
+		}
+	}
 }
+
+
 
 // è‰²ã‚¯ãƒ©ã‚¹
 class Color{
@@ -315,6 +277,7 @@ class Color{
 	}
 }
 
+import flash.display.Shader;
 import flash.utils.ByteArray;
 
 class MedianSimpleShader extends Shader

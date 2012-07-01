@@ -4,7 +4,7 @@
  * Downloaded from: http://wonderfl.net/c/7YCf
  */
 
-package inprogress 
+package  
 {
 	
 	import flash.display.*;
@@ -29,8 +29,8 @@ package inprogress
 		public var glyphs:Vector.<Vector.<Point>> = new Vector.<Vector.<Point>>();
 		private var drawTimer:Timer = null;
 		private var sprite:Sprite;
-		private var _size:int = 30;
-		private var _text:String = "ekkosystem";
+		private var _size:int = 60;
+		private var _text:String = "batchass";
 		private var _font:Font;
 		
 		public function LetterOutline()

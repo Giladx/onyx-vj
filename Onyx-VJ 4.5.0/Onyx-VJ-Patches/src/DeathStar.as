@@ -9,13 +9,11 @@
 â†‘â†“ã§ã‚²ã‚¸ã‚²ã‚¸ãƒã‚¤ãƒ³ãƒˆå¤‰æ›´
 */
 
-package inprogress 
+package  
 {    
 	import flash.display.*;
 	import flash.events.*;
 	import flash.geom.*;
-	
-	import frocessing.color.ColorRGB;
 	
 	import onyx.core.*;
 	import onyx.parameter.*;
@@ -54,11 +52,13 @@ package inprogress
 				new ParameterExecuteFunction('draw', 'draw')
 			);
 			sprite = new Sprite();
-			addChild(sprite);
 			sprite.addChild(PV);
-			
+			addEventListener( MouseEvent.MOUSE_DOWN, explode );
 		}	
-		
+		private function explode(evt:MouseEvent) : void 
+		{
+			PV.clickObj(); 		
+		}
 		public function get soundMultiplier():int
 		{
 			return _soundMultiplier;
@@ -198,12 +198,9 @@ import org.papervision3d.materials.special.CompositeMaterial;
 
 import caurina.transitions.*;
 
-class PVDeathStar extends Sprite
+class PVDeathStar extends BasicView
 {
-	private var scene:Scene3D;
-	private var viewport:Viewport3D;
-	private var camera:Camera3D;
-	private var renderer:BasicRenderEngine;
+
 	private var objSphere:Sphere;
 	private var gx:Number = 16;
 	private var gy:Number = 16;
@@ -214,7 +211,7 @@ class PVDeathStar extends Sprite
 	private var key_value:Boolean;
 	private var val:Number = 7;
 	private var tf:TextField;
-	private var str:String = "ekkosystem";
+	private var str:String = "batchass";
 	
 	
 	
@@ -238,10 +235,7 @@ class PVDeathStar extends Sprite
 
 	private function init3D():void
 	{
-		viewport = new Viewport3D(0,0,true);
-		viewport.opaqueBackground = 0x000000;
-		addChild(viewport);
-		
+
 		var effectLayer:BitmapEffectLayer = new BitmapEffectLayer(viewport, 800, 800,false,0x000000,"crear_pre",true);
 		effectLayer.addEffect(new BitmapLayerEffect(new BlurFilter(1.2, 1.2, 1)));
 		effectLayer.drawCommand = new BitmapDrawCommand(null, new ColorTransform(1, 1, 1, 0.1,0,0,0,-5), BlendMode.SHADER,false);
@@ -251,7 +245,7 @@ class PVDeathStar extends Sprite
 		
 		renderer = new BasicRenderEngine();
 		
-		camera = new Camera3D();
+		//camera = new Camera3D();
 		camera.z = -450;
 		camera.focus = 500;
 		camera.zoom = 1;
@@ -282,8 +276,8 @@ class PVDeathStar extends Sprite
 		objSphere.rotationX = mouseY;
 		objSphere.rotationZ += 0.2;
 		
-		renderer.renderScene(scene, camera, viewport);		
-		
+		//renderer.renderScene(scene, camera, viewport);		
+		singleRender();
 	}
 	public function clickObj():void {
 		var vertex_selection:Number;

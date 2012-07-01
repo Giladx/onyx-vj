@@ -21,6 +21,7 @@ package
 	import onyx.events.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
+	import EmbeddedAssets.AssetForBallSphere;
 	
 	public class Sakura extends Patch
 	{

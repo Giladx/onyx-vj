@@ -30,7 +30,7 @@
  * Based on PixelRain code by André Michelle (http://www.andre-michelle.com)
  * Adapted for Onyx-VJ by Bruce LANE (http://www.batchass.fr)
  */
-package 
+package LayerFilters 
 {
 	
 	import com.andremichelle.Pixel;
@@ -349,10 +349,12 @@ package
 		}
 	}
 }
+import LayerFilters.LayerPixelRain;
+
+import flash.display.BitmapData;
 import flash.events.*;
 
 import onyx.events.*;
-import flash.display.BitmapData;
 import onyx.parameter.Parameter;
 import onyx.parameter.Parameters;
 import onyx.plugin.*;

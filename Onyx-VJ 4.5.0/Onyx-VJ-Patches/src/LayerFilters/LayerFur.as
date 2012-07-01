@@ -18,7 +18,7 @@
  * version 4.0.503 last modified Nov 27th 2011
  * 
  */
-package 
+package LayerFilters 
 {
 	import flash.display.*;
 	import flash.events.MouseEvent;
@@ -258,6 +258,8 @@ package
 		
 	}
 }
+import LayerFilters.LayerFur;
+
 import flash.display.BitmapData;
 import flash.events.Event;
 

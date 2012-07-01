@@ -17,6 +17,7 @@ package  {
 	import onyx.display.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
+	import EmbeddedAssets.AssetForAbstractPainting;
 
 	public class DrawVisualizer extends Patch {
 		

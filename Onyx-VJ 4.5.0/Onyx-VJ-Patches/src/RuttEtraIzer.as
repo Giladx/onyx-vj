@@ -181,6 +181,7 @@ import org.papervision3d.objects.primitives.Sphere;
 import org.papervision3d.view.BasicView;
 
 import services.sound.SoundProvider;
+import EmbeddedAssets.AssetForRuttEtraIzer;
 
 class PVRuttEtraIzer extends BasicView
 {

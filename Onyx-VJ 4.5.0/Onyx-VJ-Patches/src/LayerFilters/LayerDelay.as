@@ -28,7 +28,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package {
+package LayerFilters {
 	
 	import flash.display.*;
 	import flash.geom.*;

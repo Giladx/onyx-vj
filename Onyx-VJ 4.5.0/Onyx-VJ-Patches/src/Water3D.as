@@ -13,6 +13,7 @@ package {
 	import onyx.core.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
+	import EmbeddedAssets.AssetForWater3D;
 	
 	/**
 	 * Water 3D

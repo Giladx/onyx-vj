@@ -18,6 +18,7 @@ package
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	import onyx.utils.Base64Decoder;
+	import EmbeddedAssets.AssetForGL;
 
 	/**
 	 * ...

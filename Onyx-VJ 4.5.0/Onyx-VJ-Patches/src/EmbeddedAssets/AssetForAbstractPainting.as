@@ -1,4 +1,4 @@
-package {
+package EmbeddedAssets {
 	
 	import flash.display.BitmapData;
 	

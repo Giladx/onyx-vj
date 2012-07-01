@@ -13,6 +13,7 @@ package {
     import onyx.core.*;
     import onyx.parameter.*;
     import onyx.plugin.*;
+    import EmbeddedAssets.AssetForAbstractPainting;
 	
 	public class HalftoneDots extends Patch
 	{       

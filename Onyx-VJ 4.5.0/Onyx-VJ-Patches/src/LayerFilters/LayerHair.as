@@ -3,7 +3,7 @@
 // www.donrelyea.com
 // July 22 2008
 
-package
+package LayerFilters
 {
 	
 	// Import Adobe classes.
@@ -243,6 +243,7 @@ import onyx.parameter.Parameters;
 import onyx.plugin.*;
 
 import flash.events.Event;
+import LayerFilters.LayerHair;
 
 final class LayerListener {
 	

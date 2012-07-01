@@ -14,83 +14,53 @@
 // è§£èª¬ãªã©:http://game.g.hatena.ne.jp/Nao_u/20091229
 //
 // é«˜é€ŸåŒ–ã—ãŸã‘ã©ã‚ˆãã‚ã‹ã‚“ã­
-package inprogress {     
-	import flash.display.Sprite;     
-	import flash.events.*;     
-	import flash.display.*; 
-	import flash.events.*
-	import flash.geom.*;
-	import flash.utils.getTimer;
-	import flash.net.*; 
+package inprogress  {     
+	import flash.display.*;
+	import flash.display.Sprite;
+	import flash.events.*;
 	import flash.filters.*;
+	import flash.geom.*;
+	import flash.net.*;
+	import flash.utils.getTimer;
 	
-	public class DrawShader extends Sprite {     
+	import onyx.core.*;
+	import onyx.parameter.*;
+	import onyx.plugin.*;
+	import EmbeddedAssets.AssetForAbstractPainting;
+
+	public class DrawShader extends Patch {     
 	
 		private var Main:Sprite;     
-		private var SCREEN_W:Number = 465;
-		private var SCREEN_H:Number = 465;
 		private var View: Bitmap; 
 		private var BmpData: BitmapData; 
 		private var BmpData2: BitmapData; 
 		private var BmpDataMono: BitmapData; 
 		private var BmpDataEdge: BitmapData; 
 		private var BmpDataTmp: BitmapData; 
-		
-		private var BITMAP_W:int = SCREEN_W;
-		private var BITMAP_H:int = SCREEN_H;
-		private var loaderA:Loader; 
-		private var loaderB:Loader; 
-		private var bLoad:Boolean = false;
 		private var No:int = 0;
 		private var Cnt:int;
 		
 		public function DrawShader():void{     
 			
-			loaderA = new Loader(); 
-			
-			var url:String;
-			switch(No){
-				case  0: url = "http://img.f.hatena.ne.jp/images/fotolife/N/Nao_u/20090326/20090326044849.jpg"; break;
-			}
-			No++;
-			if( No == 29 ) No = 0;
-			loaderA.load( new URLRequest(url) );
-			loaderA.contentLoaderInfo.addEventListener( Event.COMPLETE, loadComplete ); 
-		}
-		
-		
-		private function loadComplete(e:Event):void { 
-			/* BL NECESSARY but Error #3226: Cannot import a SWF file when LoaderContext.allowCodeImport is false. */
-			loaderB = new Loader(); 
-			loaderB.contentLoaderInfo.addEventListener(Event.INIT, initialize); 
-			loaderB.loadBytes(loaderA.contentLoaderInfo.bytes);
-		}
-		
-		private function initialize(event:Event):void 
-		{ 
-			var loader:Loader = loaderB;
-			BmpData = new BitmapData(BITMAP_W, BITMAP_W, false); 
-			BmpData.draw(loader);
+			BmpData = new AssetForAbstractPainting(); 
 			View = new Bitmap(BmpData); 
 			View.scaleX = 1.0;
 			View.scaleY = 1.0;
 			addChild(View);      
 			
-			BmpData2 = new BitmapData(loader.width, loader.height, false); 
-			BmpDataMono = new BitmapData(loader.width, loader.height, false); 
-			BmpDataEdge = new BitmapData(loader.width, loader.height, false); 
-			BmpDataTmp  = new BitmapData(loader.width, loader.height, false);       
+			BmpData2 = new BitmapData(BmpData.width, BmpData.height, false); 
+			BmpDataMono = new BitmapData(BmpData.width, BmpData.height, false); 
+			BmpDataEdge = new BitmapData(BmpData.width, BmpData.height, false); 
+			BmpDataTmp  = new BitmapData(BmpData.width, BmpData.height, false);       
 			
-			Cnt=0;
-			bLoad = true;
-			addEventListener(Event.ENTER_FRAME,update);     
+			Cnt=0;		   
 		} 
 		
 		
-		private function update(e :Event):void{     
-			if( bLoad == false ){
-				return;
-			}
+		override public function render(info:RenderInfo):void {     
+			
+			/*
+			TO BE OPTIMIZED
 			Cnt++;
 			if( Cnt == 3 ){
 				var time:int = getTimer(); 
@@ -117,8 +87,9 @@ package inprogress {
 				BmpData.draw(BmpDataEdge, null, null, BlendMode.MULTIPLY);
 				
 				endTime = getTimer() - time;
-				trace( "end:" + endTime + "[ms]");   
-			}
+				trace( "end:" + endTime + "[ms]");  
+				info.render( BmpData );
+			}*/
 		}  
 		
 		
@@ -213,8 +184,8 @@ package inprogress {
 			
 			inBmp.lock(); 
 			outBmp.lock(); 
-			for( var x:int=0; x<BITMAP_W; x++ ){ 
-				for( var y:int=0; y<BITMAP_H; y++ ){ 
+			for( var x:int=0; x<BmpData.width; x++ ){ 
+				for( var y:int=0; y<BmpData.height; y++ ){ 
 					sum = 0;
 					col.r = col.g = col.b = 0;
 					b.set( inBmp.getPixel(x, y) );

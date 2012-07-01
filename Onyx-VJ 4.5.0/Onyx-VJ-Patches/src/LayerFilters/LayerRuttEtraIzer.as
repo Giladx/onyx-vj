@@ -1,4 +1,4 @@
-package 
+package LayerFilters 
 {    
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -206,6 +206,8 @@ package
 		}	
 	}
 }
+import LayerFilters.LayerRuttEtraIzer;
+
 import flash.display.BitmapData;
 import flash.events.*;
 import flash.geom.Matrix;

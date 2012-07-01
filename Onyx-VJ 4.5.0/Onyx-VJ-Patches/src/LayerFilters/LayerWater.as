@@ -5,7 +5,7 @@
  * Author:  Bruce Jawn   (http://bruce-lab.blogspot.com/)
  * Date:    2009-1-10
  */
-package
+package LayerFilters
 {
 	import flash.display.*;
 	import flash.events.*;

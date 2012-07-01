@@ -165,6 +165,7 @@ import org.papervision3d.materials.shaders.Shader;
 import org.papervision3d.materials.special.LineMaterial;
 import org.papervision3d.objects.primitives.Sphere;
 import org.papervision3d.view.BasicView;
+import EmbeddedAssets.AssetForElectroCardiogram;
 
 class PVElectroCardiogram extends BasicView
 {

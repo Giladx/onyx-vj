@@ -20,6 +20,7 @@ package
 	import onyx.core.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
+	import EmbeddedAssets.AssetForBallSphere;
 	
 	public class BallSphere extends Patch
 	{		

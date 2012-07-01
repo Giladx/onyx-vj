@@ -12,6 +12,7 @@ package {
     import flash.system.LoaderContext;
     
     import onyx.utils.Base64Decoder;
+    import EmbeddedAssets.AssetForPixelDistortion;
 
 	public class Quaternion extends Sprite {
 

@@ -13,7 +13,7 @@
  * Please visit http://www.onyx-vj.com for more information
  * 
  */
-package 
+package LayerFilters 
 {
 	
 	import flash.display.*;
@@ -123,10 +123,12 @@ package
 	}
 }
 
+import LayerFilters.LayerCopy;
+
+import flash.display.BitmapData;
 import flash.events.*;
 
 import onyx.events.*;
-import flash.display.BitmapData;
 import onyx.parameter.Parameter;
 import onyx.parameter.Parameters;
 import onyx.plugin.*;

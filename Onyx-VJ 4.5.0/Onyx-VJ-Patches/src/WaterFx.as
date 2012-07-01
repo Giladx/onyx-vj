@@ -35,6 +35,7 @@ package {
 	import onyx.core.*;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
+	import EmbeddedAssets.AssetForWaterFx;
 		
 	public class WaterFx extends Patch {
 		private var water:WaterEffect;

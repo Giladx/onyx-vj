@@ -18,7 +18,7 @@
  * version 4.0.503 last modified Nov 27th 2011
  * 
  */
-package 
+package LayerFilters 
 {
 	import flash.display.*;
 	import flash.events.*;
@@ -400,9 +400,12 @@ package
 
 	}// Class
 }
-import flash.events.*;
-import onyx.events.*;
+import LayerFilters.LayerCircleArt;
+
 import flash.display.BitmapData;
+import flash.events.*;
+
+import onyx.events.*;
 import onyx.parameter.Parameter;
 import onyx.parameter.Parameters;
 import onyx.plugin.*;

@@ -19,6 +19,7 @@ package {
 	import onyx.events.InteractionEvent;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
+	import EmbeddedAssets.AssetForPixelDistortion;
 	
 	public class PixelDistortion extends Patch {
 		

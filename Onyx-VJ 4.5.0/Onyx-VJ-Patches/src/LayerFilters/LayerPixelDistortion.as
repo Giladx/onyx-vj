@@ -18,7 +18,7 @@
  * version 4.0.503 last modified Nov 27th 2011
  * 
  */
-package 
+package LayerFilters 
 {
 	import flash.display.*;
 	import flash.events.*;
@@ -204,6 +204,8 @@ package
 		
 	}// Class
 }
+
+import LayerFilters.LayerPixelDistortion;
 
 import flash.display.BitmapData;
 import flash.events.*;

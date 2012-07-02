@@ -6,8 +6,8 @@
 
 // write as3 code here..
 package {
-	
-	import EmbeddedAssets.AssetForBallSphere;
+		
+	import EmbeddedAssets.AssetForRainbow;
 	
 	import flash.display.*;
 	import flash.events.Event;
@@ -45,11 +45,9 @@ package {
 		
 		public function Rainbow() {
 			
-			var original:BitmapData = new AssetForBallSphere;
+			var original:BitmapData = new AssetForRainbow;
 			
 			_center = new Sprite();
-			_center.x = DISPLAY_WIDTH / 2;
-			_center.y = DISPLAY_HEIGHT / 2;
 			
 			var rs:Number = 0, gs:Number = 0, bs:Number = 0;
 			var i:int;

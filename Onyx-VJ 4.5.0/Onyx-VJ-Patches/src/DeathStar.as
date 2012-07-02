@@ -66,7 +66,7 @@ package
 		
 		public function set soundMultiplier(value:int):void
 		{
-			//PV.soundMultiplier = _soundMultiplier = value;
+
 		}
 		
 		public function draw():void
@@ -81,7 +81,6 @@ package
 		public function set rz(value:int):void
 		{
 			_rz = value;
-			//PV.rz = _rz;
 		}
 		
 		public function get ry():int
@@ -92,7 +91,6 @@ package
 		public function set ry(value:int):void
 		{
 			_ry = value;
-			//PV.ry = _ry;
 		}
 		
 		public function get rx():int
@@ -103,7 +101,6 @@ package
 		public function set rx(value:int):void
 		{
 			_rx = value;
-			//PV.rx = _rx;
 		}
 		
 		public function get size():int
@@ -113,7 +110,6 @@ package
 		
 		public function set size(value:int):void
 		{
-			//PV.size = 
 				_size = value;
 		}
 		
@@ -124,7 +120,6 @@ package
 		
 		public function set scanStep(value:int):void
 		{
-			//PV.scanStep =
 			_scanStep = value;
 		}
 		
@@ -135,7 +130,6 @@ package
 		
 		public function set scale(value:Number):void
 		{
-			//PV.scale = 
 			_scale = value;
 		}
 		
@@ -146,13 +140,11 @@ package
 		
 		public function set depth(value:Number):void
 		{
-			//PV.depth = 
 			_depth = value;		
 		}
 		
 		override public function render(info:RenderInfo):void 
 		{			
-			//PV.onEnterFrame(null);
 			info.render( sprite );		
 		}
 		
@@ -163,7 +155,6 @@ package
 		
 		public function set factor(value:int):void
 		{
-			//PV.factor = 
 			_factor = value;
 		}
 		
@@ -171,31 +162,34 @@ package
 }
 
 //PV deathstar
+import caurina.transitions.*;
+
 import flash.display.*;
-import flash.events.*;
-import flash.geom.*;
-import flash.filters.*;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.Sprite;
+import flash.events.*;
 import flash.events.Event;
 import flash.events.MouseEvent;
+import flash.filters.*;
+import flash.geom.*;
 import flash.system.System;
-import flash.text.StyleSheet;
 import flash.text.*;
+import flash.text.StyleSheet;
 import flash.ui.Keyboard;
+
+import onyx.plugin.*;
+
+import org.papervision3d.cameras.Camera3D;
 import org.papervision3d.core.effects.*;
 import org.papervision3d.core.effects.utils.*;
-import org.papervision3d.cameras.Camera3D;
+import org.papervision3d.materials.*;
+import org.papervision3d.materials.special.CompositeMaterial;
+import org.papervision3d.objects.primitives.*;
 import org.papervision3d.render.BasicRenderEngine;
 import org.papervision3d.scenes.Scene3D;
 import org.papervision3d.view.*;
 import org.papervision3d.view.layer.*;
-import org.papervision3d.objects.primitives.*;
-import org.papervision3d.materials.*;
-import org.papervision3d.materials.special.CompositeMaterial;
-
-import caurina.transitions.*;
 
 class PVDeathStar extends BasicView
 {
@@ -209,42 +203,16 @@ class PVDeathStar extends BasicView
 	
 	private var key_value:Boolean;
 	private var val:Number = 7;
-	private var tf:TextField;
-	private var str:String = "batchass";
-	
-	
-	
 	
 	public function PVDeathStar()
 	{
-
-		init3D();
-		
-		tf = new TextField();
-		addChild(tf);
-		tf.x = 5;
-		tf.y = 120;
-		tf.width  = 100;
-		tf.height = 20;
-		tf.textColor = 0xFFFFFF;
-		tf.multiline = true;
-		tf.type = TextFieldType.DYNAMIC;
-		tf.text = str;
-	}
-
-	private function init3D():void
-	{
-
-		var effectLayer:BitmapEffectLayer = new BitmapEffectLayer(viewport, 800, 800,false,0x000000,"crear_pre",true);
+		var effectLayer:BitmapEffectLayer = new BitmapEffectLayer(viewport, DISPLAY_WIDTH, DISPLAY_HEIGHT,true,0x000000,"crear_pre",true);
 		effectLayer.addEffect(new BitmapLayerEffect(new BlurFilter(1.2, 1.2, 1)));
 		effectLayer.drawCommand = new BitmapDrawCommand(null, new ColorTransform(1, 1, 1, 0.1,0,0,0,-5), BlendMode.SHADER,false);
 		viewport.containerSprite.addLayer(effectLayer);
-		
-		
-		
+				
 		renderer = new BasicRenderEngine();
 		
-		//camera = new Camera3D();
 		camera.z = -450;
 		camera.focus = 500;
 		camera.zoom = 1;
@@ -270,12 +238,10 @@ class PVDeathStar extends BasicView
 	
 	public function onEnterFrame(event:Event):void
 	{	
-		//    objSphere.rotationY += 2;
 		objSphere.rotationY = mouseX;
 		objSphere.rotationX = mouseY;
 		objSphere.rotationZ += 0.2;
-		
-		//renderer.renderScene(scene, camera, viewport);		
+				
 		singleRender();
 	}
 	public function clickObj():void {
@@ -297,8 +263,6 @@ class PVDeathStar extends BasicView
 						y:i.y*2,
 						z:i.z*2,
 						time:Math.random(),
-						//    time:0.3,
-						//   delay:Math.random(),
 						delay:0.3,
 						transition:"easeInOutElastic"
 					});
@@ -307,8 +271,6 @@ class PVDeathStar extends BasicView
 			num++;
 		}
 		
-		
-		tf.text = ""	    
 		isTween = !isTween;
 		renderer.renderScene(scene,camera,viewport);
 	}

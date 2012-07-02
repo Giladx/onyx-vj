@@ -44,12 +44,9 @@ package
 			_canvas = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0x99000000);
 			_bmp = new Bitmap(_canvas);
 			_bmp.smoothing = true;
-			_bmp.x = -DISPLAY_WIDTH / 2;
-			_bmp.y = -DISPLAY_HEIGHT / 2;
 			_sp.addChild(_bmp);
 			_sp.x = DISPLAY_WIDTH / 2;
 			_sp.y = DISPLAY_HEIGHT / 2;
-			//addChild(_sp);
 			
 			init();
 			addEventListener(MouseEvent.MOUSE_DOWN,onClick);
@@ -161,7 +158,6 @@ package
 			sh = null;
 			_canvas.unlock();
 			amax = cnt;
-			trace(cnt);
 			info.render(_sp);
 		}
 		

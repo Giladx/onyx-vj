@@ -36,7 +36,7 @@ package {
 		public function MovingBackground() {
 			bd = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT,true,0);
 			b = new Bitmap(bd);
-			b.rotation = -45;
+			//b.rotation = -45;
 			sprite = new Sprite();
 			g = sprite.graphics;
 			sprite.addChild(b)

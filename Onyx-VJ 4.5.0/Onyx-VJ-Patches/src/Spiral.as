@@ -34,8 +34,6 @@ package
 		private var theta:Number;
 		private var holder:Sprite;
 		private var layer:Bitmap;
-		/*private var layer:BitmapLayer;
-		private var slider:Slider;*/
 		private var g:Shape;
 		private var rotationSpeed:Number = 0.05;
 		private const BmSize:Number = 700;
@@ -45,22 +43,14 @@ package
 		{
 			Console.output('Spiral adapted by Bruce LANE (http://www.batchass.fr)');
 			bitmapData = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0x00);
-			//layer = new BitmapLayer(BmSize, BmSize,1,0x111111,false,true);
+
 			layer = new Bitmap(bitmapData);
-			//layer.clearOnRender = false;
 			
 			holder = new Sprite();
-			holder.x = holder.y = 465 / 2;
-			
-			//addChild(holder);
+
 			holder.addChild(layer);
 			
 			g = new Shape();
-			
-			/*slider = new Slider(Slider.HORIZONTAL, this, 10, 440, onClick);
-			slider.setSize(150, 15);
-			slider.value = 60;
-			slider.backClick = true;*/
 			
 			theta = 0;
 			onClick();
@@ -80,7 +70,8 @@ package
 			g.graphics.lineStyle(3, 0xffffff);
 			g.graphics.drawCircle(p.x, p.y, 1);
 			g.graphics.drawCircle( -p.x, -p.y, 1);
-			bitmapData.draw(g, new Matrix(1,0,0,1,BmSize/2, BmSize/2));
+			//bitmapData.draw(g, new Matrix(1,0,0,1,BmSize/2, BmSize/2));
+			bitmapData.draw(g, new Matrix(1,0,0,1,DISPLAY_WIDTH/2,DISPLAY_HEIGHT/2));
 			g.graphics.clear(); 
 		}
 		private function rotate():void
@@ -91,9 +82,8 @@ package
 		{
 			
 			layer.x = layer.y = -(BmSize)/2;
-			//layer.bitmapData.fillRect(layer.bitmapData.rect, 0x660022);
-			rotationSpeed += 0.1;//slider.value * 
-			//theta = 0;
+
+			rotationSpeed += 0.1;
 			
 			g.graphics.clear();
 			g.graphics.lineStyle(3, 0xffffff);

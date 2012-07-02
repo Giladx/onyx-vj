@@ -31,7 +31,7 @@ package
 		
 		public var numPc:int = 400;
 		public var pc:Vector.<Particle> = new Vector.<Particle>();
-		public var bitmap:Bitmap = new Bitmap(new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT , true , 0xFFFFFFFF));
+		public var bitmap:Bitmap = new Bitmap(new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT , true , 0x00));
 		public var shape:Shape = new Shape();
 		
 		private var snd:Sound;

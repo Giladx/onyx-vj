@@ -10,6 +10,7 @@ package {
     import flash.events.*;
     import flash.text.TextField;
     import flash.utils.Timer;
+    import flash.utils.getTimer;
     
     import onyx.core.*;
     import onyx.parameter.*;
@@ -20,10 +21,10 @@ package {
         public var length:Vector.<int> = Vector.<int>([ 1, 1, 1, 1,  1, 1, 1, 1,  4, 4, 4, 4,  4, 4, 4, 4]);
 		private var _speed:int			= 60;
 		private var eventTriggerID:int	= 0;
-		private var timer:Timer			= new Timer(_speed);;
 		private var running:Boolean = false;
 		private var _useTapTempo:Boolean = true;
-     
+		private var ms:int;
+    
         // beat counter
         public var beatCounter:int;
         
@@ -37,7 +38,7 @@ package {
 			Console.output('Tenorion');
 			Console.output('Credits to chuckl ( http://wonderfl.net/user/chuckl )');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
-			
+
 			parameters.addParameters(
 				new ParameterInteger('speed', 'speed', 8, 600, _speed),
 				new ParameterBoolean( 'useTapTempo', 'use tap tempo', 1 ),
@@ -50,6 +51,7 @@ package {
 			with(addChild(matrixPad = new MatrixPad())) {
 				x = y = 72;
 			}
+			ms = getTimer();
         }
 
 		public function get useTapTempo():Boolean
@@ -67,27 +69,28 @@ package {
 			eventTriggerID = 0;
 			if ( useTapTempo )
 			{
-				timer.delay = Tempo.delay;
+				ms = Tempo.delay;
 			}
 			else
 			{
-				timer.delay = speed;
+				ms = speed;
 			}
-			timer.addEventListener(TimerEvent.TIMER, onTimer);
-			timer.start();
+
 			running = true;
 		}               
 		private function onMouseDown(e:MouseEvent):void 
 		{
 			matrixPad.onClick(e.localX,e.localY);
 		}        
-		private function onTimer(e:TimerEvent) : void 
-        {
-           	matrixPad.beat(eventTriggerID & 15);
-			if (eventTriggerID++>15) eventTriggerID = 0;
-        }
+		
 		override public function render(info:RenderInfo):void 
 		{
+			if( getTimer() - speed > ms ) {
+	           	matrixPad.beat(eventTriggerID & 15);
+				if (eventTriggerID++>15) eventTriggerID = 0;
+				ms = getTimer();
+				
+			}
 			if (running) info.render( matrixPad.getBitmapData() );		
 		}        
  

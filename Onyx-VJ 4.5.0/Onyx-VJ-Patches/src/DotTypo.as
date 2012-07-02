@@ -25,22 +25,26 @@ package{
 	public class DotTypo extends Patch{
 		private var bd:BitmapData;
 		private var canvas:Sprite;
+		private var _text:String = "batchass";
 		
 		public function DotTypo():void{
 			parameters.addParameters(
+				new ParameterString('text', 'text'),
 				new ParameterExecuteFunction('create', 'Create')
 			) 
+			
+			canvas = new Sprite();
+			
+		}
+		public function create():void
+		{
 			var tf:TextField = new TextField();
 			tf.textColor = 0x000000;
-			tf.text = "batchass";
+			tf.text = _text;
 			tf.autoSize = "left";
 			
 			bd = new BitmapData(tf.width, tf.height, false, 0xFFFFFF);
 			bd.draw(tf);
-			
-			canvas = new Sprite();
-			
-			//var a:Array = new Array();
 			for(var i:int = 0; i < bd.width; i++){
 				for(var j:int = 0; j < bd.height; j++){
 					Tweener.addTween(randomize(canvas.addChild(new Rect(bd.getPixel(i, j)))), 
@@ -56,9 +60,6 @@ package{
 					);
 				}
 			}
-		}
-		public function create():void
-		{
 			
 		}
 		private function randomize(d:DisplayObject):DisplayObject{
@@ -74,6 +75,15 @@ package{
 		{
 			info.render( canvas );		
 		} 
+		public function set text(value:String):void 
+		{
+			_text = value;
+		}
+
+		public function get text():String 
+		{
+			return _text;
+		}
 	}
 }
 

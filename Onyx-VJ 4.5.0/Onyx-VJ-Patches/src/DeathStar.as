@@ -183,7 +183,6 @@ import flash.events.MouseEvent;
 import flash.system.System;
 import flash.text.StyleSheet;
 import flash.text.*;
-import flash.utils.getTimer;
 import flash.ui.Keyboard;
 import org.papervision3d.core.effects.*;
 import org.papervision3d.core.effects.utils.*;

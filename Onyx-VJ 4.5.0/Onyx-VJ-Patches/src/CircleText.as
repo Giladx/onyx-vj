@@ -28,6 +28,7 @@ package
 	import flash.geom.*;
 	import flash.text.*;
 	import flash.utils.Timer;
+	import flash.utils.getTimer;
 	
 	import onyx.core.*;
 	import onyx.events.InteractionEvent;
@@ -51,9 +52,9 @@ package
 		private var sourceBitmap:Bitmap;
 		private var _text:String = "batchass";
 		private var _speed:int			= 1;
-		private var timer:Timer			 = new Timer(_speed);
 		private var _font:Font;
-		
+		private var ms:int;
+				
 		/**
 		 * 	@constructor
 		 */
@@ -82,8 +83,9 @@ package
 			bmp = new Bitmap(new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0x00000000));
 			//orange opaque background bmp = new Bitmap(new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0xff9933));
 			sprite = new Sprite();
-			addChild(sprite);
+			//addChild(sprite);
 			sprite.addChild(bmp);
+			ms = getTimer();
 			
 		}
 
@@ -92,6 +94,42 @@ package
 		 */
 		override public function render(info:RenderInfo):void 
 		{
+			if ( running )
+			{
+				if( getTimer() - speed > ms )
+				{
+					var sourceBD:BitmapData = bmp.bitmapData;
+					var circle:Circle = new Circle( source.getPixel(i, j), factor * .6 );
+					circle.realx = i * factor + padLeft; 
+					circle.realy = j * factor + padTop;
+					
+					circle.x = Math.random() * DISPLAY_WIDTH;
+					circle.y = Math.random() * DISPLAY_HEIGHT;
+	
+					circle.alpha = 0;
+					sprite.addChild(circle);
+					Tweener.addTween(
+						circle, {
+							x: circle.realx, y: circle.realy, alpha: 1, time: speed,
+							delay: Math.sqrt(i + j) * Math.random()
+						}
+					);
+					
+					if ( i++ >= source.width-1 ) 
+					{
+						i = 0;
+						if ( j++ >= source.height-1 ) 
+						{
+							j = 0;
+							running = false;
+							Console.output('CircleText: Done');
+						}
+					}
+					sourceBD.draw(circle, null, null, null, null, true);
+					
+					ms = getTimer();					
+				}			
+			}			
 			info.render( sprite );		
 		} 
 		
@@ -118,9 +156,7 @@ package
 				source.draw(tf);
 				source.applyFilter(source, source.rect, new Point(), new BlurFilter(2,2));
 				source.draw(tf);
-				timer.delay = speed;
-				timer.addEventListener(TimerEvent.TIMER, _onTimer);
-				timer.start();
+
 				running = true;
 				Console.output('CircleText: Running');
 			}
@@ -130,42 +166,6 @@ package
 		 */
 		private function _onTimer(event:TimerEvent):void 
 		{
-			if ( running )
-			{
-				var sourceBD:BitmapData = bmp.bitmapData;
-				var circle:Circle = new Circle( source.getPixel(i, j), factor * .6 );
-				circle.realx = i * factor + padLeft; 
-				circle.realy = j * factor + padTop;
-				
-				circle.x = Math.random() * DISPLAY_WIDTH;
-				circle.y = Math.random() * DISPLAY_HEIGHT;
-
-				circle.alpha = 0;
-				sprite.addChild(circle);
-				Tweener.addTween(
-					circle, {
-						x: circle.realx, y: circle.realy, alpha: 1, time: speed,
-						delay: Math.sqrt(i + j) * Math.random()
-					}
-				);
-				
-				if ( i++ >= source.width-1 ) 
-				{
-					i = 0;
-					if ( j++ >= source.height-1 ) 
-					{
-						j = 0;
-						running = false;
-						Console.output('CircleText: Done');
-					}
-				}
-				sourceBD.draw(circle, null, null, null, null, true);
-			}
-			else
-			{
-				timer.removeEventListener(TimerEvent.TIMER, _onTimer);
-				timer.stop();
-			}
 		}
 		/**
 		 * 	

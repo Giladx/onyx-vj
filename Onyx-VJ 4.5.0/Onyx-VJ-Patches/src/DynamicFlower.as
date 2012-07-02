@@ -8,7 +8,6 @@ package {
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.utils.getTimer;
 	
 	import onyx.core.*;
 	import onyx.parameter.*;

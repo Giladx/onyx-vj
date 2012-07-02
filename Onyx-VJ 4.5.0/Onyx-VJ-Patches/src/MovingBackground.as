@@ -15,22 +15,36 @@ package {
 	import flash.display.*;
 	import flash.events.Event;
 	
-	public class MovingBackground extends Sprite {
+	import onyx.core.*;
+	import onyx.parameter.*;
+	import onyx.plugin.*;
+
+	public class MovingBackground extends Patch {
+		private var sprite:Sprite;
+		private var g:Graphics = graphics;
+		private var mt:Function = g.moveTo;
+		private var lt:Function = g.lineTo;
+		private var ls:Function = g.lineStyle;
+		private var m:Object = Math;
+		private var r:Function = m.random;
+		private var s:Function = m.sin;
+		private var i:Number = 0;
+		private var o:Object = {};
+		private var b:Bitmap;
+		private var bd:BitmapData;
 		
 		public function MovingBackground() {
-			var g:Graphics = graphics;
-			var mt:Function = g.moveTo;
-			var lt:Function = g.lineTo;
-			var ls:Function = g.lineStyle;
-			var m:Object = Math;
-			var r:Function = m.random;
-			var s:Function = m.sin;
-			var i:Number = 0;
-			var o:Object = {};
-			function f(e:Event):void{/* from here */
-				!o.b?o.c=addChild(new Bitmap(o.b=new BitmapData(700,500,m,0))).rotationX=-45: o.b.perlinNoise(30+10*s(i),20+10*s(i+=0.003),1,9,!m,!m,4,m );
-			}/* to here */
-			addEventListener("enterFrame",f);
+			bd = new BitmapData(DISPLAY_WIDTH,DISPLAY_HEIGHT,true,0);
+			b = new Bitmap(bd);
+			b.rotation = -45;
+			sprite = new Sprite();
+			g = sprite.graphics;
+			sprite.addChild(b)
 		}
+		override public function render(info:RenderInfo):void 
+		{
+			bd.perlinNoise(30+10*s(i),20+10*s(i+=0.003),1,9,!m,!m,4,m );
+			info.render( sprite );		
+		} 
 	}
 }

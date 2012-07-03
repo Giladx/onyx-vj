@@ -135,8 +135,8 @@ class ColoredImage extends Sprite {
 	
 	public function ColoredImage(image:BitmapData, r:Number, g:Number, b:Number) {
 		_img = addChild(new Bitmap(image)) as Bitmap;
-		_img.x = -_img.width / 2;
-		_img.y = -_img.height / 2;
+		/*_img.x = -_img.width / 2;
+		_img.y = -_img.height / 2;*/
 		_img.filters = [
 			new ColorMatrixFilter([
 				r, 0, 0, 0, 0,

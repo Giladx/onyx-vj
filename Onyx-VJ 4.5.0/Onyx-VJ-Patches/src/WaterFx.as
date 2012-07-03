@@ -40,6 +40,7 @@ package {
 	public class WaterFx extends Patch {
 		private var water:WaterEffect;
 		private var faded:Boolean = true;
+		private var timer:Timer;
 		public function WaterFx() {
 			Console.output('WaterFx adapted by Bruce LANE (http://www.batchass.fr)');
 			var bd:BitmapData = new AssetForWaterFx();		
@@ -58,7 +59,7 @@ package {
 			water.wave(0, 0.8);
 		}
 		private function complete(evt:Event):void {
-			var timer:Timer = new Timer(1000, 1);
+			timer = new Timer(1000, 1);
 			timer.addEventListener(TimerEvent.TIMER_COMPLETE, exchange, false, 0, true);
 			timer.start();
 		}
@@ -73,6 +74,13 @@ package {
 		}
 		override public function render(info:RenderInfo):void {
 			info.render(water);
+		}
+		override public function dispose():void {
+			timer.removeEventListener(TimerEvent.TIMER_COMPLETE, exchange);
+			water.removeEventListener(WaterEffect.COMPLETE, complete);
+			timer = null;
+			water.disposeAll();
+			water = null;
 		}
 	}
 	
@@ -183,6 +191,12 @@ class WaterEffect extends Sprite {
 		color.h = 195 + Math.sin(hue*Math.PI/180)*15;
 		colorTrans.color = color.value;
 		hue ++;
+	}
+	public function disposeAll():void {
+		removeEventListener(Event.ENTER_FRAME, update);
+		noise.dispose();
+		bitmapData.dispose();
+		container = null;
 	}
 	private function complete(evt:TweenEvent):void {
 		dispatchEvent(new Event(COMPLETE));

@@ -22,8 +22,8 @@ package
 	
 	public class DeathStar extends Patch
 	{
+		private var _midi:Number = 0;
 		private var PV:PVDeathStar;
-		private var _depth:Number = .0005;
 		private var _scale:Number = 6;
 		private var sprite:Sprite;
 		private var _scanStep:int = 2;
@@ -44,7 +44,7 @@ package
 				new ParameterInteger( 'size', 'size:', 1, 10, _size ),
 				new ParameterInteger( 'scanStep', 'scanStep:', 1, 10, _scanStep ),
 				new ParameterInteger( 'factor', 'factor:', 1, 10, _factor ),
-				new ParameterNumber( 'depth', 'depth:', .0001, 3, _depth ),
+				new ParameterNumber( 'midi', 'midi:', 0, 255, _midi ),
 				new ParameterInteger( 'rx', 'rotation x', 0, 360, _rx ),
 				new ParameterInteger( 'ry', 'rotation y', 0, 360, _ry ),
 				new ParameterInteger( 'rz', 'rotation z', 0, 360, _rz ),
@@ -132,19 +132,10 @@ package
 		{
 			_scale = value;
 		}
-		
-		public function get depth():Number
-		{
-			return _depth;
-		}
-		
-		public function set depth(value:Number):void
-		{
-			_depth = value;		
-		}
+
 		
 		override public function render(info:RenderInfo):void 
-		{			
+		{		
 			info.render( sprite );		
 		}
 		
@@ -157,6 +148,18 @@ package
 		{
 			_factor = value;
 		}
+
+		public function get midi():Number
+		{
+			return _midi;
+		}
+
+		public function set midi(value:Number):void
+		{
+			_midi = value;
+			PV.clickObj(); 
+		}
+
 		
 	}
 }
@@ -206,10 +209,10 @@ class PVDeathStar extends BasicView
 	
 	public function PVDeathStar()
 	{
-		var effectLayer:BitmapEffectLayer = new BitmapEffectLayer(viewport, DISPLAY_WIDTH, DISPLAY_HEIGHT,true,0x000000,"crear_pre",true);
+		/*var effectLayer:BitmapEffectLayer = new BitmapEffectLayer(viewport, DISPLAY_WIDTH, DISPLAY_HEIGHT,true,0x000000,"crear_pre",true);
 		effectLayer.addEffect(new BitmapLayerEffect(new BlurFilter(1.2, 1.2, 1)));
 		effectLayer.drawCommand = new BitmapDrawCommand(null, new ColorTransform(1, 1, 1, 0.1,0,0,0,-5), BlendMode.SHADER,false);
-		viewport.containerSprite.addLayer(effectLayer);
+		viewport.containerSprite.addLayer(effectLayer);*/
 				
 		renderer = new BasicRenderEngine();
 		
@@ -230,7 +233,7 @@ class PVDeathStar extends BasicView
 		scene.addChild(objSphere);
 		
 		
-		effectLayer.addDisplayObject3D(objSphere);
+		//effectLayer.addDisplayObject3D(objSphere);
 		
 		addEventListener(Event.ENTER_FRAME, onEnterFrame); 
 		

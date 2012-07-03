@@ -24,6 +24,7 @@ package {
 		private var running:Boolean = false;
 		private var _useTapTempo:Boolean = true;
 		private var ms:int;
+		private var _midi:Number = 0;
     
         // beat counter
         public var beatCounter:int;
@@ -33,13 +34,13 @@ package {
         
         // constructor
         public function Tenorion() {
-             
 
 			Console.output('Tenorion');
 			Console.output('Credits to chuckl ( http://wonderfl.net/user/chuckl )');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
 
 			parameters.addParameters(
+				new ParameterNumber( 'midi', 'midi:', 0, 255, _midi ),
 				new ParameterInteger('speed', 'speed', 8, 600, _speed),
 				new ParameterBoolean( 'useTapTempo', 'use tap tempo', 1 ),
 				new ParameterExecuteFunction('run', 'run')
@@ -89,7 +90,6 @@ package {
 	           	matrixPad.beat(eventTriggerID & 15);
 				if (eventTriggerID++>15) eventTriggerID = 0;
 				ms = getTimer();
-				
 			}
 			if (running) info.render( matrixPad.getBitmapData() );		
 		}        
@@ -102,7 +102,21 @@ package {
 		public function set speed(value:int):void
 		{
 			_speed = value;
-		}    
+		}  
+		public function get midi():Number
+		{
+			return _midi;
+		}
+		
+		public function set midi(value:Number):void
+		{
+			_midi = value;
+			speed = value; 
+			eventTriggerID = 0;
+			ms = speed;
+			running = true;
+		}
+
 	}
 }
 

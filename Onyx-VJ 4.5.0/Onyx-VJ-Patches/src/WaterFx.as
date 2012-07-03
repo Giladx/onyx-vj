@@ -44,9 +44,9 @@ package {
 		public function WaterFx() {
 			Console.output('WaterFx adapted by Bruce LANE (http://www.batchass.fr)');
 			var bd:BitmapData = new AssetForWaterFx();		
-			graphics.beginFill(0x000000);
+			/*graphics.beginFill(0x000000);
 			graphics.drawRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-			graphics.endFill();
+			graphics.endFill();*/
 			//
 			var rect:Rectangle = new Rectangle(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 			water = new WaterEffect(rect);

@@ -200,6 +200,7 @@ package {
 		}
 	}
 }
+import onyx.plugin.*;
 
 class Particle {
 	public var x:Number;
@@ -233,10 +234,10 @@ class Particle {
 			vx += (5 - x) * 0.5 - vx * 0.5;
 		if(y < 5)
 			vy += (5 - y) * 0.5 - vy * 0.5;
-		if(x > 460)
-			vx += (460 - x) * 0.5 - vx * 0.5;
-		if(y > 460)
-			vy += (460 - y) * 0.5 - vy * 0.5;
+		if(x > DISPLAY_WIDTH)
+			vx += (DISPLAY_WIDTH - x) * 0.5 - vx * 0.5;
+		if(y > DISPLAY_HEIGHT)
+			vy += (DISPLAY_HEIGHT - y) * 0.5 - vy * 0.5;
 	}
 }
 

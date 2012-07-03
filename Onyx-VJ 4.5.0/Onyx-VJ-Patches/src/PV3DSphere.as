@@ -37,6 +37,7 @@ package
 	
 	public class PV3DSphere extends BasicView
 	{
+		//FPS leak!!!
 		private var sphere:Sphere;
 		private var light : PointLight3D;
 		private var shader : Shader; 
@@ -80,5 +81,6 @@ package
 			sphere.yaw( ( DISPLAY_WIDTH ) * 0.001 );
 			singleRender();
 		}
+		
 	}
 }

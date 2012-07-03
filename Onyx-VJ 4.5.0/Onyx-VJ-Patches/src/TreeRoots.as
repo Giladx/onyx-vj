@@ -32,12 +32,12 @@ package
 		public  var blur:Array;
 		private var sprite:Sprite;
 		private var resolution:int = 4;
-		
+		private var scrTreeRoots:TreeRoot;
 		public function TreeRoots() 
 		{
 			Console.output('TreeRoots adapted by Bruce LANE (http://www.batchass.fr)');
 			sprite = new Sprite();
-			var scrTreeRoots:TreeRoot = new TreeRoot(DISPLAY_WIDTH, DISPLAY_HEIGHT, resolution);
+			scrTreeRoots = new TreeRoot(DISPLAY_WIDTH, DISPLAY_HEIGHT, resolution);
 			scrTreeRoots.cacheAsBitmap = true;
 			scrTreeRoots.scaleX = 1 / resolution;
 			scrTreeRoots.scaleY = 1 / resolution;
@@ -48,6 +48,9 @@ package
 		override public function render(info:RenderInfo):void 
 		{
 			info.render( sprite );
+		}
+		override public function dispose():void {
+			scrTreeRoots.disposeAll();
 		}
 	}
 }
@@ -149,6 +152,12 @@ class TreeRoot extends Sprite
 		{
 			removeEventListener(Event.ENTER_FRAME, FrameEvent)            
 		}
+	}
+	public function disposeAll():void
+	{
+		removeEventListener(Event.ENTER_FRAME, FrameEvent);
+		removeChild(bmp);
+		bmpd.dispose();
 	}
 	
 }

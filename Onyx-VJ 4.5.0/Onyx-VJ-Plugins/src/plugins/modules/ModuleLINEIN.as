@@ -128,10 +128,13 @@ package plugins.modules {
 				SP.addEventListener(SoundEvent.SOUND, _onActivity);
 			} else {
 				if(_source=="stream") {
-					myTimer.stop();
-					myTimer.removeEventListener("timer", _onTimer);
-					_sch.stop();
-					_sfx.close();
+					if (myTimer)
+					{
+						myTimer.stop();
+						myTimer.removeEventListener("timer", _onTimer);						
+					}
+					if (_sch) _sch.stop();
+					if (_sfx) _sfx.close();
 					_sch = null;
 					_sfx = null;
 				} else {

@@ -77,10 +77,6 @@ package plugins.visualizer
 		
 		public function GravityVisualizer() 
 		{
-			init();
-		}
-		
-		private function init():void{
 			Console.output("GravityVisualizer, credits to su8erlemon" );
 			Console.output("http://wonderfl.net/user/su8erlemon" );
 			

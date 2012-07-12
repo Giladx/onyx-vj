@@ -72,6 +72,7 @@ package plugins {
 				new Plugin('BadReception', 			BadReception,	'BadReception'),	
 				new Plugin('GLFilter', 				GLFilter,		'GLFilter'),	
 				new Plugin('AutoXFade', 			AutoXFade,		'AutoXFade'),	
+				new Plugin('CenterKaleidoscope', 	CenterKaleidoscope,	'CenterKaleidoscope', new AssetKaleid().bitmapData),
 				//new Plugin('BurstEcho', 			BurstEcho,		'BurstEcho'),	
 
 				// bitmap filters - tempo
@@ -102,6 +103,9 @@ package plugins {
 				new Plugin('Wave', 					WaveVisualizer, 'Wave'),
 				new Plugin('ScrollingLine', 		ScrollingLineVisualizer, 'ScrollingLine'),
 				new Plugin('Equalizer3D', 			Equalizer3D, 'Equalizer3D'),
+				new Plugin('LiquidVisualizer', 		LiquidVisualizer, 'LiquidVisualizer'),
+				new Plugin('TrippyVisualizer', 		TrippyVisualizer, 'TrippyVisualizer'),
+				new Plugin('PerlinVisualizer', 		PerlinVisualizer, 'PerlinVisualizer'),
 				//new Plugin('ScratchVisualizer', 	ScratchVisualizer, 'ScratchVisualizer'),
 							
 				// macros

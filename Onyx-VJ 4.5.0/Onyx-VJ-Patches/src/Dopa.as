@@ -13,8 +13,6 @@ package
 	import flash.filters.BlurFilter;
 	import flash.geom.*;
 	import flash.media.Sound;
-	import flash.media.SoundChannel;
-	import flash.media.SoundLoaderContext;
 	import flash.media.SoundMixer;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
@@ -44,23 +42,9 @@ package
 		{
 			sprite = new Sprite();
 			bytes = new ByteArray();
-			//play("http://level0.kayac.com/images/murai/Digi_GAlessio_-_08_-_ekiti_son_feat_valeska_-_april_deegee_rmx.mp3");
-			
-			
 			sprite.addChild(bitmap);
-			sprite.addChild(shape);
-
-			
+			sprite.addChild(shape);		
 		}
-		
-		/*private function play(sndUrl:String):void {
-			snd = new Sound();
-			var context:SoundLoaderContext = new SoundLoaderContext(10, true);
-			var req:URLRequest = new URLRequest(sndUrl);
-			snd.load(req, context);
-			var sndChannel:SoundChannel = new SoundChannel();
-			sndChannel = snd.play(0, 0);
-		}*/
 		
 		override public function render(info:RenderInfo):void
 		{

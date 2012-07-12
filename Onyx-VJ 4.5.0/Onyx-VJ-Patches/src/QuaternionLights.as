@@ -13,7 +13,6 @@ package {
 	import flash.filters.*;
 	import flash.geom.*;
 	import flash.net.*;
-	import flash.system.LoaderContext;
 	
 	import onyx.core.*;
 	import onyx.parameter.*;

@@ -25,7 +25,7 @@ package {
 	import onyx.plugin.*;
 
 	public class Dodecahedron extends Patch {
-		//private const WIDTH:int = 465;
+
 		// 3D renders
 		private var _materials:Vector.<Material> = new Vector.<Material>();
 		private var _light:Light = new Light(100,0.5,0.25);

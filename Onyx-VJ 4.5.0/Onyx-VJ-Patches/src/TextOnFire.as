@@ -6,24 +6,13 @@
 
 package {
 	
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.BlendMode;
-	import flash.display.DisplayObject;
-	import flash.display.Loader;
-	import flash.display.LoaderInfo;
-	import flash.display.Sprite;
-	import flash.display.StageQuality;
-	import flash.display.StageScaleMode;
+	import flash.display.*;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filters.ColorMatrixFilter;
 	import flash.filters.ConvolutionFilter;
 	import flash.geom.ColorTransform;
 	import flash.geom.Point;
-	import flash.net.SharedObject;
-	import flash.net.URLRequest;
-	import flash.system.LoaderContext;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
@@ -69,7 +58,7 @@ package {
 			_canvas.graphics.endFill();*/
 			_canvas.addChild(_createEmitter());
 			
-			_grey = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x0);
+			_grey = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0x0);
 			_spread = new ConvolutionFilter(3, 3, [0, 1, 0,  1, 1, 1,  0, 1, 0], 5);
 			_cooling = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x0);
 			_offset = [new Point(), new Point()];

@@ -27,7 +27,6 @@ package
 	public class GL extends Patch
 	{
 		private var shader:Shader;
-		private var loader:Loader;
 		private var shaderFilter:ShaderFilter;
 		private var bmp:Bitmap;
 		

@@ -22,7 +22,7 @@ package {
 		private var _speed:int			= 60;
 		private var eventTriggerID:int	= 0;
 		private var running:Boolean = false;
-		private var _useTapTempo:Boolean = true;
+		private var _useTapTempo:Boolean = false;
 		private var ms:int;
 		private var _midi:Number = 0;
     
@@ -86,12 +86,23 @@ package {
 		
 		override public function render(info:RenderInfo):void 
 		{
-			if( getTimer() - speed > ms ) {
-	           	matrixPad.beat(eventTriggerID & 15);
-				if (eventTriggerID++>15) eventTriggerID = 0;
-				ms = getTimer();
+				if( getTimer() - speed > ms ) {
+					if ( matrixPad.numPad<256 ) 
+					{
+						matrixPad.numPad++;
+					}
+					else
+					{
+						if (running) {
+			           		matrixPad.beat(eventTriggerID & 15);
+							if (eventTriggerID++>15) eventTriggerID = 0;
+						}
+						
+					}
+					ms = getTimer();
+				
 			}
-			if (running) info.render( matrixPad.getBitmapData() );		
+			info.render( matrixPad.getBitmapData() );		
 		}        
  
 		public function get speed():int
@@ -126,6 +137,8 @@ import flash.geom.*;
 
 import onyx.plugin.*;
 
+import org.papervision3d.objects.parsers.Max3DS;
+
 class MatrixPad extends Bitmap {
     public var sequences:Vector.<int> = new Vector.<int>(16);
     private var canvas:Shape = new Shape();
@@ -136,18 +149,19 @@ class MatrixPad extends Bitmap {
     private var colt:ColorTransform = new ColorTransform(1,1,1,0.1)
     private var _squareWidth:int = DISPLAY_WIDTH/16;
     private var _squareHeight:int = DISPLAY_HEIGHT/16;
+    private var _numPad:int = -1;
+    private var _maxPads:int = 256;
     
     public function MatrixPad() {
         super(new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0));
-        var i:int;
-        for (i=0; i<256; i++) {
-            pt.x = (i&15)*squareWidth;//20;
-            pt.y = (i&240)*_squareHeight/16;//3;//1.25;
-            buffer.copyPixels(padOff, padOff.rect, pt);
-            bitmapData.copyPixels(padOff, padOff.rect, pt);
-        }
-        for (i=0; i<16; i++) sequences[i] = 0;
-
+        /*var i:int;
+		for (i=0; i<256; i++) {
+			pt.x = (i&15)*squareWidth;//20;
+			pt.y = (i&240)*_squareHeight/16;//3;//1.25;
+			buffer.copyPixels(padOff, padOff.rect, pt);
+			bitmapData.copyPixels(padOff, padOff.rect, pt);
+		}
+		for (i=0; i<16; i++) sequences[i] = 0;*/
     }
     
     
@@ -210,4 +224,29 @@ class MatrixPad extends Bitmap {
     public function beat(beat16th:int) : void {
         for (pt.x=beat16th*squareWidth, pt.y=0; pt.y<DISPLAY_HEIGHT; pt.y+=squareHeight) bitmapData.copyPixels(padOn, padOn.rect, pt);
     }
+
+	public function get numPad():int
+	{
+		return _numPad;
+	}
+
+	public function set numPad(value:int):void
+	{
+		_numPad = value;
+		if ( _numPad < _maxPads )
+		{
+			pt.x = (_numPad&15)*squareWidth;//20;
+			pt.y = (_numPad&240)*_squareHeight/16;//3;//1.25;
+			buffer.copyPixels(padOff, padOff.rect, pt);
+			bitmapData.copyPixels(padOff, padOff.rect, pt);
+		}
+		else
+		{
+			var i:int;
+			if ( _numPad == _maxPads-1 )for (i=0; i<16; i++) sequences[i] = 0;
+			
+		}
+
+	}
+
 }

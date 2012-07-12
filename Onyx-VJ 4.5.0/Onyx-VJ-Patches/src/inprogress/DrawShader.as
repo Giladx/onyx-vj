@@ -31,7 +31,7 @@ package inprogress  {
 	public class DrawShader extends Patch {     
 	
 		private var Main:Sprite;     
-		private var View: Bitmap; 
+		//private var View: Bitmap; 
 		private var BmpData: BitmapData; 
 		private var BmpData2: BitmapData; 
 		private var BmpDataMono: BitmapData; 
@@ -43,10 +43,10 @@ package inprogress  {
 		public function DrawShader():void{     
 			
 			BmpData = new AssetForAbstractPainting(); 
-			View = new Bitmap(BmpData); 
-			View.scaleX = 1.0;
-			View.scaleY = 1.0;
-			addChild(View);      
+			/*View = new Bitmap(BmpData); 
+			View.scaleX = 3.0;
+			View.scaleY = 3.0;*/
+			//addChild(View);      
 			
 			BmpData2 = new BitmapData(BmpData.width, BmpData.height, false); 
 			BmpDataMono = new BitmapData(BmpData.width, BmpData.height, false); 
@@ -59,14 +59,13 @@ package inprogress  {
 		
 		override public function render(info:RenderInfo):void {     
 			
-			/*
-			TO BE OPTIMIZED
+			
+			/*TO BE OPTIMIZED*/
 			Cnt++;
 			if( Cnt == 3 ){
 				var time:int = getTimer(); 
 				var cont:Number = 64;
-				var mul:Number = 128 + cont;
-				
+				var mul:Number = 128 + cont;			
 				
 				FilterMono( BmpData, BmpDataMono );
 				var endTime:int = getTimer() - time;
@@ -76,7 +75,7 @@ package inprogress  {
 				endTime = getTimer() - time;
 				time = getTimer();
 				trace( "FilterEdge:" + endTime + "[ms]"); 
-				Filter3( BmpData, BmpData2);
+				/*Filter3( BmpData, BmpData2);
 				endTime = getTimer() - time;
 				trace( "Filter3:" + endTime + "[ms]"); 
 				time = getTimer();
@@ -87,9 +86,10 @@ package inprogress  {
 				BmpData.draw(BmpDataEdge, null, null, BlendMode.MULTIPLY);
 				
 				endTime = getTimer() - time;
-				trace( "end:" + endTime + "[ms]");  
-				info.render( BmpData );
-			}*/
+				trace( "end:" + endTime + "[ms]");  */
+			}
+			info.render( BmpDataEdge );
+			
 		}  
 		
 		

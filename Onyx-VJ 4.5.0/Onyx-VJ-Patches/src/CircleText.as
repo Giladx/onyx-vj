@@ -51,8 +51,8 @@ package
 		private var running:Boolean = false;
 		private var sourceBitmap:Bitmap;
 		private var _text:String = "batchass";
-		private var _speed:int			= 1;
 		private var _font:Font;
+		private var _speed:int			= 1;
 		private var ms:int;
 				
 		/**

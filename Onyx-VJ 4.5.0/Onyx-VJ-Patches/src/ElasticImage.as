@@ -11,8 +11,6 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import flash.net.URLRequest;
-	import flash.system.LoaderContext;
 	
 	import onyx.core.*;
 	import onyx.parameter.*;

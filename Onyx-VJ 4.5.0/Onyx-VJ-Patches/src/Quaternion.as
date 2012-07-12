@@ -9,7 +9,6 @@ package {
     import flash.events.*;
     import flash.filters.ShaderFilter;
     import flash.net.*;
-    import flash.system.LoaderContext;
     
     import onyx.utils.Base64Decoder;
     import EmbeddedAssets.AssetForPixelDistortion;

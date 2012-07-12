@@ -9,11 +9,7 @@ package
 {
 	import caurina.transitions.Tweener;
 	
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.GradientType;
-	import flash.display.Loader;
-	import flash.display.Sprite;
+	import flash.display.*;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filters.DisplacementMapFilter;
@@ -33,7 +29,6 @@ package
 		public const MAX_DISPLACE : int = 800;
 		public var W:int;
 		public var H:int;
-		public var loaderImage : Loader = new Loader;
 		private var bmpdText:BitmapData;
 		private var bmpdPerlin:BitmapData;
 		private var spMask:Sprite = new Sprite;

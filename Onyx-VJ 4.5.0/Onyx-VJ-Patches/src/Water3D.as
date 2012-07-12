@@ -8,7 +8,6 @@ package {
 	import flash.display.*;
 	import flash.events.*;
 	import flash.net.*;
-	import flash.system.LoaderContext;
 	
 	import onyx.core.*;
 	import onyx.parameter.*;
@@ -30,7 +29,6 @@ package {
 		private const MESH_SIZE:Number = 100;
 		private var count:uint;
 		private var bmd:BitmapData;
-		//private var loader:Loader;
 		private var vertices:Vector.<Vertex>;
 		private var transformedVertices:Vector.<Number>;
 		private var indices:Vector.<int>;

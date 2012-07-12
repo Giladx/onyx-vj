@@ -4,14 +4,14 @@ package EmbeddedAssets {
 	
 	[ExcludeSDK]
 	
-	[Embed(source='../assets/foxetoile.jpg')]
+	[Embed(source='../assets/oeil.png')]
 	public final class AssetForAbstractPainting extends BitmapData {
 		
 		/**
 		 * 
 		 */
 		public function AssetForAbstractPainting() {
-			super(1028, 984);
+			super(50, 50);
 		}
 		
 	}

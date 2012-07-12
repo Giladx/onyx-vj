@@ -8,13 +8,9 @@ package {
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import flash.net.FileReference;
-	import flash.net.URLRequest;
-	import flash.system.LoaderContext;
 	import onyx.core.*;
 	import onyx.events.InteractionEvent;
 	import onyx.parameter.*;

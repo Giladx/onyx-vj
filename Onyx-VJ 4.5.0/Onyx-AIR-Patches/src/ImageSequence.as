@@ -13,9 +13,9 @@ package
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
-	public class PngLoader extends Patch 
+	public class ImageSequence extends Patch 
 	{			
-		private var _folder:String = 'assets/fox120/';
+		private var _folder:String = 'assets/fox072012/';
 		private var sprite:Sprite;
 		private var _speed:int	= 1000;
 		private var ms:int;
@@ -24,8 +24,8 @@ package
 		private var bitmap:Bitmap;
 		private var defaultBitmapData:BitmapData;
 		
-		public function PngLoader() {
-			Console.output('PngLoader v 0.2 by Bruce LANE (http://www.batchass.fr)');
+		public function ImageSequence() {
+			Console.output('ImageSequence v 0.1 by Bruce LANE (http://www.batchass.fr)');
 			sprite = new Sprite();
 			defaultBitmapData = createDefaultBitmap();
 			bitmap = new Bitmap( defaultBitmapData );
@@ -53,8 +53,13 @@ package
 						loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadHandler);
 
 						loader.load(new URLRequest(imgFile.url));
+						cnt++;
 					}
-					cnt++;
+					else
+					{
+						cnt = 0;
+						running = true;
+					}
 					ms = getTimer();	
 				}			
 			}
@@ -93,17 +98,16 @@ package
 						}
 					}
 				
-					sprite.addChild(bmp);
-					// 24 bmp limit! workaround:
-					if ( sprite.numChildren > 20 )
+					if ( sprite.numChildren > 0 )
 					{
-						var bitmapData:BitmapData = new BitmapData(sprite.width, sprite.height, true, 0x00FFFFFF);
-						bitmapData.draw(sprite);
+						/*var bitmapData:BitmapData = new BitmapData(sprite.width, sprite.height, true, 0x00FFFFFF);
+						bitmapData.draw(sprite);*/
 						
 						sprite.removeChildren();
 						sprite = null;
 						sprite = new Sprite();
-						sprite.addChild(new Bitmap(bitmapData, "auto"));
+						sprite.addChild(bmp);
+						//sprite.addChild(new Bitmap(bitmapData, "auto"));
 					}
 				} 
 				catch (e:Error) 

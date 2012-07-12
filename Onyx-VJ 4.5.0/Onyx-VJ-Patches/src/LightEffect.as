@@ -27,12 +27,13 @@ package {
 		private var dst:BitmapData = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0);
 		private var mx:int = 320;
 		private var my:int = 240;
+		private var _rotspeed:Number = 0.007;
+		private var rota:Number				= 0;
 	
 		public function LightEffect() {
-			graphics.beginFill(0);
-			graphics.drawRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-			graphics.endFill();
-			addChild(canvas);
+			parameters.addParameters(
+				new ParameterNumber('rotspeed', 'rotspd', -1, 1, rotspeed, 1000)
+			);
 			
 			var c:uint;
 			var r:Rectangle = new Rectangle(0, 0, 32, 32);
@@ -78,12 +79,25 @@ package {
 		override public function render(info:RenderInfo):void {
 			mtx.identity();
 			mtx.translate(-DISPLAY_WIDTH/2, -DISPLAY_HEIGHT/2);
-			mtx.rotate(getTimer() / 1000);
+			//mtx.rotate(getTimer() / 1000);
+			rota += rotspeed;
+			mtx.rotate(rota);
 			mtx.translate(DISPLAY_WIDTH/2, DISPLAY_HEIGHT/2);
 			rot.fillRect(rot.rect, 0);
 			rot.draw(base, mtx);
 			canvas.bitmapData = process(rot, 0.5 - mx/DISPLAY_WIDTH, 0.5 - my/DISPLAY_HEIGHT);
 			info.render(canvas);
 		}
+
+		public function get rotspeed():Number
+		{
+			return _rotspeed;
+		}
+
+		public function set rotspeed(value:Number):void
+		{
+			_rotspeed = value;
+		}
+
 	}
 }

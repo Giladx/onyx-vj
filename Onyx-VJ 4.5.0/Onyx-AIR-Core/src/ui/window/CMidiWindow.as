@@ -28,8 +28,11 @@ package ui.window {
 	import onyx.asset.AssetFile;
 	import onyx.core.*;
 	import onyx.display.BlendModes;
+	import onyx.display.ContentCustom;
 	import onyx.display.LayerImplementor;
 	import onyx.display.OutputDisplay;
+	import onyx.parameter.Parameter;
+	import onyx.parameter.Parameters;
 	import onyx.plugin.*;
 	import onyx.system.NativeAppLauncher;
 	import onyx.tween.Tween;
@@ -40,6 +43,7 @@ package ui.window {
 	
 	import ui.controls.*;
 	import ui.core.*;
+	import ui.layer.LayerPage;
 	import ui.layer.UILayer;
 	import ui.policy.*;
 	import ui.states.*;
@@ -47,7 +51,7 @@ package ui.window {
 	/**
 	 * 	Remote Mapping Window
 	 */
-	public final class LaunchpadWindow extends Window {
+	public final class CMidiWindow extends Window {
 		
 		/**
 		 * 	@private
@@ -55,12 +59,16 @@ package ui.window {
 		private var pane:ScrollPane;
 		private var connectBtn:TextButton;
 		private var outputBtn:TextButton;
+		private var nanoBtn:TextButton;
 		private var resetBtn:TextButton;
 		private var lightAllBtn:TextButton;
+		private var lightBtn:TextButton;
 		
 		private var tween:Tween;
 		private var index:int = 0;
 		private var selectedLayer:int = 0;
+		private var previousLayer:int = 0;
+		private var layer:Layer;
 		private var timer:Timer = new Timer(1000);
 		private var pathToExe:String = 'MidiPipe.exe';
 		private var tempText:String	= 'outp launchpad';
@@ -89,7 +97,7 @@ package ui.window {
 		/**
 		 * 	@Constructor
 		 */
-		public function LaunchpadWindow(reg:WindowRegistration):void {
+		public function CMidiWindow(reg:WindowRegistration):void {
 			
 			// position & create
 			super(reg, true, 260, 217);
@@ -122,13 +130,21 @@ package ui.window {
 			outputBtn.addEventListener(MouseEvent.MOUSE_DOWN, outpMsg);
 			pane.addChild(outputBtn).y = (index++ * 15);
 			
-			resetBtn				= new TextButton(options, 'reset btns'),
+			nanoBtn					= new TextButton(options, 'outp nano'),
+			nanoBtn.addEventListener(MouseEvent.MOUSE_DOWN, nanoMsg);
+			pane.addChild(nanoBtn).y = (index++ * 15);
+			
+			resetBtn				= new TextButton(options, 'reset lp btns'),
 			resetBtn.addEventListener(MouseEvent.MOUSE_DOWN, reset);
 			pane.addChild(resetBtn).y = (index++ * 15);
 			
-			lightAllBtn				= new TextButton(options, 'light all'),
+			lightAllBtn				= new TextButton(options, 'lp light all'),
 			lightAllBtn.addEventListener(MouseEvent.MOUSE_DOWN, lightAll);
 			pane.addChild(lightAllBtn).y = (index++ * 15);
+			
+			lightBtn				= new TextButton(options, 'nano light'),
+			lightBtn.addEventListener(MouseEvent.MOUSE_DOWN, lightNano);
+			pane.addChild(lightBtn).y = (index++ * 15);
 			
 			appLauncher = new NativeAppLauncher(pathToExe);
 			appLauncher.addEventListener( Event.ACTIVATE, activate );
@@ -143,6 +159,15 @@ package ui.window {
 			appLauncher.launchExe();
 			event.stopPropagation();
 		}
+		private function nanoMsg(event:MouseEvent):void 
+		{
+			appLauncher.writeData('list');
+			appLauncher.writeData('outp nano');
+			appLauncher.writeData('inpt loop');	
+			appLauncher.writeData('39,0,127');
+			appLauncher.writeData('27,2,127');
+			event.stopPropagation();
+		}
 		private function outpMsg(event:MouseEvent):void 
 		{
 			appLauncher.writeData('list');
@@ -155,11 +180,6 @@ package ui.window {
 			appLauncher.writeData('144,96,'+AMBERLOW);			
 			event.stopPropagation();
 		}
-		/*public function write():void 
-		{			
-			appLauncher.writeData(tempText);
-			if (tempText == 'outp launchpad') tempText = 'inpt loop';
-		}*/
 		public function reset(event:MouseEvent):void 
 		{			
 			appLauncher.writeData('176,0,0');
@@ -168,6 +188,19 @@ package ui.window {
 		public function lightAll(event:MouseEvent):void 
 		{			
 			appLauncher.writeData('176,0,127');
+			event.stopPropagation();
+		}
+		public function lightNano(event:MouseEvent):void 
+		{	
+			
+				appLauncher.writeData('176,32,127');
+				
+			
+			/*for (var j:uint = 0; j<127; j++)
+			{
+				appLauncher.writeData(j.toString()+',0,127');
+				
+			}*/
 			event.stopPropagation();
 		}
 		public function dutyCycle():void 
@@ -203,7 +236,7 @@ package ui.window {
 
 		private function tweenFinish(event:Event):void {
 			tween.removeEventListener(Event.COMPLETE, tweenFinish);
-			var layer:Layer = Display.getLayerAt(selectedLayer);
+			//var layer:Layer = Display.getLayerAt(selectedLayer);
 			layer.visible = false;
 		}
 		private function sendMsg(event:MouseEvent):void {
@@ -217,20 +250,46 @@ package ui.window {
 		public function change(evt:Event):void 
 		{
 			var rcvd:String = appLauncher.readAppOutput();
-			var rcvdInt:int = int(rcvd);
-			var channel:int = rcvdInt & 0xf; 
-			var cmd:int = rcvdInt & 0xf0; 
-			var noteon:int = (rcvdInt>> 8) & 0xff; 
-			var velocity:int = (rcvdInt>> 16) & 0xff; 
-				
+			var rcvdInt:uint = uint(rcvd);
+			var channel:uint = rcvdInt & 0xf; 
+			var cmd:uint = rcvdInt & 0xf0; 
+			var noteon:uint = (rcvdInt>> 8) & 0xff; 
+			var velocity:uint = (rcvdInt>> 16) & 0xff; 
 			
-			//var data1:uint = uint(noteon);
-			/*var x:uint = Math.abs(data1-36)/4;
-			var y:uint = Math.abs(data1-36)%4;
-			var pos:uint = y + ((x)*8);*/
+			trace("rcvd:" + rcvd );	
+			if (velocity < 127 && velocity > 0)
+			{
+				if ( noteon > 67 ) 
+				{
+					if ( noteon % 4 == 0 )
+					{
+						previousLayer = selectedLayer;
+						selectedLayer = 4;
+						UILayer.selectLayer(selectedLayer);
+						layer = Display.getLayerAt(selectedLayer);
+					}
+					else
+					{
+						if ( layer==null )
+						{
+							UILayer.selectLayer(selectedLayer);
+							layer = Display.getLayerAt(selectedLayer);
+							
+						}
+					}
+				}
+				else
+				{		
+						previousLayer = selectedLayer;
+						selectedLayer = noteon % 4;
+						UILayer.selectLayer(selectedLayer);
+						layer = Display.getLayerAt(selectedLayer);					
+				}
+			}
 			appLauncher.writeData('144,' + noteon + ',' + velocity );
 			//3 = red, 5=low red, 30=mid orange,
-			trace("change:" + noteon);	
+		
+			trace("change:" + noteon + " mod:" + noteon%4 + " velocity:" + velocity + " channel:" + channel);	
 			switch ( noteon ) 
 			{ 
 				// 1st line: layer select
@@ -239,17 +298,13 @@ package ui.window {
 				case 66:
 				case 67:
 				case 96:
-					if ( selectedLayer != noteon-64 )
+					if ( selectedLayer != previousLayer )
 					{						
 						appLauncher.writeData('144,64,'+AMBERLOW);
 						appLauncher.writeData('144,65,'+AMBERLOW);
 						appLauncher.writeData('144,66,'+AMBERLOW);
 						appLauncher.writeData('144,67,'+AMBERLOW);
-						appLauncher.writeData('144,96,'+AMBERLOW);
-						selectedLayer = noteon-64;
-						if ( selectedLayer > 3 ) selectedLayer = 4;
-						UILayer.selectLayer(selectedLayer);
-						var layer:Layer = Display.getLayerAt(selectedLayer);
+						appLauncher.writeData('144,96,'+AMBERLOW);					
 						appLauncher.writeData('144,' + noteon + ',' + GREENFULL);
 						if (layer.visible) 
 						{
@@ -281,13 +336,6 @@ package ui.window {
 				case 62:
 				case 63:
 				case 92:
-					index = noteon - 60;
-					selectedLayer = index;
-					if ( selectedLayer > 3 ) selectedLayer = 4;
-					var layer:Layer = Display.getLayerAt(selectedLayer);
-					
-					trace(layer.channel);// = true;
-					
 					if (layer.visible)
 					{
 						appLauncher.writeData('144,'+noteon+','+REDLOW);
@@ -358,16 +406,10 @@ package ui.window {
 						new TweenProperty('brightness', Display.brightness, (Display.brightness < 0) ? 0 : -1)
 					)
 					break;
-				//3rd line: pause
+				//3rd line: pause (lacks 58 and 59)
 				case 56:
 				case 57:
-				case 58:
-				case 59:
 				case 88:
-					index = noteon - 56;
-					selectedLayer = index;
-					if ( selectedLayer > 3 ) selectedLayer = 4;
-					var layer:Layer = Display.getLayerAt(selectedLayer);
 					if (layer.paused) 
 					{
 						layer.pause(false);
@@ -377,6 +419,27 @@ package ui.window {
 					{
 						layer.pause(true);
 						appLauncher.writeData('144,'+noteon+','+REDLOW);						
+					}
+					break;
+				//select layer
+				case 58:
+					if (velocity == 127)
+					{
+						previousLayer = selectedLayer;
+						selectedLayer--;
+						if (selectedLayer < 0) selectedLayer = 4;
+						UILayer.selectLayer(selectedLayer);
+						layer = Display.getLayerAt(selectedLayer);
+					}
+					break;
+				case 59:
+					if (velocity == 127)
+					{
+						previousLayer = selectedLayer;
+						selectedLayer++;
+						if (selectedLayer > 4) selectedLayer = 0;
+						UILayer.selectLayer(selectedLayer);
+						layer = Display.getLayerAt(selectedLayer);
 					}
 					break;
 				// fade screen
@@ -422,8 +485,8 @@ package ui.window {
 						
 						hashCurrentBlendModes = new Dictionary(true);
 						
-						for each (var layer:Layer in Display.layers) {
-							hashCurrentBlendModes[layer]		= layer.blendMode;
+						for each (var l:Layer in Display.layers) {
+							hashCurrentBlendModes[l]		= l.blendMode;
 						}					
 					}
 					else
@@ -431,10 +494,10 @@ package ui.window {
 						randomBlendActive = false;
 						Display.removeEventListener(Event.ENTER_FRAME, randomBlend);
 						
-						for each (var layer:Layer in Display.layers) {
-							layer.blendMode = hashCurrentBlendModes[layer] || 'normal';
-							layer.alpha		= 1;
-							delete hashCurrentBlendModes[layer];
+						for each (var l:Layer in Display.layers) {
+							l.blendMode = hashCurrentBlendModes[l] || 'normal';
+							l.alpha		= 1;
+							delete hashCurrentBlendModes[l];
 						}
 						hashCurrentBlendModes = null;
 					}
@@ -446,10 +509,6 @@ package ui.window {
 				case 54:
 				case 55:
 				case 84:
-					index = noteon - 52;
-					selectedLayer = index;
-					if ( selectedLayer > 3 ) selectedLayer = 4;
-					var layer:Layer = Display.getLayerAt(selectedLayer);
 					layer.framerate	*= -1;
 					break;
 				// random 3D distort
@@ -461,11 +520,11 @@ package ui.window {
 					
 					if (plugin) {
 						
-						for each (var layer:Layer in Display.loadedLayers) {
+						for each (var l:Layer in Display.loadedLayers) {
 							
-							if (layer.path) {
+							if (l.path) {
 								filter	= null;
-								filters = layer.filters;
+								filters = l.filters;
 								
 								for each (var test:Filter in filters) {
 									if (test.name === 'DISTORT') {
@@ -476,7 +535,7 @@ package ui.window {
 								
 								if (!filter) {
 									filter = plugin.createNewInstance() as Filter;
-									layer.addFilter(filter);
+									l.addFilter(filter);
 								}
 								
 								new Tween(
@@ -503,18 +562,18 @@ package ui.window {
 						randomDistortActive = false;
 						var filter:Filter, test:Filter, filters:Array;
 						
-						for each (var layer:Layer in Display.layers) {
+						for each (var l:Layer in Display.layers) {
 							new Tween(
-								layer,
+								l,
 								600,
-								new TweenProperty('x', layer.x, 0),
-								new TweenProperty('y', layer.y, 0),
-								new TweenProperty('scaleX', layer.scaleX, 1),
-								new TweenProperty('scaleY', layer.scaleY, 1)
+								new TweenProperty('x', l.x, 0),
+								new TweenProperty('y', l.y, 0),
+								new TweenProperty('scaleX', l.scaleX, 1),
+								new TweenProperty('scaleY', l.scaleY, 1)
 							)
 							
 							filter	= null;
-							filters = layer.filters;
+							filters = l.filters;
 							
 							for each (test in filters) {
 								if (test.name === 'DISTORT') {
@@ -564,12 +623,7 @@ package ui.window {
 				case 49:
 				case 50:
 				case 51:
-				case 80:
-					index = noteon - 48;
-					selectedLayer = index;
-					if ( selectedLayer > 3 ) selectedLayer = 4;
-					var layer:Layer = Display.getLayerAt(selectedLayer);
-					
+				case 80:					
 					if (layer.channel == true) 
 					{
 						layer.channel = false;
@@ -581,127 +635,74 @@ package ui.window {
 						appLauncher.writeData('144,'+noteon+','+REDLOW);						
 					}
 					break;
+				case 81:
+					if (layer.scaleX == 1.1 )
+					{
+						new Tween(
+							layer,
+							60,
+							new TweenProperty('scaleX', layer.scaleX, 1),
+							new TweenProperty('scaleY', layer.scaleY, 1)
+						)
+						
+					}
+					else
+					{
+						new Tween(
+							layer,
+							60,
+							new TweenProperty('scaleX', layer.scaleX, 1.1),
+							new TweenProperty('scaleY', layer.scaleY, 1.1)
+						)						
+					}
+					break;
 				// framerate
-				case 104:
-					for each (var layer:Layer in Display.layers) {
-					layer.framerate += .1;
-				}
+				case 82:
+					for each (var l:Layer in Display.layers) l.framerate += .1;
 					break;
-				case 105:
-					for each (var layer:Layer in Display.layers) {
-					layer.framerate -= .1;
-				}
+				case 83:
+					for each (var l:Layer in Display.layers) l.framerate -= .1;
 					break;
-				// 6th line: load onx
+				// 6th line
 				case 44:
 				case 45:
 				case 46:
 				case 47:
 				case 76:
-				case 77:
-				case 78:
-				case 79:
-					//load default.onx
-					var defaultFile:File = new File( AssetFile.resolvePath( 'library/' + noteon + '.onx' ) );
-					if ( defaultFile.exists )
+					if (layer)
+					{
+						//layer.alpha = 0.99;
+						if (layer.getParameters())
+						{
+							if (layer.getParameters().getParameter('midi'))
+							{
+								layer.getParameters().getParameter('midi').value = velocity;
+								
+							}
+						}
+						else
+						{
+							trace("layer.getParameters() null");
+						}
+					}
+					else
+					{
+						trace("layer null");
+					}
+					break;
+				default:
+					//for the rest: load onx
+					var f:File = new File( AssetFile.resolvePath( 'library/' + noteon + '.onx' ) );
+					if ( f.exists )
 					{
 						const li:LayerImplementor = (Display as OutputDisplay).getLayerAt(0) as LayerImplementor;
-						(Display as OutputDisplay).load(defaultFile.url, li, useTransition);
+						(Display as OutputDisplay).load(f.url, li, useTransition);
 					
-					}				
-					break;
-				case "cycle-blendmode-down":
-					var layer:Layer	= (UIObject.selection as UILayer).layer;
-					layer.blendMode	= BlendModes[Math.min(BlendModes.indexOf(layer.blendMode)+1, BlendModes.length - 1)];
-					break;
-				case "cycle-blendmode-up":
-					var layer:Layer	= (UIObject.selection as UILayer).layer;
-					layer.blendMode	= BlendModes[Math.max(BlendModes.indexOf(layer.blendMode)-1,0)];	
-					break;
-				
-				
-				/*case "rotation":
-					var layer:Layer	= (UIObject.selection as UILayer).layer;
-					
-					var rTween:Tween = new Tween(
-						layer,
-						250,
-						new TweenProperty('rotation', layer.rotation, dataReceived.value)
-					);
-					break;
-				case "alpha":
-					var layer:Layer	= (UIObject.selection as UILayer).layer;
-					
-					var rTween:Tween = new Tween(
-						layer,
-						25,
-						new TweenProperty('alpha', layer.alpha, dataReceived.value/100)
-					);
-					break;*/
-				case "bounce":
-					var layer:Layer	= (UIObject.selection as UILayer).layer;
-					
-					/*const totalTime:int	= layer.totalTime;
-					const time:int		= layer.time * totalTime;
-					const start:int		= layer.loopStart * totalTime;
-					const end:int		= layer.loopEnd	* totalTime;
-					const frame:int		= layer.framerate * Display.frameRate * 2;
-					
-					if (time + frame > end || time + frame < start) {*/
-					layer.framerate	*= -1;
-					//}
-					break;
-				/*case "x":
-					var layer:Layer	= (UIObject.selection as UILayer).layer;
-					
-					var rTween:Tween = new Tween(
-						layer,
-						25,
-						new TweenProperty('x', layer.x, dataReceived.value)
-					);
-					break;*/
-				//layer.content onyx.display.ContentCustom
-				//layer.content.customParameters
-				//layer.content.customParameters.length
-				//layer.content.customParameters[6].value //6 rotx
-				/*case "y":
-					var layer:Layer	= (UIObject.selection as UILayer).layer;
-					
-					var rTween:Tween = new Tween(
-						layer,
-						25,
-						new TweenProperty('y', layer.y, dataReceived.value)
-					);
-					break;
-				case "brightness":
-					var layer:Layer	= (UIObject.selection as UILayer).layer;
-					
-					var rTween:Tween = new Tween(
-						layer,
-						25,
-						new TweenProperty('brightness', layer.brightness, dataReceived.value/100)
-					);
-					break;
-				case "contrast":
-					var layer:Layer	= (UIObject.selection as UILayer).layer;
-					
-					var rTween:Tween = new Tween(
-						layer,
-						25,
-						new TweenProperty('contrast', layer.contrast, dataReceived.value/100)
-					);
-					break;
-				case "saturation":
-					var layer:Layer	= (UIObject.selection as UILayer).layer;
-					
-					var rTween:Tween = new Tween(
-						layer,
-						25,
-						new TweenProperty('saturation', layer.saturation, dataReceived.value/100)
-					);
-					break;*/
-				default: 
-					
+					}	
+					else
+					{
+						Console.output( f.url + ' does not exist' );
+					}
 					break;
 			}
 		}
@@ -713,12 +714,12 @@ package ui.window {
 		}
 		private function activate(evt:Event):void
 		{
-			trace("activate");
+			//trace("activate");
 			//running = true;
 		}
 		private function closed(evt:Event):void
 		{
-			trace("closed");
+			//trace("closed");
 			//running = false;
 		}
 		/**

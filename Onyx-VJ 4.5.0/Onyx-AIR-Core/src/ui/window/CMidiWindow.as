@@ -92,6 +92,7 @@ package ui.window {
 		private var randomBlendActive:Boolean = false;
 		private var hashCurrentBlendModes:Dictionary;
 		private var randomDistortActive:Boolean = false;
+		private var launchpad:Boolean = false;
 		public static var useTransition:Transition;
 		
 		/**
@@ -151,6 +152,9 @@ package ui.window {
 			appLauncher.addEventListener( Event.CLOSE, closed );
 			appLauncher.addEventListener( Event.CHANGE, change );
 			
+			UILayer.selectLayer(selectedLayer);
+			layer = Display.getLayerAt(selectedLayer);	
+			
 			timer.addEventListener(TimerEvent.TIMER, onTimer);
 			timer.start();
 		}
@@ -161,15 +165,15 @@ package ui.window {
 		}
 		private function nanoMsg(event:MouseEvent):void 
 		{
+			launchpad = false;
 			appLauncher.writeData('list');
 			appLauncher.writeData('outp nano');
 			appLauncher.writeData('inpt loop');	
-			appLauncher.writeData('39,0,127');
-			appLauncher.writeData('27,2,127');
 			event.stopPropagation();
 		}
 		private function outpMsg(event:MouseEvent):void 
 		{
+			launchpad = true;
 			appLauncher.writeData('list');
 			appLauncher.writeData('outp launchpad');
 			appLauncher.writeData('inpt loop');
@@ -192,15 +196,7 @@ package ui.window {
 		}
 		public function lightNano(event:MouseEvent):void 
 		{	
-			
-				appLauncher.writeData('176,32,127');
-				
-			
-			/*for (var j:uint = 0; j<127; j++)
-			{
-				appLauncher.writeData(j.toString()+',0,127');
-				
-			}*/
+			appLauncher.writeData('176,32,127');
 			event.stopPropagation();
 		}
 		public function dutyCycle():void 
@@ -257,7 +253,7 @@ package ui.window {
 			var velocity:uint = (rcvdInt>> 16) & 0xff; 
 			
 			trace("rcvd:" + rcvd );	
-			if (velocity < 127 && velocity > 0)
+			if (launchpad)
 			{
 				if ( noteon > 67 ) 
 				{
@@ -285,426 +281,756 @@ package ui.window {
 						UILayer.selectLayer(selectedLayer);
 						layer = Display.getLayerAt(selectedLayer);					
 				}
-			}
-			appLauncher.writeData('144,' + noteon + ',' + velocity );
-			//3 = red, 5=low red, 30=mid orange,
-		
-			trace("change:" + noteon + " mod:" + noteon%4 + " velocity:" + velocity + " channel:" + channel);	
-			switch ( noteon ) 
-			{ 
-				// 1st line: layer select
-				case 64:
-				case 65:
-				case 66:
-				case 67:
-				case 96:
-					if ( selectedLayer != previousLayer )
-					{						
-						appLauncher.writeData('144,64,'+AMBERLOW);
-						appLauncher.writeData('144,65,'+AMBERLOW);
-						appLauncher.writeData('144,66,'+AMBERLOW);
-						appLauncher.writeData('144,67,'+AMBERLOW);
-						appLauncher.writeData('144,96,'+AMBERLOW);					
-						appLauncher.writeData('144,' + noteon + ',' + GREENFULL);
-						if (layer.visible) 
+				switch ( noteon ) 
+				{ 
+					// 1st line: layer select
+					case 64:
+					case 65:
+					case 66:
+					case 67:
+					case 96:
+						if ( selectedLayer != previousLayer )
+						{						
+							appLauncher.writeData('144,64,'+AMBERLOW);
+							appLauncher.writeData('144,65,'+AMBERLOW);
+							appLauncher.writeData('144,66,'+AMBERLOW);
+							appLauncher.writeData('144,67,'+AMBERLOW);
+							appLauncher.writeData('144,96,'+AMBERLOW);					
+							appLauncher.writeData('144,' + noteon + ',' + GREENFULL);
+							if (layer.visible) 
+							{
+								appLauncher.writeData('144,'+(noteon-4)+','+GREENFULL);
+								
+							} 
+							else 
+							{
+								appLauncher.writeData('144,'+(noteon-4)+','+REDLOW);	
+							}
+						}
+						break;	
+					// go to A
+					case 97:
+						if ( Display.channelMix > 0 ) Display.channelMix -= 0.03;
+						break;
+					// go to B
+					case 98:
+						if ( Display.channelMix < 1 ) Display.channelMix += 0.03;
+						break;
+					// switch A/B
+					case 99:
+						const property:TweenProperty = (Display.channelMix > .5) ? new TweenProperty('channelMix', Display.channelMix, 0) : new TweenProperty('channelMix', Display.channelMix, 1);					
+						new Tween( Display, 4000, property );
+						break;
+					//2nd line visibility
+					case 60:
+					case 61:
+					case 62:
+					case 63:
+					case 92:
+						if (layer.visible)
 						{
-							appLauncher.writeData('144,'+(noteon-4)+','+GREENFULL);
-						
+							appLauncher.writeData('144,'+noteon+','+REDLOW);
+							tween = new Tween(
+								layer,
+								250,
+								new TweenProperty('alpha', layer.alpha, 0)
+							);
+							tween.addEventListener(Event.COMPLETE, tweenFinish);
 						} 
 						else 
 						{
-							appLauncher.writeData('144,'+(noteon-4)+','+REDLOW);	
+							appLauncher.writeData('144,'+noteon+','+GREENFULL);
+							layer.visible = true;
+							tween = new Tween(
+								layer,
+								250,
+								new TweenProperty('alpha', 0, 1)
+							);
 						}
-					}
-					break;	
-				// go to A
-				case 97:
-					if ( Display.channelMix > 0 ) Display.channelMix -= 0.03;
-					break;
-				// go to B
-				case 98:
-					if ( Display.channelMix < 1 ) Display.channelMix += 0.03;
-					break;
-				// switch A/B
-				case 99:
-					const property:TweenProperty = (Display.channelMix > .5) ? new TweenProperty('channelMix', Display.channelMix, 0) : new TweenProperty('channelMix', Display.channelMix, 1);					
-					new Tween( Display, 4000, property );
-					break;
-				//2nd line visibility
-				case 60:
-				case 61:
-				case 62:
-				case 63:
-				case 92:
-					if (layer.visible)
-					{
-						appLauncher.writeData('144,'+noteon+','+REDLOW);
-						tween = new Tween(
-							layer,
-							250,
-							new TweenProperty('alpha', layer.alpha, 0)
-						);
-						tween.addEventListener(Event.COMPLETE, tweenFinish);
-					} 
-					else 
-					{
-						appLauncher.writeData('144,'+noteon+','+GREENFULL);
-						layer.visible = true;
-						tween = new Tween(
-							layer,
-							250,
-							new TweenProperty('alpha', 0, 1)
-						);
-					}
-					break;
-				// fade chopDown
-				case 93:
-					if ( fadeFilterActive == false ) 
-					{
-						fadeFilterActive = true;
-						fadeFilter = PluginManager.createFilter('ECHO') as Filter;
-						fadeFilter.setParameterValue('feedBlend', 'darken');
-						fadeFilter.setParameterValue('feedAlpha', .7);
-						Display.addFilter(fadeFilter);						
-					}
-					else
-					{			
-						fadeFilterActive = false;
-						Display.removeFilter(fadeFilter);
-						fadeFilter = null;
-					}
-					break;
-				// fade chopUp
-				case 94:
-					if ( fadeFilterActive == false ) 
-					{
-						fadeFilterActive = true;
-						fadeFilter = PluginManager.createFilter('ECHO') as Filter;
-						fadeFilter.setParameterValue('feedBlend', 'lighten');
-						fadeFilter.setParameterValue('feedAlpha', .7);
-						Display.addFilter(fadeFilter);						
-					}
-					else
-					{			
-						fadeFilterActive = false;
-						Display.removeFilter(fadeFilter);
-						fadeFilter = null;
-					}
-					break;
-				case 95:
-					if (Display.brightness < 0)
-					{
-						appLauncher.writeData('144,95,'+GREENFULL);
-					}
-					else
-					{
-						appLauncher.writeData('144,95,'+REDLOW);
-					}
-					new Tween(
-						Display,
-						500,
-						new TweenProperty('brightness', Display.brightness, (Display.brightness < 0) ? 0 : -1)
-					)
-					break;
-				//3rd line: pause (lacks 58 and 59)
-				case 56:
-				case 57:
-				case 88:
-					if (layer.paused) 
-					{
-						layer.pause(false);
-						appLauncher.writeData('144,'+noteon+','+GREENFULL);						
-					}
-					else
-					{
-						layer.pause(true);
-						appLauncher.writeData('144,'+noteon+','+REDLOW);						
-					}
-					break;
-				//select layer
-				case 58:
-					if (velocity == 127)
-					{
-						previousLayer = selectedLayer;
-						selectedLayer--;
-						if (selectedLayer < 0) selectedLayer = 4;
-						UILayer.selectLayer(selectedLayer);
-						layer = Display.getLayerAt(selectedLayer);
-					}
-					break;
-				case 59:
-					if (velocity == 127)
-					{
-						previousLayer = selectedLayer;
-						selectedLayer++;
-						if (selectedLayer > 4) selectedLayer = 0;
-						UILayer.selectLayer(selectedLayer);
-						layer = Display.getLayerAt(selectedLayer);
-					}
-					break;
-				// fade screen
-				case 89:
-					if ( fadeFilterActive == false ) 
-					{
-						fadeFilterActive = true;
-						fadeFilter = PluginManager.createFilter('ECHO') as Filter;
-						fadeFilter.setParameterValue('feedBlend', 'screen');
-						fadeFilter.setParameterValue('feedAlpha', .6);
-						Display.addFilter(fadeFilter);						
-					}
-					else
-					{			
-						fadeFilterActive = false;
-						Display.removeFilter(fadeFilter);
-						fadeFilter = null;
-					}
-					break;
-				// fade multiply
-				case 90:
-					if ( fadeFilterActive == false ) 
-					{
-						fadeFilterActive = true;
-						fadeFilter = PluginManager.createFilter('ECHO') as Filter;
-						fadeFilter.setParameterValue('feedBlend', 'multiply');
-						fadeFilter.setParameterValue('feedAlpha', .6);
-						Display.addFilter(fadeFilter);						
-					}
-					else
-					{			
-						fadeFilterActive = false;
-						Display.removeFilter(fadeFilter);
-						fadeFilter = null;
-					}
-					break;
-				// random blend
-				case 91:
-					if ( randomBlendActive == false ) 
-					{
-						randomBlendActive = true;
-						Display.addEventListener(Event.ENTER_FRAME, randomBlend);
-						
-						hashCurrentBlendModes = new Dictionary(true);
-						
-						for each (var l:Layer in Display.layers) {
-							hashCurrentBlendModes[l]		= l.blendMode;
-						}					
-					}
-					else
-					{			
-						randomBlendActive = false;
-						Display.removeEventListener(Event.ENTER_FRAME, randomBlend);
-						
-						for each (var l:Layer in Display.layers) {
-							l.blendMode = hashCurrentBlendModes[l] || 'normal';
-							l.alpha		= 1;
-							delete hashCurrentBlendModes[l];
+						break;
+					// fade chopDown
+					case 93:
+						if ( fadeFilterActive == false ) 
+						{
+							fadeFilterActive = true;
+							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
+							fadeFilter.setParameterValue('feedBlend', 'darken');
+							fadeFilter.setParameterValue('feedAlpha', .7);
+							Display.addFilter(fadeFilter);						
 						}
-						hashCurrentBlendModes = null;
-					}
-					break;
-				
-				//4th line: bounce
-				case 52:
-				case 53:
-				case 54:
-				case 55:
-				case 84:
-					layer.framerate	*= -1;
-					break;
-				// random 3D distort
-				case 85:				
-					randomDistortActive = true;
-					var filters:Array, filter:Filter, plugin:Plugin;
-					
-					plugin = PluginManager.getFilterDefinition('DISTORT');
-					
-					if (plugin) {
-						
-						for each (var l:Layer in Display.loadedLayers) {
+						else
+						{			
+							fadeFilterActive = false;
+							Display.removeFilter(fadeFilter);
+							fadeFilter = null;
+						}
+						break;
+					// fade chopUp
+					case 94:
+						if ( fadeFilterActive == false ) 
+						{
+							fadeFilterActive = true;
+							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
+							fadeFilter.setParameterValue('feedBlend', 'lighten');
+							fadeFilter.setParameterValue('feedAlpha', .7);
+							Display.addFilter(fadeFilter);						
+						}
+						else
+						{			
+							fadeFilterActive = false;
+							Display.removeFilter(fadeFilter);
+							fadeFilter = null;
+						}
+						break;
+					case 95:
+						if (Display.brightness < 0)
+						{
+							appLauncher.writeData('144,95,'+GREENFULL);
+						}
+						else
+						{
+							appLauncher.writeData('144,95,'+REDLOW);
+						}
+						new Tween(
+							Display,
+							500,
+							new TweenProperty('brightness', Display.brightness, (Display.brightness < 0) ? 0 : -1)
+						)
+						break;
+					//3rd line: pause (lacks 58 and 59)
+					case 56:
+					case 57:
+					case 88:
+						if (layer.paused) 
+						{
+							layer.pause(false);
+							appLauncher.writeData('144,'+noteon+','+GREENFULL);						
+						}
+						else
+						{
+							layer.pause(true);
+							appLauncher.writeData('144,'+noteon+','+REDLOW);						
+						}
+						break;
+					//select layer
+					case 58:
+						if (velocity == 127)
+						{
+							previousLayer = selectedLayer;
+							selectedLayer--;
+							if (selectedLayer < 0) selectedLayer = 4;
+							UILayer.selectLayer(selectedLayer);
+							layer = Display.getLayerAt(selectedLayer);
+						}
+						break;
+					case 59:
+						if (velocity == 127)
+						{
+							previousLayer = selectedLayer;
+							selectedLayer++;
+							if (selectedLayer > 4) selectedLayer = 0;
+							UILayer.selectLayer(selectedLayer);
+							layer = Display.getLayerAt(selectedLayer);
+						}
+						break;
+					// fade screen
+					case 89:
+						if ( fadeFilterActive == false ) 
+						{
+							fadeFilterActive = true;
+							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
+							fadeFilter.setParameterValue('feedBlend', 'screen');
+							fadeFilter.setParameterValue('feedAlpha', .6);
+							Display.addFilter(fadeFilter);						
+						}
+						else
+						{			
+							fadeFilterActive = false;
+							Display.removeFilter(fadeFilter);
+							fadeFilter = null;
+						}
+						break;
+					// fade multiply
+					case 90:
+						if ( fadeFilterActive == false ) 
+						{
+							fadeFilterActive = true;
+							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
+							fadeFilter.setParameterValue('feedBlend', 'multiply');
+							fadeFilter.setParameterValue('feedAlpha', .6);
+							Display.addFilter(fadeFilter);						
+						}
+						else
+						{			
+							fadeFilterActive = false;
+							Display.removeFilter(fadeFilter);
+							fadeFilter = null;
+						}
+						break;
+					// random blend
+					case 91:
+						if ( randomBlendActive == false ) 
+						{
+							randomBlendActive = true;
+							Display.addEventListener(Event.ENTER_FRAME, randomBlend);
 							
-							if (l.path) {
+							hashCurrentBlendModes = new Dictionary(true);
+							
+							for each (var l:Layer in Display.layers) {
+								hashCurrentBlendModes[l]		= l.blendMode;
+							}					
+						}
+						else
+						{			
+							randomBlendActive = false;
+							Display.removeEventListener(Event.ENTER_FRAME, randomBlend);
+							
+							for each (var l:Layer in Display.layers) {
+								l.blendMode = hashCurrentBlendModes[l] || 'normal';
+								l.alpha		= 1;
+								delete hashCurrentBlendModes[l];
+							}
+							hashCurrentBlendModes = null;
+						}
+						break;
+					
+					//4th line: bounce
+					case 52:
+					case 53:
+					case 54:
+					case 55:
+					case 84:
+						layer.framerate	*= -1;
+						break;
+					// random 3D distort
+					case 85:				
+						randomDistortActive = true;
+						var filters:Array, filter:Filter, plugin:Plugin;
+						
+						plugin = PluginManager.getFilterDefinition('DISTORT');
+						
+						if (plugin) {
+							
+							for each (var l:Layer in Display.loadedLayers) {
+								
+								if (l.path) {
+									filter	= null;
+									filters = l.filters;
+									
+									for each (var test:Filter in filters) {
+										if (test.name === 'DISTORT') {
+											filter = test;
+											break;
+										}
+									}
+									
+									if (!filter) {
+										filter = plugin.createNewInstance() as Filter;
+										l.addFilter(filter);
+									}
+									
+									new Tween(
+										filter,
+										300,
+										new TweenProperty('bottomLeftX',	filter.getParameterValue('bottomLeftX'), (Math.random() * -amountW)),
+										new TweenProperty('topLeftX',		filter.getParameterValue('topLeftX'), (Math.random() * -amountW)),
+										new TweenProperty('bottomRightX',	filter.getParameterValue('bottomRightX'), DISPLAY_WIDTH + (Math.random() * amountW)),
+										new TweenProperty('topRightX',		filter.getParameterValue('topRightX'), DISPLAY_WIDTH + (Math.random() * amountW)),
+										new TweenProperty('bottomLeftY',	filter.getParameterValue('bottomLeftY'), DISPLAY_HEIGHT + (Math.random() * amountH)),
+										new TweenProperty('topLeftY',		filter.getParameterValue('topLeftY'), (Math.random() * -amountH)),
+										new TweenProperty('bottomRightY',	filter.getParameterValue('bottomRightY'), DISPLAY_HEIGHT + (Math.random() * amountH)),
+										new TweenProperty('topRightY',		filter.getParameterValue('topRightY'), (Math.random() * -amountH))
+									)
+									
+								}
+							}
+						}	
+						break;
+					case 86:		
+						if ( randomDistortActive == true )
+						{
+							
+							randomDistortActive = false;
+							var filter:Filter, test:Filter, filters:Array;
+							
+							for each (var l:Layer in Display.layers) {
+								new Tween(
+									l,
+									600,
+									new TweenProperty('x', l.x, 0),
+									new TweenProperty('y', l.y, 0),
+									new TweenProperty('scaleX', l.scaleX, 1),
+									new TweenProperty('scaleY', l.scaleY, 1)
+								)
+								
 								filter	= null;
 								filters = l.filters;
 								
-								for each (var test:Filter in filters) {
+								for each (test in filters) {
 									if (test.name === 'DISTORT') {
 										filter = test;
 										break;
 									}
 								}
 								
-								if (!filter) {
-									filter = plugin.createNewInstance() as Filter;
-									l.addFilter(filter);
+								if (filter) {
+									
+									new Tween(
+										filter,
+										300,
+										new TweenProperty('bottomLeftX',	filter.getParameterValue('bottomLeftX'), 0),
+										new TweenProperty('topLeftX',		filter.getParameterValue('topLeftX'), 0),
+										new TweenProperty('bottomRightX',	filter.getParameterValue('bottomRightX'), DISPLAY_WIDTH),
+										new TweenProperty('topRightX',		filter.getParameterValue('topRightX'), DISPLAY_WIDTH),
+										new TweenProperty('bottomLeftY',	filter.getParameterValue('bottomLeftY'), DISPLAY_HEIGHT),
+										new TweenProperty('topLeftY',		filter.getParameterValue('topLeftY'), 0),
+										new TweenProperty('bottomRightY',	filter.getParameterValue('bottomRightY'), DISPLAY_HEIGHT),
+										new TweenProperty('topRightY',		filter.getParameterValue('topRightY'), 0)
+									)
+									
 								}
-								
-								new Tween(
-									filter,
-									300,
-									new TweenProperty('bottomLeftX',	filter.getParameterValue('bottomLeftX'), (Math.random() * -amountW)),
-									new TweenProperty('topLeftX',		filter.getParameterValue('topLeftX'), (Math.random() * -amountW)),
-									new TweenProperty('bottomRightX',	filter.getParameterValue('bottomRightX'), DISPLAY_WIDTH + (Math.random() * amountW)),
-									new TweenProperty('topRightX',		filter.getParameterValue('topRightX'), DISPLAY_WIDTH + (Math.random() * amountW)),
-									new TweenProperty('bottomLeftY',	filter.getParameterValue('bottomLeftY'), DISPLAY_HEIGHT + (Math.random() * amountH)),
-									new TweenProperty('topLeftY',		filter.getParameterValue('topLeftY'), (Math.random() * -amountH)),
-									new TweenProperty('bottomRightY',	filter.getParameterValue('bottomRightY'), DISPLAY_HEIGHT + (Math.random() * amountH)),
-									new TweenProperty('topRightY',		filter.getParameterValue('topRightY'), (Math.random() * -amountH))
-								)
-								
 							}
 						}
-					}	
-					break;
-				case 86:		
-					if ( randomDistortActive == true )
-					{
-						
-						randomDistortActive = false;
-						var filter:Filter, test:Filter, filters:Array;
-						
-						for each (var l:Layer in Display.layers) {
+						break;
+					//saturation b&w
+					case 87:	
+						Console.output("saturation:",Display.saturation);
+						if (Display.saturation < 1)
+						{
+							appLauncher.writeData('144,86,'+GREENFULL);
+						}
+						else
+						{
+							appLauncher.writeData('144,86,'+REDLOW);
+						}
+						new Tween(
+							Display,
+							500,
+							new TweenProperty('saturation', Display.saturation, (Display.saturation < 1) ? 1 : 0)
+						)
+						break;
+					//5th line: channel AB
+					case 48:
+					case 49:
+					case 50:
+					case 51:
+					case 80:					
+						layer.channel = !layer.channel;
+						break;
+					case 81:
+						if (layer.scaleX == 1.1 )
+						{
 							new Tween(
-								l,
-								600,
-								new TweenProperty('x', l.x, 0),
-								new TweenProperty('y', l.y, 0),
-								new TweenProperty('scaleX', l.scaleX, 1),
-								new TweenProperty('scaleY', l.scaleY, 1)
+								layer,
+								60,
+								new TweenProperty('scaleX', layer.scaleX, 1),
+								new TweenProperty('scaleY', layer.scaleY, 1)
 							)
 							
-							filter	= null;
-							filters = l.filters;
-							
-							for each (test in filters) {
-								if (test.name === 'DISTORT') {
-									filter = test;
-									break;
+						}
+						else
+						{
+							new Tween(
+								layer,
+								60,
+								new TweenProperty('scaleX', layer.scaleX, 1.1),
+								new TweenProperty('scaleY', layer.scaleY, 1.1)
+							)						
+						}
+						break;
+					// framerate
+					case 82:
+						for each (var l:Layer in Display.layers) l.framerate += .1;
+						break;
+					case 83:
+						for each (var l:Layer in Display.layers) l.framerate -= .1;
+						break;
+					// 6th line
+					case 44:
+					case 45:
+					case 46:
+					case 47:
+					case 76:
+						if (layer)
+						{
+							//layer.alpha = 0.99;
+							if (layer.getParameters())
+							{
+								if (layer.getParameters().getParameter('midi'))
+								{
+									layer.getParameters().getParameter('midi').value = velocity;
+									
 								}
 							}
-							
-							if (filter) {
-								
-								new Tween(
-									filter,
-									300,
-									new TweenProperty('bottomLeftX',	filter.getParameterValue('bottomLeftX'), 0),
-									new TweenProperty('topLeftX',		filter.getParameterValue('topLeftX'), 0),
-									new TweenProperty('bottomRightX',	filter.getParameterValue('bottomRightX'), DISPLAY_WIDTH),
-									new TweenProperty('topRightX',		filter.getParameterValue('topRightX'), DISPLAY_WIDTH),
-									new TweenProperty('bottomLeftY',	filter.getParameterValue('bottomLeftY'), DISPLAY_HEIGHT),
-									new TweenProperty('topLeftY',		filter.getParameterValue('topLeftY'), 0),
-									new TweenProperty('bottomRightY',	filter.getParameterValue('bottomRightY'), DISPLAY_HEIGHT),
-									new TweenProperty('topRightY',		filter.getParameterValue('topRightY'), 0)
-								)
-								
-							}
-						}
-					}
-					break;
-				//saturation b&w
-				case 87:	
-					Console.output("saturation:",Display.saturation);
-					if (Display.saturation < 1)
-					{
-						appLauncher.writeData('144,86,'+GREENFULL);
-					}
-					else
-					{
-						appLauncher.writeData('144,86,'+REDLOW);
-					}
-					new Tween(
-						Display,
-						500,
-						new TweenProperty('saturation', Display.saturation, (Display.saturation < 1) ? 1 : 0)
-					)
-					break;
-				//5th line: channel AB
-				case 48:
-				case 49:
-				case 50:
-				case 51:
-				case 80:					
-					if (layer.channel == true) 
-					{
-						layer.channel = false;
-						appLauncher.writeData('144,'+noteon+','+GREENFULL);						
-					}
-					else
-					{
-						layer.channel = true;
-						appLauncher.writeData('144,'+noteon+','+REDLOW);						
-					}
-					break;
-				case 81:
-					if (layer.scaleX == 1.1 )
-					{
-						new Tween(
-							layer,
-							60,
-							new TweenProperty('scaleX', layer.scaleX, 1),
-							new TweenProperty('scaleY', layer.scaleY, 1)
-						)
-						
-					}
-					else
-					{
-						new Tween(
-							layer,
-							60,
-							new TweenProperty('scaleX', layer.scaleX, 1.1),
-							new TweenProperty('scaleY', layer.scaleY, 1.1)
-						)						
-					}
-					break;
-				// framerate
-				case 82:
-					for each (var l:Layer in Display.layers) l.framerate += .1;
-					break;
-				case 83:
-					for each (var l:Layer in Display.layers) l.framerate -= .1;
-					break;
-				// 6th line
-				case 44:
-				case 45:
-				case 46:
-				case 47:
-				case 76:
-					if (layer)
-					{
-						//layer.alpha = 0.99;
-						if (layer.getParameters())
-						{
-							if (layer.getParameters().getParameter('midi'))
+							else
 							{
-								layer.getParameters().getParameter('midi').value = velocity;
-								
+								trace("layer.getParameters() null");
 							}
 						}
 						else
 						{
-							trace("layer.getParameters() null");
+							trace("layer null");
 						}
-					}
-					else
-					{
-						trace("layer null");
-					}
-					break;
-				default:
-					//for the rest: load onx
-					var f:File = new File( AssetFile.resolvePath( 'library/' + noteon + '.onx' ) );
-					if ( f.exists )
-					{
-						const li:LayerImplementor = (Display as OutputDisplay).getLayerAt(0) as LayerImplementor;
-						(Display as OutputDisplay).load(f.url, li, useTransition);
+						break;
+					default:
+						//for the rest: load onx
+						var f:File = new File( AssetFile.resolvePath( 'library/' + noteon + '.onx' ) );
+						if ( f.exists )
+						{
+							const li:LayerImplementor = (Display as OutputDisplay).getLayerAt(0) as LayerImplementor;
+							(Display as OutputDisplay).load(f.url, li, useTransition);
+							
+						}	
+						else
+						{
+							Console.output( f.url + ' does not exist' );
+						}
+						break;
+				}
+			}// end launchpad
+			else
+			{
+				//nano
+				switch ( noteon ) 
+				{ 
 					
-					}	
-					else
-					{
-						Console.output( f.url + ' does not exist' );
-					}
-					break;
+					// go to A
+					case 61:
+						if ( Display.channelMix > 0 ) Display.channelMix -= 0.03;
+						break;
+					// go to B
+					case 62:
+						if ( Display.channelMix < 1 ) Display.channelMix += 0.03;
+						break;
+					// switch A/B
+					case 60:
+						const prop:TweenProperty = (Display.channelMix > .5) ? new TweenProperty('channelMix', Display.channelMix, 0) : new TweenProperty('channelMix', Display.channelMix, 1);					
+						new Tween( Display, 4000, prop );
+						break;
+					//2nd line visibility
+					case 48:
+						if (layer.visible)
+						{
+							tween = new Tween(
+								layer,
+								250,
+								new TweenProperty('alpha', layer.alpha, 0)
+							);
+							tween.addEventListener(Event.COMPLETE, tweenFinish);
+						} 
+						else 
+						{
+							layer.visible = true;
+							tween = new Tween(
+								layer,
+								250,
+								new TweenProperty('alpha', 0, 1)
+							);
+						}
+						break;
+					// fade chopDown
+					case 93:
+						if ( fadeFilterActive == false ) 
+						{
+							fadeFilterActive = true;
+							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
+							fadeFilter.setParameterValue('feedBlend', 'darken');
+							fadeFilter.setParameterValue('feedAlpha', .7);
+							Display.addFilter(fadeFilter);						
+						}
+						else
+						{			
+							fadeFilterActive = false;
+							Display.removeFilter(fadeFilter);
+							fadeFilter = null;
+						}
+						break;
+					// fade chopUp
+					case 94:
+						if ( fadeFilterActive == false ) 
+						{
+							fadeFilterActive = true;
+							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
+							fadeFilter.setParameterValue('feedBlend', 'lighten');
+							fadeFilter.setParameterValue('feedAlpha', .7);
+							Display.addFilter(fadeFilter);						
+						}
+						else
+						{			
+							fadeFilterActive = false;
+							Display.removeFilter(fadeFilter);
+							fadeFilter = null;
+						}
+						break;
+					case 95:
+						new Tween(
+							Display,
+							500,
+							new TweenProperty('brightness', Display.brightness, (Display.brightness < 0) ? 0 : -1)
+						)
+						break;
+					case 39:
+						if (layer.paused) 
+						{
+							layer.pause(false);
+						}
+						else
+						{
+							layer.pause(true);
+						}
+						break;
+					//select layer
+					case 58:
+						if (velocity == 127)
+						{
+							previousLayer = selectedLayer;
+							selectedLayer--;
+							if (selectedLayer < 0) selectedLayer = 4;
+							UILayer.selectLayer(selectedLayer);
+							layer = Display.getLayerAt(selectedLayer);
+						}
+						break;
+					case 59:
+						if (velocity == 127)
+						{
+							previousLayer = selectedLayer;
+							selectedLayer++;
+							if (selectedLayer > 4) selectedLayer = 0;
+							UILayer.selectLayer(selectedLayer);
+							layer = Display.getLayerAt(selectedLayer);
+						}
+						break;
+					// fade screen
+					case 38:
+						if ( fadeFilterActive == false ) 
+						{
+							fadeFilterActive = true;
+							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
+							fadeFilter.setParameterValue('feedBlend', 'screen');
+							fadeFilter.setParameterValue('feedAlpha', .6);
+							Display.addFilter(fadeFilter);						
+						}
+						else
+						{			
+							fadeFilterActive = false;
+							Display.removeFilter(fadeFilter);
+							fadeFilter = null;
+						}
+						break;
+					// fade multiply
+					case 54:
+						if ( fadeFilterActive == false ) 
+						{
+							fadeFilterActive = true;
+							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
+							fadeFilter.setParameterValue('feedBlend', 'multiply');
+							fadeFilter.setParameterValue('feedAlpha', .6);
+							Display.addFilter(fadeFilter);						
+						}
+						else
+						{			
+							fadeFilterActive = false;
+							Display.removeFilter(fadeFilter);
+							fadeFilter = null;
+						}
+						break;
+					// random blend
+					case 55:
+						if ( randomBlendActive == false ) 
+						{
+							randomBlendActive = true;
+							Display.addEventListener(Event.ENTER_FRAME, randomBlend);
+							
+							hashCurrentBlendModes = new Dictionary(true);
+							
+							for each (var l:Layer in Display.layers) {
+								hashCurrentBlendModes[l]		= l.blendMode;
+							}					
+						}
+						else
+						{			
+							randomBlendActive = false;
+							Display.removeEventListener(Event.ENTER_FRAME, randomBlend);
+							
+							for each (var l:Layer in Display.layers) {
+								l.blendMode = hashCurrentBlendModes[l] || 'normal';
+								l.alpha		= 1;
+								delete hashCurrentBlendModes[l];
+							}
+							hashCurrentBlendModes = null;
+						}
+						break;
+					
+					//4th line: bounce
+					case 64:
+						layer.framerate	*= -1;
+						break;
+					// random 3D distort
+					case 37:				
+						randomDistortActive = true;
+						var filters:Array, filter:Filter, plugin:Plugin;
+						
+						plugin = PluginManager.getFilterDefinition('DISTORT');
+						
+						if (plugin) {
+							
+							for each (var l:Layer in Display.loadedLayers) {
+								
+								if (l.path) {
+									filter	= null;
+									filters = l.filters;
+									
+									for each (var test:Filter in filters) {
+										if (test.name === 'DISTORT') {
+											filter = test;
+											break;
+										}
+									}
+									
+									if (!filter) {
+										filter = plugin.createNewInstance() as Filter;
+										l.addFilter(filter);
+									}
+									
+									new Tween(
+										filter,
+										300,
+										new TweenProperty('bottomLeftX',	filter.getParameterValue('bottomLeftX'), (Math.random() * -amountW)),
+										new TweenProperty('topLeftX',		filter.getParameterValue('topLeftX'), (Math.random() * -amountW)),
+										new TweenProperty('bottomRightX',	filter.getParameterValue('bottomRightX'), DISPLAY_WIDTH + (Math.random() * amountW)),
+										new TweenProperty('topRightX',		filter.getParameterValue('topRightX'), DISPLAY_WIDTH + (Math.random() * amountW)),
+										new TweenProperty('bottomLeftY',	filter.getParameterValue('bottomLeftY'), DISPLAY_HEIGHT + (Math.random() * amountH)),
+										new TweenProperty('topLeftY',		filter.getParameterValue('topLeftY'), (Math.random() * -amountH)),
+										new TweenProperty('bottomRightY',	filter.getParameterValue('bottomRightY'), DISPLAY_HEIGHT + (Math.random() * amountH)),
+										new TweenProperty('topRightY',		filter.getParameterValue('topRightY'), (Math.random() * -amountH))
+									)
+									
+								}
+							}
+						}	
+						break;
+					case 53:		
+						if ( randomDistortActive == true )
+						{
+							
+							randomDistortActive = false;
+							var filter:Filter, test:Filter, filters:Array;
+							
+							for each (var l:Layer in Display.layers) {
+								new Tween(
+									l,
+									600,
+									new TweenProperty('x', l.x, 0),
+									new TweenProperty('y', l.y, 0),
+									new TweenProperty('scaleX', l.scaleX, 1),
+									new TweenProperty('scaleY', l.scaleY, 1)
+								)
+								
+								filter	= null;
+								filters = l.filters;
+								
+								for each (test in filters) {
+									if (test.name === 'DISTORT') {
+										filter = test;
+										break;
+									}
+								}
+								
+								if (filter) {
+									
+									new Tween(
+										filter,
+										300,
+										new TweenProperty('bottomLeftX',	filter.getParameterValue('bottomLeftX'), 0),
+										new TweenProperty('topLeftX',		filter.getParameterValue('topLeftX'), 0),
+										new TweenProperty('bottomRightX',	filter.getParameterValue('bottomRightX'), DISPLAY_WIDTH),
+										new TweenProperty('topRightX',		filter.getParameterValue('topRightX'), DISPLAY_WIDTH),
+										new TweenProperty('bottomLeftY',	filter.getParameterValue('bottomLeftY'), DISPLAY_HEIGHT),
+										new TweenProperty('topLeftY',		filter.getParameterValue('topLeftY'), 0),
+										new TweenProperty('bottomRightY',	filter.getParameterValue('bottomRightY'), DISPLAY_HEIGHT),
+										new TweenProperty('topRightY',		filter.getParameterValue('topRightY'), 0)
+									)
+									
+								}
+							}
+						}
+						break;
+					//saturation b&w
+					case 69:	
+						Console.output("saturation:",Display.saturation);
+
+						new Tween(
+							Display,
+							500,
+							new TweenProperty('saturation', Display.saturation, (Display.saturation < 1) ? 1 : 0)
+						)
+						break;
+					case 65:					
+						layer.channel = !layer.channel;
+						break;
+					case 33:
+						if (layer.scaleX == 1.1 )
+						{
+							new Tween(
+								layer,
+								60,
+								new TweenProperty('scaleX', layer.scaleX, 1),
+								new TweenProperty('scaleY', layer.scaleY, 1)
+							)
+							
+						}
+						else
+						{
+							new Tween(
+								layer,
+								60,
+								new TweenProperty('scaleX', layer.scaleX, 1.1),
+								new TweenProperty('scaleY', layer.scaleY, 1.1)
+							)						
+						}
+						break;
+					// framerate
+					case 44:
+						for each (var l:Layer in Display.layers) l.framerate += .1;
+						break;
+					case 43:
+						for each (var l:Layer in Display.layers) l.framerate -= .1;
+						break;
+					case 0:
+						if (velocity>0)	layer.alpha = velocity/127;
+						break;
+					case 1:
+						if (layer)
+						{
+							//layer.alpha = 0.99;
+							if (layer.getParameters())
+							{
+								if (layer.getParameters().getParameter('midi'))
+								{
+									layer.getParameters().getParameter('midi').value = velocity;
+									
+								}
+							}
+							else
+							{
+								trace("layer.getParameters() null");
+							}
+						}
+						else
+						{
+							trace("layer null");
+						}
+						break;
+					default:
+						
+						break;
+				}
 			}
+			appLauncher.writeData('144,' + noteon + ',' + velocity );
+			//3 = red, 5=low red, 30=mid orange,
+		
+			trace("change:" + noteon + " mod:" + noteon%4 + " velocity:" + velocity + " channel:" + channel);	
+
 		}
 		private function randomBlend(event:Event):void {
 			for each (var layer:Layer in Display.layers) {

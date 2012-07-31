@@ -41,10 +41,7 @@ package plugins.visualizer {
 		private var light:Light;
 		
 		public function WaveVisualizer() {
-			init();
-		}
-		
-		private function init():void {
+			
 			Console.output('WaveParticle from bbbluevelvet ( http://wonderfl.net/user/bbbluevelvet )');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
 			//background = new Background();

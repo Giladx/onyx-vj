@@ -73,6 +73,8 @@ package plugins {
 				new Plugin('GLFilter', 				GLFilter,		'GLFilter'),	
 				new Plugin('AutoXFade', 			AutoXFade,		'AutoXFade'),	
 				new Plugin('CenterKaleidoscope', 	CenterKaleidoscope,	'CenterKaleidoscope', new AssetKaleid().bitmapData),
+				new Plugin('KugatFilter', 			KugatFilter,	'KugatFilter'),
+				new Plugin('SpiralCut', 			SpiralCut,	'SpiralCut'),
 				//new Plugin('BurstEcho', 			BurstEcho,		'BurstEcho'),	
 
 				// bitmap filters - tempo
@@ -106,6 +108,7 @@ package plugins {
 				new Plugin('LiquidVisualizer', 		LiquidVisualizer, 'LiquidVisualizer'),
 				new Plugin('TrippyVisualizer', 		TrippyVisualizer, 'TrippyVisualizer'),
 				new Plugin('PerlinVisualizer', 		PerlinVisualizer, 'PerlinVisualizer'),
+				new Plugin('PointLightVisualizer', 	PointLightVisualizer, 'PointLightVisualizer'),
 				//new Plugin('ScratchVisualizer', 	ScratchVisualizer, 'ScratchVisualizer'),
 							
 				// macros

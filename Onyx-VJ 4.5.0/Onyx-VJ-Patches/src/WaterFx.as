@@ -42,6 +42,7 @@ package {
 		private var faded:Boolean = true;
 		private var timer:Timer;
 		public function WaterFx() {
+			timer = new Timer(1000, 1);
 			Console.output('WaterFx adapted by Bruce LANE (http://www.batchass.fr)');
 			var bd:BitmapData = new AssetForWaterFx();		
 			/*graphics.beginFill(0x000000);
@@ -59,7 +60,6 @@ package {
 			water.wave(0, 0.8);
 		}
 		private function complete(evt:Event):void {
-			timer = new Timer(1000, 1);
 			timer.addEventListener(TimerEvent.TIMER_COMPLETE, exchange, false, 0, true);
 			timer.start();
 		}

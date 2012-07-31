@@ -71,7 +71,7 @@ package ui.states {
 				
 				// we're initialized
 				INITIALIZED = true;
-				
+				 
 				// create layers
 				(Display as OutputDisplay).createLayers(5);
 				

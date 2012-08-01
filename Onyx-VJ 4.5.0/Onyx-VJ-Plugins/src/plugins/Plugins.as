@@ -109,6 +109,7 @@ package plugins {
 				new Plugin('TrippyVisualizer', 		TrippyVisualizer, 'TrippyVisualizer'),
 				new Plugin('PerlinVisualizer', 		PerlinVisualizer, 'PerlinVisualizer'),
 				new Plugin('PointLightVisualizer', 	PointLightVisualizer, 'PointLightVisualizer'),
+				new Plugin('BeatDrawingVisualizer', BeatDrawingVisualizer, 'BeatDrawingVisualizer'),
 				//new Plugin('ScratchVisualizer', 	ScratchVisualizer, 'ScratchVisualizer'),
 							
 				// macros

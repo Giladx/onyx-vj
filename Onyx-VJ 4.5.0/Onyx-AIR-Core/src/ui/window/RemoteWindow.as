@@ -57,7 +57,7 @@ package ui.window {
 		private var selectedLayer:int = 0;
 		private var timer:Timer = new Timer(1000);
 		private var layerButtonsCreated:Boolean = false;
-
+		private var l:Layer;
 		/**
 		 * 	@Constructor
 		 */
@@ -138,29 +138,29 @@ package ui.window {
 						new Tween( Display, 4000, property );
 						break;
 					case "frame-rate-increase":
-						for each (var layer:Layer in Display.layers) {
-							layer.framerate += .5;
+						for each (l in Display.layers) {
+							l.framerate += .5;
 						}
 						break;
 					case "frame-rate-decrease":
-						for each (var layer:Layer in Display.layers) {
-							layer.framerate -= .5;
+						for each (l in Display.layers) {
+							l.framerate -= .5;
 						}
 						break;
 					case "cycle-blendmode-down":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
-						layer.blendMode	= BlendModes[Math.min(BlendModes.indexOf(layer.blendMode)+1, BlendModes.length - 1)];
+						l	= (UIObject.selection as UILayer).layer;
+						l.blendMode	= BlendModes[Math.min(BlendModes.indexOf(l.blendMode)+1, BlendModes.length - 1)];
 						break;
 					case "cycle-blendmode-up":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
-						layer.blendMode	= BlendModes[Math.max(BlendModes.indexOf(layer.blendMode)-1,0)];	
+						l	= (UIObject.selection as UILayer).layer;
+						l.blendMode	= BlendModes[Math.max(BlendModes.indexOf(l.blendMode)-1,0)];	
 						break;
 					case "select-layer":
 						selectedLayer = dataReceived.value;
 						UILayer.selectLayer(selectedLayer);
-						var layer:Layer = Display.getLayerAt(selectedLayer);
-						dlc.sendData( {type:"path", value:layer.path} );
-						dlc.sendData( {type:"filters", value:layer.filters.length} );
+						l = Display.getLayerAt(selectedLayer);
+						dlc.sendData( {type:"path", value:l.path} );
+						dlc.sendData( {type:"filters", value:l.filters.length} );
 						//layer.filters.length>0
 						//layer.filters[0].name = "BOUNCE"
 						//layer.filters[0].
@@ -202,74 +202,62 @@ package ui.window {
 						);
 						break;
 					case "alpha":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
+						l	= (UIObject.selection as UILayer).layer;
 						
 						var rTween:Tween = new Tween(
-							layer,
+							l,
 							25,
-							new TweenProperty('alpha', layer.alpha, dataReceived.value/100)
+							new TweenProperty('alpha', l.alpha, dataReceived.value/100)
 						);
 						break;
 					case "bounce":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
-						
-						/*const totalTime:int	= layer.totalTime;
-						const time:int		= layer.time * totalTime;
-						const start:int		= layer.loopStart * totalTime;
-						const end:int		= layer.loopEnd	* totalTime;
-						const frame:int		= layer.framerate * Display.frameRate * 2;
-						
-						if (time + frame > end || time + frame < start) {*/
-							layer.framerate	*= -1;
-						//}
+						l	= (UIObject.selection as UILayer).layer;
+						l.framerate	*= -1;
+
 						break;
 					case "x":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
+						l	= (UIObject.selection as UILayer).layer;
 						
 						var rTween:Tween = new Tween(
-							layer,
+							l,
 							25,
-							new TweenProperty('x', layer.x, dataReceived.value)
+							new TweenProperty('x', l.x, dataReceived.value)
 						);
 						break;
-					//layer.content onyx.display.ContentCustom
-					//layer.content.customParameters
-					//layer.content.customParameters.length
-					//layer.content.customParameters[6].value //6 rotx
 					case "y":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
+						l	= (UIObject.selection as UILayer).layer;
 						
 						var rTween:Tween = new Tween(
-							layer,
+							l,
 							25,
-							new TweenProperty('y', layer.y, dataReceived.value)
+							new TweenProperty('y', l.y, dataReceived.value)
 						);
 						break;
 					case "brightness":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
+						l	= (UIObject.selection as UILayer).layer;
 						
 						var rTween:Tween = new Tween(
-							layer,
+							l,
 							25,
-							new TweenProperty('brightness', layer.brightness, dataReceived.value/100)
+							new TweenProperty('brightness', l.brightness, dataReceived.value/100)
 						);
 						break;
 					case "contrast":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
+						l	= (UIObject.selection as UILayer).layer;
 						
 						var rTween:Tween = new Tween(
-							layer,
+							l,
 							25,
-							new TweenProperty('contrast', layer.contrast, dataReceived.value/100)
+							new TweenProperty('contrast', l.contrast, dataReceived.value/100)
 						);
 						break;
 					case "saturation":
-						var layer:Layer	= (UIObject.selection as UILayer).layer;
+						l	= (UIObject.selection as UILayer).layer;
 						
 						var rTween:Tween = new Tween(
-							layer,
+							l,
 							25,
-							new TweenProperty('saturation', layer.saturation, dataReceived.value/100)
+							new TweenProperty('saturation', l.saturation, dataReceived.value/100)
 						);
 						break;
 					default: 
@@ -281,8 +269,8 @@ package ui.window {
 		}
 		private function tweenFinish(event:Event):void {
 			tween.removeEventListener(Event.COMPLETE, tweenFinish);
-			var layer:Layer = Display.getLayerAt(selectedLayer);
-			layer.visible = false;
+			l = Display.getLayerAt(selectedLayer);
+			l.visible = false;
 		}
 		private function sendMsg(event:MouseEvent):void {
 			switch (event.currentTarget) {

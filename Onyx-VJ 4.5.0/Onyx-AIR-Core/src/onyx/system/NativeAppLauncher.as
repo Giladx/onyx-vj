@@ -21,7 +21,6 @@ package onyx.system {
 		private var isExeValid:Boolean = false;
 		private var file:File;
 
-		// 2010.06.11 SC: TODO "apps/bin/VCTRLv1.5"
 		public function NativeAppLauncher(exeFilename:String) 
 		{
 			dispatcher = new EventDispatcher(this);

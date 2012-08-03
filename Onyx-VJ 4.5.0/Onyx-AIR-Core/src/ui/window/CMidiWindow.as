@@ -92,9 +92,12 @@ package ui.window {
 		private var randomBlendActive:Boolean = false;
 		private var hashCurrentBlendModes:Dictionary;
 		private var randomDistortActive:Boolean = false;
-		private var launchpad:Boolean = false;
 		public static var useTransition:Transition;
-		
+		private var l:Layer;
+		private var filter:Filter;
+		private var test:Filter;
+		private var flters:Array;
+
 		/**
 		 * 	@Constructor
 		 */
@@ -127,13 +130,13 @@ package ui.window {
 			connectBtn.addEventListener(MouseEvent.MOUSE_DOWN, start);
 			pane.addChild(connectBtn).y = (index++ * 15);		
 			
+			nanoBtn					= new TextButton(options, 'inpt loopbe'),
+			nanoBtn.addEventListener(MouseEvent.MOUSE_DOWN, loopBeMsg);
+			pane.addChild(nanoBtn).y = (index++ * 15);
+			
 			outputBtn				= new TextButton(options, 'outp launchpad'),
 			outputBtn.addEventListener(MouseEvent.MOUSE_DOWN, outpMsg);
 			pane.addChild(outputBtn).y = (index++ * 15);
-			
-			nanoBtn					= new TextButton(options, 'outp nano'),
-			nanoBtn.addEventListener(MouseEvent.MOUSE_DOWN, nanoMsg);
-			pane.addChild(nanoBtn).y = (index++ * 15);
 			
 			resetBtn				= new TextButton(options, 'reset lp btns'),
 			resetBtn.addEventListener(MouseEvent.MOUSE_DOWN, reset);
@@ -143,9 +146,9 @@ package ui.window {
 			lightAllBtn.addEventListener(MouseEvent.MOUSE_DOWN, lightAll);
 			pane.addChild(lightAllBtn).y = (index++ * 15);
 			
-			lightBtn				= new TextButton(options, 'nano light'),
+			/*lightBtn				= new TextButton(options, 'nano light'),
 			lightBtn.addEventListener(MouseEvent.MOUSE_DOWN, lightNano);
-			pane.addChild(lightBtn).y = (index++ * 15);
+			pane.addChild(lightBtn).y = (index++ * 15);*/
 			
 			appLauncher = new NativeAppLauncher(pathToExe);
 			appLauncher.addEventListener( Event.ACTIVATE, activate );
@@ -163,25 +166,25 @@ package ui.window {
 			appLauncher.launchExe();
 			event.stopPropagation();
 		}
-		private function nanoMsg(event:MouseEvent):void 
+		private function loopBeMsg(event:MouseEvent):void 
 		{
-			launchpad = false;
 			appLauncher.writeData('list');
-			appLauncher.writeData('outp nano');
-			appLauncher.writeData('inpt loop');	
+			//appLauncher.writeData('outp launchpad');
+			appLauncher.writeData('inpt loopbe');	
+			layer = Display.getLayerAt(selectedLayer);
 			event.stopPropagation();
 		}
 		private function outpMsg(event:MouseEvent):void 
 		{
-			launchpad = true;
-			appLauncher.writeData('list');
+			//appLauncher.writeData('list');
 			appLauncher.writeData('outp launchpad');
-			appLauncher.writeData('inpt loop');
+			//appLauncher.writeData('inpt loop');
 			appLauncher.writeData('144,64,'+AMBERLOW);
 			appLauncher.writeData('144,65,'+AMBERLOW);
 			appLauncher.writeData('144,66,'+AMBERLOW);
 			appLauncher.writeData('144,67,'+AMBERLOW);
-			appLauncher.writeData('144,96,'+AMBERLOW);			
+			appLauncher.writeData('144,96,'+AMBERLOW);		
+			layer = Display.getLayerAt(selectedLayer);
 			event.stopPropagation();
 		}
 		public function reset(event:MouseEvent):void 
@@ -194,11 +197,11 @@ package ui.window {
 			appLauncher.writeData('176,0,127');
 			event.stopPropagation();
 		}
-		public function lightNano(event:MouseEvent):void 
+		/*public function lightNano(event:MouseEvent):void 
 		{	
 			appLauncher.writeData('176,32,127');
 			event.stopPropagation();
-		}
+		}*/
 		public function dutyCycle():void 
 		{	
 			if (numerator++>7) numerator = 1;
@@ -251,9 +254,13 @@ package ui.window {
 			var cmd:uint = rcvdInt & 0xf0; 
 			var noteon:uint = (rcvdInt>> 8) & 0xff; 
 			var velocity:uint = (rcvdInt>> 16) & 0xff; 
-			
-			trace("rcvd:" + rcvd );	
-			if (launchpad)
+
+			trace("change:" + noteon + " mod:" + noteon%4 + " velocity:" + velocity + " channel:" + channel);	
+
+			/*
+			 * LAUNCHPAD
+			 */
+			if (channel == 1)
 			{
 				if ( noteon > 67 ) 
 				{
@@ -476,7 +483,7 @@ package ui.window {
 							
 							hashCurrentBlendModes = new Dictionary(true);
 							
-							for each (var l:Layer in Display.layers) {
+							for each (l in Display.layers) {
 								hashCurrentBlendModes[l]		= l.blendMode;
 							}					
 						}
@@ -485,7 +492,7 @@ package ui.window {
 							randomBlendActive = false;
 							Display.removeEventListener(Event.ENTER_FRAME, randomBlend);
 							
-							for each (var l:Layer in Display.layers) {
+							for each (l in Display.layers) {
 								l.blendMode = hashCurrentBlendModes[l] || 'normal';
 								l.alpha		= 1;
 								delete hashCurrentBlendModes[l];
@@ -511,11 +518,11 @@ package ui.window {
 						
 						if (plugin) {
 							
-							for each (var l:Layer in Display.loadedLayers) {
+							for each (var lay:Layer in Display.loadedLayers) {
 								
-								if (l.path) {
+								if (lay.path) {
 									filter	= null;
-									filters = l.filters;
+									filters = lay.filters;
 									
 									for each (var test:Filter in filters) {
 										if (test.name === 'DISTORT') {
@@ -526,7 +533,7 @@ package ui.window {
 									
 									if (!filter) {
 										filter = plugin.createNewInstance() as Filter;
-										l.addFilter(filter);
+										lay.addFilter(filter);
 									}
 									
 									new Tween(
@@ -551,9 +558,8 @@ package ui.window {
 						{
 							
 							randomDistortActive = false;
-							var filter:Filter, test:Filter, filters:Array;
 							
-							for each (var l:Layer in Display.layers) {
+							for each (l in Display.layers) {
 								new Tween(
 									l,
 									600,
@@ -640,10 +646,10 @@ package ui.window {
 						break;
 					// framerate
 					case 82:
-						for each (var l:Layer in Display.layers) l.framerate += .1;
+						for each (l in Display.layers) l.framerate += .1;
 						break;
 					case 83:
-						for each (var l:Layer in Display.layers) l.framerate -= .1;
+						for each (l in Display.layers) l.framerate -= .1;
 						break;
 					// 6th line
 					case 44:
@@ -690,7 +696,9 @@ package ui.window {
 			}// end launchpad
 			else
 			{
-				//nano
+				/*
+				* NANOKONTROL2
+				*/
 				switch ( noteon ) 
 				{ 
 					
@@ -843,7 +851,7 @@ package ui.window {
 							
 							hashCurrentBlendModes = new Dictionary(true);
 							
-							for each (var l:Layer in Display.layers) {
+							for each (l in Display.layers) {
 								hashCurrentBlendModes[l]		= l.blendMode;
 							}					
 						}
@@ -852,7 +860,7 @@ package ui.window {
 							randomBlendActive = false;
 							Display.removeEventListener(Event.ENTER_FRAME, randomBlend);
 							
-							for each (var l:Layer in Display.layers) {
+							for each (l in Display.layers) {
 								l.blendMode = hashCurrentBlendModes[l] || 'normal';
 								l.alpha		= 1;
 								delete hashCurrentBlendModes[l];
@@ -867,20 +875,18 @@ package ui.window {
 						break;
 					// random 3D distort
 					case 37:				
-						randomDistortActive = true;
-						var filters:Array, filter:Filter, plugin:Plugin;
-						
+						randomDistortActive = true;				
 						plugin = PluginManager.getFilterDefinition('DISTORT');
 						
 						if (plugin) {
 							
-							for each (var l:Layer in Display.loadedLayers) {
+							for each (l in Display.loadedLayers) {
 								
 								if (l.path) {
 									filter	= null;
-									filters = l.filters;
+									flters = l.filters;
 									
-									for each (var test:Filter in filters) {
+									for each (test in flters) {
 										if (test.name === 'DISTORT') {
 											filter = test;
 											break;
@@ -914,9 +920,8 @@ package ui.window {
 						{
 							
 							randomDistortActive = false;
-							var filter:Filter, test:Filter, filters:Array;
 							
-							for each (var l:Layer in Display.layers) {
+							for each (l in Display.layers) {
 								new Tween(
 									l,
 									600,
@@ -927,9 +932,9 @@ package ui.window {
 								)
 								
 								filter	= null;
-								filters = l.filters;
+								flters = l.filters;
 								
-								for each (test in filters) {
+								for each (test in flters) {
 									if (test.name === 'DISTORT') {
 										filter = test;
 										break;
@@ -991,15 +996,27 @@ package ui.window {
 						break;
 					// framerate
 					case 44:
-						for each (var l:Layer in Display.layers) l.framerate += .1;
+						for each (l in Display.layers) l.framerate += .1;
 						break;
 					case 43:
-						for each (var l:Layer in Display.layers) l.framerate -= .1;
+						for each (l in Display.layers) l.framerate -= .1;
 						break;
 					case 0:
 						if (velocity>0)	layer.alpha = velocity/127;
 						break;
 					case 1:
+						if (velocity>0)	layer.brightness = velocity/127;
+						break;
+					case 2:
+						if (velocity>0)	layer.contrast = velocity/127;
+						break;
+					case 3:
+						if (velocity>0)	layer.saturation = velocity/64;
+						break;
+					case 4:
+						if (velocity>0)	layer.hue = velocity/127;
+						break;
+					case 7:
 						if (layer)
 						{
 							//layer.alpha = 0.99;
@@ -1026,16 +1043,15 @@ package ui.window {
 						break;
 				}
 			}
-			appLauncher.writeData('144,' + noteon + ',' + velocity );
+			//appLauncher.writeData('144,' + noteon + ',' + velocity );
 			//3 = red, 5=low red, 30=mid orange,
 		
-			trace("change:" + noteon + " mod:" + noteon%4 + " velocity:" + velocity + " channel:" + channel);	
 
 		}
 		private function randomBlend(event:Event):void {
-			for each (var layer:Layer in Display.layers) {
-				layer.blendMode = BlendModes[Math.floor(Math.random() * BlendModes.length)];
-				layer.alpha		= .8;
+			for each (l in Display.layers) {
+				l.blendMode = BlendModes[Math.floor(Math.random() * BlendModes.length)];
+				l.alpha		= .8;
 			}
 		}
 		private function activate(evt:Event):void

@@ -39,8 +39,6 @@ package ui.window {
 	import onyx.tween.TweenProperty;
 	import onyx.utils.string.*;
 	
-	import services.remote.DirectLanConnection;
-	
 	import ui.controls.*;
 	import ui.core.*;
 	import ui.layer.LayerPage;

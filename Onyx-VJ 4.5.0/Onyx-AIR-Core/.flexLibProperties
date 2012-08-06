@@ -213,7 +213,7 @@
     <classEntry path="ui.window.DisplayWindow"/>
     <classEntry path="ui.window.Filters"/>
     <classEntry path="ui.window.KeysWindow"/>
-    <classEntry path="ui.window.LaunchpadWindow"/>
+    <classEntry path="ui.window.CMidiWindow"/>
     <classEntry path="ui.window.LayerWindow"/>
     <classEntry path="ui.window.MidiWindow"/>
     <classEntry path="ui.window.ModuleWindow"/>

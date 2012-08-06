@@ -85,9 +85,7 @@
 			height: 70px;
 		}
 	</fx:Style>
-	<fx:Declarations>
-		<components:DirectLanConnection id="cnx"/>
-	</fx:Declarations>
+
 	<s:ViewNavigator id="navigator" label="Onyx-VJ remote" width="100%" height="100%" firstView="views.SettingsView">
 		<s:navigationContent>
 			<components:ConnectedComponent id="connStatus" />

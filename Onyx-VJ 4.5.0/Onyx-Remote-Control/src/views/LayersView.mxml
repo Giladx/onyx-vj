@@ -34,7 +34,8 @@
 			private var nLayers:int = 0;
 			private var i:int;			
 			private var _selectedLayer:int = 0;
-			private var sliderWitdh:int = 50;
+			[Bindable]
+			private var sliderWidth:int = 50;
 
 			public function get selectedLayer():int
 			{
@@ -187,27 +188,27 @@
 			<s:HGroup id="sliderGroup" verticalAlign="middle">
 				<s:Label text="Alpha" />
 				<s:VSlider id="alphaSlider" change="alphaSlider_changeHandler(event)" minimum="0" maximum="100" 
-						   liveDragging="true" snapInterval="1" width="{sliderWitdh}"
+						   liveDragging="true" snapInterval="1" width="{sliderWidth}"
 						   value="100"/>
 				<s:Label text="X" />
 				<s:VSlider id="xSlider" change="xSlider_changeHandler(event)" minimum="-500" maximum="500" 
-						   liveDragging="true" snapInterval="1" width="{sliderWitdh}"
+						   liveDragging="true" snapInterval="1" width="{sliderWidth}"
 						   value="100"/>
 				<s:Label text="Y" />
 				<s:VSlider id="ySlider" change="ySlider_changeHandler(event)" minimum="-500" maximum="500" 
-						   liveDragging="true" snapInterval="1" width="{sliderWitdh}" 
+						   liveDragging="true" snapInterval="1" width="{sliderWidth}" 
 						   value="100"/>
 				<s:Label text="brightness" color="0xAAAAAA" />
 				<s:VSlider id="brightSlider" change="brightSlider_changeHandler(event)" minimum="-100" maximum="100" 
-						   liveDragging="true" snapInterval="1" width="{sliderWitdh}"
+						   liveDragging="true" snapInterval="1" width="{sliderWidth}"
 						   value="0"/>
 				<s:Label text="contrast" />
 				<s:VSlider id="contrastSlider" change="contrastSlider_changeHandler(event)" minimum="-100" maximum="100" 
-						   liveDragging="true" snapInterval="1" width="{sliderWitdh}"
+						   liveDragging="true" snapInterval="1" width="{sliderWidth}"
 						   value="0"/>
 				<s:Label text="saturation" />
 				<s:VSlider id="saturationSlider" change="saturationSlider_changeHandler(event)" minimum="0" maximum="200" 
-						   liveDragging="true" snapInterval="1" width="{sliderWitdh}"
+						   liveDragging="true" snapInterval="1" width="{sliderWidth}"
 						   value="100"/>
 				
 			</s:HGroup>				

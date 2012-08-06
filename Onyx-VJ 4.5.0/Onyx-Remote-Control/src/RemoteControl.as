@@ -1,5 +1,3 @@
-import components.DirectLanConnection;
-
 import flash.desktop.NativeApplication;
 import flash.events.AccelerometerEvent;
 import flash.events.KeyboardEvent;
@@ -11,6 +9,8 @@ import flash.ui.MultitouchInputMode;
 
 import mx.core.FlexGlobals;
 import mx.events.FlexEvent;
+
+import services.remote.DirectLanConnection;
 
 import spark.components.Application;
 
@@ -26,6 +26,7 @@ private static const ABOUT:String = "about";
 private var accel:Accelerometer;
 private var numLayers:int = 0;
 public var lv:LayersView;
+private var cnx:DirectLanConnection;
 
 protected function applicationCompleteHandler(event:FlexEvent):void
 {

@@ -183,6 +183,7 @@
     <classEntry path="services.midi.ui.styles.MIDI_HIGHLIGHT"/>
     <classEntry path="services.midi.ui.styles.MIDI_HIGHLIGHT_CONFLICT"/>
     <classEntry path="services.midi.ui.styles.MIDI_HIGHLIGHT_SET"/>
+    <classEntry path="services.remote.DirectLanConnection"/>
     <classEntry path="services.sound.ID"/>
     <classEntry path="services.sound.ISoundControlBehavior"/>
     <classEntry path="services.sound.SoundImplementer"/>

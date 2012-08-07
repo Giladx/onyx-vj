@@ -12,9 +12,12 @@ package services.remote
 	 */	
 	public class DirectLanConnection
 	{
-		private var connection:NetConnection;
+		private var netConnection:NetConnection;
 		private var group:NetGroup;
-		
+		private const CirrusAddress:String = "rtmfp://p2p.rtmfp.net";
+		private const DeveloperKey:String = "ba3fe845cbae2c1492926aa0-5206e25eb622";
+
+			
 		/**
 		 * Boolean value indicating if the connection is establised 
 		 */		
@@ -57,9 +60,10 @@ package services.remote
 			
 			port = connectionPortId == null ? String( randomPort ) : connectionPortId;
 			
-			connection = new NetConnection();
-			connection.addEventListener(NetStatusEvent.NET_STATUS, handleStatus);
-			connection.connect("rtmfp:");
+			netConnection = new NetConnection();
+			netConnection.addEventListener(NetStatusEvent.NET_STATUS, handleStatus);
+			// same subnet netConnection.connect("rtmfp:");
+			netConnection.connect(CirrusAddress, DeveloperKey);
 		}
 		
 		protected function handleStatus(event:NetStatusEvent):void
@@ -100,7 +104,7 @@ package services.remote
 		public function close():void
 		{
 			isConnected = false;
-			connection.close();
+			netConnection.close();
 		}
 		
 		/**
@@ -109,11 +113,11 @@ package services.remote
 		 */		
 		public function clear():void
 		{
-			if(connection)
+			if(netConnection)
 			{
 				close();
-				connection.removeEventListener(NetStatusEvent.NET_STATUS, handleStatus);
-				connection = null;
+				netConnection.removeEventListener(NetStatusEvent.NET_STATUS, handleStatus);
+				netConnection = null;
 			}
 			
 			if(group)
@@ -129,14 +133,18 @@ package services.remote
 		
 		private function setUpGroup():void
 		{
-			var groupSpec:GroupSpecifier = new GroupSpecifier("LocalDirectConnection_"+port);
+			var groupSpec:GroupSpecifier = new GroupSpecifier("Onyx-VJ-"+port);
 			groupSpec.routingEnabled = true;
 			groupSpec.ipMulticastMemberUpdatesEnabled = true;
 			groupSpec.addIPMulticastAddress("224.255.0.0:"+port);
 			groupSpec.multicastEnabled = true;
 			
-			group = new NetGroup(connection, groupSpec.groupspecWithAuthorizations());
+			group = new NetGroup(netConnection, groupSpec.groupspecWithAuthorizations());
 			group.addEventListener(NetStatusEvent.NET_STATUS, handleStatus);
+		}
+		public function memberCount():String
+		{
+			return group == null ? "no group" : group.estimatedMemberCount.toString();
 		}
 	}
 }

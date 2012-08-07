@@ -20,6 +20,8 @@ package onyx.core {
 	import onyx.display.*;
 	import onyx.plugin.*;
 	
+	import services.remote.DirectLanConnection;
+	
 	use namespace onyx_ns;
 
 	/**
@@ -27,6 +29,8 @@ package onyx.core {
 	 */
 	public final class Command {
 		
+		private static var cnx:DirectLanConnection = new DirectLanConnection();
+		private static var _name:String;
 		/**
 		 * 	@private
 		 */
@@ -159,6 +163,43 @@ package onyx.core {
 			// output
 			return text;
 		}
-
+		/**
+		 * 	Chat
+		 */		
+		private static function chat(port:String = "60000", name:String = "guest"):String {
+			_name = name;
+			
+			cnx.onConnect = handleOnConnect;
+			cnx.onDataReceive = handleDataReceived;
+			cnx.connect(port);
+			return 'Chat: connecting';
+		}
+		private static function members():String {		
+			return cnx.memberCount();
+		}
+		private static function name():String {	
+			cnx.sendData({type:"name", value:_name });	
+			return _name;
+		}
+		protected static function handleOnConnect(user:Object):void
+		{
+			Console.output("Connected on port: " +cnx.port);
+			cnx.sendData({type:"name", value:_name });	
+		
+		}
+		protected static function handleDataReceived(dataReceived:Object):void
+		{
+			// received
+			switch ( dataReceived.type.toString() ) 
+			{ 
+				case "name":
+					Console.output("Name:" + dataReceived.value);
+					break;
+				
+				default: 
+					Console.output("Received:" + dataReceived.value);
+					break;
+			}
+		}
 	}
 }

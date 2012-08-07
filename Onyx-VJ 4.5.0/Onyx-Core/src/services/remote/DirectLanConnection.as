@@ -15,7 +15,7 @@ package services.remote
 		private var netConnection:NetConnection;
 		private var group:NetGroup;
 		private const CirrusAddress:String = "rtmfp://p2p.rtmfp.net";
-		private const DeveloperKey:String = "ba3fe845cbae2c1492926aa0-5206e25eb622";
+		private const DeveloperKey:String = "";
 
 			
 		/**

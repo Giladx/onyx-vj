@@ -1,0 +1,1 @@
+package com.andremichelle {	/**	 * @author aM	 */	public interface IToneGenerator 	{		function processAudioAdd( buffer: Vector.<Vector.<Number>> ): Boolean;	}}

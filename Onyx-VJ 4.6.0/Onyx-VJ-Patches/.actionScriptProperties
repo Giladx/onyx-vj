@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<actionScriptProperties analytics="false" mainApplicationPath="Julia.as" projectUUID="8ef2289f-1ea7-4a79-a265-5e94b4866f20" version="10">
+  <compiler additionalCompilerArguments="-locale en_US --define DEBUG::SPLASHTIME 0 -swf-version=15 -default-frame-rate=60" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderLocation="C:/Users/b.lane/AppData/Roaming/Onyx-VJ/Local Store/Onyx-VJ/library/Onyx-Patches-Debug" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+    <compilerSourcePath/>
+    <libraryPath defaultLinkType="0">
+      <libraryPathEntry kind="4" path="">
+        <excludedEntries>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_charts.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="1" linkType="1" path="${PROJECT_FRAMEWORKS}/locale/{locale}"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/advancedgrids.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/qtp.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_air.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/charts.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/framework.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/mx/mx.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/netmon.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/spark.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/sparkskins.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/rpc.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/videoPlayer.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/qtp_air.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/datavisualization.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/spark_dmv.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flash-integration.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_dmv.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_flashflexkit.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_agent.swc" useDefaultLinkType="false"/>
+        </excludedEntries>
+      </libraryPathEntry>
+      <libraryPathEntry kind="1" linkType="1" path="${DOCUMENTS}/InstallPackage/root/sdk"/>
+      <libraryPathEntry kind="1" linkType="1" path="libs"/>
+    </libraryPath>
+    <sourceAttachmentPath/>
+  </compiler>
+  <applications>
+    <application path="Julia.as"/>
+    <application path="Curvosya.as"/>
+    <application path="Morph3D.as"/>
+    <application path="Planet.as"/>
+    <application path="Tentacles.as"/>
+    <application path="ColorfulSpring.as"/>
+    <application path="CyberspaceDiving.as"/>
+    <application path="LetterOutline.as"/>
+    <application path="LayerFilters/LayerCopy.as"/>
+    <application path="FunInTheSun.as"/>
+    <application path="YouAreSoSquare.as"/>
+    <application path="PerlinParticle3d.as"/>
+    <application path="LayerFilters/LayerInfinity.as"/>
+    <application path="Water3D.as"/>
+    <application path="Grunge.as"/>
+    <application path="AbstractPainting.as"/>
+    <application path="Gravias.as"/>
+    <application path="Bre.as"/>
+    <application path="Fire.as"/>
+    <application path="Triangles.as"/>
+    <application path="Dodecahedron.as"/>
+    <application path="HelloSpace.as"/>
+    <application path="PseudoSoundwave.as"/>
+    <application path="GridLines.as"/>
+    <application path="Wave.as"/>
+    <application path="ClusterAmaryllis.as"/>
+    <application path="Shock.as"/>
+    <application path="LayerFilters/LayerPixelRain.as"/>
+    <application path="UnkoField.as"/>
+    <application path="AuralSynapse.as"/>
+    <application path="Lightning.as"/>
+    <application path="Shimmer.as"/>
+    <application path="Rainbow.as"/>
+    <application path="WaveParticle.as"/>
+    <application path="ForceField.as"/>
+    <application path="BulletHeaven.as"/>
+    <application path="Nemo.as"/>
+    <application path="ImageDots.as"/>
+    <application path="Dopa.as"/>
+    <application path="PointLight.as"/>
+    <application path="LightEffect.as"/>
+    <application path="WaterFx.as"/>
+    <application path="Sakura.as"/>
+    <application path="ColorfulRotation.as"/>
+    <application path="Bubbles.as"/>
+    <application path="DotTypo.as"/>
+    <application path="PixelDistortion.as"/>
+    <application path="LayerFilters/LayerRuttEtraIzer.as"/>
+    <application path="QuaternionLights.as"/>
+    <application path="Imagination.as"/>
+    <application path="Nutsu.as"/>
+    <application path="Tenorion.as"/>
+    <application path="InkBleed.as"/>
+    <application path="Spaghetti.as"/>
+    <application path="Stockings.as"/>
+    <application path="LayerFilters/LayerFur.as"/>
+    <application path="ParticleFluid.as"/>
+    <application path="DynamicFlower.as"/>
+    <application path="FormativeParticles.as"/>
+    <application path="TextOnFire.as"/>
+    <application path="Quaternion.as"/>
+    <application path="WhirlFlower.as"/>
+    <application path="PerlinNoiseXor.as"/>
+    <application path="LayerFilters/LayerCircleArt.as"/>
+    <application path="ParticleExplosion.as"/>
+    <application path="Fountain.as"/>
+    <application path="LayerFilters/LayerWater.as"/>
+    <application path="PerfectPulse.as"/>
+    <application path="Marimo.as"/>
+    <application path="ElasticImage.as"/>
+    <application path="LooseGlowLine.as"/>
+    <application path="OeilDuCyclone.as"/>
+    <application path="RectangleMatch.as"/>
+    <application path="VerticalLines.as"/>
+    <application path="Strobo.as"/>
+    <application path="TreeRoots.as"/>
+    <application path="CircleArt.as"/>
+    <application path="Anima.as"/>
+    <application path="LayerFilters/LayerHair.as"/>
+    <application path="Gas.as"/>
+    <application path="Forest.as"/>
+    <application path="Dots3d.as"/>
+    <application path="BasicText.as"/>
+    <application path="BallSphere.as"/>
+    <application path="MovingBackground.as"/>
+    <application path="TrainView.as"/>
+    <application path="RubberLetter.as"/>
+    <application path="LayerFilters/LayerPixelDistortion.as"/>
+    <application path="RotatingRainbow.as"/>
+    <application path="RuttEtraIzer.as"/>
+    <application path="FireDraw.as"/>
+    <application path="Spiral.as"/>
+    <application path="LCDPanel.as"/>
+    <application path="CircleText.as"/>
+    <application path="inprogress/DrawShader.as"/>
+    <application path="RotatingSquares.as"/>
+    <application path="Orbitals.as"/>
+    <application path="CircleParticle.as"/>
+    <application path="NeuronFight.as"/>
+    <application path="Poplaryy.as"/>
+    <application path="Plasmountains.as"/>
+    <application path="DeathStar.as"/>
+    <application path="PV3DSphere.as"/>
+    <application path="inprogress/StableFluids.as"/>
+    <application path="Silhouette.as"/>
+    <application path="Brazil.as"/>
+    <application path="Shaaa.as"/>
+    <application path="DumpingGraphics.as"/>
+    <application path="NeonSphere.as"/>
+    <application path="HalftoneDots.as"/>
+    <application path="SpiralMorph.as"/>
+    <application path="LightTune.as"/>
+    <application path="HardStir.as"/>
+    <application path="GL.as"/>
+    <application path="MappingLight.as"/>
+    <application path="Lines.as"/>
+    <application path="SpacePirateTransmission.as"/>
+  </applications>
+  <modules/>
+  <buildCSSFiles/>
+  <flashCatalyst validateFlashCatalystCompatibility="false"/>
+</actionScriptProperties>

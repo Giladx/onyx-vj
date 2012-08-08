@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008" xmlns:ai="http://ns.adobe.com/ai/2009">
+	<s:states>
+		<s:State name="disconnected"/>
+		<s:State name="connected"/>
+	</s:states>
+	<fx:Script>
+		<![CDATA[
+			
+			private var _connectedTo:String;
+			
+			public function set connected(val:Boolean):void {
+				if (val) {
+					currentState = "connected";
+				} else {
+					currentState = "disconnected";
+				}
+			}
+
+			public function set connectedTo(val:String):void {
+				_connectedTo = val;
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Ellipse height="30" width="30" x="5" y="5">
+		<s:stroke>
+			<s:SolidColorStroke color="#000000"/>
+		</s:stroke>
+		<s:fill>
+			<s:LinearGradient rotation="90" scaleX="30" x="11.009" y="10.685">
+				<s:GradientEntry alpha="1" color="#7AC943" ratio="0" color.disconnected="#FF9300" alpha.disconnected="1.0"/>
+				<s:GradientEntry alpha="1" color="#000000" ratio="1"/>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Ellipse>
+</s:Group>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		backgroundColor="#222222"
+		viewActivate="onViewActivate(event)"	
+		title="Layers" xmlns:components1="components.*">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		
+		global
+		{
+			fontSize: 12px;
+		}
+		s|Label
+		{
+			font-size: 12px;
+			color: #AAAAAA;
+			
+		}
+		s|Button
+		{
+			width: 160px;
+			height: 80px;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			[Bindable]
+			private var nLayers:int = 0;
+			private var i:int;			
+			private var _selectedLayer:int = 0;
+			[Bindable]
+			private var sliderWidth:int = 50;
+
+			public function get selectedLayer():int
+			{
+				return _selectedLayer;
+			}
+
+			public function set selectedLayer(value:int):void
+			{
+				_selectedLayer = value;
+				for ( i = 0; i < nLayers; i++ )
+				{
+					btnGroup.getChildByName(i.toString()).alpha = 0.5;
+				}
+				btnGroup.getChildByName(_selectedLayer.toString()).alpha = 1;
+			}
+
+			protected function onViewActivate(event:ViewNavigatorEvent):void
+			{
+				FlexGlobals.topLevelApplication.lv = this;
+				if (data && data.type)
+				{
+					switch ( data.type.toString() ) 
+					{ 
+						case "msg":
+							status.text 	= data.value;
+							break;
+						case "filters":
+							filterLabel.text 	= data.value;
+							break;
+						/* case "layer":
+							if ( nLayers == 0 )
+							{
+								//FlexGlobals.topLevelApplication.cnx.sendData({type:"cnx", value:"mobile" });
+							}
+							else
+							{
+								selectedLayer = data.value;
+								
+								for ( i = 0; i < nLayers; i++ )
+								{
+									btnGroup.getChildByName(i.toString()).alpha = 0.5;
+								}
+								btnGroup.getChildByName(selectedLayer.toString()).alpha = 1;
+							}
+							break; */
+						case "layers":
+							nLayers = data.value;
+							if ( nLayers != 0 )
+							{
+								for ( i = 0; i < nLayers; i++ )
+								{
+									var btn:Button = new Button();
+									btn.label = "L" + i;
+									btn.x = 65 * i;							
+									btn.alpha = 0.5;							
+									btn.width = 50;
+									btn.height = 50;
+									btn.name = i.toString();
+									btnGroup.addElement( btn );
+									btn.addEventListener( MouseEvent.CLICK, btnLayerClick );
+								}							
+							}
+							
+							FlexGlobals.topLevelApplication.cnx.sendData( {type:"layerbtn", value:"created" }  );
+							break;
+						default: 
+							
+							break;
+					}	
+				}
+			}
+			protected function btnLayerClick(event:MouseEvent):void
+			{
+				selectedLayer = event.currentTarget.name;
+				FlexGlobals.topLevelApplication.cnx.sendData( {type:"select-layer", value:event.currentTarget.name }  );
+				
+			}
+			protected function handleMuteClick(event:MouseEvent):void
+			{
+				FlexGlobals.topLevelApplication.cnx.sendData( {type:"mute-layer", value:selectedLayer}  );
+			}
+			protected function handleBlendModeDownClick(event:MouseEvent):void
+			{
+				FlexGlobals.topLevelApplication.cnx.sendData( {type:"cycle-blendmode-down", value:selectedLayer}  );
+			}
+			protected function handleBlendModeUpClick(event:MouseEvent):void
+			{
+				FlexGlobals.topLevelApplication.cnx.sendData( {type:"cycle-blendmode-up", value:selectedLayer}  );
+			}
+			
+			protected function xSlider_changeHandler(event:Event):void
+			{
+				FlexGlobals.topLevelApplication.cnx.sendData( {type:"x", value:xSlider.value}  );
+			}
+			
+			protected function ySlider_changeHandler(event:Event):void
+			{
+				FlexGlobals.topLevelApplication.cnx.sendData( {type:"y", value:ySlider.value}  );
+			}
+			protected function alphaSlider_changeHandler(event:Event):void
+			{
+				FlexGlobals.topLevelApplication.cnx.sendData( {type:"alpha", value:alphaSlider.value}  );
+			}
+			protected function bounceBtn_mouseDownHandler(event:MouseEvent):void
+			{
+				FlexGlobals.topLevelApplication.cnx.sendData( {type:"bounce", value:1}  );
+			}
+			
+			protected function brightSlider_changeHandler(event:Event):void
+			{
+				FlexGlobals.topLevelApplication.cnx.sendData( {type:"brightness", value:brightSlider.value}  );
+			}
+			
+			protected function contrastSlider_changeHandler(event:Event):void
+			{
+				FlexGlobals.topLevelApplication.cnx.sendData( {type:"contrast", value:contrastSlider.value}  );
+			}
+			
+			protected function saturationSlider_changeHandler(event:Event):void
+			{
+				FlexGlobals.topLevelApplication.cnx.sendData( {type:"saturation", value:saturationSlider.value}  );
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Group height="500" width="300" top="3" left="3" right="0">
+		<s:VGroup>
+			<!--<s:Image source="{bd}"/>-->
+			<s:Label id="path" width="299" text="none" color="0xAAAAAA"/>
+			<s:Label id="status" width="299" text="{nLayers}" color="0xAAAAAA"/>
+			<s:Label id="filterLabel" width="299" text="0" color="0xAAAAAA"/>
+			<s:HGroup id="btnGroup" verticalAlign="middle">
+				
+			</s:HGroup>	
+			<s:HGroup>
+				<s:Button id="muteBtn" x="10" y="10" label="MuteLayer"
+						  mouseDown="handleMuteClick(event)" />
+				<s:Button id="blendModeDownBtn" x="10" y="10" label="BlendModeDown"
+						  mouseDown="handleBlendModeDownClick(event)" />
+			</s:HGroup>
+			<s:HGroup>
+				<s:Button id="blendModeUpBtn" x="10" y="10" label="BlendModeUp"
+						  mouseDown="handleBlendModeUpClick(event)" />
+				<s:Button id="bounceBtn" x="10" y="10" label="Bounce"
+						  mouseDown="bounceBtn_mouseDownHandler(event)" />
+				
+			</s:HGroup>
+		
+			<s:HGroup id="sliderGroup" verticalAlign="middle">
+				<s:Label text="Alpha" />
+				<s:VSlider id="alphaSlider" change="alphaSlider_changeHandler(event)" minimum="0" maximum="100" 
+						   liveDragging="true" snapInterval="1" width="{sliderWidth}"
+						   value="100"/>
+				<s:Label text="X" />
+				<s:VSlider id="xSlider" change="xSlider_changeHandler(event)" minimum="-500" maximum="500" 
+						   liveDragging="true" snapInterval="1" width="{sliderWidth}"
+						   value="100"/>
+				<s:Label text="Y" />
+				<s:VSlider id="ySlider" change="ySlider_changeHandler(event)" minimum="-500" maximum="500" 
+						   liveDragging="true" snapInterval="1" width="{sliderWidth}" 
+						   value="100"/>
+				<s:Label text="brightness" color="0xAAAAAA" />
+				<s:VSlider id="brightSlider" change="brightSlider_changeHandler(event)" minimum="-100" maximum="100" 
+						   liveDragging="true" snapInterval="1" width="{sliderWidth}"
+						   value="0"/>
+				<s:Label text="contrast" />
+				<s:VSlider id="contrastSlider" change="contrastSlider_changeHandler(event)" minimum="-100" maximum="100" 
+						   liveDragging="true" snapInterval="1" width="{sliderWidth}"
+						   value="0"/>
+				<s:Label text="saturation" />
+				<s:VSlider id="saturationSlider" change="saturationSlider_changeHandler(event)" minimum="0" maximum="200" 
+						   liveDragging="true" snapInterval="1" width="{sliderWidth}"
+						   value="100"/>
+				
+			</s:HGroup>				
+		</s:VGroup>
+	</s:Group>
+	
+</s:View>

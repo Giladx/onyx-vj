@@ -3,6 +3,7 @@ package plugins.filters {
 	import flash.display.BitmapData;
 	import flash.geom.*;
 	
+	import onyx.core.Console;
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
@@ -19,7 +20,7 @@ package plugins.filters {
 		/**
 		 * 	@private
 		 */
-		private var _numSlices:int				= 13;
+		private var _numSlices:int				= 2;
 		
 		/**
 		 * 	@private
@@ -32,19 +33,19 @@ package plugins.filters {
 		private var _delay:int					= 2;
 		
 		private var _mx:int = 0; 
-		private var _my:int = 0; 
+		private var _my:int = -DISPLAY_HEIGHT; 
 		
 		/**
 		 * 	@constructor
 		 */
 		public function VerticalSlices():void {
-			
+			Console.output("VerticalSlices v0.1");
 			parameters.addParameters(
-				new ParameterInteger('slices', 'slices', 2, 125, 12),
+				new ParameterInteger('slices', 'slices', 2, 125, _numSlices),
 				new ParameterNumber('alpha', 'alpha', 0, 1, 1),
 				new ParameterInteger('delay', 'frame delay', 1, 15, 2),
-				new ParameterInteger('mx', 'mx', 0, DISPLAY_WIDTH, _mx),
-				new ParameterInteger('my', 'my', 0, DISPLAY_HEIGHT, _my)
+				new ParameterInteger('mx', 'mx', -DISPLAY_WIDTH, DISPLAY_WIDTH * 2, _mx),
+				new ParameterInteger('my', 'my', -DISPLAY_HEIGHT, DISPLAY_HEIGHT * 2, _my)
 			);
 			
 			this.slices	= _numSlices;
@@ -88,7 +89,7 @@ package plugins.filters {
 			
 			_disposeSlices();
 			
-			for (var count:int = 1; count < value; count++) {
+			for (var count:int = 1; count < value + 1; count++) {
 				_slices.push(new SlitSlice(count * _delay));
 			}
 			
@@ -105,13 +106,13 @@ package plugins.filters {
 			
 			rect		= DISPLAY_RECT.clone();
 			rect.width = width = Math.ceil(rect.width / _numSlices);
+			rect.x = mx;
+			rect.y = my;
 			
-			for (var count:int = 1; count < _numSlices; count++) {
-				var slice:SlitSlice = _slices[count - 1];
+			for (var count:int = 0; count < _numSlices; count++) {
+				var slice:SlitSlice = _slices[count];
 				
 				var bmp:BitmapData = new BitmapData(width, DISPLAY_HEIGHT, true, 0x00000000);
-				rect.x	+= width + mx;
-				rect.y = my;
 				bmp.copyPixels(source, rect, ONYX_POINT_IDENTITY);
 				
 				var drawBmp:BitmapData = slice.add(bmp);
@@ -125,6 +126,8 @@ package plugins.filters {
 						source.draw(drawBmp, null, _transform, null, rect);
 					}
 				}
+				rect.x	+= width + mx;
+				rect.y = my;
 				
 			}
 		}

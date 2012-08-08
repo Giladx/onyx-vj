@@ -45,7 +45,7 @@ package plugins.filters {
 		 */
 		public function BurstEcho():void {
 			
-			super();
+			//super();
 			/*	false,
 				new ParameterNumber('alpha', 'Echo Alpha', 0, 1, .09)
 			);*/
@@ -105,8 +105,6 @@ package plugins.filters {
 
 			// stop tweens
 			Tween.stopTweens(_transform);
-			
-			super.dispose();
 
 			if (_source) {
 				_source.dispose();

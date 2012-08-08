@@ -80,6 +80,7 @@ package plugins {
 				new Plugin('SeuratFilter', 			SeuratFilter,		'Seurat Filter'),
 				new Plugin('RippleFilter', 			RippleFilter,		'Ripple Filter'),
 				new Plugin('Vertical Slices',		VerticalSlices,	'Vertical Slices'),
+				new Plugin('Color Slices',			ColorSlices,	'Color Slices'),
 				//new Plugin('BurstEcho', 			BurstEcho,		'BurstEcho'),	
 
 				// bitmap filters - tempo

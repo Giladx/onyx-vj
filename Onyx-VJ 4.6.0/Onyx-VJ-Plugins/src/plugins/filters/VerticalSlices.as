@@ -9,7 +9,7 @@ package plugins.filters {
 	/**
 	 * 
 	 */
-	public final class SlitScan extends Filter implements IBitmapFilter {
+	public final class VerticalSlices extends Filter implements IBitmapFilter {
 		
 		/**
 		 * 	@private
@@ -31,21 +31,42 @@ package plugins.filters {
 		 */
 		private var _delay:int					= 2;
 		
+		private var _mx:int = 0; 
+		private var _my:int = 0; 
+		
 		/**
 		 * 	@constructor
 		 */
-		public function SlitScan():void {
+		public function VerticalSlices():void {
 			
 			parameters.addParameters(
 				new ParameterInteger('slices', 'slices', 2, 125, 12),
 				new ParameterNumber('alpha', 'alpha', 0, 1, 1),
-				new ParameterInteger('delay', 'frame delay', 1, 15, 2)
+				new ParameterInteger('delay', 'frame delay', 1, 15, 2),
+				new ParameterInteger('mx', 'mx', 0, DISPLAY_WIDTH, _mx),
+				new ParameterInteger('my', 'my', 0, DISPLAY_HEIGHT, _my)
 			);
 			
 			this.slices	= _numSlices;
 			
 		}
 		
+		public function get mx():int {
+			return _mx;
+		}
+		
+		public function set mx(value:int):void {
+			_mx = value;
+		}
+		
+		public function get my():int {
+			return _my;
+		}
+		
+		public function set my(value:int):void {
+			_my = value;
+		}
+	
 		public function set delay(value:int):void {
 			_delay = value;
 			this.slices = _numSlices;
@@ -80,26 +101,27 @@ package plugins.filters {
 		
 		public function applyFilter(source:BitmapData):void {
 			
-			var height:int, rect:Rectangle;
+			var width:int, rect:Rectangle;
 			
 			rect		= DISPLAY_RECT.clone();
-			rect.height = height = Math.ceil(rect.height / _numSlices);
+			rect.width = width = Math.ceil(rect.width / _numSlices);
 			
 			for (var count:int = 1; count < _numSlices; count++) {
 				var slice:SlitSlice = _slices[count - 1];
 				
-				var bmp:BitmapData = new BitmapData(DISPLAY_WIDTH, height, true, 0x00000000);
-				rect.y	+= height;
+				var bmp:BitmapData = new BitmapData(width, DISPLAY_HEIGHT, true, 0x00000000);
+				rect.x	+= width + mx;
+				rect.y = my;
 				bmp.copyPixels(source, rect, ONYX_POINT_IDENTITY);
 				
 				var drawBmp:BitmapData = slice.add(bmp);
 				
 				if (drawBmp) {
 					if (_transform.alphaMultiplier === 1) {
-						source.copyPixels(drawBmp, drawBmp.rect, new Point(0, height * count));
+						source.copyPixels(drawBmp, drawBmp.rect, new Point(width * count, 0));
 					} else if (_transform.alphaMultiplier > 0) {
 						var matrix:Matrix = new Matrix();
-						matrix.translate(0, -height * count);
+						matrix.translate(-width * count, 0);
 						source.draw(drawBmp, null, _transform, null, rect);
 					}
 				}
@@ -120,7 +142,7 @@ package plugins.filters {
 				}
 				slice = _slices.shift() as SlitSlice;
 			}
-
+			
 		}
 		
 		/**
@@ -131,8 +153,8 @@ package plugins.filters {
 		}
 	}
 }
-	import flash.display.BitmapData;
-	
+import flash.display.BitmapData;
+
 
 dynamic class SlitSlice extends Array {
 	

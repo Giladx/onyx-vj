@@ -49,8 +49,9 @@ package plugins.filters {
 			var dec:Base64Decoder = new Base64Decoder;
 			dec.decode(asShader.join(""));
 			filter = new ShaderFilter(shader = new Shader(dec.drain()));
+			/* does not trigger
 			addEventListener(MouseEvent.MOUSE_MOVE, Move);
-			addEventListener(MouseEvent.MOUSE_DOWN, Down);
+			addEventListener(MouseEvent.MOUSE_DOWN, Down);*/
 			bIncreasing = false;
 			fMagnitude = 0;
 		}
@@ -62,7 +63,7 @@ package plugins.filters {
 			//filters = [filter];
 		}
 		
-		public function Move(ev:MouseEvent):void {
+/*		public function Move(ev:MouseEvent):void {
 			shader.data.center.value = [ev.localX, ev.localY];
 			UpdateShader();
 		}
@@ -70,7 +71,7 @@ package plugins.filters {
 		public function Down(ev:MouseEvent):void {
 			shader.data.center.value = [ev.localX, ev.localY];
 			UpdateShader();
-		}
+		}*/
 		public function applyFilter(bitmapData:BitmapData):void {
 			UpdateShader();
 			bitmapData.applyFilter(bitmapData, DISPLAY_RECT, ONYX_POINT_IDENTITY, filter);

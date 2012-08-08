@@ -62,6 +62,7 @@ package plugins {
 				new Plugin('Repeater',				Repeater,			'Repeater Filter', new AssetRepeat().bitmapData),
 				new Plugin('Displace',				DisplacementMap,	'Displacement Map', new AssetDisplace().bitmapData),
 				new Plugin('Slit Scan',				SlitScan,			'Slit Scan', new AssetSlit().bitmapData),
+				new Plugin('Vertical Slit Scan',	VSlitScan,			'Vertical Slit Scan', new AssetSlit().bitmapData),
 				new Plugin('Invert',				InvertFilter,		'Invert', new AssetInvert().bitmapData),
 				new Plugin('Pass Through',			PassThrough,		'Pass Through'),
 				new Plugin('Color Filter',			ColorFilter,		'Color Filter'),
@@ -78,6 +79,7 @@ package plugins {
 				new Plugin('QuarternionFilter', 	QuarternionFilter,	'Quarternion Filter'),
 				new Plugin('SeuratFilter', 			SeuratFilter,		'Seurat Filter'),
 				new Plugin('RippleFilter', 			RippleFilter,		'Ripple Filter'),
+				new Plugin('Vertical Slices',		VerticalSlices,	'Vertical Slices'),
 				//new Plugin('BurstEcho', 			BurstEcho,		'BurstEcho'),	
 
 				// bitmap filters - tempo
@@ -86,6 +88,7 @@ package plugins {
 				new Plugin('Toggle Effect', 		Toggle,			'Randomizes the visibility with toggle'),
 				new Plugin('Frame Random', 			FrameRND,		'Randomizes Frame Rates'),
 				new Plugin('MoveScale Effect', 		MoverScaler,	'Moves and Scales Object'),
+				new Plugin('AutoCompose', 			AutoCompose,	'AutoCompose'),
 				
 				// transitions
 				new Plugin('Repeater Transition',	RepeaterTransition, 'Repeater Transition'),

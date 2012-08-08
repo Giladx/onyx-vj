@@ -62,7 +62,7 @@ package plugins.filters
 			parameters.addParameters(
 				new ParameterInteger('size', 'size', 3, 100, _size),
 				new ParameterInteger('mx', 'mx', 0, DISPLAY_WIDTH, _mx),
-				new ParameterInteger('my', 'my', 0, DISPLAY_WIDTH, _my)
+				new ParameterInteger('my', 'my', 0, DISPLAY_HEIGHT, _my)
 			);
 			resizeData = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT);
 			

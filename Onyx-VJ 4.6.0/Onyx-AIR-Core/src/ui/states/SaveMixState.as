@@ -55,8 +55,8 @@ package ui.states {
 		override public function initialize():void {
 			
 			// pause rendering
-			Display.pause(true);
-			StateManager.pauseStates(ApplicationState.KEYBOARD);
+			// BL 20120809 Display.pause(true);
+			// BL 20120809 StateManager.pauseStates(ApplicationState.KEYBOARD);
 			
 			// choose a directory
 			const file:File = new File(AssetFile.resolvePath(ONYX_LIBRARY_PATH));
@@ -116,8 +116,8 @@ package ui.states {
 		 */
 		override public function terminate():void {
 			
-			Display.pause(false);
-			StateManager.resumeStates(ApplicationState.KEYBOARD);
+			// BL 20120809 Display.pause(false);
+			// BL 20120809 StateManager.resumeStates(ApplicationState.KEYBOARD);
 			
 		}
 	}

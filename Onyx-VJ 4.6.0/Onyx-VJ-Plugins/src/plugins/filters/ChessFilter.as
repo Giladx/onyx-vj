@@ -28,13 +28,13 @@ package plugins.filters {
 		private var _source:BitmapData;
 		private var _mask:BitmapData;
 		
-		private var _amount:Number	= 2;
+		private var _amount:Number	= 15;
 		private var _invert:Boolean	= false;
 
 		public function ChessFilter():void {
 			
 			parameters.addParameters(
-				new ParameterInteger('amount', 'amount', 2, 15, 2, 1, 5),
+				new ParameterInteger('amount', 'amount', 2, 15, _amount, 1, 5),
 				new ParameterBoolean('invert', 'invert')
 			);
 

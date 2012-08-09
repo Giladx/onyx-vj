@@ -25,9 +25,9 @@ package plugins.filters {
 		private var rgb:ColorRGB = new ColorRGB();
 		private var offsetX:Number = 0;
 		private var offsetY:Number = 0;
-		private var _delay:int    	 	= 100;
-		private var previousTime:Number     = 0.0;
 		private var _radius:uint = 10;
+		private var _delay:int    	 	= 100;
+		private var previousTime:Number = 0.0;
 		private var time:Number;
 		private var dt:Number ;
 		private var interval:uint = radius * 2;

@@ -47,7 +47,11 @@ package
 			_depth = value;
 			PV.depth = _depth;
 		}
-
+		override public function dispose():void {
+			PV.dispose();
+			sprite.removeChildren();
+			sprite = null;
+		}
 	}
 }
 
@@ -96,9 +100,9 @@ class PVMorph extends BasicView
 	//private static const SNOW_MAX_DEPTH:int = 24;
 	private var _blurs:Vector.<BitmapData>;
 	private var _particles:Vector.<Plane>;
+	private var _targetVertexs:Vector.<Vertex3D>;
 	private var _pitch:Number = 0;
 	private var _radius:Number = 1000;
-	private var _targetVertexs:Vector.<Vertex3D>;
 	private var _yaw:Number = 0;
 	private var _depth:int = 24;
 	private var sp:Sprite = new Sprite();
@@ -249,6 +253,15 @@ class PVMorph extends BasicView
 			// save
 			_blurs[ i ] = bitmapData;
 		}
+	}
+	public function dispose():void
+	{
+		stopRendering();
+		_blurs = null;
+		sp.removeChildren();
+		_particles = null;
+		_targetVertexs = null;
+
 	}
 
 }

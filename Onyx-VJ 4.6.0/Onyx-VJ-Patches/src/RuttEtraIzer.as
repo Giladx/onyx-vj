@@ -48,7 +48,6 @@ package
 				new ParameterExecuteFunction('draw', 'draw')
 			);
 			sprite = new Sprite();
-			addChild(sprite);
 			sprite.addChild(PV);
 			PV.rx = _rx;
 			PV.ry = _ry;

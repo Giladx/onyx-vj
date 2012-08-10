@@ -17,7 +17,6 @@ package {
 	public class Julia extends Patch {
 		private var fx:VolumetricPointLight;
 		private var julia:JuliaSet = new JuliaSet;
-		private var sun:SunIcon = new SunIcon;
 		private var _t:Number = 0;
 		private var _halfWidth:int;
 		private var _halfHeight:int;
@@ -39,13 +38,9 @@ package {
 			_halfWidth = DISPLAY_WIDTH >> 1;
 			_halfHeight = DISPLAY_HEIGHT >> 1;
 			fx.setViewportSize(DISPLAY_WIDTH, DISPLAY_HEIGHT);
-			sun.x = fx.srcX = _halfWidth;
-			sun.y = fx.srcY = _halfHeight;
-			// Sun icon used to control light source position
-			//addChild(sun);
-			sun.buttonMode = true;
-			sun.addEventListener(MouseEvent.MOUSE_DOWN, function(e:Event):void { sun.startDrag(); });
-			sun.addEventListener(MouseEvent.MOUSE_UP, function(e:Event):void { sun.stopDrag(); });
+			fx.srcX = _halfWidth;
+			fx.srcY = _halfHeight;
+
 		}
 		override public function render(info:RenderInfo):void  {
 			
@@ -53,30 +48,15 @@ package {
 			var px:Number = _halfWidth * (1 + Math.cos(4 * _t));
 			var py:Number = _halfHeight * (1 + Math.sin(5 * _t));
 			fx.srcX = px; fx.srcY = py;
-			//sun.x = px; sun.y = py;
+
 			info.render(sprite);
 		}
-
-	}
-}
-
-import flash.display.*;
-import flash.filters.*;
-
-class SunIcon extends Sprite {
-	public function SunIcon() {
-		buttonMode = true;
-		graphics.beginFill(0, 0);
-		graphics.drawCircle(0, 0, 14);
-		graphics.endFill();
-		graphics.lineStyle(1, 0xffc040);
-		graphics.drawCircle(0, 0, 4);
-		filters = [new GlowFilter(0, 1, 4, 4, 8)];
-		for(var i:int = 0; i < 10; i++) {
-			var sin:Number = Math.sin(Math.PI*2*i/10);
-			var cos:Number = Math.cos(Math.PI*2*i/10);
-			graphics.moveTo(sin*7, cos*7);
-			graphics.lineTo(sin*12, cos*12);
+		override public function dispose():void {
+			fx.stopRendering();
+			fx.dispose();
+			julia.dispose();
+			sprite.removeChildren();
+			sprite = null;
 		}
 	}
 }
@@ -424,6 +404,9 @@ class VolumetricPointLight extends EffectContainer {
 		_lastColorIntegrity = colorIntegrity;
 		super.render(e);
 	}
+	override public function dispose():void {
+		super.dispose();
+	}
 }
 
 import flash.utils.getTimer;
@@ -507,5 +490,11 @@ class JuliaSet extends Sprite {
 			}
 		}
 		_canvas.unlock();
+	}
+	public function dispose():void {
+		removeEventListener(Event.ENTER_FRAME, onEnter);
+		_canvas.dispose();
+		removeChildren();
+		_bm = null;
 	}
 }

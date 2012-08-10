@@ -72,6 +72,10 @@ package {
 			shader.data.center.value = [ev.localX, ev.localY];
 			UpdateShader();
 		}
+		/*override public function dispose():void {
+			removeEventListener(MouseEvent.MOUSE_MOVE, Move);
+			removeEventListener(MouseEvent.MOUSE_DOWN, Down);
+		}*/
 	}
 }
 

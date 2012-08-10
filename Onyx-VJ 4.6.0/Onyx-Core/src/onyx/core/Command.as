@@ -19,6 +19,7 @@ package onyx.core {
 	
 	import onyx.display.*;
 	import onyx.plugin.*;
+	import onyx.tween.*;
 	
 	import services.remote.DirectLanConnection;
 	
@@ -31,6 +32,10 @@ package onyx.core {
 		
 		private static var cnx:DirectLanConnection = new DirectLanConnection();
 		private static var _name:String;
+		private static var l:Layer;
+		private static var fadeFilter:Filter;
+		private static var fadeFilterActive:Boolean = false;
+
 		/**
 		 * 	@private
 		 */
@@ -173,6 +178,121 @@ package onyx.core {
 			cnx.onDataReceive = handleDataReceived;
 			cnx.connect(port);
 			return 'Chat: connecting';
+		}
+		/**
+		 * 	Scale
+		 */		
+		public static function scale(factor:Number = 1.2, duration:int = 300):String {
+			var scaled:Boolean = false;
+			var rtn:String = 'Scaled to ';
+			
+			for each (l in Display.layers) {
+				if (l.scaleX == 1 ) {
+					new Tween(
+						l,
+						duration,
+						new TweenProperty('scaleX', l.scaleX, factor),
+						new TweenProperty('scaleY', l.scaleY, factor)
+					)
+					scaled = true;
+				} else {
+					new Tween(
+						l,
+						duration,
+						new TweenProperty('scaleX', l.scaleX, 1),
+						new TweenProperty('scaleY', l.scaleY, 1)
+					)						
+				}
+				
+				
+			}
+			return rtn + (scaled?factor:1) + ' duration:' + duration;
+		}
+		/**
+		 * 	Alpha
+		 */		
+		public static function alpha(factor:Number = 0.3, duration:int = 300):String {
+			var a:Boolean = false;
+			var rtn:String = 'alpha to ';
+			
+			for each (l in Display.layers) {
+				if (l.alpha == 1 ) {
+					new Tween(
+						l,
+						duration,
+						new TweenProperty('alpha', l.alpha, factor)
+					)
+					a = true;
+				} else {
+					new Tween(
+						l,
+						duration,
+						new TweenProperty('alpha', l.alpha, 1)
+					)						
+				}
+				
+				
+			}
+			return rtn + (a?factor:1) + ' duration:' + duration;
+		}
+		/**
+		 * 	Brightness
+		 */		
+		public static function bright(factor:Number = 0.2, duration:int = 300):String {
+			var b:Boolean = false;
+			var rtn:String = 'brightness to ';
+			
+			for each (l in Display.layers) {
+				trace(l.brightness);
+				if (l.brightness == 0 ) {
+					new Tween(
+						l,
+						duration,
+						new TweenProperty('brightness', l.brightness, factor)
+					)
+					b = true;
+				} else {
+					new Tween(
+						l,
+						duration,
+						new TweenProperty('brightness', l.brightness, 0)
+					)						
+				}
+				
+				
+			}
+			return rtn + (b?factor:1) + ' duration:' + duration;
+		}
+		/**
+		 * 	Bounce
+		 */		
+		public static function bounce():String {
+			for each (l in Display.layers) {
+				l.framerate	*= -1;
+			}
+			return '';
+		}
+		/**
+		 * 	Echo
+		 */		
+		public static function echo(mode:String = 'darken'):String {
+			var rtn:String = mode;
+			if ( fadeFilterActive == false ) 
+			{
+				fadeFilterActive = true;
+				fadeFilter = PluginManager.createFilter('ECHO') as Filter;
+				fadeFilter.setParameterValue('feedBlend', mode);
+				fadeFilter.setParameterValue('feedAlpha', .7);
+				Display.addFilter(fadeFilter);						
+			}
+			else
+			{			
+				fadeFilterActive = false;
+				Display.removeFilter(fadeFilter);
+				fadeFilter = null;
+				rtn = 'none';
+			}
+			return rtn;
 		}
 		private static function members():String {		
 			return cnx.memberCount();

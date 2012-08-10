@@ -85,8 +85,8 @@ package ui.window {
 		private const amountW:int = DISPLAY_WIDTH / 2.5;
 		private const amountH:int = DISPLAY_HEIGHT / 2.5;
 		
-		private var fadeFilter:Filter;
-		private var fadeFilterActive:Boolean = false;
+		/*private var fadeFilter:Filter;
+		private var fadeFilterActive:Boolean = false;*/
 		private var randomBlendActive:Boolean = false;
 		private var hashCurrentBlendModes:Dictionary;
 		private var randomDistortActive:Boolean = false;
@@ -355,7 +355,8 @@ package ui.window {
 						break;
 					// fade chopDown
 					case 93:
-						if ( fadeFilterActive == false ) 
+						Command.echo('darken');
+						/*if ( fadeFilterActive == false ) 
 						{
 							fadeFilterActive = true;
 							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
@@ -368,11 +369,12 @@ package ui.window {
 							fadeFilterActive = false;
 							Display.removeFilter(fadeFilter);
 							fadeFilter = null;
-						}
+						}*/
 						break;
 					// fade chopUp
 					case 94:
-						if ( fadeFilterActive == false ) 
+						Command.echo('lighten');
+						/*if ( fadeFilterActive == false ) 
 						{
 							fadeFilterActive = true;
 							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
@@ -385,7 +387,7 @@ package ui.window {
 							fadeFilterActive = false;
 							Display.removeFilter(fadeFilter);
 							fadeFilter = null;
-						}
+						}*/
 						break;
 					case 95:
 						if (Display.brightness < 0)
@@ -440,7 +442,8 @@ package ui.window {
 						break;
 					// fade screen
 					case 89:
-						if ( fadeFilterActive == false ) 
+						Command.echo('screen');
+						/*if ( fadeFilterActive == false ) 
 						{
 							fadeFilterActive = true;
 							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
@@ -453,11 +456,12 @@ package ui.window {
 							fadeFilterActive = false;
 							Display.removeFilter(fadeFilter);
 							fadeFilter = null;
-						}
+						}*/
 						break;
 					// fade multiply
 					case 90:
-						if ( fadeFilterActive == false ) 
+						Command.echo('multiply');
+						/*if ( fadeFilterActive == false ) 
 						{
 							fadeFilterActive = true;
 							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
@@ -470,7 +474,7 @@ package ui.window {
 							fadeFilterActive = false;
 							Display.removeFilter(fadeFilter);
 							fadeFilter = null;
-						}
+						}*/
 						break;
 					// random blend
 					case 91:
@@ -736,7 +740,8 @@ package ui.window {
 						break;
 					// fade chopDown
 					case 93:
-						if ( fadeFilterActive == false ) 
+						Command.echo('darken');
+						/*if ( fadeFilterActive == false ) 
 						{
 							fadeFilterActive = true;
 							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
@@ -749,11 +754,12 @@ package ui.window {
 							fadeFilterActive = false;
 							Display.removeFilter(fadeFilter);
 							fadeFilter = null;
-						}
+						}*/
 						break;
 					// fade chopUp
 					case 94:
-						if ( fadeFilterActive == false ) 
+						Command.echo('lighten');
+						/*if ( fadeFilterActive == false ) 
 						{
 							fadeFilterActive = true;
 							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
@@ -766,7 +772,7 @@ package ui.window {
 							fadeFilterActive = false;
 							Display.removeFilter(fadeFilter);
 							fadeFilter = null;
-						}
+						}*/
 						break;
 					case 95:
 						new Tween(
@@ -808,7 +814,8 @@ package ui.window {
 						break;
 					// fade screen
 					case 38:
-						if ( fadeFilterActive == false ) 
+						Command.echo('screen');
+						/*if ( fadeFilterActive == false ) 
 						{
 							fadeFilterActive = true;
 							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
@@ -821,11 +828,12 @@ package ui.window {
 							fadeFilterActive = false;
 							Display.removeFilter(fadeFilter);
 							fadeFilter = null;
-						}
+						}*/
 						break;
 					// fade multiply
 					case 54:
-						if ( fadeFilterActive == false ) 
+						Command.echo('multiply');
+						/*if ( fadeFilterActive == false ) 
 						{
 							fadeFilterActive = true;
 							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
@@ -838,7 +846,7 @@ package ui.window {
 							fadeFilterActive = false;
 							Display.removeFilter(fadeFilter);
 							fadeFilter = null;
-						}
+						}*/
 						break;
 					// random blend
 					case 55:

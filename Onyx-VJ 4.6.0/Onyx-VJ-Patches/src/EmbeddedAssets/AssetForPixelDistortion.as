@@ -4,11 +4,11 @@ package EmbeddedAssets {
 	
 	[ExcludeSDK]
 	
-	[Embed(source='../assets/ganesh_1.jpg')]
+	[Embed(source='../assets/clark630x353.jpg')]
 	public final class AssetForPixelDistortion extends BitmapData {
 		
 		public function AssetForPixelDistortion() {
-			super(1024, 768);
+			super(630, 353);
 		}
 		
 	}

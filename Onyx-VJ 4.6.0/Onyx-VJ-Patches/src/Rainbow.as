@@ -42,10 +42,11 @@ package {
 		private var _mousePt:Point = new Point();
 		private var mx:int = 320;
 		private var my:int = 240;
+		private var original:BitmapData;
 		
 		public function Rainbow() {
 			
-			var original:BitmapData = new AssetForRainbow;
+			original = new AssetForRainbow;
 			
 			_center = new Sprite();
 			
@@ -104,6 +105,10 @@ package {
 			}
 			info.render(_center);
 		}
+		override public function dispose():void {
+			original.dispose();
+			_center = null;
+		}
 	}
 }
 
@@ -118,6 +123,9 @@ import flash.filters.ColorMatrixFilter;
 import flash.geom.Point;
 
 import frocessing.color.ColorRGB;
+
+import onyx.plugin.DISPLAY_HEIGHT;
+import onyx.plugin.DISPLAY_WIDTH;
 
 class ColoredImage extends Sprite {
 	
@@ -149,8 +157,8 @@ class ColoredImage extends Sprite {
 	}
 	
 	public function init(ix:Number, iy:Number):void {
-		x = _ix = ix;
-		y = _iy = iy;
+		x = _ix = ix+(DISPLAY_WIDTH/2);
+		y = _iy = iy+(DISPLAY_HEIGHT/2);
 		_img.x -= ix;
 		_img.y -= iy;
 	}

@@ -50,12 +50,12 @@ package {
 		public var currentPixel:int=0;
 		
 		public var mouseDown:Boolean = false;
-		[Embed(source='../assets/imgthe-fountain2.jpg' )]  
+		[Embed(source='../assets/clark.jpg' )]  
 		private const ImageB: Class;
 		private const sourceBMP:BitmapData = Bitmap( new ImageB() ).bitmapData;
 		private var mx:Number = 0;
 		private var my:Number = 0;
-		private var _color:uint = 0xFFFFFF00;
+		private var _color:uint = 0xFF6c2b20;
 		
 		public function Gravias() 
 		{			
@@ -171,7 +171,6 @@ package {
 					
 					//drawing pixel interpolating color between what it should be and yellow
 					view.setPixel32(pixel.x,pixel.y,InterpolateColor(pixel.color,_color,pixel.h));
-					//blue view.setPixel32(pixel.x,pixel.y,InterpolateColor(pixel.color,0xFF352b5c,pixel.h));
 				}
 			
 				view.unlock();

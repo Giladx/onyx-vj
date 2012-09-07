@@ -56,7 +56,7 @@ package {
 			
 			centerX = DISPLAY_WIDTH / 2;
 			centerY = DISPLAY_HEIGHT / 2;
-			r = DISPLAY_WIDTH / 3;
+			r = DISPLAY_WIDTH / 4;
 
 			timeLabel = new TextField();
 			var format:TextFormat = new TextFormat();

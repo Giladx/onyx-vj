@@ -47,10 +47,6 @@
 			</camera>
 			-->
 		</cameras>
-		<razuna>
-      		<login>onyxvj</login>
-      		<pwd>null</pwd>
-    	</razuna>
     	<videopong>
 			<login>null</login>
 			<pwd>null</pwd>

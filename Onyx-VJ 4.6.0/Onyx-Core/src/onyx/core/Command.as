@@ -146,10 +146,19 @@ package onyx.core {
 		}
 
 		/**
-		 * 	Gets bpm
+		 * 	Gets/Sets bpm
 		 */		
-		private static function bpm():String {
-			return 'BPM: ' + (1000/Tempo.delay)*60;
+		public static function bpm(tmp:int = 6000):String {
+			if (tmp != 6000) Tempo.delay = 60000/(tmp*4);
+			return 'BPM: ' + 60000/(Tempo.delay*4) + ' tempo: ' + Tempo.delay;
+		}
+		/**
+		 * 	Gets tempo
+		 */		
+	
+		public static function tempo():String {
+			//if (tmp != 60001) Tempo.delay = tmp;
+			return 'tempo: ' + Tempo.delay + ' bpm: ' + 60000/(Tempo.delay*4);
 		}
 		/**
 		 * 	@private

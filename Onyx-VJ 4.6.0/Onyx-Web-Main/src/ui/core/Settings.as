@@ -59,6 +59,9 @@ package ui.core {
 			// add videopong webservice
 			core.appendChild(ContentVideoPong.toXML());
 			
+			// add http webservice
+			core.appendChild(ContentHttp.toXML());
+			
 			var ui:XML = <ui/>;
 			xml.appendChild(ui);
 			

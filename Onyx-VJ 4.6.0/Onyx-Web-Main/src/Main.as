@@ -99,7 +99,7 @@ package {
 					ONYX_WEBSITE = 'b';
 					break;
 				case 'http://localhost':
-					ONYX_WEBSITE = 'v';//BL put 'l'; after debug
+					ONYX_WEBSITE = 'l';//BL put 'l'; after debug
 					break;
 				default:
 					ONYX_WEBSITE = 'o';

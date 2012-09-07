@@ -28,6 +28,7 @@ package ui.window {
 	import onyx.display.*;
 	import onyx.plugin.*;
 	
+	import services.http.Http;
 	import services.videopong.VideoPong;
 	
 	import ui.assets.*;
@@ -48,6 +49,7 @@ package ui.window {
 		 * 	@private
 		 */
 		private const vp:VideoPong = VideoPong.getInstance();
+		private const http:Http = Http.getInstance();
 		/**
 		 * 	
 		 */
@@ -104,6 +106,12 @@ package ui.window {
 		
 		/**
 		 * 	@private
+		 * 	The Http button
+		 */
+		private var buttonHttp:TextButtonIcon;
+		
+		/**
+		 * 	@private
 		 */
 		private var query:AssetQuery;
 		
@@ -148,6 +156,7 @@ package ui.window {
 			
 			buttonCameras			= new TextButtonIcon(options, 'CAMERAS', new AssetIconCamera()),
 			buttonVideoPong			= new TextButtonIcon(options, 'VIDEOPONG', new AssetVideoPong()),
+			buttonHttp				= new TextButtonIcon(options, 'HTTP', new AssetHttp()),
 			
 			files.x					= 4,
 			files.y					= 17,
@@ -157,18 +166,23 @@ package ui.window {
 			buttonCameras.y			= 204,
 			buttonVideoPong.x		= 417,
 			buttonVideoPong.y		= 192;
+			buttonHttp.x			= 417,
+			buttonHttp.y			= 192;
 			
 			// add handlers for buttons
 			buttonCameras.addEventListener(MouseEvent.MOUSE_DOWN, fileDown);
 			buttonVideoPong.addEventListener(MouseEvent.MOUSE_DOWN, fileDown);
+			buttonHttp.addEventListener(MouseEvent.MOUSE_DOWN, fileDown);
 			
 			addChild(folders);
 			addChild(files);
 			addChild(buttonCameras);
 			addChild(buttonVideoPong);
+			addChild(buttonHttp);
 			
 			// query default folder
 			vp.addEventListener( 'foldersloaded', setFolders);		
+			http.addEventListener( 'foldersloaded', setHttpFolders);		
 
 		}
 		
@@ -178,6 +192,14 @@ package ui.window {
 		private function setFolders( event:TextEvent ):void 
 		{
 			AssetFile.queryDirectory('onyx-query://vdpong', updateList);
+			
+		}
+		/**
+		 * 	@private
+		 */
+		private function setHttpFolders( event:TextEvent ):void 
+		{
+			AssetFile.queryDirectory('onyx-query://http', updateList);
 			
 		}
 		/**
@@ -276,6 +298,11 @@ package ui.window {
 				case buttonVideoPong:
 					Console.output('onyx-query://vdpong');
 					AssetFile.queryDirectory('onyx-query://vdpong', updateList);
+					
+					break;
+				case buttonHttp:
+					Console.output('onyx-query://http');
+					AssetFile.queryDirectory('onyx-query://http', updateList);
 					
 					break;
 			}

@@ -55,9 +55,6 @@ package ui.core {
 			
 			// add cameras registrations
 			core.appendChild(ContentCamera.toXML());
-
-			// add razuna webservice
-			//core.appendChild(ContentRazuna.toXML());
 			
 			// add videopong webservice
 			core.appendChild(ContentVideoPong.toXML());

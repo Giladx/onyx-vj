@@ -53,6 +53,8 @@ package ui.states {
 			loader.addEventListener(Event.COMPLETE, settingsHandler);
 			loader.addEventListener(IOErrorEvent.IO_ERROR, settingsHandler);
 
+			var req:URLRequest = new URLRequest('settings/settings.xml');
+			trace(req.url); 
 			// this url is specific to videopong.net
 			loader.load(new URLRequest('settings/settings.xml'));
 			// create the output display

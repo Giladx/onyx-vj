@@ -40,12 +40,6 @@
 			<invert/>
 		</blendModes>
 		
-		<!-- razuna settings -->
-		<razuna>
-			<login>onyxvj</login>
-			<pwd>null</pwd>
-		</razuna>
-
 		<!-- videopong settings -->
 		<videopong>
 			<login>null</login>

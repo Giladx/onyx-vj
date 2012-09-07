@@ -183,7 +183,7 @@ package {
 					// get the sessiontoken from flashvars
 					vp.sessiontoken = root.loaderInfo.parameters.sessiontoken;
 					// load default.onx
-					path = 'https://e-collection.videopong.net/api/get_startupxml/replacethissessiontoken/default.onx';
+					path = 'https://ecollection.fr/api/get_startupxml/replacethissessiontoken/default.onx';
 					
 					//load folders from videopong
 					if ( vp.sessiontoken ) vp.loadFoldersAndAssets();

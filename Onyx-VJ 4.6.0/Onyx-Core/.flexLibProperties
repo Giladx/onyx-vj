@@ -8,6 +8,7 @@
     <classEntry path="onyx.asset.CameraAsset"/>
     <classEntry path="onyx.asset.CameraProtocol"/>
     <classEntry path="onyx.asset.CameraThumbnail"/>
+    <classEntry path="onyx.asset.HttpAsset"/>
     <classEntry path="onyx.asset.IAssetAdapter"/>
     <classEntry path="onyx.asset.IAssetProtocol"/>
     <classEntry path="onyx.asset.VideoPongAsset"/>
@@ -51,6 +52,7 @@
     <classEntry path="onyx.display.ContentCustom"/>
     <classEntry path="onyx.display.ContentCustomTime"/>
     <classEntry path="onyx.display.ContentFLV"/>
+    <classEntry path="onyx.display.ContentHttp"/>
     <classEntry path="onyx.display.ContentMC"/>
     <classEntry path="onyx.display.ContentMP3"/>
     <classEntry path="onyx.display.ContentMicrophone"/>
@@ -191,8 +193,9 @@
     <classEntry path="services.sound.events.SoundEvent"/>
   </includeClasses>
   <includeResources>
-    <resourceEntry destPath="assets/camera.png" sourcePath="assets/camera.png"/>
     <resourceEntry destPath="assets/Pixel.ttf" sourcePath="assets/Pixel.ttf"/>
+    <resourceEntry destPath="assets/camera.png" sourcePath="assets/camera.png"/>
+    <resourceEntry destPath="assets/http.png" sourcePath="assets/http.png"/>
     <resourceEntry destPath="assets/videopong.png" sourcePath="assets/videopong.png"/>
   </includeResources>
   <namespaceManifests/>

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2012 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
@@ -27,25 +27,21 @@ package onyx.display {
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
-	import services.videopong.VideoPong;
+	import services.http.Http;
 	
 	use namespace onyx_ns;
 	
-	public final class ContentVideoPong extends ContentBase {
+	public final class ContentHttp extends ContentBase {
 		
-		private static const vp:VideoPong = VideoPong.getInstance();
+		private static const http:Http = Http.getInstance();
 		/**
 		 *  Save
 		 */
 		public static function toXML():XML {
 			const xml:XML	= 
-				<videopong>
-					<login>{vp.username}</login>
-					<pwd>{vp.pwd}</pwd>
-					<domain>{vp.domain}</domain>
-					<appkey>{vp.appkey}</appkey>
-				</videopong>;
-			
+				<Http>
+					<domain>{http.domain}</domain>
+				</Http>;
 			
 			return xml;
 		}
@@ -54,17 +50,14 @@ package onyx.display {
 		 *  Load
 		 */
 		public static function loadXML( xml:XML ):void {
-			vp.username = xml.login;
-			vp.pwd = xml.pwd;
-			vp.domain = xml.domain;
-			vp.appkey = xml.appkey;
+			http.domain = xml.domain;
 		}
 		
 		
 		/**
 		 * 	@constructor
 		 */		
-		public function ContentVideoPong( layer:Layer, path:String ):void {
+		public function ContentHttp( layer:Layer, path:String ):void {
 			
 			super(layer, path,null,320,240);
 			

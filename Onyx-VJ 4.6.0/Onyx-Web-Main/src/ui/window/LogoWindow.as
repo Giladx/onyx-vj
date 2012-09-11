@@ -22,7 +22,7 @@ package ui.window {
 	
 	import onyx.core.*;
 	import onyx.events.*;
-	import onyx.plugin.ONYX_WEBSITE;
+	import onyx.plugin.ONYX_TITLE;
 	import onyx.utils.*;
 	
 	import ui.states.*;
@@ -77,7 +77,8 @@ package ui.window {
 			_text.thickness				= 0;
 			
 			_text.htmlText = '<font size="28" color="#DCC697" face="DefaultFont"><b>ONYX ' + VERSION + '</b></font><br>';
-			switch ( ONYX_WEBSITE )
+			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="21" COLOR="#e4eaef" KERNING="0">' + ONYX_TITLE + ' edition</font></textformat><br/>';
+			/*switch ( ONYX_WEBSITE )
 			{
 				case 'v':
 					_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="21" COLOR="#e4eaef" KERNING="0">Videopong edition</font></textformat><br/>';
@@ -91,7 +92,7 @@ package ui.window {
 				default:
 					_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="21" COLOR="#e4eaef" KERNING="0">Web edition</font></textformat><br/>';
 					break;
-			}		
+			}	*/	
 			
 			addChild(_text);
 			

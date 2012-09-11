@@ -40,12 +40,21 @@
 			<invert/>
 		</blendModes>
 		
+		<!-- http settings -->
+		<http>
+			<domain>http://localhost:81</domain>
+			<pathdefaultonx>/onyx/default.onx</pathdefaultonx>
+			<title>Web</title>
+		</http>
+
 		<!-- videopong settings -->
 		<videopong>
 			<login>null</login>
 			<pwd>null</pwd>
 			<domain>https://www.videopong.net</domain>
+			<pathdefaultonx>/api/get_startupxml/replacethissessiontoken/default.onx</pathdefaultonx>
 			<appkey>onyxwebvp</appkey>
+			<title>Videopong</title>
 		</videopong>
 		
 	</core>

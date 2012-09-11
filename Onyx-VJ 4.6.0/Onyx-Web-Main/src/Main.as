@@ -85,7 +85,7 @@ package {
 			Tempo				= new TempoImplementer();
 			
 			// find originating domain where SWF was loaded
-			var ldrURL:String = loaderInfo.loaderURL;
+			/*var ldrURL:String = loaderInfo.loaderURL;
 			switch ( ldrURL.substr( 0, 16 ).toLowerCase() )
 			{
 				case 'https://www.vide':
@@ -104,7 +104,7 @@ package {
 				default:
 					ONYX_WEBSITE = 'o';
 					break;
-			}				
+			}*/				
 			// check first run and setup
 			checkFirstRun();
 		}
@@ -167,17 +167,21 @@ package {
 		private function loadDefaultOnx():void 
 		{
 			var path:String = '';
+			//TODO verify if vp section in settings.xml 
+			//TODO add html adapter section
 			const vp:VideoPong = VideoPong.getInstance();
-			switch ( ONYX_WEBSITE )
+			// get the sessiontoken from flashvars
+			vp.sessiontoken = root.loaderInfo.parameters.sessiontoken;
+			//load folders from videopong
+			if ( vp.sessiontoken ) vp.loadFoldersAndAssets();
+			path = vp.domain + vp.pathdefaultonx;
+			
+			/*switch ( ONYX_WEBSITE )
 			{
 				case 'v':
-					// get the sessiontoken from flashvars
-					vp.sessiontoken = root.loaderInfo.parameters.sessiontoken;
 					// load default.onx
 					path = 'https://www.videopong.net/api/get_startupxml/replacethissessiontoken/default.onx';
 					
-					//load folders from videopong
-					if ( vp.sessiontoken ) vp.loadFoldersAndAssets();
 					break;
 				case 'e':
 					// get the sessiontoken from flashvars
@@ -198,7 +202,7 @@ package {
 					break;
 				default:
 					break;
-			}		
+			}	*/	
 			if ( path.length > 0 )
 			{
 				const useTransition:Transition;

@@ -140,11 +140,27 @@ package ui.states {
 			if (list.length()) {
 				ContentCamera.loadXML(list[0]);
 			}
-			//BL was commented
+			
+			list = core.http;
+			if (list.length()) {
+				ONYX_HTTP_ADAPTER = true;
+				ContentHttp.loadXML(list[0]);
+			}
+			else
+			{
+				ONYX_HTTP_ADAPTER = false;
+				
+			}
+			// must be after http for ONYX_TITLE
 			list = core.videopong;
 			if (list.length()) {
+				ONYX_VIDEOPONG_ADAPTER = true;
 				ContentVideoPong.loadXML(list[0]);
 			}
+			else
+			{
+				ONYX_VIDEOPONG_ADAPTER = false;
+			}	
 		}
 	}
 }

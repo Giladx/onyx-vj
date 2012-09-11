@@ -62,6 +62,7 @@
     <classEntry path="onyx.display.ContentRegistration"/>
     <classEntry path="onyx.display.ContentSprite"/>
     <classEntry path="onyx.display.ContentTransition"/>
+    <classEntry path="onyx.display.ContentVideoPong"/>
     <classEntry path="onyx.display.IDisplay"/>
     <classEntry path="onyx.display.LayerImplementor"/>
     <classEntry path="onyx.display.LayerSettings"/>
@@ -122,11 +123,13 @@
     <classEntry path="onyx.plugin.Macro"/>
     <classEntry path="onyx.plugin.Module"/>
     <classEntry path="onyx.plugin.ModuleInterfaceOptions"/>
+    <classEntry path="onyx.plugin.ONYX_HTTP_ADAPTER"/>
     <classEntry path="onyx.plugin.ONYX_LIBRARY_PATH"/>
     <classEntry path="onyx.plugin.ONYX_POINT_IDENTITY"/>
     <classEntry path="onyx.plugin.ONYX_TEMPOS"/>
     <classEntry path="onyx.plugin.ONYX_TEMPOS_WITHGLOBAL"/>
-    <classEntry path="onyx.plugin.ONYX_WEBSITE"/>
+    <classEntry path="onyx.plugin.ONYX_TITLE"/>
+    <classEntry path="onyx.plugin.ONYX_VIDEOPONG_ADAPTER"/>
     <classEntry path="onyx.plugin.Patch"/>
     <classEntry path="onyx.plugin.PixelBlenderFilter"/>
     <classEntry path="onyx.plugin.Plugin"/>
@@ -193,9 +196,9 @@
     <classEntry path="services.sound.events.SoundEvent"/>
   </includeClasses>
   <includeResources>
-    <resourceEntry destPath="assets/Pixel.ttf" sourcePath="assets/Pixel.ttf"/>
     <resourceEntry destPath="assets/camera.png" sourcePath="assets/camera.png"/>
     <resourceEntry destPath="assets/http.png" sourcePath="assets/http.png"/>
+    <resourceEntry destPath="assets/Pixel.ttf" sourcePath="assets/Pixel.ttf"/>
     <resourceEntry destPath="assets/videopong.png" sourcePath="assets/videopong.png"/>
   </includeResources>
   <namespaceManifests/>

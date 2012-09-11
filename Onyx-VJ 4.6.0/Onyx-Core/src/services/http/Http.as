@@ -17,6 +17,7 @@ package services.http
 		 * 	@private
 		 */
 		private static var _domain:String = '';
+		private static var _pathdefaultonx:String = '';
 		private var _folders:XML;
 		private var _assets:XML;
 		private var _folderResponse:uint;
@@ -43,6 +44,7 @@ package services.http
 		{
 			//Console.output( 'Http Constructor' );
 			_domain = '';
+			_pathdefaultonx = '';
 			// ask for folders tree
 			loadFoldersAndAssets();
 			super();
@@ -127,6 +129,17 @@ package services.http
 		public function set domain(value:String):void
 		{
 			_domain = value;
+		}
+		
+		public function get pathdefaultonx():String
+		{
+			//Console.output( "Http get pathdefaultonx:" + _pathdefaultonx ); 
+			return _pathdefaultonx;
+		}
+		
+		public function set pathdefaultonx(value:String):void
+		{
+			_pathdefaultonx = value;
 		}
 		
 		public function get folderResponse():uint

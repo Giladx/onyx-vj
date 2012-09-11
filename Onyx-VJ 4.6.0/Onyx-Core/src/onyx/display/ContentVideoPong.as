@@ -43,7 +43,9 @@ package onyx.display {
 					<login>{vp.username}</login>
 					<pwd>{vp.pwd}</pwd>
 					<domain>{vp.domain}</domain>
+					<pathdefaultonx>{vp.pathdefaultonx}</pathdefaultonx>
 					<appkey>{vp.appkey}</appkey>
+					<title>{ONYX_TITLE}</title>
 				</videopong>;
 			
 			
@@ -57,7 +59,9 @@ package onyx.display {
 			vp.username = xml.login;
 			vp.pwd = xml.pwd;
 			vp.domain = xml.domain;
+			vp.pathdefaultonx = xml.pathdefaultonx;
 			vp.appkey = xml.appkey;
+			ONYX_TITLE = xml.title;
 		}
 		
 		

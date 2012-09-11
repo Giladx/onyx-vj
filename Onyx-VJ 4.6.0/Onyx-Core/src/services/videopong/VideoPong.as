@@ -32,6 +32,7 @@ package services.videopong
 		private static var _username:String = '';
 		private static var _pwd:String = '';
 		private static var _domain:String = '';
+		private static var _pathdefaultonx:String = '';
 		private var _folders:XML;
 		private var _assets:XML;
 		private var _folderResponse:uint;
@@ -66,6 +67,7 @@ package services.videopong
 			_username = 'username';
 			_pwd = 'password';
 			_domain = '';
+			_pathdefaultonx = '';
 			
 			super();
 		}
@@ -246,6 +248,16 @@ package services.videopong
 		public function set domain(value:String):void
 		{
 			_domain = value;
+		}
+
+		public function get pathdefaultonx():String
+		{
+			return _pathdefaultonx;
+		}
+		
+		public function set pathdefaultonx(value:String):void
+		{
+			_pathdefaultonx = value;
 		}
 
 		public function get pwd():String

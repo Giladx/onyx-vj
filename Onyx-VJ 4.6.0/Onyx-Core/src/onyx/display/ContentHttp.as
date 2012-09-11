@@ -41,6 +41,8 @@ package onyx.display {
 			const xml:XML	= 
 				<Http>
 					<domain>{http.domain}</domain>
+					<pathdefaultonx>{http.pathdefaultonx}</pathdefaultonx>
+					<title>{ONYX_TITLE}</title>
 				</Http>;
 			
 			return xml;
@@ -51,6 +53,8 @@ package onyx.display {
 		 */
 		public static function loadXML( xml:XML ):void {
 			http.domain = xml.domain;
+			http.pathdefaultonx = xml.pathdefaultonx;
+			ONYX_TITLE = xml.title;
 		}
 		
 		

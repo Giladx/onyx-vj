@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2003-2010 "Onyx-VJ Team" which is comprised of:
+ * Copyright (c) 2003-2012 "Onyx-VJ Team" which is comprised of:
  *
  * Daniel Hai
  * Stefano Cottafavi
@@ -16,6 +16,6 @@
  */
 package onyx.plugin {
 		
-	public var ONYX_WEBSITE:String;
+	public var ONYX_VIDEOPONG_ADAPTER:Boolean;
 	
 }

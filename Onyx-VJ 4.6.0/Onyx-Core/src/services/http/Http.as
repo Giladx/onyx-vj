@@ -46,7 +46,7 @@ package services.http
 			_domain = '';
 			_pathdefaultonx = '';
 			// ask for folders tree
-			loadFoldersAndAssets();
+			//loadFoldersAndAssets();
 			super();
 		}
 		
@@ -72,7 +72,7 @@ package services.http
 			else
 			{
 				resultToDecode = event.currentTarget.data;
-				//Console.output( 'foldersTreeHandler result length:' + resultToDecode.length );
+				Console.output( 'foldersTreeHandler result length:' + resultToDecode.length );
 				arrayOfTextToDecode = resultToDecode.split( 'folderid' );
 				
 				// problem too long? 
@@ -86,6 +86,7 @@ package services.http
 					var tEvent:TextEvent = new TextEvent("foldersloaded");
 					tEvent.text = "Folders and assets tree loaded";
 					dispatchEvent( tEvent );
+					// added for http, remove for videopong?
 					//AssetFile.queryDirectory('onyx-query://http', updateList);
 				}
 

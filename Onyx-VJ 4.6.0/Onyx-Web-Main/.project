@@ -18,7 +18,7 @@
 		<link>
 			<name>bin-debug</name>
 			<type>2</type>
-			<location>C:/inetpub/wwwroot/onyx-web-main</location>
+			<location>C:/inetpub/wwwroot/onyx</location>
 		</link>
 	</linkedResources>
 </projectDescription>

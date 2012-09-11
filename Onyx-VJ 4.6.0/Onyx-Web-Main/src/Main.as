@@ -29,6 +29,7 @@ package {
 	import onyx.parameter.*;
 	import onyx.plugin.*;
 	
+	import services.http.Http;
 	import services.videopong.VideoPong;
 	
 	import ui.controls.*;
@@ -85,26 +86,8 @@ package {
 			Tempo				= new TempoImplementer();
 			
 			// find originating domain where SWF was loaded
-			/*var ldrURL:String = loaderInfo.loaderURL;
-			switch ( ldrURL.substr( 0, 16 ).toLowerCase() )
-			{
-				case 'https://www.vide':
-					ONYX_WEBSITE = 'v';
-					break;
-				case 'https://e-collec':
-					ONYX_WEBSITE = 'e';
-					break;
-				case 'http://www.batch':
-				case 'http://batchass.':
-					ONYX_WEBSITE = 'b';
-					break;
-				case 'http://localhost':
-					ONYX_WEBSITE = 'l';//BL put 'l'; after debug
-					break;
-				default:
-					ONYX_WEBSITE = 'o';
-					break;
-			}*/				
+			/*var ldrURL:String = loaderInfo.loaderURL;*/	
+			
 			// check first run and setup
 			checkFirstRun();
 		}
@@ -167,15 +150,22 @@ package {
 		private function loadDefaultOnx():void 
 		{
 			var path:String = '';
-			//TODO verify if vp section in settings.xml 
-			//TODO add html adapter section
-			const vp:VideoPong = VideoPong.getInstance();
-			// get the sessiontoken from flashvars
-			vp.sessiontoken = root.loaderInfo.parameters.sessiontoken;
-			//load folders from videopong
-			if ( vp.sessiontoken ) vp.loadFoldersAndAssets();
-			path = vp.domain + vp.pathdefaultonx;
-			
+			if (ONYX_VIDEOPONG_ADAPTER)
+			{
+				const vp:VideoPong = VideoPong.getInstance();
+				// get the sessiontoken from flashvars
+				vp.sessiontoken = root.loaderInfo.parameters.sessiontoken;
+				//load folders from videopong
+				if ( vp.sessiontoken ) vp.loadFoldersAndAssets();
+				path = vp.domain + vp.pathdefaultonx;
+				
+			}
+			if (ONYX_HTTP_ADAPTER)
+			{
+				const http:Http = Http.getInstance();
+				http.loadFoldersAndAssets();
+				path = http.domain + http.pathdefaultonx;
+			}
 			/*switch ( ONYX_WEBSITE )
 			{
 				case 'v':

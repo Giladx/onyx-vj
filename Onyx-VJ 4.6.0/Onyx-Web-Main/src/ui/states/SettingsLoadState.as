@@ -53,16 +53,17 @@ package ui.states {
 			loader.addEventListener(Event.COMPLETE, settingsHandler);
 			loader.addEventListener(IOErrorEvent.IO_ERROR, settingsHandler);
 
-			var req:URLRequest = new URLRequest('settings/settings.xml');
-			trace(req.url); 
 			// this url is specific to videopong.net
 			loader.load(new URLRequest('settings/settings.xml'));
+			//loader.load(new URLRequest('customer/ca/onyx/settings/settings.xml'));
 			// create the output display
 			Display			= new OutputDisplay();
+			Console.output('*  LOADING SETTINGS 5 *\n');
 			
 		}
 		private function settingsHandler(event:Event):void {
 			
+			Console.output('settingsHandler\n');
 			var loader:URLLoader = event.currentTarget as URLLoader;
 			loader.removeEventListener(Event.COMPLETE, settingsHandler);
 			loader.removeEventListener(IOErrorEvent.IO_ERROR, settingsHandler);
@@ -82,7 +83,7 @@ package ui.states {
 			{
 				Console.output( 'settingsHandler, IO Error loading: ' + (event as IOErrorEvent).text );
 			}
-			
+
 			applyCoreSettings();
 			
 			// kill the state

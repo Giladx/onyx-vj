@@ -166,33 +166,7 @@ package {
 				http.loadFoldersAndAssets();
 				path = http.domain + http.pathdefaultonx;
 			}
-			/*switch ( ONYX_WEBSITE )
-			{
-				case 'v':
-					// load default.onx
-					path = 'https://www.videopong.net/api/get_startupxml/replacethissessiontoken/default.onx';
-					
-					break;
-				case 'e':
-					// get the sessiontoken from flashvars
-					vp.sessiontoken = root.loaderInfo.parameters.sessiontoken;
-					// load default.onx
-					path = 'https://ecollection.fr/api/get_startupxml/replacethissessiontoken/default.onx';
-					
-					//load folders from videopong
-					if ( vp.sessiontoken ) vp.loadFoldersAndAssets();
-					break;
-				case 'b':
-					// load default.onx
-					path = 'http://www.batchass.fr/onyx/default.onx';
-					break;
-				case 'l':
-					// load default.onx
-					path = 'http://localhost/onyx-web-main/default.onx';		
-					break;
-				default:
-					break;
-			}	*/	
+			
 			if ( path.length > 0 )
 			{
 				const useTransition:Transition;

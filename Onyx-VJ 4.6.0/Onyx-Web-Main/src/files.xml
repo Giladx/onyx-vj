@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+<responsecode>0</responsecode>
+<listfolders>
+    <folder folderid="3" foldername="patches">
+        <subfolder>
+            <folder folderid="generative" foldername="generative patches" url="http://localhost/onyx/library/patches/generative"/>
+        </subfolder>
+    </folder>
+</listfolders>
+</Response>

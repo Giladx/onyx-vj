@@ -1,0 +1,27 @@
+<mix>
+  <metadata>
+    <version>4.5.330</version>
+  </metadata>
+  <display>
+    <position>
+      <channelBlend>PIXEL TRANSITION</channelBlend>
+      <channelMix>1.000</channelMix>
+      <framerate>25</framerate>
+    </position>
+    <filters/>
+    <layers>
+      <layer path="library/patches/generative/Brazil.swf" index="0">
+        <properties>
+          <blendMode>lighten</blendMode>
+          <loopEnd>0.965</loopEnd>
+          <time>0.954</time>
+        </properties>
+        <filters>
+          <filter id="BOUNCE" muted="{muted}">
+            <parameters/>
+          </filter>
+        </filters>
+      </layer>
+    </layers>
+  </display>
+</mix>

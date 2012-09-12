@@ -204,7 +204,7 @@ package ui.window {
 		 */
 		private function setHttpFolders( event:TextEvent ):void 
 		{
-			AssetFile.queryDirectory('onyx-query://http', updateList);
+			AssetFile.queryDirectory('onyx-query://httppr', updateList);
 			
 		}
 		/**
@@ -306,8 +306,8 @@ package ui.window {
 					
 					break;
 				case buttonHttp:
-					Console.output('onyx-query://http');
-					AssetFile.queryDirectory('onyx-query://http', updateList);
+					Console.output('onyx-query://httppr');
+					AssetFile.queryDirectory('onyx-query://httppr', updateList);
 					
 					break;
 			}

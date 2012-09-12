@@ -53,13 +53,11 @@ package ui.states {
 			loader.addEventListener(Event.COMPLETE, settingsHandler);
 			loader.addEventListener(IOErrorEvent.IO_ERROR, settingsHandler);
 
-			// this url is specific to videopong.net
 			loader.load(new URLRequest('settings/settings.xml'));
-			//loader.load(new URLRequest('customer/ca/onyx/settings/settings.xml'));
+
 			// create the output display
 			Display			= new OutputDisplay();
-			Console.output('*  LOADING SETTINGS 5 *\n');
-			
+
 		}
 		private function settingsHandler(event:Event):void {
 			
@@ -149,8 +147,7 @@ package ui.states {
 			}
 			else
 			{
-				ONYX_HTTP_ADAPTER = false;
-				
+				ONYX_HTTP_ADAPTER = false;			
 			}
 			// must be after http for ONYX_TITLE
 			list = core.videopong;

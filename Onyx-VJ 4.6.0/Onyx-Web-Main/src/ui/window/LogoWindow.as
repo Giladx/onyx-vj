@@ -78,21 +78,6 @@ package ui.window {
 			
 			_text.htmlText = '<font size="28" color="#DCC697" face="DefaultFont"><b>ONYX ' + VERSION + '</b></font><br>';
 			_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="21" COLOR="#e4eaef" KERNING="0">' + ONYX_TITLE + ' edition</font></textformat><br/>';
-			/*switch ( ONYX_WEBSITE )
-			{
-				case 'v':
-					_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="21" COLOR="#e4eaef" KERNING="0">Videopong edition</font></textformat><br/>';
-					break;
-				case 'e':
-					_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="21" COLOR="#e4eaef" KERNING="0">e-Collection edition</font></textformat><br/>';
-					break;
-				case 'b':
-					_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="21" COLOR="#e4eaef" KERNING="0">Batchass edition</font></textformat><br/>';
-					break;
-				default:
-					_text.htmlText += '<TEXTFORMAT LEADING="3"><FONT FACE="DefaultFont" SIZE="21" COLOR="#e4eaef" KERNING="0">Web edition</font></textformat><br/>';
-					break;
-			}	*/	
 			
 			addChild(_text);
 			

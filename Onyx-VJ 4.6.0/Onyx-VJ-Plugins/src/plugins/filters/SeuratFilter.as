@@ -38,7 +38,7 @@ package plugins.filters {
 
 			bmd_ = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0xFF000000);
 			parameters.addParameters(
-				new ParameterInteger('radius', 'radius', 3, 100, _radius),
+				new ParameterInteger('radius', 'radius', 6, 100, _radius),
 				new ParameterInteger('delay', 'delay', 3, 1000, _delay, 10)
 			);
 		}

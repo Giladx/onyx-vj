@@ -93,8 +93,9 @@ package plugins {
 				new Plugin('AutoCompose', 			AutoCompose,	'AutoCompose'),
 				
 				// transitions
-				new Plugin('Repeater Transition',	RepeaterTransition, 'Repeater Transition'),
 				new Plugin('Pixel Transition',		PixelTransition, 'Pixel Transition'),
+				new Plugin('Seurat Transition',	SeuratTransition, 'Seurat Transition'),
+				new Plugin('Repeater Transition',	RepeaterTransition, 'Repeater Transition'),
 				new Plugin('Blur Transition',		BlurTransition, 'Blurs the loaded layer'),
 				new Plugin('Threshold Transition',	ThresholdTransition, 'Threshold Transition'),
 				//new Plugin('Additive Transition',	AdditiveTransition, 'Additive Transition'),

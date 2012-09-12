@@ -194,6 +194,7 @@
     <classEntry path="services.sound.SoundImplementer"/>
     <classEntry path="services.sound.SoundProvider"/>
     <classEntry path="services.sound.events.SoundEvent"/>
+    <classEntry path="onyx.asset.HttpProtocol"/>
   </includeClasses>
   <includeResources>
     <resourceEntry destPath="assets/camera.png" sourcePath="assets/camera.png"/>

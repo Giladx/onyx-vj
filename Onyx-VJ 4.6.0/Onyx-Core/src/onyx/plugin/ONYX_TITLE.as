@@ -16,6 +16,6 @@
  */
 package onyx.plugin {
 		
-	public var ONYX_TITLE:String;
+	public var ONYX_TITLE:String = 'Web';
 	
 }

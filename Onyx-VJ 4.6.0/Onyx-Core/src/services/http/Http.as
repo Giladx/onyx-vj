@@ -22,7 +22,7 @@ package services.http
 		private var _assets:XML;
 		private var _folderResponse:uint;
 		private var resultToDecode:String = '';
-		private var arrayOfTextToDecode:Array;
+		//private var arrayOfTextToDecode:Array;
 		
 		/**
 		 * 	Http class instance
@@ -54,7 +54,7 @@ package services.http
 		{
 			var url:String = domain + '/onyx/files.xml';
 			var request:URLRequest = new URLRequest( url );
-			//Console.output( 'loadFoldersAndAssets: ' + url );
+			Console.output( 'loadFoldersAndAssets: ' + url );
 			
 			var loader:URLLoader = new URLLoader();
 			loader.addEventListener( Event.COMPLETE, foldersTreeHandler );
@@ -67,13 +67,13 @@ package services.http
 			Console.output( 'foldersTreeHandler event:' + event.toString() );*/
 			if (event is ErrorEvent) 
 			{
-				Console.output( 'Videopong foldersTree error: ' + (event as IOErrorEvent).text );
+				Console.output( 'foldersTreeHandler error: ' + (event as IOErrorEvent).text );
 			}
 			else
 			{
 				resultToDecode = event.currentTarget.data;
 				Console.output( 'foldersTreeHandler result length:' + resultToDecode.length );
-				arrayOfTextToDecode = resultToDecode.split( 'folderid' );
+				//arrayOfTextToDecode = resultToDecode.split( 'folderid' );
 				
 				// problem too long? 
 				//folders = XML(HtmlEntities.decode(resultToDecode));
@@ -87,7 +87,7 @@ package services.http
 					tEvent.text = "Folders and assets tree loaded";
 					dispatchEvent( tEvent );
 					// added for http, remove for videopong?
-					//AssetFile.queryDirectory('onyx-query://http', updateList);
+					//AssetFile.queryDirectory('onyx-query://httppr', updateList);
 				}
 
 			}

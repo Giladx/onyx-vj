@@ -27,6 +27,8 @@ package onyx.asset {
 	import onyx.plugin.*;
 	import onyx.utils.event.*;
 	
+	import services.http.Http;
+	
 	use namespace onyx_ns;
 	
 	/**
@@ -45,7 +47,8 @@ package onyx.asset {
 		onyx_ns static const protocols:Object	= {
 			camera: new CameraProtocol(),
 			linein: new MicProtocol(),
-			vdpong: new VideoPongProtocol()
+			vdpong: new VideoPongProtocol(),
+			httppr: new HttpProtocol()
 		};
 		
 		/**

@@ -35,7 +35,7 @@ package onyx.asset.vp {
 		private var assetUrl:String;
 		private var thumbUrl:String;
 		private var assetName:String;
-		private const label:TextField = new TextField();;
+		private const label:TextField = new TextField();
 		/**
 		 * 
 		 */

@@ -43,7 +43,7 @@ package services.videopong
 		private var timer:Timer;
 		private var resultToDecode:String = '';
 		private var tempStr:String = '';
-		private var arrayOfTextToDecode:Array;
+		//private var arrayOfTextToDecode:Array;
 		
 		/**
 		 * 	VideoPong class instance
@@ -141,7 +141,7 @@ package services.videopong
 			{
 				resultToDecode = event.currentTarget.data;
 				//Console.output( 'foldersTreeHandler result length:' + resultToDecode.length );
-				arrayOfTextToDecode = resultToDecode.split( 'folderid' );
+				//arrayOfTextToDecode = resultToDecode.split( 'folderid' );
 				
 				// problem too long? 
 				//folders = XML(HtmlEntities.decode(resultToDecode));

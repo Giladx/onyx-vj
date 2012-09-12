@@ -1,5 +1,6 @@
 package onyx.asset
 {
+	import onyx.asset.http.HttpprAsset;
 	import onyx.core.Console;
 	import onyx.display.ContentHttp;
 	import onyx.plugin.Content;
@@ -72,8 +73,7 @@ package onyx.asset
 						/*var decodedAssetName:String = HtmlEntities.decode(asset.@name);
 						var httpAsset:AssetFile = new HttpAsset( decodedAssetName, asset.@url, asset.@thumb_url );*/
 						//TODO check if need to decode
-						var httpAsset:AssetFile = new HttpAsset( asset.@name, false, '', asset.@url, asset.@thumb_url );
-						//var httpAsset:AssetFile = new HttpAsset( asset.@name, asset.@url, asset.@thumb_url );
+						var httpAsset:AssetFile = new HttpprAsset(asset.@name,  http.domain + asset.@url,  http.domain + asset.@thumb_url );
 						list.push( httpAsset );
 					}
 				}

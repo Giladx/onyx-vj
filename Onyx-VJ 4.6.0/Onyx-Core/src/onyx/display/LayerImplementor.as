@@ -134,7 +134,7 @@ package onyx.display {
 		 **/
 		public function load(path:String, settings:LayerSettings = null, transition:Transition = null):void {
 			
-			//if (DEBUG::SPLASHTIME==0) Console.output('LayerImplementor, LOADING ' + path);
+			//if (DEBUG::SPLASHTIME==0) trace('LayerImplementor, LOADING ' + path);
 			// query
 			AssetFile.queryContent(path, loadStatus, this, settings || new LayerSettings(), transition);
 			

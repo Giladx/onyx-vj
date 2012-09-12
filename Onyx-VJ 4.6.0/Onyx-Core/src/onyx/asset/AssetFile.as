@@ -21,6 +21,7 @@ package onyx.asset {
 	import flash.media.*;
 	import flash.utils.ByteArray;
 	
+	import onyx.asset.http.HttpContentQuery;
 	import onyx.asset.vp.VPContentQuery;
 	import onyx.core.*;
 	import onyx.display.*;
@@ -112,6 +113,14 @@ package onyx.asset {
 						new VPContentQuery( path, callback, layer, settings, transition );
 						return;
 					}
+					if ( p is HttpProtocol )
+					{
+						//BL remove:
+						Console.output('AssetFile, LOADING protocol: ' + protocol + ' LOADING' + path);
+						//Console.output('AssetFile, protocol known, LOADING ' + path);
+						new HttpContentQuery( path, callback, layer, settings, transition );
+						return;
+					}
 					if ( p is CameraProtocol )
 					{
 						Console.output('AssetFile, camera, LOADING ' + path);
@@ -125,7 +134,7 @@ package onyx.asset {
 				}
 			}
 
-			// fall through to the AIR adapter
+			// fall through to the AIR or http adapter
 			adapter.queryContent(path, callback, layer, settings, transition);
 		}
 		

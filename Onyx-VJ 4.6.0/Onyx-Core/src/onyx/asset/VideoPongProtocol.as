@@ -84,7 +84,7 @@ package onyx.asset {
 						//Console.output( asset.@name + '_'+asset.@url + ''+asset.@thumb_url );
 						
 						var decodedAssetName:String = HtmlEntities.decode(asset.@name);
-						var vpAsset:AssetFile = new VPAsset( decodedAssetName, asset.@url, asset.@thumb_url );
+						var vpAsset:AssetFile = new VPAsset( decodedAssetName, vp.domain + asset.@url, vp.domain + asset.@thumb_url );
 						list.push( vpAsset );
 					}
 				}

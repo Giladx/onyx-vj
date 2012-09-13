@@ -158,7 +158,6 @@ package {
 				//load folders from videopong
 				if ( vp.sessiontoken ) vp.loadFoldersAndAssets();
 				path = vp.domain + vp.pathdefaultonx;
-				
 			}
 			if (ONYX_HTTP_ADAPTER)
 			{

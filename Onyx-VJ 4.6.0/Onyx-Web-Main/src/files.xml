@@ -2,12 +2,12 @@
 <Response>
 <responsecode>0</responsecode>
 <listfolders>
-	<asset id="dopa" thumb_url="/onyx/library/patches/generative/thumbs/dopa.jpg" url="/onyx/library/patches/generative/Dopa.swf" name="Dopa" />
+	<asset id="batchass-load" thumb_url="/onyx/library/thumbs/batchass-load.jpg" url="/onyx/library/batchass-load.mp3" name="batchass-load" />
     <folder folderid="3" foldername="patches">
-    	<asset id="dopa" thumb_url="/onyx/library/patches/generative/thumbs/dopa.jpg" url="/onyx/library/patches/generative/Dopa.swf" name="Dopa" />
         <subfolder>
             <folder folderid="generative" foldername="generative patches" url="/onyx/library/patches/generative"/>
-            <asset id="dopa" thumb_url="/onyx/library/patches/generative/thumbs/dopa.jpg" url="/onyx/library/patches/generative/Dopa.swf" name="Dopa" />
+	    	<asset id="anima" thumb_url="/onyx/library/thumbs/anima.jpg" url="/onyx/library/patches/generative/Anima.swf" name="anima" />
+            <asset id="dopa" thumb_url="/onyx/library/thumbs/dopa.jpg" url="/onyx/library/patches/generative/Dopa.swf" name="Dopa" />
         </subfolder>
     </folder>
 </listfolders>

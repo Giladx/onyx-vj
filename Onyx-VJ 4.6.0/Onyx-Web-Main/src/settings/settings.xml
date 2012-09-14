@@ -2,7 +2,7 @@
 
 	<!-- META DATA -->
 	<metadata>
-		<version>4.5.3</version>
+		<version>4.6</version>
 	</metadata>
 
 	<init>
@@ -41,6 +41,11 @@
 		</blendModes>
 		
 		<!-- http settings -->
+<!-- 		<http> -->
+<!-- 			<domain>http://www.batchass.fr</domain> -->
+<!-- 			<pathdefaultonx>/onyx/default.onx</pathdefaultonx> -->
+<!-- 			<title>Batchass</title> -->
+<!-- 		</http> -->
 		<http>
 			<domain>http://localhost:81</domain>
 			<pathdefaultonx>/onyx/default.onx</pathdefaultonx>

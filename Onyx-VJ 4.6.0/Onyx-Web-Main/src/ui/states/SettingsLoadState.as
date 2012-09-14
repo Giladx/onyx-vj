@@ -52,8 +52,9 @@ package ui.states {
 			var loader:URLLoader = new URLLoader();
 			loader.addEventListener(Event.COMPLETE, settingsHandler);
 			loader.addEventListener(IOErrorEvent.IO_ERROR, settingsHandler);
-
-			loader.load(new URLRequest('settings/settings.xml'));
+			
+			// avoid cache
+			loader.load(new URLRequest('settings/settings.xml?ts=' + Math.random().toString()));
 
 			// create the output display
 			Display			= new OutputDisplay();

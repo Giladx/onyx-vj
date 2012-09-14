@@ -119,6 +119,7 @@ package ui.states {
 				new Plugin('Echo',					EchoFilter,		'Echo Filter', new AssetEcho().bitmapData),
 				new Plugin('Keying',				KeyingFilter,	'Keys a color out'),
 				new Plugin('Kaliedoscope', 			Kaliedoscope,	'Kaliedoscope', new AssetKalied().bitmapData),
+				new Plugin('GLFilter', 				GLFilter,		'GLFilter'),
 				new Plugin('Pixelate',				Pixelate,		'Pixelate', new AssetPixelate().bitmapData),
 				new Plugin('Blur', 					Blur,			'Blur Filter', new AssetBlur().bitmapData),
 				new Plugin('Halo', 					Halo,			'Halo Filter', new AssetHalo().bitmapData),
@@ -132,7 +133,7 @@ package ui.states {
 				new Plugin('Slit Scan',				SlitScan,		'Slit Scan', new AssetSlit().bitmapData),
 				new Plugin('Invert',				InvertFilter,	'Invert', new AssetInvert().bitmapData),
 				new Plugin('Pass Through',			PassThrough,	'Pass Through'),
-				new Plugin('Halftone Filter',			HalftoneFilter,	'Halftone Filter'),
+				new Plugin('Halftone Filter',		HalftoneFilter,	'Halftone Filter'),
 				new Plugin('Distort',				Distort,		'Distort'),
 				new Plugin('FrameSkip', 			FrameSkip,		'Frame Skip'),	
 				

@@ -180,7 +180,7 @@ package ui.window {
 			{
 				buttonHttp				= new TextButtonIcon(options, 'HTTP', new AssetHttp()),
 				buttonHttp.x			= 417,
-				buttonHttp.y			= 180;
+				buttonHttp.y			= 192;
 				buttonHttp.addEventListener(MouseEvent.MOUSE_DOWN, fileDown);
 				addChild(buttonHttp);
 				

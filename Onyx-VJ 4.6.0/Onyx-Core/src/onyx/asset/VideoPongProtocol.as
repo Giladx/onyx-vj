@@ -51,7 +51,15 @@ package onyx.asset {
 					{
 						//no subfolders
 						//add up folder button
-						subFolder = suffix.substr( 0, suffix.indexOf('/') );
+						var i:int = suffix.indexOf('/');
+						if ( i < 0 )
+						{
+							subFolder = '';
+						}
+						else
+						{
+							subFolder = suffix.substr( 0, i );							
+						}
 						//Console.output( 'VideoPongProtocol, no subfolders, we add the up one folder button to return to: ' + subFolder );
 						/*var decodedSFName:String = HtmlEntities.decode(subFolder);
 						list.push( new VideoPongAsset( '', true, decodedSFName ) );*/

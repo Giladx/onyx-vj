@@ -41,7 +41,15 @@ package onyx.asset
 					{
 						//no subfolders
 						//add up folder button
-						subFolder = suffix.substr( 0, suffix.indexOf('/') );
+						var i:int = suffix.indexOf('/');
+						if ( i < 0 )
+						{
+							subFolder = '';
+						}
+							else
+						{
+							subFolder = suffix.substr( 0, i );							
+						}
 						//Console.output( 'HttpProtocol, no subfolders, we add the up one folder button to return to: ' + subFolder );
 						list.push( new HttpAsset( '', true, subFolder ) );
 						assetsList = folders.listfolders.folder.(@foldername==subFolder).subfolder.folder.(@foldername==currentFolder).asset;

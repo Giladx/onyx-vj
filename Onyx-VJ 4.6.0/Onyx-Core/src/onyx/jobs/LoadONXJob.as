@@ -80,6 +80,7 @@ package onyx.jobs {
 			switch ( _path.substr( 0, 16 ).toLowerCase() )
 			{
 				case 'https://www.vide':
+				case 'https://www.ecol':
 					// load vp onx file
 					const vp:VideoPong = VideoPong.getInstance();
 					var sessionReplace:RegExp = /replacethissessiontoken/gi; // g:global i:ignore case

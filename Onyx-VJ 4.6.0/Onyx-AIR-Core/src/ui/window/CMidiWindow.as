@@ -47,7 +47,7 @@ package ui.window {
 	import ui.states.*;
 	
 	/**
-	 * 	Remote Mapping Window
+	 * 	Midi Window
 	 */
 	public final class CMidiWindow extends Window {
 		

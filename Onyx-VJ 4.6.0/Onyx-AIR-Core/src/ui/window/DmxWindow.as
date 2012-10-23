@@ -27,12 +27,9 @@ package ui.window {
 	
 	import onyx.asset.AssetFile;
 	import onyx.core.*;
-	import onyx.display.BlendModes;
-	import onyx.display.ContentCustom;
-	import onyx.display.LayerImplementor;
-	import onyx.display.OutputDisplay;
-	import onyx.parameter.Parameter;
-	import onyx.parameter.Parameters;
+	import onyx.display.*;
+	import onyx.events.ParameterEvent;
+	import onyx.parameter.*;
 	import onyx.plugin.*;
 	import onyx.system.NativeAppLauncher;
 	import onyx.tween.Tween;
@@ -49,17 +46,26 @@ package ui.window {
 	/**
 	 * 	Dmx Window
 	 */
-	public final class DmxWindow extends Window {
+	public final class DmxWindow extends Window implements IParameterObject {
 
 		private var pane:ScrollPane;
 		private var connectBtn:TextButton;
 		private var outputBtn:TextButton;
+		private var channelSlider:SliderV;
+		private var dataSlider:SliderV;
 
-		private var timer:Timer = new Timer(1000);
-		private var pathToExe:String = 'onyxdmx.exe';
-		private var tempText:String	= 'l';
 		private var appLauncher:NativeAppLauncher;		
-		
+		private var timer:Timer = new Timer(1000);
+		private var pathToExe:String 	= 'onyxdmx.exe';
+		private var tempText:String		= 'l';
+		private var _channel:int			= 2;
+		private var _data:int				= 2;
+
+		private const parameters:Parameters	= new Parameters(this as IParameterObject,
+			new ParameterInteger('channel', 'channel', 1, 20, 3),
+			new ParameterInteger('data', 'data', 1, 255, 3)
+		);
+			
 		/**
 		 * 	@Constructor
 		 */
@@ -91,7 +97,15 @@ package ui.window {
 			outputBtn				= new TextButton(options, 'send'),
 			outputBtn.addEventListener(MouseEvent.MOUSE_DOWN, outpMsg);
 			pane.addChild(outputBtn).y = (index++ * 15);
-						
+					
+			dataSlider				= Factory.getNewInstance(SliderV);
+			dataSlider.initialize(parameters.getParameter('data'), options);
+			pane.addChild(dataSlider).y = (index++ * 30);
+				
+			channelSlider				= Factory.getNewInstance(SliderV);
+			channelSlider.initialize(parameters.getParameter('channel'), options);
+			pane.addChild(channelSlider).y = (index++ * 30);
+				
 			appLauncher = new NativeAppLauncher(pathToExe);
 			appLauncher.addEventListener( Event.ACTIVATE, activate );
 			appLauncher.addEventListener( Event.CLOSE, closed );
@@ -107,8 +121,12 @@ package ui.window {
 		}
 		private function outpMsg(event:MouseEvent):void 
 		{
-			appLauncher.writeData('red');
+			appLauncher.writeData('chan 3');
 			event.stopPropagation();
+		}
+
+		public function getParameters():Parameters {
+			return parameters;
 		}
 		private function onTimer(event:TimerEvent):void 
 		{					
@@ -117,12 +135,10 @@ package ui.window {
 		private function activate(evt:Event):void
 		{
 			trace("activate");
-			//running = true;
 		}
 		private function closed(evt:Event):void
 		{
 			trace("closed");
-			//running = false;
 		}
 		/**
 		 * 
@@ -132,5 +148,31 @@ package ui.window {
 			// dispose
 			super.dispose(); 
 		}
+
+		public function get data():int
+		{
+			return _data;
+		}
+
+		public function set data(value:int):void
+		{
+			_data = value;
+			Console.output('sendind data',_data);
+			appLauncher.writeData('data ' + _data);
+		}
+
+		public function get channel():int
+		{
+			return _channel;
+		}
+
+		public function set channel(value:int):void
+		{
+			_channel = value;
+			Console.output('sendind channel',_channel);
+			appLauncher.writeData('chan ' + _channel);
+		}
+
+
 	}
 }

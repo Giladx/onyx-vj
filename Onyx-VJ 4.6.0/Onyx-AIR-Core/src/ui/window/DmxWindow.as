@@ -51,19 +51,28 @@ package ui.window {
 		private var pane:ScrollPane;
 		private var connectBtn:TextButton;
 		private var outputBtn:TextButton;
-		private var channelSlider:SliderV;
-		private var dataSlider:SliderV;
+		private var ichnSlider:SliderV;
+		private var rchnSlider:SliderV;
+		private var gchnSlider:SliderV;
+		private var bchnSlider:SliderV;
+		private var startaddrSlider:SliderV;
 
 		private var appLauncher:NativeAppLauncher;		
 		private var timer:Timer = new Timer(1000);
 		private var pathToExe:String 	= 'onyxdmx.exe';
 		private var tempText:String		= 'l';
-		private var _channel:int			= 2;
-		private var _data:int				= 2;
+		private var _ichn:int			= 0;
+		private var _rchn:int			= 0;
+		private var _gchn:int			= 0;
+		private var _bchn:int			= 0;
+		private var _startaddr:int		= 0;
 
 		private const parameters:Parameters	= new Parameters(this as IParameterObject,
-			new ParameterInteger('channel', 'channel', 1, 20, 3),
-			new ParameterInteger('data', 'data', 1, 255, 3)
+			new ParameterInteger('ichn', 'ichn', 0, 255, 0),
+			new ParameterInteger('rchn', 'rchn', 0, 255, 0),
+			new ParameterInteger('gchn', 'gchn', 0, 255, 0),
+			new ParameterInteger('bchn', 'bchn', 0, 255, 0),
+			new ParameterInteger('startaddr', 'startaddr', 0, 512, 0)
 		);
 			
 		/**
@@ -98,13 +107,25 @@ package ui.window {
 			outputBtn.addEventListener(MouseEvent.MOUSE_DOWN, outpMsg);
 			pane.addChild(outputBtn).y = (index++ * 15);
 					
-			dataSlider				= Factory.getNewInstance(SliderV);
-			dataSlider.initialize(parameters.getParameter('data'), options);
-			pane.addChild(dataSlider).y = (index++ * 30);
+			startaddrSlider				= Factory.getNewInstance(SliderV);
+			startaddrSlider.initialize(parameters.getParameter('startaddr'), options);
+			pane.addChild(startaddrSlider).y = (index++ * 30);
 				
-			channelSlider				= Factory.getNewInstance(SliderV);
-			channelSlider.initialize(parameters.getParameter('channel'), options);
-			pane.addChild(channelSlider).y = (index++ * 30);
+			ichnSlider				= Factory.getNewInstance(SliderV);
+			ichnSlider.initialize(parameters.getParameter('ichn'), options);
+			pane.addChild(ichnSlider).y = (index++ * 30);
+				
+			rchnSlider				= Factory.getNewInstance(SliderV);
+			rchnSlider.initialize(parameters.getParameter('rchn'), options);
+			pane.addChild(rchnSlider).y = (index++ * 30);
+				
+			gchnSlider				= Factory.getNewInstance(SliderV);
+			gchnSlider.initialize(parameters.getParameter('gchn'), options);
+			pane.addChild(gchnSlider).y = (index++ * 30);
+				
+			bchnSlider				= Factory.getNewInstance(SliderV);
+			bchnSlider.initialize(parameters.getParameter('bchn'), options);
+			pane.addChild(bchnSlider).y = (index++ * 30);
 				
 			appLauncher = new NativeAppLauncher(pathToExe);
 			appLauncher.addEventListener( Event.ACTIVATE, activate );
@@ -121,7 +142,7 @@ package ui.window {
 		}
 		private function outpMsg(event:MouseEvent):void 
 		{
-			appLauncher.writeData('chan 3');
+			//appLauncher.writeData('chan 3');
 			event.stopPropagation();
 		}
 
@@ -149,28 +170,64 @@ package ui.window {
 			super.dispose(); 
 		}
 
-		public function get data():int
+		public function get startaddr():int
 		{
-			return _data;
+			return _startaddr;
 		}
 
-		public function set data(value:int):void
+		public function set startaddr(value:int):void
 		{
-			_data = value;
-			Console.output('sendind data',_data);
-			appLauncher.writeData('data ' + _data);
+			_startaddr = value;
+			Console.output('sendind startaddr',_startaddr);
+			appLauncher.writeData('addr ' + _startaddr);
 		}
 
-		public function get channel():int
+		public function get ichn():int
 		{
-			return _channel;
+			return _ichn;
 		}
 
-		public function set channel(value:int):void
+		public function set ichn(value:int):void
 		{
-			_channel = value;
-			Console.output('sendind channel',_channel);
-			appLauncher.writeData('chan ' + _channel);
+			_ichn = value;
+			Console.output('sendind ichn',_ichn);
+			appLauncher.writeData('ichn ' + _ichn);
+		}
+
+		public function get rchn():int
+		{
+			return _rchn;
+		}
+
+		public function set rchn(value:int):void
+		{
+			_rchn = value;
+			Console.output('sendind rchn',_rchn);
+			appLauncher.writeData('rchn ' + _rchn);
+		}
+
+		public function get gchn():int
+		{
+			return _gchn;
+		}
+
+		public function set gchn(value:int):void
+		{
+			_gchn = value;
+			Console.output('sendind gchn',_gchn);
+			appLauncher.writeData('gchn ' + _gchn);
+		}
+
+		public function get bchn():int
+		{
+			return _bchn;
+		}
+
+		public function set bchn(value:int):void
+		{
+			_bchn = value;
+			Console.output('sendind bchn',_bchn);
+			appLauncher.writeData('bchn ' + _bchn);
 		}
 
 

@@ -13,9 +13,6 @@
     <classEntry path="onyx.asset.IAssetProtocol"/>
     <classEntry path="onyx.asset.MicAsset"/>
     <classEntry path="onyx.asset.MicProtocol"/>
-    <classEntry path="onyx.asset.VideoPongAsset"/>
-    <classEntry path="onyx.asset.VideoPongProtocol"/>
-    <classEntry path="onyx.asset.VideoPongThumbnail"/>
     <classEntry path="onyx.asset.air.AIRAdapter"/>
     <classEntry path="onyx.asset.air.AIRAsset"/>
     <classEntry path="onyx.asset.air.AIRContentQuery"/>
@@ -30,9 +27,6 @@
     <classEntry path="onyx.asset.http.HTTPDirectoryQuery"/>
     <classEntry path="onyx.asset.http.HTTPReadQuery"/>
     <classEntry path="onyx.asset.vp.VPAdapter"/>
-    <classEntry path="onyx.asset.vp.VPAsset"/>
-    <classEntry path="onyx.asset.vp.VPContentQuery"/>
-    <classEntry path="onyx.asset.vp.VPDirectoryQuery"/>
     <classEntry path="onyx.asset.vp.VP_ROOT"/>
     <classEntry path="onyx.core.ONRFile"/>
     <classEntry path="onyx.system.NativeAppLauncher"/>

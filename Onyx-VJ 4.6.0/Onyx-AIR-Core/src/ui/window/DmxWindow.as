@@ -93,7 +93,7 @@ package ui.window {
 		private function init():void 
 		{
 			var index:int = 0;			
-			pane		= new ScrollPane(242, 100);
+			pane		= new ScrollPane(242, 190);
 			pane.x		= 3;
 			pane.y		= 18;
 			addChild(pane);

@@ -15,7 +15,7 @@ package
 	
 	public class ImageSequence extends Patch 
 	{			
-		private var _folder:String = 'assets/fox072012/';
+		private var _folder:String = 'assets/light/3/';
 		private var sprite:Sprite;
 		private var _speed:int	= 1000;
 		private var ms:int;
@@ -49,6 +49,7 @@ package
 					var imgFile:File = new File( AssetFile.resolvePath( 'library/'+ folder + cnt + '.png' ) );
 					if ( imgFile.exists )
 					{
+						trace(cnt);
 						var loader:Loader = new Loader();
 						loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadHandler);
 

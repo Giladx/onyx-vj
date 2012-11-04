@@ -21,7 +21,7 @@ package
 	
 	public class AuralSynapse extends Patch 
 	{
-		public  var retang:Shape;
+		//public  var retang:Shape;
 		public  var circs:uint;
 		public  var circulos:Array;
 		public  var alt:int, larg:int;
@@ -36,11 +36,11 @@ package
 			circulos = new Array(circs);
 			alt = DISPLAY_HEIGHT;
 			larg = DISPLAY_WIDTH;
-			blur = [new BlurFilter(100, 100, 3)];
-			retang = new Shape();
+			blur = [new BlurFilter(10, 10, 3)];
+			/*retang = new Shape();
 			retang.graphics.beginFill(0);
 			retang.graphics.drawRect(0, 0, larg, alt);
-			sprite.addChild(retang);
+			sprite.addChild(retang);*/
 			for(var i:uint = 0; i < circs; i++) {
 				circulos[i] = new Brilho(Math.random() * larg, Math.random() * alt, blur);
 				sprite.addChild(circulos[i]);

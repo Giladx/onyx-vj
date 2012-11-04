@@ -130,13 +130,13 @@ package ui.window {
 			connectBtn.addEventListener(MouseEvent.MOUSE_DOWN, start);
 			pane.addChild(connectBtn).y = (index++ * 15);		
 			
-			loopbeBtn				= new TextButton(options, 'inpt loopbe'),
-			loopbeBtn.addEventListener(MouseEvent.MOUSE_DOWN, loopBeMsg);
-			pane.addChild(loopbeBtn).y = (index++ * 15);
-			
 			listBtn				= new TextButton(options, 'list'),
 			listBtn.addEventListener(MouseEvent.MOUSE_DOWN, listMsg);
 			pane.addChild(listBtn).y = (index++ * 15);
+			
+			loopbeBtn				= new TextButton(options, 'inpt loopbe'),
+			loopbeBtn.addEventListener(MouseEvent.MOUSE_DOWN, loopBeMsg);
+			pane.addChild(loopbeBtn).y = (index++ * 15);
 			
 			nanoBtn					= new TextButton(options, 'inpt nano'),
 			nanoBtn.addEventListener(MouseEvent.MOUSE_DOWN, nanoMsg);
@@ -377,38 +377,10 @@ package ui.window {
 					// fade chopDown
 					case 93:
 						Command.echo('darken');
-						/*if ( fadeFilterActive == false ) 
-						{
-							fadeFilterActive = true;
-							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
-							fadeFilter.setParameterValue('feedBlend', 'darken');
-							fadeFilter.setParameterValue('feedAlpha', .7);
-							Display.addFilter(fadeFilter);						
-						}
-						else
-						{			
-							fadeFilterActive = false;
-							Display.removeFilter(fadeFilter);
-							fadeFilter = null;
-						}*/
 						break;
 					// fade chopUp
 					case 94:
 						Command.echo('lighten');
-						/*if ( fadeFilterActive == false ) 
-						{
-							fadeFilterActive = true;
-							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
-							fadeFilter.setParameterValue('feedBlend', 'lighten');
-							fadeFilter.setParameterValue('feedAlpha', .7);
-							Display.addFilter(fadeFilter);						
-						}
-						else
-						{			
-							fadeFilterActive = false;
-							Display.removeFilter(fadeFilter);
-							fadeFilter = null;
-						}*/
 						break;
 					case 95:
 						if (Display.brightness < 0)
@@ -464,38 +436,10 @@ package ui.window {
 					// fade screen
 					case 89:
 						Command.echo('screen');
-						/*if ( fadeFilterActive == false ) 
-						{
-							fadeFilterActive = true;
-							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
-							fadeFilter.setParameterValue('feedBlend', 'screen');
-							fadeFilter.setParameterValue('feedAlpha', .6);
-							Display.addFilter(fadeFilter);						
-						}
-						else
-						{			
-							fadeFilterActive = false;
-							Display.removeFilter(fadeFilter);
-							fadeFilter = null;
-						}*/
 						break;
 					// fade multiply
 					case 90:
 						Command.echo('multiply');
-						/*if ( fadeFilterActive == false ) 
-						{
-							fadeFilterActive = true;
-							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
-							fadeFilter.setParameterValue('feedBlend', 'multiply');
-							fadeFilter.setParameterValue('feedAlpha', .6);
-							Display.addFilter(fadeFilter);						
-						}
-						else
-						{			
-							fadeFilterActive = false;
-							Display.removeFilter(fadeFilter);
-							fadeFilter = null;
-						}*/
 						break;
 					// random blend
 					case 91:
@@ -738,62 +682,13 @@ package ui.window {
 						const prop:TweenProperty = (Display.channelMix > .5) ? new TweenProperty('channelMix', Display.channelMix, 0) : new TweenProperty('channelMix', Display.channelMix, 1);					
 						new Tween( Display, 4000, prop );
 						break;
-					//2nd line visibility
-					case 48:
-						if (layer.visible)
-						{
-							tween = new Tween(
-								layer,
-								250,
-								new TweenProperty('alpha', layer.alpha, 0)
-							);
-							tween.addEventListener(Event.COMPLETE, tweenFinish);
-						} 
-						else 
-						{
-							layer.visible = true;
-							tween = new Tween(
-								layer,
-								250,
-								new TweenProperty('alpha', 0, 1)
-							);
-						}
-						break;
 					// fade chopDown
 					case 93:
 						Command.echo('darken');
-						/*if ( fadeFilterActive == false ) 
-						{
-							fadeFilterActive = true;
-							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
-							fadeFilter.setParameterValue('feedBlend', 'darken');
-							fadeFilter.setParameterValue('feedAlpha', .7);
-							Display.addFilter(fadeFilter);						
-						}
-						else
-						{			
-							fadeFilterActive = false;
-							Display.removeFilter(fadeFilter);
-							fadeFilter = null;
-						}*/
 						break;
 					// fade chopUp
 					case 94:
 						Command.echo('lighten');
-						/*if ( fadeFilterActive == false ) 
-						{
-							fadeFilterActive = true;
-							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
-							fadeFilter.setParameterValue('feedBlend', 'lighten');
-							fadeFilter.setParameterValue('feedAlpha', .7);
-							Display.addFilter(fadeFilter);						
-						}
-						else
-						{			
-							fadeFilterActive = false;
-							Display.removeFilter(fadeFilter);
-							fadeFilter = null;
-						}*/
 						break;
 					case 95:
 						new Tween(
@@ -802,7 +697,54 @@ package ui.window {
 							new TweenProperty('brightness', Display.brightness, (Display.brightness < 0) ? 0 : -1)
 						)
 						break;
-					case 39:
+					//layer 1 to 5 reverse R buttons
+					case 64:
+					case 65:
+					case 66:
+					case 67:
+					case 68:
+						previousLayer = selectedLayer;
+						selectedLayer = noteon - 64;
+						UILayer.selectLayer(selectedLayer);
+						layer = Display.getLayerAt(selectedLayer);
+						layer.framerate *= -1;
+						selectedLayer = previousLayer;
+						UILayer.selectLayer(selectedLayer);
+						layer = Display.getLayerAt(selectedLayer);
+						break;
+					//layer 1 to 5 mute M buttons
+					case 48:
+					case 49:
+					case 50:
+					case 51:
+					case 52:
+						previousLayer = selectedLayer;
+						selectedLayer = noteon - 48;
+						UILayer.selectLayer(selectedLayer);
+						layer = Display.getLayerAt(selectedLayer);
+						if (velocity == 127)
+						{
+							tween = new Tween(
+								layer,
+								250,
+								new TweenProperty('alpha', layer.alpha, 0)
+							);
+							tween.addEventListener(Event.COMPLETE, tweenFinish);
+						}
+						else
+						{
+							layer.visible = true;
+							tween = new Tween(
+								layer,
+								250,
+								new TweenProperty('alpha', 0, 1)
+							);
+						}
+						selectedLayer = previousLayer;
+						UILayer.selectLayer(selectedLayer);
+						layer = Display.getLayerAt(selectedLayer);
+						break;
+					case 53:		
 						if (layer.paused) 
 						{
 							layer.pause(false);
@@ -836,38 +778,10 @@ package ui.window {
 					// fade screen
 					case 38:
 						Command.echo('screen');
-						/*if ( fadeFilterActive == false ) 
-						{
-							fadeFilterActive = true;
-							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
-							fadeFilter.setParameterValue('feedBlend', 'screen');
-							fadeFilter.setParameterValue('feedAlpha', .6);
-							Display.addFilter(fadeFilter);						
-						}
-						else
-						{			
-							fadeFilterActive = false;
-							Display.removeFilter(fadeFilter);
-							fadeFilter = null;
-						}*/
 						break;
 					// fade multiply
 					case 54:
 						Command.echo('multiply');
-						/*if ( fadeFilterActive == false ) 
-						{
-							fadeFilterActive = true;
-							fadeFilter = PluginManager.createFilter('ECHO') as Filter;
-							fadeFilter.setParameterValue('feedBlend', 'multiply');
-							fadeFilter.setParameterValue('feedAlpha', .6);
-							Display.addFilter(fadeFilter);						
-						}
-						else
-						{			
-							fadeFilterActive = false;
-							Display.removeFilter(fadeFilter);
-							fadeFilter = null;
-						}*/
 						break;
 					// random blend
 					case 55:
@@ -894,11 +808,6 @@ package ui.window {
 							}
 							hashCurrentBlendModes = null;
 						}
-						break;
-					
-					//4th line: bounce
-					case 64:
-						layer.framerate	*= -1;
 						break;
 					// random 3D distort
 					case 37:				
@@ -1064,6 +973,16 @@ package ui.window {
 						{
 							trace("layer null");
 						}
+						break;
+					case 16:
+						trace("layer.totalTime:"+layer.totalTime);
+						trace("layer.loopStart:"+layer.loopStart);
+						trace("layer.loopEnd:"+layer.loopEnd);
+						trace("layer.time:"+layer.time);
+						layer.loopStart = velocity/100;//between 0 and 1
+						break;
+					case 17:
+						layer.loopEnd = velocity/100;
 						break;
 					default:
 						

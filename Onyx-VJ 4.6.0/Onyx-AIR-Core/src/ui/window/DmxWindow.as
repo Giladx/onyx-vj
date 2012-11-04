@@ -93,7 +93,7 @@ package ui.window {
 		private function init():void 
 		{
 			var index:int = 0;			
-			pane		= new ScrollPane(242, 190);
+			pane		= new ScrollPane(121, 190);
 			pane.x		= 3;
 			pane.y		= 18;
 			addChild(pane);
@@ -109,23 +109,23 @@ package ui.window {
 					
 			startaddrSlider				= Factory.getNewInstance(SliderV);
 			startaddrSlider.initialize(parameters.getParameter('startaddr'), options);
-			pane.addChild(startaddrSlider).y = (index++ * 30);
+			pane.addChild(startaddrSlider).y = (index++ * 20);
 				
 			ichnSlider				= Factory.getNewInstance(SliderV);
 			ichnSlider.initialize(parameters.getParameter('ichn'), options);
-			pane.addChild(ichnSlider).y = (index++ * 30);
+			pane.addChild(ichnSlider).y = (index++ * 20);
 				
 			rchnSlider				= Factory.getNewInstance(SliderV);
 			rchnSlider.initialize(parameters.getParameter('rchn'), options);
-			pane.addChild(rchnSlider).y = (index++ * 30);
+			pane.addChild(rchnSlider).y = (index++ * 20);
 				
 			gchnSlider				= Factory.getNewInstance(SliderV);
 			gchnSlider.initialize(parameters.getParameter('gchn'), options);
-			pane.addChild(gchnSlider).y = (index++ * 30);
+			pane.addChild(gchnSlider).y = (index++ * 20);
 				
 			bchnSlider				= Factory.getNewInstance(SliderV);
 			bchnSlider.initialize(parameters.getParameter('bchn'), options);
-			pane.addChild(bchnSlider).y = (index++ * 30);
+			pane.addChild(bchnSlider).y = (index++ * 20);
 				
 			appLauncher = new NativeAppLauncher(pathToExe);
 			appLauncher.addEventListener( Event.ACTIVATE, activate );

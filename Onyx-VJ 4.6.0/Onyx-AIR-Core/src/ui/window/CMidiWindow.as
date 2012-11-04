@@ -57,6 +57,8 @@ package ui.window {
 		private var pane:ScrollPane;
 		private var connectBtn:TextButton;
 		private var outputBtn:TextButton;
+		private var listBtn:TextButton;
+		private var loopbeBtn:TextButton;
 		private var nanoBtn:TextButton;
 		private var resetBtn:TextButton;
 		private var lightAllBtn:TextButton;
@@ -128,8 +130,16 @@ package ui.window {
 			connectBtn.addEventListener(MouseEvent.MOUSE_DOWN, start);
 			pane.addChild(connectBtn).y = (index++ * 15);		
 			
-			nanoBtn					= new TextButton(options, 'inpt loopbe'),
-			nanoBtn.addEventListener(MouseEvent.MOUSE_DOWN, loopBeMsg);
+			loopbeBtn				= new TextButton(options, 'inpt loopbe'),
+			loopbeBtn.addEventListener(MouseEvent.MOUSE_DOWN, loopBeMsg);
+			pane.addChild(loopbeBtn).y = (index++ * 15);
+			
+			listBtn				= new TextButton(options, 'list'),
+			listBtn.addEventListener(MouseEvent.MOUSE_DOWN, listMsg);
+			pane.addChild(listBtn).y = (index++ * 15);
+			
+			nanoBtn					= new TextButton(options, 'inpt nano'),
+			nanoBtn.addEventListener(MouseEvent.MOUSE_DOWN, nanoMsg);
 			pane.addChild(nanoBtn).y = (index++ * 15);
 			
 			outputBtn				= new TextButton(options, 'outp launchpad'),
@@ -164,11 +174,22 @@ package ui.window {
 			appLauncher.launchExe();
 			event.stopPropagation();
 		}
+		private function listMsg(event:MouseEvent):void 
+		{
+			appLauncher.writeData('list');
+			event.stopPropagation();
+		}
 		private function loopBeMsg(event:MouseEvent):void 
 		{
 			appLauncher.writeData('list');
-			//appLauncher.writeData('outp launchpad');
 			appLauncher.writeData('inpt loopbe');	
+			layer = Display.getLayerAt(selectedLayer);
+			event.stopPropagation();
+		}
+		private function nanoMsg(event:MouseEvent):void 
+		{
+			appLauncher.writeData('list');
+			appLauncher.writeData('inpt nano');	
 			layer = Display.getLayerAt(selectedLayer);
 			event.stopPropagation();
 		}

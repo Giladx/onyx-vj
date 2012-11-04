@@ -14,6 +14,7 @@ package
 	import flash.events.*;
 	import flash.filters.BlurFilter;
 	import flash.utils.Timer;
+	import flash.utils.getTimer;
 	
 	import onyx.core.*;
 	import onyx.parameter.*;
@@ -25,42 +26,79 @@ package
 		public  var circs:uint;
 		public  var circulos:Array;
 		public  var alt:int, larg:int;
-		public  var blur:Array;
+		public  var blurFilter:Array;
 		private var sprite:Sprite;
-		private var timer:Timer;
-		
+		private var _ms:int = 40;
+		private var _blur:int = 10;
+		private var _ctime:Number = 0;
+	
 		public function AuralSynapse() 
 		{
+			parameters.addParameters(
+				new ParameterInteger( 'ms', 'ms:', 1, 1000, _ms ),
+				new ParameterInteger( 'blur', 'blur:', 1, 100, _blur ),
+				new ParameterExecuteFunction('draw', 'draw circle')
+			);
 			sprite = new Sprite();
 			circs = 6;
 			circulos = new Array(circs);
 			alt = DISPLAY_HEIGHT;
 			larg = DISPLAY_WIDTH;
-			blur = [new BlurFilter(10, 10, 3)];
-			/*retang = new Shape();
-			retang.graphics.beginFill(0);
-			retang.graphics.drawRect(0, 0, larg, alt);
-			sprite.addChild(retang);*/
-			for(var i:uint = 0; i < circs; i++) {
-				circulos[i] = new Brilho(Math.random() * larg, Math.random() * alt, blur);
+			blurFilter = [new BlurFilter(blur, blur, 3)];
+			for(var i:uint = 0; i < circulos.length-1; i++) {
+				circulos[i] = new Brilho(Math.random() * larg, Math.random() * alt, blurFilter);
 				sprite.addChild(circulos[i]);
 			}
-			timer = new Timer(40);
-			timer.addEventListener(TimerEvent.TIMER, onTimer);
-			timer.start();
+			_ctime = getTimer();
 		}
-		private function onTimer(evt:TimerEvent):void 
+		public function draw():void
 		{
-			for(var i:uint = 0; i < circs; i++) circulos[i].avancar(larg, alt);
-			
+			blurFilter = null;
+			blurFilter = [new BlurFilter(blur, blur, 3)];
+			circs++;
+			sprite.removeChildren();
+			circulos = null;
+			circulos = new Array(circs);
+			for(var i:uint = 0; i < circulos.length-1; i++) {
+				circulos[i] = new Brilho(Math.random() * larg, Math.random() * alt, blurFilter);
+				sprite.addChild(circulos[i]);
+			}
 		}
+		
 		override public function render(info:RenderInfo):void 
 		{
+			if ( getTimer() - _ctime > ms ) 
+			{
+				_ctime = getTimer();
+				for(var i:uint = 0; i < circulos.length-1; i++) circulos[i].avancar(larg, alt);
+			}
 			info.render( sprite );
 		}
 		override public function dispose():void {
 			
 		}
+
+		public function get ms():int
+		{
+			return _ms;
+		}
+
+		public function set ms(value:int):void
+		{
+			_ms = value;
+		}
+
+		public function get blur():int
+		{
+			return _blur;
+		}
+
+		public function set blur(value:int):void
+		{
+			_blur = value;
+		}
+
+
 	}
 }
 import flash.display.Shape;

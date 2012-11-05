@@ -1,0 +1,6 @@
+SET AIR_SDK=C:\Users\b.lane\Documents\flex_sdk_4.6.0.23201B
+SET ANE_PATH=..\..\PenTabletLib\bin
+
+rem "%AIR_SDK%\bin\adt.bat" -package -XnoAneValidate -storetype pkcs12 -keystore test.p12 -storepass test -target native Onyx-VJ OnyxVJ-app.xml OnyxVJ.swf -C ..\src icons root assets -extdir "%ANE_PATH%"
+"%AIR_SDK%\bin\adt.bat" -package -XnoAneValidate -storetype pkcs12 -keystore test.p12 -storepass test -target native Onyx-VJ OnyxVJ-app.xml OnyxVJ.swf -C ..\src icons root assets -extdir "%ANE_PATH%"
+pause

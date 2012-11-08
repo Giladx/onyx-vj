@@ -1,0 +1,25 @@
+DllMain called: 1
+CreateThread result:000002C4
+DllMain called: 2
+CreateAppThread called
+DllMain called: 2
+DllMain called: 2
+DllMain called: 2
+DllMain called: 2
+DllMain called: 3
+DllMain called: 3
+DllMain called: 3
+DllMain called: 0
+DllMain called: 1
+CreateThread result:000002AC
+DllMain called: 2
+CreateAppThread called
+DllMain called: 2
+DllMain called: 2
+DllMain called: 2
+DllMain called: 2
+DllMain called: 3
+DllMain called: 3
+DllMain called: 3
+DllMain called: 3
+DllMain called: 0

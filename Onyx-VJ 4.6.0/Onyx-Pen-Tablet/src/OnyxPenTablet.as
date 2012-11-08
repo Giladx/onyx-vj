@@ -8,16 +8,18 @@ package
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.text.TextField;
+	import components.DLConnection;
 	
-	[SWF(frameRate="60")]
-	
+	[SWF(frameRate="60",width="800",height="600",backgroundColor="#141515")]
 	public class OnyxPenTablet extends Sprite
 	{
 		private var output:TextField;
 		private var tablet:PenTablet;
+		private var cnx:DLConnection = DLConnection.getInstance();
 		
 		public function OnyxPenTablet()
 		{
+			cnx.connect("60000");
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			
@@ -27,16 +29,22 @@ package
 			output.mouseEnabled = false;
 			
 			tablet = new PenTablet();
-			log('Context: '+PenTablet.context);
 			
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
 			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
 			
 			addChild(output);
+			log('Context: '+PenTablet.context + ' connected:' + cnx.isConnected);
+			if (cnx.isConnected)
+			{
+				cnx.sendData( {type:"toggle-cross-fader", value:1}  );
+				
+			}
 		}
 		
 		protected function mouseDownHandler(ev:MouseEvent):void
 		{
+			cnx.sendData( {type:"x", value:mouseX}  );
 			graphics.moveTo(mouseX, mouseY);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 		}
@@ -48,6 +56,7 @@ package
 			{
 				pressure = tablet.getPressure();
 				log('Pressure: '+pressure);
+				cnx.sendData( {type:"pressure", value:pressure}  );
 			}
 			catch(e:*)
 			{

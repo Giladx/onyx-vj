@@ -15,7 +15,7 @@
 
 	<!-- A universally unique application identifier. Must be unique across all AIR applications.
 	Using a reverse DNS-style name as the id is recommended. (Eg. com.example.ExampleApplication.) Required. -->
-	<id>com.magicalhobo.OnyxPenTablet</id>
+	<id>fr.batchass.OnyxPenTablet</id>
 
 	<!-- Used as the filename for the application. Required. -->
 	<filename>OnyxPenTablet</filename>
@@ -115,7 +115,7 @@
 	<!-- devices supported by AIR. If you wish to restrict deployment -->
 	<!-- (i.e., to only mobile devices) then add this element and list -->
 	<!-- only the profiles which your application does support. -->
-	<!-- <supportedProfiles>desktop extendedDesktop mobileDevice extendedMobileDevice</supportedProfiles> -->
+	<supportedProfiles>extendedDesktop</supportedProfiles>
 
 	<!-- The subpath of the standard default installation location to use. Optional. -->
 	<!-- <installFolder></installFolder> -->

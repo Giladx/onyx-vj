@@ -1,21 +1,21 @@
 package
 {
 	import com.magicalhobo.utils.PenTablet;
-	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.text.TextField;
-	import components.DLConnection;
+	
+	import services.remote.DirectLanConnection;
 	
 	[SWF(frameRate="60",width="800",height="600",backgroundColor="#141515")]
 	public class OnyxPenTablet extends Sprite
 	{
 		private var output:TextField;
 		private var tablet:PenTablet;
-		private var cnx:DLConnection = DLConnection.getInstance();
+		private var cnx:DirectLanConnection = DirectLanConnection.getInstance("PenTablet");
 		
 		public function OnyxPenTablet()
 		{

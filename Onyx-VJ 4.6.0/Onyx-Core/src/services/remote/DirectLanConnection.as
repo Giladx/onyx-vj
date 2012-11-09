@@ -4,28 +4,32 @@ package services.remote
 	import flash.net.GroupSpecifier;
 	import flash.net.NetConnection;
 	import flash.net.NetGroup;
-
+	import flash.events.EventDispatcher;
+	
+	
 	/**
 	 * Creates a direct connection over wifi and is totally independant from any other class in this library 
 	 * @author reyco1
 	 * 
 	 */	
-	public class DirectLanConnection
+	[Event(name="connected", type="flash.events.TextEvent")]
+	public class DirectLanConnection extends EventDispatcher
 	{
 		private var netConnection:NetConnection;
 		private var group:NetGroup;
 		private const CirrusAddress:String = "rtmfp://p2p.rtmfp.net";
-		private const DeveloperKey:String = "";
+		private var _developerKey:String = "";
 
 			
 		/**
 		 * Boolean value indicating if the connection is establised 
 		 */		
-		public var isConnected:Boolean;	
+		private static var _isConnected:Boolean = false;
 		/**
 		 * The port this connection is on 
 		 */		
 		public var port:String;
+
 		/**
 		 * Method that should be executed when data is recieved (should have one argument to hold the object returned from the NetStatusEvent : event.info.message)
 		 */		
@@ -35,16 +39,64 @@ package services.remote
 		 */		
 		public var onConnect:Function;
 		
+		private static var cnxInstance:DirectLanConnection;
+		private static var numLayers:int = 0;
+		private static var _clientName:String;
 		
+		public static function getInstance(clientName:String):DirectLanConnection
+		{
+			if (cnxInstance == null)
+			{
+				cnxInstance = new DirectLanConnection();
+				cnxInstance.onConnect = handleConnectToService;
+				cnxInstance.onDataReceive = handleGetObject;
+				_clientName = clientName;
+			}
+			
+			return cnxInstance;
+		}		
 		/**
 		 * Creates an instance of DirectLanConnection  
 		 * 
 		 */		
 		public function DirectLanConnection()
 		{
-			isConnected = false;
 		}
-		
+		protected static function handleConnectToService(user:Object):void
+		{
+			
+			cnxInstance.sendData({type:"cnx", value:_clientName });			
+		}
+		protected static function handleGetObject(dataReceived:Object):void
+		{
+			// received
+			switch ( dataReceived.type.toString() ) 
+			{ 
+				case "msg":
+					
+					break;
+				
+				case "layer":
+					if ( numLayers == 0 )
+					{
+						
+					}
+					else
+					{
+						
+					}
+					break;
+				case "layers":
+					numLayers = dataReceived.value;
+					//navigator.pushView( LayersView, dataReceived );
+					
+					cnxInstance.sendData( {type:"layerbtn", value:"created" }  );
+					break;
+				default: 
+					
+					break;
+			}
+		}		
 		/**
 		 * Establishes a direct connection. If the connectionPortId is privided, then the connection will be established over wifi the other instance of DirectLanConnection on that port.
 		 * If the argument is not provided, then this instance will be connected to a random port and the "port" property will be set.
@@ -146,6 +198,24 @@ package services.remote
 		public function memberCount():String
 		{
 			return group == null ? "no group" : group.estimatedMemberCount.toString();
+		}
+		public function get DeveloperKey():String
+		{
+			return _developerKey;
+		}
+		
+		public function set DeveloperKey(value:String):void
+		{
+			_developerKey = value;
+		}
+		public function get isConnected():Boolean
+		{
+			return _isConnected;
+		}
+		
+		public function set isConnected( value:Boolean ):void
+		{
+			_isConnected = value;
 		}
 	}
 }

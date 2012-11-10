@@ -10,7 +10,14 @@ package
 	import flash.text.TextField;
 	
 	import services.remote.DirectLanConnection;
+	/*
+	Use this cmd file to generate exe
+	SET AIR_SDK=%USERPROFILE%\Documents\flex_sdk_4.6.0.23201B
+	SET ANE_PATH=..\..\PenTabletLib\bin
 	
+	"%AIR_SDK%\bin\adtpause.bat" -package -XnoAneValidate -storetype pkcs12 -keystore test.p12 -storepass test -target native OnyxPenTablet OnyxPenTablet-app.xml OnyxPenTablet.swf -extdir "%ANE_PATH%"
+	
+	*/
 	[SWF(frameRate="60",width="800",height="600",backgroundColor="#141515")]
 	public class OnyxPenTablet extends Sprite
 	{
@@ -45,7 +52,9 @@ package
 		
 		protected function mouseDownHandler(ev:MouseEvent):void
 		{
+			log('x: '+mouseX);
 			cnx.sendData( {type:"x", value:mouseX}  );
+			cnx.sendData( {type:"y", value:mouseY}  );
 			graphics.moveTo(mouseX, mouseY);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 		}
@@ -56,7 +65,9 @@ package
 			try
 			{
 				pressure = tablet.getPressure();
-				log('Pressure: '+pressure);
+				//log('Pressure: '+pressure);
+				cnx.sendData( {type:"x", value:mouseX}  );
+				cnx.sendData( {type:"y", value:mouseY}  );
 				cnx.sendData( {type:"pressure", value:pressure}  );
 			}
 			catch(e:*)

@@ -37,18 +37,18 @@ package {
 		public var alph:Number				= 1;
 		
 		private var dlc:DirectLanConnection = DirectLanConnection.getInstance("Onyx-Desktop");
-		private var _x:int = 200;
-		private var _y:int = 200;
 		private var _pressure:uint = 10;	
 		private var _xyp:uint = 10;	
 		private var sprite:Sprite;
+		private var _x:int = 200;
+		private var _y:int = 200;
 		/**
 		 * 	@constructor
 		 */
 		public function PenDraw():void {
 			
 			sprite = new Sprite();
-			//addChild(sprite);
+			
 			parameters.addParameters( 
 				new ParameterArray('type', 'type', ['circle', 'square', 'line'], type),
 				new ParameterInteger('size', 'size', 2, 30, size),
@@ -66,47 +66,21 @@ package {
 			Console.output('PenDraw v0.02 by Bruce LANE (http://www.batchass.fr)');
 		}
 		
-		//protected function DataReceived(event:DLCEvent):void
 		protected function DataReceived(dataReceived:Object):void
 		{
-			Console.output("TYPE: " + dataReceived.params.type + "\nVALUE: " + dataReceived.params.value + "\n");
-				// received
-				switch ( dataReceived.params.type.toString() ) 
-				{ 
-					case "x":
-					_x = dataReceived.params.value;
-					_draw(_x, _y, _pressure);
-					break;
-					case "y":
-					_y = dataReceived.params.value;
-					_draw(_x, _y, _pressure);
-					break;
-					case "pressure":
-					_pressure = dataReceived.params.value;
-					_draw(_x, _y, _pressure);
-					break;
-					case "xyp":
+			// received
+			switch ( dataReceived.params.type.toString() ) 
+			{ 
+				case "xyp":
 					_xyp = dataReceived.params.value;
 					_x = _xyp / 1048576;
 					_y = (_xyp % 1048576) / 1024;
 					_pressure = (_xyp % 1048576) % 1024;
 					_draw(_x, _y, _pressure);
 					break;
-					
-					/*case "layer":
-					if ( numLayers > 0 )
-					{
-					
-					}
+				default: 
 					break;
-					case "layers":
-					numLayers = dataReceived.params.value;
-					
-					cnxInstance.sendData( {type:"layerbtn", value:"created" }  );
-					break;*/
-					default: 
-						break;
-				}
+			}
 		}
 
 		/**
@@ -132,10 +106,7 @@ package {
 			
 		}
 		private function _draw(x:int, y:int, pressure:int):void {
-			//sprite.graphics.clear();
-			/*graphics.lineStyle(pressure/50,120+pressure/23);//0x00AAAA);
-			graphics.lineTo(mouseX, mouseY);
-			graphics.moveTo(mouseX, mouseY);*/
+
 			if (line) {
 				sprite.graphics.lineStyle(pressure/50 +1 , lineColor, alph);
 			}
@@ -163,7 +134,7 @@ package {
 		 */
 		override public function render(info:RenderInfo):void {
 			
-			/*_currentBlur	+= preblur;
+			_currentBlur	+= preblur;
 			
 			if (_currentBlur >= 2) {
 				var factor:int = _currentBlur - 2;
@@ -176,20 +147,11 @@ package {
 				source.applyFilter(source, DISPLAY_RECT, ONYX_POINT_IDENTITY, filter);
 			}
 			
-			source.draw(sprite);*/
-			
-			// clear
-			/*graphics.clear();
-			if (line) {
-				graphics.lineStyle(size, lineColor, alph);
-			}
-			if (fill) {
-				graphics.beginFill(fillColor, alph);
-			}*/
+			source.draw(sprite);
 			
 			// blit to the layer
-			//info.copyPixels(source);
-			info.render(sprite);
+			info.copyPixels(source);
+			//info.render(sprite);
 		}
 		
 		/**

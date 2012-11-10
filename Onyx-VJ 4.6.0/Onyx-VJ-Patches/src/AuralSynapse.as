@@ -13,7 +13,6 @@ package
 	import flash.display.*;
 	import flash.events.*;
 	import flash.filters.BlurFilter;
-	import flash.utils.Timer;
 	import flash.utils.getTimer;
 	
 	import onyx.core.*;

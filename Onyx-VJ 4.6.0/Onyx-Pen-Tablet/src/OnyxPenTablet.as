@@ -1,7 +1,7 @@
 package
 {
-	
 	import com.magicalhobo.utils.PenTablet;
+	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
@@ -27,7 +27,6 @@ package
 		
 		public function OnyxPenTablet()
 		{
-			cnx.connect("60000");
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			
@@ -36,12 +35,16 @@ package
 			output.height = stage.stageHeight;
 			output.mouseEnabled = false;
 			
+			addChild(output);
+			
+			log('OnyxPenTablet start');			
+			cnx.connect("60000");
+			
 			tablet = new PenTablet();
 			
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
 			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
 			
-			addChild(output);
 			log('Context: '+PenTablet.context + ' connected:' + cnx.isConnected);
 			if (cnx.isConnected)
 			{
@@ -52,9 +55,9 @@ package
 		
 		protected function mouseDownHandler(ev:MouseEvent):void
 		{
-			log('x: '+mouseX);
+			/*log('x: '+mouseX);
 			cnx.sendData( {type:"x", value:mouseX}  );
-			cnx.sendData( {type:"y", value:mouseY}  );
+			cnx.sendData( {type:"y", value:mouseY}  );*/
 			graphics.moveTo(mouseX, mouseY);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 		}
@@ -62,19 +65,23 @@ package
 		protected function mouseMoveHandler(ev:MouseEvent):void
 		{
 			var pressure:uint = 512;
+			var xyp:uint;
 			try
 			{
 				pressure = tablet.getPressure();
-				//log('Pressure: '+pressure);
-				cnx.sendData( {type:"x", value:mouseX}  );
-				cnx.sendData( {type:"y", value:mouseY}  );
-				cnx.sendData( {type:"pressure", value:pressure}  );
+				/*log('Pressure: '+pressure);
+				cnx.sendData( {type:"x", value:ev.localX}  );//mouseX
+				cnx.sendData( {type:"y", value:ev.localY}  );//mouseY
+				cnx.sendData( {type:"pressure", value:pressure}  );*/
+				xyp = ev.localX * 1048576 + ev.localY * 1024 + pressure + 1;
+				cnx.sendData( {type:"xyp", value:xyp}  );
 			}
 			catch(e:*)
 			{
 				log('Error: '+e);
 			}
-			graphics.lineStyle(pressure/50);
+			
+			graphics.lineStyle(pressure/50,120+pressure/23);//0x00AAAA);
 			graphics.lineTo(mouseX, mouseY);
 		}
 		

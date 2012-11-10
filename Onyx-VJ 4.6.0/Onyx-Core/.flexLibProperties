@@ -195,6 +195,7 @@
     <classEntry path="services.sound.SoundProvider"/>
     <classEntry path="services.sound.events.SoundEvent"/>
     <classEntry path="onyx.asset.HttpProtocol"/>
+    <classEntry path="services.remote.DLCEvent"/>
   </includeClasses>
   <includeResources>
     <resourceEntry destPath="assets/camera.png" sourcePath="assets/camera.png"/>

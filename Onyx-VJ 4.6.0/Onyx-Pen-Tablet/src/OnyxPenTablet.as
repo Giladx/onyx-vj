@@ -1,5 +1,6 @@
 package
 {
+	
 	import com.magicalhobo.utils.PenTablet;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;

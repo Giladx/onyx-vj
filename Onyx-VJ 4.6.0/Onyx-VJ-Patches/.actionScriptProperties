@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties analytics="false" mainApplicationPath="QuadLights.as" projectUUID="8ef2289f-1ea7-4a79-a265-5e94b4866f20" version="10">
+<actionScriptProperties analytics="false" mainApplicationPath="PenDraw.as" projectUUID="8ef2289f-1ea7-4a79-a265-5e94b4866f20" version="10">
   <compiler additionalCompilerArguments="-locale en_US --define DEBUG::SPLASHTIME 0 -swf-version=15 -default-frame-rate=60" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderLocation="C:/Users/b.lane/AppData/Roaming/Onyx-VJ/Local Store/Onyx-VJ/library/Onyx-Patches-Debug" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath/>
     <libraryPath defaultLinkType="0">
@@ -34,6 +34,10 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
+    <application path="PenDraw.as"/>
+    <application path="Sand.as"/>
+    <application path="CurlyGrow.as"/>
+    <application path="Octopus.as"/>
     <application path="QuadLights.as"/>
     <application path="RyukyuClock.as"/>
     <application path="Arrows.as"/>

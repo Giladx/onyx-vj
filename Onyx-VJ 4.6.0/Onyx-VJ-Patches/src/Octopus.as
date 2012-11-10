@@ -25,15 +25,15 @@ package
 			_octopus = new OctopusGenerator(DISPLAY_WIDTH, DISPLAY_HEIGHT);
 			_lux = new LuxMod(_octopus);
 			
+			_lux.lightX = DISPLAY_WIDTH >> 1;
+			_lux.lightY = DISPLAY_HEIGHT >> 1;
+			
 			sprite.addChild(_lux);
 
 		}
 		
 		override public function render(info:RenderInfo):void 
 		{
-			_lux.lightX = DISPLAY_WIDTH >> 1;
-			_lux.lightY = DISPLAY_HEIGHT >> 1;
-			
 			info.render( sprite );
 		}
 	}

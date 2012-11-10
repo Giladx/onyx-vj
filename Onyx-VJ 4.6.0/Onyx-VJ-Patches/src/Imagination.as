@@ -46,10 +46,7 @@ package
 	
 	import onyx.core.Console;
 	import onyx.core.RenderInfo;
-	import onyx.plugin.DISPLAY_HEIGHT;
-	import onyx.plugin.DISPLAY_WIDTH;
-	import onyx.plugin.Patch;
-	import onyx.plugin.createDefaultBitmap;
+	import onyx.plugin.*;
 	
 	//[SWF(width='320', height='240', frameRate='24')]
 	public class Imagination extends Patch

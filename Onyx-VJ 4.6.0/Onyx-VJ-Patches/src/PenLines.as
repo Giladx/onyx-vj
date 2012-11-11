@@ -47,30 +47,7 @@ package {
 			dlc.connect("60000");
 			Console.output('PenLines v0.02 from http://wonderfl.net/c/r5VZ');
 		}
-		public function xDown(e:MouseEvent):void {
-			myNum += 1;
-			if (myNum >= 4) myNum = 0;
-		}
-		public function xMove(e:Event):void {
-			var _color:ColorHSV=new ColorHSV(myCol+=1.5,1);
-			//var _myCol:Number=Math.random()*0xFFFFFF;
-			_mySprite=new mySprite(int(_color),myPoint[myNum],_pressure);
-			
-			if (myNum == 0) {
-				_mySprite.x = mouseX;
-				_mySprite.y = mouseY;
-			} else if (myNum == 1) {
-				_mySprite.x = mouseX;
-				_mySprite.y = mouseY;
-			} else if (myNum == 2) {
-				_mySprite.x = mouseX;
-				_mySprite.y = mouseY;
-			} else if (myNum == 3) {
-				_mySprite.x = mouseX;
-				_mySprite.y = mouseY;
-			}
-			addChild(_mySprite);
-		}
+		
 		protected function DataReceived(dataReceived:Object):void
 		{
 			myNum += 1;
@@ -93,11 +70,12 @@ package {
 			
 			var _color:ColorHSV=new ColorHSV(myCol+=1.5,1);
 			//var _myCol:Number=Math.random()*0xFFFFFF;
-			_mySprite=new mySprite(int(_color),myPoint[myNum],_pressure);
+			_mySprite = new mySprite(int(_color),myPoint[myNum],_pressure);
 			_mySprite.x = x;
 			_mySprite.y = y;
 			
 			sprite.addChild(_mySprite);
+			
 		}
 		override public function render(info:RenderInfo):void {
 			

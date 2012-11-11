@@ -27,11 +27,11 @@ package {
 		private var _blur:BlurFilter;
 		private var _begin:Boolean			= false;
 		
-		public var lineColor:uint			= 0xFFFFFF;
-		public var fillColor:uint			= 0xFFFFFF;
+		public var lineColor:uint			= 0x7E53B5;
+		public var fillColor:uint			= 0x7E53B5;
 		public var preblur:Number			= 0;
 		public var size:int					= 3;
-		public var type:String				= 'circle';
+		public var type:String				= 'line';
 		public var fill:Boolean				= true;
 		public var line:Boolean				= true;
 		public var alph:Number				= 1;
@@ -39,6 +39,7 @@ package {
 		private var dlc:DirectLanConnection = DirectLanConnection.getInstance("Onyx-Desktop");
 		private var _pressure:uint = 10;	
 		private var _xyp:uint = 10;	
+		private var _xy:uint = 10;	
 		private var sprite:Sprite;
 		private var _x:int = 200;
 		private var _y:int = 200;
@@ -50,7 +51,7 @@ package {
 			sprite = new Sprite();
 			
 			parameters.addParameters( 
-				new ParameterArray('type', 'type', ['circle', 'square', 'line'], type),
+				new ParameterArray('type', 'type', ['line', 'square', 'circle'], type),
 				new ParameterInteger('size', 'size', 2, 30, size),
 				new ParameterNumber('alph', 'alpha', 0, 1, alph),
 				new ParameterColor('lineColor', 'lineColor'),
@@ -77,6 +78,16 @@ package {
 					_y = (_xyp % 1048576) / 1024;
 					_pressure = (_xyp % 1048576) % 1024;
 					_draw(_x, _y, _pressure);
+					break;
+				case "xy":
+					_xy = dataReceived.params.value;
+					_x = _xy / 1048576;
+					_y = _xy % 1048576;
+					last.x = _x;
+					last.y = _y;					
+					break;
+				case "color":
+					fillColor = lineColor = dataReceived.params.value;					
 					break;
 				default: 
 					break;

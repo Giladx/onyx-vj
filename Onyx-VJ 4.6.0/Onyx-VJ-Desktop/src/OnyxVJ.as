@@ -40,7 +40,7 @@ package {
 	import ui.window.*;
 	
 	//report the width and height values in Onyx-AIR-UI FirstRunState.as: window.width = 1280;
-	[SWF(width="1280", height="752", backgroundColor="#141515", frameRate='25', systemChrome='none')]
+	[SWF(width="1280", height="852", backgroundColor="#141515", frameRate='60', systemChrome='none')]
 	public final class OnyxVJ extends Sprite {
 		
 		/**

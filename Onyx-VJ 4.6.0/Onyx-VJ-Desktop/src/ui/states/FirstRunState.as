@@ -77,7 +77,7 @@ package ui.states {
 				window.y					= 0;
 				//base these values on OnyxVJ.as: [SWF(width="1400", height="850",...
 				window.width				= 1280; 
-				window.height				= 752;
+				window.height				= 852;
 				
 				// activate the window
 				DISPLAY_STAGE.nativeWindow.activate();

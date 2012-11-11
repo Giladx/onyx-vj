@@ -32,6 +32,7 @@
       </libraryPathEntry>
       <libraryPathEntry kind="3" linkType="1" path="/Onyx-Core/bin-debug/Onyx-Core.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="2" path="${DOCUMENTS}/PenTabletLib/bin/PenTabletLib.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="${DOCUMENTS}/actionscript/MinimalComps_0_9_10.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="5" linkType="2" path="${DOCUMENTS}/PenTabletLib/bin/PenTabletLib.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>

@@ -51,7 +51,7 @@ package ui.window {
 		private var sendBtn:TextButton;
 		private var layersBtn:TextButton;
 
-		private var dlc:DirectLanConnection;
+		//private var dlc:DirectLanConnection;
 		private var tween:Tween;
 		private var index:int = 0;
 		private var selectedLayer:int = 0;
@@ -95,29 +95,29 @@ package ui.window {
 			layersBtn.addEventListener(MouseEvent.MOUSE_DOWN, layersMsg);
 			pane.addChild(layersBtn).y = (index++ * 30);
 			
-			dlc = new DirectLanConnection();
+			/*dlc = new DirectLanConnection();
 			dlc.onConnect = handleConnect;
 			dlc.onDataReceive = handleGotData;
 			
-			dlc.connect("60000");
+			dlc.connect("60000");*/
 			timer.addEventListener(TimerEvent.TIMER, onTimer);
 			timer.start();
 		}
-		private function handleConnect(info:Object):void
+		/*private function handleConnect(info:Object):void
 		{
 			trace(dlc.port);
 			Console.output("dlc.port:" + dlc.port);
 			
-		}
+		}*/
 		private function onTimer(event:TimerEvent):void 
 		{
-			if ( !layerButtonsCreated ) dlc.sendData( {type:"layers", value:Display.layers.length} );
+			/*if ( !layerButtonsCreated ) dlc.sendData( {type:"layers", value:Display.layers.length} );
 			var layer:Layer	= (UIObject.selection as UILayer).layer;
-			dlc.sendData( {type:"layer", value:layer.index} );
+			dlc.sendData( {type:"layer", value:layer.index} );*/
 		}
 		private function handleGotData(dataReceived:Object):void
 		{
-			Console.output("dlc.received:");
+			//Console.output("dlc.received:");
 			if ( dataReceived.type && dataReceived.value )
 			{
 				Console.output(dataReceived.type.toString(),":", dataReceived.value.toString());
@@ -129,9 +129,9 @@ package ui.window {
 					case "layerbtn":
 						layerButtonsCreated = true;
 						break;
-					case "cnx":
+					/*case "cnx":
 						dlc.sendData( {type:"layers", value:Display.layers.length} );
-						break;
+						break;*/
 					case "toggle-cross-fader":
 						const property:TweenProperty = (Display.channelMix > .5) ? new TweenProperty('channelMix', Display.channelMix, 0) : new TweenProperty('channelMix', Display.channelMix, 1);
 						
@@ -159,8 +159,8 @@ package ui.window {
 						selectedLayer = dataReceived.value;
 						UILayer.selectLayer(selectedLayer);
 						l = Display.getLayerAt(selectedLayer);
-						dlc.sendData( {type:"path", value:l.path} );
-						dlc.sendData( {type:"filters", value:l.filters.length} );
+						/*dlc.sendData( {type:"path", value:l.path} );
+						dlc.sendData( {type:"filters", value:l.filters.length} );*/
 						//layer.filters.length>0
 						//layer.filters[0].name = "BOUNCE"
 						//layer.filters[0].
@@ -275,7 +275,7 @@ package ui.window {
 		private function sendMsg(event:MouseEvent):void {
 			switch (event.currentTarget) {
 				case sendBtn:
-					dlc.sendData( {type:"msg", value:"sent from onyx"} );
+					/*dlc.sendData( {type:"msg", value:"sent from onyx"} );*/
 					break;
 			}
 			event.stopPropagation();
@@ -283,7 +283,7 @@ package ui.window {
 		private function layersMsg(event:MouseEvent):void {
 			switch (event.currentTarget) {
 				case sendBtn:
-					dlc.sendData( {type:"layers", value:Display.layers.length} );
+					/*dlc.sendData( {type:"layers", value:Display.layers.length} );*/
 					break;
 			}
 			event.stopPropagation();

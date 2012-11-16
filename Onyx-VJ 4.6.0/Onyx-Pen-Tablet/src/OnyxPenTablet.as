@@ -29,7 +29,7 @@ package
 	"%AIR_SDK%\bin\adtpause.bat" -package -XnoAneValidate -storetype pkcs12 -keystore test.p12 -storepass test -target native OnyxPenTablet OnyxPenTablet-app.xml OnyxPenTablet.swf -extdir "%ANE_PATH%"
 	
 	*/
-	[SWF(frameRate="60",width="1024",height="768",backgroundColor="#141515")]
+	[SWF(frameRate="60",width="1024",height="800",backgroundColor="#141515")]
 	public class OnyxPenTablet extends Sprite
 	{
 		private var tablet:PenTablet;
@@ -45,11 +45,18 @@ package
 		private var bgImage:Sprite;
 		private var canvas:Sprite;
 		private var controls:Sprite;
+		private var padBottom:int = 25;
+		private var padLeft:int = 5;
+		private var UseDetectedColor:Boolean = true;
+		private var UsePressure:Boolean = true;
 		//Minimal comps
 		private var CommentColor:ColorChooser;
 		private var LoadImageButton:PushButton;
 		private var ClearButton:PushButton;
-		private var output:Label;
+		private var UseDetectedColorCheckBox:CheckBox;
+		private var UsePressureCheckBox:CheckBox;
+		private var OutputMessage:Label;
+		private var PressureValue:InputText;
 		
 		public function OnyxPenTablet()
 		{
@@ -64,13 +71,24 @@ package
 			controls = new Sprite();
 			addChild(controls);
 			
-			CommentColor = new ColorChooser(controls, 10, stage.stageHeight - 30, 0xFF0000 , CommentColorHandler );
+			CommentColor = new ColorChooser(controls, padLeft, stage.stageHeight - padBottom, 0xFF0000 , CommentColorHandler );
 			CommentColor.usePopup = true;
 			CommentColor.popupAlign = ColorChooser.TOP;
-
-			LoadImageButton = new PushButton(controls, 20+CommentColor.width , stage.stageHeight - 30, "open image" , LoadImageButtonHandler );
-			ClearButton = new PushButton(controls, 30+CommentColor.width+LoadImageButton.width , stage.stageHeight - 30, "clear drawing" , ClearButtonHandler );
-			output = new Label(controls, 40+CommentColor.width+LoadImageButton.width+ClearButton.width, stage.stageHeight - 30);
+			padLeft += 20+CommentColor.width;
+			
+			LoadImageButton = new PushButton(controls, padLeft, stage.stageHeight - padBottom, "open image" , LoadImageButtonHandler );
+			padLeft += 10+LoadImageButton.width;
+			ClearButton = new PushButton(controls, padLeft, stage.stageHeight - padBottom, "clear drawing" , ClearButtonHandler );
+			padLeft += 10+ClearButton.width;
+			UseDetectedColorCheckBox = new CheckBox(controls, padLeft, stage.stageHeight - padBottom, "use detected color" , UseDetectedColorHandler );
+			UseDetectedColorCheckBox.selected = true;
+			padLeft += 10+UseDetectedColorCheckBox.width;
+			PressureValue = new InputText(controls, padLeft, stage.stageHeight - padBottom, pressure.toString(), PressureValueHandler);
+			padLeft += 10+PressureValue.width;
+			UsePressureCheckBox = new CheckBox(controls, padLeft, stage.stageHeight - padBottom, "use pressure" , UsePressureHandler );
+			UsePressureCheckBox.selected = true;
+			padLeft += 10+UsePressureCheckBox.width;
+			OutputMessage = new Label(controls, padLeft, stage.stageHeight - padBottom);
 			log('OnyxPenTablet start');			
 			cnx.connect("60000");
 			
@@ -82,6 +100,7 @@ package
 			stage.addEventListener(Event.ENTER_FRAME, loop);
 
 		}
+		
 		private function CommentColorHandler(e:Event):void 
 		{
 		}
@@ -92,6 +111,18 @@ package
 		private function ClearButtonHandler(e:Event):void 
 		{
 			canvas.graphics.clear();
+		}
+		private function PressureValueHandler():void
+		{
+			if (!UsePressure) pressure = int(PressureValue.text);
+		}
+		private function UsePressureHandler(e:Event):void 
+		{
+			UsePressure = UsePressureCheckBox.selected;
+		}
+		private function UseDetectedColorHandler(e:Event):void 
+		{
+			UseDetectedColor = UseDetectedColorCheckBox.selected;
 		}
 		protected function loop(event:Event):void
 		{
@@ -117,12 +148,18 @@ package
 		}
 		private function getColor(x:int,y:int):void
 		{
-			var bd:BitmapData = new BitmapData(stage.stageWidth, stage.stageHeight);
-			bd.draw(stage);
-			var b:Bitmap = new Bitmap(bd);
-			//trace(b.bitmapData.getPixel(stage.mouseX,stage.mouseX));
-			color = b.bitmapData.getPixel(x, y);
-			CommentColor.value = color;
+			if (UseDetectedColor) 
+			{
+				var bd:BitmapData = new BitmapData(stage.stageWidth, stage.stageHeight);
+				bd.draw(stage);
+				var b:Bitmap = new Bitmap(bd);
+				color = b.bitmapData.getPixel(x, y);				
+				CommentColor.value = color;
+			}
+			else
+			{
+				color = CommentColor.value;
+			}
 			toSend.push({cmd:"color",value:color});
 			
 		}
@@ -131,8 +168,12 @@ package
 			try
 			{
 				getColor(ev.localX, ev.localY);
-				pressure = tablet.getPressure();	
-				if (pressure<10) pressure = 10;
+				if (UsePressure)
+				{
+					pressure = tablet.getPressure();	
+					if (pressure<10) pressure = 10;
+					PressureValue.text = pressure.toString();				
+				}
 				xyp = ev.localX * 1048576 + ev.localY * 1024 + pressure;
 				toSend.push({cmd:"xyp",value:xyp});
 			}
@@ -141,7 +182,7 @@ package
 				log('Error: '+e);
 			}
 			
-			canvas.graphics.lineStyle(pressure/50, color);//0x00AAAA);
+			canvas.graphics.lineStyle(pressure/20, color);//0x00AAAA);
 			canvas.graphics.lineTo(mouseX, mouseY);
 		}
 		
@@ -152,10 +193,11 @@ package
 		
 		private function log(message:String):void
 		{
-			output.text = message;
+			OutputMessage.text = message;
 		}
 		private function loadImage():void
 		{
+			
 			var file:File = File.documentsDirectory;
 			file.browseForOpen('Select the image file to load.', [new FileFilter("All Images", "*.jpg;*.jpeg;*.gif;*.png")]);
 			file.addEventListener(Event.SELECT, action);

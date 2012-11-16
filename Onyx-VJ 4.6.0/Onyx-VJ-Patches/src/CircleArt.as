@@ -20,6 +20,8 @@
 package 
 {
 	
+	import EmbeddedAssets.AssetForCircleArt;
+	
 	import flash.display.*;
 	import flash.events.*;
 	import flash.filters.*;
@@ -51,18 +53,21 @@ package
 		
 		private var _drawTimer:Timer;
 		private const source:BitmapData	= createDefaultBitmap(); 		
-		//[Embed(source='../assets/boulePiquante.png' )] private const ImageB: Class;
-		[Embed(source='../assets/tree.jpg' )] private const ImageB: Class;
-		private const _sourceBD:BitmapData = Bitmap( new ImageB() ).bitmapData;
-		private var mx:int = 0;
-		private var my:int = 0;
+		//private var bd:BitmapData=new AssetForCircleArt();  
+		private var _sourceBD:BitmapData=new AssetForCircleArt();  
+		/*[Embed(source='C:/Users/b.lane/AppData/Roaming/Onyx-VJ/Local Store/Onyx-VJ/library/anabel/scootergroupe.jpg' )] 
+		private const ImageB: Class;
+		private const _sourceBD:BitmapData = Bitmap( new ImageB() ).bitmapData;*/
+		//private const _sourceBD:BitmapData = Bitmap( bd ).bitmapData;
+		private var mx:int = 300;
+		private var my:int = 200;
 
 		/**
 		 * 	@constructor
 		 */
 		public function CircleArt()
 		{
-			Console.output('CircleArt 4.0.493');
+			Console.output('CircleArt 4.6.001');
 			Console.output('Credits to Lucas SWICK');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
 			parameters.addParameters(
@@ -286,22 +291,14 @@ package
 		**/
 		private function doDraw(evt:TimerEvent) : void {
 			var i:uint;
-			var tmx:Number = Math.random() * _randomizer;
+			/*var tmx:Number = Math.random() * _randomizer;
 			var tmy:Number = Math.random() * _randomizer;
-			/*mx += tmx; 
-			 
-			if ( mx > DISPLAY_WIDTH ) 
-			{
-				mx = 0;
-				my += tmy;
-			}
-			if ( my < 1 ) my = DISPLAY_HEIGHT;
-			*/
+			
 			mx += tmx; 
 			my -= tmy; 
 			if ( mx > DISPLAY_WIDTH ) mx = 0;
 			if ( my < 1 ) my = DISPLAY_HEIGHT;
-			
+			*/
 			for (i = 0; i < _loopCount; i++) {
 				drawCircle( mx, my );
 			}

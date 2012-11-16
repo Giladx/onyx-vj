@@ -38,9 +38,13 @@ package
 
 		private var mx:int = 320;
 		private var my:int = 240;
-
+		public var color:uint			= 0xFF0000;
+		
 		public function ParticleExplosion()
 		{
+			parameters.addParameters( 
+				new ParameterColor('color', 'color')
+			);
 			_canvas = new BitmapData( DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0 );
 			
 			_pixels = new Vector.<Object>( NUM_PARTICLES, true );
@@ -54,7 +58,7 @@ package
 				pixel.dy = 0;
 				pixel.lastX = pixel.x;
 				pixel.lastY = pixel.y;
-				pixel.color = 0xFFFFFF;
+				pixel.color = color;
 				_pixels[i] = pixel;
 			}
 			
@@ -78,7 +82,7 @@ package
 			for( var i : int = 0; i < NUM_PARTICLES; ++i )
 			{
 				pixel = _pixels[i];
-				
+				pixel.color = color;
 				pixel.lastX = pixel.x;
 				pixel.lastY = pixel.y;
 				
@@ -107,8 +111,8 @@ package
 			var randAngle : Number;
 			var randPower : Number;
 			
-			mx = e.localX;
-			my = e.localY;
+			mx = e.localX/2;
+			my = e.localY/2;
 			for( var i : int = 0; i < NUM_PARTICLES; ++i )
 			{
 				pixel = _pixels[i];

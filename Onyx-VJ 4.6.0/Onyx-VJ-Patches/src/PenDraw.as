@@ -119,7 +119,7 @@ package {
 		private function _draw(x:int, y:int, pressure:int):void {
 
 			if (line) {
-				sprite.graphics.lineStyle(pressure/50 +1 , lineColor, alph);
+				sprite.graphics.lineStyle(pressure/20 +1 , lineColor, alph);
 			}
 			if (fill) {
 				sprite.graphics.beginFill(fillColor, alph);
@@ -159,7 +159,7 @@ package {
 			}
 			
 			source.draw(sprite);
-			
+			sprite.graphics.clear();
 			// blit to the layer
 			info.copyPixels(source);
 			//info.render(sprite);

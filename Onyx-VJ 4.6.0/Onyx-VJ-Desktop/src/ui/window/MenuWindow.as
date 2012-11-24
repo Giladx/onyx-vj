@@ -87,22 +87,23 @@ package ui.window {
 			
 			var index:int = 0;
 			var w:int = MENU_OPTIONS.width + 2;
+			var nbLines:int = 3;
 
 			// loop through registrations
 			for each (var reg:WindowRegistration in WindowRegistration.registrations) {
 				
 				// create control
 				var control:MenuButton = new MenuButton(reg, MENU_OPTIONS, 0xFFFFFFF);
-				control.x	= Math.floor(index / 2) * w;
-				control.y	= (index++ % 2) * 18;
+				control.x	= Math.floor(index / nbLines) * w;
+				control.y	= (index++ % nbLines) * 18;
 				
 				// add child
 				addChild(control);
 				
 			}
 			
-			quitButton.x	= Math.floor(index / 2) * w;
-			quitButton.y	= (index % 2) * 18;
+			quitButton.x	= Math.floor(index / nbLines) * w;
+			quitButton.y	= (index % nbLines) * 18;
 			addChild(quitButton);
 		}
 		

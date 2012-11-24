@@ -73,7 +73,7 @@ package ui.states {
 				INITIALIZED = true;
 				 
 				// create layers
-				(Display as OutputDisplay).createLayers(5);
+				(Display as OutputDisplay).createLayers(6);
 				
 				//load default.onx
 				var defaultFile:File = new File( AssetFile.resolvePath( 'library/default.onx' ) );

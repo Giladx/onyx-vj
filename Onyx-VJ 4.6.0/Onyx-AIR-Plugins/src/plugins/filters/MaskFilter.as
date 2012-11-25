@@ -57,7 +57,7 @@ package plugins.filters {
 		
 		public function MaskFilter():void {
 
-			Console.output( 'MaskFilter v 0.0.2: needs library/mask.png' );
+			Console.output( 'MaskFilter v 0.0.3: needs library/mask.png' );
 			
 			parameters.addParameters(
 				new ParameterBlendMode('feedBlend', 'Mask Blend')

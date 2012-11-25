@@ -119,10 +119,13 @@ package
 		private function UsePressureHandler(e:Event):void 
 		{
 			UsePressure = UsePressureCheckBox.selected;
+			log('UsePressure' + UsePressure);	
+
 		}
 		private function UseDetectedColorHandler(e:Event):void 
 		{
 			UseDetectedColor = UseDetectedColorCheckBox.selected;
+			log('UseDetectedColor' + UseDetectedColor);	
 		}
 		protected function loop(event:Event):void
 		{
@@ -196,8 +199,7 @@ package
 			OutputMessage.text = message;
 		}
 		private function loadImage():void
-		{
-			
+		{		
 			var file:File = File.documentsDirectory;
 			file.browseForOpen('Select the image file to load.', [new FileFilter("All Images", "*.jpg;*.jpeg;*.gif;*.png")]);
 			file.addEventListener(Event.SELECT, action);

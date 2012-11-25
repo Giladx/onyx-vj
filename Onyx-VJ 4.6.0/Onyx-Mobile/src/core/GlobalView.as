@@ -25,6 +25,8 @@ package core
 			header.width = actualWidth;
 			connect.x = 10;
 			connect.y = header.height;
+			xFade.x = 10;
+			xFade.y = header.height*2;
 		}
 		
 		override protected function initialize():void
@@ -50,12 +52,13 @@ package core
 		
 		private function onConnect(e:Event):void
 		{
-			trace("connect");
 			cnx.connect("60000");
+			trace("connected: " + cnx.isConnected + " members: " + cnx.memberCount() + " group: " + cnx.groupInfo() );
 		}
 		protected function handleAutoXFadeClick(e:Event):void
 		{
 			cnx.sendData( {type:"toggle-cross-fader", value:1}  );
+			Onyx.nav.showScreen(Onyx.LAYER1);
 		}
 	}
 }

@@ -2,6 +2,7 @@ package core
 {
 	import feathers.controls.ScreenNavigator;
 	import feathers.controls.ScreenNavigatorItem;
+	import feathers.motion.transitions.ScreenSlidingStackTransitionManager;
 	import feathers.themes.MetalWorksMobileTheme;
 	
 	import starling.display.Button;
@@ -12,9 +13,9 @@ package core
 	public class Onyx extends Sprite
 	{
 		private var connect:Button;
-		private var nav:ScreenNavigator;
-		private static const GLOBAL:String = "Global";
-		private static const LAYER1:String = "Layer1";
+		public static var nav:ScreenNavigator;
+		public static const GLOBAL:String = "Global";
+		public static const LAYER1:String = "Layer1";
 		public function Onyx()
 		{
 			addEventListener(Event.ADDED_TO_STAGE, init);
@@ -34,6 +35,7 @@ package core
 			
 			nav.showScreen(GLOBAL);
 			
+			var transition:ScreenSlidingStackTransitionManager = new ScreenSlidingStackTransitionManager(nav);
 			/*addEventListener(Event.ENTER_FRAME, update);
 			connect = new Button(Texture.fromColor(100,50,0xaf89e1), "Connect", Texture.fromColor(100,50,0x7b5aa6));
 			*/

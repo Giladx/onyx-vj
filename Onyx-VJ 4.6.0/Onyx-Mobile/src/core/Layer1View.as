@@ -2,6 +2,7 @@ package core
 {
 	import feathers.controls.Button;
 	import feathers.controls.Header;
+	import feathers.controls.Label;
 	import feathers.controls.Screen;
 	
 	import starling.display.DisplayObject;
@@ -11,6 +12,7 @@ package core
 	{
 		private var header:Header;
 		private var backButton:Button;
+		//private var label:Label;
 
 		public function Layer1View()
 		{
@@ -35,7 +37,7 @@ package core
 			backButton.addEventListener(Event.TRIGGERED, onBack);
 			backButton.pivotX = backButton.pivotY * 0.5;
 			//addChild(backButton);
-			header.leftItems = new Vector.<DisplayObject>[backButton];
+			header.leftItems = new <DisplayObject>[backButton];
 			
 			
 		}
@@ -43,6 +45,7 @@ package core
 		private function onBack(e:Event):void
 		{
 			dispatchEventWith("complete");
+			Onyx.nav.showScreen(Onyx.GLOBAL);
 		}
 
 	}

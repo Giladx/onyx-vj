@@ -77,7 +77,7 @@ package services.remote
 		}
 		protected static function handleGetObject(dataReceived:Object):void
 		{
-			//Console.output("handleGetObject, dataReceived");
+			Console.output("handleGetObject, dataReceived from " + _clientName + " type: " + dataReceived.type.toString());
 			// received
 			switch ( dataReceived.type.toString() ) 
 			{ 
@@ -137,16 +137,19 @@ package services.remote
 			switch(event.info.code)
 			{
 				case "NetConnection.Connect.Success":
+					Console.output("NetConnection.Connect.Success, setUpGroup" );
 					setUpGroup();
 					break;
 				
 				case "NetGroup.Connect.Success":
+					Console.output("NetGroup.Connect.Success" );
 					isConnected = true;
 					if(onConnect != null)
 						onConnect.apply(null, [event.info.message]);
 					break;
 				
 				case "NetGroup.SendTo.Notify":
+					Console.output("NetGroup.SendTo.Notify" );
 					if(onDataReceive != null)
 						onDataReceive.apply(null, [event.info.message]);
 					break;
@@ -211,6 +214,10 @@ package services.remote
 		public function memberCount():String
 		{
 			return group == null ? "no group" : group.estimatedMemberCount.toString();
+		}
+		public function groupInfo():String
+		{
+			return group == null ? "no group" : group.info.toString();
 		}
 		
 		

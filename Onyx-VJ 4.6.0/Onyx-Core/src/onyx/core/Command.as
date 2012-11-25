@@ -30,7 +30,7 @@ package onyx.core {
 	 */
 	public final class Command {
 		
-		private static var cnx:DirectLanConnection = new DirectLanConnection();
+		private static var cnx:DirectLanConnection = DirectLanConnection.getInstance("cmd");
 		private static var _name:String;
 		private static var l:Layer;
 		private static var fadeFilter:Filter;

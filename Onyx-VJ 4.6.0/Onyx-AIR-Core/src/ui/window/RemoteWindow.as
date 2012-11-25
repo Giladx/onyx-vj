@@ -48,14 +48,16 @@ package ui.window {
 		 * 	@private
 		 */
 		private var pane:ScrollPane;
+		private var connectBtn:TextButton;
 		private var sendBtn:TextButton;
 		private var layersBtn:TextButton;
 
-		//private var dlc:DirectLanConnection;
+		private var cnx:DirectLanConnection;
 		private var tween:Tween;
 		private var index:int = 0;
+		private var padTop:int = 18;
 		private var selectedLayer:int = 0;
-		private var timer:Timer = new Timer(1000);
+		private var timer:Timer = new Timer(10000);
 		private var layerButtonsCreated:Boolean = false;
 		private var l:Layer;
 		/**
@@ -82,35 +84,33 @@ package ui.window {
 			var index:int = 0;			
 			pane		= new ScrollPane(242, 100);
 			pane.x		= 3;
-			pane.y		= 18;
+			pane.y		= padTop;
 			addChild(pane);
 			
 			var options:UIOptions	= new UIOptions( true, true, null, 60, 12 );
+			
+			connectBtn					= new TextButton(options, 'connect'),
+			connectBtn.addEventListener(MouseEvent.MOUSE_DOWN, connection);
+			pane.addChild(connectBtn).y = (index++ * padTop);
+			
 			sendBtn					= new TextButton(options, 'send'),
 			sendBtn.addEventListener(MouseEvent.MOUSE_DOWN, sendMsg);
-			pane.addChild(sendBtn).y = (index++ * 30);
+			pane.addChild(sendBtn).y = (index++ * padTop);
 			
 			
 			layersBtn				= new TextButton(options, 'layers'),
 			layersBtn.addEventListener(MouseEvent.MOUSE_DOWN, layersMsg);
-			pane.addChild(layersBtn).y = (index++ * 30);
-			
-			/*dlc = new DirectLanConnection();
-			dlc.onConnect = handleConnect;
-			dlc.onDataReceive = handleGotData;
-			
-			dlc.connect("60000");*/
-			timer.addEventListener(TimerEvent.TIMER, onTimer);
-			timer.start();
+			pane.addChild(layersBtn).y = (index++ * padTop);
 		}
-		/*private function handleConnect(info:Object):void
+		private function handleConnect(info:Object):void
 		{
-			trace(dlc.port);
-			Console.output("dlc.port:" + dlc.port);
+			trace(cnx.port);
+			Console.output("dlc.port:" + cnx.port);
 			
-		}*/
+		}
 		private function onTimer(event:TimerEvent):void 
 		{
+			Console.output("dlc members:" + cnx.memberCount());
 			/*if ( !layerButtonsCreated ) dlc.sendData( {type:"layers", value:Display.layers.length} );
 			var layer:Layer	= (UIObject.selection as UILayer).layer;
 			dlc.sendData( {type:"layer", value:layer.index} );*/
@@ -271,6 +271,16 @@ package ui.window {
 			tween.removeEventListener(Event.COMPLETE, tweenFinish);
 			l = Display.getLayerAt(selectedLayer);
 			l.visible = false;
+		}
+		private function connection(event:MouseEvent):void {
+			cnx = DirectLanConnection.getInstance("RemoteWindow");
+			cnx.onConnect = handleConnect;
+			cnx.onDataReceive = handleGotData;			
+			cnx.connect("60000");
+			
+			timer.addEventListener(TimerEvent.TIMER, onTimer);
+			timer.start();
+
 		}
 		private function sendMsg(event:MouseEvent):void {
 			switch (event.currentTarget) {

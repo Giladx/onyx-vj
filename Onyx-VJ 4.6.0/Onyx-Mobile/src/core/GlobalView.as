@@ -1,7 +1,10 @@
 package core
 {
+	import com.flashvisions.mobile.android.extensions.net.NetworkInfo;
+	
 	import feathers.controls.Button;
 	import feathers.controls.Header;
+	import feathers.controls.Label;
 	import feathers.controls.Screen;
 	
 	import services.remote.DirectLanConnection;
@@ -13,11 +16,14 @@ package core
 		private var header:Header;
 		private var connect:Button;
 		private var xFade:Button;
-		private var cnx:DirectLanConnection = DirectLanConnection.getInstance("OnyxMobile");
+		private var txt:Label;
+		//private var cnx:DirectLanConnection = DirectLanConnection.getInstance("OnyxMobile");
+		private var cnx:DirectLanConnection = DirectLanConnection.getInstance();
+
+		private var networkInfo:NetworkInfo = new NetworkInfo();			
 
 		public function GlobalView()
 		{
-			
 		}
 		
 		override protected function draw():void
@@ -27,6 +33,8 @@ package core
 			connect.y = header.height;
 			xFade.x = 10;
 			xFade.y = header.height*2;
+			txt.x = 10;
+			txt.y = header.height*3;
 		}
 		
 		override protected function initialize():void
@@ -47,12 +55,15 @@ package core
 			xFade.pivotX = connect.pivotY * 0.5;
 			addChild(xFade);
 			
-				
+			txt = new Label();
+			addChild(txt);
 		}
 		
 		private function onConnect(e:Event):void
 		{
-			cnx.connect("60000");
+			cnx.connect();
+			header.title = "cnx:" +networkInfo.isNetworkConnected().toString() + " avail:" +networkInfo.isNetworkAvailable().toString();
+			txt.text = networkInfo.getDetailedState().toString() + "\n" + networkInfo.getCoarseState().toString() ;
 			trace("connected: " + cnx.isConnected + " members: " + cnx.memberCount() + " group: " + cnx.groupInfo() );
 		}
 		protected function handleAutoXFadeClick(e:Event):void

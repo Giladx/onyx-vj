@@ -24,9 +24,6 @@ private static const MENU:String = "menu";
 private static const ABOUT:String = "about";
 
 private var accel:Accelerometer;
-private var numLayers:int = 0;
-public var lv:LayersView;
-private var cnx:DirectLanConnection;
 
 protected function applicationCompleteHandler(event:FlexEvent):void
 {
@@ -35,17 +32,17 @@ protected function applicationCompleteHandler(event:FlexEvent):void
 		Multitouch.inputMode = MultitouchInputMode.GESTURE;
 		Multitouch.mapTouchToMouse = true;
 	}
-	cnx = new DirectLanConnection();
-	cnx.onConnect = handleConnectToService;
-	cnx.onDataReceive = handleGetObject;
-	//cnx.connect("60000");
+	//cnx.connect();
 	this.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+	accel = new Accelerometer();
+	//accel.addEventListener(AccelerometerEvent.UPDATE, handleAccelUpdate);
+
 }
 
 protected function handleExitApp(event:MouseEvent):void
 {
-	cnx.sendData({type:"exitbtn", value:1 });
-	if( cnx ) cnx.close();
+	/*cnx.sendData({type:"exitbtn", value:1 });
+	if( cnx ) cnx.close();*/
 	NativeApplication.nativeApplication.exit();
 }
 private function onKeyDown(e:KeyboardEvent):void {
@@ -68,52 +65,13 @@ private function onKeyDown(e:KeyboardEvent):void {
 	}
 }
 
-protected function handleConnectToService(user:Object):void
-{
-	connStatus.connected = true;
-	connStatus.connectedTo = "";
-	accel = new Accelerometer();
-	//accel.addEventListener(AccelerometerEvent.UPDATE, handleAccelUpdate);
-	cnx.sendData({type:"cnx", value:"mobile" });			
-}
 protected function handleAccelUpdate(evt:AccelerometerEvent):void
 {
 	var aX:Number = evt.accelerationX;
 	var aY:Number = evt.accelerationY;
 	var aZ:Number = evt.accelerationZ;
 	
-	cnx.sendData( {type:"rotation", value:Math.round(aX * 100)} );
+	//cnx.sendData( {type:"rotation", value:Math.round(aX * 100)} );
 }		
-protected function handleGetObject(dataReceived:Object):void
-{
-	// received
-	switch ( dataReceived.type.toString() ) 
-	{ 
-		case "msg":
-			//navigator.activeView.status.text 	= dataReceived.value;
-			break;
-		case "path":
-			if ( lv ) lv.path.text = dataReceived.value;		
-			break;
-		case "layer":
-			if ( numLayers == 0 )
-			{
-				//cnx.sendData({type:"cnx", value:"mobile" });
-			}
-			else
-			{
-				if ( lv ) lv.selectedLayer = dataReceived.value;
-			}
-			break;
-		case "layers":
-			numLayers = dataReceived.value;
-			navigator.pushView( LayersView, dataReceived );
-			
-			cnx.sendData( {type:"layerbtn", value:"created" }  );
-			break;
-		default: 
-			
-			break;
-	}
-}
+
 

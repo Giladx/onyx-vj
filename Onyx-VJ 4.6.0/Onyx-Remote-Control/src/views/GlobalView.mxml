@@ -9,10 +9,14 @@
 
 	<fx:Script>
 		<![CDATA[
-			import mx.core.FlexGlobals;		
+			import mx.core.FlexGlobals;
+			
+			import services.remote.DirectLanConnection;
+			
 			import spark.events.ViewNavigatorEvent;
 			
-			private var i:int;			
+			private var i:int;		
+			private var cnx:DirectLanConnection = DirectLanConnection.getInstance();
 			
 			protected function onViewActivate(event:ViewNavigatorEvent):void
 			{
@@ -32,7 +36,7 @@
 			
 			protected function handleAutoXFadeClick(event:MouseEvent):void
 			{
-				FlexGlobals.topLevelApplication.cnx.sendData( {type:"toggle-cross-fader", value:1}  );
+				cnx.sendData( {type:"toggle-cross-fader", value:1}  );
 			}
 			
 			protected function handleAutoXFadeRelease(event:MouseEvent):void
@@ -41,16 +45,16 @@
 			}
 			protected function handleFrameRateUpClick(event:MouseEvent):void
 			{
-				FlexGlobals.topLevelApplication.cnx.sendData( {type:"frame-rate-increase", value:1}  );
+				cnx.sendData( {type:"frame-rate-increase", value:1}  );
 			}
 			
 			protected function handleFrameRateDownClick(event:MouseEvent):void
 			{
-				FlexGlobals.topLevelApplication.cnx.sendData( {type:"frame-rate-decrease", value:0}  );
+				cnx.sendData( {type:"frame-rate-decrease", value:0}  );
 			}
 			protected function handleFadeBlackClick(event:MouseEvent):void
 			{
-				FlexGlobals.topLevelApplication.cnx.sendData( {type:"fade-black", value:1}  );
+				cnx.sendData( {type:"fade-black", value:1}  );
 			}
 			
 			protected function handleFadeBlackRelease(event:MouseEvent):void
@@ -65,7 +69,7 @@
 			<s:Label id="status" width="299" text="{data}" color="0xAAAAAA"/>
 			
 			<!--<s:HGroup id="connexionGroup">
-			<s:TextInput id="codeInput" width="80" height="50" text="60000"/>
+			<s:TextInput id="codeInput" width="80" height="50" text="rtmfp://localhost/"/>
 			<s:Button id="connectBtn" width="90" height="50" label="Connect"
 			mouseDown="handleConnect(event)"/>
 			<s:BusyIndicator visible="false" id="busyCursor" />				

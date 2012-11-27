@@ -26,7 +26,10 @@
 	</fx:Style>
 	<fx:Script>
 		<![CDATA[
+			
 			import mx.core.FlexGlobals;
+			
+			import services.remote.DirectLanConnection;
 			
 			import spark.events.ViewNavigatorEvent;
 			
@@ -36,6 +39,7 @@
 			private var _selectedLayer:int = 0;
 			[Bindable]
 			private var sliderWidth:int = 50;
+			private var cnx:DirectLanConnection = DirectLanConnection.getInstance();
 
 			public function get selectedLayer():int
 			{
@@ -54,7 +58,7 @@
 
 			protected function onViewActivate(event:ViewNavigatorEvent):void
 			{
-				FlexGlobals.topLevelApplication.lv = this;
+				//lv = this;
 				if (data && data.type)
 				{
 					switch ( data.type.toString() ) 
@@ -68,7 +72,7 @@
 						/* case "layer":
 							if ( nLayers == 0 )
 							{
-								//FlexGlobals.topLevelApplication.cnx.sendData({type:"cnx", value:"mobile" });
+								//cnx.sendData({type:"cnx", value:"mobile" });
 							}
 							else
 							{
@@ -99,7 +103,7 @@
 								}							
 							}
 							
-							FlexGlobals.topLevelApplication.cnx.sendData( {type:"layerbtn", value:"created" }  );
+							cnx.sendData( {type:"layerbtn", value:"created" }  );
 							break;
 						default: 
 							
@@ -110,53 +114,53 @@
 			protected function btnLayerClick(event:MouseEvent):void
 			{
 				selectedLayer = event.currentTarget.name;
-				FlexGlobals.topLevelApplication.cnx.sendData( {type:"select-layer", value:event.currentTarget.name }  );
+				cnx.sendData( {type:"select-layer", value:event.currentTarget.name }  );
 				
 			}
 			protected function handleMuteClick(event:MouseEvent):void
 			{
-				FlexGlobals.topLevelApplication.cnx.sendData( {type:"mute-layer", value:selectedLayer}  );
+				cnx.sendData( {type:"mute-layer", value:selectedLayer}  );
 			}
 			protected function handleBlendModeDownClick(event:MouseEvent):void
 			{
-				FlexGlobals.topLevelApplication.cnx.sendData( {type:"cycle-blendmode-down", value:selectedLayer}  );
+				cnx.sendData( {type:"cycle-blendmode-down", value:selectedLayer}  );
 			}
 			protected function handleBlendModeUpClick(event:MouseEvent):void
 			{
-				FlexGlobals.topLevelApplication.cnx.sendData( {type:"cycle-blendmode-up", value:selectedLayer}  );
+				cnx.sendData( {type:"cycle-blendmode-up", value:selectedLayer}  );
 			}
 			
 			protected function xSlider_changeHandler(event:Event):void
 			{
-				FlexGlobals.topLevelApplication.cnx.sendData( {type:"x", value:xSlider.value}  );
+				cnx.sendData( {type:"x", value:xSlider.value}  );
 			}
 			
 			protected function ySlider_changeHandler(event:Event):void
 			{
-				FlexGlobals.topLevelApplication.cnx.sendData( {type:"y", value:ySlider.value}  );
+				cnx.sendData( {type:"y", value:ySlider.value}  );
 			}
 			protected function alphaSlider_changeHandler(event:Event):void
 			{
-				FlexGlobals.topLevelApplication.cnx.sendData( {type:"alpha", value:alphaSlider.value}  );
+				cnx.sendData( {type:"alpha", value:alphaSlider.value}  );
 			}
 			protected function bounceBtn_mouseDownHandler(event:MouseEvent):void
 			{
-				FlexGlobals.topLevelApplication.cnx.sendData( {type:"bounce", value:1}  );
+				cnx.sendData( {type:"bounce", value:1}  );
 			}
 			
 			protected function brightSlider_changeHandler(event:Event):void
 			{
-				FlexGlobals.topLevelApplication.cnx.sendData( {type:"brightness", value:brightSlider.value}  );
+				cnx.sendData( {type:"brightness", value:brightSlider.value}  );
 			}
 			
 			protected function contrastSlider_changeHandler(event:Event):void
 			{
-				FlexGlobals.topLevelApplication.cnx.sendData( {type:"contrast", value:contrastSlider.value}  );
+				cnx.sendData( {type:"contrast", value:contrastSlider.value}  );
 			}
 			
 			protected function saturationSlider_changeHandler(event:Event):void
 			{
-				FlexGlobals.topLevelApplication.cnx.sendData( {type:"saturation", value:saturationSlider.value}  );
+				cnx.sendData( {type:"saturation", value:saturationSlider.value}  );
 			}
 			
 		]]>

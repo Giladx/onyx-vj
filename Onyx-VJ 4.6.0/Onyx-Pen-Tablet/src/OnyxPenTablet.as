@@ -33,9 +33,10 @@ package
 	public class OnyxPenTablet extends Sprite
 	{
 		private var tablet:PenTablet;
-		private var cnx:DirectLanConnection = DirectLanConnection.getInstance("PenTablet");
+		//private var cnx:DirectLanConnection = DirectLanConnection.getInstance("PenTablet");
+		private var cnx:DirectLanConnection = DirectLanConnection.getInstance();
 		private var ctime:Number = 0;
-		private var ms:int = 10;
+		private var ms:int = 100;
 		private var pressure:uint = 512;
 		private var xyp:uint;
 		private var xy:uint;
@@ -57,6 +58,7 @@ package
 		private var UsePressureCheckBox:CheckBox;
 		private var OutputMessage:Label;
 		private var PressureValue:InputText;
+		private var msValue:InputText;
 		
 		public function OnyxPenTablet()
 		{
@@ -88,9 +90,11 @@ package
 			UsePressureCheckBox = new CheckBox(controls, padLeft, stage.stageHeight - padBottom, "use pressure" , UsePressureHandler );
 			UsePressureCheckBox.selected = true;
 			padLeft += 10+UsePressureCheckBox.width;
+			msValue = new InputText(controls, padLeft, stage.stageHeight - padBottom, ms.toString(), msValueHandler);
+			padLeft += 10+msValue.width;
 			OutputMessage = new Label(controls, padLeft, stage.stageHeight - padBottom);
-			log('OnyxPenTablet start');			
-			cnx.connect("60000");
+			log('OnyxPenTablet version 0.9.005');			
+			cnx.connect();
 			
 			tablet = new PenTablet();
 			
@@ -116,6 +120,11 @@ package
 		{
 			if (!UsePressure) pressure = int(PressureValue.text);
 		}
+		private function msValueHandler():void
+		{
+			ms = int(msValue.text);
+			log('buffer is ' + msValue.text + 'ms');	
+		}
 		private function UsePressureHandler(e:Event):void 
 		{
 			UsePressure = UsePressureCheckBox.selected;
@@ -131,6 +140,7 @@ package
 		{
 			if ( getTimer() - ctime > ms ) 
 			{
+				log('queue length: ' + toSend.length.toString() )
 				ctime = getTimer();
 				if ( toSend.length > 0 )
 				{
@@ -138,16 +148,6 @@ package
 					toSend.shift();
 				}				
 			}
-		}
-		
-		protected function mouseDownHandler(ev:MouseEvent):void
-		{
-			//graphics.moveTo(mouseX, mouseY);
-			canvas.graphics.moveTo(ev.localX, ev.localY);
-			getColor(ev.localX, ev.localY);
-			xy = ev.localX * 1048576 + ev.localY;
-			toSend.push({cmd:"xy",value:xy});
-			stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 		}
 		private function getColor(x:int,y:int):void
 		{
@@ -166,6 +166,18 @@ package
 			toSend.push({cmd:"color",value:color});
 			
 		}
+		
+		protected function mouseDownHandler(ev:MouseEvent):void
+		{
+			if (ev.localY < stage.stageHeight - padBottom - 10)
+			{
+				canvas.graphics.moveTo(ev.localX, ev.localY);
+				getColor(ev.localX, ev.localY);
+				xy = ev.localX * 1048576 + ev.localY;
+				toSend.push({cmd:"xy",value:xy});
+				stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);			
+			}
+		}
 		protected function mouseMoveHandler(ev:MouseEvent):void
 		{		
 			try
@@ -174,8 +186,12 @@ package
 				if (UsePressure)
 				{
 					pressure = tablet.getPressure();	
-					if (pressure<10) pressure = 10;
+					if (pressure<100) pressure = 100;
 					PressureValue.text = pressure.toString();				
+				}
+				else
+				{
+					pressure = int(PressureValue.text);
 				}
 				xyp = ev.localX * 1048576 + ev.localY * 1024 + pressure;
 				toSend.push({cmd:"xyp",value:xyp});
@@ -185,7 +201,7 @@ package
 				log('Error: '+e);
 			}
 			
-			canvas.graphics.lineStyle(pressure/20, color);//0x00AAAA);
+			canvas.graphics.lineStyle(pressure/30, color);
 			canvas.graphics.lineTo(mouseX, mouseY);
 		}
 		

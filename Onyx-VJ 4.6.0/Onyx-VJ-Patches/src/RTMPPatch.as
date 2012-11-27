@@ -19,14 +19,14 @@ package
 		
 		// fms
 		//private var host:String								= 'rtmp://192.168.0.10/live';
-		private var host:String								= 'rtmp://localhost/live';
+		private var host:String								= 'rtmfp://localhost';
 		
 		//cumulus engine private var host:String								= 'rtmp://localhost:1935/live';
 		private var streamName:String							= 'livestream';
 		//private var streamName:String							= 'cameraFeed';
 		
 
-		private var connection:NetConnection					= new NetConnection();
+		//private var connection:NetConnection					= new NetConnection();
 
 		private var stream:NetStream;
 
@@ -35,13 +35,13 @@ package
 		public function RTMPPatch():void 
 		{
 			
-			connect();
+			//connect();
 		}
 		
 		/**
 		 * 	@parameter
 		 */
-		private function connect():void {
+		/*private function connect():void {
 			trace("connect");
 			if (connection.uri !== host) {
 				
@@ -55,7 +55,7 @@ package
 				connection.connect(host);
 				
 			}
-		}
+		}*/
 		/**
 		 * 	@public
 		 */
@@ -74,7 +74,7 @@ package
 		 */
 		private function clearConnections():void {
 			
-			connection.close();
+			/*connection.close();
 			if (stream) {
 				stream.removeEventListener(AsyncErrorEvent.ASYNC_ERROR,		trace);
 				stream.removeEventListener(NetStatusEvent.NET_STATUS,	handleStream);
@@ -83,14 +83,14 @@ package
 			if (video) {
 				video.attachNetStream(null);
 				video = null;
-			}
+			}*/
 		}
 		
 		/**
 		 * 	@private
 		 */
 		private function handleConnection(event:NetStatusEvent):void {
-			Console.output( 'RTMPPatch: ' + event.info.code);
+			/*Console.output( 'RTMPPatch: ' + event.info.code);
 			switch (event.info.code) {
 				case 'NetConnection.Connect.Success':
 					
@@ -111,7 +111,7 @@ package
 					Console.output( 'RTMPPatch: ' + event.info.code);
 					
 					break;
-			}
+			}*/
 		}
 		
 		/**
@@ -165,12 +165,12 @@ package
 				
 			}
 			
-			if (connection) {
+			/*if (connection) {
 				connection.removeEventListener(NetStatusEvent.NET_STATUS, handleConnection);
 				if (connection.connected) {
 					connection.close();
 				}
-			}
+			}*/
 			
 			super.dispose();
 			

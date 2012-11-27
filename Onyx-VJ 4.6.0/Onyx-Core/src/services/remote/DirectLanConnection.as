@@ -20,7 +20,7 @@ package services.remote
 	public class DirectLanConnection implements IEventDispatcher
 	{
 		private var dispatcher:EventDispatcher;
-		private var netConnection:NetConnection;
+		private static var netConnection:NetConnection;
 		private var group:NetGroup;
 		private const CirrusAddress:String = "rtmfp://p2p.rtmfp.net";
 		private var _developerKey:String = "";
@@ -34,7 +34,7 @@ package services.remote
 		/**
 		 * The port this connection is on 
 		 */		
-		public var port:String;
+		//public var port:String;
 
 		/**
 		 * Method that should be executed when data is recieved (should have one argument to hold the object returned from the NetStatusEvent : event.info.message)
@@ -47,9 +47,10 @@ package services.remote
 		
 		private static var cnxInstance:DirectLanConnection;
 		private static var numLayers:int = 0;
-		private static var _clientName:String;
+		//private static var _clientName:String;
 		
-		public static function getInstance(clientName:String):DirectLanConnection
+		//public static function getInstance(clientName:String):DirectLanConnection
+		public static function getInstance():DirectLanConnection
 		{
 			if (cnxInstance == null)
 			{
@@ -57,7 +58,7 @@ package services.remote
 				cnxInstance = new DirectLanConnection();
 				cnxInstance.onConnect = handleConnectToService;
 				cnxInstance.onDataReceive = handleGetObject;
-				_clientName = clientName;
+				//_clientName = clientName;
 			}
 			
 			return cnxInstance;
@@ -73,11 +74,11 @@ package services.remote
 		protected static function handleConnectToService(user:Object):void
 		{
 			//Console.output("handleConnectToService");
-			cnxInstance.sendData({type:"cnx", value:_clientName });			
+			//cnxInstance.sendData({type:"cnx", value:_clientName });			
 		}
 		protected static function handleGetObject(dataReceived:Object):void
 		{
-			Console.output("handleGetObject, dataReceived from " + _clientName + " type: " + dataReceived.type.toString());
+			//Console.output("handleGetObject, dataReceived from " + _clientName + " type: " + dataReceived.type.toString());
 			// received
 			switch ( dataReceived.type.toString() ) 
 			{ 
@@ -104,7 +105,8 @@ package services.remote
 					break;*/
 				default: 
 					//trace("handleGetObject, dataReceived sending");
-					DirectLanConnection.getInstance(_clientName).dispatchEvent( new DLCEvent(DLCEvent.ON_RECEIVED, dataReceived) );
+					//DirectLanConnection.getInstance(_clientName).dispatchEvent( new DLCEvent(DLCEvent.ON_RECEIVED, dataReceived) );
+					DirectLanConnection.getInstance().dispatchEvent( new DLCEvent(DLCEvent.ON_RECEIVED, dataReceived) );
 
 					break;
 			}
@@ -116,19 +118,19 @@ package services.remote
 		 * @param connectionPortId
 		 * 
 		 */		
-		public function connect(connectionPortId:String = null):void
-		{
+		public function connect(url:String = "rtmfp:"):void//"rtmfp://localhost/"):void
+		{ //connectionPortId:String = null, 
 			// Random port generator: 1024..65535
-			var minInt:int = 1024;
+			/*var minInt:int = 1024;
 			var maxInt:int = 65535;
 			var randomPort:Number = Math.floor(minInt + (Math.random() * (maxInt - minInt)));
 			
-			port = connectionPortId == null ? String( randomPort ) : connectionPortId;
+			port = connectionPortId == null ? String( randomPort ) : connectionPortId;*/
 			
 			netConnection = new NetConnection();
 			netConnection.addEventListener(NetStatusEvent.NET_STATUS, handleStatus);
 			// same subnet 
-			netConnection.connect("rtmfp:");
+			netConnection.connect(url);
 			//netConnection.connect(CirrusAddress, DeveloperKey);
 		}
 		
@@ -149,9 +151,17 @@ package services.remote
 					break;
 				
 				case "NetGroup.SendTo.Notify":
-					Console.output("NetGroup.SendTo.Notify" );
+					//Console.output("NetGroup.SendTo.Notify" );
 					if(onDataReceive != null)
 						onDataReceive.apply(null, [event.info.message]);
+					break;
+				case "NetConnection.Call.Failed":
+					Console.output("NetConnection.Call.Failed" );
+					trace("NetConnection.Call.Failed");
+					break;
+				default: 
+					Console.output(event.info.code );
+					trace(event.info.code);
 					break;
 			}
 		}
@@ -202,10 +212,10 @@ package services.remote
 		
 		private function setUpGroup():void
 		{
-			var groupSpec:GroupSpecifier = new GroupSpecifier("Onyx-VJ-"+port);
+			var groupSpec:GroupSpecifier = new GroupSpecifier("Onyx-VJ-1935");//port);
 			groupSpec.routingEnabled = true;
 			groupSpec.ipMulticastMemberUpdatesEnabled = true;
-			groupSpec.addIPMulticastAddress("224.255.0.0:"+port);
+			groupSpec.addIPMulticastAddress("224.255.0.0:1935");//port);
 			groupSpec.multicastEnabled = true;
 			
 			group = new NetGroup(netConnection, groupSpec.groupspecWithAuthorizations());

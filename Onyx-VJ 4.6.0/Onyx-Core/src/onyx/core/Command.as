@@ -30,7 +30,8 @@ package onyx.core {
 	 */
 	public final class Command {
 		
-		private static var cnx:DirectLanConnection = DirectLanConnection.getInstance("cmd");
+		//private static var cnx:DirectLanConnection = DirectLanConnection.getInstance("cmd");
+		private static var cnx:DirectLanConnection = DirectLanConnection.getInstance();
 		private static var _name:String;
 		private static var l:Layer;
 		private static var fadeFilter:Filter;
@@ -180,12 +181,12 @@ package onyx.core {
 		/**
 		 * 	Chat
 		 */		
-		private static function chat(port:String = "60000", name:String = "guest"):String {
+		private static function chat(url:String = "rtmfp://localhost/", name:String = "guest"):String {
 			_name = name;
 			
 			cnx.onConnect = handleOnConnect;
 			cnx.onDataReceive = handleDataReceived;
-			cnx.connect(port);
+			cnx.connect(url);
 			return 'Chat: connecting';
 		}
 		/**
@@ -312,7 +313,7 @@ package onyx.core {
 		}
 		protected static function handleOnConnect(user:Object):void
 		{
-			Console.output("Connected on port: " +cnx.port);
+			Console.output("Connected");
 			cnx.sendData({type:"name", value:_name });	
 		
 		}

@@ -60,7 +60,7 @@ package {
 				var c1:uint = uint(0xff * (1000-p.y) /465) << 24 | 0x00ffffff;
 				cvs.setPixel32(p.x, p.y, p.c&c1);
 				if (p.y<0 || h<p.y || p.x<0 || p.x>w){
-					particles.splice(n,1);
+					particles.splice(n,10);
 				}
 			}
 			cvs.unlock();

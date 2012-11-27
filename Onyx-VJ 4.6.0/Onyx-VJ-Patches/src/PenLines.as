@@ -32,7 +32,8 @@ package {
 		public var mySet:Number = 1;
 		public var myPoint:Array = new Array("p1","p2","p3","p4");
 		public var myNum:Number = 0;
-		private var dlc:DirectLanConnection = DirectLanConnection.getInstance("Onyx-Desktop");
+		private var dlc:DirectLanConnection = DirectLanConnection.getInstance("PenLines");
+
 		private var _pressure:uint = 10;	
 		private var _xyp:uint = 10;	
 		private var _x:int = 200;
@@ -45,7 +46,7 @@ package {
 			
 			dlc.addEventListener( DLCEvent.ON_RECEIVED, DataReceived );
 			dlc.connect("60000");
-			Console.output('PenLines v0.02 from http://wonderfl.net/c/r5VZ');
+			Console.output('PenLines v0.03 from http://wonderfl.net/c/r5VZ');
 		}
 		
 		protected function DataReceived(dataReceived:Object):void

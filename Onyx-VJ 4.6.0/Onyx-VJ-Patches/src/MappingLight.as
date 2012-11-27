@@ -42,7 +42,6 @@ package
 		private var _lightMaskBMPD:BitmapData;
 		private var _lightMaskBMP:Bitmap;
 		
-		//private var _ui:Sprite;
 		private var _light:Sprite;
 		private var _obstacleOutline:Sprite;
 		private var mx:Number = 320;
@@ -57,6 +56,7 @@ package
 			setupBitmap();
 			setupDisplay();
 			addEventListener( MouseEvent.MOUSE_DOWN, mouseDown );
+			addEventListener( MouseEvent.MOUSE_MOVE, mouseDown );
 		}
 		private function mouseDown(event:InteractionEvent):void 
 		{

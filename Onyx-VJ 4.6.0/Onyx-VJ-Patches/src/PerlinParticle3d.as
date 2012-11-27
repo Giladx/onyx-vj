@@ -28,7 +28,7 @@ package
 
 	public class PerlinParticle3d extends Patch 
 	{
-		private const MAX_PARTICLES: int = 2000;
+		private const MAX_PARTICLES: int = 500;
 		private const colorTransform: ColorTransform = new ColorTransform( 0.92, 0.96, 0.94 );
 		private var filter: BitmapFilter;
 		private const blurFilter:BlurFilter = new BlurFilter(4, 4, 2);
@@ -55,7 +55,7 @@ package
 			
 			screen = new BitmapData( DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0 );
 			forceField = screen.clone();
-			forceCalc = new BitmapData( screen.width / scale, screen.height / scale, false, 0 );
+			forceCalc = new BitmapData( screen.width / scale, screen.height / scale, true, 0 );
 			forceMatrix = new Matrix();
 			forceMatrix.scale( scale, scale );
 			

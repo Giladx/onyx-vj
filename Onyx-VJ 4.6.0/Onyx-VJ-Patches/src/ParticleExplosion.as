@@ -43,7 +43,7 @@ package
 		public function ParticleExplosion()
 		{
 			parameters.addParameters( 
-				new ParameterColor('color', 'color')
+				new ParameterColor('color', 'color', color)
 			);
 			_canvas = new BitmapData( DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0 );
 			

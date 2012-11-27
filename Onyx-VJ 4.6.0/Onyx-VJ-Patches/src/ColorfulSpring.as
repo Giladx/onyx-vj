@@ -23,18 +23,21 @@ package {
 	
 	public class ColorfulSpring extends Patch {
 		private var array:Array = [];
-		private const N:int = 10, minDist:int = 5, springAmount:Number = 0.0075;
+		private var _n:int = 10;
+		private var minDist:int = 5;
+		private var _springAmount:Number = 0.0075;
 		private var canvas:Bitmap, bmpData:BitmapData, sp:Sprite;
 		private var tr:ColorTransform = new ColorTransform(0.97,0.97,0.995,1);
 		
 		public function ColorfulSpring() {
-			/*graphics.beginFill(0);
-			graphics.drawRect(0x990000,0,465,465);
-			graphics.endFill();
-			*/
+			
+			/*parameters.addParameters(
+				new ParameterInteger('n', 'spring count', 10, 50, _n),
+				new ParameterNumber('springAmount', 'spring Amount', 0, 0.01, _springAmount, 1000)
+			);*/
+				
 			sp = new Sprite();
-			for(var i:int = 0; i < N; i++){
-				//var ball:Ball = new Ball(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random()*20+10, Math.random() * 0xFFFFFF);
+			for(var i:int = 0; i < n; i++){
 				var ball:Ball = new Ball(
 					Math.random()*2-1,
 					Math.random()*2-1,
@@ -59,7 +62,7 @@ package {
 			bmpData.colorTransform(bmpData.rect, tr);
 			bmpData.draw(sp);
 			
-			var len:uint = N;
+			var len:uint = n;
 			while(len--) {
 				var ball:Ball = array[len];
 				ball.rotationX += ball.vx;
@@ -73,9 +76,9 @@ package {
 			}
 			
 			sp.graphics.clear();
-			for(var i:int = 0; i < N - 1; i++){
+			for(var i:int = 0; i < n - 1; i++){
 				var partA:Ball = array[i];
-				for(var j:uint = i + 1; j < N; j++){
+				for(var j:uint = i + 1; j < n; j++){
 					var partB:Ball = array[j];
 					spring(partA, partB);
 				}
@@ -104,6 +107,28 @@ package {
 				b2.vy -= ay / b2.r;
 			}
 		}
+
+		public function get n():int
+		{
+			return _n;
+		}
+
+		public function set n(value:int):void
+		{
+			_n = value;
+		}
+
+		public function get springAmount():Number
+		{
+			return _springAmount;
+		}
+
+		public function set springAmount(value:Number):void
+		{
+			_springAmount = value;
+		}
+
+
 	}
 }
 

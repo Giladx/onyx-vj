@@ -36,7 +36,7 @@ package {
 		public var line:Boolean				= true;
 		public var alph:Number				= 1;
 		
-		private var dlc:DirectLanConnection = DirectLanConnection.getInstance("Onyx-Desktop");
+		private var dlc:DirectLanConnection = DirectLanConnection.getInstance("PenDraw");
 		private var _pressure:uint = 10;	
 		private var _xyp:uint = 10;	
 		private var _xy:uint = 10;	
@@ -64,7 +64,7 @@ package {
 			addEventListener(InteractionEvent.MOUSE_DOWN, mouseDown);
 			dlc.addEventListener( DLCEvent.ON_RECEIVED, DataReceived );
 			dlc.connect("60000");
-			Console.output('PenDraw v0.02 by Bruce LANE (http://www.batchass.fr)');
+			Console.output('PenDraw v0.03 by Bruce LANE (http://www.batchass.fr)');
 		}
 		
 		protected function DataReceived(dataReceived:Object):void

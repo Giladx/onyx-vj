@@ -55,10 +55,11 @@ package
 		/** Constructor */
 		public function InkBleed():void
 		{
-			super();
 			
-			_cw = 640;//DISPLAY_WIDTH/factor;
-			_ch = 480;//DISPLAY_HEIGHT/factor;
+			_cw = DISPLAY_WIDTH;
+			_ch = DISPLAY_HEIGHT;
+			//_cw = 640;DISPLAY_WIDTH/factor;
+			//_ch = 480;DISPLAY_HEIGHT/factor;
 			_pnum = _cw * _ch;
 			initTimer();
 			initDots();

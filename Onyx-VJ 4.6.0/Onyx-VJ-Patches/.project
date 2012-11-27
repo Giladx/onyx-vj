@@ -16,6 +16,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>[source path] code</name>
+			<type>2</type>
+			<locationURI>DOCUMENTS/code</locationURI>
+		</link>
+		<link>
 			<name>bin-debug</name>
 			<type>2</type>
 			<location>C:/Users/b.lane/AppData/Roaming/Onyx-VJ/Local Store/Onyx-VJ/library/Onyx-Patches/Onyx-Patches-Debug</location>

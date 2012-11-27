@@ -27,8 +27,8 @@ package
 		public  var alt:int, larg:int;
 		public  var blurFilter:Array;
 		private var sprite:Sprite;
-		private var _ms:int = 40;
 		private var _blur:int = 10;
+		private var _ms:int = 40;
 		private var _ctime:Number = 0;
 	
 		public function AuralSynapse() 

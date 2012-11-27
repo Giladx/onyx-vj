@@ -7,6 +7,7 @@
 package {
 	import flash.display.*;
 	import flash.events.*;
+	import flash.utils.getTimer;
 	
 	import onyx.core.*;
 	import onyx.parameter.*;
@@ -17,8 +18,14 @@ package {
 		private var bd2:BitmapData;
 		private var isProcessing:Boolean=true;
 		private var sprite:Sprite;
+		private var _ms:int = 100;
+		private var _ctime:Number = 0;
 		
-		public function Grunge() {
+		public function Grunge() 
+		{
+			parameters.addParameters(
+				new ParameterInteger( 'ms', 'ms:', 1, 1000, _ms )
+			);
 			sprite = new Sprite();
 			bd = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x808080);
 			bd2 = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, false, 0x808080);
@@ -28,7 +35,7 @@ package {
 			
 			bd.perlinNoise(150, 150, 3, 50, true, true, 7, true);
 			addEventListener(MouseEvent.MOUSE_DOWN, toggleProcessing);
-
+			_ctime = getTimer();
 		}
 		private function addLayer():void {
 			var seed:uint=Math.random()*1000;
@@ -43,11 +50,25 @@ package {
 			isProcessing=!isProcessing;
 		} 
 		override public function render(info:RenderInfo):void {
-			if (isProcessing)
+			if ( getTimer() - _ctime > ms ) 
 			{
-				addLayer();
+				_ctime = getTimer();
+				if (isProcessing)
+				{
+					addLayer();
+				}
+				
 			}
 			info.render(sprite);
+		}
+		public function get ms():int
+		{
+			return _ms;
+		}
+		
+		public function set ms(value:int):void
+		{
+			_ms = value;
 		}
 	}
 }

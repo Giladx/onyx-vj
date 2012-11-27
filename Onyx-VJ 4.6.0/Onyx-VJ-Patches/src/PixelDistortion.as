@@ -33,7 +33,7 @@ package {
 				new ParameterInteger( 'maxDistortion', 'maxDistortion', 1, 300, 300 )
 			);
 			_bitmap = new AssetForPixelDistortion();
-			addChild(new Bitmap(_bitmap, 'auto', true));
+			addChild(new Bitmap(_bitmap, 'auto', false));
 		}
 		
 		

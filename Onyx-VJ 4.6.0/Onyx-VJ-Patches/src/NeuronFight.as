@@ -25,7 +25,7 @@ package
 	
 	public class NeuronFight extends Patch
 	{   
-		public static const NUM_STARS:int = 200;
+		public static const NUM_STARS:int = 50;//200;
 		private var _con:Constellation;        
 		private var _display:BitmapData;
 		private var _blur:BlurFilter = new BlurFilter(36,36, 2); 
@@ -34,9 +34,15 @@ package
 		private var _hsv:ColorHSV;
 		private var mx:int = 320;
 		private var my:int = 240;
+		private var _ms:int = 40;
+		private var _ctime:Number = 0;
 		
 		public function NeuronFight() 
 		{
+			parameters.addParameters(
+				new ParameterInteger( 'ms', 'ms:', 1, 1000, _ms )
+			);
+			_ctime = getTimer();
 			_hsv = new ColorHSV();
 			_display = new BitmapData(DISPLAY_WIDTH, DISPLAY_HEIGHT, true, 0x000000); 
 			addEventListener( MouseEvent.MOUSE_DOWN, mouseDown );
@@ -55,14 +61,27 @@ package
 		}		
 		override public function render(info:RenderInfo):void  
 		{
-			_con.update(mx, my);
-			_hsv.h = getTimer() / 50;
-			_ct.color = _hsv.value;
-			_display.colorTransform(_display.rect, _ct);
-			_display.applyFilter(_display, _display.rect, _pt, _blur);
-			
-			_display.draw(_con);
-			info.source.copyPixels(_display, DISPLAY_RECT, ONYX_POINT_IDENTITY);
+			if ( getTimer() - _ctime > ms ) 
+			{
+				_ctime = getTimer();
+				_con.update(mx, my);
+				_hsv.h = _ctime / 50;
+				_ct.color = _hsv.value;
+				_display.colorTransform(_display.rect, _ct);
+				_display.applyFilter(_display, _display.rect, _pt, _blur);
+				
+				_display.draw(_con);
+				info.source.copyPixels(_display, DISPLAY_RECT, ONYX_POINT_IDENTITY);
+			}
+		}
+		public function get ms():int
+		{
+			return _ms;
+		}
+		
+		public function set ms(value:int):void
+		{
+			_ms = value;
 		}
 	}
 }

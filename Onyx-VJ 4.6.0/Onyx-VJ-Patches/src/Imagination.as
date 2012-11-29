@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2003-2010, www.onyx-vj.com
+ * Copyright (c) 2003-2012, www.onyx-vj.com
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -32,12 +32,7 @@
  */
 package 
 {
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.BlendMode;
-	import flash.display.Graphics;
-	import flash.display.Shape;
-	import flash.display.Sprite;
+	import flash.display.*;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filters.BlurFilter;
@@ -47,6 +42,9 @@ package
 	import onyx.core.Console;
 	import onyx.core.RenderInfo;
 	import onyx.plugin.*;
+	
+	import services.remote.DLCEvent;
+	import services.remote.DirectLanConnection;
 	
 	//[SWF(width='320', height='240', frameRate='24')]
 	public class Imagination extends Patch
@@ -60,8 +58,6 @@ package
 		private const SPREAD_MAX:int = 40;
 		
 		// Main variables
-		private var canvasWidth:int;
-		private var canvasHeight:int;
 		private var list:Array;
 		private var px:Number;
 		private var py:Number;
@@ -79,24 +75,43 @@ package
 		private var blur:BlurFilter;
 		private var _sourceBD:BitmapData = createDefaultBitmap();
 		private var sprite:Sprite;
+		private var dlc:DirectLanConnection = DirectLanConnection.getInstance();
 		
 		public function Imagination()
 		{
-			Console.output('Imagination 4.2.1');
+			Console.output('Imagination 4.6.1');
 			Console.output('Credits to Paul NEAVE (http://www.neave.com)');
 			Console.output('Adapted by Bruce LANE (http://www.batchass.fr)');
 			
 			sprite = new Sprite();
-			addChild(sprite);
 			
-			canvasWidth = DISPLAY_WIDTH;
-			canvasHeight = DISPLAY_HEIGHT;
-			
-			initStage();
 			initLines();
 			initBitmap();
+			addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveListener);
+			addEventListener(MouseEvent.MOUSE_DOWN, mouseDownListener);
+			addEventListener(MouseEvent.MOUSE_UP, mouseUpListener);
+			dlc.addEventListener( DLCEvent.ON_RECEIVED, DataReceived );
+			dlc.connect();
 		}
-		
+		protected function DataReceived(dataReceived:Object):void
+		{
+			// received
+			switch ( dataReceived.params.type.toString() ) 
+			{ 
+				case "xyp":
+					var xyp:uint = dataReceived.params.value;
+					px = xyp / 1048576;
+					py = (xyp % 1048576) / 1024;
+					size = (xyp % 1048576) % 1024;
+					break;
+				case "x-y":
+					var xy:uint = dataReceived.params.value;
+					px = xy / 1048576;
+					py = xy % 1048576;
+				default: 
+					break;
+			}
+		}	
 		/**
 		 *
 		 */
@@ -134,17 +149,6 @@ package
 			drawBitmap();
 			info.render( sprite );
 		}
-		/**
-		 * Sets up stage listeners
-		 */
-		private function initStage():void
-		{
-			addEventListener(Event.RESIZE, stageResizeListener);
-			addEventListener(Event.MOUSE_LEAVE, mouseLeaveListener);
-			addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveListener);
-			addEventListener(MouseEvent.MOUSE_DOWN, mouseDownListener);
-			addEventListener(MouseEvent.MOUSE_UP, mouseUpListener);
-		}
 		
 		/**
 		 * Sets up line variables
@@ -171,17 +175,13 @@ package
 		private function initBitmap():void
 		{
 			// Stage sizes
-			var sw:int = DISPLAY_WIDTH;
-			var sh:int = DISPLAY_HEIGHT;
-			var sw2:int = Math.ceil(sw / 2);
-			var sh2:int = Math.ceil(sh / 2);
+			var sw2:int = Math.ceil(DISPLAY_WIDTH / 2);
+			var sh2:int = Math.ceil(DISPLAY_HEIGHT / 2);
 			
 			// Create the main bitmap to draw into (and half the size to run faster)
 			bmp = new Bitmap(new BitmapData(sw2, sh2, true, 0xFF000000));
 			bmp.smoothing = true;
 			bmp.scaleX = bmp.scaleY = 2;
-			bmp.x = (canvasWidth - sw) / 2;
-			bmp.y = (canvasHeight - sh) / 2;
 			sprite.addChild(bmp);
 			
 			// Create bitmap data for fading into black
@@ -238,14 +238,6 @@ package
 		}
 		
 		/**
-		 * Listens for when the mouse leaves the stage
-		 */
-		private function mouseLeaveListener(e:Event):void
-		{
-			paused = true;
-		}
-		
-		/**
 		 * Listens for when the mouse re-enters the stage
 		 */
 		private function mouseMoveListener(e:MouseEvent):void
@@ -289,8 +281,6 @@ package
 		 */
 		public function destroy():void
 		{
-			removeEventListener(Event.RESIZE, stageResizeListener);
-			removeEventListener(Event.MOUSE_LEAVE, mouseLeaveListener);
 			removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveListener);
 			removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownListener);
 			removeEventListener(MouseEvent.MOUSE_UP, mouseUpListener);
@@ -298,20 +288,6 @@ package
 			disposeBitmaps();
 			
 		}
-		
-		/**
-		 * Listens for stage resize
-		 */
-		private function stageResizeListener(e:Event):void
-		{
-			// Start again with the bitmap if the stage is resized
-			sprite.removeChild(bmp);
-			disposeBitmaps();
-			initBitmap();
-		}
-		
-		
-		
 	}
 	
 }

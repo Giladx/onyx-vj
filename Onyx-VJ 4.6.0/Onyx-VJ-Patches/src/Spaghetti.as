@@ -27,7 +27,7 @@ package
 		public var filter:GlowFilter;
 		//public var colorList:Array = [0x0066FF,0x0066FF,0x999999]
 		public var colorList:Array = [0x5E4A2F,0xC4AE59,0x775C2B]
-		private var spr:Sprite;
+		private var sprite:Sprite;
 		private var timer:Timer;
 		public var move:int = 100;
 		private var mx:Number = 320;
@@ -36,7 +36,7 @@ package
 		public function Spaghetti() 
 		{
 			Console.output('Spaghetti adapted by Bruce LANE (http://www.batchass.fr)');
-			spr = new Sprite();
+			sprite = new Sprite();
 			ChaseList = new Array();
 			for (var i:int = 0; i < lines; i++) {
 				var List:Array = new Array();
@@ -75,7 +75,7 @@ package
 		}
 		override public function render(info:RenderInfo):void 
 		{
-			spr.graphics.clear();
+			sprite.graphics.clear();
 			for (var i:int = 0; i < lines; i++) {
 				var List:Array = ChaseList[i];
 				var a1:ChaseP = List[0];
@@ -91,14 +91,14 @@ package
 					var a3:ChaseP = List[j - 1];
 					var a4:ChaseP = List[j];
 					moveP(a3, a4, 0.3, 0.4);
-					spr.graphics.lineStyle(Thick, p, alh);
-					spr.graphics.moveTo(a3.x, a3.y);
-					spr.graphics.lineTo(a4.x, a4.y);
+					sprite.graphics.lineStyle(Thick, p, alh);
+					sprite.graphics.moveTo(a3.x, a3.y);
+					sprite.graphics.lineTo(a4.x, a4.y);
 					alh -= 0.03;
 					Thick -= 0.3;
 				}
 			}
-			info.render( spr );
+			info.render( sprite );
 		}
 		
 		public function moveP(p0:ChaseP, p1:ChaseP, num1:Number, num2:Number):void

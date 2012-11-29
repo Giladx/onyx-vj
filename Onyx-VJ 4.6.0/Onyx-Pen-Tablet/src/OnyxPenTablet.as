@@ -19,8 +19,10 @@ package
 	import flash.text.TextField;
 	import flash.utils.getTimer;
 	
-	import services.remote.DirectLanConnection;
-
+	import services.remote.NetworkUtil;
+	import services.remote.P2PEvent;
+	import services.remote.PeerToPeerConnection;
+	
 	/*
 	Use this cmd file to generate exe
 	SET AIR_SDK=%USERPROFILE%\Documents\flex_sdk_4.6.0.23201B
@@ -33,8 +35,7 @@ package
 	public class OnyxPenTablet extends Sprite
 	{
 		private var tablet:PenTablet;
-		//private var cnx:DirectLanConnection = DirectLanConnection.getInstance("PenTablet");
-		private var cnx:DirectLanConnection = DirectLanConnection.getInstance();
+		private var cnx:PeerToPeerConnection = PeerToPeerConnection.getInstance();
 		private var ctime:Number = 0;
 		private var ms:int = 100;
 		private var pressure:uint = 512;
@@ -51,7 +52,7 @@ package
 		private var UseDetectedColor:Boolean = true;
 		private var UsePressure:Boolean = true;
 		//Minimal comps
-		private var CommentColor:ColorChooser;
+		private var DrawColor:ColorChooser;
 		private var LoadImageButton:PushButton;
 		private var ClearButton:PushButton;
 		private var UseDetectedColorCheckBox:CheckBox;
@@ -62,6 +63,11 @@ package
 		
 		public function OnyxPenTablet()
 		{
+			cnx = PeerToPeerConnection.getInstance();
+			PeerToPeerConnection.ipAddresses = NetworkUtil.getIpAddresses();
+			cnx.connect();
+			toSend.push({cmd:"peername",value:"OnyxPenTablet"});
+			
 			ctime = getTimer();
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
@@ -73,10 +79,10 @@ package
 			controls = new Sprite();
 			addChild(controls);
 			
-			CommentColor = new ColorChooser(controls, padLeft, stage.stageHeight - padBottom, 0xFF0000 , CommentColorHandler );
-			CommentColor.usePopup = true;
-			CommentColor.popupAlign = ColorChooser.TOP;
-			padLeft += 20+CommentColor.width;
+			DrawColor = new ColorChooser(controls, padLeft, stage.stageHeight - padBottom, 0xFF0000 , DrawColorHandler );
+			DrawColor.usePopup = true;
+			DrawColor.popupAlign = ColorChooser.TOP;
+			padLeft += 20+DrawColor.width;
 			
 			LoadImageButton = new PushButton(controls, padLeft, stage.stageHeight - padBottom, "open image" , LoadImageButtonHandler );
 			padLeft += 10+LoadImageButton.width;
@@ -93,8 +99,7 @@ package
 			msValue = new InputText(controls, padLeft, stage.stageHeight - padBottom, ms.toString(), msValueHandler);
 			padLeft += 10+msValue.width;
 			OutputMessage = new Label(controls, padLeft, stage.stageHeight - padBottom);
-			log('OnyxPenTablet version 0.9.005');			
-			cnx.connect();
+			log('OnyxPenTablet version 0.9.007');			
 			
 			tablet = new PenTablet();
 			
@@ -105,7 +110,7 @@ package
 
 		}
 		
-		private function CommentColorHandler(e:Event):void 
+		private function DrawColorHandler(e:Event):void 
 		{
 		}
 		private function LoadImageButtonHandler(e:Event):void 
@@ -157,11 +162,11 @@ package
 				bd.draw(stage);
 				var b:Bitmap = new Bitmap(bd);
 				color = b.bitmapData.getPixel(x, y);				
-				CommentColor.value = color;
+				DrawColor.value = color;
 			}
 			else
 			{
-				color = CommentColor.value;
+				color = DrawColor.value;
 			}
 			toSend.push({cmd:"color",value:color});
 			

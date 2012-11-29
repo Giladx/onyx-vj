@@ -15,7 +15,8 @@ package core
 		private var connect:Button;
 		public static var nav:ScreenNavigator;
 		public static const GLOBAL:String = "Global";
-		public static const LAYER1:String = "Layer1";
+		public static const LAYER:String = "Layer";
+		public static const BGNDCOLOR:String = "BgndColor";
 		public function Onyx()
 		{
 			addEventListener(Event.ADDED_TO_STAGE, init);
@@ -30,8 +31,11 @@ package core
 			var globalView:ScreenNavigatorItem = new ScreenNavigatorItem(GlobalView);
 			nav.addScreen(GLOBAL, globalView);
 			
-			var layer1View:ScreenNavigatorItem = new ScreenNavigatorItem(Layer1View);
-			nav.addScreen(LAYER1, layer1View);
+			var bgndColorView:ScreenNavigatorItem = new ScreenNavigatorItem(BgndColorView);
+			nav.addScreen(BGNDCOLOR, bgndColorView);
+			
+			var layerView:ScreenNavigatorItem = new ScreenNavigatorItem(LayerView);
+			nav.addScreen(LAYER, layerView);
 			
 			nav.showScreen(GLOBAL);
 			

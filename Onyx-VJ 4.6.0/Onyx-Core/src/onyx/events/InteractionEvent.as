@@ -29,6 +29,7 @@ package onyx.events {
 		public static const MIDDLE_MOUSE_CLICK:String	= 'middleMouseClick';
 		public static const MIDDLE_MOUSE_DOWN:String	= 'middleMouseDown';
 		public static const MIDDLE_MOUSE_UP:String		= 'middleMouseUp';
+		public static const XY:String					= 'xy';
 		
 		public static const CLICK:String				= MouseEvent.CLICK;
 		public static const MOUSE_DOWN:String			= MouseEvent.MOUSE_DOWN;

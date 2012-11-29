@@ -21,7 +21,7 @@ package onyx.core {
 	import onyx.plugin.*;
 	import onyx.tween.*;
 	
-	import services.remote.DirectLanConnection;
+	import services.remote.PeerToPeerConnection;
 	
 	use namespace onyx_ns;
 
@@ -31,7 +31,7 @@ package onyx.core {
 	public final class Command {
 		
 		//private static var cnx:DirectLanConnection = DirectLanConnection.getInstance("cmd");
-		private static var cnx:DirectLanConnection = DirectLanConnection.getInstance();
+		private static var cnx:PeerToPeerConnection = PeerToPeerConnection.getInstance();
 		private static var _name:String;
 		private static var l:Layer;
 		private static var fadeFilter:Filter;
@@ -181,9 +181,10 @@ package onyx.core {
 		/**
 		 * 	Chat
 		 */		
-		private static function chat(url:String = "rtmfp://localhost/", name:String = "guest"):String {
+		private static function chat(url:String = "rtmfp:", name:String = "guest"):String {
 			_name = name;
 			
+			cnx = PeerToPeerConnection.getInstance();
 			cnx.onConnect = handleOnConnect;
 			cnx.onDataReceive = handleDataReceived;
 			cnx.connect(url);
@@ -313,9 +314,9 @@ package onyx.core {
 		}
 		protected static function handleOnConnect(user:Object):void
 		{
-			Console.output("Connected");
-			cnx.sendData({type:"name", value:_name });	
-		
+			Console.output("Connected");			
+			cnx.sendData( {type:"peername", value:"OnyxCmd-" + PeerToPeerConnection.ipAddresses} );
+
 		}
 		protected static function handleDataReceived(dataReceived:Object):void
 		{

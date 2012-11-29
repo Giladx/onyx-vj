@@ -5,28 +5,14 @@ package services.remote
 	import flash.net.NetConnection;
 	import flash.net.NetGroup;
 	
-	import onyx.core.Console;
-	import onyx.events.InteractionEvent;
-	import onyx.plugin.Display;
-	import onyx.plugin.Layer;
-	
-	/**
-	 * Creates a direct connection over wifi and is totally independant from any other class in this library 
-	 * @author reyco1
-	 * 
-	 */	
-	[Event(name="connected", type="flash.events.TextEvent")]
-	public class DirectLanConnection implements IEventDispatcher
+	public class PeerToPeerConnection implements IEventDispatcher
 	{
 		private var dispatcher:EventDispatcher;
 		private static var netConnection:NetConnection;
-		private var group:NetGroup;
-
-		/**
-		 * Boolean value indicating if the connection is establised 
-		 */		
+		private static var _ipAddresses:String = "";
 		private static var _isConnected:Boolean = false;
-
+		private var group:NetGroup;	
+		
 		/**
 		 * Method that should be executed when data is recieved (should have one argument to hold the object returned from the NetStatusEvent : event.info.message)
 		 */		
@@ -36,34 +22,28 @@ package services.remote
 		 */		
 		public var onConnect:Function;
 		
-		private static var cnxInstance:DirectLanConnection;
+		private static var cnxInstance:PeerToPeerConnection;
 		private static var numLayers:int = 0;
 		
-		public static function getInstance():DirectLanConnection
+		public static function getInstance():PeerToPeerConnection
 		{
 			if (cnxInstance == null)
 			{
-				Console.output("new cnxInstance");
-				cnxInstance = new DirectLanConnection();
+				cnxInstance = new PeerToPeerConnection();
 				cnxInstance.onConnect = handleConnectToService;
 				cnxInstance.onDataReceive = handleGetObject;
 			}
 			
 			return cnxInstance;
-		}		
-		/**
-		 * Creates an instance of DirectLanConnection  
-		 * 
-		 */		
-		public function DirectLanConnection()
+		}	
+		public function PeerToPeerConnection()
 		{
-				dispatcher = new EventDispatcher(this);
+			dispatcher = new EventDispatcher(this);
 		}
 		protected static function handleConnectToService(user:Object):void
 		{
-			Console.output("handleConnectToService");
-			//null cnxInstance.sendData({type:"layers", value:Display.layers.length });			
-			cnxInstance.sendData({type:"layers", value:3 });			
+			trace("handleConnectToService");
+			cnxInstance.sendData({type:"peername", value:"Onyx-VJ-"+ ipAddresses });			
 		}
 		protected static function handleGetObject(dataReceived:Object):void
 		{
@@ -71,41 +51,29 @@ package services.remote
 			// received
 			switch ( dataReceived.type.toString() ) 
 			{ 
-				case "x-y":
-					var _xy:uint = dataReceived.value;
-					var e:InteractionEvent = new InteractionEvent(MouseEvent.MOUSE_DOWN);
-					
-					e.localX	= _xy / 1048576;
-					e.localY	= _xy % 1048576;
-					
-					// forward the event
-					Display.forwardEvent(e);
-					break;
 				/*case "xyp":
-					var xyp:uint = dataReceived.value;
-
-					//size = (xyp % 1048576) % 1024;
-					var e:InteractionEvent = new InteractionEvent(MouseEvent.MOUSE_DOWN);
-					
-					e.localX	= xyp / 1048576;
-					e.localY	= (xyp % 1048576) / 1024;
-					
-					// forward the event
-					Display.forwardEvent(e);
-					break;*/
+				var xyp:uint = dataReceived.value;
+				
+				//size = (xyp % 1048576) % 1024;
+				var e:InteractionEvent = new InteractionEvent(MouseEvent.MOUSE_DOWN);
+				
+				e.localX	= xyp / 1048576;
+				e.localY	= (xyp % 1048576) / 1024;
+				
+				// forward the event
+				Display.forwardEvent(e);
+				break;*/
 				/*case "layers":
-					numLayers = dataReceived.value;					
-					cnxInstance.sendData( {type:"layerbtn", value:"created" }  );
-					break;*/
+				numLayers = dataReceived.value;					
+				cnxInstance.sendData( {type:"layerbtn", value:"created" }  );
+				break;*/
 				default: 
-					//trace("handleGetObject, dataReceived sending");
-					DirectLanConnection.getInstance().dispatchEvent( new DLCEvent(DLCEvent.ON_RECEIVED, dataReceived) );
-					//dispatchEvent( new DLCEvent(DLCEvent.ON_RECEIVED, dataReceived) );
-
+					trace("handleGetObject, dataReceived sending");
+					PeerToPeerConnection.getInstance().dispatchEvent( new P2PEvent(P2PEvent.ON_RECEIVED, dataReceived) );
+					
 					break;
 			}
 		}		
-			
 		public function connect(url:String = "rtmfp:"):void//"rtmfp://localhost/"):void
 		{ 
 			netConnection = new NetConnection();
@@ -113,34 +81,30 @@ package services.remote
 			// same subnet 
 			netConnection.connect(url);
 		}
-		
 		protected function handleStatus(event:NetStatusEvent):void
 		{
 			switch(event.info.code)
 			{
 				case "NetConnection.Connect.Success":
-					Console.output("NetConnection.Connect.Success, setUpGroup" );
+					trace("NetConnection.Connect.Success, setUpGroup" );
 					setUpGroup();
 					break;
 				
 				case "NetGroup.Connect.Success":
-					Console.output("NetGroup.Connect.Success" );
+					trace("NetGroup.Connect.Success" );
 					isConnected = true;
 					if(onConnect != null)
 						onConnect.apply(null, [event.info.message]);
 					break;
 				
 				case "NetGroup.SendTo.Notify":
-					//Console.output("NetGroup.SendTo.Notify" );
 					if(onDataReceive != null)
 						onDataReceive.apply(null, [event.info.message]);
 					break;
 				case "NetConnection.Call.Failed":
-					Console.output("NetConnection.Call.Failed" );
 					trace("NetConnection.Call.Failed");
 					break;
 				default: 
-					Console.output(event.info.code );
 					trace(event.info.code);
 					break;
 			}
@@ -235,15 +199,26 @@ package services.remote
 		{
 			return dispatcher.willTrigger(type);
 		}
-
-		public function get isConnected():Boolean
+		
+		public static function get isConnected():Boolean
 		{
 			return _isConnected;
 		}
 		
-		public function set isConnected( value:Boolean ):void
+		public static function set isConnected( value:Boolean ):void
 		{
 			_isConnected = value;
 		}
+		
+		public static function get ipAddresses():String
+		{
+			return _ipAddresses;
+		}
+		
+		public static function set ipAddresses(value:String):void
+		{
+			_ipAddresses = value;
+		}
+		
 	}
 }

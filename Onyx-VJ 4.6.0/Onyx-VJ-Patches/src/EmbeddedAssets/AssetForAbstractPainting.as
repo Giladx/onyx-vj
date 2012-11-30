@@ -5,14 +5,14 @@ package EmbeddedAssets {
 	[ExcludeSDK]
 	
 	//[Embed(source='../assets/oeil.png')]
-	[Embed(source='C:/Users/b.lane/AppData/Roaming/Onyx-VJ/Local Store/Onyx-VJ/library/anabel/gtr34.jpg')]
+	[Embed(source='C:/Users/b.lane/AppData/Roaming/Onyx-VJ/Local Store/Onyx-VJ/library/ici.jpg')]
 	public final class AssetForAbstractPainting extends BitmapData {
 		
 		/**
 		 * 
 		 */
 		public function AssetForAbstractPainting() {
-			super(50, 50);
+			super(720, 265);
 		}
 		
 	}

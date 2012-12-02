@@ -110,7 +110,7 @@ package core
 		{
 			cnx = PeerToPeerConnection.getInstance();
 			PeerToPeerConnection.ipAddresses = NetworkUtil.getIpAddresses();
-			cnx.connect();
+			cnx.connect("rtmfp:");//192.168.0.86/
 			cnx.sendData( {type:"peername", value:"OnyxMobile-" + PeerToPeerConnection.ipAddresses} );
 			/*header.title = "cnx:" +networkInfo.isNetworkConnected().toString() + " avail:" +networkInfo.isNetworkAvailable().toString();
 			txt.text = networkInfo.getDetailedState().toString() + "\n" + networkInfo.getCoarseState().toString() + cnx.memberCount() ;*/

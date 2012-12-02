@@ -156,10 +156,10 @@ package services.remote
 		
 		private function setUpGroup():void
 		{
-			var groupSpec:GroupSpecifier = new GroupSpecifier("Onyx-VJ-1935");
+			var groupSpec:GroupSpecifier = new GroupSpecifier("Onyx-VJ-60000");
 			groupSpec.routingEnabled = true;
 			groupSpec.ipMulticastMemberUpdatesEnabled = true;
-			groupSpec.addIPMulticastAddress("224.255.0.0:1935");
+			groupSpec.addIPMulticastAddress("224.255.0.0:60000");
 			groupSpec.multicastEnabled = true;
 			
 			group = new NetGroup(netConnection, groupSpec.groupspecWithAuthorizations());

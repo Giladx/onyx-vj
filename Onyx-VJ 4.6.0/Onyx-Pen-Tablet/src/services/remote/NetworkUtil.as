@@ -8,7 +8,7 @@ package services.remote
 	{
 		private static var ipAddress:String = "";
 
-		public static function getIpAddresses()
+		public static function getIpAddresses():String
 		{
 			var networkInfo:NetworkInfo = NetworkInfo.networkInfo; 
 			var interfaces:Vector.<NetworkInterface> = networkInfo.findInterfaces(); 
@@ -41,6 +41,7 @@ package services.remote
 				}             
 			} 
 			if (ipAddress.length == 0) ipAddress = "unknownip";
+			return ipAddress;
 		}
 	}
 }

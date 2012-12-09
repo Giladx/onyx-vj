@@ -31,6 +31,7 @@ package ui.window {
 	import onyx.tween.TweenProperty;
 	import onyx.utils.string.*;
 	
+	import services.remote.DLCEvent;
 	import services.remote.DirectLanConnection;
 	
 	import ui.controls.*;
@@ -57,9 +58,11 @@ package ui.window {
 		private var index:int = 0;
 		private var padTop:int = 18;
 		private var selectedLayer:int = 0;
-		private var timer:Timer = new Timer(10000);
+		//private var timer:Timer = new Timer(10000);
 		private var layerButtonsCreated:Boolean = false;
 		private var l:Layer;
+		private var membersBtn:TextButton;
+		private var peerNames:String = "Onyx-RemoteWindow";
 		/**
 		 * 	@Constructor
 		 */
@@ -89,40 +92,60 @@ package ui.window {
 			
 			var options:UIOptions	= new UIOptions( true, true, null, 60, 12 );
 			
-			connectBtn					= new TextButton(options, 'connect'),
+			connectBtn				= new TextButton(options, 'connect');
 			connectBtn.addEventListener(MouseEvent.MOUSE_DOWN, connection);
 			pane.addChild(connectBtn).y = (index++ * padTop);
 			
-			sendBtn					= new TextButton(options, 'send'),
+			sendBtn					= new TextButton(options, 'send');
 			sendBtn.addEventListener(MouseEvent.MOUSE_DOWN, sendMsg);
 			pane.addChild(sendBtn).y = (index++ * padTop);
 			
 			
-			layersBtn				= new TextButton(options, 'layers'),
+			layersBtn				= new TextButton(options, 'layers');
 			layersBtn.addEventListener(MouseEvent.MOUSE_DOWN, layersMsg);
 			pane.addChild(layersBtn).y = (index++ * padTop);
+			
+			membersBtn				= new TextButton(options, 'members');
+			membersBtn.addEventListener(MouseEvent.MOUSE_DOWN, membersMsg);
+			pane.addChild(membersBtn).y = (index++ * padTop);
 		}
 		private function handleConnect(info:Object):void
 		{
-			trace(cnx.port);
-			Console.output("dlc.port:" + cnx.port);
-			
+			Console.output("RWdw Connected");		
 		}
-		private function onTimer(event:TimerEvent):void 
+		/*private function onTimer(event:TimerEvent):void 
 		{
 			Console.output("dlc members:" + cnx.memberCount());
-			/*if ( !layerButtonsCreated ) dlc.sendData( {type:"layers", value:Display.layers.length} );
+			if ( !layerButtonsCreated ) dlc.sendData( {type:"layers", value:Display.layers.length} );
 			var layer:Layer	= (UIObject.selection as UILayer).layer;
-			dlc.sendData( {type:"layer", value:layer.index} );*/
-		}
-		private function handleGotData(dataReceived:Object):void
+			dlc.sendData( {type:"layer", value:layer.index} );
+		}*/
+		//private function handleGotData(dataReceived:Object):void
+		private function DataReceived(dataRcvd:Object):void
 		{
+			var valueRcvd:Number;
+			var objValueRcvd:Object;
+			var typeRcvd:String;
 			//Console.output("dlc.received:");
-			if ( dataReceived.type && dataReceived.value )
+			if ( dataRcvd.params && dataRcvd.params.type && dataRcvd.params.value )
 			{
-				Console.output(dataReceived.type.toString(),":", dataReceived.value.toString());
-				switch ( dataReceived.type.toString() ) 
+				if ( dataRcvd.params.value is Number) 
+				{
+					valueRcvd = dataRcvd.params.value;
+				} 
+				else
+				{
+					valueRcvd = 0;
+					objValueRcvd = dataRcvd.params.value;
+				}
+				typeRcvd = dataRcvd.params.type.toString();
+				Console.output(typeRcvd,":", valueRcvd);
+				switch ( typeRcvd ) 
 				{ 
+					case "peername":
+						Console.output("peername:" + objValueRcvd);
+						peerNames += objValueRcvd;
+						break;
 					case "exitbtn":
 						layerButtonsCreated = false;
 						break;
@@ -156,7 +179,7 @@ package ui.window {
 						l.blendMode	= BlendModes[Math.max(BlendModes.indexOf(l.blendMode)-1,0)];	
 						break;
 					case "select-layer":
-						selectedLayer = dataReceived.value;
+						selectedLayer = valueRcvd;
 						UILayer.selectLayer(selectedLayer);
 						l = Display.getLayerAt(selectedLayer);
 						/*dlc.sendData( {type:"path", value:l.path} );
@@ -173,7 +196,7 @@ package ui.window {
 						)
 						break;
 					case "mute-layer":
-						index = dataReceived.value;
+						index = valueRcvd;
 						selectedLayer = index;
 						var layer:Layer = Display.getLayerAt(selectedLayer);
 						if (layer.visible) {
@@ -198,7 +221,7 @@ package ui.window {
 						var rTween:Tween = new Tween(
 							layer,
 							250,
-							new TweenProperty('rotation', layer.rotation, dataReceived.value)
+							new TweenProperty('rotation', layer.rotation, valueRcvd)
 						);
 						break;
 					case "alpha":
@@ -207,7 +230,7 @@ package ui.window {
 						var rTween:Tween = new Tween(
 							l,
 							25,
-							new TweenProperty('alpha', l.alpha, dataReceived.value/100)
+							new TweenProperty('alpha', l.alpha, valueRcvd/100)
 						);
 						break;
 					case "bounce":
@@ -221,7 +244,7 @@ package ui.window {
 						var rTween:Tween = new Tween(
 							l,
 							25,
-							new TweenProperty('x', l.x, dataReceived.value)
+							new TweenProperty('x', l.x, valueRcvd)
 						);
 						break;
 					case "y":
@@ -230,7 +253,7 @@ package ui.window {
 						var rTween:Tween = new Tween(
 							l,
 							25,
-							new TweenProperty('y', l.y, dataReceived.value)
+							new TweenProperty('y', l.y, valueRcvd)
 						);
 						break;
 					case "brightness":
@@ -239,7 +262,7 @@ package ui.window {
 						var rTween:Tween = new Tween(
 							l,
 							25,
-							new TweenProperty('brightness', l.brightness, dataReceived.value/100)
+							new TweenProperty('brightness', l.brightness, valueRcvd/100)
 						);
 						break;
 					case "contrast":
@@ -248,7 +271,7 @@ package ui.window {
 						var rTween:Tween = new Tween(
 							l,
 							25,
-							new TweenProperty('contrast', l.contrast, dataReceived.value/100)
+							new TweenProperty('contrast', l.contrast, valueRcvd/100)
 						);
 						break;
 					case "saturation":
@@ -257,8 +280,11 @@ package ui.window {
 						var rTween:Tween = new Tween(
 							l,
 							25,
-							new TweenProperty('saturation', l.saturation, dataReceived.value/100)
+							new TweenProperty('saturation', l.saturation, valueRcvd/100)
 						);
+						break;
+					case "backgroundcolor":
+						Display.backgroundColor = valueRcvd;
 						break;
 					default: 
 						
@@ -273,13 +299,14 @@ package ui.window {
 			l.visible = false;
 		}
 		private function connection(event:MouseEvent):void {
-			cnx = DirectLanConnection.getInstance("RemoteWindow");
-			cnx.onConnect = handleConnect;
-			cnx.onDataReceive = handleGotData;			
-			cnx.connect("60000");
+			cnx = DirectLanConnection.getInstance();
+			/*cnx.onConnect = handleConnect;
+			cnx.onDataReceive = handleGotData;	*/
+			cnx.addEventListener( DLCEvent.ON_RECEIVED, DataReceived );
+			cnx.connect();//rtmfp://localhost/
 			
-			timer.addEventListener(TimerEvent.TIMER, onTimer);
-			timer.start();
+			//timer.addEventListener(TimerEvent.TIMER, onTimer);
+			//timer.start();
 
 		}
 		private function sendMsg(event:MouseEvent):void {
@@ -293,10 +320,18 @@ package ui.window {
 		private function layersMsg(event:MouseEvent):void {
 			switch (event.currentTarget) {
 				case sendBtn:
-					/*dlc.sendData( {type:"layers", value:Display.layers.length} );*/
+					if (cnx && Display && Display.layers) cnx.sendData( {type:"layers", value:Display.layers.length} );
 					break;
 			}
 			event.stopPropagation();
+		}
+		private function membersMsg(event:MouseEvent):void {
+			if (cnx) 
+			{
+				membersBtn.label(cnx.memberCount() + " members" ); 
+				
+			}
+			Console.output("peernames: " + peerNames);
 		}
 		
 		/**

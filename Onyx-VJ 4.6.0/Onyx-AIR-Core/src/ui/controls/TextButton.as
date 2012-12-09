@@ -48,7 +48,11 @@ package ui.controls {
 			// add a button
 			addChild(btn);
 		}
-		
+		// BL 27/11/12
+		public function label(text:String):void
+		{
+			addLabel(text.toUpperCase(), width, height, ((height / 2) - 4) >> 0, 0, null, 0xFFFFFF);
+		}
 		/*public function get label():String {
 			return label;
 		}

@@ -21,6 +21,7 @@ package core
 		private var moreFps:Button;
 		private var lessFps:Button;
 		private var bgndColor:Button;
+		private var info:Label;
 		private var txt:Label;
 		private var cnx:PeerToPeerConnection;
 
@@ -34,8 +35,6 @@ package core
 		
 		override protected function draw():void
 		{
-			
-
 			btnWidth = actualWidth/3;
 			header.width = actualWidth;
 			connect.x = padLeft;
@@ -56,8 +55,10 @@ package core
 			blackFade.x = actualWidth/2;
 			blackFade.y = header.height*3;
 			blackFade.width = btnWidth;
+			info.x = padLeft;
+			info.y = header.height*4;
 			txt.x = padLeft;
-			txt.y = header.height*4;
+			txt.y = header.height*5;
 		}
 		
 		override protected function initialize():void
@@ -104,17 +105,20 @@ package core
 			
 			txt = new Label();
 			addChild(txt);
+			info = new Label();
+			addChild(info);
+			cnx = PeerToPeerConnection.getInstance();
+			PeerToPeerConnection.ipAddresses = NetworkUtil.getIpAddresses();
+			info.text = NetworkUtil.getIpAddresses();
 		}
 		
 		private function onConnect(e:Event):void
 		{
-			cnx = PeerToPeerConnection.getInstance();
-			PeerToPeerConnection.ipAddresses = NetworkUtil.getIpAddresses();
 			cnx.connect("rtmfp:");//192.168.0.86/
 			cnx.sendData( {type:"peername", value:"OnyxMobile-" + PeerToPeerConnection.ipAddresses} );
 			/*header.title = "cnx:" +networkInfo.isNetworkConnected().toString() + " avail:" +networkInfo.isNetworkAvailable().toString();
 			txt.text = networkInfo.getDetailedState().toString() + "\n" + networkInfo.getCoarseState().toString() + cnx.memberCount() ;*/
-			txt.text = "connected: " + PeerToPeerConnection.isConnected + " members: " + cnx.memberCount();
+			txt.text = "connected: " + PeerToPeerConnection.isConnected + " members: " + cnx.memberCount() + " ip: " + NetworkUtil.getIpAddresses();
 			
 		}
 		

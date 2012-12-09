@@ -36,7 +36,7 @@ package services.remote
 						trace( "  broadcast: "         + address.broadcast ); 
 						trace( "  prefix length: "     + address.prefixLength ); 
 						if (ipAddress.length > 0) ipAddress += "-";
-						ipAddress += address.address;
+						ipAddress = address.address;
 					} 
 				}             
 			} 

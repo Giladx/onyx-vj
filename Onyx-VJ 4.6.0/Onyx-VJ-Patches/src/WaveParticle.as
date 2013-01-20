@@ -30,7 +30,7 @@ package {
 	public class WaveParticle extends Patch 
 	{
 		private var container:Sprite;
-		private var wave:Wave;
+		private var wave:Wavep;
 		private var light:Light;
 		
 		public function WaveParticle() {
@@ -40,7 +40,7 @@ package {
 
 			container = new Sprite();
 
-			wave = new Wave(new Rectangle(0, 0, 465, 300));
+			wave = new Wavep(new Rectangle(0, 0, 465, 300));
 			container.addChild(wave);
 			wave.y = 182;
 			
@@ -93,7 +93,7 @@ import flash.display.BlendMode;
 import frocessing.math.PerlinNoise;
 //import org.libspark.utils.GeomUtil;
 
-class Wave extends Sprite {
+class Wavep extends Sprite {
 	private var rect:Rectangle;
 	private var container:Sprite;
 	private var bitmapData:BitmapData;
@@ -110,7 +110,7 @@ class Wave extends Sprite {
 	private static var blur:BlurFilter;
 	private static var point:Point = new Point();
 	
-	public function Wave(r:Rectangle) {
+	public function Wavep(r:Rectangle) {
 		rect = r;
 		init();
 	}

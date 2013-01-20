@@ -4,7 +4,7 @@ package EmbeddedAssets {
 	
 	[ExcludeSDK]
 	
-	[Embed(source='../assets/imgthe-fountain2.jpg')]
+	[Embed(source='../../assets/imgthe-fountain2.jpg')]
 	public final class AssetForGL extends BitmapData {
 		
 		/**

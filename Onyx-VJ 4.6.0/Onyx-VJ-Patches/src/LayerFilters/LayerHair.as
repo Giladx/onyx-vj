@@ -105,7 +105,7 @@ package LayerFilters
 					_sourceBD = frames[delay];
 				} 
 	
-				var circle:Sprite = new Circle( _radius );
+				var circle:Sprite = new Circ( _radius );
 				
 				var i:int;
 				for (i = 0; i < _count; i++) {
@@ -225,11 +225,11 @@ package LayerFilters
 
 import flash.display.Sprite;
 
-class Circle extends Sprite
+class Circ extends Sprite
 {
 	public var realx:int;
 	public var realy:int;
-	public function Circle( radius:int ):void
+	public function Circ( radius:int ):void
 	{
 		graphics.beginFill( 0xFF4499 );
 		graphics.drawCircle( 0, 0, radius );

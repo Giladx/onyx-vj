@@ -152,7 +152,7 @@ package {
 				p.life--;
 			}
 			
-			while( (p=_clearList.shift())!=null ){
+			while( (p=_clearList.shift() as Particle)!=null ){
 				_scene.removeChild( p );
 				var i:int = _particles.indexOf( p );
 				_particles .splice(i,1);

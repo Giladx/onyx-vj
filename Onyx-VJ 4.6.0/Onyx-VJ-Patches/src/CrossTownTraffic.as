@@ -15,9 +15,7 @@ package {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
-	import onyx.core.*;
-	import onyx.events.*;
-	import onyx.parameter.*;
+	import onyx.core.RenderInfo;
 	import onyx.plugin.*;
 	
 	public class CrossTownTraffic extends Patch {		

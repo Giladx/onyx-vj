@@ -153,7 +153,7 @@ package {
 		}
 		private var temps:int;
 		override public function render(info:RenderInfo):void {
-			temps = getTimer() - timerOld;
+			/*temps = getTimer() - timerOld;
 			timerOld = getTimer();
 			//the_world.Step(temps/1000, 10);
 			//the_world.Step(stage.frameRate/1000, 10);
@@ -190,12 +190,12 @@ package {
 				mouseJointGraph.graphics.lineStyle(3, 0xff0000);
 				mouseJointGraph.graphics.moveTo(v1.x * echelle, v1.y * echelle);
 				mouseJointGraph.graphics.lineTo(v2.x * echelle, v2.y * echelle);
-				/*var cx:Number = (v1.x + v2.x) / 2;
+				var cx:Number = (v1.x + v2.x) / 2;
 				var cy:Number = (v1.y + v2.y) / 2;
 				v1.Subtract(v2);
 				var rayon:Number = v1.Length()/2;
 				mouseJointGraph.graphics.lineStyle(rayon*echelle/10, 0x00ff00);
-				mouseJointGraph.graphics.drawCircle(cx*echelle, cy*echelle,rayon*echelle)*/
+				mouseJointGraph.graphics.drawCircle(cx*echelle, cy*echelle,rayon*echelle)
 				if(mouseJointGraph.parent===null)
 					addChild(mouseJointGraph);
 			}
@@ -203,7 +203,7 @@ package {
 			{
 				removeChild(mouseJointGraph);
 			}
-			info.render(mouseJointGraph);
+			info.render(mouseJointGraph);*/
 		}
 		public function createMouse(evt:MouseEvent):void {
 			var body:b2Body=GetBodyAtMouse();

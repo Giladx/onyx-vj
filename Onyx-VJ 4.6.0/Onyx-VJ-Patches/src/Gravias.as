@@ -50,7 +50,7 @@ package {
 		public var currentPixel:int=0;
 		
 		public var mouseDown:Boolean = false;
-		[Embed(source='C:/Users/b.lane/AppData/Roaming/Onyx-VJ/Local Store/Onyx-VJ/library/anabel/sola512.jpg' )]  
+		[Embed(source='C:/Users/b.lane/AppData/Roaming/Onyx-VJ/Local Store/Onyx-VJ/library/ici.png' )]  
 		private const ImageB: Class;
 		private const sourceBMP:BitmapData = Bitmap( new ImageB() ).bitmapData;
 		private var mx:Number = 0;

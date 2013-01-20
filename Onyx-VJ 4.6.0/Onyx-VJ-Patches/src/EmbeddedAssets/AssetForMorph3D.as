@@ -4,7 +4,7 @@ package EmbeddedAssets {
 	
 	[ExcludeSDK]
 	
-	[Embed(source='../assets/ball.png')]
+	[Embed(source='../../assets/ball.png')]
 	public final class AssetForMorph3D extends BitmapData {
 		
 		/**

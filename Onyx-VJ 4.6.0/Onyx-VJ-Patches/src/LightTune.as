@@ -150,7 +150,7 @@ class EmitLight extends Sprite {
 		id ++;
 		var angle:uint = id%360;
 		color.h = angle;
-		var circle:Circle = new Circle(color.value);
+		var circle:Circ = new Circ(color.value);
 		addChild(circle);
 		circle.x = Math.cos(-angle*Math.PI/180)*radius;
 		circle.y = Math.sin(-angle*Math.PI/180)*radius;
@@ -162,7 +162,7 @@ class EmitLight extends Sprite {
 	}
 	public function emit():void {
 		for (var n:uint = 0; n < circles.length; n++) {
-			var circle:Circle = circles[n];
+			var circle:Circ = circles[n];
 			circle.vx *= deceleration;
 			circle.vy *= deceleration;
 			circle.x += circle.vx;
@@ -181,14 +181,14 @@ class EmitLight extends Sprite {
 
 import flash.display.Shape;
 
-class Circle extends Shape {
+class Circ extends Shape {
 	private static var radius:uint = 10;
 	private var rgb:uint = 0xFFFFFF;
 	private var _scale:Number = 1;
 	public var vx:Number = 0;
 	public var vy:Number = 0;
 	
-	public function Circle(c:uint = 0xFFFFFF) {
+	public function Circ(c:uint = 0xFFFFFF) {
 		rgb = c;
 		draw();
 	}

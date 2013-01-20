@@ -71,7 +71,7 @@ package  {
 		 * 
 		 */
 		override public function render(info:RenderInfo):void {
-			for each (var circle:Circle in circles) {
+			for each (var circle:Circ in circles) {
 				circle.render(source);
 			}
 			
@@ -102,11 +102,11 @@ package  {
 		 */
 		private function buildCircles():void {
 			for (var count:int = circles.length; count < _amount; count++) {
-				circles.push(new Circle());
+				circles.push(new Circ());
 			}
 			
 			while (circles.length > _amount) {
-				var circle:Circle = circles.pop();
+				var circle:Circ = circles.pop();
 				circle.dispose();
 			} 
 		}
@@ -115,7 +115,7 @@ package  {
 
 			source.dispose();
 			
-			for each (var circle:Circle in circles) {
+			for each (var circle:Circ in circles) {
 				circle.dispose();
 			}
 		}
@@ -127,7 +127,7 @@ import onyx.core.*;
 import flash.geom.Matrix;
 import onyx.plugin.*
 
-final class Circle extends Shape implements IDisposable {
+final class Circ extends Shape implements IDisposable {
 	
 	private const matrix:Matrix				= new Matrix();
 	private var _x:Number					= Math.random() * 20;
@@ -136,7 +136,7 @@ final class Circle extends Shape implements IDisposable {
 	private var _targetY:Number				= Math.random() * DISPLAY_HEIGHT;
 	private var newTargetTime:int			= Math.random() * 100;
 	
-	public function Circle():void {
+	public function Circ():void {
 
 		graphics.clear();
 		graphics.beginFill(Math.random() * 0xffffff, Math.random() * .5);

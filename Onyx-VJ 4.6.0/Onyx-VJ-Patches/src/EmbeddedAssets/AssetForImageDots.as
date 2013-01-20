@@ -4,7 +4,7 @@ package EmbeddedAssets {
 	
 	[ExcludeSDK]
 	
-	[Embed(source='../assets/paintbg1024.jpg')]
+	[Embed(source='../../assets/paintbg1024.jpg')]
 	public final class AssetForImageDots extends BitmapData {
 		
 		/**

@@ -65,7 +65,6 @@ package {
 				pArr[i] = p
 				p.draw(grad.getColor(i / PARTICLE_NUM), 0.6,  Math.random() * 0.6);
 			}
-			
 			mouseTrail();
 			createBg();
 
@@ -250,3 +249,4 @@ class BitmapPatternBuilder{
 		bmd.dispose();         
 	} 
 } 
+ 

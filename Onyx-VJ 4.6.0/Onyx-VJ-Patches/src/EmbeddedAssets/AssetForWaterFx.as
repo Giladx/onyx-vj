@@ -4,7 +4,7 @@ package EmbeddedAssets {
 	
 	[ExcludeSDK]
 	
-	[Embed(source='../assets/flyingtree.png')]
+	[Embed(source='../../assets/flyingtree.png')]
 	public final class AssetForWaterFx extends BitmapData {
 		
 		/**

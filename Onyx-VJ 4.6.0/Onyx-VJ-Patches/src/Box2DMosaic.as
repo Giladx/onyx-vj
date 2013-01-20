@@ -58,7 +58,7 @@ import flash.system.LoaderContext;
 import onyx.plugin.*;
 
 class View extends Sprite {
-	private static const NUM_CIRCLES:int = 400;
+	private static const NUM_CIRCLES:int = 500;//400 ok 500 ok 700 ko
 	private static const DEBUG_DRAW:Boolean = false;
 	
 	private static const TO_PHYSICS_SCALE:Number = 1.0 / 30.0;
@@ -69,7 +69,7 @@ class View extends Sprite {
 	private static const STEP1_SIMULATE:int = 0;
 	private static const STEP2_WAIT_FOR_SLEEP:int = 1;
 	private static const STEP3_RECONSTRUCTION:int = 2;
-	private static const SCALE_DOWN:int = 80;
+	private static const SCALE_DOWN:int = 8;//8
 	
 	private var _refImage:BitmapData;
 	private var _refImage2:BitmapData;
@@ -97,12 +97,9 @@ class View extends Sprite {
 		_world = new b2World(worldAABB, new b2Vec2(0.0, 10.0), true);
 		_world.SetWarmStarting(true);
 		
-		_buildStaticBox(DISPLAY_WIDTH*0.5-DISPLAY_WIDTH/4, DISPLAY_HEIGHT*0.5, 10, 1000);
-		_buildStaticBox(DISPLAY_WIDTH*0.5+DISPLAY_WIDTH/4, DISPLAY_HEIGHT*0.5, 10, 1000);
-		_buildStaticBox(DISPLAY_WIDTH*0.5, DISPLAY_HEIGHT-100, 1000, 10);
-/*		_buildStaticBox(100, DISPLAY_HEIGHT*0.5, 10, 1000);
-		_buildStaticBox(365, DISPLAY_HEIGHT*0.5, 10, 1000);
-		_buildStaticBox(DISPLAY_HEIGHT*0.5, 365, 1000, 10);*/
+		_buildStaticBox(DISPLAY_WIDTH*0.5-DISPLAY_WIDTH/3, DISPLAY_HEIGHT*0.5, 10, 1000, 0.3);
+		_buildStaticBox(DISPLAY_WIDTH*0.5+DISPLAY_WIDTH/3, DISPLAY_HEIGHT*0.5, 10, 1000, -0.3);
+		_buildStaticBox(DISPLAY_WIDTH*0.5, DISPLAY_HEIGHT, 1200, 10, 0);//1000 hole
 		
 		if (DEBUG_DRAW) {
 			var dbgDraw:b2DebugDraw = new b2DebugDraw();
@@ -120,13 +117,14 @@ class View extends Sprite {
 	}
 	
 	
-	private function _buildStaticBox(centerX:Number, centerY:Number, width:Number, height:Number):b2Body
+	private function _buildStaticBox(centerX:Number, centerY:Number, width:Number, height:Number, angle:Number):b2Body
 	{
 		var bodyDef:b2BodyDef = new b2BodyDef();
 		bodyDef.position.Set(centerX * TO_PHYSICS_SCALE, centerY * TO_PHYSICS_SCALE);
 		
 		var boxDef:b2PolygonDef = new b2PolygonDef();
-		boxDef.SetAsBox(width * TO_PHYSICS_SCALE / 2, height * TO_PHYSICS_SCALE / 2);
+		boxDef.SetAsOrientedBox(width * TO_PHYSICS_SCALE / 2, height * TO_PHYSICS_SCALE / 2,new b2Vec2(0, 0),angle);
+		//boxDef.SetAsBox(width * TO_PHYSICS_SCALE / 2, height * TO_PHYSICS_SCALE / 2);
 		boxDef.friction = 0.3;
 		boxDef.density = 0;
 		
@@ -168,7 +166,17 @@ class View extends Sprite {
 		if (_frameCount % 2 == 0) {
 			var px:Number = DISPLAY_WIDTH*0.5;
 			var py:Number = -20;
-			var r:Number = Math.random()*Math.random()*7 + 6;
+			var r:Number;// = Math.random()*Math.random()*7 + 21;//6;
+			//trace(_frameCount);
+			/*if (_frameCount < 240) 
+			{
+				r = Math.random()*Math.random()*7 + 25;
+			}
+			else
+			{
+				r = Math.random()*Math.random()*7 + 10;
+			}*/
+				r = Math.random()*Math.random()*7 + 12;
 			var b:b2Body = _buildDynamicCircle(px, py, r);
 			var v:Number = (Math.random() - 0.5)*5;
 			b.ApplyImpulse(new b2Vec2(v, 0), new b2Vec2());
@@ -213,7 +221,7 @@ class View extends Sprite {
 		if (_step == View.STEP2_WAIT_FOR_SLEEP && _frameCount > 300) {
 			_enterFrameHandler = null;
 			_step = STEP3_RECONSTRUCTION;
-			graphics.clear();
+			//graphics.clear();
 			var n:int = _objects.length;
 			for (var i:int = 0; i < n; ++i) {
 				var info:Object = _objects[i];
@@ -229,12 +237,12 @@ class View extends Sprite {
 			_maxFrames += _frameCount;
 			_frameCount = 0;
 
-			var n:int = numChildren;
+			/*var n:int = numChildren;
 			while (n--) {
 				removeChildAt(n);
 			}
 			_frameCount = 0;
-			_enterFrameHandler = _step3;
+			_enterFrameHandler = _step3;*/
 		}
 		else
 		{

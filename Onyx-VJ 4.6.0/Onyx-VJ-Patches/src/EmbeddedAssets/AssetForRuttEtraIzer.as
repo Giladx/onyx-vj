@@ -5,7 +5,7 @@ package EmbeddedAssets {
 	[ExcludeSDK]
 	
 	//[Embed(source='../assets/wh217x123.png')]
-	[Embed(source='../assets/oeil.png')]
+	[Embed(source='../../assets/oeil.png')]
 	public final class AssetForRuttEtraIzer extends BitmapData {
 		
 		/**

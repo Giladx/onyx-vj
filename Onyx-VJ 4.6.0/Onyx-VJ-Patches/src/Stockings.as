@@ -19,7 +19,7 @@ package
 
 	public class Stockings extends Patch
 	{
-		private var circle:Circle = new Circle();
+		private var circle:Circ = new Circ();
 		private var bmp:Bitmap;
 		private	var mtr:Matrix = new Matrix(1,0,0,1,DISPLAY_WIDTH*0.5,DISPLAY_HEIGHT*0.5);
 		private var add:Number = -0.01;
@@ -51,14 +51,14 @@ package
 import flash.geom.Point;
 import flash.display.Shape;
 
-class Circle extends Shape
+class Circ extends Shape
 {
 	private var pt:Array = [];
 	private var list:Array = [];
 	private var len:uint;
 	private var _rad:uint = 200;
 	
-	public function Circle()
+	public function Circ()
 	{
 		var i:uint=0;
 		for(i=0; i<360; i+=30)

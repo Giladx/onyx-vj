@@ -4,7 +4,7 @@ package EmbeddedAssets {
 	
 	[ExcludeSDK]
 	
-	[Embed(source='../assets/AssetForWater3D.jpg')]
+	[Embed(source='../../assets/AssetForWater3D.jpg')]
 	public final class AssetForWater3D extends BitmapData {
 		
 		/**
